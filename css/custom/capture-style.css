@@ -1,0 +1,33 @@
+/*body*/
+
+body {
+    background-color: #00000022;
+    color: aliceblue;
+    border: 0.1rem white solid;
+}
+
+input[type="checkbox"] {
+    margin-left: 1rem;
+}
+
+select {
+    margin-left: 1rem;
+}
+
+
+/*div*/
+
+#div_upper_button {
+    background-color: #202020;
+    border: 0.1rem white solid;
+}
+
+
+/*canvas*/
+
+#canvas_select {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}

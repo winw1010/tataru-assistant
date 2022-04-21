@@ -1,0 +1,19 @@
+/*body*/
+
+body {
+    -webkit-user-select: none;
+    user-select: none;
+    color: aliceblue;
+}
+
+
+/*form*/
+
+.form-floating {
+    color: black;
+}
+
+#div_center {
+    padding: 0 0.7rem;
+    padding-top: 4rem;
+}

@@ -1,0 +1,37 @@
+/*body*/
+
+body {
+    -webkit-user-select: none;
+    user-select: none;
+    color: aliceblue;
+}
+
+
+/*input*/
+
+input[type="number"] {
+    text-align: right;
+    width: 5rem;
+}
+
+
+/*form*/
+
+.form-floating {
+    color: black;
+}
+
+
+/*div*/
+
+#div_page_button {
+    padding: 0 0.7rem;
+    margin-top: 4rem;
+}
+
+#div_center {
+    padding: 0 0.7rem;
+    height: 80vh;
+    padding-bottom: 4rem;
+    overflow: scroll;
+}

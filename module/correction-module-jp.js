@@ -1,0 +1,448 @@
+// replace all definition
+String.prototype.replaceAll = function(search, replacement) {
+    let target = this;
+
+    if (search == '') {
+        return target;
+    } else {
+        return target.split(search).join(replacement);
+    }
+}
+
+// correction function
+const cfjp = require('./correction-function-jp');
+const cf = require('./correction-function');
+
+// dialog module
+const { appendBlankDialog, updateDialog } = require('./dialog-module');
+
+// queue
+let queueItem = [];
+let queue = setInterval(() => {
+    try {
+        if (queueItem.length > 0) {
+            const item = queueItem.splice(0, 1)[0];
+            start(item.package, item.translation, item.tryCount);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}, 1000);
+
+// language table
+const languageTable = {
+    'japanese': 0,
+    'english': 1,
+    'traditional-chinese': 2,
+    'simplified-chinese': 3
+}
+
+// document
+let chArray = {
+    // force replace
+    overwrite: [],
+
+    // char name
+    chName: [],
+
+    // after
+    afterTranslation: [],
+
+    // replace
+    main: [],
+
+    // player
+    player: [],
+
+    // temp
+    chTemp: [],
+
+    // combine
+    combine: [],
+}
+
+let jpArray = {
+    // exception
+    exception: [],
+
+    // jp => jp
+    subtitle: [],
+    jp1: [],
+    jp2: [],
+
+    // temp
+    jpTemp: [],
+
+    // jp char
+    kana: [],
+
+    // jp list
+    listHira: [],
+    listCrystalium: [],
+};
+
+function loadJSON(language) {
+    const sub0 = languageTable['japanese'];
+    const sub1 = languageTable[language];
+    const ch = sub1 == 2 ? 'text/cht' : 'text/chs';
+    const jp = 'text/jp';
+
+    // ch array
+    //chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSON(ch, 'overwrite.json'));
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(ch));
+
+    chArray.chName = cf.readJSON(ch, 'chName.json');
+    chArray.afterTranslation = cf.readJSON(ch, 'afterTranslation.json');
+
+    chArray.main = cf.readJSONMain(sub0, sub1);
+    chArray.player = cf.readJSON('text_temp', 'player.json');
+    chArray.chTemp = cf.readJSON('text_temp', 'chTemp.json');
+
+    // combine
+    chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+    // jp array
+    jpArray.exception = cf.readJSON(jp, 'exception.json');
+    jpArray.subtitle = cf.readJSONSubtitle();
+    jpArray.jp1 = cf.readJSON(jp, 'jp1.json');
+    jpArray.jp2 = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSON(jp, 'jp2.json'));
+
+    jpArray.kana = cf.readJSON(jp, 'kana.json');
+    jpArray.listHira = cf.readJSON(jp, 'listHira.json');
+    jpArray.listCrystalium = cf.readJSON(jp, 'listCrystalium.json');
+}
+
+function addToQueue(package, translation, tryCount = 0) {
+    queueItem.push({
+        package: package,
+        translation: translation,
+        tryCount: tryCount
+    });
+}
+
+async function start(package, translation, tryCount) {
+    // exception check
+    if (translation.skip && cf.exceptionCheck(package.code, package.name, package.text, jpArray.exception)) {
+        return;
+    }
+
+    // check try count
+    if (tryCount > 5) {
+        updateDialog(package.id, '', '翻譯失敗，請改用其他翻譯引擎', package, translation);
+        return;
+    } else {
+        tryCount++;
+    }
+
+    // append blank dialog
+    appendBlankDialog(package.id, package.code);
+
+    // player name
+    if (package.playerName != '' && package.playerName.includes(' ')) {
+        if (!chArray.player.length > 0 || chArray.player[0][0] != package.playerName) {
+            const firstName = package.playerName.split(' ')[0];
+            const lastName = package.playerName.split(' ')[1];
+
+            chArray.player = [
+                [package.playerName, package.playerName],
+                [firstName, firstName],
+                [lastName, lastName]
+            ];
+
+            // combine
+            chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+            // write
+            cf.writeJSON('text_temp', 'player.json', chArray.player);
+        }
+    }
+
+    // translate name
+    let translatedName = '';
+    if (translation.fix) {
+        translatedName = await nameProcess(package.name, translation);
+    } else {
+        translatedName = await cfjp.translate(package.name, translation);
+    }
+
+    // translate text
+    let translatedText = '';
+    if (translation.fix) {
+        translatedText = await textProcess(package.name, package.text, translation);
+    } else {
+        translatedText = await cfjp.translate(package.text, translation);
+    }
+
+    if (package.text != '' && translatedText == '') {
+        addToQueue(package, translation, tryCount);
+        return;
+    }
+
+    // update dialog
+    updateDialog(package.id, translatedName, translatedText, package, translation);
+}
+
+async function nameProcess(name, translation) {
+    if (name == '') {
+        return '';
+    }
+
+    // same check
+    if (cf.sameAsArrayItem(name, chArray.combine)) {
+        return cfjp.replaceText(name, chArray.combine);
+    } else if (cf.sameAsArrayItem(name + '*', chArray.combine)) {
+        // 2 word name
+        return cfjp.replaceText(name + '*', chArray.combine);
+    } else {
+        let outputName = '';
+
+        if (isAllKataText('', name)) {
+            // all kata
+            // use chName
+            outputName = cfjp.replaceText(name, chArray.chName);
+        } else {
+            // not all kata
+            // use standard
+            let result = cfjp.replaceTextByCode(name, chArray.combine);
+            console.log(result);
+
+            result.text = await cfjp.translate(result.text, translation);
+
+            // clear code
+            result.text = cf.clearCode(result.text, result.table);
+
+            outputName = cfjp.replaceText(result.text, result.table);
+        }
+
+        // save to temp
+        console.log(outputName);
+        chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+
+        if (outputName.length < 3) {
+            chArray.chTemp.push([name + '*', outputName, 'npc']);
+        } else {
+            chArray.chTemp.push([name, outputName, 'npc']);
+        }
+
+        // combine
+        chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+        // write
+        cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
+
+        return outputName;
+    }
+}
+
+async function textProcess(name, text, translation) {
+    if (text == '') {
+        return;
+    }
+
+    // text temp
+    const textTemp = text;
+
+    // force overwrite
+    if (cf.sameAsArrayItem(text, chArray.overwrite)) {
+        return cfjp.replaceText(text, chArray.overwrite);
+    } else {
+        // check kata
+        const allKata = isAllKataText(name, text);
+
+        // subtitle
+        text = cfjp.replaceText(text, jpArray.subtitle);
+
+        // special
+        text = specialTextProcess(name, text);
+
+        // jp1
+        text = cfjp.replaceText(text, jpArray.jp1);
+
+        // combine
+        let result = cfjp.replaceTextByCode(text, chArray.combine);
+        let table = result.table;
+        text = result.text;
+
+        // jp2
+        text = cfjp.replaceText(text, jpArray.jp2);
+
+        // to hira
+        if (allKata) {
+            text = cfjp.replaceText(text, jpArray.kana, 1, 0);
+        }
+
+        // should translate check
+        if (cfjp.shouldTranslate(text)) {
+            // translate
+            text = await cfjp.translate(text, translation);
+        }
+
+        // caiyun fix
+        text = cf.caiyunFix(text);
+
+        // clear code
+        text = cf.clearCode(text, table);
+
+        // table
+        text = cfjp.replaceText(text, table);
+
+        // gender fix
+        text = cfjp.genderFix(textTemp, text);
+
+        // after translation
+        text = cfjp.replaceText(text, chArray.afterTranslation);
+
+        return text;
+    }
+}
+
+/*
+// sound text process
+function soundTextProcess(text) {
+    const sound = {
+        'ア': ['ば', 'バ'],
+        'オ': ['ご', 'ゴ'],
+        'ハ': ['ファ', 'フォ', 'フォッ', 'カ', 'カッ'],
+        'フ': ['ク', 'ヒ', 'ヒョ', 'ヒョッ'],
+        'ヘ': ['ヘッ'],
+        '': ['ぬ', 'ム']
+    };
+
+    const soundNames = Object.getOwnPropertyNames(sound);
+    for (let index = 0; index < soundNames.length; index++) {
+        const replacement = soundNames[index];
+        const search = sound[replacement];
+
+        search.forEach((value) => {
+            let sountText = value + value + value;
+
+            while (text.includes(sountText)) {
+                text = text.replaceAll(sountText, replacement);
+                sountText = sountText + value;
+            }
+        });
+    }
+
+    return text;
+}
+*/
+
+// special text process
+function specialTextProcess(name, text) {
+    // remove ()
+    if (text.includes('（') && text.includes('）')) {
+        let temp = text.split('（');
+
+        for (let index = 0; index < temp.length; index++) {
+            if (temp[index].includes('）')) {
+                temp[index] = temp[index].slice(temp[index].indexOf('）') + 1);
+            }
+        }
+
+        text = temp.join('');
+    }
+
+    // コボルド
+    if (name.includes('コボルド') ||
+        name.includes('ガ・ブ') ||
+        cf.includesArrayItem(name, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) &&
+        name.includes('・') &&
+        !name.includes('マメット')) {
+        text = text.replaceAll('ー', '');
+    }
+
+    // マムージャ
+    if (name.includes('ージャ') || name.includes('強化グリーンワート')) {
+        text = text.replaceAll('、', '');
+    }
+
+    // バヌバヌ
+    if (name.includes('ヌバ') ||
+        name.includes('バヌ') ||
+        cf.includesArrayItem(name, ['ズンド', 'ブンド', 'グンド'])) {
+        if (text.includes('、')) {
+            let splitedtext = text.split('、');
+
+            //長老さま、長老さま！
+            //「長老さま」, 「長老さま！」
+            if (splitedtext[1].includes(splitedtext[0])) {
+                splitedtext[0] = '';
+            }
+
+            //ぬおおおおおん！まただ、まただ、浮島が食べられたね！
+            //「ぬおおおおおん！まただ」, 「まただ」, 「浮島が食べられたね！」
+            for (let index = 1; index < splitedtext.length; index++) {
+                if (splitedtext[index - 1].includes(splitedtext[index])) {
+                    splitedtext[index] = '';
+                }
+            }
+
+            text = splitedtext.join('、').replaceAll('、、', '、');
+
+            if (text[0] == '、') {
+                text = text.slice(1);
+            }
+        }
+    }
+
+    // 核
+    text = text
+        .replaceAll('核', '核心')
+        .replaceAll('核心心', '核心')
+        .replaceAll('中核心', '核心')
+        .replaceAll('心核心', '核心');
+
+    // 水晶公判斷
+    if (cf.includesArrayItem(name, jpArray.listCrystalium)) {
+        let exception = ['公開', '公的', '公然', '公共', '公園', '公家', '公営', '公宴', '公案', '公益', '公演', '公稲'];
+
+        if (!cf.includesArrayItem(text, exception)) {
+            text = text
+                .replaceAll('貴公', '貴方')
+                .replaceAll('公', '水晶公')
+                .replaceAll('水晶水晶', '水晶');
+        }
+    }
+
+    // 若判斷
+    if (cf.includesArrayItem(name, ['ユウギリ', 'ゴウセツ'])) {
+        text = text.replaceAll('若', '主人');
+    }
+
+    // 黒闇騎士
+    if (cf.includesArrayItem(name, ['フレイ', 'シドゥルグ', 'リエル'])) {
+        text = text.replaceAll('ミスト', 'ミスト:');
+    }
+
+    return text;
+}
+
+/*
+// kata check
+function isAllKataName(text) {
+    let hiraString = cf.arrayString(jpArray.kana, 1) + 'ー・？';
+    for (let index = 0; index < hiraString.length; index++) {
+        text = text.replaceAll(hiraString[index], '');
+    }
+
+    return text == '';
+}
+*/
+
+function isAllKataText(name, text) {
+    if (cf.includesArrayItem(name, jpArray.listHira)) {
+        return true;
+    }
+
+    let hiraString = cf.arrayString(jpArray.kana, 0);
+    for (let index = 0; index < text.length; index++) {
+        if (hiraString.includes(text[index])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+exports.loadJSON_JP = loadJSON;
+exports.addToQueue_JP = addToQueue;

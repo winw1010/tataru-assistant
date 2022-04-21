@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Tataru Node UI</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+
+    <!-- main Style -->
+    <link rel="stylesheet" href="css/custom/main-style.css" />
+
+    <!-- config Style -->
+    <link rel="stylesheet" href="css/custom/config-style.css" />
+</head>
+
+<body>
+    <!-- image button -->
+    <div id="div_upper_button">
+        <img id="img_button_drag" class="img_button draggable" src="./img/ui/open_with_white_24dp.svg">
+        <span>應用程式設定</span>
+        <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
+    </div>
+
+    <!-- page button -->
+    <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_window" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="button_radio_window">視窗</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_font" autocomplete="off">
+        <label class="btn btn-outline-primary" for="button_radio_font">文字</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_channel" autocomplete="off">
+        <label class="btn btn-outline-primary" for="button_radio_channel">頻道</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_translation" autocomplete="off">
+        <label class="btn btn-outline-primary" for="button_radio_translation">翻譯</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_system" autocomplete="off">
+        <label class="btn btn-outline-primary" for="button_radio_system">系統</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="button_radio_about" autocomplete="off">
+        <label class="btn btn-outline-primary" for="button_radio_about">關於</label>
+    </div>
+
+    <!-- center -->
+    <div id="div_center">
+        <br>
+
+        <!-- window page -->
+        <div id="div_window" class="setting_page">
+            <!-- always on top -->
+            <div class="form-check" title="全螢幕遊戲時需使用無邊框模式">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_top">
+                <label class="form-check-label" for="checkbox_top">顯示在最上層</label>
+            </div>
+
+            <br>
+
+            <!-- advance mode -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_advance">
+                <label class="form-check-label" for="checkbox_advance">進階功能</label>
+            </div>
+
+            <br>
+
+            <!-- hide button -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_hide_button">
+                <label class="form-check-label" for="checkbox_hide_button">隱藏按鈕</label>
+            </div>
+
+            <br>
+
+            <!-- hide dialog -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_hide_dialog">
+                <input type="number" id="input_hide_dialog" min="1" step="1" value="10">
+                <label class="form-check-label" for="checkbox_hide_dialog">秒後隱藏對話</label>
+            </div>
+
+            <br>
+
+            <!-- background color -->
+            <label class="form-label" for="color_background_color">
+                    背景顏色(<span id="span_background_color"></span>)
+                </label>
+            <input type="color" class="form-control form-control-color" id="color_background_color">
+
+            <br>
+
+            <!-- background transparency -->
+            <label class="form-label" for="range_background_transparency">
+                    背景透明度(<span id="span_background_transparency"></span>)
+                </label>
+            <input type="range" min="0" max="255" class="form-range" id="range_background_transparency">
+        </div>
+
+        <!-- font page -->
+        <div id="div_font" class="setting_page" hidden>
+            <!-- font size -->
+            <label class="form-label" for="input_font_size">文字大小</label>
+            <input type="number" min="0" value="1" step="0.1" id="input_font_size">
+            <span>rem</span>
+
+            <br>
+            <br>
+
+            <!-- dialog space -->
+            <label class="form-label" for="input_dialog_spacing">對話框間隔</label>
+            <input type="number" min="0" value="1" step="0.1" id="input_dialog_spacing">
+            <span>rem</span>
+
+            <br>
+            <br>
+
+            <!-- dialog radius -->
+            <label class="form-label" for="input_dialog_radius">對話框圓角</label>
+            <input type="number" min="0" value="0" step="0.1" id="input_dialog_radius">
+            <span>rem</span>
+
+            <br>
+            <br>
+
+            <!-- dialog color -->
+            <label class="form-label" for="color_dialog_color">
+                    對話框顏色(<span id="span_dialog_color"></span>)
+                </label>
+            <input type="color" class="form-control form-control-color" id="color_dialog_color">
+
+            <br>
+
+            <!-- dialog transparency -->
+            <label class="form-label" for="range_dialog_transparency">
+                    對話框透明度(<span id="span_dialog_transparency"></span>)
+                </label>
+            <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency">
+        </div>
+
+        <!-- channel page -->
+        <div id="div_channel" class="setting_page" hidden>
+        </div>
+
+        <!-- translation page -->
+        <div id="div_translation" class="setting_page" hidden>
+            <!-- auto change -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_auto_change">
+                <label class="form-check-label" for="checkbox_auto_change">翻譯失敗時嘗試其他翻譯引擎</label>
+            </div>
+
+            <br>
+
+            <!-- text fix -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_text_fix">
+                <label class="form-check-label" for="checkbox_text_fix">詞彙校正</label>
+            </div>
+
+            <br>
+
+            <!-- skip system message -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_skip_system">
+                <label class="form-check-label" for="checkbox_skip_system">忽略常見系統訊息</label>
+            </div>
+
+            <br>
+
+            <!-- select translator -->
+            <div class="form-floating">
+                <select class="form-select" id="select_engine">
+                    <option value="baidu" selected>百度翻譯</option>
+                    <option value="caiyun">彩雲小譯</option>
+                    <option value="youdao">有道翻譯</option>
+                    <option value="google">Google</option>
+                </select>
+                <label for="select_engine">翻譯引擎</label>
+            </div>
+
+            <br>
+
+            <!-- select from -->
+            <div class="form-floating">
+                <select class="form-select" id="select_from">
+                    <option value="japanese" selected>日文</option>
+                    <option value="english">英文</option>
+                </select>
+                <label for="select_from">遊戲語言</label>
+            </div>
+
+            <br>
+
+            <!-- select from party -->
+            <div class="form-floating">
+                <select class="form-select" id="select_from_party">
+                    <option value="japanese" selected>日文</option>
+                    <option value="english">英文</option>
+                </select>
+                <label for="select_from_party">隊伍語言</label>
+            </div>
+
+            <br>
+
+            <!-- select to -->
+            <div class="form-floating">
+                <select class="form-select" id="select_to">
+                    <option value="traditional-chinese" selected>繁體中文</option>
+                    <option value="simplified-chinese">簡體中文</option>
+                </select>
+                <label for="select_to">翻譯語言</label>
+            </div>
+        </div>
+
+        <!-- system page -->
+        <div id="div_system" class="setting_page" hidden>
+            <!-- server -->
+            <div>
+                <label for="input_number_port">Host</label><br>
+                <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost">
+            </div>
+
+            <br>
+
+            <div>
+                <label for="input_number_port">Port</label><br>
+                <input type="number" name="input_number_port" id="input_number_port" min="5000" max="65535" step="1" value=8899>
+            </div>
+
+            <br>
+
+            <!-- auto download json -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox_auto_download_json">
+                <label class="form-check-label" for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
+            </div>
+
+            <br>
+
+            <!-- download json -->
+            <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button><br><br>
+
+            <!-- devtools -->
+            <button id="button_devtools" class="btn btn-primary">開發者工具(F12)</button>
+        </div>
+
+        <!-- about page -->
+        <div id="div_about" class="setting_page" hidden>
+            <p>感謝您使用Tataru Helper Node，請注意本應用程式需和壓縮檔隨附的Tataru Helper一起使用功能才會完整</p>
+            <p>版本: ver.<span id="span_version"></span></p>
+            <p>作者: 夜雪(巴哈姆特電玩資訊站 winw1010)</p>
+            <p><a href="#" id="a_link">使用說明 & 疑難排解</a></p>
+            <p><a href="#" id="a_report">問題回報</a></p>
+            <p><a href="#" id="a_github">翻譯回報</a></p>
+            <p><a href="#" id="a_donate">贊助</a></p>
+        </div>
+    </div>
+
+    <div id="div_lower_button">
+        <button id="button_save" class="btn btn-primary float_right">儲存變更</button>
+        <button id="button_default" class="btn btn-secondary float_right">恢復預設值</button>
+    </div>
+
+    <!-- jQuery -->
+    <script>
+        window.$ = window.jQuery = require('jquery');
+    </script>
+
+    <!-- You can also require other files to run in this process -->
+    <!-- <script src="./renderer.js"></script> -->
+</body>
+
+</html>

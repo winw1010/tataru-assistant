@@ -58,7 +58,11 @@ function dataProcess(data) {
         if (dataCheck(dialogDataNames)) {
             // check code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
-                console.warn('data:', data);
+                try {
+                    console.warn('data:', data.toString());
+                } catch (error) {
+                    console.log(error);
+                }
 
                 // check text history
                 if (textHistory[dialogData.text] && new Date().getTime() - textHistory[dialogData.text] < 5000) {
@@ -83,8 +87,12 @@ function dataProcess(data) {
                 // string correction
                 correctionEntry(dialogData, config.translation);
             } else {
-                console.log('data:' + data);
-                console.log('Chat code is not in list.');
+                try {
+                    console.log('data:' + data.toString());
+                    console.log('Chat code is not in list.');
+                } catch (error) {
+                    console.log(error);
+                }
             }
         }
     } catch (error) {

@@ -1,7 +1,5 @@
 build
 json
 node_modules
-trained_data/crop.png
-trained_data/result.png
-trained_data/screenshot.png
+trained_data/*.png
 package-lock.json

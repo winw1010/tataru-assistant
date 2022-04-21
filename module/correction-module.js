@@ -61,6 +61,7 @@ function isPlayerChannel(code) {
         // NoviceNetwork
         '001B',
     ];
+
     return playerChannel.includes(code);
 }
 

@@ -183,21 +183,36 @@ function shouldTranslate(text) {
     return text !== '';
 }
 
-function genderFix(text, translatedText) {
-    if (!text.includes('女') &&
-        !text.includes('娘') &&
-        !text.includes('嬢') &&
-        !text.includes('母') &&
-        !text.includes('マザー') &&
-        !text.includes('ピクシー') &&
-        !text.includes('ティターニア')) {
+function genderFix(originalText, translatedText) {
+    const femaleWord = [
+        '女',
+        '娘',
+        '嬢',
+        '母',
+        'マザー',
+        'ピクシー',
+        'ティターニア'
+    ];
+
+    let isFemale = false;
+
+    for (let index = 0; index < femaleWord.length; index++) {
+        const word = femaleWord[index];
+
+        if (originalText.includes(word)) {
+            isFemale = true;
+            break;
+        }
+    }
+
+    if (!isFemale) {
         translatedText = translatedText
             .replaceAll('她', '他')
             .replaceAll('小姐', '')
             .replaceAll('女王', '王');
     }
 
-    if (!text.includes('娘')) {
+    if (!originalText.includes('娘')) {
         translatedText = translatedText
             .replaceAll('女兒', '女孩');
     }

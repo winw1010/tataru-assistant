@@ -116,8 +116,8 @@ function replaceWord(text, search, replacement) {
 }
 
 function shouldTranslate(text, table) {
-    let en = table;
-    let marks = [
+    const en = table;
+    const marks = [
         ',', '.', '?', '!', '♪', '・', ':', 'ー', '―', '-',
         '(', ')', '[', ']', ' '
     ];
@@ -148,23 +148,38 @@ function UpperFirstAll(text = '') {
     return textArray.join(' ');
 }
 
-function genderFix(text, translatedText) {
-    if (!text.includes('Girl') &&
-        !text.includes('girl') &&
-        !text.includes('She') &&
-        !text.includes('she') &&
-        !text.includes('Her') &&
-        !text.includes('her') &&
-        !text.includes('Women') &&
-        !text.includes('women') &&
-        !text.includes('Female') &&
-        !text.includes('female') &&
-        !text.includes('Lady') &&
-        !text.includes('lady') &&
-        !text.includes('Mother') &&
-        !text.includes('mother') &&
-        !text.includes('Mom') &&
-        !text.includes('mom')) {
+function genderFix(originalText, translatedText) {
+    const femaleWord = [
+        'Girl',
+        'girl',
+        'She',
+        'she',
+        'Her',
+        'her',
+        'Women',
+        'women',
+        'Female',
+        'female',
+        'Lady',
+        'lady',
+        'Mother',
+        'mother',
+        'Mom',
+        'mom'
+    ];
+
+    let isFemale = false;
+
+    for (let index = 0; index < femaleWord.length; index++) {
+        const word = femaleWord[index];
+
+        if (originalText.includes(word)) {
+            isFemale = true;
+            break;
+        }
+    }
+
+    if (!isFemale) {
         translatedText = translatedText
             .replaceAll('她', '他')
             .replaceAll('小姐', '')

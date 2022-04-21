@@ -1,3 +1,5 @@
+'use strict';
+
 // child process
 const { exec } = require('child_process');
 
@@ -17,7 +19,7 @@ const { showDialog } = require('./module/dialog-module');
 window.addEventListener('DOMContentLoaded', () => {
     // F12
     document.addEventListener('keydown', (event) => {
-        if (event.code == 'F12') {
+        if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
     });
@@ -79,7 +81,7 @@ function readLogList() {
 }
 
 function readLog(file) {
-    if (file == '') {
+    if (file === '') {
         ipcRenderer.send('send-preload', 'show-notification', '檔案不存在');
         return;
     }
@@ -92,7 +94,7 @@ function readLog(file) {
             for (let index = 0; index < logNames.length; index++) {
                 const logItem = log[logNames[index]];
 
-                if (logItem.code != 'FFFF') {
+                if (logItem.code !== 'FFFF') {
                     ipcRenderer.send('send-preload', 'append-log', logItem.id, logItem.code, logItem.translated_name, logItem.translated_text)
                 }
             }

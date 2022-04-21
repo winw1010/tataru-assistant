@@ -1,3 +1,5 @@
+'use strict';
+
 // fs
 const { unlinkSync } = require('fs');
 
@@ -135,10 +137,10 @@ async function recognizeImage(file) {
         await worker.load();
 
         // load language
-        if (config.translation.from == 'japanese') {
+        if (config.translation.from === 'japanese') {
             await worker.loadLanguage('jpn');
             await worker.initialize('jpn');
-        } else if (config.translation.from == 'english') {
+        } else if (config.translation.from === 'english') {
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
         }
@@ -150,7 +152,7 @@ async function recognizeImage(file) {
         await worker.terminate();
 
         // try again or transtale
-        if (text.trim().length != 0) {
+        if (text.trim().length !== 0) {
             translate(text);
         } else {
             console.log('Empty text');
@@ -190,7 +192,7 @@ function translate(text) {
 
     // start translate
     for (let index = 0; index < array.length; index++) {
-        if (array[index] != '') {
+        if (array[index] !== '') {
             let data = {
                 code: '003D',
                 playerName: '',

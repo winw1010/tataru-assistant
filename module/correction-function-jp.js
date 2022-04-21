@@ -1,13 +1,4 @@
-// replace all definition
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-
-    if (search == '') {
-        return target;
-    } else {
-        return target.split(search).join(replacement);
-    }
-}
+'use strict';
 
 // translator
 const translator = require('./translator-module');
@@ -173,8 +164,8 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 }
 
 function shouldTranslate(text) {
-    let en = 'abcdefghijklmnopqrstuvwxyz';
-    let marks = [
+    const en = 'abcdefghijklmnopqrstuvwxyz';
+    const marks = [
         '、', '…', '。', '？', '！', '♪', '・', '：', 'ー', '―', '-',
         '（', '）', '[', ']', '〔', '〕', '「', '」', '『', '』', ' ', '　'
     ];
@@ -189,7 +180,7 @@ function shouldTranslate(text) {
         text = text.replaceAll(marks[index], '');
     }
 
-    return text != '';
+    return text !== '';
 }
 
 function genderFix(text, translatedText) {

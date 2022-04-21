@@ -1,13 +1,4 @@
-// replace all definition
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-
-    if (search == '') {
-        return target;
-    } else {
-        return target.split(search).join(replacement);
-    }
-}
+'use strict';
 
 // translator
 const translator = require('./translator-module');
@@ -141,7 +132,7 @@ function shouldTranslate(text, table) {
         text = text.replaceAll(marks[index], '');
     }
 
-    return text != '';
+    return text !== '';
 }
 
 function UpperFirst(text = '') {

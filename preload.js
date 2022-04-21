@@ -1,3 +1,5 @@
+'use strict';
+
 // Communicate with main process
 const { ipcRenderer } = require('electron');
 
@@ -34,7 +36,7 @@ let isClickThrough = false;
 window.addEventListener('DOMContentLoaded', () => {
     // F12
     document.addEventListener('keydown', (event) => {
-        if (event.code == 'F12') {
+        if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
     });
@@ -126,8 +128,8 @@ function setEvent() {
     });
 
     // restart translation
-    ipcRenderer.on('restart-translation', (event, package, translation) => {
-        correctionEntry(package, translation);
+    ipcRenderer.on('restart-translation', (event, dialogData, translation) => {
+        correctionEntry(dialogData, translation);
     });
 
     // reset view
@@ -285,7 +287,7 @@ function versionCheck() {
         const latestVersion = jsonFixer(readFileSync('./json/text/version.json').toString()).data.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
-        if (latestVersion != appVersion) {
+        if (latestVersion !== appVersion) {
             $('#img_button_update').prop('hidden', false);
         } else {
             $('#img_button_update').prop('hidden', true);

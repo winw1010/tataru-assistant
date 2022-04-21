@@ -1,3 +1,5 @@
+'use strict';
+
 // path
 const { resolve } = require('path');
 
@@ -9,11 +11,11 @@ const jsonFixer = require('json-fixer');
 
 // text function
 function exceptionCheck(code, name, text, array) {
-    return text.includes('') || ((code == '0039' || code == '0839') && includesArrayItem(name + text, array));
+    return text.includes('') || ((code === '0039' || code === '0839') && includesArrayItem(name + text, array));
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
-    if (text == '') {
+    if (text === '') {
         return false;
     }
 
@@ -43,7 +45,7 @@ function includesArrayItem(text, array, searchIndex = 0) {
 }
 
 function sameAsArrayItem(text, array, searchIndex = 0) {
-    if (text == '') {
+    if (text === '') {
         return false;
     }
 
@@ -55,7 +57,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
         for (let index = 0; index < array.length; index++) {
             const item = array[index];
 
-            if (text == item[searchIndex]) {
+            if (text === item[searchIndex]) {
                 return true;
             }
         }
@@ -63,7 +65,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
         for (let index = 0; index < array.length; index++) {
             const item = array[index];
 
-            if (text == item) {
+            if (text === item) {
                 return true;
             }
         }
@@ -114,7 +116,7 @@ function caiyunFix(text) {
         let temp = text.split('”');
 
         for (let index = 0; index < temp.length - 1; index++) {
-            temp[index] += (index % 2 == 0) ? '「' : '」';
+            temp[index] += (index % 2 === 0) ? '「' : '」';
         }
 
         text = temp.join('');
@@ -124,7 +126,7 @@ function caiyunFix(text) {
         let temp = text.split('」');
 
         for (let index = 0; index < temp.length - 1; index++) {
-            temp[index] += (index % 2 == 0) ? '「' : '」';
+            temp[index] += (index % 2 === 0) ? '「' : '」';
         }
 
         text = temp.join('');
@@ -192,7 +194,7 @@ function readJSONMain(sub0, sub1) {
 
         if (fileList.length > 0) {
             fileList.forEach((file) => {
-                if (file != 'hidden.json') {
+                if (file !== 'hidden.json') {
                     mainArray = mainArray.concat(readJSON('text/main', file, true, sub0, sub1));
                 };
             });
@@ -216,7 +218,7 @@ function readJSONOverwrite(ch) {
 
         if (fileList.length > 0) {
             fileList.forEach((file) => {
-                if (file != 'hidden.json') {
+                if (file !== 'hidden.json') {
                     overwrite = overwrite.concat(readJSON(`${ch}/overwrite`, file));
                 };
             });
@@ -240,7 +242,7 @@ function readJSONSubtitle() {
 
         if (fileList.length > 0) {
             fileList.forEach((file) => {
-                if (file != 'hidden.json') {
+                if (file !== 'hidden.json') {
                     subtitle = subtitle.concat(readJSON('text/jp/subtitle', file));
                 };
             });
@@ -264,7 +266,6 @@ function readJSONPure(path = '', name = '') {
 
         // parse
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
-        console.log(name + '.json has been loaded.');
 
         // log array
         console.log(`${name}.json has been loaded. (${array.length})`);
@@ -318,7 +319,7 @@ function clearArray(array) {
         // 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element[0].includes('//comment') || element[1] == 'N/A') {
+            if (element[0].includes('//comment') || element[1] === 'N/A') {
                 array.splice(index, 1);
             }
         }
@@ -366,7 +367,7 @@ function combineArrayWithTemp(temp, ...args) {
         for (let index = 0; index < combine.length; index++) {
             const item = combine[index];
 
-            if (value[0] == item[0]) {
+            if (value[0] === item[0]) {
                 combine.splice(index, 1);
                 break;
             }

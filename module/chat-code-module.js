@@ -1,3 +1,5 @@
+'use strict';
+
 const { ipcRenderer } = require('electron');
 const { readFileSync, writeFileSync } = require('fs');
 
@@ -217,7 +219,7 @@ function loadChatCode() {
     try {
         let chatCode = JSON.parse(readFileSync('./json/setting/chat-code.json'));
 
-        if (defaultChatCode.length != chatCode.length) {
+        if (defaultChatCode.length !== chatCode.length) {
             throw null;
         }
 

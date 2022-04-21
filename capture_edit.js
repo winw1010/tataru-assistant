@@ -1,3 +1,5 @@
+'use strict';
+
 // fs
 const { unlinkSync } = require('fs');
 
@@ -14,7 +16,7 @@ const axios = require('axios').default;
 window.addEventListener('DOMContentLoaded', () => {
     // F12
     document.addEventListener('keydown', (event) => {
-        if (event.code == 'F12') {
+        if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
     });
@@ -68,7 +70,7 @@ function translate(result) {
 
     // start translate
     for (let index = 0; index < array.length; index++) {
-        if (array[index] != '') {
+        if (array[index] !== '') {
             let data = {
                 code: '003D',
                 playerName: '',

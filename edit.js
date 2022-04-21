@@ -214,7 +214,12 @@ function addTemp(textBefore, textAfter, type, array) {
             const item = array[index];
 
             if (item[0] === textBefore) {
-                array[index] = [textBefore, textAfter, type];
+                if (type !== 'jp' && type !== 'overwrite') {
+                    array[index] = [textBefore, textAfter, type];
+                } else {
+                    array[index] = [textBefore, textAfter];
+                }
+
                 break;
             }
         }

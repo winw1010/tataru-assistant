@@ -12,7 +12,7 @@ function correctionEntry(dialogData, translation) {
 }
 
 function languageCheck(dialogData, translation, language) {
-    return isPlayerChannel(dialogData.code) ? translation.fromParty === language : translation.from === language;
+    return isPlayerChannel(dialogData.code) ? translation.fromPlayer === language : translation.from === language;
 }
 
 function isPlayerChannel(code) {

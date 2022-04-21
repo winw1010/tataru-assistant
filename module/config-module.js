@@ -50,7 +50,7 @@ let defaultConfig = {
         replace: true,
         engine: 'baidu',
         from: 'japanese',
-        fromParty: 'japanese',
+        fromPlayer: 'japanese',
         to: 'traditional-chinese'
     },
     system: {

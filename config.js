@@ -203,7 +203,7 @@ function loadConfig() {
 
     $('#select_from').val(config.translation.from);
 
-    $('#select_from_party').val(config.translation.fromParty);
+    $('#select_from_player').val(config.translation.fromPlayer);
 
     $('#select_to').val(config.translation.to);
 
@@ -279,7 +279,7 @@ function saveConfig() {
 
     config.translation.from = $('#select_from').val();
 
-    config.translation.fromParty = $('#select_from_party').val();
+    config.translation.fromPlayer = $('#select_from_player').val();
 
     config.translation.to = $('#select_to').val();
 

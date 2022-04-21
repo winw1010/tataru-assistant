@@ -1,3 +1,5 @@
+'use strict';
+
 // json fixer
 const { readFileSync, writeFileSync } = require('fs');
 
@@ -36,11 +38,11 @@ function appendBlankDialog(id, code) {
 }
 
 // update dialog
-function updateDialog(id, name, text, package = null, translation = null) {
+function updateDialog(id, name, text, dialogData = null, translation = null) {
     // set dialog
     let dialog;
 
-    if (name != '') {
+    if (name !== '') {
         dialog = $(`<span class="drop_shadow">${name}:</span><br><span class="drop_shadow">${text}</span>`);
     } else {
         dialog = $('<span>').prop('class', 'drop_shadow').text(text);
@@ -69,13 +71,13 @@ function updateDialog(id, name, text, package = null, translation = null) {
     location.href = '#' + id;
 
     // save dialog
-    if (package && translation) {
+    if (dialogData && translation) {
         saveLog({
             id: id,
-            code: package.code,
-            player: package.playerName,
-            name: package.name,
-            text: package.text,
+            code: dialogData.code,
+            player: dialogData.playerName,
+            name: dialogData.name,
+            text: dialogData.text,
             translated_name: name,
             translated_text: text,
             timestamp: new Date().getTime(),
@@ -122,7 +124,8 @@ function showDialog() {
 
 // save dialog
 function saveLog(item) {
-    const fileName = createLogName();
+    const milliseconds = parseInt(item.id.slice(2));
+    const fileName = createLogName(milliseconds);
     let log = {};
 
     try {

@@ -1,19 +1,10 @@
-// replace all definition
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-
-    if (search == '') {
-        return target;
-    } else {
-        return target.split(search).join(replacement);
-    }
-}
+'use strict';
 
 // Communicate with main process
 const { ipcRenderer } = require('electron');
 
 // fs
-const { readFileSync, readdirSync } = require('fs');
+const { readFileSync } = require('fs');
 
 // json fixer
 const jsonFixer = require('json-fixer')
@@ -34,7 +25,7 @@ let targetLog = null;
 window.addEventListener('DOMContentLoaded', () => {
     // F12
     document.addEventListener('keydown', (event) => {
-        if (event.code == 'F12') {
+        if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
     });
@@ -78,13 +69,13 @@ function setEvent() {
 
                             let dialog1, dialog2;
 
-                            if (targetLog.name != '') {
+                            if (targetLog.name !== '') {
                                 dialog1 = $(`<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`);
                             } else {
                                 dialog1 = $('<span>').text(targetLog.text);
                             }
 
-                            if (targetLog.translated_name != '') {
+                            if (targetLog.translated_name !== '') {
                                 dialog2 = $(`<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`);
                             } else {
                                 dialog2 = $('<span>').text(targetLog.translated_text);
@@ -100,7 +91,7 @@ function setEvent() {
                     }
                 }
 
-                if (targetLog && targetLog.code != 'FFFF') {
+                if (targetLog && targetLog.code !== 'FFFF') {
                     $('#div_restart').prop('hidden', false);
                 }
             }
@@ -131,7 +122,7 @@ function setButton() {
             targetLog.id = 'id' + new Date().getTime();
         }
 
-        let package = {
+        let dialogData = {
             id: targetLog.id,
             playerName: targetLog.player,
             code: targetLog.code,
@@ -142,7 +133,7 @@ function setButton() {
         let translation = config.translation;
         translation.engine = $('#select_restart_language').val();
 
-        ipcRenderer.send('send-preload', 'restart-translation', package, translation);
+        ipcRenderer.send('send-preload', 'restart-translation', dialogData, translation);
     });
 
     $('#button_reload_json').on('click', () => {
@@ -159,12 +150,12 @@ function setButton() {
         const textAfter = $('#textarea_after').val().replaceAll('\n', '').trim();
         const type = $('#select_type').val();
 
-        if (textBefore != '' && textAfter != '') {
-            if (type == 'jp') {
+        if (textBefore !== '' && textAfter !== '') {
+            if (type === 'jp') {
                 let jpTemp = readJSONPure('text_temp', 'jpTemp.json');
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
                 writeJSON('text_temp', 'jpTemp.json', jpTemp);
-            } else if (type == 'overwrite') {
+            } else if (type === 'overwrite') {
                 let overwriteTemp = readJSONPure('text_temp', 'overwriteTemp.json');
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
                 writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
@@ -185,12 +176,12 @@ function setButton() {
         const textBefore = $('#textarea_before').val().replaceAll('\n', '').trim();
         const type = $('#select_type').val();
 
-        if (textBefore != '') {
-            if (type == 'jp') {
+        if (textBefore !== '') {
+            if (type === 'jp') {
                 let jpTemp = readJSONPure('text_temp', 'jpTemp.json');
                 jpTemp = deleteTemp(textBefore, jpTemp);
                 writeJSON('text_temp', 'jpTemp.json', jpTemp);
-            } else if (type == 'overwrite') {
+            } else if (type === 'overwrite') {
                 let overwriteTemp = readJSONPure('text_temp', 'overwriteTemp.json');
                 overwriteTemp = deleteTemp(textBefore, overwriteTemp);
                 writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
@@ -222,7 +213,7 @@ function addTemp(textBefore, textAfter, type, array) {
         for (let index = 0; index < array.length; index++) {
             const item = array[index];
 
-            if (item[0] == textBefore) {
+            if (item[0] === textBefore) {
                 array[index] = [textBefore, textAfter, type];
                 break;
             }
@@ -242,7 +233,7 @@ function deleteTemp(textBefore, array) {
     for (let index = array.length - 1; index >= 0; index--) {
         const item = array[index];
 
-        if (item[0] == textBefore) {
+        if (item[0] === textBefore) {
             array.splice(index, 1);
         }
     }

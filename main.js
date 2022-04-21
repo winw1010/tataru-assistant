@@ -1,3 +1,14 @@
+'use strict';
+
+// replaceAll
+String.prototype.replaceAll = function(search, replacement) {
+    if (search === '') {
+        return this;
+    } else {
+        return this.split(search).join(replacement);
+    }
+}
+
 // fs
 const { existsSync, mkdirSync } = require('fs');
 
@@ -26,6 +37,10 @@ let windowList = {
 app.whenReady().then(() => {
     // check diretory
     try {
+        if (!existsSync('./json')) {
+            mkdirSync('./json');
+        }
+
         if (!existsSync('./json/log')) {
             mkdirSync('./json/log');
         }
@@ -130,7 +145,7 @@ ipcMain.on('show-notification', (event, title, body) => {
     new Notification({
         icon: './img/icon/tataru_icon.ico',
         silent: true,
-        title: title, //== '' ? 'Tataru Helper Node' : title,
+        title: title, //=== '' ? 'Tataru Helper Node' : title,
         body: body
     }).show();
 });
@@ -178,7 +193,7 @@ ipcMain.on('create-window', (event, type, data = null) => {
         throw null;
 
         /*
-        if (type == 'capture_edit') {
+        if (type === 'capture_edit') {
             throw null;
         }
         */
@@ -200,7 +215,7 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     let displays = screen.getAllDisplays();
 
     for (let index = 0; index < displays.length; index++) {
-        if (displays[index].id == display.id) {
+        if (displays[index].id === display.id) {
             displayIndex = index;
             break;
         }
@@ -350,7 +365,7 @@ function createWindow(type, data) {
         window.loadFile(type + '.html');
 
         // Set always on top
-        const isTop = (type == 'preload' || type == 'capture' || type == 'capture_edit');
+        const isTop = (type === 'preload' || type === 'capture' || type === 'capture_edit');
         window.setAlwaysOnTop(isTop, 'screen-saver');
 
         // set minimizable

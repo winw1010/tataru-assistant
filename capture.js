@@ -1,3 +1,5 @@
+'use strict';
+
 // Communicate with main process
 const { ipcRenderer } = require('electron');
 
@@ -19,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function setHTML() {
     // F12
     document.addEventListener('keydown', (event) => {
-        if (event.code == 'F12') {
+        if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
     });

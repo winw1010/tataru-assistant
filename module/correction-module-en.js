@@ -1,13 +1,4 @@
-// replace all definition
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-
-    if (search == '') {
-        return target;
-    } else {
-        return target.split(search).join(replacement);
-    }
-}
+'use strict';
 
 // correction function
 const cfen = require('./correction-function-en');
@@ -22,7 +13,7 @@ let queue = setInterval(() => {
     try {
         if (queueItem.length > 0) {
             const item = queueItem.splice(0, 1)[0];
-            start(item.package, item.translation, item.tryCount);
+            start(item.dialogData, item.translation, item.tryCount);
         }
     } catch (error) {
         console.log(error);
@@ -64,7 +55,7 @@ let enArray = {
 function loadJSON(language) {
     const sub0 = languageTable['english'];
     const sub1 = languageTable[language];
-    const ch = sub1 == 2 ? 'text/cht' : 'text/chs';
+    const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
     const en = 'text/en';
 
     // ch array
@@ -81,39 +72,39 @@ function loadJSON(language) {
     enArray.exception = cf.readJSON(en, 'exception.json');
 }
 
-function addToQueue(package, translation, tryCount = 0) {
+function addToQueue(dialogData, translation, tryCount = 0) {
     queueItem.push({
-        package: package,
+        dialogData: dialogData,
         translation: translation,
         tryCount: tryCount
     });
 }
 
-async function start(package, translation, tryCount) {
+async function start(dialogData, translation, tryCount) {
     // exception check
-    if (translation.skip && cf.exceptionCheck(package.code, package.name, package.text, enArray.exception)) {
+    if (translation.skip && cf.exceptionCheck(dialogData.code, dialogData.name, dialogData.text, enArray.exception)) {
         return;
     }
 
     // check try count
     if (tryCount > 5) {
-        updateDialog(package.id, '', '翻譯失敗，請改用其他翻譯引擎', package, translation);
+        updateDialog(dialogData.id, '', '翻譯失敗，請改用其他翻譯引擎', dialogData, translation);
         return;
     } else {
         tryCount++;
     }
 
     // append blank dialog
-    appendBlankDialog(package.id, package.code);
+    appendBlankDialog(dialogData.id, dialogData.code);
 
     // player name
-    if (package.playerName != '' && package.playerName.includes(' ')) {
-        if (!chArray.player.length > 0 || chArray.player[0][0] != package.playerName) {
-            const firstName = package.playerName.split(' ')[0];
-            const lastName = package.playerName.split(' ')[1];
+    if (dialogData.playerName !== '' && dialogData.playerName.includes(' ')) {
+        if (!chArray.player.length > 0 || chArray.player[0][0] !== dialogData.playerName) {
+            const firstName = dialogData.playerName.split(' ')[0];
+            const lastName = dialogData.playerName.split(' ')[1];
 
             chArray.player = [
-                [package.playerName, package.playerName],
+                [dialogData.playerName, dialogData.playerName],
                 [firstName, firstName],
                 [lastName, lastName]
             ];
@@ -129,30 +120,30 @@ async function start(package, translation, tryCount) {
     // translate name
     let translatedName = '';
     if (translation.fix) {
-        translatedName = await nameProcess(package.name, translation);
+        translatedName = await nameProcess(dialogData.name, translation);
     } else {
-        translatedName = await cfen.translate(package.name, translation);
+        translatedName = await cfen.translate(dialogData.name, translation);
     }
 
     // translate text
     let translatedText = '';
     if (translation.fix) {
-        translatedText = await textProcess(package.name, package.text, translation);
+        translatedText = await textProcess(dialogData.name, dialogData.text, translation);
     } else {
-        translatedText = await cfen.translate(package.text, translation);
+        translatedText = await cfen.translate(dialogData.text, translation);
     }
 
-    if (package.text != '' && translatedText == '') {
-        addToQueue(package, translation, tryCount);
+    if (dialogData.text !== '' && translatedText === '') {
+        addToQueue(dialogData, translation, tryCount);
         return;
     }
 
     // update dialog
-    updateDialog(package.id, translatedName, translatedText, package, translation);
+    updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
 }
 
 async function nameProcess(name, translation) {
-    if (name == '') {
+    if (name === '') {
         return '';
     }
 
@@ -195,7 +186,7 @@ async function nameProcess(name, translation) {
 }
 
 async function textProcess(name, text, translation) {
-    if (text == '') {
+    if (text === '') {
         return;
     }
 

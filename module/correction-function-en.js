@@ -150,22 +150,20 @@ function UpperFirstAll(text = '') {
 
 function genderFix(originalText, translatedText) {
     const femaleWord = [
-        'Girl',
-        'girl',
-        'She',
-        'she',
-        'Her',
-        'her',
-        'Women',
-        'women',
-        'Female',
-        'female',
-        'Lady',
-        'lady',
-        'Mother',
-        'mother',
-        'Mom',
-        'mom'
+        'Girl', 'girl',
+        'She', 'she',
+        'Her', 'her',
+        'Women', 'women',
+        'Female', 'female',
+        'Lady', 'lady',
+        'Mother', 'mother',
+        'Mom', 'mom',
+        'Grandma', 'grandma',
+        'Daughter', 'daughter',
+        'Aunt', 'aunt',
+        'Waitress', 'waitress',
+        'Actress', 'actress',
+        'Heroine', 'heroine'
     ];
 
     let isFemale = false;

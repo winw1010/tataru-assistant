@@ -214,17 +214,12 @@ function addTemp(textBefore, textAfter, type, array) {
             const item = array[index];
 
             if (item[0] === textBefore) {
-                if (type !== 'jp' && type !== 'overwrite') {
-                    array[index] = [textBefore, textAfter, type];
-                } else {
-                    array[index] = [textBefore, textAfter];
-                }
-
+                array[index] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
                 break;
             }
         }
     } else {
-        array.push([textBefore, textAfter, type]);
+        array.push((type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }
 
     return array;

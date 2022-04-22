@@ -72,18 +72,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
     // save dialog
     if (dialogData && translation) {
-        saveLog({
-            id: id,
-            code: dialogData.code ? dialogData.code : '',
-            player: dialogData.playerName ? dialogData.playerName : '',
-            name: dialogData.name ? dialogData.name : '',
-            text: dialogData.text ? dialogData.text : '',
-            translated_name: name,
-            translated_text: text,
-            timestamp: dialogData.timestamp ? dialogData.timestamp : new Date().getTime(),
-            datetime: dialogData.timestamp ? new Date(dialogData.timestamp).toLocaleString() : new Date().toLocaleString(),
-            translation: translation
-        });
+        saveLog(name, text, dialogData, translation);
     }
 }
 
@@ -124,9 +113,21 @@ function showDialog() {
 }
 
 // save dialog
-function saveLog(item) {
-    const milliseconds = parseInt(item.id.slice(2));
-    const fileName = createLogName(milliseconds);
+function saveLog(name, text, dialogData, translation) {
+    const item = {
+        id: id,
+        code: dialogData.code ? dialogData.code : '',
+        player: dialogData.playerName ? dialogData.playerName : '',
+        name: dialogData.name ? dialogData.name : '',
+        text: dialogData.text ? dialogData.text : '',
+        translated_name: name,
+        translated_text: text,
+        timestamp: dialogData.timestamp ? dialogData.timestamp : parseInt(id.slice(2)),
+        datetime: dialogData.timestamp ? new Date(dialogData.timestamp).toLocaleString() : new Date(parseInt(id.slice(2))).toLocaleString(),
+        translation: translation
+    }
+
+    const fileName = createLogName(item.timestamp);
     let log = {};
 
     try {

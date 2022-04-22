@@ -72,7 +72,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
     // save dialog
     if (dialogData && translation) {
-        saveLog(name, text, dialogData, translation);
+        saveLog(id, name, text, dialogData, translation);
     }
 }
 
@@ -113,7 +113,7 @@ function showDialog() {
 }
 
 // save dialog
-function saveLog(name, text, dialogData, translation) {
+function saveLog(id, name, text, dialogData, translation) {
     const item = {
         id: id,
         code: dialogData.code,

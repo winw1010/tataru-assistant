@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -15,7 +15,7 @@
     "author": "GitHub",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^18.0.4",
+        "electron": "^18.1.0",
         "electron-builder": "^23.0.3"
     },
     "dependencies": {

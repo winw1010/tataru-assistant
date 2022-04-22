@@ -8,11 +8,11 @@
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
-    "repository": "",
+    "repository": "https://github.com/winw1010/tataru-helper-node-ver.2.0.0",
     "keywords": [
-        "TATARU"
+        "Tataru Helper"
     ],
-    "author": "GitHub",
+    "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
         "electron": "^18.1.0",

@@ -57,18 +57,24 @@ function dataProcess(data) {
         if (dataCheck(dialogData)) {
             // check code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
-                // check text history
+                // history check
                 if (textHistory[dialogData.text] && new Date().getTime() - textHistory[dialogData.text] < 5000) {
                     return;
                 } else {
                     textHistory[dialogData.text] = new Date().getTime();
                 }
 
-                // check id
+                // id check
                 if (!dialogData.id) {
                     const timestamp = new Date().getTime();
                     dialogData.id = 'id' + timestamp;
                     dialogData.timestamp = timestamp;
+                }
+
+                // timestamp check            
+                if (!dialogData.timestamp || !Number.isInteger(dialogData.timestamp)) {
+                    const timestamp = new Date(parseInt(dialogData.id.slice(2))).getTime();
+                    dialogData.timestamp = Number.isInteger(timestamp) ? timestamp : new Date().getTime();
                 }
 
                 // system message process
@@ -82,9 +88,10 @@ function dataProcess(data) {
                 // string correction
                 correctionEntry(dialogData, config.translation);
 
-
+                // show data
                 console.warn('data:', dialogData);
             } else {
+                // show data
                 console.log('data:' + dialogData);
                 console.log('Chat code is not in list.');
             }

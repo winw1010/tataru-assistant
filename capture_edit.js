@@ -54,15 +54,15 @@ function setButton() {
     });
 }
 
-function translate(result) {
+function translate(text) {
     const config = ipcRenderer.sendSync('load-config');
 
     // set array
     let array = [];
     if (config.captureWindow.split) {
-        array = result.split('\n');
+        array = text.split('\n');
     } else {
-        array = [result.replace(/\n/g, ' ')];
+        array = [text.replace(/\n/g, ' ')];
     }
 
     // delete images

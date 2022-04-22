@@ -116,14 +116,14 @@ function showDialog() {
 function saveLog(name, text, dialogData, translation) {
     const item = {
         id: id,
-        code: dialogData.code ? dialogData.code : '',
-        player: dialogData.playerName ? dialogData.playerName : '',
-        name: dialogData.name ? dialogData.name : '',
-        text: dialogData.text ? dialogData.text : '',
+        code: dialogData.code,
+        player: dialogData.playerName,
+        name: dialogData.name,
+        text: dialogData.text,
         translated_name: name,
         translated_text: text,
-        timestamp: dialogData.timestamp ? dialogData.timestamp : parseInt(id.slice(2)),
-        datetime: dialogData.timestamp ? new Date(dialogData.timestamp).toLocaleString() : new Date(parseInt(id.slice(2))).toLocaleString(),
+        timestamp: dialogData.timestamp,
+        datetime: new Date(dialogData.timestamp).toLocaleString(),
         translation: translation
     }
 
@@ -148,7 +148,7 @@ function saveLog(name, text, dialogData, translation) {
 
 // create log name
 function createLogName(milliseconds = null) {
-    const date = milliseconds ? new Date(milliseconds) : new Date();
+    const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
     let dateString = date.toLocaleDateString().split('/');
 
     if (dateString[1].length < 2) {

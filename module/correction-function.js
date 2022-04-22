@@ -11,7 +11,7 @@ const jsonFixer = require('json-fixer');
 
 // text function
 function exceptionCheck(code, name, text, array) {
-    return text.includes('') || ((code === '0039' || code === '0839') && includesArrayItem(name + text, array));
+    return text.includes('') || (['0039', '0839'].includes(code) && includesArrayItem(name + text, array));
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
@@ -62,13 +62,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
             }
         }
     } else {
-        for (let index = 0; index < array.length; index++) {
-            const item = array[index];
-
-            if (text === item) {
-                return true;
-            }
-        }
+        return array.includes(text);
     }
 
     return false;

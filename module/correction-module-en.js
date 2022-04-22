@@ -155,24 +155,28 @@ async function nameProcess(name, translation) {
         // short name
         return cfen.replaceTextPure(name + '*', chArray.combine);
     } else {
-        let result = cfen.replaceTextByCode(name, chArray.combine);
+        // code
+        const result = cfen.replaceTextByCode(name, chArray.combine);
         console.log(result);
 
-        result.text = await cfen.translate(result.text, translation);
+        // translate name
+        let outputName = '';
+        outputName = result.text;
+        outputName = await cfen.translate(outputName, translation);
 
         // clear code
-        result.text = cf.clearCode(result.text, result.table);
+        outputName = cf.clearCode(outputName, result.table);
 
         // table
-        result.text = cfen.replaceTextPure(result.text, result.table);
+        outputName = cfen.replaceTextPure(outputName, result.table);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
-        if (result.text.length < 3) {
-            chArray.chTemp.push([name + '*', result.text, 'npc']);
+        if (outputName.length < 3) {
+            chArray.chTemp.push([name + '*', outputName, 'npc']);
         } else {
-            chArray.chTemp.push([name, result.text, 'npc']);
+            chArray.chTemp.push([name, outputName, 'npc']);
         }
 
         // combine
@@ -181,7 +185,7 @@ async function nameProcess(name, translation) {
         // write
         cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
 
-        return result.text;
+        return outputName;
     }
 }
 
@@ -191,15 +195,14 @@ async function textProcess(name, text, translation) {
     }
 
     // text temp
-    const textTemp = text;
+    const originalText = text;
 
     // combine
-    let result = cfen.replaceTextByCode(text, chArray.combine);
-    let table = result.table;
+    const result = cfen.replaceTextByCode(text, chArray.combine);
     text = result.text;
 
     // should translate check
-    if (cfen.shouldTranslate(text, table)) {
+    if (cfen.shouldTranslate(text, result.table)) {
         // translate    
         text = await cfen.translate(text, translation);
     }
@@ -208,13 +211,13 @@ async function textProcess(name, text, translation) {
     text = cf.caiyunFix(text);
 
     // clear code
-    text = cf.clearCode(text, table);
+    text = cf.clearCode(text, result.table);
 
     // table
-    text = cfen.replaceTextPure(text, table);
+    text = cfen.replaceTextPure(text, result.table);
 
     // gender fix
-    text = cfen.genderFix(textTemp, text);
+    text = cfen.genderFix(originalText, text);
 
     // after translation
     text = cfen.replaceTextPure(text, chArray.afterTranslation);

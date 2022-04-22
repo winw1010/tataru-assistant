@@ -191,18 +191,19 @@ function translate(text) {
     deleteImages();
 
     // start translate
+    const timestamp = new Date().getTime();
     for (let index = 0; index < array.length; index++) {
         if (array[index] !== '') {
-            let data = {
+            const data = {
+                id: 'id' + (timestamp + index),
                 code: '003D',
                 playerName: '',
                 name: '',
-                text: array[index]
+                text: array[index],
+                timestamp: (timestamp + index)
             }
 
-            setTimeout(() => {
-                post(data);
-            }, index * 200);
+            setTimeout(() => { post(data); }, index * 200);
         }
     }
 }

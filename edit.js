@@ -119,7 +119,9 @@ function setButton() {
         const config = ipcRenderer.sendSync('load-config');
 
         if (!config.translation.replace) {
-            targetLog.id = 'id' + new Date().getTime();
+            const timestamp = new Date().getTime();
+            targetLog.id = 'id' + timestamp;
+            targetLog.timestamp = timestamp;
         }
 
         let dialogData = {
@@ -127,7 +129,8 @@ function setButton() {
             playerName: targetLog.player,
             code: targetLog.code,
             name: targetLog.name,
-            text: targetLog.text
+            text: targetLog.text,
+            timestamp: targetLog.timestamp
         };
 
         let translation = config.translation;

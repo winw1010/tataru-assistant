@@ -188,25 +188,26 @@ async function nameProcess(name, translation) {
         let outputName = '';
 
         if (isAllKataText('', name)) {
-            // all kata
-            // use chName
+            // all kata => use chName
             outputName = cfjp.replaceText(name, chArray.chName);
         } else {
-            // not all kata
-            // use standard
-            let result = cfjp.replaceTextByCode(name, chArray.combine);
+            // not all kata => use standard
+            // code
+            const result = cfjp.replaceTextByCode(name, chArray.combine);
             console.log(result);
 
-            result.text = await cfjp.translate(result.text, translation);
+            // translate name
+            outputName = result.text;
+            outputName = await cfjp.translate(outputName, translation);
 
             // clear code
-            result.text = cf.clearCode(result.text, result.table);
+            outputName = cf.clearCode(outputName, result.table);
 
-            outputName = cfjp.replaceText(result.text, result.table);
+            // table
+            outputName = cfjp.replaceText(outputName, result.table);
         }
 
         // save to temp
-        console.log(outputName);
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
         if (outputName.length < 3) {
@@ -230,8 +231,8 @@ async function textProcess(name, text, translation) {
         return;
     }
 
-    // text temp
-    const textTemp = text;
+    // original text
+    const originalText = text;
 
     // force overwrite
     if (cf.sameAsArrayItem(text, chArray.overwrite)) {
@@ -250,8 +251,7 @@ async function textProcess(name, text, translation) {
         text = cfjp.replaceText(text, jpArray.jp1);
 
         // combine
-        let result = cfjp.replaceTextByCode(text, chArray.combine);
-        let table = result.table;
+        const result = cfjp.replaceTextByCode(text, chArray.combine);
         text = result.text;
 
         // jp2
@@ -272,13 +272,13 @@ async function textProcess(name, text, translation) {
         text = cf.caiyunFix(text);
 
         // clear code
-        text = cf.clearCode(text, table);
+        text = cf.clearCode(text, result.table);
 
         // table
-        text = cfjp.replaceText(text, table);
+        text = cfjp.replaceText(text, result.table);
 
         // gender fix
-        text = cfjp.genderFix(textTemp, text);
+        text = cfjp.genderFix(originalText, text);
 
         // after translation
         text = cfjp.replaceText(text, chArray.afterTranslation);
@@ -333,35 +333,32 @@ function specialTextProcess(name, text) {
         text = temp.join('');
     }
 
-    // コボルド
-    if (name.includes('コボルド') ||
-        name.includes('ガ・ブ') ||
+    // コボルド族
+    if (cf.includesArrayItem(name, ['コボルド', 'ガ・ブ']) ||
         cf.includesArrayItem(name, ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) &&
         name.includes('・') &&
         !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
     }
 
-    // マムージャ
-    if (name.includes('ージャ') || name.includes('強化グリーンワート')) {
+    // マムージャ族
+    if (cf.includesArrayItem(name, ['ージャ' /*, '強化グリーンワート'*/ ])) {
         text = text.replaceAll('、', '');
     }
 
-    // バヌバヌ
-    if (name.includes('ヌバ') ||
-        name.includes('バヌ') ||
-        cf.includesArrayItem(name, ['ズンド', 'ブンド', 'グンド'])) {
+    // バヌバヌ族
+    if (cf.includesArrayItem(name, ['ヌバ', 'バヌ', 'ズンド', 'ブンド', 'グンド'])) {
         if (text.includes('、')) {
             let splitedtext = text.split('、');
 
-            //長老さま、長老さま！
-            //「長老さま」, 「長老さま！」
+            // 長老さま、長老さま！
+            // =>「長老さま」, 「長老さま！」
             if (splitedtext[1].includes(splitedtext[0])) {
                 splitedtext[0] = '';
             }
 
-            //ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-            //「ぬおおおおおん！まただ」, 「まただ」, 「浮島が食べられたね！」
+            // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
+            // =>「ぬおおおおおん！まただ」, 「まただ」, 「浮島が食べられたね！」
             for (let index = 1; index < splitedtext.length; index++) {
                 if (splitedtext[index - 1].includes(splitedtext[index])) {
                     splitedtext[index] = '';
@@ -376,16 +373,18 @@ function specialTextProcess(name, text) {
         }
     }
 
-    // 核
-    text = text
-        .replaceAll('核', '核心')
-        .replaceAll('核心心', '核心')
-        .replaceAll('中核心', '核心')
-        .replaceAll('心核心', '核心');
+    // 核修正
+    if (text.includes('核')) {
+        text = text
+            .replaceAll('核', '核心')
+            .replaceAll('核心心', '核心')
+            .replaceAll('中核心', '核心')
+            .replaceAll('心核心', '核心');
+    }
 
     // 水晶公判斷
     if (cf.includesArrayItem(name, jpArray.listCrystalium)) {
-        let exception = ['公開', '公的', '公然', '公共', '公園', '公家', '公営', '公宴', '公案', '公益', '公演', '公稲'];
+        const exception = ['公開', '公的', '公然', '公共', '公園', '公家', '公営', '公宴', '公案', '公益', '公演', '公稲'];
 
         if (!cf.includesArrayItem(text, exception)) {
             text = text
@@ -400,7 +399,7 @@ function specialTextProcess(name, text) {
         text = text.replaceAll('若', '主人');
     }
 
-    // 黒闇騎士
+    // 暗黒騎士
     if (cf.includesArrayItem(name, ['フレイ', 'シドゥルグ', 'リエル'])) {
         text = text.replaceAll('ミスト', 'ミスト:');
     }

@@ -57,7 +57,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
             'display': 'block'
         })
         .on('click', () => {
-            let config = ipcRenderer.sendSync('load-config');
+            const config = ipcRenderer.sendSync('load-config');
 
             if (config.preloadWindow.advance) {
                 ipcRenderer.send('create-window', 'edit', id);
@@ -74,14 +74,14 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     if (dialogData && translation) {
         saveLog({
             id: id,
-            code: dialogData.code,
-            player: dialogData.playerName,
-            name: dialogData.name,
-            text: dialogData.text,
+            code: dialogData.code ? dialogData.code : '',
+            player: dialogData.playerName ? dialogData.playerName : '',
+            name: dialogData.name ? dialogData.name : '',
+            text: dialogData.text ? dialogData.text : '',
             translated_name: name,
             translated_text: text,
-            timestamp: new Date().getTime(),
-            datetime: new Date().toLocaleString(),
+            timestamp: dialogData.timestamp ? dialogData.timestamp : new Date().getTime(),
+            datetime: dialogData.timestamp ? new Date(dialogData.timestamp).toLocaleString() : new Date().toLocaleString(),
             translation: translation
         });
     }
@@ -89,11 +89,12 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
 // append notification
 function appendNotification(text) {
-    const id = 'id' + new Date().getTime();
+    const timestamp = new Date().getTime();
+    const id = 'id' + timestamp;
     const code = 'FFFF';
 
     appendBlankDialog(id, code);
-    updateDialog(id, '', text, { id: id, code: code, playerName: '', name: '', text: '' }, {});
+    updateDialog(id, '', text, { id: id, code: code, playerName: '', name: '', text: '', timestamp: timestamp }, {});
 
     // set timeout
     setTimeout(() => {

@@ -51,19 +51,12 @@ function startServer() {
 // data process
 function dataProcess(data) {
     try {
-        let config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('load-config');
         let dialogData = JSON.parse(data.toString());
-        let dialogDataNames = Object.getOwnPropertyNames(dialogData);
 
-        if (dataCheck(dialogDataNames)) {
+        if (dataCheck(dialogData)) {
             // check code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
-                try {
-                    console.warn('data:', data.toString());
-                } catch (error) {
-                    console.log(error);
-                }
-
                 // check text history
                 if (textHistory[dialogData.text] && new Date().getTime() - textHistory[dialogData.text] < 5000) {
                     return;
@@ -73,10 +66,12 @@ function dataProcess(data) {
 
                 // check id
                 if (!dialogData.id) {
-                    dialogData.id = 'id' + new Date().getTime();
+                    const timestamp = new Date().getTime();
+                    dialogData.id = 'id' + timestamp;
+                    dialogData.timestamp = timestamp;
                 }
 
-                // is system message
+                // system message process
                 if (isSystemMessage(dialogData)) {
                     if (dialogData.name !== '' && dialogData.name !== '...') {
                         dialogData.text = dialogData.name + ': ' + dialogData.text;
@@ -86,13 +81,12 @@ function dataProcess(data) {
 
                 // string correction
                 correctionEntry(dialogData, config.translation);
+
+
+                console.warn('data:', dialogData);
             } else {
-                try {
-                    console.log('data:' + data.toString());
-                    console.log('Chat code is not in list.');
-                } catch (error) {
-                    console.log(error);
-                }
+                console.log('data:' + dialogData);
+                console.log('Chat code is not in list.');
             }
         }
     } catch (error) {
@@ -101,11 +95,13 @@ function dataProcess(data) {
 }
 
 // dialog data check
-function dataCheck(dialogDataNames) {
-    return dialogDataNames.includes('code') &&
-        dialogDataNames.includes('playerName') &&
-        dialogDataNames.includes('name') &&
-        dialogDataNames.includes('text');
+function dataCheck(dialogData) {
+    const names = Object.getOwnPropertyNames(dialogData);
+
+    return names.includes('code') &&
+        names.includes('playerName') &&
+        names.includes('name') &&
+        names.includes('text');
 }
 
 // channel check

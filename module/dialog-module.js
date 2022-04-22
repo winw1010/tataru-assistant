@@ -102,7 +102,7 @@ function showDialog() {
     try {
         clearTimeout(timeoutHideDialog);
     } catch (error) {
-
+        console.log(error);
     } finally {
         if (config.preloadWindow.hideDialog) {
             timeoutHideDialog = setTimeout(() => {

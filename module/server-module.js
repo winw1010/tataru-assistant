@@ -92,7 +92,7 @@ function dataProcess(data) {
                 console.warn('data:', dialogData);
             } else {
                 // show data
-                console.log('data:' + dialogData);
+                console.log('data:', dialogData);
                 console.log('Chat code is not in list.');
             }
         }

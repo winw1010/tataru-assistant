@@ -229,6 +229,8 @@ function addTemp(textBefore, textAfter, type, array) {
 }
 
 function deleteTemp(textBefore, array) {
+    let count = 0;
+
     if (textBefore.length < 3) {
         textBefore = textBefore + '*';
     }
@@ -238,8 +240,11 @@ function deleteTemp(textBefore, array) {
 
         if (item[0] === textBefore) {
             array.splice(index, 1);
+            count++;
         }
     }
+
+    ipcRenderer.send('send-preload', 'show-notification', `共找到${count}個`);
 
     return array;
 }

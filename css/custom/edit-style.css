@@ -18,6 +18,13 @@ body {
 }
 
 
+/*select*/
+
+select {
+    margin-right: 0.5rem;
+}
+
+
 /*textarea*/
 
 textarea {

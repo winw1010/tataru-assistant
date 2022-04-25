@@ -2,10 +2,6 @@ body {
     color: aliceblue;
 }
 
-.form-floating {
-    color: black;
-}
-
 #div_upper_button {
     background-color: #202020;
 }
@@ -19,4 +15,11 @@ body {
 #div_dialog2 {
     word-wrap: break-word;
     letter-spacing: 0.05rem;
+}
+
+
+/*textarea*/
+
+textarea {
+    width: 90vw;
 }

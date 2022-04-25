@@ -213,7 +213,7 @@ function setButton() {
 
     // delete last one
     document.getElementById('img_button_clear').onclick = () => {
-        document.getElementById('div_dialog').lastChild.remove();
+        document.getElementById('div_dialog').lastElementChild.remove();
     };
 }
 
@@ -231,15 +231,17 @@ function resetView(config) {
     });
 
     // set dialog
-    document.querySelectorAll('#div_dialog div').forEach((value) => {
-        value.style.color = config.channel[value.getAttribute('class')];
-        value.style.fontSize = config.dialog.fontSize + 'rem';
-        value.style.marginTop = config.dialog.spacing + 'rem';
-        value.style.borderRadius = config.dialog.radius + 'rem';
-        value.style.backgroundColor = config.dialog.backgroundColor;
-    });
+    if (document.querySelectorAll('#div_dialog div').length > 0) {
+        document.querySelectorAll('#div_dialog div').forEach((value) => {
+            value.style.color = config.channel[value.getAttribute('class')];
+            value.style.fontSize = config.dialog.fontSize + 'rem';
+            value.style.marginTop = config.dialog.spacing + 'rem';
+            value.style.borderRadius = config.dialog.radius + 'rem';
+            value.style.backgroundColor = config.dialog.backgroundColor;
+        });
 
-    document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+        document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+    }
 
     showDialog();
 

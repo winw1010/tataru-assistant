@@ -73,7 +73,7 @@ function readLogList() {
             }
 
             select.innerHTML = innerHTML;
-            select.value = select.lastChild.value;
+            select.value = select.lastElementChild.value;
         }
     } catch (error) {
         console.log(error);

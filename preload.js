@@ -232,6 +232,7 @@ function resetView(config) {
 
     // set dialog
     document.querySelectorAll('#div_dialog div').forEach((value) => {
+        value.style.color = config.channel[code];
         value.style.fontSize = config.dialog.fontSize + 'rem';
         value.style.marginTop = config.dialog.spacing + 'rem';
         value.style.borderRadius = config.dialog.radius + 'rem';
@@ -291,12 +292,12 @@ function versionCheck() {
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (latestVersion !== appVersion) {
-            document.getElementById('img_button_update').setAttribute('hidden', false);
+            document.getElementById('img_button_update').hidden = false;
         } else {
-            document.getElementById('img_button_update').setAttribute('hidden', true);
+            document.getElementById('img_button_update').hidden = true;
         }
     } catch (error) {
         console.log(error);
-        document.getElementById('img_button_update').setAttribute('hidden', false);
+        document.getElementById('img_button_update').hidden = false;
     }
 }

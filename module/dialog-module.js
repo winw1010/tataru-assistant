@@ -15,24 +15,25 @@ let timeoutHideDialog = setTimeout(() => {}, 0);
 // append blank dialog
 function appendBlankDialog(id, code) {
     if (document.getElementById(id)) {
-        const div = document.getElementById(id);
-        div.replaceChildren();
-        div.innerHTML = '<span>......</span>';
+        const dialog = document.getElementById(id);
+        dialog.replaceChildren();
+        dialog.innerHTML = '<span>......</span>';
         return;
     }
 
     const config = ipcRenderer.sendSync('load-config');
-    const div = document.createElement('div');
-    div.setAttribute('id', id);
-    div.setAttribute('class', code);
-    div.style.display = 'none';
-    div.style.color = config.channel[code];
-    div.style.fontSize = config.dialog.fontSize + 'rem';
-    div.style.marginTop = document.querySelectorAll('#div_dialog div').length > 0 ? config.dialog.spacing + 'rem' : 0;
-    div.style.borderRadius = config.dialog.radius + 'rem';
-    div.style.backgroundColor = config.dialog.backgroundColor;
+    const dialog = document.createElement('div');
+    dialog.setAttribute('id', id);
+    dialog.setAttribute('class', code);
+    dialog.style.display = 'none';
+    dialog.style.color = config.channel[code];
+    dialog.style.fontSize = config.dialog.fontSize + 'rem';
+    dialog.style.marginTop = config.dialog.spacing + 'rem';
+    dialog.style.borderRadius = config.dialog.radius + 'rem';
+    dialog.style.backgroundColor = config.dialog.backgroundColor;
 
-    document.getElementById('div_dialog').append(div)
+    document.getElementById('div_dialog').append(dialog)
+    document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
 }
 
 // update dialog

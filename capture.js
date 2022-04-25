@@ -40,7 +40,6 @@ function setView() {
     document.getElementById('select_type').value = config.captureWindow.type;
 
     canvas = document.getElementById('canvas_select');
-
     setCanvas();
 }
 
@@ -70,7 +69,7 @@ function setEvent() {
 // set button
 function setButton() {
     // mouse event
-    document.getElementById('canvas_select').onmousedown = (event) => {
+    canvas.onmousedown = (event) => {
         // start drawing
         isMouseDown = true;
 
@@ -87,7 +86,7 @@ function setButton() {
         };
     };
 
-    document.getElementById('canvas_select').onmouseup = (event) => {
+    canvas.onmouseup = (event) => {
         // stop drawing
         isMouseDown = false;
 
@@ -111,7 +110,7 @@ function setButton() {
         }
     };
 
-    document.getElementById('canvas_select').onmousemove = (event) => {
+    canvas.onmousemove = (event) => {
         document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
 
         if (isMouseDown) {

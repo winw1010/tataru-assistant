@@ -145,7 +145,6 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 }
 
-
 // create log name
 function createLogName(milliseconds = null) {
     const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();

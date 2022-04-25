@@ -228,12 +228,6 @@ function deleteImages() {
     }
 
     try {
-        unlinkSync(getPath('gray.png'));
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
         unlinkSync(getPath('result.png'));
     } catch (error) {
         console.log(error);

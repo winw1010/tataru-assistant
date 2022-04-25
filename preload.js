@@ -232,7 +232,7 @@ function resetView(config) {
 
     // set dialog
     document.querySelectorAll('#div_dialog div').forEach((value) => {
-        value.style.color = config.channel[code];
+        value.style.color = config.channel[value.getAttribute('class')];
         value.style.fontSize = config.dialog.fontSize + 'rem';
         value.style.marginTop = config.dialog.spacing + 'rem';
         value.style.borderRadius = config.dialog.radius + 'rem';

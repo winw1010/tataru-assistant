@@ -355,8 +355,8 @@ function createWindow(type, data) {
             transparent: true,
             frame: false,
             webPreferences: {
-                nodeIntegration: true,
                 contextIsolation: true,
+                nodeIntegration: false,
                 preload: path.join(__dirname, type + '.js')
             }
         });

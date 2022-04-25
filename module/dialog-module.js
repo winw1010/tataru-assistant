@@ -16,11 +16,8 @@ let timeoutHideDialog = setTimeout(() => {}, 0);
 function appendBlankDialog(id, code) {
     if (document.getElementById(id)) {
         const div = document.getElementById(id);
-        const span = document.createElement('span');
-        span.innerText = '......';
-
         div.replaceChildren();
-        div.append(span);
+        div.innerHTML = '<span>......</span>';
         return;
     }
 
@@ -42,16 +39,6 @@ function appendBlankDialog(id, code) {
 function updateDialog(id, name, text, dialogData = null, translation = null) {
     // set dialog
     const dialog = document.getElementById(id);
-    const spanName = document.createElement('span');
-    const spanText = document.createElement('span');
-
-    // set name
-    spanName.innerText = name !== '' ? name + ':' : '';
-    spanName.setAttribute('class', 'drop_shadow');
-
-    // seet text
-    spanText.innerText = text;
-    spanText.setAttribute('class', 'drop_shadow');
 
     // append dialog
     dialog.replaceChildren();
@@ -65,12 +52,11 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         }
     }
 
-    if (spanName.innerText !== '') {
-        dialog.append(spanName);
-        dialog.append(document.createElement('br'));
+    if (name !== '') {
+        dialog.innerHTML = `<span class="drop_shadow">${name}:</span><br><span class="drop_shadow">${text}</span>`;
+    } else {
+        dialog.innerHTML = `<span class="drop_shadow">${text}</span>`;
     }
-
-    dialog.append(spanText);
 
     // show dialog
     showDialog();

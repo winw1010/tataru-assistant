@@ -56,57 +56,55 @@
         <!-- window page -->
         <div id="div_window" class="setting_page">
             <!-- always on top -->
-            <div class="form-check" title="全螢幕遊戲時需使用無邊框模式">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_top">
-                <label class="form-check-label" for="checkbox_top">顯示在最上層</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_top">
+            <label for="checkbox_top">顯示在最上層</label>
 
+            <br>
             <br>
 
             <!-- advance mode -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_advance">
-                <label class="form-check-label" for="checkbox_advance">進階功能</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_advance">
+            <label for="checkbox_advance">進階功能</label>
 
+            <br>
             <br>
 
             <!-- hide button -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_hide_button">
-                <label class="form-check-label" for="checkbox_hide_button">隱藏按鈕</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_hide_button">
+            <label for="checkbox_hide_button">隱藏按鈕</label>
 
+            <br>
             <br>
 
             <!-- hide dialog -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_hide_dialog">
-                <input type="number" id="input_hide_dialog" min="1" step="1" value="10">
-                <label class="form-check-label" for="checkbox_hide_dialog">秒後隱藏對話</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_hide_dialog">
+            <input type="number" id="input_hide_dialog" min="1" step="1" value="10">
+            <label for="checkbox_hide_dialog">秒後隱藏對話</label>
 
+            <br>
             <br>
 
             <!-- background color -->
-            <label class="form-label" for="color_background_color">
-                    背景顏色(<span id="span_background_color"></span>)
-                </label>
-            <input type="color" class="form-control form-control-color" id="color_background_color">
+            <label for="color_background_color">
+                背景顏色(<span id="span_background_color"></span>)
+            </label>
+            <br>
+            <input type="color" id="color_background_color">
 
+            <br>
             <br>
 
             <!-- background transparency -->
-            <label class="form-label" for="range_background_transparency">
-                    背景透明度(<span id="span_background_transparency"></span>)
-                </label>
+            <label for="range_background_transparency">
+                背景透明度(<span id="span_background_transparency"></span>)
+            </label>
             <input type="range" min="0" max="255" class="form-range" id="range_background_transparency">
         </div>
 
         <!-- font page -->
         <div id="div_font" class="setting_page" hidden>
             <!-- font size -->
-            <label class="form-label" for="input_font_size">文字大小</label>
+            <label for="input_font_size">文字大小</label>
             <input type="number" min="0" value="1" step="0.1" id="input_font_size">
             <span>rem</span>
 
@@ -114,7 +112,7 @@
             <br>
 
             <!-- dialog space -->
-            <label class="form-label" for="input_dialog_spacing">對話框間隔</label>
+            <label for="input_dialog_spacing">對話框間隔</label>
             <input type="number" min="0" value="1" step="0.1" id="input_dialog_spacing">
             <span>rem</span>
 
@@ -122,7 +120,7 @@
             <br>
 
             <!-- dialog radius -->
-            <label class="form-label" for="input_dialog_radius">對話框圓角</label>
+            <label for="input_dialog_radius">對話框圓角</label>
             <input type="number" min="0" value="0" step="0.1" id="input_dialog_radius">
             <span>rem</span>
 
@@ -130,17 +128,19 @@
             <br>
 
             <!-- dialog color -->
-            <label class="form-label" for="color_dialog_color">
-                    對話框顏色(<span id="span_dialog_color"></span>)
-                </label>
-            <input type="color" class="form-control form-control-color" id="color_dialog_color">
+            <label for="color_dialog_color">
+                對話框顏色(<span id="span_dialog_color"></span>)
+            </label>
+            <br>
+            <input type="color" id="color_dialog_color">
 
+            <br>
             <br>
 
             <!-- dialog transparency -->
-            <label class="form-label" for="range_dialog_transparency">
-                    對話框透明度(<span id="span_dialog_transparency"></span>)
-                </label>
+            <label for="range_dialog_transparency">
+                對話框透明度(<span id="span_dialog_transparency"></span>)
+            </label>
             <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency">
         </div>
 
@@ -151,97 +151,86 @@
         <!-- translation page -->
         <div id="div_translation" class="setting_page" hidden>
             <!-- auto change -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_auto_change">
-                <label class="form-check-label" for="checkbox_auto_change">翻譯失敗時嘗試其他翻譯引擎</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_auto_change">
+            <label for="checkbox_auto_change">翻譯失敗時嘗試其他翻譯引擎</label>
 
+            <br>
             <br>
 
             <!-- text fix -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_text_fix">
-                <label class="form-check-label" for="checkbox_text_fix">詞彙校正</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_text_fix">
+            <label for="checkbox_text_fix">詞彙校正</label>
 
+            <br>
             <br>
 
             <!-- skip system message -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_skip_system">
-                <label class="form-check-label" for="checkbox_skip_system">忽略常見系統訊息</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_skip_system">
+            <label for="checkbox_skip_system">忽略常見系統訊息</label>
 
+            <br>
             <br>
 
             <!-- select translator -->
-            <div class="form-floating">
-                <select class="form-select" id="select_engine">
-                    <option value="baidu" selected>百度翻譯</option>
-                    <option value="caiyun">彩雲小譯</option>
-                    <option value="youdao">有道翻譯</option>
-                    <option value="google">Google</option>
-                </select>
-                <label for="select_engine">翻譯引擎</label>
-            </div>
+            <label for="select_engine">翻譯引擎</label><br>
+            <select id="select_engine">
+                <option value="baidu" selected>百度翻譯</option>
+                <option value="caiyun">彩雲小譯</option>
+                <option value="youdao">有道翻譯</option>
+                <option value="google">Google</option>
+            </select>
 
+            <br>
             <br>
 
             <!-- select from -->
-            <div class="form-floating">
-                <select class="form-select" id="select_from">
-                    <option value="japanese" selected>日文</option>
-                    <option value="english">英文</option>
-                </select>
-                <label for="select_from">遊戲語言</label>
-            </div>
+            <label for="select_from">遊戲語言</label><br>
+            <select id="select_from">
+                <option value="japanese" selected>日文</option>
+                <option value="english">英文</option>
+            </select>
 
+            <br>
             <br>
 
             <!-- select from player -->
-            <div class="form-floating">
-                <select class="form-select" id="select_from_player">
-                    <option value="japanese" selected>日文</option>
-                    <option value="english">英文</option>
-                </select>
-                <label for="select_from_player">玩家語言</label>
-            </div>
+            <label for="select_from_player">玩家語言</label><br>
+            <select id="select_from_player">
+                <option value="japanese" selected>日文</option>
+                <option value="english">英文</option>
+            </select>
 
+            <br>
             <br>
 
             <!-- select to -->
-            <div class="form-floating">
-                <select class="form-select" id="select_to">
-                    <option value="traditional-chinese" selected>繁體中文</option>
-                    <option value="simplified-chinese">簡體中文</option>
-                </select>
-                <label for="select_to">翻譯語言</label>
-            </div>
+            <label for="select_to">翻譯語言</label><br>
+            <select id="select_to">
+                <option value="traditional-chinese" selected>繁體中文</option>
+                <option value="simplified-chinese">簡體中文</option>
+            </select>
         </div>
 
         <!-- system page -->
         <div id="div_system" class="setting_page" hidden>
             <!-- server -->
-            <div>
-                <label for="input_number_port">Host</label><br>
-                <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost">
-            </div>
+            <label for="input_number_port">Host</label><br>
+            <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost">
 
             <br>
+            <br>
 
-            <div>
-                <label for="input_number_port">Port</label><br>
-                <input type="number" name="input_number_port" id="input_number_port" min="5000" max="65535" step="1" value=8899>
-            </div>
+            <label for="input_number_port">Port</label><br>
+            <input type="number" name="input_number_port" id="input_number_port" min="5000" max="65535" step="1" value=8899>
 
+            <br>
             <br>
 
             <!-- auto download json -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_auto_download_json">
-                <label class="form-check-label" for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
-            </div>
+            <input type="checkbox" value="" id="checkbox_auto_download_json">
+            <label for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
 
+            <br>
             <br>
 
             <!-- download json -->
@@ -267,8 +256,6 @@
         <button id="button_save" class="btn btn-primary float_right">儲存變更</button>
         <button id="button_default" class="btn btn-secondary float_right">恢復預設值</button>
     </div>
-
-    <!-- <script src="./renderer.js"></script> -->
 </body>
 
 </html>

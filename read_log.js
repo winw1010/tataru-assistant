@@ -10,10 +10,7 @@ const { readFileSync, readdirSync } = require('fs');
 const { ipcRenderer } = require('electron');
 
 // json fixer
-const jsonFixer = require('json-fixer')
-
-// Communicate with main process
-const { showDialog } = require('./module/dialog-module');
+const jsonFixer = require('json-fixer');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -69,14 +66,13 @@ function readLogList() {
             const select = document.getElementById('select_log');
             select.replaceChildren();
 
+            let innerHTML = '';
             for (let index = 0; index < logs.length; index++) {
                 const log = logs[index];
-                const option = document.createElement('option');
-                option.value = log;
-                option.innerText = log;
-                select.append(option);
+                innerHTML += `<option value="${log}">${log}</option>`;
             }
 
+            select.innerHTML = innerHTML;
             select.value = select.lastChild.value;
         }
     } catch (error) {
@@ -99,7 +95,7 @@ function readLog(file) {
                 const logItem = log[logNames[index]];
 
                 if (logItem.code !== 'FFFF') {
-                    ipcRenderer.send('send-preload', 'append-log', logItem.id, logItem.code, logItem.translated_name, logItem.translated_text)
+                    ipcRenderer.send('send-preload', 'append-dialog', logItem.id, logItem.code, logItem.translated_name, logItem.translated_text)
                 }
             }
         }

@@ -307,10 +307,10 @@ function getSize(type) {
             break;
 
         case 'capture_edit':
-            x = displayBounds.x + parseInt(screenWidth * 0.365);
+            x = displayBounds.x + parseInt(screenWidth * 0.35);
             y = parseInt(screenHeight * 0.325);
             width = parseInt(screenWidth * 0.27);
-            height = parseInt(screenHeight * 0.37);
+            height = parseInt(screenHeight * 0.35);
             break;
 
         case 'edit':
@@ -356,7 +356,7 @@ function createWindow(type, data) {
             frame: false,
             webPreferences: {
                 nodeIntegration: true,
-                contextIsolation: false,
+                contextIsolation: true,
                 preload: path.join(__dirname, type + '.js')
             }
         });

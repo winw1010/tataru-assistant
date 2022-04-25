@@ -338,14 +338,14 @@ function loadChannel(config, chatCode) {
         }
 
         channel.innerHTML += `
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_${element.ChatCode}"${checked}>
-                <label class="form-check-label" for="checkbox_${element.ChatCode}">
-                    ${element.Name}(<span id="span_${element.ChatCode}_color">${color}</span>)
-                </label>
-                <input type="color" class="form-control form-control-color" value="${color}" id="color_${element.ChatCode}_color">
-            </div>
+            <input type="checkbox" value="" id="checkbox_${element.ChatCode}"${checked}>
+            <label for="checkbox_${element.ChatCode}">
+                ${element.Name}(<span id="span_${element.ChatCode}_color">${color}</span>)
+            </label>
+            <br>
+            <input type="color" value="${color}" id="color_${element.ChatCode}_color">
 
+            <br>
             <br>
         `;
 

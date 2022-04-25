@@ -67,24 +67,22 @@ function setEvent() {
                         if (log[id]) {
                             targetLog = log[id];
 
-                            /*
-                            let dialog1, dialog2;
+                            const dialog1 = document.getElementById('div_dialog1');
+                            const dialog2 = document.getElementById('div_dialog2');
 
+                            dialog1.replaceChildren();
                             if (targetLog.name !== '') {
-                                dialog1 = $(`<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`);
+                                dialog1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
                             } else {
-                                dialog1 = $('<span>').text(targetLog.text);
+                                dialog1.innerHTML = `<span>${targetLog.text}</span>`;
                             }
 
+                            dialog2.replaceChildren();
                             if (targetLog.translated_name !== '') {
-                                dialog2 = $(`<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`);
+                                dialog2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
                             } else {
-                                dialog2 = $('<span>').text(targetLog.translated_text);
+                                dialog2.innerHTML = `<span>${targetLog.translated_text}</span>`;
                             }
-
-                            $('#div_dialog1').empty().append(dialog1);
-                            $('#div_dialog2').empty().append(dialog2);
-                            */
 
                             break;
                         }

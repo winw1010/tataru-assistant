@@ -65,42 +65,38 @@
 
         <hr>
 
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="替換前" id="textarea_before" style="height: 7rem"></textarea>
-            <label for="textarea_before">替換前(原文)</label>
-        </div>
+        <label for="textarea_before">替換前(原文)</label><br>
+        <textarea placeholder="替換前" id="textarea_before" rows="4" style="width: 80vw;"></textarea>
 
         <br>
-
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="替換後" id="textarea_after" style="height: 7rem"></textarea>
-            <label for="textarea_after">替換後(自訂翻譯)</label>
-        </div>
-
         <br>
 
-        <div class="form-floating">
-            <select class="form-select" id="select_type">
-                <option value="npc" selected>人物 (原文 to 中文)</option>
-                <option value="group">組織 (原文 to 中文)</option>
-                <option value="title">職稱 (原文 to 中文)</option>
-                <option value="monster">魔物 (原文 to 中文)</option>
-                <option value="things">事物 (原文 to 中文)</option>
-                <option value="map">地名 (原文 to 中文)</option>
-                <option value="overwrite">覆寫整句 (日文 to 中文)</option>
-                <option value="jp">日文替換 (日文 to 日文)</option>
-            </select>
-            <label for="select_type">類別</label>
-        </div>
 
+        <label for="textarea_after">替換後(自訂翻譯)</label><br>
+        <textarea placeholder="替換後" id="textarea_after" rows="4" style="width: 80vw;"></textarea>
+
+        <br>
+        <br>
+
+        <label for="select_type">類別</label><br>
+        <select id="select_type">
+            <option value="npc" selected>人物 (原文 to 中文)</option>
+            <option value="group">組織 (原文 to 中文)</option>
+            <option value="title">職稱 (原文 to 中文)</option>
+            <option value="monster">魔物 (原文 to 中文)</option>
+            <option value="things">事物 (原文 to 中文)</option>
+            <option value="map">地名 (原文 to 中文)</option>
+            <option value="overwrite">覆寫整句 (日文 to 中文)</option>
+            <option value="jp">日文替換 (日文 to 日文)</option>
+        </select>
+
+        <br>
         <br>
 
         <button id="button_save_temp" class="btn btn-primary">儲存自訂翻譯</button>
         <button id="button_delete_temp" class="btn btn-danger">刪除自訂翻譯</button>
         <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
     </div>
-
-    <!-- <script src="./renderer.js"></script> -->
 </body>
 
 </html>

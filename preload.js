@@ -134,7 +134,7 @@ function setEvent() {
     });
 
     // append dialog
-    ipcRenderer.on('append-log', (event, id, code, name, text) => {
+    ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
         appendBlankDialog(id, code);
         updateDialog(id, name, text);
         moveToBottom();

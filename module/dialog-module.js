@@ -33,7 +33,12 @@ function appendBlankDialog(id, code) {
     dialog.style.backgroundColor = config.dialog.backgroundColor;
 
     document.getElementById('div_dialog').append(dialog)
-    document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+
+    try {
+        document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // update dialog

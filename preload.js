@@ -206,14 +206,18 @@ function setButton() {
         ipcRenderer.send('create-window', 'read_log');
     };
 
+    // delete last one
+    document.getElementById('img_button_backspace').onclick = () => {
+        try {
+            document.getElementById('div_dialog').lastElementChild.remove();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // delete all
     document.getElementById('img_button_clear').onclick = () => {
         document.getElementById('div_dialog').replaceChildren();
-    };
-
-    // delete last one
-    document.getElementById('img_button_clear').onclick = () => {
-        document.getElementById('div_dialog').lastElementChild.remove();
     };
 }
 
@@ -231,8 +235,9 @@ function resetView(config) {
     });
 
     // set dialog
-    if (document.querySelectorAll('#div_dialog div').length > 0) {
-        document.querySelectorAll('#div_dialog div').forEach((value) => {
+    const dialogs = document.querySelectorAll('#div_dialog div');
+    if (dialogs.length > 0) {
+        dialogs.forEach((value) => {
             value.style.color = config.channel[value.getAttribute('class')];
             value.style.fontSize = config.dialog.fontSize + 'rem';
             value.style.marginTop = config.dialog.spacing + 'rem';

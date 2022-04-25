@@ -2,10 +2,6 @@ body {
     color: aliceblue;
 }
 
-select {
-    margin-right: 0.3rem;
-}
-
 .form-floating {
     color: black;
 }

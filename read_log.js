@@ -73,7 +73,12 @@ function readLogList() {
             }
 
             select.innerHTML = innerHTML;
-            select.value = select.lastElementChild.value;
+
+            try {
+                select.value = select.lastElementChild.value;
+            } catch (error) {
+                console.log(error);
+            }
         }
     } catch (error) {
         console.log(error);

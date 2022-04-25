@@ -35,11 +35,12 @@ function setHTML() {
 function setView() {
     const config = ipcRenderer.sendSync('load-config');
 
-    $('#checkbox_split').prop('checked', config.captureWindow.split);
-    $('#checkbox_edit').prop('checked', config.captureWindow.edit);
-    $('#select_type').val(config.captureWindow.type);
+    document.getElementById('checkbox_split').checked = config.captureWindow.split;
+    document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
+    document.getElementById('select_type').value = config.captureWindow.type;
 
     canvas = document.getElementById('canvas_select');
+
     setCanvas();
 }
 
@@ -49,21 +50,27 @@ function setEvent() {
         setCanvas();
     }, true);
 
-    $('#div_upper_button input[type="checkBox"]').on('input', () => {
-        ipcRenderer.send('save-capture-config', $('#checkbox_split').prop('checked'), $('#checkbox_edit').prop('checked'));
+    document.querySelectorAll('#div_upper_button input[type="checkBox"]').forEach((value) => {
+        value.oninput = () => {
+            ipcRenderer.send(
+                'save-capture-config',
+                document.getElementById('checkbox_split').checked,
+                document.getElementById('checkbox_edit').checked
+            );
+        }
     });
 
-    $('#select_type').on('change', () => {
+    document.getElementById('select_type').onchange = () => {
         let config = ipcRenderer.sendSync('load-config');
-        config.captureWindow.type = $('#select_type').val();
+        config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('save-config', config);
-    });
+    }
 }
 
 // set button
 function setButton() {
     // mouse event
-    $('#canvas_select').on('mousedown', event => {
+    document.getElementById('canvas_select').onmousedown = (event) => {
         // start drawing
         isMouseDown = true;
 
@@ -78,9 +85,9 @@ function setButton() {
             x: event.clientX,
             y: event.clientY
         };
-    });
+    };
 
-    $('#canvas_select').on('mouseup', event => {
+    document.getElementById('canvas_select').onmouseup = (event) => {
         // stop drawing
         isMouseDown = false;
 
@@ -102,28 +109,26 @@ function setButton() {
         if (rectangleSize.width > 0 && rectangleSize.height > 0) {
             ipcRenderer.send('start-screen-translation', rectangleSize);
         }
-    });
+    };
 
-    $('#canvas_select').on('mousemove', event => {
-        $('#span_position').text(`X: ${event.screenX}, Y: ${event.screenY}`);
+    document.getElementById('canvas_select').onmousemove = (event) => {
+        document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
 
         if (isMouseDown) {
             drawRectangle(mousedownCP.x, mousedownCP.y, event.clientX, event.clientY);
         }
-    });
+    };
 
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
-    });
+    };
 }
 
 // set canvas size
 function setCanvas() {
-    $(canvas).prop({
-        width: $(window).width(),
-        height: $(window).height()
-    });
+    canvas.setAttribute('width', window.innerWidth);
+    canvas.setAttribute('height', window.innerHeight);
 }
 
 // draw rectangle

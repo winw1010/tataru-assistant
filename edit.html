@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -45,7 +45,7 @@
 
         <div id="div_restart" hidden>
             <div>
-                <select name="select_restart_language" id="select_restart_language">
+                <select name="select_restart_engine" id="select_restart_engine">
                     <option value="baidu" selected>百度翻譯</option>
                     <option value="caiyun">彩雲小譯</option>
                     <option value="youdao">有道翻譯</option>
@@ -62,8 +62,6 @@
                 <button id="button_reload_json" class="btn btn-secondary">重新讀取對照表</button>
             </div>
         </div>
-
-
 
         <hr>
 
@@ -102,14 +100,7 @@
         <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
     </div>
 
-
-
-
-
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
+    <!-- <script src="./renderer.js"></script> -->
 </body>
 
 </html>

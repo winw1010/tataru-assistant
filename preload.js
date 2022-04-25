@@ -41,6 +41,15 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // close
+    document.getElementById('img_button_close').onclick = () => {
+        ipcRenderer.send('close-app');
+    };
+
+    document.getElementById('img_button_read_log').onclick = () => {
+        ipcRenderer.send('create-window', 'read_log');
+    };
+
     loadJSON();
     setHTML();
     startServer();
@@ -75,7 +84,9 @@ function setEvent() {
         ipcRenderer.send('set-click-through', false);
 
         // hide button
-        $('.auto_hidden').prop('hidden', config.preloadWindow.hideButton);
+        document.querySelectorAll('.auto_hidden').forEach((value) => {
+            value.hidden = config.preloadWindow.hideButton;
+        });
     });
 
     // button click through
@@ -102,7 +113,9 @@ function setEvent() {
         showDialog();
 
         // show button
-        $('.auto_hidden').prop('hidden', false);
+        document.querySelectorAll('.auto_hidden').forEach((value) => {
+            value.hidden = false;
+        });
     });
 
     // download json
@@ -152,64 +165,56 @@ function setEvent() {
 function setButton() {
     // upper buttons
     // update
-    $('#img_button_update').on('click', () => {
+    document.getElementById('img_button_update').onclick = () => {
         exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
-    });
+    };
 
     // config
-    $('#img_button_config').on('click', () => {
+    document.getElementById('img_button_config').onclick = () => {
         ipcRenderer.send('create-window', 'config');
-    });
+    };
 
     // capture
-    $('#img_button_capture').on('click', () => {
+    document.getElementById('img_button_capture').onclick = () => {
         ipcRenderer.send('create-window', 'capture');
-    });
+    };
 
     // throught
-    $('#img_button_through').on('click', () => {
+    document.getElementById('img_button_through').onclick = () => {
         isClickThrough = !isClickThrough;
 
         if (isClickThrough) {
-            $('#img_button_through').prop('src', './img/ui/near_me_disabled_white_24dp.svg');
+            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
         } else {
-            $('#img_button_through').prop('src', './img/ui/near_me_white_24dp.svg');
+            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
         }
-    });
+    };
 
     // minimize
-    $('#img_button_minimize').on('click', () => {
+    document.getElementById('img_button_minimize').onclick = () => {
         ipcRenderer.send('minimize-window');
-    });
+    };
 
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-app');
-    });
+    };
 
     // lower buttons
-
-    /*
-    // bottom
-    $('#img_button_bottom').on('click', () => {
-        moveToBottom();
-    });
-    */
-
     // read log
-    $('#img_button_read_log').on('click', () => {
+    document.getElementById('img_button_read_log').onclick = () => {
         ipcRenderer.send('create-window', 'read_log');
-    });
+    };
 
     // delete all
-    $('#img_button_clear').on('click', () => {
-        $('#div_dialog').empty();
-    });
+    document.getElementById('img_button_clear').onclick = () => {
+        document.getElementById('div_dialog').replaceChildren();
+    };
 
     // delete last one
-    $('#img_button_backspace').on('click', () => {
-        $('#div_dialog div:last-child').remove();
-    });
+    document.getElementById('img_button_clear').onclick = () => {
+        document.getElementById('div_dialog').lastChild.remove();
+    };
 }
 
 // reset view
@@ -218,29 +223,27 @@ function resetView(config) {
     ipcRenderer.send('set-always-on-top', config.preloadWindow.alwaysOnTop);
 
     // set advance buttons
-    $('#div_lower_button').prop('hidden', !config.preloadWindow.advance);
+    document.getElementById('div_lower_button').hidden = !config.preloadWindow.advance;
 
     // set button
-    $('.auto_hidden').prop('hidden', config.preloadWindow.hideButton);
+    document.querySelectorAll('.auto_hidden').forEach((value) => {
+        value.hidden = config.preloadWindow.hideButton;
+    });
 
     // set dialog
-    $('#div_dialog div').css({
-        'font-size': config.dialog.fontSize + 'rem',
-        'margin-top': config.dialog.spacing + 'rem',
-        'border-radius': config.dialog.radius + 'rem',
-        'background-color': config.dialog.backgroundColor
+    document.querySelectorAll('#div_dialog div').forEach((value) => {
+        value.style.fontSize = config.dialog.fontSize + 'rem';
+        value.style.marginTop = config.dialog.spacing + 'rem';
+        value.style.borderRadius = config.dialog.radius + 'rem';
+        value.style.backgroundColor = config.dialog.backgroundColor;
     });
 
-    $('#div_dialog div:first-child').css({
-        'margin-top': '0'
-    });
+    document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
 
     showDialog();
 
     // set background color
-    $('#div_dialog').css({
-        'background-color': config.preloadWindow.backgroundColor
-    });
+    document.getElementById('div_dialog').style.backgroundColor = config.preloadWindow.backgroundColor;
 }
 
 // load json
@@ -288,12 +291,12 @@ function versionCheck() {
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (latestVersion !== appVersion) {
-            $('#img_button_update').prop('hidden', false);
+            document.getElementById('img_button_update').setAttribute('hidden', false);
         } else {
-            $('#img_button_update').prop('hidden', true);
+            document.getElementById('img_button_update').setAttribute('hidden', true);
         }
     } catch (error) {
         console.log(error);
-        $('#img_button_update').prop('hidden', false);
+        document.getElementById('img_button_update').setAttribute('hidden', false);
     }
 }

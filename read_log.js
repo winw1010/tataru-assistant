@@ -3,7 +3,7 @@
 // child process
 const { exec } = require('child_process');
 
-// child process
+// fs
 const { readFileSync, readdirSync } = require('fs');
 
 // Communicate with main process
@@ -45,35 +45,39 @@ function setEvent() {}
 // set button
 function setButton() {
     // read
-    $('#button_read').on('click', () => {
-        const file = $('#select_log').val();
+    document.getElementById('button_read').onclick = () => {
+        const file = document.getElementById('select_log').value;
         readLog(file);
-    });
+    };
 
     // view
-    $('#button_view').on('click', () => {
+    document.getElementById('button_view').onclick = () => {
         exec('start "" "json\\log"');
-    });
+    };
 
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
-    });
+    };
 }
 
 function readLogList() {
     try {
-        const logList = readdirSync('./json/log');
+        const logs = readdirSync('./json/log');
 
-        if (logList.length > 0) {
-            $('#select_log').empty();
+        if (logs.length > 0) {
+            const select = document.getElementById('select_log');
+            select.replaceChildren();
 
-            for (let index = 0; index < logList.length; index++) {
-                const item = logList[index];
-                $('#select_log').append(`<option value="${item}">${item}</option>`);
+            for (let index = 0; index < logs.length; index++) {
+                const log = logs[index];
+                const option = document.createElement('option');
+                option.value = log;
+                option.innerText = log;
+                select.append(option);
             }
 
-            $('#select_log option:last-child').prop('selected', true);
+            select.value = select.lastChild.value;
         }
     } catch (error) {
         console.log(error);
@@ -98,8 +102,6 @@ function readLog(file) {
                     ipcRenderer.send('send-preload', 'append-log', logItem.id, logItem.code, logItem.translated_name, logItem.translated_text)
                 }
             }
-
-            showDialog;
         }
     } catch (error) {
         console.log(error);

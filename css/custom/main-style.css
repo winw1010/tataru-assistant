@@ -100,15 +100,16 @@ body {
 }
 
 
-/*input*/
+/*input
 
 input {
     border-radius: 0.2rem;
-}
+}*/
 
 
 /*select*/
 
 select {
-    border-radius: 0.2rem;
+    padding: 0.2rem;
+    /*border-radius: 0.2rem;*/
 }

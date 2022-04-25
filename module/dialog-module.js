@@ -14,55 +14,63 @@ let timeoutHideDialog = setTimeout(() => {}, 0);
 
 // append blank dialog
 function appendBlankDialog(id, code) {
-    if ($('#' + id).length > 0) {
-        $('#' + id).empty().append('<span>......</span>');
+    if (document.getElementById(id)) {
+        const div = document.getElementById(id);
+        const span = document.createElement('span');
+        span.innerText = '......';
+
+        div.replaceChildren();
+        div.append(span);
         return;
     }
 
     const config = ipcRenderer.sendSync('load-config');
-    const div = $('<div>')
-        .prop({
-            'id': id,
-            'class': code
-        })
-        .css({
-            'display': 'none',
-            'color': config.channel[code],
-            'font-size': config.dialog.fontSize + 'rem',
-            'margin-top': $('#div_dialog div').length > 0 ? config.dialog.spacing + 'rem' : 0,
-            'border-radius': config.dialog.radius + 'rem',
-            'background-color': config.dialog.backgroundColor
-        });
+    const div = document.createElement('div');
+    div.setAttribute('id', id);
+    div.setAttribute('class', code);
+    div.style.display = 'none';
+    div.style.color = config.channel[code];
+    div.style.fontSize = config.dialog.fontSize + 'rem';
+    div.style.marginTop = document.querySelectorAll('#div_dialog div').length > 0 ? config.dialog.spacing + 'rem' : 0;
+    div.style.borderRadius = config.dialog.radius + 'rem';
+    div.style.backgroundColor = config.dialog.backgroundColor;
 
-    $('#div_dialog').append(div);
+    document.getElementById('div_dialog').append(div)
 }
 
 // update dialog
 function updateDialog(id, name, text, dialogData = null, translation = null) {
     // set dialog
-    let dialog;
+    const dialog = document.getElementById(id);
+    const spanName = document.createElement('span');
+    const spanText = document.createElement('span');
 
-    if (name !== '') {
-        dialog = $(`<span class="drop_shadow">${name}:</span><br><span class="drop_shadow">${text}</span>`);
-    } else {
-        dialog = $('<span>').prop('class', 'drop_shadow').text(text);
-    }
+    // set name
+    spanName.innerText = name !== '' ? name + ':' : '';
+    spanName.setAttribute('class', 'drop_shadow');
+
+    // seet text
+    spanText.innerText = text;
+    spanText.setAttribute('class', 'drop_shadow');
 
     // append dialog
-    $('#' + id)
-        .empty()
-        .append(dialog)
-        .css({
-            'cursor': 'pointer',
-            'display': 'block'
-        })
-        .on('click', () => {
-            const config = ipcRenderer.sendSync('load-config');
+    dialog.replaceChildren();
+    dialog.style.cursor = 'pointer';
+    dialog.style.display = 'block';
+    dialog.onclick = () => {
+        const config = ipcRenderer.sendSync('load-config');
 
-            if (config.preloadWindow.advance) {
-                ipcRenderer.send('create-window', 'edit', id);
-            }
-        });
+        if (config.preloadWindow.advance) {
+            ipcRenderer.send('create-window', 'edit', id);
+        }
+    }
+
+    if (spanName.innerText !== '') {
+        dialog.append(spanName);
+        dialog.append(document.createElement('br'));
+    }
+
+    dialog.append(spanText);
 
     // show dialog
     showDialog();
@@ -87,17 +95,16 @@ function appendNotification(text) {
 
     // set timeout
     setTimeout(() => {
-        $('#' + id).fadeOut('slow', () => {
-            $('#' + id).remove();
-        });
+        document.getElementById(id).remove();
     }, 3000);
 }
 
 // show dialog
 function showDialog() {
     const config = ipcRenderer.sendSync('load-config');
+    const dialog = document.getElementById('div_dialog');
 
-    $('#div_dialog').prop('hidden', false);
+    dialog.hidden = false;
 
     try {
         clearTimeout(timeoutHideDialog);
@@ -106,7 +113,7 @@ function showDialog() {
     } finally {
         if (config.preloadWindow.hideDialog) {
             timeoutHideDialog = setTimeout(() => {
-                $('#div_dialog').prop('hidden', true);
+                dialog.hidden = true;
             }, config.preloadWindow.hideDialogInterval * 1000);
         }
     }

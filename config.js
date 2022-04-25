@@ -34,104 +34,115 @@ function setView() {
 // set event
 function setEvent() {
     // background color
-    $('#color_background_color').on('input', () => {
-        $('#span_background_color').text($('#color_background_color').val().toString().toUpperCase());
-    });
+    document.getElementById('color_background_color').oninput = () => {
+        document.getElementById('span_background_color').innerText =
+            document.getElementById('color_background_color').value.toString().toUpperCase();
+    };
 
     // background transparency
-    $('#range_background_transparency').on('input', () => {
-        $('#span_background_transparency').text($('#range_background_transparency').val());
-    });
+    document.getElementById('range_background_transparency').oninput = () => {
+        document.getElementById('span_background_transparency').innerText =
+            document.getElementById('range_background_transparency').value;
+    };
 
     // dialog color
-    $('#color_dialog_color').on('input', () => {
-        $('#span_dialog_color').text($('#color_dialog_color').val().toString().toUpperCase());
-    });
+    document.getElementById('color_dialog_color').oninput = () => {
+        document.getElementById('span_dialog_color').innerText =
+            document.getElementById('color_dialog_color').value.toString().toUpperCase();
+    };
 
     // dialog transparency
-    $('#range_dialog_transparency').on('input', () => {
-        $('#span_dialog_transparency').text($('#range_dialog_transparency').val());
-    });
+    document.getElementById('range_dialog_transparency').oninput = () => {
+        document.getElementById('span_dialog_transparency').innerText =
+            document.getElementById('range_dialog_transparency').value;
+    };
 }
 
 // set button
 function setButton() {
     // page button
-    $('#button_radio_window').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_window').prop('hidden', false);
-    });
+    document.getElementById('button_radio_window').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_window').hidden = false;
+    };
 
-    $('#button_radio_font').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_font').prop('hidden', false);
-    });
+    document.getElementById('button_radio_font').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_font').hidden = false;
+    };
 
-    $('#button_radio_channel').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_channel').prop('hidden', false);
-    });
+    document.getElementById('button_radio_channel').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_channel').hidden = false;
+    };
 
-    $('#button_radio_translation').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_translation').prop('hidden', false);
-    });
+    document.getElementById('button_radio_translation').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_translation').hidden = false;
+    };
 
-    $('#button_radio_system').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_system').prop('hidden', false);
-    });
+    document.getElementById('button_radio_system').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_system').hidden = false;
+    };
 
-    $('#button_radio_about').on('click', () => {
-        $('.setting_page').prop('hidden', true);
-        $('#div_about').prop('hidden', false);
-    });
+    document.getElementById('button_radio_about').onclick = () => {
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            value.hidden = true;
+        });
+        document.getElementById('div_about').hidden = false;
+    };
 
     // upper button
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
-    });
+    };
 
     // content button
     // download json
-    $('#button_download_json').on('click', () => {
+    document.getElementById('button_download_json').onclick = () => {
         ipcRenderer.send('send-preload', 'download-json');
-    });
+    };
 
     // devtools
-    $('#button_devtools').on('click', () => {
+    document.getElementById('button_devtools').onclick = () => {
         ipcRenderer.send('open-preload-devtools');
-    });
+    };
 
     // link
-    $('#a_link').on('click', () => {
+    document.getElementById('a_link').onclick = () => {
         exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
-    });
+    };
 
     // report
-    $('#a_report').on('click', () => {
+    document.getElementById('a_report').onclick = () => {
         exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
-    });
+    };
 
     // github
-    $('#a_github').on('click', () => {
+    document.getElementById('a_github').onclick = () => {
         exec('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0"');
-    });
+    };
 
     // donate
-    $('#a_donate').on('click', () => {
+    document.getElementById('a_donate').onclick = () => {
         exec('explorer "https://www.patreon.com/user?u=8274441"');
-    });
-
-    // zhconvert
-    $('#a_zhconvert').on('click', () => {
-        exec('explorer "https://zhconvert.org/"');
-    });
+    };
 
     // lower button
     // default
-    $('#button_default').on('click', () => {
+    document.getElementById('button_default').onclick = () => {
         // save config
         ipcRenderer.send('save-default-config');
 
@@ -146,12 +157,12 @@ function setButton() {
 
         // restart
         ipcRenderer.send('create-window', 'config');
-    });
+    };
 
     // save
-    $('#button_save').on('click', () => {
+    document.getElementById('button_save').onclick = () => {
         saveConfig();
-    });
+    };
 }
 
 // load config
@@ -161,61 +172,61 @@ function loadConfig() {
     const version = ipcRenderer.sendSync('get-version');
 
     // window
-    $('#checkbox_top').prop('checked', config.preloadWindow.alwaysOnTop);
+    document.getElementById('checkbox_top').checked = config.preloadWindow.alwaysOnTop;
 
-    $('#checkbox_advance').prop('checked', config.preloadWindow.advance);
+    document.getElementById('checkbox_advance').checked = config.preloadWindow.advance;
 
-    $('#checkbox_hide_button').prop('checked', config.preloadWindow.hideButton);
+    document.getElementById('checkbox_hide_button').checked = config.preloadWindow.hideButton;
 
-    $('#checkbox_hide_dialog').prop('checked', config.preloadWindow.hideDialog);
-    $('#input_hide_dialog').val(config.preloadWindow.hideDialogInterval);
+    document.getElementById('checkbox_hide_dialog').checked = config.preloadWindow.hideDialog;
+    document.getElementById('input_hide_dialog').value = config.preloadWindow.hideDialogInterval;
 
-    $('#span_background_color').text(config.preloadWindow.backgroundColor.slice(0, 7));
-    $('#color_background_color').val(config.preloadWindow.backgroundColor.slice(0, 7));
+    document.getElementById('span_background_color').innerText = config.preloadWindow.backgroundColor.slice(0, 7);
+    document.getElementById('color_background_color').value = config.preloadWindow.backgroundColor.slice(0, 7);
 
-    $('#span_background_transparency').text(parseInt(config.preloadWindow.backgroundColor.slice(7), 16));
-    $('#range_background_transparency').val(parseInt(config.preloadWindow.backgroundColor.slice(7), 16));
+    document.getElementById('span_background_transparency').innerText = parseInt(config.preloadWindow.backgroundColor.slice(7), 16);
+    document.getElementById('range_background_transparency').value = parseInt(config.preloadWindow.backgroundColor.slice(7), 16);
 
     // font
-    $('#input_font_size').val(config.dialog.fontSize);
+    document.getElementById('input_font_size').value = config.dialog.fontSize;
 
-    $('#input_dialog_spacing').val(config.dialog.spacing);
+    document.getElementById('input_dialog_spacing').value = config.dialog.spacing;
 
-    $('#input_dialog_radius').val(config.dialog.radius);
+    document.getElementById('input_dialog_radius').value = config.dialog.radius;
 
-    $('#span_dialog_color').text(config.dialog.backgroundColor.slice(0, 7));
-    $('#color_dialog_color').val(config.dialog.backgroundColor.slice(0, 7));
+    document.getElementById('span_dialog_color').innerText = config.dialog.backgroundColor.slice(0, 7);
+    document.getElementById('color_dialog_color').value = config.dialog.backgroundColor.slice(0, 7);
 
-    $('#span_dialog_transparency').text(parseInt(config.dialog.backgroundColor.slice(7), 16));
-    $('#range_dialog_transparency').val(parseInt(config.dialog.backgroundColor.slice(7), 16));
+    document.getElementById('span_dialog_transparency').innerText = parseInt(config.dialog.backgroundColor.slice(7), 16);
+    document.getElementById('range_dialog_transparency').value = parseInt(config.dialog.backgroundColor.slice(7), 16);
 
     // channel
     loadChannel(config, chatCode);
 
     // translation
-    $('#checkbox_auto_change').prop('checked', config.translation.autoChange);
+    document.getElementById('checkbox_auto_change').checked = config.translation.autoChange;
 
-    $('#checkbox_text_fix').prop('checked', config.translation.fix);
+    document.getElementById('checkbox_text_fix').checked = config.translation.fix;
 
-    $('#checkbox_skip_system').prop('checked', config.translation.skip);
+    document.getElementById('checkbox_skip_system').checked = config.translation.skip;
 
-    $('#select_engine').val(config.translation.engine);
+    document.getElementById('select_engine').value = config.translation.engine;
 
-    $('#select_from').val(config.translation.from);
+    document.getElementById('select_from').value = config.translation.from;
 
-    $('#select_from_player').val(config.translation.fromPlayer);
+    document.getElementById('select_from_player').value = config.translation.fromPlayer;
 
-    $('#select_to').val(config.translation.to);
+    document.getElementById('select_to').value = config.translation.to;
 
     // system
-    $('#input_text_hsot').val(config.server.host);
+    document.getElementById('input_text_hsot').value = config.server.host;
 
-    $('#input_number_port').val(config.server.port);
+    document.getElementById('input_number_port').value = config.server.port;
 
-    $('#checkbox_auto_download_json').prop('checked', config.system.autoDownloadJson);
+    document.getElementById('checkbox_auto_download_json').checked = config.system.autoDownloadJson;
 
     // about
-    $('#span_version').text(version);
+    document.getElementById('span_version').innerText = version;
 }
 
 // save config
@@ -224,71 +235,71 @@ function saveConfig() {
     let chatCode = ipcRenderer.sendSync('load-chat-code');
 
     // window
-    config.preloadWindow.alwaysOnTop = $('#checkbox_top').prop('checked');
+    config.preloadWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
 
-    config.preloadWindow.advance = $('#checkbox_advance').prop('checked');
+    config.preloadWindow.advance = document.getElementById('checkbox_advance').checked;
 
-    config.preloadWindow.hideButton = $('#checkbox_hide_button').prop('checked');
+    config.preloadWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 
-    config.preloadWindow.hideDialog = $('#checkbox_hide_dialog').prop('checked');
-    config.preloadWindow.hideDialogInterval = $('#input_hide_dialog').val();
+    config.preloadWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
+    config.preloadWindow.hideDialogInterval = document.getElementById('input_hide_dialog').value;
 
-    config.preloadWindow.backgroundColor = $('#color_background_color').val().toString().toUpperCase();
+    config.preloadWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 
-    let pt = parseInt($('#range_background_transparency').val()).toString(16).toUpperCase();
+    let pt = parseInt(document.getElementById('range_background_transparency').value).toString(16).toUpperCase();
     config.preloadWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;
 
     // font
-    config.dialog.fontSize = $('#input_font_size').val();
+    config.dialog.fontSize = document.getElementById('input_font_size').value;
 
-    config.dialog.spacing = $('#input_dialog_spacing').val();
+    config.dialog.spacing = document.getElementById('input_dialog_spacing').value;
 
-    config.dialog.radius = $('#input_dialog_radius').val();
+    config.dialog.radius = document.getElementById('input_dialog_radius').value;
 
-    config.dialog.backgroundColor = $('#color_dialog_color').val();
+    config.dialog.backgroundColor = document.getElementById('color_dialog_color').value.toString().toUpperCase();
 
-    let dt = parseInt($('#range_dialog_transparency').val()).toString(16).toUpperCase();
+    let dt = parseInt(document.getElementById('range_dialog_transparency').value).toString(16).toUpperCase();
     config.dialog.backgroundColor += '' + dt.length < 2 ? '0' + '' + dt : dt;
 
     // channel
-    let checkedArray = $('#div_channel input[type="checkbox"]:checked');
     config.channel = {};
 
     // app notification
-    config.channel['FFFF'] = $(`#color_0039_color`).val().toUpperCase();
+    config.channel['FFFF'] = document.getElementById('color_0039_color').value.toUpperCase();
 
+    const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
     for (let index = 0; index < checkedArray.length; index++) {
         const code = checkedArray[index].id.replace('checkbox_', '').toUpperCase();
-        config.channel[code] = $(`#color_${code}_color`).val().toUpperCase();
+        config.channel[code] = document.getElementById(`color_${code}_color`).value.toUpperCase();
     }
 
-    let channelArray = $('#div_channel input[type="checkbox"]');
+    const channelArray = document.querySelectorAll('#div_channel input[type="checkbox"]');
     for (let index = 0; index < channelArray.length; index++) {
         const code = channelArray[index].id.replace('checkbox_', '').toUpperCase();
-        chatCode[index].Color = $(`#color_${code}_color`).val().toUpperCase();
+        chatCode[index].Color = document.getElementById(`color_${code}_color`).value.toUpperCase();
     }
 
     // translation
-    config.translation.autoChange = $('#checkbox_auto_change').prop('checked');
+    config.translation.autoChange = document.getElementById('checkbox_auto_change').checked;
 
-    config.translation.fix = $('#checkbox_text_fix').prop('checked');
+    config.translation.fix = document.getElementById('checkbox_text_fix').checked;
 
-    config.translation.skip = $('#checkbox_skip_system').prop('checked');
+    config.translation.skip = document.getElementById('checkbox_skip_system').checked;
 
-    config.translation.engine = $('#select_engine').val();
+    config.translation.engine = document.getElementById('select_engine').value;
 
-    config.translation.from = $('#select_from').val();
+    config.translation.from = document.getElementById('select_from').value;
 
-    config.translation.fromPlayer = $('#select_from_player').val();
+    config.translation.fromPlayer = document.getElementById('select_from_player').value;
 
-    config.translation.to = $('#select_to').val();
+    config.translation.to = document.getElementById('select_to').value;
 
     // system
-    config.server.host = $('#input_text_hsot').val();
+    config.server.host = document.getElementById('input_text_hsot').value;
 
-    config.server.port = $('#input_number_port').val();
+    config.server.port = document.getElementById('input_number_port').value;
 
-    config.system.autoDownloadJson = $('#checkbox_auto_download_json').prop('checked');
+    config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
     // reset view
     ipcRenderer.send('send-preload', 'reset-view', config);
@@ -311,7 +322,8 @@ function saveConfig() {
 
 // load channel
 function loadChannel(config, chatCode) {
-    $('#div_channel').empty();
+    const channel = document.getElementById('div_channel');
+    channel.replaceChildren();
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
@@ -325,7 +337,7 @@ function loadChannel(config, chatCode) {
             color = element.Color;
         }
 
-        $('#div_channel').append(`
+        channel.innerHTML += `
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="checkbox_${element.ChatCode}"${checked}>
                 <label class="form-check-label" for="checkbox_${element.ChatCode}">
@@ -335,10 +347,11 @@ function loadChannel(config, chatCode) {
             </div>
 
             <br>
-        `);
+        `;
 
-        $(`#color_${element.ChatCode}_color`).on('input', () => {
-            $(`#span_${element.ChatCode}_color`).text($(`#color_${element.ChatCode}_color`).val().toString().toUpperCase());
-        });
+        document.getElementById(`color_${element.ChatCode}_color`).oninput = () => {
+            document.getElementById(`span_${element.ChatCode}_color`).innerText =
+                document.getElementById(`color_${element.ChatCode}_color`).value.toString().toUpperCase();
+        };
     }
 }

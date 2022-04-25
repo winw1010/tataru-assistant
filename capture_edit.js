@@ -37,21 +37,21 @@ function setView() {}
 // set event
 function setEvent() {
     ipcRenderer.on('send-data', (event, data) => {
-        $('#textarea_screen_text').val(data);
+        document.getElementById('textarea_screen_text').value = data;
     });
 }
 
 // set button
 function setButton() {
     // submit
-    $('#button_submit').on('click', () => {
-        translate($('#textarea_screen_text').val().toString());
-    });
+    document.getElementById('button_submit').onclick = () => {
+        translate(document.getElementById('textarea_screen_text').value);
+    };
 
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
-    });
+    };
 }
 
 function translate(text) {

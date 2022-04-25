@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -46,12 +46,6 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
-
-    <!-- You can also require other files to run in this process -->
     <!-- <script src="./renderer.js "></script> -->
 </body>
 

@@ -9,6 +9,9 @@ const { readFileSync, writeFileSync, readdirSync } = require('fs');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// translator
+const translatorModule = require('./translator-module');
+
 // text function
 function exceptionCheck(code, name, text, array) {
     return text.includes('') || (['0039', '0839'].includes(code) && includesArrayItem(name + text, array));
@@ -76,6 +79,11 @@ function arrayString(array, itemIndex) {
     }
 
     return string;
+}
+
+async function translate(text, translation) {
+    text = await translatorModule.translate(text, translation.engine, translation.from, translation.to, translation.autoChange);
+    return text;
 }
 
 function caiyunFix(text) {
@@ -378,6 +386,7 @@ exports.exceptionCheck = exceptionCheck;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.arrayString = arrayString;
+exports.translate = translate;
 exports.caiyunFix = caiyunFix;
 exports.clearCode = clearCode;
 

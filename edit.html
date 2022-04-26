@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://translate.google.com/; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -45,11 +45,17 @@
 
         <div id="div_restart" hidden>
             <div>
+                <div id="div_audio">
+
+                </div>
+
+                <br>
+
                 <select name="select_restart_engine" id="select_restart_engine">
-                    <option value="baidu" selected>百度翻譯</option>
-                    <option value="caiyun">彩雲小譯</option>
-                    <option value="youdao">有道翻譯</option>
-                    <option value="google">Google</option>
+                    <option value="Baidu" selected>百度翻譯</option>
+                    <option value="Caiyun">彩雲小譯</option>
+                    <option value="Youdao">有道翻譯</option>
+                    <option value="Google">Google</option>
                 </select>
                 <input type="checkbox" name="" id="checkbox_replace">
                 <label for="checkbox_replace">取代原本翻譯</label>

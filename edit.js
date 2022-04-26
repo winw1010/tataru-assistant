@@ -9,6 +9,9 @@ const { readFileSync } = require('fs');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// text to speech
+const googleTTS = require('google-tts-api');
+
 // cf
 const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correction-function');
 
@@ -66,6 +69,19 @@ function setEvent() {
 
                         if (log[id]) {
                             targetLog = log[id];
+
+                            // text to speech
+                            if (targetLog.text !== '') {
+                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: 'ja' });
+                                console.log(url);
+
+                                document.getElementById('div_audio').innerHTML = `
+                                    <audio controls>
+                                        <source src="${url}" type="audio/ogg">
+                                        <source src="${url}" type="audio/mpeg">
+                                    </audio>
+                                `;
+                            }
 
                             const dialog1 = document.getElementById('div_dialog1');
                             const dialog2 = document.getElementById('div_dialog2');

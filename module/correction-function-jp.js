@@ -1,14 +1,6 @@
 'use strict';
 
-// translator
-const translator = require('./translator-module');
-
 // jp text function
-async function translate(text, translation) {
-    text = await translator.translate(text, translation.engine, 'japanese', translation.to);
-    return text;
-}
-
 function replaceText(text, array, search = 0, replacement = 1) {
     if (!Array.isArray(array)) {
         return text;
@@ -155,7 +147,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         }
     }
 
-    console.log(table);
+    console.log('table:', table);
 
     return {
         text: text,
@@ -220,7 +212,6 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-exports.translate = translate;
 exports.replaceText = replaceText;
 exports.replaceTextByCode = replaceTextByCode;
 exports.shouldTranslate = shouldTranslate;

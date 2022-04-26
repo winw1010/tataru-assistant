@@ -1,23 +1,14 @@
 const { youdaoTranslator } = require('translators');
 
-// language
-const language = {
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
-}
-
 // translate
-async function translate(input) {
+async function translate(text, languageFrom, languageTo) {
     try {
-        const res = await youdaoTranslator(input.text, language[input.from], language[input.to], {});
+        const res = await youdaoTranslator(text, languageFrom, languageTo, {});
 
-        console.log(res);
+        console.log('Youdao:', res);
         return res;
     } catch (error) {
-        console.log(error);
+        console.log('Youdao:', error);
         return '';
     }
 }

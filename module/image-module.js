@@ -21,6 +21,9 @@ const { prominent } = require('color.js');
 // tesseract
 const { createWorker } = require('tesseract.js');
 
+// language table
+const { languageTable } = require('./translator/language-table');
+
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
     try {
@@ -134,10 +137,10 @@ async function recognizeImage(file) {
         await worker.load();
 
         // load language
-        if (config.translation.from === 'japanese') {
+        if (config.translation.from === languageTable.ja) {
             await worker.loadLanguage('jpn');
             await worker.initialize('jpn');
-        } else if (config.translation.from === 'english') {
+        } else if (config.translation.from === languageTable.en) {
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
         }

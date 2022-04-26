@@ -1,24 +1,15 @@
 // google
 const google = require('@hobbica98/google-translate-api');
 
-// language
-const language = {
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh-TW',
-    'simplified-chinese': 'zh-CN'
-}
-
 // translate
-async function translate(input) {
+async function translate(text, languageFrom, languageTo) {
     try {
-        const res = await google(input.text, { from: language[input.from], to: language[input.to] });
+        const res = await google(text, { from: languageFrom, to: languageTo });
 
-        console.log(res);
+        console.log('Google:', res);
         return res.text;
     } catch (error) {
-        console.log(error);
+        console.log('Google:', error);
         return '';
     }
 }

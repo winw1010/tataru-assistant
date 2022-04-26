@@ -51,10 +51,10 @@ let defaultConfig = {
         fix: true,
         skip: true,
         replace: true,
-        engine: 'baidu',
-        from: 'japanese',
-        fromPlayer: 'japanese',
-        to: 'traditional-chinese'
+        engine: 'Baidu',
+        from: 'Japanese',
+        fromPlayer: 'Japanese',
+        to: 'Traditional-Chinese'
     },
     system: {
         autoDownloadJson: true

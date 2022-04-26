@@ -24,6 +24,7 @@
         "baidu-translate-api": "^0.4.3",
         "color.js": "^1.2.0",
         "download-git-repo": "^3.0.2",
+        "google-tts-api": "^2.0.2",
         "jimp": "^0.16.1",
         "json-fixer": "^1.6.13",
         "screenshot-desktop": "^1.12.7",

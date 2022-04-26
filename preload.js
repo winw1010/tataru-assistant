@@ -1,19 +1,19 @@
 'use strict';
 
-// Communicate with main process
+// communicate with main process
 const { ipcRenderer } = require('electron');
 
 // exec
 const { exec } = require('child_process');
 
-// exec
+// fs
 const { readFileSync } = require('fs');
 
 // download github repo
 const downloadGitRepo = require('download-git-repo');
 
 // json fixer
-const jsonFixer = require('json-fixer')
+const jsonFixer = require('json-fixer');
 
 // server module
 const { startServer } = require('./module/server-module');

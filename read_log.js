@@ -6,7 +6,7 @@ const { exec } = require('child_process');
 // fs
 const { readFileSync, readdirSync } = require('fs');
 
-// Communicate with main process
+// communicate with main process
 const { ipcRenderer } = require('electron');
 
 // json fixer

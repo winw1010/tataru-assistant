@@ -1,5 +1,6 @@
 'use strict';
 
+// correction module
 const { addToQueue_JP } = require('./correction-module-jp');
 const { addToQueue_EN } = require('./correction-module-en');
 

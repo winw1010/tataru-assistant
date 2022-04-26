@@ -1,6 +1,6 @@
 'use strict';
 
-// Communicate with main process
+// communicate with main process
 const { ipcRenderer } = require('electron');
 
 // child process

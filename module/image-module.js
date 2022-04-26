@@ -9,9 +9,6 @@ const { resolve } = require('path');
 // communicate with main
 const { ipcRenderer } = require('electron');
 
-// axios
-const axios = require('axios').default;
-
 // take desktop screenshot
 const screenshot = require('screenshot-desktop');
 

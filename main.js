@@ -15,7 +15,7 @@ const { existsSync, mkdirSync } = require('fs');
 // path
 const path = require('path');
 
-// Modules to control application life and create native browser window
+// electron modules
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
 // config module
@@ -72,43 +72,43 @@ app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC
-// Get app version
+// ipc
+// get app version
 ipcMain.on('get-version', (event) => {
     event.returnValue = app.getVersion();
 });
 
-// Load config
+// load config
 ipcMain.on('load-config', (event) => {
     event.returnValue = loadConfig();
 });
 
-// Save config
+// save config
 ipcMain.on('save-config', (event, config) => {
     saveConfig(config);
 });
 
-// Save default config
+// save default config
 ipcMain.on('save-default-config', (event) => {
     saveDefaultConfig();
 });
 
-// Load chat code
+// load chat code
 ipcMain.on('load-chat-code', (event) => {
     event.returnValue = loadChatCode();
 });
 
-// Save chat code
+// save chat code
 ipcMain.on('save-chat-code', (event, chatCode) => {
     saveChatCode(chatCode);
 });
 
-// Save default chat code
+// save default chat code
 ipcMain.on('save-default-chat-code', (event) => {
     saveDefaultChatCode();
 });
 
-// Open devtools
+// open devtools
 ipcMain.on('open-devtools', (event) => {
     let window = BrowserWindow.fromWebContents(event.sender);
 
@@ -119,7 +119,7 @@ ipcMain.on('open-devtools', (event) => {
     }
 });
 
-// Open preload devtools
+// open preload devtools
 ipcMain.on('open-preload-devtools', (event) => {
     let window = windowList['preload'];
 
@@ -130,7 +130,7 @@ ipcMain.on('open-preload-devtools', (event) => {
     }
 });
 
-// Always on top
+// always on top
 ipcMain.on('set-always-on-top', (event, top) => {
     try {
         windowList['preload'].setAlwaysOnTop(top, 'screen-saver');
@@ -139,29 +139,17 @@ ipcMain.on('set-always-on-top', (event, top) => {
     }
 });
 
-/*
-// Notification
-ipcMain.on('show-notification', (event, title, body) => {
-    new Notification({
-        icon: './img/icon/tataru_icon.ico',
-        silent: true,
-        title: title, //=== '' ? 'Tataru Helper Node' : title,
-        body: body
-    }).show();
-});
-*/
-
-// Send preload
+// send preload
 ipcMain.on('send-preload', (event, channel, ...args) => {
     sendPreload(channel, ...args);
 });
 
-// Click through
+// click through
 ipcMain.on('set-click-through', (event, ...args) => {
     BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(...args);
 });
 
-// Minimize window
+// minimize window
 ipcMain.on('minimize-window', (event) => {
     try {
         BrowserWindow.fromWebContents(event.sender).minimize();
@@ -170,7 +158,7 @@ ipcMain.on('minimize-window', (event) => {
     }
 });
 
-// Close window
+// close window
 ipcMain.on('close-window', (event) => {
     try {
         BrowserWindow.fromWebContents(event.sender).close();
@@ -179,17 +167,18 @@ ipcMain.on('close-window', (event) => {
     }
 });
 
-// Close app
+// close app
 ipcMain.on('close-app', (event) => {
     app.quit();
 });
 
-// Create sindow
+// create sindow
 ipcMain.on('create-window', (event, type, data = null) => {
     try {
         // force close
         windowList[type].close();
 
+        // restart
         throw null;
 
         /*
@@ -226,11 +215,11 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
         rectangleSize.x = rectangleSize.x - display.bounds.x;
     }
 
-    // Image processing
+    // image processing
     sendPreload('start-screen-translation', rectangleSize, display.bounds, displayIndex);
 });
 
-// Save capture config
+// save capture config
 ipcMain.on('save-capture-config', (event, split, edit) => {
     let config = loadConfig();
     config.captureWindow.split = split;
@@ -238,7 +227,7 @@ ipcMain.on('save-capture-config', (event, split, edit) => {
     saveConfig(config);
 })
 
-// Functions
+// functions
 function sendPreload(channel, ...args) {
     try {
         windowList['preload'].webContents.send(channel, ...args);
@@ -248,25 +237,25 @@ function sendPreload(channel, ...args) {
 }
 
 function getSize(type) {
-    // Load config
+    // load config
     let config = loadConfig();
 
-    // Set default value
+    // set default value
     let x = 0;
     let y = 0;
     let width = 0;
     let height = 0;
 
-    // Get current display bounds
+    // get current display bounds
     let displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
-    // Get current screen size
+    // get current screen size
     let screenWidth = displayBounds.width;
     let screenHeight = displayBounds.height;
 
     switch (type) {
         case 'preload':
-            // First time
+            // first time
             if (config.preloadWindow.width < 0 || config.preloadWindow.height < 0) {
                 config.preloadWindow.width = parseInt(screenWidth * 0.2);
                 config.preloadWindow.height = parseInt(screenHeight * 0.6);
@@ -290,7 +279,7 @@ function getSize(type) {
             break;
 
         case 'capture':
-            // First time
+            // first time
             if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
                 config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
                 config.captureWindow.y = parseInt(screenHeight * 0.63);
@@ -339,13 +328,13 @@ function getSize(type) {
     };
 }
 
-// Create window
+// create window
 function createWindow(type, data) {
     try {
-        // Get size
+        // get size
         let size = getSize(type);
 
-        // Create new window
+        // create new window
         const window = new BrowserWindow({
             show: false,
             x: size.x,
@@ -361,10 +350,10 @@ function createWindow(type, data) {
             }
         });
 
-        // Load html
+        // load html
         window.loadFile(type + '.html');
 
-        // Set always on top
+        // set always on top
         const isTop = (type === 'preload' || type === 'capture' || type === 'capture_edit');
         window.setAlwaysOnTop(isTop, 'screen-saver');
 
@@ -377,7 +366,7 @@ function createWindow(type, data) {
                 window.once('close', () => {
                     let config = loadConfig();
 
-                    // Save position
+                    // save position
                     config.preloadWindow.x = window.getPosition()[0];
                     config.preloadWindow.y = window.getPosition()[1];
                     config.preloadWindow.width = window.getSize()[0];
@@ -391,7 +380,7 @@ function createWindow(type, data) {
                 window.once('close', () => {
                     let config = loadConfig();
 
-                    // Save position
+                    // save position
                     config.captureWindow.x = window.getPosition()[0];
                     config.captureWindow.y = window.getPosition()[1];
                     config.captureWindow.width = window.getSize()[0];

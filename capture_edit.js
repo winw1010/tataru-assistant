@@ -6,11 +6,8 @@ const { unlinkSync } = require('fs');
 // path
 const { resolve } = require('path');
 
-// Communicate with main process
+// communicate with main process
 const { ipcRenderer } = require('electron');
-
-// axios
-const axios = require('axios').default;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {

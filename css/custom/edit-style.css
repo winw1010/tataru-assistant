@@ -2,6 +2,16 @@ body {
     color: aliceblue;
 }
 
+.div_wrap {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.div_left,
+.div_right {
+    width: 45vw;
+}
+
 #div_upper_button {
     background-color: #202020;
 }
@@ -28,5 +38,5 @@ select {
 /*textarea*/
 
 textarea {
-    width: 90vw;
+    width: 40vw;
 }

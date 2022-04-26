@@ -301,10 +301,10 @@ function getSize(type) {
             break;
 
         case 'edit':
-            x = displayBounds.x + parseInt(screenWidth * 0.3);
-            y = parseInt(screenHeight * 0.1);
-            width = parseInt(screenWidth * 0.3);
-            height = parseInt(screenHeight * 0.8);
+            x = displayBounds.x + parseInt(screenWidth * 0.2);
+            y = parseInt(screenHeight * 0.2);
+            width = parseInt(screenWidth * 0.5);
+            height = parseInt(screenHeight * 0.5);
             break;
 
         case 'read_log':

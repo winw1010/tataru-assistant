@@ -177,7 +177,7 @@ function setButton() {
 
     document.getElementById('button_delete_temp').onclick = () => {
         const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
-        const type = document.getElementById('select_type').val();
+        const type = document.getElementById('select_type').value;
 
         if (textBefore !== '') {
             if (type === 'jp') {

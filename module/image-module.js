@@ -194,7 +194,7 @@ function translate(text) {
     const timestamp = new Date().getTime();
     for (let index = 0; index < array.length; index++) {
         if (array[index] !== '') {
-            const data = {
+            const dialogData = {
                 id: 'id' + (timestamp + index),
                 code: '003D',
                 playerName: '',
@@ -203,7 +203,9 @@ function translate(text) {
                 timestamp: (timestamp + index)
             }
 
-            setTimeout(() => { post(data); }, index * 200);
+            setTimeout(() => {
+                ipcRenderer.send('send-preload', 'restart-translation', dialogData, config.translation);
+            }, index * 200);
         }
     }
 }
@@ -232,25 +234,6 @@ function deleteImages() {
     } catch (error) {
         console.log(error);
     }
-}
-
-// post
-function post(data) {
-    const config = ipcRenderer.sendSync('load-config');
-    const host = config.server.host;
-    const port = config.server.port;
-
-    axios({
-            method: 'post',
-            url: `http://${host}:${port}`,
-            data: data
-        })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
 }
 
 exports.takeScreenshot = takeScreenshot;

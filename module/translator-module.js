@@ -26,9 +26,8 @@ async function translate(text, engine, languageFrom, languageTo, autoChange = tr
             for (let index = 0; index < enginelist.length; index++) {
                 const otherEngine = enginelist[index];
 
-                console.log('Use ' + otherEngine + '.');
-
                 if (otherEngine !== engine) {
+                    console.log(`Use ${otherEngine}.`);
                     response = await selectEngine(otherEngine, input);
 
                     if (response !== '') {

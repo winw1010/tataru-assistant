@@ -147,12 +147,14 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         }
     }
 
-    console.log('table:', table);
-
-    return {
+    const result = {
         text: text,
         table: table
-    };
+    }
+
+    console.log('result:', result);
+
+    return result;
 }
 
 function shouldTranslate(text) {

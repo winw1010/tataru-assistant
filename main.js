@@ -194,8 +194,6 @@ ipcMain.on('create-window', (event, type, data = null) => {
 
 // start screen translation
 ipcMain.on('start-screen-translation', (event, rectangleSize) => {
-    console.log(rectangleSize);
-
     // get display matching the rectangle
     let display = screen.getDisplayMatching(rectangleSize);
 

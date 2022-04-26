@@ -163,7 +163,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
 
         if (!Array.isArray(array)) {
-            console.log(name + '.json is not an array.');
+            console.log(`${path}/${name} is not an array.`);
             writeJSON(path, name, []);
             return [];
         }
@@ -180,7 +180,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         array = sortArray(array);
 
         // log array
-        console.log(`${name}.json has been loaded. (${array.length})`);
+        console.log(`Read ${path}/${name}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
@@ -270,7 +270,7 @@ function readJSONPure(path = '', name = '') {
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
 
         // log array
-        console.log(`${name}.json has been loaded. (${array.length})`);
+        console.log(`Read ${path}/${name}. (length: ${array.length})`);
 
         return array;
     } catch (error) {

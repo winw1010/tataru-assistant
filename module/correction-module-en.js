@@ -152,7 +152,6 @@ async function nameProcess(name, translation) {
     } else {
         // code
         const result = cfen.replaceTextByCode(name, chArray.combine);
-        console.log(result);
 
         // translate name
         let outputName = '';

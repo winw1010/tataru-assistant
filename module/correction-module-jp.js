@@ -189,7 +189,6 @@ async function nameProcess(name, translation) {
             // not all kata => use standard
             // code
             const result = cfjp.replaceTextByCode(name, chArray.combine);
-            console.log(result);
 
             // translate name
             outputName = result.text;

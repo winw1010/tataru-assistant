@@ -56,7 +56,7 @@ function setEvent() {
         try {
             const milliseconds = parseInt(id.slice(2));
             const logFileList = [createLogName(milliseconds), createLogName(milliseconds + 86400000), createLogName(milliseconds - 86400000)];
-            console.log(logFileList);
+            console.log('log files:', logFileList);
 
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
@@ -64,8 +64,8 @@ function setEvent() {
                         const logFile = logFileList[index];
                         const log = jsonFixer(readFileSync('./json/log/' + logFile).toString()).data;
 
-                        console.log(logFile);
-                        console.log(log);
+                        console.log('log file:', logFile);
+                        console.log('log object:', log);
 
                         if (log[id]) {
                             targetLog = log[id];
@@ -73,7 +73,7 @@ function setEvent() {
                             // text to speech
                             if (targetLog.text !== '') {
                                 const url = googleTTS.getAudioUrl(targetLog.text, { lang: 'ja' });
-                                console.log(url);
+                                console.log('TTS url:', url);
 
                                 document.getElementById('div_audio').innerHTML = `
                                     <audio controls>

@@ -26,6 +26,8 @@ const { languageTable } = require('./translator/language-table');
 
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+    console.log('rectangle size:', rectangleSize);
+
     try {
         // get displays
         const displays = await screenshot.listDisplays();
@@ -78,12 +80,12 @@ async function fixImage(croppedImage) {
     try {
         // get prominent color
         const prominentColor = await prominent(getPath('crop.png'), { amount: 2 });
-        console.log(prominentColor);
+        console.log('prominent color:', prominentColor);
 
         // check prominent color
         if (prominentColor[0][0] >= 128) {
             // light background
-            console.log('light');
+            console.log('light background');
 
             /*
             croppedImage
@@ -94,7 +96,7 @@ async function fixImage(croppedImage) {
             */
         } else {
             // dark background
-            console.log('dark');
+            console.log('dark background');
 
             if (prominentColor[1][0] > 230) {
                 // dark text
@@ -155,7 +157,7 @@ async function recognizeImage(file) {
         if (text.trim().length !== 0) {
             translate(text);
         } else {
-            console.log('Empty text');
+            console.log('Text is empty.');
             ipcRenderer.send('send-preload', 'show-notification', '無法擷取文字');
         }
     } catch (error) {

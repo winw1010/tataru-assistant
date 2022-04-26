@@ -50,7 +50,13 @@ const googleTable = {
     'Japanese': 'ja',
     'English': 'en',
     'Traditional-Chinese': 'zh-TW',
-    'Simplified-Chinese': 'zh-CN'
+    'Simplified-Chinese': 'zh-CN',
+
+    'auto': 'auto',
+    'japanese': 'ja',
+    'english': 'en',
+    'traditional-chinese': 'zh-TW',
+    'simplified-chinese': 'zh-CN'
 }
 
 exports.languageTable = languageTable;

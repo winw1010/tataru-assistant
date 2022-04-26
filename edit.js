@@ -12,6 +12,9 @@ const jsonFixer = require('json-fixer');
 // text to speech
 const googleTTS = require('google-tts-api');
 
+// language table
+const { googleTable } = require('./module/translator/language-table');
+
 // cf
 const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correction-function');
 
@@ -64,19 +67,19 @@ function setEvent() {
                         const logFile = logFileList[index];
                         const log = jsonFixer(readFileSync('./json/log/' + logFile).toString()).data;
 
-                        console.log('log file:', logFile);
-                        console.log('log object:', log);
 
                         if (log[id]) {
                             targetLog = log[id];
+                            console.log('log file:', logFile);
+                            console.log('target log:', targetLog);
 
                             // text to speech
                             if (targetLog.text !== '') {
-                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: 'ja' });
+                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: googleTable[targetLog.translation.from] });
                                 console.log('TTS url:', url);
 
                                 document.getElementById('div_audio').innerHTML = `
-                                    <audio controls>
+                                    <audio controls preload="metadata">
                                         <source src="${url}" type="audio/ogg">
                                         <source src="${url}" type="audio/mpeg">
                                     </audio>

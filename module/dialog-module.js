@@ -79,10 +79,14 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
         // play audio
         if (translation.autoPlay && dialogData.text != '') {
-            const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
-            const audio = new Audio(url);
-            audio.currentTime = 0;
-            audio.play();
+            try {
+                const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
+                const audio = new Audio(url);
+                audio.currentTime = 0;
+                audio.play();
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 

@@ -289,7 +289,7 @@ function writeJSON(path = '', name = '', array = []) {
             .replaceAll('],[', '],\n\t[')
             .replaceAll(']]', ']\n]'));
     } catch (error) {
-
+        console.log(error);
     }
 }
 

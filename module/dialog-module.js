@@ -20,6 +20,7 @@ let timeoutHideDialog = setTimeout(() => {}, 0);
 
 // play list
 let playList = [];
+let isPlaying = false;
 
 // append blank dialog
 function appendBlankDialog(id, code) {
@@ -84,6 +85,11 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
             try {
                 const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
                 const audio = new Audio(url);
+
+                audio.onended = () => {
+                    isPlaying = false;
+                }
+
                 audio.currentTime = 0;
                 audio.play();
             } catch (error) {

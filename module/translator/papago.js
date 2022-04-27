@@ -1,3 +1,4 @@
+/*
 // "puppeteer-papago-scraping": "^2.1.1",
 
 // papago
@@ -17,6 +18,7 @@ async function translate(text, languageFrom, languageTo) {
 };
 
 exports.translate = translate;
+*/
 
 /*
 // broken

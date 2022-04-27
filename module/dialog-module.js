@@ -102,7 +102,7 @@ function appendNotification(text) {
     // set timeout
     setTimeout(() => {
         document.getElementById(id).remove();
-    }, 3000);
+    }, 5000);
 }
 
 // show dialog

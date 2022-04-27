@@ -64,18 +64,10 @@ function dataProcess(data) {
                     textHistory[dialogData.text] = new Date().getTime();
                 }
 
-                // id check
-                if (!dialogData.id) {
-                    const timestamp = new Date().getTime();
-                    dialogData.id = 'id' + timestamp;
-                    dialogData.timestamp = timestamp;
-                }
-
-                // timestamp check            
-                if (!dialogData.timestamp || !Number.isInteger(dialogData.timestamp)) {
-                    const timestamp = new Date(parseInt(dialogData.id.slice(2))).getTime();
-                    dialogData.timestamp = Number.isInteger(timestamp) ? timestamp : new Date().getTime();
-                }
+                // set id and timestamp
+                const timestamp = new Date().getTime();
+                dialogData.id = 'id' + timestamp;
+                dialogData.timestamp = timestamp;
 
                 // system message process
                 if (isSystemMessage(dialogData)) {

@@ -16,11 +16,14 @@ const googleTTS = require('google-tts-api');
 const { googleTable } = require('./translator/language-table');
 
 // dialog timeout
-let timeoutHideDialog = setTimeout(() => {}, 0);
+let timeoutHideDialog = null;
 
 // play list
-//let playList = [];
-//let isPlaying = false;
+let playList = [];
+let isPlaying = false;
+let playInterval = setInterval(() => {
+    playNext();
+}, 1000);
 
 // append blank dialog
 function appendBlankDialog(id, code) {
@@ -80,20 +83,17 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     if (dialogData && translation) {
         saveLog(id, name, text, dialogData, translation);
 
-        // play audio
+        // create audio
         if (translation.autoPlay && dialogData.text != '') {
             try {
                 const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
                 const audio = new Audio(url);
-
-                /*
                 audio.onended = () => {
                     isPlaying = false;
                 }
-                */
 
-                audio.currentTime = 0;
-                audio.play();
+                // add to play list
+                playList.push(audio);
             } catch (error) {
                 console.log(error);
             }
@@ -103,18 +103,6 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     // move to dialog
     location.href = '#' + id;
 }
-
-/*
-function playNext() {
-    try {
-        const audio = playList.splice(0, 1)[0];
-        audio.currentTime = 0;
-        audio.play();
-    } catch (error) {
-        console.log(error);
-    }
-}
-*/
 
 // append notification
 function appendNotification(text) {
@@ -218,6 +206,34 @@ function getColor(code) {
     return color;
 }
 
+// start/restart playing
+function startPlaying() {
+    try {
+        clearInterval(playInterval);
+        playInterval = null;
+    } catch (error) {
+        console.log(error);
+    }
+
+    playInterval = setInterval(() => {
+        playNext();
+    }, 1000);
+}
+
+// play next audio
+function playNext() {
+    if (!isPlaying && playList.length > 0) {
+        try {
+            isPlaying = true;
+            const audio = playList.splice(0, 1)[0];
+            audio.currentTime = 0;
+            audio.play();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 // move to bottom
 function moveToBottom() {
     clearSelection();
@@ -240,4 +256,5 @@ exports.updateDialog = updateDialog;
 exports.appendNotification = appendNotification;
 exports.createLogName = createLogName;
 exports.showDialog = showDialog;
+exports.startPlaying = startPlaying;
 exports.moveToBottom = moveToBottom;

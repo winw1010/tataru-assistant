@@ -27,7 +27,7 @@ const { loadJSON_JP } = require('./module/correction-module-jp');
 const { loadJSON_EN } = require('./module/correction-module-en');
 
 // dialog module
-const { appendBlankDialog, updateDialog, appendNotification, showDialog, moveToBottom } = require('./module/dialog-module');
+const { appendBlankDialog, updateDialog, appendNotification, showDialog, startPlaying, moveToBottom } = require('./module/dialog-module');
 
 // click through temp
 let isClickThrough = false;
@@ -205,9 +205,11 @@ function setButton() {
         let config = ipcRenderer.sendSync('load-config');
         config.translation.autoPlay = !config.translation.autoPlay;
         ipcRenderer.send('save-config', config)
+        ipcRenderer.send('mute-window', !config.translation.autoPlay);
 
         if (config.translation.autoPlay) {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+            startPlaying();
         } else {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
         }

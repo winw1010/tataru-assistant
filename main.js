@@ -149,6 +149,11 @@ ipcMain.on('set-click-through', (event, ...args) => {
     BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(...args);
 });
 
+// mute window
+ipcMain.on('mute-window', (event, isMuted) => {
+    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(isMuted);
+});
+
 // minimize window
 ipcMain.on('minimize-window', (event) => {
     try {

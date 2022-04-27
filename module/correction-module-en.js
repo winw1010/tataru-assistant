@@ -12,7 +12,7 @@ const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
 // queue
 let queueItems = [];
-let queueInterval = setInterval(() => {}, 1000);
+let queueInterval = null;
 
 // document
 let chArray = {

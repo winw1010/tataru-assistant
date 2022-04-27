@@ -89,7 +89,7 @@ ipcMain.on('save-config', (event, config) => {
 });
 
 // save default config
-ipcMain.on('save-default-config', (event) => {
+ipcMain.on('save-default-config', () => {
     saveDefaultConfig();
 });
 
@@ -104,7 +104,7 @@ ipcMain.on('save-chat-code', (event, chatCode) => {
 });
 
 // save default chat code
-ipcMain.on('save-default-chat-code', (event) => {
+ipcMain.on('save-default-chat-code', () => {
     saveDefaultChatCode();
 });
 
@@ -120,7 +120,7 @@ ipcMain.on('open-devtools', (event) => {
 });
 
 // open preload devtools
-ipcMain.on('open-preload-devtools', (event) => {
+ipcMain.on('open-preload-devtools', () => {
     let window = windowList['preload'];
 
     if (window.webContents.isDevToolsOpened()) {
@@ -135,7 +135,7 @@ ipcMain.on('set-always-on-top', (event, top) => {
     try {
         windowList['preload'].setAlwaysOnTop(top, 'screen-saver');
     } catch (error) {
-
+        console.log(error);
     }
 });
 
@@ -168,7 +168,7 @@ ipcMain.on('close-window', (event) => {
 });
 
 // close app
-ipcMain.on('close-app', (event) => {
+ipcMain.on('close-app', () => {
     app.quit();
 });
 

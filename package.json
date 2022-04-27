@@ -16,7 +16,8 @@
     "license": "MIT",
     "devDependencies": {
         "electron": "^18.1.0",
-        "electron-builder": "^23.0.3"
+        "electron-builder": "^23.0.3",
+        "eslint": "^8.14.0"
     },
     "dependencies": {
         "@hobbica98/google-translate-api": "^1.1.1",

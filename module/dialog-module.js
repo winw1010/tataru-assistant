@@ -19,8 +19,8 @@ const { googleTable } = require('./translator/language-table');
 let timeoutHideDialog = setTimeout(() => {}, 0);
 
 // play list
-let playList = [];
-let isPlaying = false;
+//let playList = [];
+//let isPlaying = false;
 
 // append blank dialog
 function appendBlankDialog(id, code) {
@@ -86,9 +86,11 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
                 const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
                 const audio = new Audio(url);
 
+                /*
                 audio.onended = () => {
                     isPlaying = false;
                 }
+                */
 
                 audio.currentTime = 0;
                 audio.play();
@@ -102,6 +104,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     location.href = '#' + id;
 }
 
+/*
 function playNext() {
     try {
         const audio = playList.splice(0, 1)[0];
@@ -111,6 +114,7 @@ function playNext() {
         console.log(error);
     }
 }
+*/
 
 // append notification
 function appendNotification(text) {

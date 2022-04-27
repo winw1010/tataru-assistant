@@ -146,7 +146,7 @@ function clearCode(text, table) {
 
             while (text.includes(value[0] + value[0])) {
                 text = text.replaceAll(value[0] + value[0], value[0]);
-            };
+            }
         });
     }
 
@@ -198,7 +198,7 @@ function readJSONMain(sub0, sub1) {
             fileList.forEach((file) => {
                 if (file !== 'hidden.json') {
                     mainArray = mainArray.concat(readJSON('text/main', file, true, sub0, sub1));
-                };
+                }
             });
         }
 
@@ -222,7 +222,7 @@ function readJSONOverwrite(ch) {
             fileList.forEach((file) => {
                 if (file !== 'hidden.json') {
                     overwrite = overwrite.concat(readJSON(`${ch}/overwrite`, file));
-                };
+                }
             });
         }
 
@@ -246,7 +246,7 @@ function readJSONSubtitle() {
             fileList.forEach((file) => {
                 if (file !== 'hidden.json') {
                     subtitle = subtitle.concat(readJSON('text/jp/subtitle', file));
-                };
+                }
             });
         }
 

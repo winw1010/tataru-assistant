@@ -118,17 +118,17 @@ function setEvent() {
     });
 
     // download json
-    ipcRenderer.on('download-json', (event) => {
+    ipcRenderer.on('download-json', () => {
         downloadJSON();
     });
 
     // read json
-    ipcRenderer.on('read-json', (event) => {
+    ipcRenderer.on('read-json', () => {
         readJSON();
     });
 
     // start server
-    ipcRenderer.on('start-server', (event) => {
+    ipcRenderer.on('start-server', () => {
         startServer();
     });
 

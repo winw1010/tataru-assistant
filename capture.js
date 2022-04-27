@@ -45,7 +45,7 @@ function setView() {
 
 // set event
 function setEvent() {
-    window.addEventListener('resize', function(event) {
+    window.addEventListener('resize', function() {
         setCanvas();
     }, true);
 

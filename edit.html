@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://translate.google.com/; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -28,61 +28,67 @@
         <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
     </div>
 
-    <div id="div_center">
-        <p><a href="#" id="a_github">翻譯回報</a></p>
+    <div id="div_center" class="div_wrap">
+        <div class="div_left">
+            <p><a href="#" id="a_github">翻譯回報</a></p>
 
-        <div id="div_dialog1">
-            <span></span>
-        </div>
-
-        <br>
-
-        <div id="div_dialog2">
-            <span></span>
-        </div>
-
-        <br>
-
-        <div id="div_restart" hidden>
-            <div>
-                <select name="select_restart_language" id="select_restart_language">
-                    <option value="baidu" selected>百度翻譯</option>
-                    <option value="caiyun">彩雲小譯</option>
-                    <option value="youdao">有道翻譯</option>
-                    <option value="google">Google</option>
-                </select>
-                <input type="checkbox" name="" id="checkbox_replace">
-                <label for="checkbox_replace">取代原本翻譯</label>
+            <div id="div_dialog1">
+                <span></span>
             </div>
 
             <br>
 
-            <div>
-                <button id="button_restart" class="btn btn-primary">重新翻譯</button>
-                <button id="button_reload_json" class="btn btn-secondary">重新讀取對照表</button>
+            <div id="div_dialog2">
+                <span></span>
+            </div>
+
+            <br>
+
+            <div id="div_restart" hidden>
+                <div>
+                    <div id="div_audio">
+
+                    </div>
+
+                    <br>
+
+                    <select name="select_restart_engine" id="select_restart_engine">
+                        <option value="Baidu" selected>百度翻譯</option>
+                        <option value="Caiyun">彩雲小譯</option>
+                        <option value="Youdao">有道翻譯</option>
+                        <option value="Google">Google</option>
+                    </select>
+                    <input type="checkbox" name="" id="checkbox_replace">
+                    <label for="checkbox_replace">取代原本翻譯</label>
+                </div>
+
+                <br>
+
+                <div>
+                    <button id="button_restart" class="btn btn-primary">重新翻譯</button>
+                    <button id="button_reload_json" class="btn btn-secondary">重新讀取對照表</button>
+                </div>
             </div>
         </div>
 
-
-
         <hr>
 
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="替換前" id="textarea_before" style="height: 7rem"></textarea>
-            <label for="textarea_before">替換前(原文)</label>
-        </div>
+        <div class="div_right">
+            <label for="textarea_before">替換前(原文)</label><br>
+            <textarea placeholder="替換前" id="textarea_before" rows="4"></textarea>
 
-        <br>
+            <br>
+            <br>
 
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="替換後" id="textarea_after" style="height: 7rem"></textarea>
-            <label for="textarea_after">替換後(自訂翻譯)</label>
-        </div>
 
-        <br>
+            <label for="textarea_after">替換後(自訂翻譯)</label><br>
+            <textarea placeholder="替換後" id="textarea_after" rows="4"></textarea>
 
-        <div class="form-floating">
-            <select class="form-select" id="select_type">
+            <br>
+            <br>
+
+            <label for="select_type">類別</label><br>
+            <select id="select_type">
                 <option value="npc" selected>人物 (原文 to 中文)</option>
                 <option value="group">組織 (原文 to 中文)</option>
                 <option value="title">職稱 (原文 to 中文)</option>
@@ -92,24 +98,15 @@
                 <option value="overwrite">覆寫整句 (日文 to 中文)</option>
                 <option value="jp">日文替換 (日文 to 日文)</option>
             </select>
-            <label for="select_type">類別</label>
+
+            <br>
+            <br>
+
+            <button id="button_save_temp" class="btn btn-primary">儲存自訂翻譯</button>
+            <button id="button_delete_temp" class="btn btn-danger">刪除自訂翻譯</button>
+            <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
         </div>
-
-        <br>
-
-        <button id="button_save_temp" class="btn btn-primary">儲存自訂翻譯</button>
-        <button id="button_delete_temp" class="btn btn-danger">刪除自訂翻譯</button>
-        <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
     </div>
-
-
-
-
-
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
 </body>
 
 </html>

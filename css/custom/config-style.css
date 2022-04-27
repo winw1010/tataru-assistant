@@ -10,28 +10,22 @@ body {
 /*input*/
 
 input[type="number"] {
-    text-align: right;
     width: 5rem;
-}
-
-
-/*form*/
-
-.form-floating {
-    color: black;
 }
 
 
 /*div*/
 
 #div_page_button {
-    padding: 0 0.7rem;
+    display: flex;
+    justify-content: space-evenly;
     margin-top: 4rem;
+    padding: 0 0.7rem;
 }
 
 #div_center {
-    padding: 0 0.7rem;
-    height: 80vh;
-    padding-bottom: 4rem;
     overflow: scroll;
+    padding: 0 0.7rem;
+    padding-bottom: 4rem;
+    height: 80vh;
 }

@@ -9,9 +9,6 @@ const { resolve } = require('path');
 // communicate with main
 const { ipcRenderer } = require('electron');
 
-// axios
-const axios = require('axios').default;
-
 // take desktop screenshot
 const screenshot = require('screenshot-desktop');
 
@@ -24,8 +21,13 @@ const { prominent } = require('color.js');
 // tesseract
 const { createWorker } = require('tesseract.js');
 
+// language table
+const { languageTable } = require('./translator/language-table');
+
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+    console.log('rectangle size:', rectangleSize);
+
     try {
         // get displays
         const displays = await screenshot.listDisplays();
@@ -78,12 +80,12 @@ async function fixImage(croppedImage) {
     try {
         // get prominent color
         const prominentColor = await prominent(getPath('crop.png'), { amount: 2 });
-        console.log(prominentColor);
+        console.log('prominent color:', prominentColor);
 
         // check prominent color
         if (prominentColor[0][0] >= 128) {
             // light background
-            console.log('light');
+            console.log('light background');
 
             /*
             croppedImage
@@ -94,7 +96,7 @@ async function fixImage(croppedImage) {
             */
         } else {
             // dark background
-            console.log('dark');
+            console.log('dark background');
 
             if (prominentColor[1][0] > 230) {
                 // dark text
@@ -137,10 +139,10 @@ async function recognizeImage(file) {
         await worker.load();
 
         // load language
-        if (config.translation.from === 'japanese') {
+        if (config.translation.from === languageTable.ja) {
             await worker.loadLanguage('jpn');
             await worker.initialize('jpn');
-        } else if (config.translation.from === 'english') {
+        } else if (config.translation.from === languageTable.en) {
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
         }
@@ -155,7 +157,7 @@ async function recognizeImage(file) {
         if (text.trim().length !== 0) {
             translate(text);
         } else {
-            console.log('Empty text');
+            console.log('Text is empty.');
             ipcRenderer.send('send-preload', 'show-notification', '無法擷取文字');
         }
     } catch (error) {
@@ -194,7 +196,7 @@ function translate(text) {
     const timestamp = new Date().getTime();
     for (let index = 0; index < array.length; index++) {
         if (array[index] !== '') {
-            const data = {
+            const dialogData = {
                 id: 'id' + (timestamp + index),
                 code: '003D',
                 playerName: '',
@@ -203,7 +205,9 @@ function translate(text) {
                 timestamp: (timestamp + index)
             }
 
-            setTimeout(() => { post(data); }, index * 200);
+            setTimeout(() => {
+                ipcRenderer.send('send-preload', 'restart-translation', dialogData, config.translation);
+            }, index * 200);
         }
     }
 }
@@ -228,35 +232,10 @@ function deleteImages() {
     }
 
     try {
-        unlinkSync(getPath('gray.png'));
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
         unlinkSync(getPath('result.png'));
     } catch (error) {
         console.log(error);
     }
-}
-
-// post
-function post(data) {
-    const config = ipcRenderer.sendSync('load-config');
-    const host = config.server.host;
-    const port = config.server.port;
-
-    axios({
-            method: 'post',
-            url: `http://${host}:${port}`,
-            data: data
-        })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
 }
 
 exports.takeScreenshot = takeScreenshot;

@@ -1,21 +1,12 @@
 // axios
 const axios = require('axios').default;
 
-// language
-const language = {
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
-}
-
 // start
-async function translate(input) {
+async function translate(text, languageFrom, languageTo) {
     try {
         const postData = JSON.stringify({
-            source: input.text,
-            trans_type: `${language[input.from]}2${language[input.to]}`,
+            source: text,
+            trans_type: `${languageFrom}2${languageTo}`,
             replaced: true,
             detect: true,
             media: 'text',
@@ -32,10 +23,10 @@ async function translate(input) {
             }
         });
 
-        console.log(response.data);
+        console.log('Caiyun:', response.data);
         return response.data.target;
     } catch (error) {
-        console.log(error);
+        console.log('Caiyun:', error);
         return '';
     }
 }

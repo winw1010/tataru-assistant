@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://api.interpreter.caiyunai.com/v1/translator https://translate.google.com/; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -27,7 +27,7 @@
         <img id="img_button_update" class="img_button" src="./img/ui/update_white_24dp.svg" title="已有可用的更新" hidden>
         <img id="img_button_config" class="img_button auto_hidden" title="應用程式設定" src="./img/ui/settings_white_24dp.svg">
         <img id="img_button_capture" class="img_button auto_hidden" title="翻譯螢幕文字" src="./img/ui/speaker_notes_white_24dp.svg">
-        <img id="img_button_through" class="img_button auto_hidden" title="點擊穿透" src="./img/ui/near_me_white_24dp.svg">
+        <img id="img_button_through" class="img_button auto_hidden" title="點擊穿透" src="./img/ui/near_me_disabled_white_24dp.svg">
 
         <img id="img_button_close" class="img_button auto_hidden float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
         <img id="img_button_minimize" class="img_button auto_hidden float_right" title="縮小" src="./img/ui/remove_white_24dp.svg">
@@ -40,18 +40,11 @@
 
     <!-- lower button -->
     <div id="div_lower_button">
+        <img id="img_button_auto_play" class="img_button auto_hidden" title="文字轉語音" src="./img/ui/volume_off_white_24dp.svg">
         <img id="img_button_clear" class="img_button auto_hidden float_right" title="刪除全部" src="./img/ui/delete_white_24dp.svg">
         <img id="img_button_backspace" class="img_button auto_hidden float_right" title="倒退" src="./img/ui/backspace_white_24dp.svg">
         <img id="img_button_read_log" class="img_button auto_hidden float_right" title="載入對話紀錄" src="./img/ui/view_list_white_24dp.svg">
-        <!--<img id="img_button_bottom" class="img_button auto_hidden float_right" title="移動到當前翻譯" src="./img/ui/vertical_align_bottom_white_24dp.svg">-->
     </div>
-
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
-
-    <!-- <script src="./renderer.js"></script> -->
 </body>
 
 </html>

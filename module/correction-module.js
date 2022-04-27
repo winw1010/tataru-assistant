@@ -1,18 +1,24 @@
 'use strict';
 
+// language table
+const { languageTable } = require('./translator/language-table');
+
+// correction module
 const { addToQueue_JP } = require('./correction-module-jp');
 const { addToQueue_EN } = require('./correction-module-en');
 
 function correctionEntry(dialogData, translation) {
-    if (languageCheck(dialogData, translation, 'japanese')) {
+    if (getLanguageFrom(dialogData, translation) === languageTable.ja) {
+        translation.from = languageTable.ja;
         addToQueue_JP(dialogData, translation);
-    } else if (languageCheck(dialogData, translation, 'english')) {
+    } else if (getLanguageFrom(dialogData, translation) === languageTable.en) {
+        translation.from = languageTable.en;
         addToQueue_EN(dialogData, translation);
     }
 }
 
-function languageCheck(dialogData, translation, language) {
-    return isPlayerChannel(dialogData.code) ? translation.fromPlayer === language : translation.from === language;
+function getLanguageFrom(dialogData, translation) {
+    return isPlayerChannel(dialogData.code) ? translation.fromPlayer : translation.from;
 }
 
 function isPlayerChannel(code) {

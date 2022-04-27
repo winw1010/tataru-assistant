@@ -1,14 +1,6 @@
 'use strict';
 
-// translator
-const translator = require('./translator-module');
-
 // en text function
-async function translate(text, translation) {
-    text = await translator.translate(text, translation.engine, 'english', translation.to);
-    return text;
-}
-
 function replaceText(text, array, search = 0, replacement = 1) {
     if (!Array.isArray(array)) {
         return text;
@@ -99,10 +91,14 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         }
     }
 
-    return {
+    const result = {
         text: text,
         table: table
-    };
+    }
+
+    console.log('result:', result);
+
+    return result;
 }
 
 function replaceWord(text, search, replacement) {
@@ -187,7 +183,6 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-exports.translate = translate;
 exports.replaceText = replaceText;
 exports.replaceTextPure = replaceTextPure;
 exports.replaceTextByCode = replaceTextByCode;

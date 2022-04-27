@@ -1,7 +1,10 @@
 'use strict';
 
-const { ipcRenderer } = require('electron');
+//fs
 const { readFileSync, writeFileSync } = require('fs');
+
+// communicate with main process
+const { ipcRenderer } = require('electron');
 
 let defaultConfig = {
     server: {
@@ -45,13 +48,14 @@ let defaultConfig = {
     },
     translation: {
         autoChange: true,
+        autoPlay: false,
         fix: true,
         skip: true,
         replace: true,
-        engine: 'baidu',
-        from: 'japanese',
-        fromPlayer: 'japanese',
-        to: 'traditional-chinese'
+        engine: 'Baidu',
+        from: 'Japanese',
+        fromPlayer: 'Japanese',
+        to: 'Traditional-Chinese'
     },
     system: {
         autoDownloadJson: true

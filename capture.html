@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -32,10 +32,10 @@
         </select>
 
         <input type="checkbox" value="" id="checkbox_split">
-        <label class="form-check-label" for="checkbox_split">換行分割</label>
+        <label for="checkbox_split">換行分割</label>
 
         <input type="checkbox" value="" id="checkbox_edit">
-        <label class="form-check-label" for="checkbox_edit">編輯擷取文字</label>
+        <label for="checkbox_edit">編輯擷取文字</label>
 
         <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
         <span id="span_position" class="float_right"></span>
@@ -44,11 +44,6 @@
     <canvas id="canvas_select">
 
     </canvas>
-
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
 </body>
 
 </html>

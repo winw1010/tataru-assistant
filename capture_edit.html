@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -29,9 +29,7 @@
     </div>
 
     <div id="div_center">
-        <div class="form-group">
-            <textarea class="form-control" id="textarea_screen_text" rows="10 "></textarea>
-        </div>
+        <textarea id="textarea_screen_text" rows="10"></textarea>
 
         <br>
 
@@ -40,19 +38,9 @@
         <br>
         <br>
 
-        <div class="form-group ">
-            <span>擷取畫面</span><br>
-            <img src="./trained_data/result.png" alt="擷取畫面 ">
-        </div>
+        <span>擷取畫面</span><br>
+        <img src="./trained_data/result.png" alt="擷取畫面 ">
     </div>
-
-    <!-- jQuery -->
-    <script>
-        window.$ = window.jQuery = require('jquery');
-    </script>
-
-    <!-- You can also require other files to run in this process -->
-    <!-- <script src="./renderer.js "></script> -->
 </body>
 
 </html>

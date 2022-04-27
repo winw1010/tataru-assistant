@@ -6,11 +6,8 @@ const { unlinkSync } = require('fs');
 // path
 const { resolve } = require('path');
 
-// Communicate with main process
+// communicate with main process
 const { ipcRenderer } = require('electron');
-
-// axios
-const axios = require('axios').default;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -37,21 +34,21 @@ function setView() {}
 // set event
 function setEvent() {
     ipcRenderer.on('send-data', (event, data) => {
-        $('#textarea_screen_text').val(data);
+        document.getElementById('textarea_screen_text').value = data;
     });
 }
 
 // set button
 function setButton() {
     // submit
-    $('#button_submit').on('click', () => {
-        translate($('#textarea_screen_text').val().toString());
-    });
+    document.getElementById('button_submit').onclick = () => {
+        translate(document.getElementById('textarea_screen_text').value);
+    };
 
     // close
-    $('#img_button_close').on('click', () => {
+    document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
-    });
+    };
 }
 
 function translate(text) {
@@ -72,7 +69,7 @@ function translate(text) {
     const timestamp = new Date().getTime();
     for (let index = 0; index < array.length; index++) {
         if (array[index] !== '') {
-            const data = {
+            const dialogData = {
                 id: 'id' + (timestamp + index),
                 code: '003D',
                 playerName: '',
@@ -81,7 +78,9 @@ function translate(text) {
                 timestamp: (timestamp + index)
             }
 
-            setTimeout(() => { post(data); }, index * 200);
+            setTimeout(() => {
+                ipcRenderer.send('send-preload', 'restart-translation', dialogData, config.translation);
+            }, index * 200);
         }
     }
 }
@@ -106,33 +105,8 @@ function deleteImages() {
     }
 
     try {
-        unlinkSync(getPath('gray.png'));
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
         unlinkSync(getPath('result.png'));
     } catch (error) {
         console.log(error);
     }
-}
-
-// post
-function post(data) {
-    const config = ipcRenderer.sendSync('load-config');
-    const host = config.server.host;
-    const port = config.server.port;
-
-    axios({
-            method: 'post',
-            url: `http://${host}:${port}`,
-            data: data
-        })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
 }

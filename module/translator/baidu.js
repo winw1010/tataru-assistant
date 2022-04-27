@@ -1,34 +1,17 @@
 // baidu
 const baidu = require("baidu-translate-api");
 
-// language
-const language = {
-    'auto': 'auto',
-    'japanese': 'jp',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
-}
-
 // translate
-async function translate(input) {
+async function translate(text, languageFrom, languageTo) {
     try {
-        const res = await baidu(input.text, { from: language[input.from], to: language[input.to] });
+        const res = await baidu(text, { from: languageFrom, to: languageTo });
 
-        console.log(res);
+        console.log('Baidu:', res);
         return res.trans_result.dst;
     } catch (error) {
-        console.log(error);
+        console.log('Baidu:', error);
         return '';
     }
 }
-
-/* debug
-translate({
-    text: '慎重に情報を精査しますので、次の作戦の方針が固まるまで、今しばらく待機をお願いいたします。',
-    from: 'japanese',
-    to: 'traditional-chinese'
-});
-*/
 
 exports.translate = translate;

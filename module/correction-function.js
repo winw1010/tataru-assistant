@@ -9,9 +9,12 @@ const { readFileSync, writeFileSync, readdirSync } = require('fs');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// translator
+const translatorModule = require('./translator-module');
+
 // text function
 function exceptionCheck(code, name, text, array) {
-    return text.includes('') || (['0039', '0839'].includes(code) && includesArrayItem(name + text, array));
+    return (name + text).includes('') || (['0039', '0839'].includes(code) && includesArrayItem(name + text, array));
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
@@ -76,6 +79,11 @@ function arrayString(array, itemIndex) {
     }
 
     return string;
+}
+
+async function translate(text, translation) {
+    text = await translatorModule.translate(text, translation.engine, translation.from, translation.to, translation.autoChange);
+    return text;
 }
 
 function caiyunFix(text) {
@@ -155,7 +163,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
 
         if (!Array.isArray(array)) {
-            console.log(name + '.json is not an array.');
+            console.log(`${path}/${name} is not an array.`);
             writeJSON(path, name, []);
             return [];
         }
@@ -172,7 +180,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         array = sortArray(array);
 
         // log array
-        console.log(`${name}.json has been loaded. (${array.length})`);
+        console.log(`Read ${path}/${name}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
@@ -262,7 +270,7 @@ function readJSONPure(path = '', name = '') {
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
 
         // log array
-        console.log(`${name}.json has been loaded. (${array.length})`);
+        console.log(`Read ${path}/${name}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
@@ -276,11 +284,12 @@ function writeJSON(path = '', name = '', array = []) {
         const dir = './json';
         const finalPath = resolve(dir, path, name);
         writeFileSync(finalPath, JSON.stringify(array)
+            .replaceAll('["//comment"', '\n\t["//comment"')
+            .replaceAll('[[', '[\n\t[')
             .replaceAll('],[', '],\n\t[')
-            .replaceAll(']]', ']\n]')
-            .replaceAll('["//comment"', '\n\t["//comment"'));
+            .replaceAll(']]', ']\n]'));
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -378,6 +387,7 @@ exports.exceptionCheck = exceptionCheck;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.arrayString = arrayString;
+exports.translate = translate;
 exports.caiyunFix = caiyunFix;
 exports.clearCode = clearCode;
 

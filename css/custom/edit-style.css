@@ -2,12 +2,14 @@ body {
     color: aliceblue;
 }
 
-select {
-    margin-right: 0.3rem;
+.div_wrap {
+    display: flex;
+    justify-content: space-evenly;
 }
 
-.form-floating {
-    color: black;
+.div_left,
+.div_right {
+    width: 45vw;
 }
 
 #div_upper_button {
@@ -23,4 +25,18 @@ select {
 #div_dialog2 {
     word-wrap: break-word;
     letter-spacing: 0.05rem;
+}
+
+
+/*select*/
+
+select {
+    margin-right: 0.5rem;
+}
+
+
+/*textarea*/
+
+textarea {
+    width: 40vw;
 }

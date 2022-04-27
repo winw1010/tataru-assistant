@@ -1,31 +1,24 @@
+/*
 // "puppeteer-papago-scraping": "^2.1.1",
 
 // papago
 const papagoTranslate = require('puppeteer-papago-scraping');
 
-// language
-const language = {
-    'auto': 'detect',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh-CN',
-    'simplified-chinese': 'zh-CN'
-}
-
 // translate
-async function translate(input) {
+async function translate(text, languageFrom, languageTo) {
     try {
-        const translatedText = await papagoTranslate(input.text, language[input.to], language[input.from]);
+        const translatedText = await papagoTranslate(text, languageTo, languageFrom);
 
-        console.log(translatedText);
+        console.log('Papago:', translatedText);
         return translatedText;
     } catch (error) {
-        console.log(error);
+        console.log('Papago:', error);
         return '';
     }
 };
 
 exports.translate = translate;
+*/
 
 /*
 // broken

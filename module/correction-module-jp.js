@@ -1,5 +1,8 @@
 'use strict';
 
+// language table
+const { languageTable, languageIndex } = require('./translator/language-table');
+
 // correction function
 const cfjp = require('./correction-function-jp');
 const cf = require('./correction-function');
@@ -19,14 +22,6 @@ let queue = setInterval(() => {
         console.log(error);
     }
 }, 1000);
-
-// language table
-const languageTable = {
-    'japanese': 0,
-    'english': 1,
-    'traditional-chinese': 2,
-    'simplified-chinese': 3
-}
 
 // document
 let chArray = {
@@ -73,8 +68,8 @@ let jpArray = {
 };
 
 function loadJSON(language) {
-    const sub0 = languageTable['japanese'];
-    const sub1 = languageTable[language];
+    const sub0 = languageIndex[languageTable.ja];
+    const sub1 = languageIndex[language];
     const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
     const jp = 'text/jp';
 
@@ -153,7 +148,7 @@ async function start(dialogData, translation, tryCount) {
     if (translation.fix) {
         translatedName = await nameProcess(dialogData.name, translation);
     } else {
-        translatedName = await cfjp.translate(dialogData.name, translation);
+        translatedName = await cf.translate(dialogData.name, translation);
     }
 
     // translate text
@@ -161,7 +156,7 @@ async function start(dialogData, translation, tryCount) {
     if (translation.fix) {
         translatedText = await textProcess(dialogData.name, dialogData.text, translation);
     } else {
-        translatedText = await cfjp.translate(dialogData.text, translation);
+        translatedText = await cf.translate(dialogData.text, translation);
     }
 
     if (dialogData.text !== '' && translatedText === '') {
@@ -194,11 +189,10 @@ async function nameProcess(name, translation) {
             // not all kata => use standard
             // code
             const result = cfjp.replaceTextByCode(name, chArray.combine);
-            console.log(result);
 
             // translate name
             outputName = result.text;
-            outputName = await cfjp.translate(outputName, translation);
+            outputName = await cf.translate(outputName, translation);
 
             // clear code
             outputName = cf.clearCode(outputName, result.table);
@@ -265,7 +259,7 @@ async function textProcess(name, text, translation) {
         // should translate check
         if (cfjp.shouldTranslate(text)) {
             // translate
-            text = await cfjp.translate(text, translation);
+            text = await cf.translate(text, translation);
         }
 
         // caiyun fix

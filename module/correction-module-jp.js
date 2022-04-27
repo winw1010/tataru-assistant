@@ -11,17 +11,8 @@ const cf = require('./correction-function');
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
 // queue
-let queueItem = [];
-let queue = setInterval(() => {
-    try {
-        if (queueItem.length > 0) {
-            const item = queueItem.splice(0, 1)[0];
-            start(item.dialogData, item.translation, item.tryCount);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}, 1000);
+let queueItems = [];
+let queueInterval = setInterval(() => {}, 1000);
 
 // document
 let chArray = {
@@ -68,13 +59,20 @@ let jpArray = {
 };
 
 function loadJSON(language) {
+    // clear queue interval
+    try {
+        clearInterval(queueInterval);
+        queueInterval = null;
+    } catch (error) {
+        console.log(error);
+    }
+
     const sub0 = languageIndex[languageTable.ja];
     const sub1 = languageIndex[language];
     const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
     const jp = 'text/jp';
 
     // ch array
-    //chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSON(ch, 'overwrite.json'));
     chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(ch));
 
     chArray.chName = cf.readJSON(ch, 'chName.json');
@@ -96,10 +94,22 @@ function loadJSON(language) {
     jpArray.kana = cf.readJSON(jp, 'kana.json');
     jpArray.listHira = cf.readJSON(jp, 'listHira.json');
     jpArray.listCrystalium = cf.readJSON(jp, 'listCrystalium.json');
+
+    // start/restart queue interval
+    queueInterval = setInterval(() => {
+        try {
+            if (queueItems.length > 0) {
+                const item = queueItems.splice(0, 1)[0];
+                start(item.dialogData, item.translation, item.tryCount);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }, 1000);
 }
 
 function addToQueue(dialogData, translation, tryCount = 0) {
-    queueItem.push({
+    queueItems.push({
         dialogData: dialogData,
         translation: translation,
         tryCount: tryCount
@@ -143,18 +153,18 @@ async function start(dialogData, translation, tryCount) {
         }
     }
 
-    // translate name
+    // name translation
     let translatedName = '';
     if (translation.fix) {
-        translatedName = await nameProcess(dialogData.name, translation);
+        translatedName = await nameTranslation(dialogData.name, translation);
     } else {
         translatedName = await cf.translate(dialogData.name, translation);
     }
 
-    // translate text
+    // text translation
     let translatedText = '';
     if (translation.fix) {
-        translatedText = await textProcess(dialogData.name, dialogData.text, translation);
+        translatedText = await textTranslation(dialogData.name, dialogData.text, translation);
     } else {
         translatedText = await cf.translate(dialogData.text, translation);
     }
@@ -168,7 +178,7 @@ async function start(dialogData, translation, tryCount) {
     updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
 }
 
-async function nameProcess(name, translation) {
+async function nameTranslation(name, translation) {
     if (name === '') {
         return '';
     }
@@ -220,7 +230,7 @@ async function nameProcess(name, translation) {
     }
 }
 
-async function textProcess(name, text, translation) {
+async function textTranslation(name, text, translation) {
     if (text === '') {
         return;
     }
@@ -238,8 +248,8 @@ async function textProcess(name, text, translation) {
         // subtitle
         text = cfjp.replaceText(text, jpArray.subtitle);
 
-        // special
-        text = specialTextProcess(name, text);
+        // special fix
+        text = specialTextFix(name, text);
 
         // jp1
         text = cfjp.replaceText(text, jpArray.jp1);
@@ -282,8 +292,8 @@ async function textProcess(name, text, translation) {
 }
 
 /*
-// sound text process
-function soundTextProcess(text) {
+// sound text fix
+function soundTextFix(text) {
     const sound = {
         'ア': ['ば', 'バ'],
         'オ': ['ご', 'ゴ'],
@@ -312,8 +322,8 @@ function soundTextProcess(text) {
 }
 */
 
-// special text process
-function specialTextProcess(name, text) {
+// special text fix
+function specialTextFix(name, text) {
     // remove ()
     if (text.includes('（') && text.includes('）')) {
         let temp = text.split('（');
@@ -395,7 +405,7 @@ function specialTextProcess(name, text) {
 
     // 暗黒騎士
     if (cf.includesArrayItem(name, ['フレイ', 'シドゥルグ', 'リエル'])) {
-        text = text.replaceAll('ミスト', 'ミスト:');
+        text = text.replaceAll('ミスト', 'ミスト*');
     }
 
     return text;

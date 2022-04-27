@@ -41,17 +41,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // close
-    document.getElementById('img_button_close').onclick = () => {
-        ipcRenderer.send('close-app');
-    };
-
-    document.getElementById('img_button_read_log').onclick = () => {
-        ipcRenderer.send('create-window', 'read_log');
-    };
-
-    loadJSON();
     setHTML();
+    loadJSON();
     startServer();
 });
 

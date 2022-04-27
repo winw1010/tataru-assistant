@@ -18,6 +18,9 @@ const { googleTable } = require('./translator/language-table');
 // dialog timeout
 let timeoutHideDialog = setTimeout(() => {}, 0);
 
+// play list
+let playList = [];
+
 // append blank dialog
 function appendBlankDialog(id, code) {
     if (document.getElementById(id)) {
@@ -32,7 +35,7 @@ function appendBlankDialog(id, code) {
     dialog.setAttribute('id', id);
     dialog.setAttribute('class', code);
     dialog.style.display = 'none';
-    dialog.style.color = config.channel[code];
+    dialog.style.color = config.channel[code] ? config.channel[code] : getColor(code);
     dialog.style.fontSize = config.dialog.fontSize + 'rem';
     dialog.style.marginTop = config.dialog.spacing + 'rem';
     dialog.style.borderRadius = config.dialog.radius + 'rem';
@@ -52,7 +55,6 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     // set dialog
     const dialog = document.getElementById(id);
 
-    // append dialog
     dialog.replaceChildren();
     dialog.style.cursor = 'pointer';
     dialog.style.display = 'block';
@@ -94,6 +96,16 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     location.href = '#' + id;
 }
 
+function playNext() {
+    try {
+        const audio = playList.splice(0, 1)[0];
+        audio.currentTime = 0;
+        audio.play();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // append notification
 function appendNotification(text) {
     const timestamp = new Date().getTime();
@@ -118,6 +130,7 @@ function showDialog() {
 
     try {
         clearTimeout(timeoutHideDialog);
+        timeoutHideDialog = null;
     } catch (error) {
         console.log(error);
     } finally {
@@ -176,6 +189,23 @@ function createLogName(milliseconds = null) {
     }
 
     return dateString.join('-') + '.json';
+}
+
+// get color
+function getColor(code) {
+    const chatCode = ipcRenderer.sendSync('load-chat-code');
+    let color = '#FFFFFF';
+
+    for (let index = 0; index < chatCode.length; index++) {
+        const item = chatCode[index];
+
+        if (code === item.ChatCode) {
+            color = item.Color;
+            break;
+        }
+    }
+
+    return color;
 }
 
 // move to bottom

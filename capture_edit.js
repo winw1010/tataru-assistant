@@ -78,9 +78,7 @@ function translate(text) {
                 timestamp: (timestamp + index)
             }
 
-            setTimeout(() => {
-                ipcRenderer.send('send-preload', 'restart-translation', dialogData, config.translation);
-            }, index * 200);
+            ipcRenderer.send('send-preload', 'restart-translation', dialogData, config.translation);
         }
     }
 }

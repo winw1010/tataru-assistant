@@ -6,7 +6,7 @@ const { readFileSync, writeFileSync } = require('fs');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-let defaultConfig = {
+const defaultConfig = {
     server: {
         host: 'localhost',
         port: 8898
@@ -64,16 +64,32 @@ let defaultConfig = {
 
 function loadConfig() {
     try {
-        let config = JSON.parse(readFileSync('./json/setting/config.json'));
+        const config = JSON.parse(readFileSync('./json/setting/config.json'));
 
         if (!config.server || !config.server.host || !config.server.port) {
             throw null;
         }
 
+        const defaultNames = Object.getOwnPropertyNames(defaultConfig);
+        defaultNames.forEach((value) => {
+            if (isDifferent(config, value)) {
+                throw null;
+            }
+        });
+
         return config;
     } catch (error) {
         saveDefaultConfig();
         return defaultConfig;
+    }
+}
+
+function isDifferent(config, name) {
+    try {
+        return !config[name] ||
+            Object.getOwnPropertyNames(config[name]).length !== Object.getOwnPropertyNames(defaultConfig[name]).length;
+    } catch (error) {
+        return true;
     }
 }
 

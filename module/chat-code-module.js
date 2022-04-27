@@ -6,7 +6,7 @@ const { readFileSync, writeFileSync } = require('fs');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-let defaultChatCode = [{
+const defaultChatCode = [{
         ChatCode: '0039',
         MsgType: 1,
         Name: 'System',
@@ -220,7 +220,7 @@ let defaultChatCode = [{
 
 function loadChatCode() {
     try {
-        let chatCode = JSON.parse(readFileSync('./json/setting/chat-code.json'));
+        const chatCode = JSON.parse(readFileSync('./json/setting/chat-code.json'));
 
         if (defaultChatCode.length !== chatCode.length) {
             throw null;

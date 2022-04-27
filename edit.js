@@ -75,7 +75,7 @@ function setEvent() {
 
                             // text to speech
                             if (targetLog.text !== '') {
-                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: googleTable[targetLog.translation.from] });
+                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: googleTable[oldVersionFix(targetLog.translation.from)] });
                                 console.log('TTS url:', url);
 
                                 document.getElementById('div_audio').innerHTML = `
@@ -266,4 +266,9 @@ function deleteTemp(textBefore, array) {
     ipcRenderer.send('send-preload', 'show-notification', `共找到${count}個`);
 
     return array;
+}
+
+function oldVersionFix(from = '') {
+    // fix old version value (2022/04/27)
+    return from.slice(0, 1).toUpperCase() + from.slice(1);
 }

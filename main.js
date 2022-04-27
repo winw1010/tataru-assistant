@@ -330,7 +330,7 @@ function getSize(type) {
 function createWindow(type, data) {
     try {
         // get size
-        let size = getSize(type);
+        const size = getSize(type);
 
         // create new window
         const window = new BrowserWindow({

@@ -1,3 +1,5 @@
+const engineList = ['Baidu', 'Caiyun', 'Youdao', 'Google'];
+
 const languageTable = {
     auto: 'Auto',
     ja: 'Japanese',
@@ -10,12 +12,7 @@ const languageIndex = {
     'Japanese': 0,
     'English': 1,
     'Traditional-Chinese': 2,
-    'Simplified-Chinese': 3,
-
-    'japanese': 0,
-    'english': 1,
-    'traditional-chinese': 2,
-    'simplified-chinese': 3
+    'Simplified-Chinese': 3
 }
 
 const baiduTable = {
@@ -23,13 +20,7 @@ const baiduTable = {
     'Japanese': 'jp',
     'English': 'en',
     'Traditional-Chinese': 'zh',
-    'Simplified-Chinese': 'zh',
-
-    'auto': 'auto',
-    'japanese': 'jp',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
+    'Simplified-Chinese': 'zh'
 }
 
 const caiyunTable = {
@@ -37,13 +28,7 @@ const caiyunTable = {
     'Japanese': 'ja',
     'English': 'en',
     'Traditional-Chinese': 'zh',
-    'Simplified-Chinese': 'zh',
-
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
+    'Simplified-Chinese': 'zh'
 }
 
 const youdaoTable = {
@@ -51,13 +36,7 @@ const youdaoTable = {
     'Japanese': 'ja',
     'English': 'en',
     'Traditional-Chinese': 'zh',
-    'Simplified-Chinese': 'zh',
-
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh',
-    'simplified-chinese': 'zh'
+    'Simplified-Chinese': 'zh'
 }
 
 const papagoTable = {
@@ -65,13 +44,7 @@ const papagoTable = {
     'Japanese': 'ja',
     'English': 'en',
     'Traditional-Chinese': 'zh-CN',
-    'Simplified-Chinese': 'zh-CN',
-
-    'auto': 'detect',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh-CN',
-    'simplified-chinese': 'zh-CN'
+    'Simplified-Chinese': 'zh-CN'
 }
 
 const googleTable = {
@@ -79,15 +52,10 @@ const googleTable = {
     'Japanese': 'ja',
     'English': 'en',
     'Traditional-Chinese': 'zh-TW',
-    'Simplified-Chinese': 'zh-CN',
-
-    'auto': 'auto',
-    'japanese': 'ja',
-    'english': 'en',
-    'traditional-chinese': 'zh-TW',
-    'simplified-chinese': 'zh-CN'
+    'Simplified-Chinese': 'zh-CN'
 }
 
+exports.engineList = engineList;
 exports.languageTable = languageTable;
 exports.languageIndex = languageIndex;
 exports.baiduTable = baiduTable;

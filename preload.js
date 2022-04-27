@@ -64,7 +64,14 @@ function setHTML() {
 
 // set view
 function setView() {
-    let config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('load-config');
+
+    if (config.translation.autoPlay) {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+    } else {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    }
+
     resetView(config);
 }
 
@@ -78,8 +85,9 @@ function setEvent() {
             ipcRenderer.send('set-click-through', false);
         }
     });
+
     document.addEventListener('mouseleave', () => {
-        let config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('load-config');
 
         ipcRenderer.send('set-click-through', false);
 
@@ -107,7 +115,7 @@ function setEvent() {
         });
     }
 
-    // show dialog and button
+    // mouse move event
     document.addEventListener('mousemove', () => {
         // show dialog
         showDialog();
@@ -184,9 +192,9 @@ function setButton() {
         isClickThrough = !isClickThrough;
 
         if (isClickThrough) {
-            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
-        } else {
             document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
+        } else {
+            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
         }
     };
 
@@ -201,6 +209,19 @@ function setButton() {
     };
 
     // lower buttons
+    // auto play
+    document.getElementById('img_button_auto_play').onclick = () => {
+        let config = ipcRenderer.sendSync('load-config');
+        config.translation.autoPlay = !config.translation.autoPlay;
+        ipcRenderer.send('save-config', config)
+
+        if (config.translation.autoPlay) {
+            document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+        } else {
+            document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+        }
+    };
+
     // read log
     document.getElementById('img_button_read_log').onclick = () => {
         ipcRenderer.send('create-window', 'read_log');

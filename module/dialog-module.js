@@ -9,6 +9,12 @@ const { ipcRenderer } = require('electron');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// text to speech
+const googleTTS = require('google-tts-api');
+
+// language table
+const { googleTable } = require('./translator/language-table');
+
 // dialog timeout
 let timeoutHideDialog = setTimeout(() => {}, 0);
 
@@ -67,13 +73,21 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     // show dialog
     showDialog();
 
-    // move to dialog
-    location.href = '#' + id;
-
     // save dialog
     if (dialogData && translation) {
         saveLog(id, name, text, dialogData, translation);
+
+        // play audio
+        if (translation.autoPlay && dialogData.text != '') {
+            const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
+            const audio = new Audio(url);
+            audio.currentTime = 0;
+            audio.play();
+        }
     }
+
+    // move to dialog
+    location.href = '#' + id;
 }
 
 // append notification

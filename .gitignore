@@ -2,4 +2,3 @@ build
 json
 node_modules
 trained_data/*.png
-package-lock.json

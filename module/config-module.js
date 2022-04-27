@@ -48,6 +48,7 @@ let defaultConfig = {
     },
     translation: {
         autoChange: true,
+        autoPlay: false,
         fix: true,
         skip: true,
         replace: true,

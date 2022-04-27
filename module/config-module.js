@@ -72,7 +72,7 @@ function loadConfig() {
 
         const defaultNames = Object.getOwnPropertyNames(defaultConfig);
         defaultNames.forEach((value) => {
-            if (isDifferent(config, value)) {
+            if (isDifferent(config, value) && value !== 'channel') {
                 throw null;
             }
         });

@@ -103,25 +103,8 @@ async function start(dialogData, translation, tryCount) {
     // append blank dialog
     appendBlankDialog(dialogData.id, dialogData.code);
 
-    // player name
-    if (dialogData.playerName !== '' && dialogData.playerName.includes(' ')) {
-        if (!chArray.player.length > 0 || chArray.player[0][0] !== dialogData.playerName) {
-            const firstName = dialogData.playerName.split(' ')[0];
-            const lastName = dialogData.playerName.split(' ')[1];
-
-            chArray.player = [
-                [dialogData.playerName, dialogData.playerName],
-                [firstName, firstName],
-                [lastName, lastName]
-            ];
-
-            // combine
-            chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-            // write
-            cf.writeJSON('text_temp', 'player.json', chArray.player);
-        }
-    }
+    // save player name
+    savePlayerName(dialogData.playerName);
 
     // name translation
     let translatedName = '';
@@ -147,6 +130,27 @@ async function start(dialogData, translation, tryCount) {
 
     // update dialog
     updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
+}
+
+function savePlayerName(playerName) {
+    if (playerName !== '' && playerName.includes(' ')) {
+        if (!chArray.player.length > 0 || chArray.player[0][0] !== playerName) {
+            const firstName = playerName.split(' ')[0];
+            const lastName = playerName.split(' ')[1];
+
+            chArray.player = [
+                [playerName, playerName],
+                [firstName, firstName],
+                [lastName, lastName]
+            ];
+
+            // combine
+            chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+            // write
+            cf.writeJSON('text_temp', 'player.json', chArray.player);
+        }
+    }
 }
 
 async function nameTranslation(name, translation) {

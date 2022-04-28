@@ -6,14 +6,11 @@ const { ipcRenderer } = require('electron');
 // exec
 const { execSync } = require('child_process');
 
-// fs
-const { readFileSync } = require('fs');
-
 // download github repo
 const downloadGitRepo = require('download-git-repo');
 
-// json fixer
-const jsonFixer = require('json-fixer');
+// axios
+const axios = require('axios').default;
 
 // server module
 const { startServer } = require('./module/server-module');
@@ -317,9 +314,16 @@ function readJSON() {
 }
 
 // version check
-function versionCheck() {
+async function versionCheck() {
     try {
-        const latestVersion = jsonFixer(readFileSync('./json/text/version.json').toString()).data.number;
+        const response = await axios({
+            method: 'get',
+            url: 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+        const latestVersion = response.data.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (latestVersion !== appVersion) {
@@ -329,6 +333,6 @@ function versionCheck() {
         }
     } catch (error) {
         console.log(error);
-        document.getElementById('img_button_update').hidden = false;
+        document.getElementById('img_button_update').hidden = true;
     }
 }

@@ -209,15 +209,15 @@ function setButton() {
         if (textBefore !== '') {
             if (type === 'jp') {
                 let jpTemp = readJSONPure('text_temp', 'jpTemp.json');
-                jpTemp = deleteTemp(textBefore, jpTemp);
+                jpTemp = deleteTemp(textBefore, type, jpTemp);
                 writeJSON('text_temp', 'jpTemp.json', jpTemp);
             } else if (type === 'overwrite') {
                 let overwriteTemp = readJSONPure('text_temp', 'overwriteTemp.json');
-                overwriteTemp = deleteTemp(textBefore, overwriteTemp);
+                overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
                 writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
             } else {
                 let chTemp = readJSONPure('text_temp', 'chTemp.json');
-                chTemp = deleteTemp(textBefore, chTemp);
+                chTemp = deleteTemp(textBefore, type, chTemp);
                 writeJSON('text_temp', 'chTemp.json', chTemp);
             }
 
@@ -235,7 +235,7 @@ function setButton() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3) {
+    if (textBefore.length < 3 && type !== 'jp') {
         textBefore = textBefore + '*';
     }
 
@@ -255,10 +255,10 @@ function addTemp(textBefore, textAfter, type, array) {
     return array;
 }
 
-function deleteTemp(textBefore, array) {
+function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3) {
+    if (textBefore.length < 3 && type !== 'jp') {
         textBefore = textBefore + '*';
     }
 

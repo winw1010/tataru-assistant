@@ -2,7 +2,7 @@ body {
     color: aliceblue;
 }
 
-.div_wrap {
+.div_wrapper {
     display: flex;
     justify-content: space-evenly;
 }

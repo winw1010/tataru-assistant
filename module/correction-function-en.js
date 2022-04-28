@@ -21,7 +21,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
         // aaa
         text = replaceWord(text, ' ' + element[search].toLowerCase(), ' ' + element[replacement]);
 
-        // normal
+        // original
         text = replaceWord(text, element[search], element[replacement]);
     }
 
@@ -88,7 +88,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
             isIncluded = true;
         }
 
-        // normal
+        // original
         if (text.includes(element[search])) {
             text = replaceWord(text, element[search], codeString[codeIndex]);
             isIncluded = true;

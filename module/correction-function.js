@@ -287,6 +287,7 @@ function writeJSON(path = '', name = '', array = []) {
             .replaceAll('["//comment"', '\n\t["//comment"')
             .replaceAll('[[', '[\n\t[')
             .replaceAll('],[', '],\n\t[')
+            .replaceAll(',"', ', "')
             .replaceAll(']]', ']\n]'));
     } catch (error) {
         console.log(error);

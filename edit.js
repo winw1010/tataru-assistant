@@ -158,7 +158,7 @@ function setButton() {
         ipcRenderer.send('send-preload', 'restart-translation', dialogData, translation);
     };
 
-    document.getElementById('button_reload_json').onclick = () => {
+    document.getElementById('button_read_json').onclick = () => {
         ipcRenderer.send('send-preload', 'read-json');
     };
 

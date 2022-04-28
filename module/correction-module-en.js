@@ -57,7 +57,7 @@ function loadJSON(language) {
 
     chArray.main = cf.readJSONMain(sub0, sub1);
     chArray.player = cf.readJSON('text_temp', 'player.json');
-    chArray.chTemp = cf.readJSON('text_temp', 'chTemp.json');
+    chArray.chTemp = cf.readJSON('text_temp', 'chTemp.json', true, 0, 1);
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);

@@ -284,11 +284,12 @@ function writeJSON(path = '', name = '', array = []) {
         const dir = './json';
         const finalPath = resolve(dir, path, name);
         writeFileSync(finalPath, JSON.stringify(array)
-            .replaceAll('["//comment"', '\n\t["//comment"')
             .replaceAll('[[', '[\n\t[')
+            .replaceAll('],["//comment",', '],\n\n\t["//comment",')
             .replaceAll('],[', '],\n\t[')
             .replaceAll(',"', ', "')
-            .replaceAll(']]', ']\n]'));
+            .replaceAll(']]', ']\n]')
+        );
     } catch (error) {
         console.log(error);
     }

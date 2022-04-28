@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // child process
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -122,22 +122,38 @@ function setButton() {
 
     // link
     document.getElementById('a_link').onclick = () => {
-        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        try {
+            execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // report
     document.getElementById('a_report').onclick = () => {
-        exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+        try {
+            execSync('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // github
     document.getElementById('a_github').onclick = () => {
-        exec('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0"');
+        try {
+            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // donate
     document.getElementById('a_donate').onclick = () => {
-        exec('explorer "https://www.patreon.com/user?u=8274441"');
+        try {
+            execSync('explorer "https://www.patreon.com/user?u=8274441"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // lower button

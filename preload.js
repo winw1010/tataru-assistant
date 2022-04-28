@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // exec
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 // fs
 const { readFileSync } = require('fs');
@@ -165,7 +165,11 @@ function setButton() {
     // upper buttons
     // update
     document.getElementById('img_button_update').onclick = () => {
-        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        try {
+            execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // config
@@ -281,7 +285,11 @@ function loadJSON() {
 
 // download json
 function downloadJSON() {
-    exec(`rmdir /Q /S json\\text`, () => {
+    try {
+        // delete text
+        execSync('rmdir /Q /S json\\text');
+
+        // clone json
         downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'json/text', (err) => {
             if (err) {
                 console.error(err);
@@ -290,7 +298,9 @@ function downloadJSON() {
                 readJSON();
             }
         });
-    });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // read json

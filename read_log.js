@@ -1,7 +1,7 @@
 'use strict';
 
 // child process
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 // fs
 const { readFileSync, readdirSync } = require('fs');
@@ -49,7 +49,11 @@ function setButton() {
 
     // view
     document.getElementById('button_view').onclick = () => {
-        exec('start "" "json\\log"');
+        try {
+            execSync('start "" "json\\log"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // close

@@ -22,7 +22,7 @@ const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correctio
 const { createLogName } = require('./module/dialog-module');
 
 // child process
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 // target log
 let targetLog = null;
@@ -130,7 +130,11 @@ function setEvent() {
 function setButton() {
     // github
     document.getElementById('a_github').onclick = () => {
-        exec('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0"');
+        try {
+            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // restart
@@ -163,7 +167,11 @@ function setButton() {
     };
 
     document.getElementById('button_view_temp').onclick = () => {
-        exec('start "" "json\\text_temp"');
+        try {
+            execSync('start "" "json\\text_temp"');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // save custom

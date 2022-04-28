@@ -84,7 +84,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         saveLog(id, name, text, dialogData, translation);
 
         // create audio
-        if (translation.autoPlay && dialogData.text != '') {
+        if (translation.autoPlay && dialogData.text !== '') {
             try {
                 const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
                 const audio = new Audio(url);

@@ -112,9 +112,11 @@ ipcMain.on('save-default-chat-code', () => {
 ipcMain.on('open-devtools', (event) => {
     let window = BrowserWindow.fromWebContents(event.sender);
 
-    if (window.webContents.isDevToolsOpened()) {
+    try {
         window.webContents.closeDevTools();
-    } else {
+    } catch (error) {
+        console.log(error);
+    } finally {
         window.webContents.openDevTools({ mode: 'detach' });
     }
 });
@@ -123,9 +125,11 @@ ipcMain.on('open-devtools', (event) => {
 ipcMain.on('open-preload-devtools', () => {
     let window = windowList['preload'];
 
-    if (window.webContents.isDevToolsOpened()) {
+    try {
         window.webContents.closeDevTools();
-    } else {
+    } catch (error) {
+        console.log(error);
+    } finally {
         window.webContents.openDevTools({ mode: 'detach' });
     }
 });

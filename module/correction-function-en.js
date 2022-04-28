@@ -20,6 +20,9 @@ function replaceText(text, array, search = 0, replacement = 1) {
 
         // aaa
         text = replaceWord(text, ' ' + element[search].toLowerCase(), ' ' + element[replacement]);
+
+        // normal
+        text = replaceWord(text, element[search], element[replacement]);
     }
 
     return text;
@@ -82,6 +85,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         // aaa
         if (text.includes(element[search].toLowerCase())) {
             text = replaceWord(text, ' ' + element[search].toLowerCase(), ' ' + codeString[codeIndex]);
+            isIncluded = true;
+        }
+
+        // normal
+        if (text.includes(element[search])) {
+            text = replaceWord(text, element[search], codeString[codeIndex]);
             isIncluded = true;
         }
 

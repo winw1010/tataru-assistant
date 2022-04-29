@@ -7,18 +7,13 @@ const { languageTable } = require('./translator/language-table');
 const { addToCorrectionQueue_JP } = require('./correction-module-jp');
 const { addToCorrectionQueue_EN } = require('./correction-module-en');
 
-// audio module
-const { addToPlaylist } = require('./audio-module');
-
-function correctionEntry(dialogData, translation, playAudio = true) {
+function correctionEntry(dialogData, translation) {
     if (getLanguageFrom(dialogData, translation) === languageTable.ja) {
         translation.from = languageTable.ja;
         addToCorrectionQueue_JP(dialogData, translation);
-        playAudio ? addToPlaylist(dialogData, translation) : null;
     } else if (getLanguageFrom(dialogData, translation) === languageTable.en) {
         translation.from = languageTable.en;
         addToCorrectionQueue_EN(dialogData, translation);
-        playAudio ? addToPlaylist(dialogData, translation) : null;
     }
 }
 

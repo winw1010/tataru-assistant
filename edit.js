@@ -159,7 +159,7 @@ function setButton() {
         let translation = config.translation;
         translation.engine = document.getElementById('select_restart_engine').value;
 
-        ipcRenderer.send('send-preload', 'restart-translation', dialogData, translation);
+        ipcRenderer.send('send-preload', 'start-translation', dialogData, translation);
     };
 
     document.getElementById('button_read_json').onclick = () => {

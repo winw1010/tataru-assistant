@@ -144,11 +144,6 @@ function setEvent() {
         correctionEntry(dialogData, translation);
     });
 
-    // restart translation
-    ipcRenderer.on('restart-translation', (event, dialogData, translation) => {
-        correctionEntry(dialogData, translation, false);
-    });
-
     // reset view
     ipcRenderer.on('reset-view', (event, ...args) => {
         resetView(...args);

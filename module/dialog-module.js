@@ -9,6 +9,9 @@ const { ipcRenderer } = require('electron');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// audio module
+const { addToPlaylist } = require('./audio-module');
+
 // dialog timeout
 let timeoutHideDialog = null;
 
@@ -66,9 +69,12 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     // show dialog
     showDialog();
 
-    // save dialog
     if (dialogData && translation) {
+        // save dialog
         saveLog(id, name, text, dialogData, translation);
+
+        // add audio
+        addToPlaylist(dialogData, translation);
     }
 
     // move to dialog

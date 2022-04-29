@@ -45,10 +45,9 @@ function startPlaying() {
 function playNext() {
     try {
         if (!isPlaying) {
-            isPlaying = true;
             const audio = playlist.shift();
-
             if (audio) {
+                isPlaying = true;
                 audio.currentTime = 0;
                 audio.play();
             }

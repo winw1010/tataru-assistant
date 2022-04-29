@@ -337,6 +337,6 @@ async function versionCheck() {
         }
     } catch (error) {
         console.log(error);
-        document.getElementById('img_button_update').hidden = true;
+        document.getElementById('img_button_update').hidden = false;
     }
 }

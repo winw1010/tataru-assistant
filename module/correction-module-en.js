@@ -10,27 +10,26 @@ const cf = require('./correction-function');
 // dialog module
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
-// queue
-let queueItems = [];
-let queueInterval = null;
+// correction queue
+let correctionQueueItems = [];
+let correctionQueueInterval = null;
 
 // document
 let chArray = {
-    // replace
-    map: [],
-    name: [],
-    other: [],
-    player: [],
-
-    // combine
-    combine: [],
-
     // after
     afterTranslation: [],
 
+    // replace
+    main: [],
+
+    // player
+    player: [],
+
     // temp
     chTemp: [],
-    nameTemporary: [],
+
+    // combine
+    combine: [],
 }
 
 let enArray = {
@@ -41,8 +40,8 @@ let enArray = {
 function loadJSON(language) {
     // clear queue interval
     try {
-        clearInterval(queueInterval);
-        queueInterval = null;
+        clearInterval(correctionQueueInterval);
+        correctionQueueInterval = null;
     } catch (error) {
         console.log(error);
     }
@@ -66,11 +65,11 @@ function loadJSON(language) {
     enArray.exception = cf.readJSON(en, 'exception.json');
 
     // start/restart queue interval
-    queueInterval = setInterval(() => {
+    correctionQueueInterval = setInterval(() => {
         try {
-            if (queueItems.length > 0) {
-                const item = queueItems.splice(0, 1)[0];
-                start(item.dialogData, item.translation, item.tryCount);
+            if (correctionQueueItems.length > 0) {
+                const item = correctionQueueItems.splice(0, 1)[0];
+                startCorrection(item.dialogData, item.translation, item.tryCount);
             }
         } catch (error) {
             console.log(error);
@@ -78,15 +77,15 @@ function loadJSON(language) {
     }, 1000);
 }
 
-function addToQueue(dialogData, translation, tryCount = 0) {
-    queueItems.push({
+function addToCorrectionQueue(dialogData, translation, tryCount = 0) {
+    correctionQueueItems.push({
         dialogData: dialogData,
         translation: translation,
         tryCount: tryCount
     });
 }
 
-async function start(dialogData, translation, tryCount) {
+async function startCorrection(dialogData, translation, tryCount) {
     // exception check
     if (translation.skip && cf.exceptionCheck(dialogData.code, dialogData.name, dialogData.text, enArray.exception)) {
         return;
@@ -109,7 +108,7 @@ async function start(dialogData, translation, tryCount) {
     // name translation
     let translatedName = '';
     if (translation.fix) {
-        translatedName = await nameTranslation(dialogData.name, translation);
+        translatedName = await nameCorrection(dialogData.name, translation);
     } else {
         translatedName = await cf.translate(dialogData.name, translation);
     }
@@ -117,14 +116,14 @@ async function start(dialogData, translation, tryCount) {
     // text translation
     let translatedText = '';
     if (translation.fix) {
-        translatedText = await textTranslation(dialogData.name, dialogData.text, translation);
+        translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
     } else {
         translatedText = await cf.translate(dialogData.text, translation);
     }
 
     // text check
     if (dialogData.text !== '' && translatedText === '') {
-        addToQueue(dialogData, translation, tryCount);
+        addToCorrectionQueue(dialogData, translation, tryCount);
         return;
     }
 
@@ -153,7 +152,7 @@ function savePlayerName(playerName) {
     }
 }
 
-async function nameTranslation(name, translation) {
+async function nameCorrection(name, translation) {
     if (name === '') {
         return '';
     }
@@ -199,7 +198,7 @@ async function nameTranslation(name, translation) {
     }
 }
 
-async function textTranslation(name, text, translation) {
+async function textCorrection(name, text, translation) {
     if (text === '') {
         return;
     }
@@ -236,4 +235,4 @@ async function textTranslation(name, text, translation) {
 }
 
 exports.loadJSON_EN = loadJSON;
-exports.addToQueue_EN = addToQueue;
+exports.addToCorrectionQueue_EN = addToCorrectionQueue;

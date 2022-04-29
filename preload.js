@@ -23,8 +23,11 @@ const { correctionEntry } = require('./module/correction-module');
 const { loadJSON_JP } = require('./module/correction-module-jp');
 const { loadJSON_EN } = require('./module/correction-module-en');
 
+// audio module
+const { startPlaying } = require('./module/audio-module');
+
 // dialog module
-const { appendBlankDialog, updateDialog, appendNotification, showDialog, startPlaying, moveToBottom } = require('./module/dialog-module');
+const { appendBlankDialog, updateDialog, appendNotification, showDialog, moveToBottom } = require('./module/dialog-module');
 
 // click through temp
 let isClickThrough = false;
@@ -41,6 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setHTML();
     loadJSON();
     startServer();
+    startPlaying();
 });
 
 // set html

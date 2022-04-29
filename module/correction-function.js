@@ -14,7 +14,35 @@ const translatorModule = require('./translator-module');
 
 // text function
 function exceptionCheck(code, name, text, array) {
-    return (name + text).includes('') || (['0039', '0839'].includes(code) && includesArrayItem(name + text, array));
+    return (name + text).includes('') || (['0039', '0839'].includes(code) && includesException(name + text, array));
+}
+
+function includesException(text, exceptionsArray) {
+    if (text === '') {
+        return false;
+    }
+
+    if (!Array.isArray(exceptionsArray)) {
+        return false;
+    }
+
+    for (let index = 0; index < exceptionsArray.length; index++) {
+        const exceptionItem = exceptionsArray[index];
+        const exceptionText = exceptionItem.split('*');
+        let isAllIncluded = true;
+
+        exceptionText.forEach((value) => {
+            if (value !== '') {
+                isAllIncluded = text.include(value);
+            }
+        })
+
+        if (isAllIncluded) {
+            return true;
+        }
+    }
+
+    return false
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
@@ -386,6 +414,7 @@ function combineArrayWithTemp(temp, ...args) {
 }
 
 exports.exceptionCheck = exceptionCheck;
+exports.includesException = includesException;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.arrayString = arrayString;

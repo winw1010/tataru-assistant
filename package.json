@@ -58,6 +58,7 @@
             "oneClick": false,
             "perMachine": false,
             "allowElevation": false,
+            "packElevateHelper": false,
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": "always",
             "createStartMenuShortcut": true

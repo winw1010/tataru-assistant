@@ -98,8 +98,9 @@ function loadJSON(language) {
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
         try {
-            if (correctionQueueItems.length > 0) {
-                const item = correctionQueueItems.splice(0, 1)[0];
+            const item = correctionQueueItems.shift();
+
+            if (item) {
                 startCorrection(item.dialogData, item.translation, item.tryCount);
             }
         } catch (error) {

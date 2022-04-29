@@ -43,15 +43,18 @@ function startPlaying() {
 
 // play next audio
 function playNext() {
-    if (!isPlaying && playlist.length > 0) {
-        try {
+    try {
+        if (!isPlaying) {
             isPlaying = true;
-            const audio = playlist.splice(0, 1)[0];
-            audio.currentTime = 0;
-            audio.play();
-        } catch (error) {
-            console.log(error);
+            const audio = playlist.shift();
+
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play();
+            }
         }
+    } catch (error) {
+        console.log(error);
     }
 }
 

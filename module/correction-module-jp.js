@@ -247,9 +247,6 @@ async function textCorrection(name, text, translation) {
     if (cf.sameAsArrayItem(text, chArray.overwrite)) {
         return cfjp.replaceText(text, chArray.overwrite);
     } else {
-        // check kata
-        const allKata = isAllKataText(name, text);
-
         // subtitle
         text = cfjp.replaceText(text, jpArray.subtitle);
 
@@ -265,6 +262,9 @@ async function textCorrection(name, text, translation) {
 
         // jp2
         text = cfjp.replaceText(text, jpArray.jp2);
+
+        // check kata
+        const allKata = isAllKataText(name, text);
 
         // to hira
         if (allKata) {

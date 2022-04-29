@@ -79,14 +79,13 @@ function setEvent() {
     });
 
     document.addEventListener('mouseleave', () => {
-        const config = ipcRenderer.sendSync('load-config');
-
-        ipcRenderer.send('set-click-through', false);
-
         // hide button
+        const config = ipcRenderer.sendSync('load-config');
         document.querySelectorAll('.auto_hidden').forEach((value) => {
             value.hidden = config.preloadWindow.hideButton;
         });
+
+        ipcRenderer.send('set-click-through', false);
     });
 
     // button click through

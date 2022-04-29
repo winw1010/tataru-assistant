@@ -6,9 +6,6 @@ const { ipcRenderer } = require('electron');
 // http
 const http = require('http');
 
-// cprrection module
-const { correctionEntry } = require('./correction-module');
-
 // text history
 let textHistory = {};
 
@@ -77,8 +74,8 @@ function dataProcess(data) {
                     }
                 }
 
-                // string correction
-                correctionEntry(dialogData, config.translation);
+                // start correction
+                ipcRenderer.send('send-preload', 'start-translation', dialogData, config.translation);
 
                 // show data
                 console.warn('data:', dialogData);

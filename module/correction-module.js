@@ -10,15 +10,15 @@ const { addToCorrectionQueue_EN } = require('./correction-module-en');
 // audio module
 const { addToPlaylist } = require('./audio-module');
 
-function correctionEntry(dialogData, translation) {
+function correctionEntry(dialogData, translation, playAudio = true) {
     if (getLanguageFrom(dialogData, translation) === languageTable.ja) {
         translation.from = languageTable.ja;
         addToCorrectionQueue_JP(dialogData, translation);
-        addToPlaylist(dialogData, translation);
+        playAudio ? addToPlaylist(dialogData, translation) : null;
     } else if (getLanguageFrom(dialogData, translation) === languageTable.en) {
         translation.from = languageTable.en;
         addToCorrectionQueue_EN(dialogData, translation);
-        addToPlaylist(dialogData, translation);
+        playAudio ? addToPlaylist(dialogData, translation) : null;
     }
 }
 

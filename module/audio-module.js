@@ -19,7 +19,7 @@ function addToPlaylist(dialogData, translation) {
                 isPlaying = false;
             }
 
-            // add to play list
+            // add to playlist
             playlist.push(audio);
         } catch (error) {
             console.log(error);

@@ -43,8 +43,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setHTML();
     loadJSON();
-    startServer();
     startPlaying();
+    startServer();
 });
 
 // set html

@@ -14,10 +14,10 @@ const translatorModule = require('./translator-module');
 
 // text function
 function exceptionCheck(code, name, text, array) {
-    return (name + text).includes('') || (['0039', '0839'].includes(code) && includesException(name + text, array));
+    return (name + text).includes('') || (['0039', '0839'].includes(code) && isException(name + text, array));
 }
 
-function includesException(text, exceptionsArray) {
+function isException(text, exceptionsArray) {
     if (text === '') {
         return false;
     }
@@ -214,6 +214,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         return array;
     } catch (error) {
         console.log(error);
+        writeJSON(path, name, []);
         return [];
     }
 }

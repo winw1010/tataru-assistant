@@ -37,15 +37,6 @@ function canIgnore(text, ignoreArray) {
     return false
 }
 
-/*
-// test
-console.log('Ochimi Oshigaはナバスアレン・スレイヤートラウザーを分解した！'.match(new RegExp('^.+は.+を分解した！$')));
-console.log('攻略手帳『アイテム分解』をコンプリートした！'.match(new RegExp('^攻略手帳『.+』をコンプリートした！$')));
-console.log('未制覇の参加メンバーがいたため「クロの空想帳」にチャンスポイントが加算されました。（9/9）'
-    .match(new RegExp('^未制覇の参加メンバーがいたため「クロの空想帳」にチャンスポイントが加算されました。.+$')));
-console.log('ギアセット2「竜騎士」に装備変更しました。'.match(new RegExp('^ギアセット.+「.+」に装備変更しました。$')));
-*/
-
 function includesArrayItem(text, array, searchIndex = 0) {
     if (text === '') {
         return false;

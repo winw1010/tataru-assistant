@@ -13,23 +13,23 @@ const jsonFixer = require('json-fixer');
 const translatorModule = require('./translator-module');
 
 // text function
-function exceptionCheck(code, name, text, array) {
-    return (name + text).includes('') || (['0039', '0839'].includes(code) && isException(text, array));
+function skipCheck(code, name, text, ignoreArray) {
+    return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
 }
 
-function isException(text, exceptionsArray) {
+function canIgnore(text, ignoreArray) {
     if (text === '') {
         return false;
     }
 
-    if (!Array.isArray(exceptionsArray)) {
+    if (!Array.isArray(ignoreArray)) {
         return false;
     }
 
-    for (let index = 0; index < exceptionsArray.length; index++) {
-        const exceptionReg = new RegExp(exceptionsArray[index]);
+    for (let index = 0; index < ignoreArray.length; index++) {
+        const ignoreReg = new RegExp(ignoreArray[index]);
 
-        if (text.match(exceptionReg)) {
+        if (text.match(ignoreReg)) {
             return true;
         }
     }
@@ -415,7 +415,7 @@ function combineArrayWithTemp(temp, ...args) {
     return sortArray(combine);
 }
 
-exports.exceptionCheck = exceptionCheck;
+exports.skipCheck = skipCheck;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.arrayString = arrayString;

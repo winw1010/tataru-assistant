@@ -157,7 +157,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     return result;
 }
 
-function shouldTranslate(text) {
+function canSkipTranslation(text) {
     const en = 'abcdefghijklmnopqrstuvwxyz';
     const marks = [
         '、', '…', '。', '？', '！', '♪', '・', '：', 'ー', '―', '-',
@@ -174,7 +174,7 @@ function shouldTranslate(text) {
         text = text.replaceAll(marks[index], '');
     }
 
-    return text !== '';
+    return text === '';
 }
 
 function genderFix(originalText, translatedText) {
@@ -216,5 +216,5 @@ function genderFix(originalText, translatedText) {
 
 exports.replaceText = replaceText;
 exports.replaceTextByCode = replaceTextByCode;
-exports.shouldTranslate = shouldTranslate;
+exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;

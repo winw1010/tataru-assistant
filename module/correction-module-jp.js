@@ -39,8 +39,8 @@ let chArray = {
 }
 
 let jpArray = {
-    // exception
-    exception: [],
+    // ignore
+    ignore: [],
 
     // jp => jp
     subtitle: [],
@@ -86,7 +86,7 @@ function loadJSON(language) {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // jp array
-    jpArray.exception = cf.readJSON(jp, 'ignore.json');
+    jpArray.ignore = cf.readJSON(jp, 'ignore.json');
     jpArray.subtitle = cf.readJSONSubtitle();
     jpArray.jp1 = cf.readJSON(jp, 'jp1.json');
     jpArray.jp2 = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSON(jp, 'jp2.json'));
@@ -118,8 +118,8 @@ function addToCorrectionQueue(dialogData, translation, tryCount = 0) {
 }
 
 async function startCorrection(dialogData, translation, tryCount) {
-    // exception check
-    if (translation.skip && cf.exceptionCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.exception)) {
+    // skip check
+    if (translation.skip && cf.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
         return;
     }
 
@@ -271,8 +271,8 @@ async function textCorrection(name, text, translation) {
             text = cfjp.replaceText(text, jpArray.kana, 1, 0);
         }
 
-        // should translate check
-        if (cfjp.shouldTranslate(text)) {
+        // can skip translation
+        if (!cfjp.canSkipTranslation(text)) {
             // translate
             text = await cf.translate(text, translation);
         }

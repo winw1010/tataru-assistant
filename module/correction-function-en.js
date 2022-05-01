@@ -120,7 +120,7 @@ function replaceWord(text, search, replacement) {
     return text;
 }
 
-function shouldTranslate(text, table) {
+function canSkipTranslation(text, table) {
     const en = table;
     const marks = [
         ',', '.', '?', '!', '♪', '・', ':', 'ー', '―', '-',
@@ -137,7 +137,7 @@ function shouldTranslate(text, table) {
         text = text.replaceAll(marks[index], '');
     }
 
-    return text !== '';
+    return text === '';
 }
 
 function UpperFirst(text = '') {
@@ -195,5 +195,5 @@ function genderFix(originalText, translatedText) {
 exports.replaceText = replaceText;
 exports.replaceTextPure = replaceTextPure;
 exports.replaceTextByCode = replaceTextByCode;
-exports.shouldTranslate = shouldTranslate;
+exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;

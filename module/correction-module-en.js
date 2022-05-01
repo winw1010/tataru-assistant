@@ -33,8 +33,8 @@ let chArray = {
 }
 
 let enArray = {
-    // exception
-    exception: [],
+    // ignore
+    ignore: [],
 };
 
 function loadJSON(language) {
@@ -62,7 +62,7 @@ function loadJSON(language) {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // en array
-    enArray.exception = cf.readJSON(en, 'exception.json');
+    enArray.ignore = cf.readJSON(en, 'ignore.json');
 
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
@@ -87,8 +87,8 @@ function addToCorrectionQueue(dialogData, translation, tryCount = 0) {
 }
 
 async function startCorrection(dialogData, translation, tryCount) {
-    // exception check
-    if (translation.skip && cf.exceptionCheck(dialogData.code, dialogData.name, dialogData.text, enArray.exception)) {
+    // skip check
+    if (translation.skip && cf.skipCheck(dialogData.code, dialogData.name, dialogData.text, enArray.ignore)) {
         return;
     }
 
@@ -211,8 +211,8 @@ async function textCorrection(name, text, translation) {
     const result = cfen.replaceTextByCode(text, chArray.combine);
     text = result.text;
 
-    // should translate check
-    if (cfen.shouldTranslate(text, result.table)) {
+    // can skip translation
+    if (!cfen.canSkipTranslation(text, result.table)) {
         // translate    
         text = await cf.translate(text, translation);
     }

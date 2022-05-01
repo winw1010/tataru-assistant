@@ -86,7 +86,7 @@ function loadJSON(language) {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // jp array
-    jpArray.exception = cf.readJSON(jp, 'exceptionReg.json');
+    jpArray.exception = cf.readJSON(jp, 'ignore.json');
     jpArray.subtitle = cf.readJSONSubtitle();
     jpArray.jp1 = cf.readJSON(jp, 'jp1.json');
     jpArray.jp2 = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSON(jp, 'jp2.json'));

@@ -14,7 +14,7 @@ const translatorModule = require('./translator-module');
 
 // text function
 function exceptionCheck(code, name, text, array) {
-    return (name + text).includes('') || (['0039', '0839'].includes(code) && isException(name + text, array));
+    return (name + text).includes('') || (['0039', '0839'].includes(code) && isException(text, array));
 }
 
 function isException(text, exceptionsArray) {

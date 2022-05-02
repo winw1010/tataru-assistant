@@ -312,9 +312,10 @@ function specialTextFix(name, text) {
     }
 
     // コボルド族
-    if (name.match(new RegExp('コボルド|ガ・ブ|\\d・\\d')) && !name.includes('マメット')) {
+    if (name.match(new RegExp('コボルド|ガ・ブ|\\d{1,3}.*・.{1}')) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
     }
+    //console.log('AIJFIODJFOI02オーダー・ピックマン'.match(new RegExp('コボルド|^.{1}・.{1}$|\\d{1,3}.*.{1}・.{1}')));
 
     // マムージャ族
     if (name.match(new RegExp('ージャ' /*'ージャ|強化グリーンワート'*/ ))) {

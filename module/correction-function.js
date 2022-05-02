@@ -27,9 +27,7 @@ function canIgnore(text, ignoreArray) {
     }
 
     for (let index = 0; index < ignoreArray.length; index++) {
-        const ignoreReg = new RegExp(ignoreArray[index]);
-
-        if (text.match(ignoreReg)) {
+        if (text.match(new RegExp(ignoreArray[index]))) {
             return true;
         }
     }

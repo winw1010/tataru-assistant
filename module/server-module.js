@@ -9,11 +9,15 @@ const http = require('http');
 // text history
 let textHistory = {};
 
+// server queue
+let serverQueueItem = [];
+let serverQueueInterval = null;
+
 // create server
 const server = http.createServer(function(request, response) {
     if (request.method === 'POST') {
         request.on('data', function(data) {
-            dataProcess(data);
+            serverQueueItem.push(data);
         });
 
         request.on('end', function() {
@@ -43,6 +47,25 @@ function startServer() {
 
     server.close();
     server.listen(port, host);
+
+    startServerQueue();
+}
+
+function startServerQueue() {
+    try {
+        clearInterval(serverQueueInterval);
+        serverQueueInterval = null;
+    } catch (error) {
+        console.log(error);
+    }
+
+    serverQueueInterval = setInterval(() => {
+        const item = serverQueueItem.shift();
+
+        if (item) {
+            dataProcess(item);
+        }
+    }, 100);
 }
 
 // data process

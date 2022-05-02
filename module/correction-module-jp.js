@@ -87,9 +87,9 @@ function loadJSON(language) {
 
     // jp array
     jpArray.ignore = cf.readJSON(jp, 'ignore.json');
-    jpArray.subtitle = cf.readJSONSubtitle();
+    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSONSubtitle());
     jpArray.jp1 = cf.readJSON(jp, 'jp1.json');
-    jpArray.jp2 = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSON(jp, 'jp2.json'));
+    jpArray.jp2 = cf.readJSON(jp, 'jp2.json');
 
     jpArray.kana = cf.readJSON(jp, 'kana.json');
     jpArray.listHira = cf.readJSON(jp, 'listHira.json');

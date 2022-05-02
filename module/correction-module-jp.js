@@ -299,17 +299,10 @@ async function textCorrection(name, text, translation) {
 // special text fix
 function specialTextFix(name, text) {
     // remove （）
-    if (text.match(new RegExp('（.*）'))) {
-        let temp = text.split('（');
+    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
 
-        for (let index = 0; index < temp.length; index++) {
-            if (temp[index].includes('）')) {
-                temp[index] = temp[index].slice(temp[index].indexOf('）') + 1);
-            }
-        }
-
-        text = temp.join('');
-    }
+    // remove ()
+    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
 
     // コボルド族
     if (name.match(new RegExp('コボルド|ガ・ブ|\\d{1,3}.*・.{1}')) && !name.includes('マメット')) {
@@ -317,7 +310,8 @@ function specialTextFix(name, text) {
     }
 
     // マムージャ族
-    if (name.match(new RegExp('ージャ' /*'ージャ|強化グリーンワート'*/ ))) {
+    /*'ージャ|強化グリーンワート'*/
+    if (name.match(new RegExp('ージャ'))) {
         text = text.replaceAll('、', '');
     }
 

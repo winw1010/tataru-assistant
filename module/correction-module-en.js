@@ -207,6 +207,9 @@ async function textCorrection(name, text, translation) {
     // text temp
     const originalText = text;
 
+    // special fix
+    text = specialTextFix(name, text);
+
     // combine
     const result = cfen.replaceTextByCode(text, chArray.combine);
     text = result.text;
@@ -231,6 +234,17 @@ async function textCorrection(name, text, translation) {
 
     // after translation
     text = cfen.replaceTextPure(text, chArray.afterTranslation);
+
+    return text;
+}
+
+// special text fix
+function specialTextFix(name, text) {
+    // remove （）
+    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
+
+    // remove ()
+    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
 
     return text;
 }

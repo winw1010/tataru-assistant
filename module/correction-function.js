@@ -106,30 +106,10 @@ async function translate(text, translation) {
 
 function caiyunFix(text) {
     // remove caiyun's （）
-    if (text.includes('（') && text.includes('）')) {
-        let temp = text.split('（');
-
-        for (let index = 0; index < temp.length; index++) {
-            if (temp[index].includes('）')) {
-                temp[index] = temp[index].slice(temp[index].indexOf('）') + 1);
-            }
-        }
-
-        text = temp.join('');
-    }
+    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
 
     // remove caiyun's ()
-    if (text.includes('(') && text.includes(')')) {
-        let temp = text.split('(');
-
-        for (let index = 0; index < temp.length; index++) {
-            if (temp[index].includes(')')) {
-                temp[index] = temp[index].slice(temp[index].indexOf(')') + 1);
-            }
-        }
-
-        text = temp.join('');
-    }
+    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
 
     // caiyun's 「」
     if (text.includes('”') && !text.includes('“')) {

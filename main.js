@@ -1,14 +1,5 @@
 'use strict';
 
-// replaceAll
-String.prototype.replaceAll = function(search, replacement) {
-    if (search === '') {
-        return this;
-    } else {
-        return this.split(search).join(replacement);
-    }
-}
-
 // fs
 const { existsSync, mkdirSync } = require('fs');
 

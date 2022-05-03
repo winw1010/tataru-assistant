@@ -197,7 +197,7 @@ async function nameCorrection(name, translation) {
     } else {
         let outputName = '';
 
-        if (isAllKataText('', name)) {
+        if (isAllKata('', name)) {
             // all kata => use chName
             outputName = cfjp.replaceText(name, chArray.chName);
         } else {
@@ -251,7 +251,7 @@ async function textCorrection(name, text, translation) {
         text = cfjp.replaceText(text, jpArray.subtitle);
 
         // check kata
-        const allKata = isAllKataText(name, text);
+        const allKata = isAllKata(name, text);
 
         // special fix
         text = specialTextFix(name, text);
@@ -375,27 +375,13 @@ function specialTextFix(name, text) {
 }
 
 // kata check
-/*
-function isAllKataName(text) {
-    let hiraString = cf.arrayString(jpArray.kana, 1) + 'ー・？';
-    for (let index = 0; index < hiraString.length; index++) {
-        text = text.replaceAll(hiraString[index], '');
-    }
-
-    return text === '';
-}
-*/
-
-function isAllKataText(name, text) {
+function isAllKata(name, text) {
     if (cf.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
-    let hiraString = cf.arrayString(jpArray.kana, 0);
-    for (let index = 0; index < text.length; index++) {
-        if (hiraString.includes(text[index])) {
-            return false;
-        }
+    if (text.match(new RegExp('[ぁ-ゖ]', 'g'))) {
+        return false;
     }
 
     return true;

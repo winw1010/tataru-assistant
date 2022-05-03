@@ -72,14 +72,11 @@ function canSkipTranslation(text, table) {
     const enTable = table;
 
     for (let index = 0; index < enTable.length; index++) {
-        const item = enTable[index][0];
-        text = text.replaceAll(item.toUpperCase(), '');
-        text = text.replaceAll(item, '');
+        const en = enTable[index][0];
+        text = text.replaceAll(new RegExp(en, 'gi'), '');
     }
 
-    text = text.replaceAll(new RegExp('[^\\w]|_', 'g'), '');
-
-    return text === '';
+    return text.replaceAll(new RegExp('[^a-z]', 'gi'), '') === '';
 }
 
 function genderFix(originalText, translatedText) {

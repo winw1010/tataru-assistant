@@ -277,8 +277,8 @@ async function textCorrection(name, text, translation) {
             text = await cf.translate(text, translation);
         }
 
-        // caiyun fix
-        text = cf.caiyunFix(text);
+        // mark fix
+        text = cf.markFix(text);
 
         // clear code
         text = cf.clearCode(text, result.table);

@@ -104,32 +104,27 @@ async function translate(text, translation) {
     return text;
 }
 
-function caiyunFix(text) {
-    // remove caiyun's （）
+function markFix(text) {
+    // remove （）
     text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
 
-    // remove caiyun's ()
+    // remove ()
     text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
 
-    // caiyun's 「」
-    if (text.includes('”') && !text.includes('“')) {
-        let temp = text.split('”');
-
-        for (let index = 0; index < temp.length - 1; index++) {
-            temp[index] += (index % 2 === 0) ? '「' : '」';
-        }
-
-        text = temp.join('');
+    // fix ””
+    const matchStrings1 = text.match(new RegExp('”.*?”', 'g'));
+    if (matchStrings1) {
+        matchStrings1.forEach((value) => {
+            text = text.replaceAll(value, `「${value.replaceAll('”','')}」`);
+        });
     }
 
-    if (text.includes('」') && !text.includes('「')) {
-        let temp = text.split('」');
-
-        for (let index = 0; index < temp.length - 1; index++) {
-            temp[index] += (index % 2 === 0) ? '「' : '」';
-        }
-
-        text = temp.join('');
+    // fix 」」
+    const matchStrings2 = text.match(new RegExp('」.*?」', 'g'));
+    if (matchStrings2) {
+        matchStrings2.forEach((value) => {
+            text = text.replaceAll(value, `「${value.replaceAll('」','')}」`);
+        });
     }
 
     return text;
@@ -389,7 +384,7 @@ exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.arrayString = arrayString;
 exports.translate = translate;
-exports.caiyunFix = caiyunFix;
+exports.markFix = markFix;
 exports.clearCode = clearCode;
 
 exports.readJSON = readJSON;

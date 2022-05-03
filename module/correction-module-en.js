@@ -160,11 +160,11 @@ async function nameCorrection(name, translation) {
 
     // same check
     if (cf.sameAsArrayItem(name, chArray.combine)) {
-        return cfen.replaceTextPure(name, chArray.combine);
+        return cfen.replaceText(name, chArray.combine);
     }
     if (cf.sameAsArrayItem(name + '*', chArray.combine)) {
         // short name
-        return cfen.replaceTextPure(name + '*', chArray.combine);
+        return cfen.replaceText(name + '*', chArray.combine);
     } else {
         // code
         const result = cfen.replaceTextByCode(name, chArray.combine);
@@ -178,7 +178,7 @@ async function nameCorrection(name, translation) {
         outputName = cf.clearCode(outputName, result.table);
 
         // table
-        outputName = cfen.replaceTextPure(outputName, result.table);
+        outputName = cfen.replaceText(outputName, result.table);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
@@ -227,13 +227,13 @@ async function textCorrection(name, text, translation) {
     text = cf.clearCode(text, result.table);
 
     // table
-    text = cfen.replaceTextPure(text, result.table);
+    text = cfen.replaceText(text, result.table);
 
     // gender fix
     text = cfen.genderFix(originalText, text);
 
     // after translation
-    text = cfen.replaceTextPure(text, chArray.afterTranslation);
+    text = cfen.replaceText(text, chArray.afterTranslation);
 
     return text;
 }

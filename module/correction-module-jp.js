@@ -366,6 +366,11 @@ function specialTextFix(name, text) {
         text = text.replaceAll('若', '主人');
     }
 
+    // 召喚士
+    if (name.match(new RegExp('ヤ・ミトラ|プリンキピア'))) {
+        text = text.replaceAll('サリ', 'サリ*');
+    }
+
     // 暗黒騎士
     if (name.match(new RegExp('フレイ|シドゥルグ|リエル'))) {
         text = text.replaceAll('ミスト', 'ミスト*');

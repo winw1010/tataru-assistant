@@ -89,16 +89,6 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
     return false;
 }
 
-function arrayString(array, itemIndex) {
-    let string = '';
-
-    for (let index = 0; index < array.length; index++) {
-        string += array[index][itemIndex];
-    }
-
-    return string;
-}
-
 async function translate(text, translation) {
     text = await translatorModule.translate(text, translation.engine, translation.from, translation.to, translation.autoChange);
     return text;
@@ -382,7 +372,6 @@ function combineArrayWithTemp(temp, ...args) {
 exports.skipCheck = skipCheck;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
-exports.arrayString = arrayString;
 exports.translate = translate;
 exports.markFix = markFix;
 exports.clearCode = clearCode;

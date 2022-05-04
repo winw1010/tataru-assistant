@@ -57,7 +57,9 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 function canSkipTranslation(text, table) {
     // remove table index
     const enReg = table.map(value => value[0]).join('|');
-    text = text.replaceAll(new RegExp(enReg, 'gi'), '');
+    if (enReg !== '') {
+        text = text.replaceAll(new RegExp(enReg, 'gi'), '');
+    }
 
     // remove marks
     text = text.replaceAll(/[^a-z]/gi, '');

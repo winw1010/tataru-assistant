@@ -175,14 +175,14 @@ async function nameCorrection(name, translation) {
             outputName = await cf.translate(outputName, translation);
         }
 
-        // mark fix
-        outputName = cf.markFix(outputName);
-
         // clear code
         outputName = cf.clearCode(outputName, result.table);
 
         // table
         outputName = cfen.replaceText(outputName, result.table);
+
+        // mark fix
+        outputName = cf.markFix(outputName);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
@@ -224,9 +224,6 @@ async function textCorrection(name, text, translation) {
         text = await cf.translate(text, translation);
     }
 
-    // mark fix
-    text = cf.markFix(text);
-
     // clear code
     text = cf.clearCode(text, result.table);
 
@@ -238,6 +235,9 @@ async function textCorrection(name, text, translation) {
 
     // after translation
     text = cfen.replaceText(text, chArray.afterTranslation);
+
+    // mark fix
+    text = cf.markFix(text);
 
     return text;
 }

@@ -101,18 +101,18 @@ function markFix(text) {
     // remove ()
     text = text.replaceAll(/\\(.*?\\)/gi, '');
 
-    // fix ””
-    const matchStrings1 = text.match(/”.*?”/gi);
-    if (matchStrings1) {
-        matchStrings1.forEach((value) => {
-            text = text.replaceAll(value, `「${value.replaceAll('”','')}」`);
+    // fix 「「
+    const matchStrings2 = text.match(/「[^」]*?「/gi);
+    if (matchStrings2) {
+        matchStrings2.forEach((value) => {
+            text = text.replaceAll(value, `「${value.replaceAll('「','')}」`);
         });
     }
 
     // fix 」」
-    const matchStrings2 = text.match(/」.*?」/gi);
-    if (matchStrings2) {
-        matchStrings2.forEach((value) => {
+    const matchStrings3 = text.match(/」[^「]*?」/gi);
+    if (matchStrings3) {
+        matchStrings3.forEach((value) => {
             text = text.replaceAll(value, `「${value.replaceAll('」','')}」`);
         });
     }

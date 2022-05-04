@@ -9,15 +9,14 @@ const http = require('http');
 // text history
 let textHistory = {};
 
-// server queue
-let serverQueueItem = [];
-let serverQueueInterval = null;
+// last id
+let lastTimestamp = 0;
 
 // create server
 const server = http.createServer(function(request, response) {
     if (request.method === 'POST') {
         request.on('data', function(data) {
-            serverQueueItem.push(data);
+            dataProcess(data);
         });
 
         request.on('end', function() {
@@ -47,25 +46,6 @@ function startServer() {
 
     server.close();
     server.listen(port, host);
-
-    startServerQueue();
-}
-
-function startServerQueue() {
-    try {
-        clearInterval(serverQueueInterval);
-        serverQueueInterval = null;
-    } catch (error) {
-        console.log(error);
-    }
-
-    serverQueueInterval = setInterval(() => {
-        const item = serverQueueItem.shift();
-
-        if (item) {
-            dataProcess(item);
-        }
-    }, 100);
 }
 
 // data process
@@ -86,8 +66,14 @@ function dataProcess(data) {
 
                 // set id and timestamp
                 const timestamp = new Date().getTime();
-                dialogData.id = 'id' + timestamp;
-                dialogData.timestamp = timestamp;
+                if (timestamp === lastTimestamp) {
+                    dialogData.id = 'id' + (timestamp + 1);
+                    dialogData.timestamp = timestamp + 1;
+                } else {
+                    dialogData.id = 'id' + timestamp;
+                    dialogData.timestamp = timestamp;
+                }
+                lastTimestamp = dialogData.timestamp;
 
                 // system message process
                 if (isSystemMessage(dialogData)) {

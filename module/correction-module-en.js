@@ -1,7 +1,7 @@
 'use strict';
 
 // language table
-const { languageTable, languageIndex } = require('./translator/language-table');
+const { languageTable, languageIndex, getTableValue } = require('./translator/language-table');
 
 // correction function
 const cfen = require('./correction-function-en');
@@ -46,8 +46,8 @@ function loadJSON(language) {
         console.log(error);
     }
 
-    const sub0 = languageIndex[languageTable.en];
-    const sub1 = languageIndex[language];
+    const sub0 = getTableValue(languageTable.en, languageIndex);
+    const sub1 = getTableValue(language, languageIndex);
     const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
     const en = 'text/en';
 
@@ -161,10 +161,6 @@ async function nameCorrection(name, translation) {
     // same check
     if (cf.sameAsArrayItem(name, chArray.combine)) {
         return cfen.replaceText(name, chArray.combine);
-    }
-    if (cf.sameAsArrayItem(name + '*', chArray.combine)) {
-        // short name
-        return cfen.replaceText(name + '*', chArray.combine);
     } else {
         // code
         const result = cfen.replaceTextByCode(name, chArray.combine);
@@ -172,7 +168,15 @@ async function nameCorrection(name, translation) {
         // translate name
         let outputName = '';
         outputName = result.text;
-        outputName = await cf.translate(outputName, translation);
+
+        // skip check
+        if (!cfen.canSkipTranslation(outputName, result.table)) {
+            // translate
+            outputName = await cf.translate(outputName, translation);
+        }
+
+        // mark fix
+        outputName = cf.markFix(outputName);
 
         // clear code
         outputName = cf.clearCode(outputName, result.table);
@@ -214,9 +218,9 @@ async function textCorrection(name, text, translation) {
     const result = cfen.replaceTextByCode(text, chArray.combine);
     text = result.text;
 
-    // can skip translation
+    // skip check
     if (!cfen.canSkipTranslation(text, result.table)) {
-        // translate    
+        // translate
         text = await cf.translate(text, translation);
     }
 
@@ -241,10 +245,10 @@ async function textCorrection(name, text, translation) {
 // special text fix
 function specialTextFix(name, text) {
     // remove （）
-    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
+    text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
+    text = text.replaceAll(/\\(.*?\\)/gi, '');
 
     return text;
 }

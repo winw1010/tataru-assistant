@@ -27,7 +27,7 @@ function canIgnore(text, ignoreArray) {
     }
 
     for (let index = 0; index < ignoreArray.length; index++) {
-        if (text.match(new RegExp(ignoreArray[index]))) {
+        if (text.match(new RegExp(ignoreArray[index], 'gi'))) {
             return true;
         }
     }
@@ -96,13 +96,13 @@ async function translate(text, translation) {
 
 function markFix(text) {
     // remove （）
-    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
+    text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
+    text = text.replaceAll(/\\(.*?\\)/gi, '');
 
     // fix ””
-    const matchStrings1 = text.match(new RegExp('”.*?”', 'g'));
+    const matchStrings1 = text.match(/”.*?”/gi);
     if (matchStrings1) {
         matchStrings1.forEach((value) => {
             text = text.replaceAll(value, `「${value.replaceAll('”','')}」`);
@@ -110,7 +110,7 @@ function markFix(text) {
     }
 
     // fix 」」
-    const matchStrings2 = text.match(new RegExp('」.*?」', 'g'));
+    const matchStrings2 = text.match(/」.*?」/gi);
     if (matchStrings2) {
         matchStrings2.forEach((value) => {
             text = text.replaceAll(value, `「${value.replaceAll('」','')}」`);
@@ -123,13 +123,8 @@ function markFix(text) {
 function clearCode(text, table) {
     if (table.length > 0) {
         table.forEach((value) => {
-            text = text.replaceAll(value[0].toLowerCase(), value[0].toUpperCase());
-            text = text.replaceAll(' ' + value[0], value[0]);
-            text = text.replaceAll(value[0] + ' ', value[0]);
-
-            while (text.includes(value[0] + value[0])) {
-                text = text.replaceAll(value[0] + value[0], value[0]);
-            }
+            const character = value[0];
+            text = text.replaceAll(new RegExp(`\\s?${character}+\\s?`, 'gi'), character.toUpperCase());
         });
     }
 

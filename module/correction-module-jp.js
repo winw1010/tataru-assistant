@@ -1,7 +1,7 @@
 'use strict';
 
 // language table
-const { languageTable, languageIndex } = require('./translator/language-table');
+const { languageTable, languageIndex, getTableValue } = require('./translator/language-table');
 
 // correction function
 const cfjp = require('./correction-function-jp');
@@ -67,8 +67,8 @@ function loadJSON(language) {
         console.log(error);
     }
 
-    const sub0 = languageIndex[languageTable.ja];
-    const sub1 = languageIndex[language];
+    const sub0 = getTableValue(languageTable.ja, languageIndex);
+    const sub1 = getTableValue(language, languageIndex);
     const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
     const jp = 'text/jp';
 
@@ -207,7 +207,15 @@ async function nameCorrection(name, translation) {
 
             // translate name
             outputName = result.text;
-            outputName = await cf.translate(outputName, translation);
+
+            // skip check
+            if (!cfjp.canSkipTranslation(outputName)) {
+                // translate
+                outputName = await cf.translate(outputName, translation);
+            }
+
+            // mark fix
+            outputName = cf.markFix(outputName);
 
             // clear code
             outputName = cf.clearCode(outputName, result.table);
@@ -271,7 +279,7 @@ async function textCorrection(name, text, translation) {
             text = cfjp.replaceText(text, jpArray.kana, 1, 0);
         }
 
-        // can skip translation
+        // skip check
         if (!cfjp.canSkipTranslation(text)) {
             // translate
             text = await cf.translate(text, translation);
@@ -299,80 +307,57 @@ async function textCorrection(name, text, translation) {
 // special text fix
 function specialTextFix(name, text) {
     // remove （）
-    text = text.replaceAll(new RegExp('（.*?）', 'g'), '');
+    text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(new RegExp('\\(.*?\\)', 'g'), '');
+    text = text.replaceAll(/\\(.*?\\)/gi, '');
 
     // コボルド族
-    if (name.match(new RegExp('コボルド|ガ・ブ|\\d{1,3}.*・.{1}')) && !name.includes('マメット')) {
+    if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
     }
 
     // マムージャ族
-    /*'ージャ|強化グリーンワート'*/
-    if (name.match(new RegExp('ージャ'))) {
+    /*/ージャ|強化グリーンワート/*/
+    if (/ージャ/gi.test(name)) {
         text = text.replaceAll('、', '');
     }
 
     // バヌバヌ族
-    if (name.match(new RegExp('ヌバ|バヌ|ズンド|ブンド|グンド'))) {
-        if (text.includes('、')) {
-            let splitedtext = text.split('、');
-
-            // 長老さま、長老さま！
-            // =>「長老さま」, 「長老さま！」
-            if (splitedtext[1].includes(splitedtext[0])) {
-                splitedtext[0] = '';
-            }
-
-            // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-            // =>「ぬおおおおおん！まただ」, 「まただ」, 「浮島が食べられたね！」
-            for (let index = 1; index < splitedtext.length; index++) {
-                if (splitedtext[index - 1].includes(splitedtext[index])) {
-                    splitedtext[index] = '';
-                }
-            }
-
-            text = splitedtext.join('、').replaceAll('、、', '、');
-
-            if (text[0] === '、') {
-                text = text.slice(1);
-            }
+    if (/ヌバ|バヌ|ズンド|ブンド|グンド/gi.test(name)) {
+        // 長老さま、長老さま！
+        // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
+        const regString = text.match(/(.{3,})、\1/gi);
+        if (regString) {
+            regString.forEach((value) => {
+                text = text.replaceAll(value, value.slice(0, value.indexOf('、')));
+            });
         }
     }
 
     // 核修正
     if (text.includes('核')) {
-        text = text
-            .replaceAll('核', '核心')
-            .replaceAll('核心心', '核心')
-            .replaceAll('中核心', '核心')
-            .replaceAll('心核心', '核心');
+        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
     }
 
     // 水晶公判斷
     if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
-        if (!text.match(new RegExp('公開|公的|公然|公共|公園|公家|公営|公宴|公案|公益|公演|公稲'))) {
-            text = text
-                .replaceAll('貴公', '貴方')
-                .replaceAll('公', '水晶公')
-                .replaceAll('水晶水晶', '水晶');
-        }
+        text = text
+            .replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
 
     // 若判斷
-    if (name.match(new RegExp('ユウギリ|ゴウセツ'))) {
+    if (/ユウギリ|ゴウセツ/gi.test(name)) {
         text = text.replaceAll('若', '主人');
     }
 
     // 召喚士
-    if (name.match(new RegExp('ヤ・ミトラ|プリンキピア'))) {
+    if (/ヤ・ミトラ|プリンキピア/gi.test(name)) {
         text = text.replaceAll('サリ', 'サリ*');
     }
 
     // 暗黒騎士
-    if (name.match(new RegExp('フレイ|シドゥルグ|リエル'))) {
+    if (/フレイ|シドゥルグ|リエル/gi.test(name)) {
         text = text.replaceAll('ミスト', 'ミスト*');
     }
 
@@ -385,7 +370,7 @@ function isAllKata(name, text) {
         return true;
     }
 
-    if (text.match(new RegExp('[ぁ-ゖ]', 'g'))) {
+    if (/[ぁ-ゖ]/gi.test(text)) {
         return false;
     }
 

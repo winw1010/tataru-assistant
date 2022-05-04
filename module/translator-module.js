@@ -1,6 +1,6 @@
 'use strict';
 
-const { languageTable, engineList, baiduTable, caiyunTable, youdaoTable, googleTable } = require('./translator/language-table');
+const { languageTable, engineList, baiduTable, caiyunTable, youdaoTable, googleTable, getTableValue } = require('./translator/language-table');
 const baidu = require('./translator/baidu');
 const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
@@ -44,37 +44,37 @@ async function selectEngine(engine, input) {
 
     switch (engine) {
         case 'Baidu':
-            text = await baidu.translate(input.text, baiduTable[input.from], baiduTable[input.to]);
+            text = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
             break;
 
         case 'Caiyun':
-            text = await caiyun.translate(input.text, caiyunTable[input.from], caiyunTable[input.to]);
+            text = await caiyun.translate(input.text, getTableValue(input.from, caiyunTable), getTableValue(input.to, caiyunTable));
             break;
 
         case 'Youdao':
-            text = await youdao.translate(input.text, youdaoTable[input.from], youdaoTable[input.to]);
+            text = await youdao.translate(input.text, getTableValue(input.from, youdaoTable), getTableValue(input.to, youdaoTable));
             break;
 
         case 'Google':
-            text = await google.translate(input.text, googleTable[input.from], googleTable[input.to]);
+            text = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
             break;
 
         default:
-            text = await baidu.translate(input.text, baiduTable[input.from], baiduTable[input.to]);
+            text = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
     }
 
     return await zhConvert(text, input.to);
 }
 
 async function zhConvert(text, languageTo) {
-    if ([languageTable.zht, languageTable.zhs].includes(languageTo)) {
+    if (languageTo.match(new RegExp([languageTable.zht, languageTable.zhs].join('|'), 'gi'))) {
         const input = {
             text: text,
-            from: languageTo === languageTable.zht ? languageTable.zhs : languageTable.zht,
+            from: languageTo.match(new RegExp(languageTable.zht, 'gi')) ? languageTable.zhs : languageTable.zht,
             to: languageTo
         };
 
-        const response = await google.translate(input.text, googleTable[input.from], googleTable[input.to]);
+        const response = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
 
         return response !== '' ? response : text;
     } else {

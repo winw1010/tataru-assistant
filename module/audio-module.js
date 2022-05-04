@@ -2,7 +2,7 @@
 const googleTTS = require('google-tts-api');
 
 // language table
-const { googleTable } = require('./translator/language-table');
+const { googleTable, getTableValue } = require('./translator/language-table');
 
 // play list
 let playlist = [];
@@ -13,7 +13,7 @@ let playInterval = null;
 function addToPlaylist(dialogData, translation) {
     if (translation.autoPlay && dialogData.text !== '') {
         try {
-            const url = googleTTS.getAudioUrl(dialogData.text, { lang: googleTable[translation.from] });
+            const url = googleTTS.getAudioUrl(dialogData.text, { lang: getTableValue(translation.from, googleTable) });
             const audio = new Audio(url);
             audio.onended = () => {
                 isPlaying = false;

@@ -13,7 +13,7 @@ const jsonFixer = require('json-fixer');
 const googleTTS = require('google-tts-api');
 
 // language table
-const { googleTable } = require('./module/translator/language-table');
+const { googleTable, getTableValue } = require('./module/translator/language-table');
 
 // cf
 const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correction-function');
@@ -75,7 +75,7 @@ function setEvent() {
 
                             // text to speech
                             if (targetLog.text !== '') {
-                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: googleTable[oldVersionFix(targetLog.translation.from)] });
+                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) });
                                 console.log('TTS url:', url);
 
                                 document.getElementById('div_audio').innerHTML = `
@@ -274,9 +274,4 @@ function deleteTemp(textBefore, type, array) {
     ipcRenderer.send('send-preload', 'show-notification', `共找到${count}個`);
 
     return array;
-}
-
-function oldVersionFix(from = '') {
-    // fix old version value (2022/04/27)
-    return from.slice(0, 1).toUpperCase() + from.slice(1);
 }

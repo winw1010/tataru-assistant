@@ -35,23 +35,9 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     let table = [];
     for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
         const element = array[index];
-        const searchReg = new RegExp(`\\b${element[search]}\\b`, 'gi');
-        const searchRegN = new RegExp(`\\b${element[search]}n\\b`, 'gi');
-        const searchRegS = new RegExp(`\\b${element[search]}s\\b|\\b${element[search]}es\\b`, 'gi');
+        const searchReg = new RegExp(`\\b(The |A |)(${element[search]}es|${element[search]}s|${element[search]}an|${element[search]}n|${element[search]})\\b`, 'gi');
 
-        if (text.match(searchRegS)) {
-            text = text.replaceAll(searchRegS, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '們']);
-            codeIndex++;
-        }
-
-        if (text.match(searchRegN)) {
-            text = text.replaceAll(searchRegN, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '人']);
-            codeIndex++;
-        }
-
-        if (text.match(searchReg)) {
+        if (searchReg.test(text)) {
             text = text.replaceAll(searchReg, codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement]]);
             codeIndex++;
@@ -69,14 +55,14 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 }
 
 function canSkipTranslation(text, table) {
-    const enTable = table;
+    // remove table index
+    const enReg = table.map(value => value[0]).join('|');
+    text = text.replaceAll(new RegExp(enReg, 'gi'), '');
 
-    for (let index = 0; index < enTable.length; index++) {
-        const en = enTable[index][0];
-        text = text.replaceAll(new RegExp(en, 'gi'), '');
-    }
+    // remove marks
+    text = text.replaceAll(/[^a-z]/gi, '');
 
-    return text.replaceAll(new RegExp('[^a-z]', 'gi'), '') === '';
+    return text === '';
 }
 
 function genderFix(originalText, translatedText) {
@@ -101,14 +87,8 @@ function genderFix(originalText, translatedText) {
     ];
 
     let isFemale = false;
-
-    for (let index = 0; index < femaleWord.length; index++) {
-        const word = femaleWord[index];
-
-        if (originalText.match(new RegExp(`\\b${word}\\b`, 'gi'))) {
-            isFemale = true;
-            break;
-        }
+    if (new RegExp(femaleWord.join('|'), 'gi').test(originalText)) {
+        isFemale = true;
     }
 
     if (!isFemale) {

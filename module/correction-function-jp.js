@@ -158,21 +158,15 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 }
 
 function canSkipTranslation(text) {
-    const en = 'abcdefghijklmnopqrstuvwxyz';
+    /*
     const marks = [
         '、', '…', '。', '？', '！', '♪', '・', '：', 'ー', '―', '-',
-        '（', '）', '[', ']', '〔', '〕', '「', '」', '『', '』', ' ', '　'
+        '（', '）', '[', ']', '〔', '〕', '「', '」', '『', '』', ' ', '全形空白'
     ];
+    */
 
-    for (let index = 0; index < en.length; index++) {
-        const item = en[index];
-        text = text.replaceAll(item.toUpperCase(), '');
-        text = text.replaceAll(item, '');
-    }
-
-    for (let index = 0; index < marks.length; index++) {
-        text = text.replaceAll(marks[index], '');
-    }
+    // remove english word and marks
+    text = text.replaceAll(/[^ァ-ヺぁ-ゖ\u4E00-\u9FFF]/gi, '');
 
     return text === '';
 }
@@ -189,14 +183,8 @@ function genderFix(originalText, translatedText) {
     ];
 
     let isFemale = false;
-
-    for (let index = 0; index < femaleWord.length; index++) {
-        const word = femaleWord[index];
-
-        if (originalText.includes(word)) {
-            isFemale = true;
-            break;
-        }
+    if (new RegExp(femaleWord.join('|'), 'gi').test(originalText)) {
+        isFemale = true;
     }
 
     if (!isFemale) {

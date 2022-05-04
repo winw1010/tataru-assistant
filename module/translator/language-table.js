@@ -55,6 +55,22 @@ const googleTable = {
     'Simplified-Chinese': 'zh-CN'
 }
 
+function getTableValue(language, table) {
+    const languageReg = new RegExp(language, 'gi');
+    const names = Object.getOwnPropertyNames(table);
+
+    for (let index = 0; index < names.length; index++) {
+        const name = names[index];
+        if (name.match(languageReg)) {
+            return table[name];
+        }
+    }
+
+    return null;
+}
+
+console.log();
+
 exports.engineList = engineList;
 exports.languageTable = languageTable;
 exports.languageIndex = languageIndex;
@@ -63,3 +79,4 @@ exports.caiyunTable = caiyunTable;
 exports.youdaoTable = youdaoTable;
 exports.papagoTable = papagoTable;
 exports.googleTable = googleTable;
+exports.getTableValue = getTableValue;

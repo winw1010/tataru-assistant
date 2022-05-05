@@ -56,17 +56,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     let table = [];
     for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
         const element = array[index];
+        const searchReg = new RegExp(`\\b(The |A |)${element[search]}(es|an|s|n|)\\b`, 'gi');
 
-        try {
-            const searchReg = new RegExp(`\\b(The |A |)${element[search]}(es|an|s|n|)\\b`, 'gi');
-
-            if (searchReg.test(text)) {
-                text = text.replaceAll(searchReg, codeString[codeIndex]);
-                table.push([codeString[codeIndex], element[replacement]]);
-                codeIndex++;
-            }
-        } catch (error) {
-            console.log(error);
+        if (searchReg.test(text)) {
+            text = text.replaceAll(searchReg, codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement]]);
+            codeIndex++;
         }
     }
 

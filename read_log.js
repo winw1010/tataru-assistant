@@ -9,6 +9,9 @@ const { readFileSync, readdirSync } = require('fs');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
+// drag module
+const { setDragElement } = require('./module/drag-module');
+
 // json fixer
 const jsonFixer = require('json-fixer');
 
@@ -41,6 +44,9 @@ function setEvent() {}
 
 // set button
 function setButton() {
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
+
     // read
     document.getElementById('button_read').onclick = () => {
         const file = document.getElementById('select_log').value;

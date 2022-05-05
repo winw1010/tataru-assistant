@@ -13,15 +13,6 @@ body {
 }
 
 
-/*draggable*/
-
-.draggable {
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-app-region: drag;
-}
-
-
 /*shadow*/
 
 .drop_shadow {
@@ -52,12 +43,6 @@ body {
 .float_right {
     margin: 0 0.3rem;
     float: right;
-}
-
-#img_button_drag:hover {
-    padding: 0.2rem;
-    opacity: 0.5;
-    background-color: #00000000;
 }
 
 #img_button_close:hover,

@@ -69,6 +69,11 @@ ipcMain.on('get-version', (event) => {
     event.returnValue = app.getVersion();
 });
 
+// send preload
+ipcMain.on('send-preload', (event, channel, ...args) => {
+    sendPreload(channel, ...args);
+});
+
 // load config
 ipcMain.on('load-config', (event) => {
     event.returnValue = loadConfig();
@@ -134,14 +139,39 @@ ipcMain.on('set-always-on-top', (event, top) => {
     }
 });
 
-// send preload
-ipcMain.on('send-preload', (event, channel, ...args) => {
-    sendPreload(channel, ...args);
-});
-
 // click through
 ipcMain.on('set-click-through', (event, ...args) => {
     BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(...args);
+});
+
+// create sindow
+ipcMain.on('create-window', (event, type, data = null) => {
+    try {
+        // force close
+        windowList[type].close();
+
+        // restart
+        throw null;
+
+        /*
+        if (type === 'capture_edit') {
+            throw null;
+        }
+        */
+    } catch (error) {
+        // create window
+        createWindow(type, data);
+    }
+});
+
+// drag window
+ipcMain.on('drag-window', (event, posX, posY) => {
+    try {
+        const window = BrowserWindow.fromWebContents(event.sender);
+        window.setPosition(posX, posY);
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 // mute window
@@ -170,26 +200,6 @@ ipcMain.on('close-window', (event) => {
 // close app
 ipcMain.on('close-app', () => {
     app.quit();
-});
-
-// create sindow
-ipcMain.on('create-window', (event, type, data = null) => {
-    try {
-        // force close
-        windowList[type].close();
-
-        // restart
-        throw null;
-
-        /*
-        if (type === 'capture_edit') {
-            throw null;
-        }
-        */
-    } catch (error) {
-        // create window
-        createWindow(type, data);
-    }
 });
 
 // start screen translation
@@ -223,7 +233,7 @@ ipcMain.on('save-capture-config', (event, split, edit) => {
     config.captureWindow.split = split;
     config.captureWindow.edit = edit;
     saveConfig(config);
-})
+});
 
 // functions
 function sendPreload(channel, ...args) {

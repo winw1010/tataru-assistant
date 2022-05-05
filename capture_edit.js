@@ -9,6 +9,9 @@ const { resolve } = require('path');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
+// drag module
+const { setDragElement } = require('./module/drag-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     // F12
@@ -40,6 +43,9 @@ function setEvent() {
 
 // set button
 function setButton() {
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
+
     // submit
     document.getElementById('button_submit').onclick = () => {
         translate(document.getElementById('textarea_screen_text').value);

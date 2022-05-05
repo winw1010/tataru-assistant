@@ -6,6 +6,9 @@ const { ipcRenderer } = require('electron');
 // child process
 const { execSync } = require('child_process');
 
+// drag module
+const { setDragElement } = require('./module/drag-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setHTML();
@@ -27,9 +30,7 @@ function setHTML() {
 }
 
 // set view
-function setView() {
-
-}
+function setView() {}
 
 // set event
 function setEvent() {
@@ -60,7 +61,10 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // page button
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
+
+    // page
     document.getElementById('button_radio_window').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
             value.hidden = true;
@@ -103,13 +107,13 @@ function setButton() {
         document.getElementById('div_about').hidden = false;
     };
 
-    // upper button
+    // upper
     // close
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
     };
 
-    // content button
+    // content
     // download json
     document.getElementById('button_download_json').onclick = () => {
         ipcRenderer.send('send-preload', 'download-json');
@@ -156,7 +160,7 @@ function setButton() {
         }
     };
 
-    // lower button
+    // lower
     // default
     document.getElementById('button_default').onclick = () => {
         // save config

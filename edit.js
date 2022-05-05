@@ -18,6 +18,9 @@ const { googleTable, getTableValue } = require('./module/translator/language-tab
 // cf
 const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correction-function');
 
+// drag module
+const { setDragElement } = require('./module/drag-module');
+
 // create log name
 const { createLogName } = require('./module/dialog-module');
 
@@ -131,6 +134,9 @@ function setEvent() {
 
 // set button
 function setButton() {
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
+
     // github
     document.getElementById('a_github').onclick = () => {
         try {

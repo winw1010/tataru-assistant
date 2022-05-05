@@ -170,7 +170,7 @@ function translate(text) {
 
     // fix
     text = text
-        .replaceAll(/\s/gi, '')
+        .replaceAll(/ /gi, '')
         .replaceAll(/`/gi, '「')
         .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
 

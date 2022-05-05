@@ -47,79 +47,123 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
         const element = array[index];
 
-        const searchReg1 = new RegExp(`${element[search]}ちゃん`, 'gi'); //たん
-        if (searchReg1.test(text)) {
-            text = text.replaceAll(searchReg1, codeString[codeIndex]);
+        if (text.includes(element[search] + 'さん')) {
+            text = text.replaceAll(element[search] + 'さん', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement]]);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + 'くん')) {
+            text = text.replaceAll(element[search] + 'くん', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement]]);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '君')) {
+            text = text.replaceAll(element[search] + '君', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement]]);
+            codeIndex++;
+        }
+
+        // たん
+        if (text.includes(element[search] + 'ちゃん')) {
+            text = text.replaceAll(element[search] + 'ちゃん', codeString[codeIndex]);
             table.push([codeString[codeIndex], '小' + element[replacement]]);
             codeIndex++;
         }
 
-        const searchReg2 = new RegExp(`${element[search]}先輩`, 'gi');
-        if (searchReg2.test(text)) {
-            text = text.replaceAll(searchReg2, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '前輩']);
-            codeIndex++;
-        }
-
-        const searchReg3 = new RegExp(`${element[search]}(さま|様)`, 'gi');
-        if (searchReg3.test(text)) {
-            text = text.replaceAll(searchReg3, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '大人']);
-            codeIndex++;
-        }
-
-        const searchReg4 = new RegExp(`${element[search]}提督`, 'gi');
-        if (searchReg4.test(text)) {
-            text = text.replaceAll(searchReg4, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '提督']);
-            codeIndex++;
-        }
-
-        const searchReg5 = new RegExp(`${element[search]}総長`, 'gi');
-        if (searchReg5.test(text)) {
-            text = text.replaceAll(searchReg5, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '總長']);
-            codeIndex++;
-        }
-
-        const searchReg6 = new RegExp(`${element[search]}伯爵`, 'gi');
-        if (searchReg6.test(text)) {
-            text = text.replaceAll(searchReg6, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '伯爵']);
-            codeIndex++;
-        }
-
-        const searchReg7 = new RegExp(`${element[search]}(陛下|猊下)`, 'gi');
-        if (searchReg7.test(text)) {
-            text = text.replaceAll(searchReg7, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '陛下']);
-            codeIndex++;
-        }
-
-        const searchReg8 = new RegExp(`${element[search]}(殿下|殿様)`, 'gi');
-        if (searchReg8.test(text)) {
-            text = text.replaceAll(searchReg8, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '殿下']);
-            codeIndex++;
-        }
-
-        const searchReg9 = new RegExp(`${element[search]}(卿|殿)`, 'gi');
-        if (searchReg9.test(text)) {
-            text = text.replaceAll(searchReg9, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '閣下']);
-            codeIndex++;
-        }
-
-        const searchReg10 = new RegExp(`${element[search]}(お嬢ちゃん|お嬢さん|お嬢様)`, 'gi');
-        if (searchReg10.test(text)) {
-            text = text.replaceAll(searchReg10, codeString[codeIndex]);
+        if (text.includes(element[search] + 'お嬢ちゃん')) {
+            text = text.replaceAll(element[search] + 'お嬢ちゃん', codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement] + '小姐']);
             codeIndex++;
         }
 
-        const searchReg = new RegExp(`${element[search]}(さん|くん|君|)`, 'gi');
-        if (searchReg.test(text)) {
-            text = text.replaceAll(searchReg, codeString[codeIndex]);
+        if (text.includes(element[search] + 'お嬢さん')) {
+            text = text.replaceAll(element[search] + 'お嬢さん', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '小姐']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + 'お嬢様')) {
+            text = text.replaceAll(element[search] + 'お嬢様', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '小姐']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '先輩')) {
+            text = text.replaceAll(element[search] + '先輩', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '前輩']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + 'さま')) {
+            text = text.replaceAll(element[search] + 'さま', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '大人']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '様')) {
+            text = text.replaceAll(element[search] + '様', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '大人']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '提督')) {
+            text = text.replaceAll(element[search] + '提督', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '提督']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '総長')) {
+            text = text.replaceAll(element[search] + '総長', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '總長']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '伯爵')) {
+            text = text.replaceAll(element[search] + '伯爵', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '伯爵']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '卿')) {
+            text = text.replaceAll(element[search] + '卿', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '閣下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '陛下')) {
+            text = text.replaceAll(element[search] + '陛下', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '陛下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '猊下')) {
+            text = text.replaceAll(element[search] + '猊下', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '陛下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '殿下')) {
+            text = text.replaceAll(element[search] + '殿下', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '殿下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '殿様')) {
+            text = text.replaceAll(element[search] + '殿様', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '殿下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + '殿')) {
+            text = text.replaceAll(element[search] + '殿', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '閣下']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search])) {
+            text = text.replaceAll(element[search], codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement]]);
             codeIndex++;
         }

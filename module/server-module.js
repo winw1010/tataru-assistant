@@ -87,9 +87,14 @@ function dataProcess(data) {
                 }
                 lastTimestamp = dialogData.timestamp;
 
+                // name check
+                if (dialogData.name === '...') {
+                    dialogData.name = '';
+                }
+
                 // system message process
                 if (isSystemMessage(dialogData)) {
-                    if (dialogData.name !== '' && dialogData.name !== '...') {
+                    if (dialogData.name !== '') {
                         dialogData.text = dialogData.name + ': ' + dialogData.text;
                         dialogData.name = '';
                     }

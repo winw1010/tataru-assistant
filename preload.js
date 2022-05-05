@@ -12,22 +12,25 @@ const downloadGitRepo = require('download-git-repo');
 // axios
 const axios = require('axios').default;
 
-// server module
-const { startServer } = require('./module/server-module');
-
-// image processing module
-const { takeScreenshot } = require('./module/image-module');
+// audio module
+const { startPlaying } = require('./module/audio-module');
 
 // correction module
 const { correctionEntry } = require('./module/correction-module');
 const { loadJSON_JP } = require('./module/correction-module-jp');
 const { loadJSON_EN } = require('./module/correction-module-en');
 
-// audio module
-const { startPlaying } = require('./module/audio-module');
-
 // dialog module
 const { appendBlankDialog, updateDialog, appendNotification, showDialog, moveToBottom } = require('./module/dialog-module');
+
+// drag module
+const { setDragElement } = require('./module/drag-module');
+
+// image processing module
+const { takeScreenshot } = require('./module/image-module');
+
+// server module
+const { startServer } = require('./module/server-module');
 
 // click through temp
 let isClickThrough = false;
@@ -65,6 +68,9 @@ function setView() {
     }
 
     resetView(config);
+
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
 }
 
 // set event

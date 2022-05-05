@@ -303,7 +303,12 @@ function clearArray(array) {
         // 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element[0].includes('//comment') || element[0] === 'N/A' || element[1] === 'N/A' || /[.+?!=^$<>()-\\]/gi.test(element[0])) {
+            if (element[0].includes('//comment') ||
+                element[0] === 'N/A' ||
+                element[1] === 'N/A' ||
+                /[\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]/gi.test(element[0]) &&
+                !element[0].includes('*')
+            ) {
                 array.splice(index, 1);
             } else if (element[0].includes('*')) {
                 array[index][0] = array[index][0].replaceAll('*', '#');

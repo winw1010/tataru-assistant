@@ -6,6 +6,18 @@ const { ipcRenderer } = require('electron');
 // http
 const http = require('http');
 
+// system channel
+const systemChannel = [
+    '0039',
+    '0839',
+    '0003',
+    '0038',
+    '003C',
+    '0048',
+    '001D',
+    '001C',
+];
+
 // text history
 let textHistory = {};
 
@@ -111,17 +123,6 @@ function dataCheck(dialogData) {
 
 // channel check
 function isSystemMessage(dialogData) {
-    const systemChannel = [
-        '0039',
-        '0839',
-        '0003',
-        '0038',
-        '003C',
-        '0048',
-        '001D',
-        '001C',
-    ];
-
     return systemChannel.includes(dialogData.code);
 }
 

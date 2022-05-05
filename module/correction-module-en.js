@@ -188,7 +188,7 @@ async function nameCorrection(name, translation) {
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
         if (outputName.length < 3) {
-            chArray.chTemp.push([name + '*', outputName, 'npc']);
+            chArray.chTemp.push([name, outputName, 'npc']);
         } else {
             chArray.chTemp.push([name, outputName, 'npc']);
         }

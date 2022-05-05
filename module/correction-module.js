@@ -7,6 +7,53 @@ const { languageTable } = require('./translator/language-table');
 const { addToCorrectionQueue_JP } = require('./correction-module-jp');
 const { addToCorrectionQueue_EN } = require('./correction-module-en');
 
+// player channel
+const playerChannel = [
+    // Say
+    '000A',
+
+    // Shout
+    '000B',
+
+    // Party
+    '000E',
+
+    // Tell
+    '000D',
+
+    // FreeCompany
+    '0018',
+
+    // Yell
+    '001E',
+
+    // Alliance
+    '000F',
+
+    // LinkShell
+    '0010',
+    '0011',
+    '0012',
+    '0013',
+    '0014',
+    '0015',
+    '0016',
+    '0017',
+
+    // CWLS
+    '0025',
+    '0065',
+    '0066',
+    '0067',
+    '0068',
+    '0069',
+    '006A',
+    '006B',
+
+    // NoviceNetwork
+    '001B',
+];
+
 function correctionEntry(dialogData, translation) {
     if (getLanguageFrom(dialogData, translation) === languageTable.ja) {
         translation.from = languageTable.ja;
@@ -22,52 +69,6 @@ function getLanguageFrom(dialogData, translation) {
 }
 
 function isPlayerChannel(code) {
-    const playerChannel = [
-        // Say
-        '000A',
-
-        // Shout
-        '000B',
-
-        // Party
-        '000E',
-
-        // Tell
-        '000D',
-
-        // FreeCompany
-        '0018',
-
-        // Yell
-        '001E',
-
-        // Alliance
-        '000F',
-
-        // LinkShell
-        '0010',
-        '0011',
-        '0012',
-        '0013',
-        '0014',
-        '0015',
-        '0016',
-        '0017',
-
-        // CWLS
-        '0025',
-        '0065',
-        '0066',
-        '0067',
-        '0068',
-        '0069',
-        '006A',
-        '006B',
-
-        // NoviceNetwork
-        '001B',
-    ];
-
     return playerChannel.includes(code);
 }
 

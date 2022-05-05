@@ -24,6 +24,9 @@ const { createLogName } = require('./module/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
+// Japanese character
+const japaneseCharacter = /[ァ-ヺぁ-ゖ\u4E00-\u9FFF]/gi;
+
 // target log
 let targetLog = null;
 
@@ -235,8 +238,10 @@ function setButton() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp') {
-        textBefore = textBefore + '*';
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
+        if (japaneseCharacter.test(textBefore)) {
+            textBefore = textBefore + '*';
+        }
     }
 
     if (sameAsArrayItem(textBefore, array)) {
@@ -258,8 +263,10 @@ function addTemp(textBefore, textAfter, type, array) {
 function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp') {
-        textBefore = textBefore + '*';
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
+        if (japaneseCharacter.test(textBefore)) {
+            textBefore = textBefore + '*';
+        }
     }
 
     for (let index = array.length - 1; index >= 0; index--) {

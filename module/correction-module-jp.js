@@ -370,11 +370,7 @@ function isAllKata(name, text) {
         return true;
     }
 
-    if (/[ぁ-ゖ]/gi.test(text)) {
-        return false;
-    }
-
-    return true;
+    return !/[ぁ-ゖ]/gi.test(text);
 }
 
 exports.loadJSON_JP = loadJSON;

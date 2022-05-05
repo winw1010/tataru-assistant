@@ -1,5 +1,26 @@
 'use strict';
 
+// female words
+const femaleWords = [
+    'Girl',
+    'She',
+    'Her',
+    'Women',
+    'Female',
+    'Lady',
+    'Grandmother',
+    'Grandma',
+    'Mother',
+    'Mom',
+    'Granddaughter',
+    'Daughter',
+    'Aunt',
+    'Niece',
+    'Waitress',
+    'Actress',
+    'Heroine'
+];
+
 // en text function
 function replaceText(text, array, search = 0, replacement = 1) {
     if (!Array.isArray(array)) {
@@ -35,7 +56,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     let table = [];
     for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
         const element = array[index];
-        const searchReg = new RegExp(`\\b(The |A |)(${element[search]}es|${element[search]}s|${element[search]}an|${element[search]}n|${element[search]})\\b`, 'gi');
+        const searchReg = new RegExp(`\\b(The |A |)${element[search]}(es|an|s|n|)\\b`, 'gi');
 
         if (searchReg.test(text)) {
             text = text.replaceAll(searchReg, codeString[codeIndex]);
@@ -68,28 +89,8 @@ function canSkipTranslation(text, table) {
 }
 
 function genderFix(originalText, translatedText) {
-    const femaleWord = [
-        'Girl',
-        'She',
-        'Her',
-        'Women',
-        'Female',
-        'Lady',
-        'Grandmother',
-        'Grandma',
-        'Mother',
-        'Mom',
-        'Granddaughter',
-        'Daughter',
-        'Aunt',
-        'Niece',
-        'Waitress',
-        'Actress',
-        'Heroine'
-    ];
-
     let isFemale = false;
-    if (new RegExp(femaleWord.join('|'), 'gi').test(originalText)) {
+    if (new RegExp(femaleWords.join('|'), 'gi').test(originalText)) {
         isFemale = true;
     }
 

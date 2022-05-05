@@ -310,7 +310,7 @@ function specialTextFix(name, text) {
     text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(/\\(.*?\\)/gi, '');
+    text = text.replaceAll(/\(.*?\)/gi, '');
 
     // コボルド族
     if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {

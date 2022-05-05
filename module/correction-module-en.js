@@ -248,7 +248,7 @@ function specialTextFix(name, text) {
     text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(/\\(.*?\\)/gi, '');
+    text = text.replaceAll(/\(.*?\)/gi, '');
 
     return text;
 }

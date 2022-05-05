@@ -99,7 +99,7 @@ function markFix(text) {
     text = text.replaceAll(/（.*?）/gi, '');
 
     // remove ()
-    text = text.replaceAll(/\\(.*?\\)/gi, '');
+    text = text.replaceAll(/\(.*?\)/gi, '');
 
     // fix 「「
     const matchStrings2 = text.match(/「[^」]*?「/gi);

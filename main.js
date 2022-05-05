@@ -314,7 +314,7 @@ function getSize(type) {
             x = displayBounds.x + parseInt(screenWidth * 0.2);
             y = parseInt(screenHeight * 0.2);
             width = parseInt(screenWidth * 0.5);
-            height = parseInt(screenHeight * 0.5);
+            height = parseInt(screenHeight * 0.6);
             break;
 
         case 'read_log':

@@ -32,7 +32,9 @@ function setHTML() {
 }
 
 // set view
-function setView() {}
+function setView() {
+    document.getElementById('img_result').setAttribute('src', getPath('result.png'));
+}
 
 // set event
 function setEvent() {

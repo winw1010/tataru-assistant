@@ -285,13 +285,13 @@ function saveConfig() {
 
     const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
     for (let index = 0; index < checkedArray.length; index++) {
-        const code = checkedArray[index].id.replace('checkbox_', '').toUpperCase();
+        const code = checkedArray[index].id.replaceAll('checkbox_', '').toUpperCase();
         config.channel[code] = document.getElementById(`color_${code}_color`).value.toUpperCase();
     }
 
     const channelArray = document.querySelectorAll('#div_channel input[type="checkbox"]');
     for (let index = 0; index < channelArray.length; index++) {
-        const code = channelArray[index].id.replace('checkbox_', '').toUpperCase();
+        const code = channelArray[index].id.replaceAll('checkbox_', '').toUpperCase();
         chatCode[index].Color = document.getElementById(`color_${code}_color`).value.toUpperCase();
     }
 

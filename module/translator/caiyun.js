@@ -20,7 +20,8 @@ async function translate(text, languageFrom, languageTo) {
             headers: {
                 'content-type': 'application/json',
                 'x-authorization': 'token lqkr1tfixq1wa9kmj9po'
-            }
+            },
+            timeout: 10000
         });
 
         console.log('Caiyun:', response.data);

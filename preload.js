@@ -324,7 +324,8 @@ async function versionCheck() {
             url: 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
             headers: {
                 'content-type': 'application/json'
-            }
+            },
+            timeout: 10000
         });
         const latestVersion = response.data.number;
         const appVersion = ipcRenderer.sendSync('get-version');

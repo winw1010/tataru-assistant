@@ -240,7 +240,7 @@ function setButton() {
 function addTemp(textBefore, textAfter, type, array) {
     if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
         if (japaneseCharacter.test(textBefore)) {
-            textBefore = textBefore + '*';
+            textBefore = textBefore + '#';
         }
     }
 
@@ -265,7 +265,7 @@ function deleteTemp(textBefore, type, array) {
 
     if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
         if (japaneseCharacter.test(textBefore)) {
-            textBefore = textBefore + '*';
+            textBefore = textBefore + '#';
         }
     }
 

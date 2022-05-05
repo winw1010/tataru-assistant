@@ -191,9 +191,9 @@ async function nameCorrection(name, translation) {
     // same check
     if (cf.sameAsArrayItem(name, chArray.combine)) {
         return cfjp.replaceText(name, chArray.combine);
-    } else if (cf.sameAsArrayItem(name + '*', chArray.combine)) {
+    } else if (cf.sameAsArrayItem(name + '#', chArray.combine)) {
         // 2 word name
-        return cfjp.replaceText(name + '*', chArray.combine);
+        return cfjp.replaceText(name + '#', chArray.combine);
     } else {
         let outputName = '';
 
@@ -228,7 +228,7 @@ async function nameCorrection(name, translation) {
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
         if (outputName.length < 3) {
-            chArray.chTemp.push([name + '*', outputName, 'npc']);
+            chArray.chTemp.push([name + '#', outputName, 'npc']);
         } else {
             chArray.chTemp.push([name, outputName, 'npc']);
         }
@@ -317,9 +317,8 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ー', '');
     }
 
-    // マムージャ族
-    /*/ージャ|強化グリーンワート/*/
-    if (/ージャ/gi.test(name)) {
+    // マムージャ族 & 強化グリーンワート
+    if (/マムージャ|ージャジャ$|ージャ$|強化グリーンワート/gi.test(name)) {
         text = text.replaceAll('、', '');
     }
 
@@ -327,7 +326,7 @@ function specialTextFix(name, text) {
     if (/ヌバ|バヌ|ズンド|ブンド|グンド/gi.test(name)) {
         // 長老さま、長老さま！
         // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-        const regString = text.match(/(.{3,})、\1/gi);
+        const regString = text.match(/(.{3,}?)、\1/gi);
         if (regString) {
             regString.forEach((value) => {
                 text = text.replaceAll(value, value.slice(0, value.indexOf('、')));

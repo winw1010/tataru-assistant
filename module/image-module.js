@@ -170,10 +170,9 @@ function translate(text) {
 
     // fix
     text = text
-        .replace(/ /g, '')
-        .replace(/`/g, '「')
-        .replace(/道填/g, '道士')
-        .replace(/機工填/g, '機工士');
+        .replaceAll(/\s/gi, '')
+        .replaceAll(/`/gi, '「')
+        .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
 
     // return if need to edit
     if (config.captureWindow.edit) {
@@ -186,7 +185,7 @@ function translate(text) {
     if (config.captureWindow.split) {
         array = text.split('\n');
     } else {
-        array = [text.replace(/\n/g, ' ')];
+        array = [text.replaceAll(/\n/gi, ' ')];
     }
 
     // delete images

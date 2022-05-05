@@ -207,6 +207,14 @@ function readJSONOverwrite(ch) {
 
         overwrite = sortArray(overwrite);
 
+        // replace regular expression sign
+        overwrite.forEach((item, index) => {
+            const regString = item[0].match(/[.+*?!^$<>(){}|]|\[|\]|-/gi);
+            regString.forEach((regSign) => {
+                overwrite[index][0] = overwrite[index][0].replaceAll(regSign, '\\' + regSign);
+            });
+        });
+
         console.log('overwrite:', overwrite);
 
         return overwrite;
@@ -303,20 +311,10 @@ function clearArray(array) {
         // 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element[0].includes('//comment') ||
-                element[0] === 'N/A' ||
-                element[1] === 'N/A' ||
-                /[\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]/gi.test(element[0]) &&
-                !element[0].includes('*') &&
-                !element[0].includes('.')
-            ) {
+            if (element[0].includes('//comment') || element[0] === 'N/A' || element[1] === 'N/A') {
                 array.splice(index, 1);
                 continue;
-            } else if (element[0].includes('*')) {
-                array[index][0] = array[index][0].replaceAll('*', '#');
             }
-
-            array[index][0] = array[index][0].replaceAll('.', '\\.');
         }
     } else {
         // not 2d

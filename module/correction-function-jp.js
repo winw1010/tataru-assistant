@@ -44,8 +44,11 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     let codeString = 'BCDFGHJKLMNPQRSTVWXYZ';
 
     // clear code
-    for (let index = 0; index < text.length; index++) {
-        codeString = codeString.replaceAll(text[index].toUpperCase(), '');
+    const characters = text.match(/[a-z]/gi);
+    if (characters) {
+        for (let index = 0; index < characters.length; index++) {
+            codeString = codeString.replaceAll(characters[index].toUpperCase(), '');
+        }
     }
 
     // set table

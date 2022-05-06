@@ -102,6 +102,7 @@ function canSkipTranslation(text, table) {
 
 function genderFix(originalText, translatedText) {
     let isFemale = false;
+
     if (new RegExp(femaleWords.join('|'), 'gi').test(originalText)) {
         isFemale = true;
     }

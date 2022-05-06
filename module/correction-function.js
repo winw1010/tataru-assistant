@@ -37,11 +37,11 @@ function canIgnore(text, ignoreArray) {
 
 function includesArrayItem(text, array, searchIndex = 0) {
     if (text === '') {
-        return null;
+        return [];
     }
 
     if (!Array.isArray(array)) {
-        return null;
+        return [];
     }
 
     // 2d check
@@ -60,16 +60,16 @@ function includesArrayItem(text, array, searchIndex = 0) {
         }
     }
 
-    return targetIndices.length > 0 ? targetIndices : null;
+    return targetIndices;
 }
 
 function sameAsArrayItem(text, array, searchIndex = 0) {
     if (text === '') {
-        return null;
+        return -1;
     }
 
     if (!Array.isArray(array)) {
-        return null;
+        return -1;
     }
 
     // 2d check
@@ -88,7 +88,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
         }
     }
 
-    return targetIndex >= 0 ? targetIndex : null;
+    return targetIndex;
 }
 
 async function translate(text, translation) {

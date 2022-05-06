@@ -251,7 +251,7 @@ function addTemp(textBefore, textAfter, type, array) {
     }
 
     const targetIndex = cf.sameAsArrayItem(textBefore, array);
-    if (targetIndex) {
+    if (targetIndex >= 0) {
         array[targetIndex] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
         array.push((type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter]);

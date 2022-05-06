@@ -163,7 +163,7 @@ async function nameCorrection(name, translation) {
 
     // same check
     const targetIndex = cf.sameAsArrayItem(name, combine);
-    if (targetIndex) {
+    if (targetIndex >= 0) {
         return combine[targetIndex][1];
     } else {
         // code
@@ -191,8 +191,8 @@ async function nameCorrection(name, translation) {
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
-        if (outputName.length < 3) {
-            chArray.chTemp.push([name, outputName, 'npc']);
+        if (name.length < 3) {
+            chArray.chTemp.push([name + '#', outputName, 'npc']);
         } else {
             chArray.chTemp.push([name, outputName, 'npc']);
         }

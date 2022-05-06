@@ -31,7 +31,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
     }
 
     const targetIndices = cf.includesArrayItem(text, array);
-    if (targetIndices) {
+    if (targetIndices.length > 0) {
         for (let index = 0; index < targetIndices.length; index++) {
             const element = array[targetIndices[index]];
             text = text.replaceAll(element[search], element[replacement]);
@@ -64,7 +64,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     // set table
     const targetIndices = cf.includesArrayItem(text, array);
     let table = [];
-    if (targetIndices) {
+    if (targetIndices.length > 0) {
         for (let index = 0; index < targetIndices.length && codeIndex < codeString.length; index++) {
             const element = array[targetIndices[index]];
             const searchReg = new RegExp(`\\b(The |A |)${element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&')}(es|an|s|n|)\\b`, 'gi');

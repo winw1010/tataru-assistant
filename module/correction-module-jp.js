@@ -194,9 +194,9 @@ async function nameCorrection(name, translation) {
     // same check
     const targetIndex1 = cf.sameAsArrayItem(name, combine);
     const targetIndex2 = cf.sameAsArrayItem(name + '#', combine);
-    if (targetIndex1) {
+    if (targetIndex1 >= 0) {
         return combine[targetIndex1][1];
-    } else if (targetIndex2) {
+    } else if (targetIndex2 >= 0) {
         // 2 characters name
         return combine[targetIndex2][1].replaceAll('#', '');
     } else {
@@ -232,7 +232,7 @@ async function nameCorrection(name, translation) {
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
-        if (outputName.length < 3) {
+        if (name.length < 3) {
             chArray.chTemp.push([name + '#', outputName, 'npc']);
         } else {
             chArray.chTemp.push([name, outputName, 'npc']);
@@ -258,7 +258,7 @@ async function textCorrection(name, text, translation) {
 
     // force overwrite
     const targetIndex = cf.sameAsArrayItem(text, chArray.overwrite);
-    if (targetIndex) {
+    if (targetIndex >= 0) {
         return chArray.overwrite[targetIndex][1];
     } else {
         // subtitle
@@ -338,7 +338,7 @@ function specialTextFix(name, text) {
     }
 
     // 水晶公判斷
-    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
+    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium).length > 0) {
         text = text
             .replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
@@ -363,7 +363,7 @@ function specialTextFix(name, text) {
 
 // kata check
 function isAllKata(name, text) {
-    if (cf.includesArrayItem(name, jpArray.listHira)) {
+    if (cf.includesArrayItem(name, jpArray.listHira).length > 0) {
         return true;
     }
 

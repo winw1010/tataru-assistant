@@ -183,6 +183,11 @@ function readJSONMain(sub0, sub1) {
 
         mainArray = sortArray(mainArray);
 
+        // escape regular expression
+        mainArray.forEach((item, index) => {
+            mainArray[index][0] = item[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        });
+
         console.log('main:', mainArray);
 
         return mainArray;
@@ -206,15 +211,6 @@ function readJSONOverwrite(ch) {
         }
 
         overwrite = sortArray(overwrite);
-
-        // replace regular expression sign
-        overwrite.forEach((item, index) => {
-            const regString = item[0].match(/[.+*?!^$<>(){}|]|\[|\]|-/gi);
-            regString.forEach((regSign) => {
-                overwrite[index][0] = overwrite[index][0].replaceAll(regSign, '\\' + regSign);
-            });
-        });
-
         console.log('overwrite:', overwrite);
 
         return overwrite;

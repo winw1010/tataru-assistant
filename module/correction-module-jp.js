@@ -174,7 +174,7 @@ function savePlayerName(playerName) {
                 [lastName, lastName]
             ];
 
-            // combine
+            // set combine
             chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
             // write
@@ -188,12 +188,17 @@ async function nameCorrection(name, translation) {
         return '';
     }
 
+    // get combine
+    const combine = chArray.combine;
+
     // same check
-    if (cf.sameAsArrayItem(name, chArray.combine)) {
-        return cfjp.replaceText(name, chArray.combine);
-    } else if (cf.sameAsArrayItem(name + '#', chArray.combine)) {
-        // 2 word name
-        return cfjp.replaceText(name + '#', chArray.combine);
+    const targetIndex1 = cf.sameAsArrayItem(name, combine);
+    const targetIndex2 = cf.sameAsArrayItem(name + '#', combine);
+    if (targetIndex1) {
+        return combine[targetIndex1][1];
+    } else if (targetIndex2) {
+        // 2 characters name
+        return combine[targetIndex2][1].replaceAll('#', '');
     } else {
         let outputName = '';
 
@@ -203,7 +208,7 @@ async function nameCorrection(name, translation) {
         } else {
             // not all kata => use standard
             // code
-            const result = cfjp.replaceTextByCode(name, chArray.combine);
+            const result = cfjp.replaceTextByCode(name, combine);
 
             // translate name
             outputName = result.text;
@@ -233,7 +238,7 @@ async function nameCorrection(name, translation) {
             chArray.chTemp.push([name, outputName, 'npc']);
         }
 
-        // combine
+        // set combine
         chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
         // write
@@ -252,8 +257,9 @@ async function textCorrection(name, text, translation) {
     const originalText = text;
 
     // force overwrite
-    if (cf.sameAsArrayItem(text, chArray.overwrite)) {
-        return cfjp.replaceText(text, chArray.overwrite);
+    const targetIndex = cf.sameAsArrayItem(text, chArray.overwrite);
+    if (targetIndex) {
+        return chArray.overwrite[targetIndex][1];
     } else {
         // subtitle
         text = cfjp.replaceText(text, jpArray.subtitle);

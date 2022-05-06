@@ -170,8 +170,8 @@ function translate(text) {
 
     // fix
     text = text
-        .replaceAll(/ /gi, '')
-        .replaceAll(/`/gi, '「')
+        .replaceAll(' ', '')
+        .replaceAll('`', '「')
         .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
 
     // return if need to edit
@@ -185,7 +185,7 @@ function translate(text) {
     if (config.captureWindow.split) {
         array = text.split('\n');
     } else {
-        array = [text.replaceAll(/\n/gi, ' ')];
+        array = [text.replaceAll('\n', ' ')];
     }
 
     // delete images

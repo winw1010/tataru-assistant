@@ -67,7 +67,7 @@ function translate(text) {
     if (config.captureWindow.split) {
         array = text.split('\n');
     } else {
-        array = [text.replaceAll(/\n/gi, '')];
+        array = [text.replaceAll('\n', '')];
     }
 
     // delete images

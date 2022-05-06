@@ -37,56 +37,58 @@ function canIgnore(text, ignoreArray) {
 
 function includesArrayItem(text, array, searchIndex = 0) {
     if (text === '') {
-        return false;
+        return null;
     }
 
     if (!Array.isArray(array)) {
-        return false;
+        return null;
     }
 
+    // 2d check
     if (Array.isArray(array[0])) {
-        for (let index = 0; index < array.length; index++) {
-            const item = array[index];
+        array = array.map(value => value[searchIndex]);
+    }
 
-            if (text.includes(item[searchIndex])) {
-                return true;
-            }
-        }
-    } else {
-        for (let index = 0; index < array.length; index++) {
-            const item = array[index];
+    // get target indices
+    let targetIndices = [];
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
 
-            if (text.includes(item)) {
-                return true;
-            }
+        if (text.includes(element)) {
+            text = text.replaceAll(element, '');
+            targetIndices.push(index);
         }
     }
 
-    return false
+    return targetIndices.length > 0 ? targetIndices : null;
 }
 
 function sameAsArrayItem(text, array, searchIndex = 0) {
     if (text === '') {
-        return false;
+        return null;
     }
 
     if (!Array.isArray(array)) {
-        return false;
+        return null;
     }
 
+    // 2d check
     if (Array.isArray(array[0])) {
-        for (let index = 0; index < array.length; index++) {
-            const item = array[index];
-
-            if (text === item[searchIndex]) {
-                return true;
-            }
-        }
-    } else {
-        return array.includes(text);
+        array = array.map(value => value[searchIndex]);
     }
 
-    return false;
+    // get target index
+    let targetIndex = -1;
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+
+        if (text === element) {
+            targetIndex = index;
+            break;
+        }
+    }
+
+    return targetIndex >= 0 ? targetIndex : null;
 }
 
 async function translate(text, translation) {
@@ -172,14 +174,7 @@ function readJSONMain(sub0, sub1) {
         }
 
         mainArray = sortArray(mainArray);
-
-        // escape regular expression
-        mainArray.forEach((value, index) => {
-            mainArray[index][0] = value[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        });
-
         console.log('main:', mainArray);
-
         return mainArray;
     } catch (error) {
         console.log(error);
@@ -202,7 +197,6 @@ function readJSONOverwrite(ch) {
 
         overwrite = sortArray(overwrite);
         console.log('overwrite:', overwrite);
-
         return overwrite;
     } catch (error) {
         console.log(error);
@@ -224,9 +218,7 @@ function readJSONSubtitle() {
         }
 
         subtitle = sortArray(subtitle);
-
         console.log('subtitle:', subtitle);
-
         return subtitle;
     } catch (error) {
         console.log(error);
@@ -297,9 +289,12 @@ function clearArray(array) {
         // 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
+
             if (element[0].includes('//comment') || element[0] === 'N/A' || element[1] === 'N/A') {
                 array.splice(index, 1);
-                continue;
+            } else {
+                // for new version
+                array[index][0] = element[0].replaceAll('*', '#');
             }
         }
     } else {

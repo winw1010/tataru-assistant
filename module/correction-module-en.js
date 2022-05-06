@@ -144,7 +144,7 @@ function savePlayerName(playerName) {
                 [lastName, lastName]
             ];
 
-            // combine
+            // set combine
             chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
             // write
@@ -158,12 +158,16 @@ async function nameCorrection(name, translation) {
         return '';
     }
 
+    // get combine
+    const combine = chArray.combine;
+
     // same check
-    if (cf.sameAsArrayItem(name, chArray.combine)) {
-        return cfen.replaceText(name, chArray.combine);
+    const targetIndex = cf.sameAsArrayItem(name, combine);
+    if (targetIndex) {
+        return combine[targetIndex][1];
     } else {
         // code
-        const result = cfen.replaceTextByCode(name, chArray.combine);
+        const result = cfen.replaceTextByCode(name, combine);
 
         // translate name
         let outputName = '';
@@ -193,7 +197,7 @@ async function nameCorrection(name, translation) {
             chArray.chTemp.push([name, outputName, 'npc']);
         }
 
-        // combine
+        // set combine
         chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
         // write

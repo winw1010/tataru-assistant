@@ -16,7 +16,7 @@ const googleTTS = require('google-tts-api');
 const { googleTable, getTableValue } = require('./module/translator/language-table');
 
 // cf
-const { readJSONPure, writeJSON, sameAsArrayItem } = require('./module/correction-function');
+const cf = require('./module/correction-function');
 
 // drag module
 const { setDragElement } = require('./module/drag-module');
@@ -191,17 +191,17 @@ function setButton() {
 
         if (textBefore !== '' && textAfter !== '') {
             if (type === 'jp') {
-                let jpTemp = readJSONPure('text_temp', 'jpTemp.json');
+                let jpTemp = cf.readJSONPure('text_temp', 'jpTemp.json');
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                writeJSON('text_temp', 'jpTemp.json', jpTemp);
+                cf.writeJSON('text_temp', 'jpTemp.json', jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = readJSONPure('text_temp', 'overwriteTemp.json');
+                let overwriteTemp = cf.readJSONPure('text_temp', 'overwriteTemp.json');
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
+                cf.writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
             } else {
-                let chTemp = readJSONPure('text_temp', 'chTemp.json');
+                let chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                writeJSON('text_temp', 'chTemp.json', chTemp);
+                cf.writeJSON('text_temp', 'chTemp.json', chTemp);
             }
 
             ipcRenderer.send('send-preload', 'show-notification', '已儲存自訂翻譯');
@@ -217,17 +217,17 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = readJSONPure('text_temp', 'jpTemp.json');
+                let jpTemp = cf.readJSONPure('text_temp', 'jpTemp.json');
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                writeJSON('text_temp', 'jpTemp.json', jpTemp);
+                cf.writeJSON('text_temp', 'jpTemp.json', jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = readJSONPure('text_temp', 'overwriteTemp.json');
+                let overwriteTemp = cf.readJSONPure('text_temp', 'overwriteTemp.json');
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
+                cf.writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
             } else {
-                let chTemp = readJSONPure('text_temp', 'chTemp.json');
+                let chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                writeJSON('text_temp', 'chTemp.json', chTemp);
+                cf.writeJSON('text_temp', 'chTemp.json', chTemp);
             }
 
             ipcRenderer.send('send-preload', 'show-notification', '已刪除自訂翻譯');
@@ -250,15 +250,9 @@ function addTemp(textBefore, textAfter, type, array) {
         }
     }
 
-    if (sameAsArrayItem(textBefore, array)) {
-        for (let index = 0; index < array.length; index++) {
-            const item = array[index];
-
-            if (item[0] === textBefore) {
-                array[index] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
-                break;
-            }
-        }
+    const targetIndex = cf.sameAsArrayItem(textBefore, array);
+    if (targetIndex) {
+        array[targetIndex] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
         array.push((type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }

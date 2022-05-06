@@ -1,5 +1,8 @@
 'use strict';
 
+// correction function
+const cf = require('./correction-function');
+
 // female words
 const femaleWords = [
     'Girl',
@@ -27,9 +30,12 @@ function replaceText(text, array, search = 0, replacement = 1) {
         return text;
     }
 
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
-        text = text.replaceAll(element[search], element[replacement]);
+    const targetIndices = cf.includesArrayItem(text, array);
+    if (targetIndices) {
+        for (let index = 0; index < targetIndices.length; index++) {
+            const element = array[targetIndices[index]];
+            text = text.replaceAll(element[search], element[replacement]);
+        }
     }
 
     return text;
@@ -52,16 +58,19 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         codeString = codeString.replaceAll(text[index].toUpperCase(), '');
     }
 
-    // create table
+    // set table
+    const targetIndices = cf.includesArrayItem(text, array);
     let table = [];
-    for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
-        const element = array[index];
-        const searchReg = new RegExp(`\\b(The |A |)${element[search]}(es|an|s|n|)\\b`, 'gi');
+    if (targetIndices) {
+        for (let index = 0; index < targetIndices.length && codeIndex < codeString.length; index++) {
+            const element = array[targetIndices[index]];
+            const searchReg = new RegExp(`\\b(The |A |)${element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&')}(es|an|s|n|)\\b`, 'gi');
 
-        if (searchReg.test(text)) {
-            text = text.replaceAll(searchReg, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
+            if (searchReg.test(text)) {
+                text = text.replaceAll(searchReg, codeString[codeIndex]);
+                table.push([codeString[codeIndex], element[replacement]]);
+                codeIndex++;
+            }
         }
     }
 

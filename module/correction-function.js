@@ -95,27 +95,17 @@ async function translate(text, translation) {
 }
 
 function markFix(text) {
-    // remove （）
+    // remove （） and its content
     text = text.replaceAll(/（.*?）/gi, '');
 
-    // remove ()
+    // remove () and its content
     text = text.replaceAll(/\(.*?\)/gi, '');
 
     // fix 「「
-    const matchStrings2 = text.match(/「[^」]*?「/gi);
-    if (matchStrings2) {
-        matchStrings2.forEach((value) => {
-            text = text.replaceAll(value, `「${value.replaceAll('「','')}」`);
-        });
-    }
+    text = text.replaceAll(/(「)([^」]*?)(\1)/gi, '「$2」');
 
     // fix 」」
-    const matchStrings3 = text.match(/」[^「]*?」/gi);
-    if (matchStrings3) {
-        matchStrings3.forEach((value) => {
-            text = text.replaceAll(value, `「${value.replaceAll('」','')}」`);
-        });
-    }
+    text = text.replaceAll(/(」)([^「]*?)(\1)/gi, '「$2」');
 
     return text;
 }
@@ -184,8 +174,8 @@ function readJSONMain(sub0, sub1) {
         mainArray = sortArray(mainArray);
 
         // escape regular expression
-        mainArray.forEach((item, index) => {
-            mainArray[index][0] = item[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        mainArray.forEach((value, index) => {
+            mainArray[index][0] = value[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
         });
 
         console.log('main:', mainArray);

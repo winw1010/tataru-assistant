@@ -244,11 +244,8 @@ async function textCorrection(name, text, translation) {
 
 // special text fix
 function specialTextFix(name, text) {
-    // remove （）
-    text = text.replaceAll(/（.*?）/gi, '');
-
-    // remove ()
-    text = text.replaceAll(/\(.*?\)/gi, '');
+    // mark fix
+    text = cf.markFix(text);
 
     return text;
 }

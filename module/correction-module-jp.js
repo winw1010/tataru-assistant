@@ -306,11 +306,8 @@ async function textCorrection(name, text, translation) {
 
 // special text fix
 function specialTextFix(name, text) {
-    // remove （）
-    text = text.replaceAll(/（.*?）/gi, '');
-
-    // remove ()
-    text = text.replaceAll(/\(.*?\)/gi, '');
+    // mark fix
+    text = cf.markFix(text);
 
     // コボルド族
     if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
@@ -326,12 +323,7 @@ function specialTextFix(name, text) {
     if (/ヌバ|バヌ|ズンド|ブンド|グンド/gi.test(name)) {
         // 長老さま、長老さま！
         // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-        const regString = text.match(/(.{3,}?)、\1/gi);
-        if (regString) {
-            regString.forEach((value) => {
-                text = text.replaceAll(value, value.slice(0, value.indexOf('、')));
-            });
-        }
+        text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
     }
 
     // 核修正

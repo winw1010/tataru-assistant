@@ -28,7 +28,7 @@ const { createLogName } = require('./module/dialog-module');
 const { execSync } = require('child_process');
 
 // Japanese character
-const japaneseCharacter = /[ァ-ヺぁ-ゖ\u4E00-\u9FFF]/gi;
+const kana = /^[ァ-ヺぁ-ゖ]+$/gi;
 
 // target log
 let targetLog = null;
@@ -245,14 +245,14 @@ function setButton() {
 
 function addTemp(textBefore, textAfter, type, array) {
     if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
-        if (japaneseCharacter.test(textBefore)) {
+        if (kana.test(textBefore)) {
             textBefore = textBefore + '#';
         }
     }
 
-    const targetIndex = cf.sameAsArrayItem(textBefore, array);
-    if (targetIndex >= 0) {
-        array[targetIndex] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
+    const target = cf.sameAsArrayItem(textBefore, array);
+    if (target) {
+        array[target[1]] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
         array.push((type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }
@@ -264,7 +264,7 @@ function deleteTemp(textBefore, type, array) {
     let count = 0;
 
     if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
-        if (japaneseCharacter.test(textBefore)) {
+        if (kana.test(textBefore)) {
             textBefore = textBefore + '#';
         }
     }

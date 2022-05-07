@@ -188,17 +188,14 @@ async function nameCorrection(name, translation) {
         return '';
     }
 
-    // get combine
-    const combine = chArray.combine;
-
     // same check
-    const targetIndex1 = cf.sameAsArrayItem(name, combine);
-    const targetIndex2 = cf.sameAsArrayItem(name + '#', combine);
-    if (targetIndex1 >= 0) {
-        return combine[targetIndex1][1];
-    } else if (targetIndex2 >= 0) {
+    const target1 = cf.sameAsArrayItem(name, chArray.combine);
+    const target2 = cf.sameAsArrayItem(name + '#', chArray.combine);
+    if (target1) {
+        return target1[0][1];
+    } else if (target2) {
         // 2 characters name
-        return combine[targetIndex2][1].replaceAll('#', '');
+        return target2[0][1].replaceAll('#', '');
     } else {
         let outputName = '';
 
@@ -208,7 +205,7 @@ async function nameCorrection(name, translation) {
         } else {
             // not all kata => use standard
             // code
-            const result = cfjp.replaceTextByCode(name, combine);
+            const result = cfjp.replaceTextByCode(name, chArray.combine);
 
             // translate name
             outputName = result.text;
@@ -257,9 +254,9 @@ async function textCorrection(name, text, translation) {
     const originalText = text;
 
     // force overwrite
-    const targetIndex = cf.sameAsArrayItem(text, chArray.overwrite);
-    if (targetIndex >= 0) {
-        return chArray.overwrite[targetIndex][1];
+    const target = cf.sameAsArrayItem(text, chArray.overwrite);
+    if (target) {
+        return target[0][1];
     } else {
         // subtitle
         text = cfjp.replaceText(text, jpArray.subtitle);
@@ -338,7 +335,7 @@ function specialTextFix(name, text) {
     }
 
     // 水晶公判斷
-    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium).length > 0) {
+    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
         text = text
             .replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
@@ -363,11 +360,11 @@ function specialTextFix(name, text) {
 
 // kata check
 function isAllKata(name, text) {
-    if (cf.includesArrayItem(name, jpArray.listHira).length > 0) {
+    if (cf.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
-    return !/[ぁ-ゖ]/gi.test(text);
+    return /^[^ぁ-ゖ]+$/gi.test(text);
 }
 
 exports.loadJSON_JP = loadJSON;

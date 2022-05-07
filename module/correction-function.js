@@ -36,59 +36,72 @@ function canIgnore(text, ignoreArray) {
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
+    // search array
+    let searchArray = array;
+
+    // target
+    let target = null;
+
     if (text === '') {
-        return [];
+        return target;
     }
 
     if (!Array.isArray(array)) {
-        return [];
+        return target;
     }
 
     // 2d check
     if (Array.isArray(array[0])) {
-        array = array.map(value => value[searchIndex]);
+        searchArray = array.map(value => value[searchIndex]);
     }
 
-    // get target indices
-    let targetIndices = [];
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
+    // match
+    let temp = [];
+    for (let index = 0; index < searchArray.length; index++) {
+        const element = searchArray[index];
 
         if (text.includes(element)) {
             text = text.replaceAll(element, '');
-            targetIndices.push(index);
+            temp.push(array[index]);
         }
     }
 
-    return targetIndices;
+    target = temp.length > 0 ? temp : null;
+
+    return target;
 }
 
 function sameAsArrayItem(text, array, searchIndex = 0) {
+    // search array
+    let searchArray = array;
+
+    // target
+    let target = null;
+
     if (text === '') {
-        return -1;
+        return target;
     }
 
     if (!Array.isArray(array)) {
-        return -1;
+        return target;
     }
 
     // 2d check
     if (Array.isArray(array[0])) {
-        array = array.map(value => value[searchIndex]);
+        searchArray = array.map(value => value[searchIndex]);
     }
 
-    // get target index
-    let targetIndex = -1;
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
+    // match
+    for (let index = 0; index < searchArray.length; index++) {
+        const element = searchArray[index];
 
         if (text === element) {
-            targetIndex = index;
+            target = [array[index], index];
             break;
         }
     }
 
-    return targetIndex;
+    return target;
 }
 
 async function translate(text, translation) {

@@ -158,16 +158,13 @@ async function nameCorrection(name, translation) {
         return '';
     }
 
-    // get combine
-    const combine = chArray.combine;
-
     // same check
-    const targetIndex = cf.sameAsArrayItem(name, combine);
-    if (targetIndex >= 0) {
-        return combine[targetIndex][1];
+    const target = cf.sameAsArrayItem(name, chArray.combine);
+    if (target) {
+        return target[0][1];
     } else {
         // code
-        const result = cfen.replaceTextByCode(name, combine);
+        const result = cfen.replaceTextByCode(name, chArray.combine);
 
         // translate name
         let outputName = '';

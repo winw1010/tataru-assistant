@@ -30,10 +30,11 @@ function replaceText(text, array, search = 0, replacement = 1) {
         return text;
     }
 
-    const targetIndices = cf.includesArrayItem(text, array);
-    if (targetIndices.length > 0) {
-        for (let index = 0; index < targetIndices.length; index++) {
-            const element = array[targetIndices[index]];
+    const target = cf.includesArrayItem(text, array, search);
+
+    if (target) {
+        for (let index = 0; index < target.length; index++) {
+            const element = target[index];
             text = text.replaceAll(element[search], element[replacement]);
         }
     }
@@ -62,11 +63,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     }
 
     // set table
-    const targetIndices = cf.includesArrayItem(text, array);
+    const target = cf.includesArrayItem(text, array, search);
     let table = [];
-    if (targetIndices.length > 0) {
-        for (let index = 0; index < targetIndices.length && codeIndex < codeString.length; index++) {
-            const element = array[targetIndices[index]];
+
+    if (target) {
+        for (let index = 0; index < target.length && codeIndex < codeString.length; index++) {
+            const element = target[index];
             const searchReg = new RegExp(`\\b(The |A |)${element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&')}(es|an|s|n|)\\b`, 'gi');
 
             if (searchReg.test(text)) {

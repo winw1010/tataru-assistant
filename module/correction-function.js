@@ -58,9 +58,9 @@ function includesArrayItem(text, array, searchIndex = 0) {
     // match
     let temp = [];
     for (let index = 0; index < searchArray.length; index++) {
-        const element = searchArray[index];
+        const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        if (text.includes(element)) {
+        if (new RegExp(element, 'gi').test(text)) {
             text = text.replaceAll(element, '');
             temp.push(array[index]);
         }
@@ -93,9 +93,9 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
 
     // match
     for (let index = 0; index < searchArray.length; index++) {
-        const element = searchArray[index];
+        const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        if (text === element) {
+        if (new RegExp('^' + element + '$', 'gi').test(text)) {
             target = [array[index], index];
             break;
         }
@@ -305,9 +305,6 @@ function clearArray(array) {
 
             if (element[0].includes('//comment') || element[0] === 'N/A' || element[1] === 'N/A') {
                 array.splice(index, 1);
-            } else {
-                // for new version
-                array[index][0] = element[0].replaceAll('*', '#');
             }
         }
     } else {

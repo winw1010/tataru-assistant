@@ -69,7 +69,8 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     if (target) {
         for (let index = 0; index < target.length && codeIndex < codeString.length; index++) {
             const element = target[index];
-            const searchReg = new RegExp(`\\b(The |A |)${element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&')}(es|an|s|n|)\\b`, 'gi');
+            const searchElement = element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const searchReg = new RegExp(`\\b(The |A |)${searchElement}(es|an|s|n|)\\b`, 'gi');
 
             if (searchReg.test(text)) {
                 text = text.replaceAll(searchReg, codeString[codeIndex]);

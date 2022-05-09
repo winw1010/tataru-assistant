@@ -57,16 +57,18 @@ window.addEventListener('DOMContentLoaded', () => {
 function setView() {
     const config = ipcRenderer.sendSync('load-config');
 
+    // reset view
+    resetView(config);
+
+    // drag
+    setDragElement(document.getElementById("img_button_drag"));
+
+    // auto play
     if (config.translation.autoPlay) {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
     } else {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     }
-
-    resetView(config);
-
-    // drag
-    setDragElement(document.getElementById("img_button_drag"));
 }
 
 // set event

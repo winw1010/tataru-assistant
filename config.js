@@ -283,12 +283,14 @@ function saveConfig() {
     // app notification
     config.channel['FFFF'] = document.getElementById('color_0039_color').value.toUpperCase();
 
+    // checked color
     const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
     for (let index = 0; index < checkedArray.length; index++) {
         const code = checkedArray[index].id.replaceAll('checkbox_', '').toUpperCase();
         config.channel[code] = document.getElementById(`color_${code}_color`).value.toUpperCase();
     }
 
+    // all color
     const channelArray = document.querySelectorAll('#div_channel input[type="checkbox"]');
     for (let index = 0; index < channelArray.length; index++) {
         const code = channelArray[index].id.replaceAll('checkbox_', '').toUpperCase();

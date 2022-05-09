@@ -180,12 +180,12 @@ function translate(text) {
         return;
     }
 
-    // set array
-    let array = [];
+    // set string array
+    let stringArray = [];
     if (config.captureWindow.split) {
-        array = text.split('\n');
+        stringArray = text.split('\n');
     } else {
-        array = [text.replaceAll('\n', ' ')];
+        stringArray = [text.replaceAll('\n', ' ')];
     }
 
     // delete images
@@ -193,14 +193,15 @@ function translate(text) {
 
     // start translate
     const timestamp = new Date().getTime();
-    for (let index = 0; index < array.length; index++) {
-        if (array[index] !== '') {
+    for (let index = 0; index < stringArray.length; index++) {
+        const element = stringArray[index];
+        if (element !== '') {
             const dialogData = {
                 id: 'id' + (timestamp + index),
                 code: '003D',
                 playerName: '',
                 name: '',
-                text: array[index],
+                text: element,
                 timestamp: (timestamp + index)
             }
 

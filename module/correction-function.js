@@ -179,9 +179,9 @@ function readJSONMain(sub0, sub1) {
         let mainArray = [];
 
         if (fileList.length > 0) {
-            fileList.forEach((file) => {
-                if (file !== 'hidden.json') {
-                    mainArray = mainArray.concat(readJSON('text/main', file, true, sub0, sub1));
+            fileList.forEach((value) => {
+                if (value !== 'hidden.json') {
+                    mainArray = mainArray.concat(readJSON('text/main', value, true, sub0, sub1));
                 }
             });
         }
@@ -201,9 +201,9 @@ function readJSONOverwrite(ch) {
         let overwrite = [];
 
         if (fileList.length > 0) {
-            fileList.forEach((file) => {
-                if (file !== 'hidden.json') {
-                    overwrite = overwrite.concat(readJSON(`${ch}/overwrite`, file));
+            fileList.forEach((value) => {
+                if (value !== 'hidden.json') {
+                    overwrite = overwrite.concat(readJSON(`${ch}/overwrite`, value));
                 }
             });
         }
@@ -223,9 +223,9 @@ function readJSONSubtitle() {
         let subtitle = [];
 
         if (fileList.length > 0) {
-            fileList.forEach((file) => {
-                if (file !== 'hidden.json') {
-                    subtitle = subtitle.concat(readJSON('text/jp/subtitle', file));
+            fileList.forEach((value) => {
+                if (value !== 'hidden.json') {
+                    subtitle = subtitle.concat(readJSON('text/jp/subtitle', value));
                 }
             });
         }
@@ -346,12 +346,12 @@ function combineArrayWithTemp(temp, ...args) {
     // combine without temp
     let combine = combineArray(...args);
 
-    // delete same item
+    // delete same element
     temp.forEach((value) => {
         for (let index = 0; index < combine.length; index++) {
-            const item = combine[index];
+            const element = combine[index];
 
-            if (value[0] === item[0]) {
+            if (value[0] === element[0]) {
                 combine.splice(index, 1);
                 break;
             }

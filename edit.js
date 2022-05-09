@@ -265,9 +265,9 @@ function deleteTemp(textBefore, type, array) {
     }
 
     for (let index = array.length - 1; index >= 0; index--) {
-        const item = array[index];
+        const element = array[index];
 
-        if (item[0] === textBefore) {
+        if (element[0] === textBefore) {
             array.splice(index, 1);
             count++;
         }

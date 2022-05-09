@@ -172,10 +172,10 @@ function getColor(code) {
     let color = '#FFFFFF';
 
     for (let index = 0; index < chatCode.length; index++) {
-        const item = chatCode[index];
+        const element = chatCode[index];
 
-        if (code === item.ChatCode) {
-            color = item.Color;
+        if (code === element.ChatCode) {
+            color = element.Color;
             break;
         }
     }

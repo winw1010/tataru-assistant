@@ -102,10 +102,10 @@ function readLog(file) {
 
         if (logNames.length > 0) {
             for (let index = 0; index < logNames.length; index++) {
-                const logItem = log[logNames[index]];
+                const logElement = log[logNames[index]];
 
-                if (logItem.code !== 'FFFF') {
-                    ipcRenderer.send('send-preload', 'append-dialog', logItem.id, logItem.code, logItem.translated_name, logItem.translated_text)
+                if (logElement.code !== 'FFFF') {
+                    ipcRenderer.send('send-preload', 'append-dialog', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text)
                 }
             }
         }

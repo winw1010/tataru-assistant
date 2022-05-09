@@ -168,7 +168,7 @@ ipcMain.on('create-window', (event, type, data = null) => {
 ipcMain.on('drag-window', (event, posX, posY) => {
     try {
         const window = BrowserWindow.fromWebContents(event.sender);
-        window.setPosition(posX, posY);
+        window.setBounds({ x: posX, y: posY });
     } catch (error) {
         console.log(error);
     }

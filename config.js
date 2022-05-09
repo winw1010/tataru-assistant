@@ -11,12 +11,6 @@ const { setDragElement } = require('./module/drag-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    setHTML();
-    loadConfig();
-});
-
-// set html
-function setHTML() {
     // F12
     document.addEventListener('keydown', (event) => {
         if (event.code === 'F12') {
@@ -27,7 +21,9 @@ function setHTML() {
     setView();
     setEvent();
     setButton();
-}
+
+    loadConfig();
+});
 
 // set view
 function setView() {}

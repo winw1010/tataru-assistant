@@ -21,15 +21,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    setHTML();
-});
-
-// set html
-function setHTML() {
     setView();
     setEvent();
     setButton();
-}
+});
 
 // set view
 function setView() {

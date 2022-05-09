@@ -2,13 +2,13 @@ body {
     color: aliceblue;
 }
 
-.div_wrapper {
+.flex_wrapper {
     display: flex;
     justify-content: space-evenly;
 }
 
-.div_left,
-.div_right {
+.flex_left,
+.flex_right {
     width: 45vw;
 }
 

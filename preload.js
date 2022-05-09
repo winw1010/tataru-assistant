@@ -44,18 +44,14 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    setHTML();
+    setView();
+    setEvent();
+    setButton();
+
     loadJSON();
     startPlaying();
     startServer();
 });
-
-// set html
-function setHTML() {
-    setView();
-    setEvent();
-    setButton();
-}
 
 // set view
 function setView() {

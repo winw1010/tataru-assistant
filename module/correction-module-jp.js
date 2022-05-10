@@ -197,51 +197,8 @@ async function nameCorrection(name, translation) {
         // 2 characters name
         return target2[0][1].replaceAll('#', '');
     } else {
-        let outputName = '';
-
-        if (isAllKata('', name)) {
-            // all kata => use chName
-            outputName = cfjp.replaceText(name, chArray.chName);
-        } else {
-            // not all kata => use standard
-            // code
-            const result = cfjp.replaceTextByCode(name, chArray.combine);
-
-            // translate name
-            outputName = result.text;
-
-            // skip check
-            if (!cfjp.canSkipTranslation(outputName)) {
-                // translate
-                outputName = await cf.translate(outputName, translation);
-            }
-
-            // clear code
-            outputName = cf.clearCode(outputName, result.table);
-
-            // table
-            outputName = cfjp.replaceText(outputName, result.table);
-
-            // mark fix
-            outputName = cf.markFix(outputName);
-        }
-
-        // save to temp
-        chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
-
-        if (name.length < 3) {
-            chArray.chTemp.push([name + '#', outputName, 'npc']);
-        } else {
-            chArray.chTemp.push([name, outputName, 'npc']);
-        }
-
-        // set combine
-        chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-        // write
-        cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
-
-        return outputName;
+        const translatedName = translateName(name, getKatakanaName(name), translation);
+        return translatedName;
     }
 }
 
@@ -261,8 +218,8 @@ async function textCorrection(name, text, translation) {
         // subtitle
         text = cfjp.replaceText(text, jpArray.subtitle);
 
-        // check kata
-        const allKata = isAllKata(name, text);
+        // check katakana
+        const allKatakana = isAllKatakana(name, text);
 
         // special fix
         text = specialTextFix(name, text);
@@ -278,7 +235,7 @@ async function textCorrection(name, text, translation) {
         text = cfjp.replaceText(text, jpArray.jp2);
 
         // to hira
-        if (allKata) {
+        if (allKatakana) {
             text = cfjp.replaceText(text, jpArray.kana, 1, 0);
         }
 
@@ -351,21 +308,119 @@ function specialTextFix(name, text) {
     }
 
     // 暗黒騎士
-    if (/フレイ|シドゥルグ|リエル/gi.test(name)) {
+    if (/フレイ|シドゥルグ|リエル/gi.test(name) || /^ミスト$/gi.test(name)) {
         text = text.replaceAll('ミスト', 'ミスト*');
     }
 
     return text;
 }
 
-// kata check
-function isAllKata(name, text) {
+// katakana check
+function isAllKatakana(name, text) {
     if (cf.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
     return /^[^ぁ-ゖ]+$/gi.test(text);
 }
+
+// get katakana name
+function getKatakanaName(name = '') {
+    if (/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)$？*/gi.test(name)) {
+        // katakana + not katakana
+        return name.replaceAll(/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)$？*/gi, '$1');
+    } else if (/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)$？*/gi.test(name)) {
+        // not katakana + katakana
+        return name.replaceAll(/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)$？*/gi, '$2');
+    } else if (/^([ァ-ヺ・ー]+)$？*/gi.test(name)) {
+        // all katakana
+        return name;
+    } else {
+        // other
+        return '';
+    }
+}
+
+// translate name
+async function translateName(name, katakanaName, translation) {
+    const translatedKatakanaName = cfjp.replaceText(cfjp.replaceSameText(katakanaName, chArray.combine), chArray.chName);
+
+    if (name === katakanaName) {
+        // all katakana => use chName
+        return translatedKatakanaName;
+    } else {
+        // not all katakana => use standard
+
+        // output name
+        let translatedName = '';
+
+        // code
+        const result =
+            katakanaName !== '' ?
+            cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [
+                [katakanaName, translatedKatakanaName]
+            ])) :
+            cfjp.replaceTextByCode(name, chArray.combine);
+
+        // translate name
+        translatedName = result.text;
+
+        // skip check
+        if (!cfjp.canSkipTranslation(translatedName)) {
+            // translate
+            translatedName = await cf.translate(translatedName, translation);
+        }
+
+        // clear code
+        translatedName = cf.clearCode(translatedName, result.table);
+
+        // table
+        translatedName = cfjp.replaceText(translatedName, result.table);
+
+        // mark fix
+        translatedName = cf.markFix(translatedName);
+
+        // save name
+        chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+
+        if (name.length < 3) {
+            chArray.chTemp.push([name + '#', translatedName, 'npc']);
+        } else {
+            chArray.chTemp.push([name, translatedName, 'npc']);
+        }
+
+        if (katakanaName.length > 0) {
+            if (katakanaName.length < 3) {
+                chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'npc']);
+            } else {
+                chArray.chTemp.push([katakanaName, translatedKatakanaName, 'npc']);
+            }
+        }
+
+        chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+        cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
+
+        return translatedName;
+    }
+}
+
+/*
+console.log(getKatakanaName('ス・ラエポリ准甲士'));
+console.log(getKatakanaName('准甲士ス・ラエポリ'));
+console.log(getKatakanaName('ス・ラエポリ准甲士？'));
+console.log(getKatakanaName('ヴェーネスと呼ばれた古代人'));
+console.log(getKatakanaName('２１Ｏ：自我データ'));
+console.log(getKatakanaName('融合シタ人形タチ'));
+console.log(getKatakanaName('開花シタ神'));
+console.log(getKatakanaName('？？？？'));
+*/
+
+/*
+console.log(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi.exec('ス・ラエポリ准甲士'));
+console.log(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi.exec('マスク・ザ・ブルー'));
+console.log('ス・ラエポリ准甲士'.replaceAll(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi, '$1B$3'));
+console.log('ス・ラエポリ准甲士'.replaceAll(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi, '$2'));
+*/
 
 exports.loadJSON_JP = loadJSON;
 exports.addToCorrectionQueue_JP = addToCorrectionQueue;

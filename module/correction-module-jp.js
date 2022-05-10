@@ -343,7 +343,15 @@ function getKatakanaName(name = '') {
 
 // translate name
 async function translateName(name, katakanaName, translation) {
-    const translatedKatakanaName = cfjp.replaceText(cfjp.replaceSameText(katakanaName, chArray.combine), chArray.chName);
+    // same check
+    const sameName1 = cf.sameAsArrayItem(katakanaName, chArray.combine);
+    const sameName2 = cf.sameAsArrayItem(katakanaName + '#', chArray.combine);
+
+    // translate katakana name
+    const translatedKatakanaName =
+        sameName1 ?
+        sameName1[0][1] :
+        (sameName2 ? sameName2[0][1] : cfjp.replaceText(katakanaName, chArray.chName));
 
     if (name === katakanaName) {
         // all katakana => use chName

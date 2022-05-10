@@ -359,7 +359,7 @@ async function translateName(name, katakanaName, translation) {
     } else {
         // not all katakana => use standard
 
-        // output name
+        // translated name
         let translatedName = '';
 
         // code

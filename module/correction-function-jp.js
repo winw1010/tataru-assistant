@@ -32,21 +32,6 @@ function replaceText(text, array, search = 0, replacement = 1) {
     return text;
 }
 
-function replaceSameText(text, array, search = 0, replacement = 1) {
-    if (!Array.isArray(array)) {
-        return text;
-    }
-
-    const target = cf.sameAsArrayItem(text, array, search);
-
-    if (target) {
-        const element = target[0];
-        text = text.replaceAll(element[search], element[replacement]);
-    }
-
-    return text;
-}
-
 function replaceTextByCode(text, array, search = 0, replacement = 1) {
     if (!Array.isArray(array)) {
         return {
@@ -244,7 +229,6 @@ function genderFix(originalText, translatedText) {
 }
 
 exports.replaceText = replaceText;
-exports.replaceSameText = replaceSameText;
 exports.replaceTextByCode = replaceTextByCode;
 exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;

@@ -5,7 +5,9 @@ const { ipcRenderer } = require('electron');
 
 function setDragElement(element) {
     let clientX = 0,
-        clientY = 0;
+        clientY = 0,
+        clientWidth = 0,
+        clientHeight = 0;
 
     element.onmousedown = dragMouseDown;
 
@@ -16,6 +18,8 @@ function setDragElement(element) {
         // get the mouse cursor position at startup:
         clientX = e.clientX;
         clientY = e.clientY;
+        clientWidth = window.innerWidth;
+        clientHeight = window.innerHeight;
 
         // call a function when mouse button is released:
         document.onmouseup = closeDragElement;
@@ -29,7 +33,7 @@ function setDragElement(element) {
         e.preventDefault();
 
         // set the window's new position:
-        ipcRenderer.send('drag-window', e.screenX - clientX, e.screenY - clientY);
+        ipcRenderer.send('drag-window', clientWidth, clientHeight, e.screenX - clientX, e.screenY - clientY);
     }
 
     function closeDragElement() {

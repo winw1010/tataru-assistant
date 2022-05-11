@@ -39,12 +39,8 @@ let enArray = {
 
 function loadJSON(language) {
     // clear queue interval
-    try {
-        clearInterval(correctionQueueInterval);
-        correctionQueueInterval = null;
-    } catch (error) {
-        console.log(error);
-    }
+    clearInterval(correctionQueueInterval);
+    correctionQueueInterval = null;
 
     const sub0 = getTableValue(languageTable.en, languageIndex);
     const sub1 = getTableValue(language, languageIndex);

@@ -13,7 +13,7 @@ const jsonFixer = require('json-fixer');
 const { addToPlaylist } = require('./audio-module');
 
 // dialog timeout
-let timeoutHideDialog = null;
+let hideDialogTimeout = null;
 
 // append blank dialog
 function appendBlankDialog(id, code) {
@@ -98,22 +98,17 @@ function appendNotification(text) {
 
 // show dialog
 function showDialog() {
+    clearTimeout(hideDialogTimeout);
+    hideDialogTimeout = null;
+
     const config = ipcRenderer.sendSync('load-config');
     const dialog = document.getElementById('div_dialog');
-
     dialog.hidden = false;
 
-    try {
-        clearTimeout(timeoutHideDialog);
-        timeoutHideDialog = null;
-    } catch (error) {
-        console.log(error);
-    } finally {
-        if (config.preloadWindow.hideDialog) {
-            timeoutHideDialog = setTimeout(() => {
-                dialog.hidden = true;
-            }, config.preloadWindow.hideDialogInterval * 1000);
-        }
+    if (config.preloadWindow.hideDialog) {
+        hideDialogTimeout = setTimeout(() => {
+            dialog.hidden = true;
+        }, config.preloadWindow.hideDialogTimeout * 1000);
     }
 }
 

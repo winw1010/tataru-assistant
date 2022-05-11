@@ -195,7 +195,7 @@ function loadConfig() {
     document.getElementById('checkbox_hide_button').checked = config.preloadWindow.hideButton;
 
     document.getElementById('checkbox_hide_dialog').checked = config.preloadWindow.hideDialog;
-    document.getElementById('input_hide_dialog').value = config.preloadWindow.hideDialogInterval;
+    document.getElementById('input_hide_dialog').value = config.preloadWindow.hideDialogTimeout;
 
     document.getElementById('span_background_color').innerText = config.preloadWindow.backgroundColor.slice(0, 7);
     document.getElementById('color_background_color').value = config.preloadWindow.backgroundColor.slice(0, 7);
@@ -258,7 +258,7 @@ function saveConfig() {
     config.preloadWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 
     config.preloadWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
-    config.preloadWindow.hideDialogInterval = document.getElementById('input_hide_dialog').value;
+    config.preloadWindow.hideDialogTimeout = document.getElementById('input_hide_dialog').value;
 
     config.preloadWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 

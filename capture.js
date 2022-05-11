@@ -33,10 +33,16 @@ function setView() {
 
 // set event
 function setEvent() {
-    // resize
-    window.addEventListener('resize', function() {
+    // window mousemove event
+    window.addEventListener('mousemove', () => {
+        ipcRenderer.send('save-window-position', 'capture', window.screenX, window.screenY);
+    });
+
+    // window resize event
+    window.addEventListener('resize', () => {
+        ipcRenderer.send('save-window-size', 'capture', window.innerWidth, window.innerHeight);
         setCanvasSize(document.getElementById('canvas_select'));
-    }, true);
+    });
 
     // checkbox
     document.querySelectorAll('#div_upper_button input[type="checkBox"]').forEach((value) => {

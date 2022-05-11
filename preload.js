@@ -35,6 +35,13 @@ const { startServer } = require('./module/server-module');
 // click through temp
 let isClickThrough = false;
 
+// hide button interval
+//let hideButtonTimeout = null;
+
+setInterval(() => {
+    //ipcRenderer.send('mouse-check');
+}, 100);
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     // F12
@@ -73,10 +80,20 @@ function setView() {
 
 // set event
 function setEvent() {
+    // window mousemove event
+    window.addEventListener('mousemove', () => {
+        ipcRenderer.send('save-window-position', 'preload', window.screenX, window.screenY);
+    });
+
+    // window resize event
+    window.addEventListener('resize', () => {
+        ipcRenderer.send('save-window-size', 'preload', window.innerWidth, window.innerHeight);
+    });
+
     // document click through
     document.addEventListener('mouseenter', () => {
         if (isClickThrough) {
-            ipcRenderer.send('set-click-through', true, { forward: true });
+            ipcRenderer.send('set-click-through', true);
         } else {
             ipcRenderer.send('set-click-through', false);
         }
@@ -103,7 +120,7 @@ function setEvent() {
 
         element.addEventListener('mouseleave', () => {
             if (isClickThrough) {
-                ipcRenderer.send('set-click-through', true, { forward: true });
+                ipcRenderer.send('set-click-through', true);
             } else {
                 ipcRenderer.send('set-click-through', false);
             }
@@ -270,6 +287,7 @@ function resetView(config) {
         document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
     }
 
+    // show dialog
     showDialog();
 
     // set background color
@@ -344,3 +362,23 @@ async function versionCheck() {
         document.getElementById('img_button_update').hidden = false;
     }
 }
+
+/*
+// show button
+function showButton() {
+    clearTimeout(hideButtonTimeout);
+    document.querySelectorAll('.auto_hidden').forEach((value) => {
+        value.hidden = false;
+    });
+}
+
+// hide button
+function hideButton() {
+    hideButtonTimeout = setTimeout(() => {
+        const config = ipcRenderer.sendSync('load-config');
+        document.querySelectorAll('.auto_hidden').forEach((value) => {
+            value.hidden = config.preloadWindow.hideButton;
+        });
+    }, 10);
+}
+*/

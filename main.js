@@ -15,6 +15,10 @@ const { loadConfig, saveConfig, saveDefaultConfig } = require('./module/config-m
 // chat code module
 const { loadChatCode, saveChatCode, saveDefaultChatCode } = require('./module/chat-code-module');
 
+// config
+let config = null;
+let chatCode = null;
+
 // window list
 let windowList = {
     preload: null,
@@ -51,6 +55,9 @@ app.whenReady().then(() => {
         console.log(error);
     }
 
+    // load config
+    // load chat code
+
     // create preload window
     createWindow('preload');
 
@@ -79,6 +86,15 @@ ipcMain.on('load-config', (event) => {
     event.returnValue = loadConfig();
 });
 
+// get config
+ipcMain.on('get-config', (event) => {
+    if (!config) {
+        config = loadConfig();
+    }
+
+    event.returnValue = config;
+});
+
 // save config
 ipcMain.on('save-config', (event, config) => {
     saveConfig(config);
@@ -92,6 +108,15 @@ ipcMain.on('save-default-config', () => {
 // load chat code
 ipcMain.on('load-chat-code', (event) => {
     event.returnValue = loadChatCode();
+});
+
+// get chat code
+ipcMain.on('get-chat-code', (event) => {
+    if (!chatCode) {
+        chatCode = loadChatCode();
+    }
+
+    event.returnValue = chatCode;
 });
 
 // save chat code
@@ -139,9 +164,47 @@ ipcMain.on('set-always-on-top', (event, top) => {
     }
 });
 
+// save window position
+ipcMain.on('save-window-position', (event, type, clientX, clientY) => {
+    let config = loadConfig();
+
+    // save position
+    if (type === 'preload') {
+        config.preloadWindow.x = clientX;
+        config.preloadWindow.y = clientY;
+    } else if (type === 'capture') {
+        config.captureWindow.x = clientX;
+        config.captureWindow.y = clientY;
+    }
+
+    saveConfig(config);
+});
+
+// save window size
+ipcMain.on('save-window-size', (event, type, clientWidth, clientHeight) => {
+    let config = loadConfig();
+
+    // save size
+    if (type === 'preload') {
+        config.preloadWindow.width = clientWidth;
+        config.preloadWindow.height = clientHeight;
+    } else if (type === 'capture') {
+        config.captureWindow.width = clientWidth;
+        config.captureWindow.height = clientHeight;
+    }
+
+    saveConfig(config);
+});
+
+// mouse check
+ipcMain.on('mouse-check', (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    console.log(window.getSize());
+});
+
 // click through
-ipcMain.on('set-click-through', (event, ...args) => {
-    BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(...args);
+ipcMain.on('set-click-through', (event, ignore) => {
+    BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(ignore, { forward: true });
 });
 
 // create sindow
@@ -369,6 +432,7 @@ function createWindow(type, data) {
         window.setMinimizable(false);
 
         switch (type) {
+            /*
             case 'preload':
                 //window.webContents.openDevTools({ mode: 'undocked' });
                 window.once('close', () => {
@@ -397,6 +461,7 @@ function createWindow(type, data) {
                     saveConfig(config);
                 });
                 break;
+                */
 
             case 'capture_edit':
                 window.webContents.on('did-finish-load', () => {

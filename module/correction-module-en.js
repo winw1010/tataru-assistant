@@ -160,34 +160,34 @@ async function nameCorrection(name, translation) {
         return target[0][1];
     } else {
         // code
-        const result = cfen.replaceTextByCode(name, chArray.combine);
+        const codeResult = cfen.replaceTextByCode(name, chArray.combine);
 
         // translate name
-        let outputName = '';
-        outputName = result.text;
+        let translatedName = '';
+        translatedName = codeResult.text;
 
         // skip check
-        if (!cfen.canSkipTranslation(outputName, result.table)) {
+        if (!cfen.canSkipTranslation(translatedName, codeResult.table)) {
             // translate
-            outputName = await cf.translate(outputName, translation);
+            translatedName = await cf.translate(translatedName, translation);
         }
 
         // clear code
-        outputName = cf.clearCode(outputName, result.table);
+        translatedName = cf.clearCode(translatedName, codeResult.table);
 
         // table
-        outputName = cfen.replaceText(outputName, result.table);
+        translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // mark fix
-        outputName = cf.markFix(outputName);
+        translatedName = cf.markFix(translatedName);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
 
         if (name.length < 3) {
-            chArray.chTemp.push([name + '#', outputName, 'npc']);
+            chArray.chTemp.push([name + '#', translatedName, 'npc']);
         } else {
-            chArray.chTemp.push([name, outputName, 'npc']);
+            chArray.chTemp.push([name, translatedName, 'npc']);
         }
 
         // set combine
@@ -196,7 +196,7 @@ async function nameCorrection(name, translation) {
         // write
         cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
 
-        return outputName;
+        return translatedName;
     }
 }
 
@@ -212,26 +212,33 @@ async function textCorrection(name, text, translation) {
     text = specialTextFix(name, text);
 
     // combine
-    const result = cfen.replaceTextByCode(text, chArray.combine);
-    text = result.text;
+    const codeResult = cfen.replaceTextByCode(text, chArray.combine);
+    text = codeResult.text;
+
+    // value fix before
+    const valueResult = cf.valueFixBefore(text);
+    text = valueResult.text;
 
     // skip check
-    if (!cfen.canSkipTranslation(text, result.table)) {
+    if (!cfen.canSkipTranslation(text, codeResult.table)) {
         // translate
         text = await cf.translate(text, translation);
     }
 
+    // value fix after
+    text = cf.valueFixAfter(text, valueResult.table);
+
     // clear code
-    text = cf.clearCode(text, result.table);
+    text = cf.clearCode(text, codeResult.table);
 
     // table
-    text = cfen.replaceText(text, result.table);
+    text = cf.replaceText(text, codeResult.table);
 
     // gender fix
     text = cfen.genderFix(originalText, text);
 
     // after translation
-    text = cfen.replaceText(text, chArray.afterTranslation);
+    text = cf.replaceText(text, chArray.afterTranslation);
 
     // mark fix
     text = cf.markFix(text);

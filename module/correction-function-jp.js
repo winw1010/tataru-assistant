@@ -15,22 +15,6 @@ const femaleWords = [
 ];
 
 // jp text function
-function replaceText(text, array, search = 0, replacement = 1) {
-    if (!Array.isArray(array)) {
-        return text;
-    }
-
-    const target = cf.includesArrayItem(text, array, search);
-
-    if (target) {
-        for (let index = 0; index < target.length; index++) {
-            const element = target[index];
-            text = text.replaceAll(element[search], element[replacement]);
-        }
-    }
-
-    return text;
-}
 
 function replaceTextByCode(text, array, search = 0, replacement = 1) {
     if (!Array.isArray(array)) {
@@ -228,7 +212,6 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-exports.replaceText = replaceText;
 exports.replaceTextByCode = replaceTextByCode;
 exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;

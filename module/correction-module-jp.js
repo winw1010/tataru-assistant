@@ -212,7 +212,7 @@ async function textCorrection(name, text, translation) {
         return target[0][1];
     } else {
         // subtitle
-        text = cfjp.replaceText(text, jpArray.subtitle);
+        text = cf.replaceText(text, jpArray.subtitle);
 
         // check katakana
         const allKatakana = isAllKatakana(name, text);
@@ -221,19 +221,23 @@ async function textCorrection(name, text, translation) {
         text = specialTextFix(name, text);
 
         // jp1
-        text = cfjp.replaceText(text, jpArray.jp1);
+        text = cf.replaceText(text, jpArray.jp1);
 
         // combine
-        const result = cfjp.replaceTextByCode(text, chArray.combine);
-        text = result.text;
+        const codeResult = cfjp.replaceTextByCode(text, chArray.combine);
+        text = codeResult.text;
 
         // jp2
-        text = cfjp.replaceText(text, jpArray.jp2);
+        text = cf.replaceText(text, jpArray.jp2);
 
         // to hira
         if (allKatakana) {
-            text = cfjp.replaceText(text, jpArray.kana, 1, 0);
+            text = cf.replaceText(text, jpArray.kana, 1, 0);
         }
+
+        // value fix before
+        const valueResult = cf.valueFixBefore(text);
+        text = valueResult.text;
 
         // skip check
         if (!cfjp.canSkipTranslation(text)) {
@@ -241,17 +245,20 @@ async function textCorrection(name, text, translation) {
             text = await cf.translate(text, translation);
         }
 
+        // value fix after
+        text = cf.valueFixAfter(text, valueResult.table);
+
         // clear code
-        text = cf.clearCode(text, result.table);
+        text = cf.clearCode(text, codeResult.table);
 
         // table
-        text = cfjp.replaceText(text, result.table);
+        text = cf.replaceText(text, codeResult.table);
 
         // gender fix
         text = cfjp.genderFix(originalText, text);
 
         // after translation
-        text = cfjp.replaceText(text, chArray.afterTranslation);
+        text = cf.replaceText(text, chArray.afterTranslation);
 
         // mark fix
         text = cf.markFix(text);
@@ -347,7 +354,7 @@ async function translateName(name, katakanaName, translation) {
     const translatedKatakanaName =
         sameName1 ?
         sameName1[0][1] :
-        (sameName2 ? sameName2[0][1] : cfjp.replaceText(katakanaName, chArray.chName));
+        (sameName2 ? sameName2[0][1] : cf.replaceText(katakanaName, chArray.chName));
 
     if (name === katakanaName) {
         // all katakana => use chName
@@ -359,7 +366,7 @@ async function translateName(name, katakanaName, translation) {
         let translatedName = '';
 
         // code
-        const result =
+        const codeResult =
             katakanaName !== '' ?
             cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [
                 [katakanaName, translatedKatakanaName]
@@ -367,7 +374,7 @@ async function translateName(name, katakanaName, translation) {
             cfjp.replaceTextByCode(name, chArray.combine);
 
         // translate name
-        translatedName = result.text;
+        translatedName = codeResult.text;
 
         // skip check
         if (!cfjp.canSkipTranslation(translatedName)) {
@@ -376,10 +383,10 @@ async function translateName(name, katakanaName, translation) {
         }
 
         // clear code
-        translatedName = cf.clearCode(translatedName, result.table);
+        translatedName = cf.clearCode(translatedName, codeResult.table);
 
         // table
-        translatedName = cfjp.replaceText(translatedName, result.table);
+        translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // mark fix
         translatedName = cf.markFix(translatedName);
@@ -417,13 +424,6 @@ console.log(getKatakanaName('２１Ｏ：自我データ'));
 console.log(getKatakanaName('融合シタ人形タチ'));
 console.log(getKatakanaName('開花シタ神'));
 console.log(getKatakanaName('？？？？'));
-*/
-
-/*
-console.log(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi.exec('ス・ラエポリ准甲士'));
-console.log(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi.exec('マスク・ザ・ブルー'));
-console.log('ス・ラエポリ准甲士'.replaceAll(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi, '$1B$3'));
-console.log('ス・ラエポリ准甲士'.replaceAll(/^([^ァ-ヺ・ー]*)([ァ-ヺ・ー]+)([^ァ-ヺ・ー]*)$/gi, '$2'));
 */
 
 exports.loadJSON_JP = loadJSON;

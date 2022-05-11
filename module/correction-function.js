@@ -17,6 +17,23 @@ function skipCheck(code, name, text, ignoreArray) {
     return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
 }
 
+function replaceText(text, array, search = 0, replacement = 1) {
+    if (!Array.isArray(array)) {
+        return text;
+    }
+
+    const target = includesArrayItem(text, array, search);
+
+    if (target) {
+        for (let index = 0; index < target.length; index++) {
+            const element = target[index];
+            text = text.replaceAll(element[search], element[replacement]);
+        }
+    }
+
+    return text;
+}
+
 function canIgnore(text, ignoreArray) {
     if (text === '') {
         return false;
@@ -131,6 +148,34 @@ function clearCode(text, table) {
             const character = value[0];
             text = text.replaceAll(new RegExp(`\\s?${character}+\\s?`, 'gi'), character.toUpperCase());
         });
+    }
+
+    return text;
+}
+
+function valueFixBefore(text) {
+    const values = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
+    let valueTable = [];
+
+    for (let index = 0; index < values.length; index++) {
+        const element = values[index];
+        if (element.includes(',')) {
+            const element2 = element.replaceAll(',', '');
+            text = text.replaceAll(element, element2);
+            valueTable.push([element2, element]);
+        }
+    }
+
+    return {
+        text: text,
+        table: valueTable
+    }
+}
+
+function valueFixAfter(text, valueTable) {
+    for (let index = 0; index < valueTable.length; index++) {
+        const element = valueTable[index];
+        text = text.replaceAll(element[0], element[1]);
     }
 
     return text;
@@ -365,11 +410,14 @@ function combineArrayWithTemp(temp, ...args) {
 }
 
 exports.skipCheck = skipCheck;
+exports.replaceText = replaceText;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
 exports.translate = translate;
 exports.markFix = markFix;
 exports.clearCode = clearCode;
+exports.valueFixBefore = valueFixBefore;
+exports.valueFixAfter = valueFixAfter;
 
 exports.readJSON = readJSON;
 exports.readJSONMain = readJSONMain;

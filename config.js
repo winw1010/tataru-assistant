@@ -258,7 +258,7 @@ function setConfig() {
     config.preloadWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 
     config.preloadWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
-    config.preloadWindow.hideDialogTimeout = document.getElementById('input_hide_dialog').value;
+    config.preloadWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
 
     config.preloadWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 

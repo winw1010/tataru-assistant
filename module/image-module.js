@@ -126,7 +126,7 @@ async function recognizeImage(file) {
     try {
         ipcRenderer.send('send-preload', 'show-notification', '圖片辨識中');
 
-        const config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('get-config');
 
         // set worker
         const worker = createWorker({
@@ -166,7 +166,7 @@ async function recognizeImage(file) {
 }
 
 function translate(text) {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     // fix
     text = text

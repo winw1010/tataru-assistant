@@ -30,7 +30,6 @@ function addToPlaylist(dialogData, translation) {
 // start/restart playing
 function startPlaying() {
     clearInterval(playInterval);
-    playInterval = null;
     playInterval = setInterval(() => {
         playNext();
     }, 1000);

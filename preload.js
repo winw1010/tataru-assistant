@@ -35,12 +35,8 @@ const { startServer } = require('./module/server-module');
 // click through temp
 let isClickThrough = false;
 
-// hide button interval
-//let hideButtonTimeout = null;
-
-setInterval(() => {
-    //ipcRenderer.send('mouse-check');
-}, 100);
+// mouse out check interval
+let mouseOutCheckInterval = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -62,13 +58,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // set view
 function setView() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     // reset view
     resetView(config);
-
-    // drag
-    setDragElement(document.getElementById("img_button_drag"));
 
     // auto play
     if (config.translation.autoPlay) {
@@ -80,16 +73,6 @@ function setView() {
 
 // set event
 function setEvent() {
-    // window mousemove event
-    window.addEventListener('mousemove', () => {
-        ipcRenderer.send('save-window-position', 'preload', window.screenX, window.screenY);
-    });
-
-    // window resize event
-    window.addEventListener('resize', () => {
-        ipcRenderer.send('save-window-size', 'preload', window.innerWidth, window.innerHeight);
-    });
-
     // document click through
     document.addEventListener('mouseenter', () => {
         if (isClickThrough) {
@@ -100,12 +83,6 @@ function setEvent() {
     });
 
     document.addEventListener('mouseleave', () => {
-        // hide button
-        const config = ipcRenderer.sendSync('load-config');
-        document.querySelectorAll('.auto_hidden').forEach((value) => {
-            value.hidden = config.preloadWindow.hideButton;
-        });
-
         ipcRenderer.send('set-click-through', false);
     });
 
@@ -126,17 +103,6 @@ function setEvent() {
             }
         });
     }
-
-    // mouse move event
-    document.addEventListener('mousemove', () => {
-        // show dialog
-        showDialog();
-
-        // show button
-        document.querySelectorAll('.auto_hidden').forEach((value) => {
-            value.hidden = false;
-        });
-    });
 
     // download json
     ipcRenderer.on('download-json', () => {
@@ -184,6 +150,9 @@ function setEvent() {
 // set button
 function setButton() {
     // upper buttons
+    // drag
+    setDragElement(document.getElementById('img_button_drag'));
+
     // update
     document.getElementById('img_button_update').onclick = () => {
         try {
@@ -227,9 +196,9 @@ function setButton() {
     // lower buttons
     // auto play
     document.getElementById('img_button_auto_play').onclick = () => {
-        let config = ipcRenderer.sendSync('load-config');
+        let config = ipcRenderer.sendSync('get-config');
         config.translation.autoPlay = !config.translation.autoPlay;
-        ipcRenderer.send('save-config', config)
+        ipcRenderer.send('set-config', config)
         ipcRenderer.send('mute-window', !config.translation.autoPlay);
 
         if (config.translation.autoPlay) {
@@ -292,11 +261,33 @@ function resetView(config) {
 
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.preloadWindow.backgroundColor;
+
+    // start/restart mouse out check interval
+    clearInterval(mouseOutCheckInterval);
+    mouseOutCheckInterval = setInterval(() => {
+        const isMouseOut = ipcRenderer.sendSync('mouse-out-check', window.screenX, window.screenY, window.innerWidth, window.innerHeight);
+
+        if (isMouseOut) {
+            // hide button
+            const config = ipcRenderer.sendSync('get-config');
+            document.querySelectorAll('.auto_hidden').forEach((value) => {
+                value.hidden = config.preloadWindow.hideButton;
+            });
+        } else {
+            // show button
+            document.querySelectorAll('.auto_hidden').forEach((value) => {
+                value.hidden = false;
+            });
+
+            // show dialog
+            showDialog();
+        }
+    }, 100);
 }
 
 // load json
 function loadJSON() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     if (config.system.autoDownloadJson) {
         downloadJSON();
@@ -327,7 +318,7 @@ function downloadJSON() {
 
 // read json
 function readJSON() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     loadJSON_JP(config.translation.to);
     loadJSON_EN(config.translation.to);
@@ -362,23 +353,3 @@ async function versionCheck() {
         document.getElementById('img_button_update').hidden = false;
     }
 }
-
-/*
-// show button
-function showButton() {
-    clearTimeout(hideButtonTimeout);
-    document.querySelectorAll('.auto_hidden').forEach((value) => {
-        value.hidden = false;
-    });
-}
-
-// hide button
-function hideButton() {
-    hideButtonTimeout = setTimeout(() => {
-        const config = ipcRenderer.sendSync('load-config');
-        document.querySelectorAll('.auto_hidden').forEach((value) => {
-            value.hidden = config.preloadWindow.hideButton;
-        });
-    }, 10);
-}
-*/

@@ -10,10 +10,10 @@ const path = require('path');
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
 // config module
-const { loadConfig, saveConfig, saveDefaultConfig } = require('./module/config-module');
+const { loadConfig, saveConfig, getDefaultConfig } = require('./module/config-module');
 
 // chat code module
-const { loadChatCode, saveChatCode, saveDefaultChatCode } = require('./module/chat-code-module');
+const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./module/chat-code-module');
 
 // config
 let config = null;
@@ -56,7 +56,10 @@ app.whenReady().then(() => {
     }
 
     // load config
+    config = loadConfig();
+
     // load chat code
+    chatCode = loadChatCode();
 
     // create preload window
     createWindow('preload');
@@ -81,11 +84,6 @@ ipcMain.on('send-preload', (event, channel, ...args) => {
     sendPreload(channel, ...args);
 });
 
-// load config
-ipcMain.on('load-config', (event) => {
-    event.returnValue = loadConfig();
-});
-
 // get config
 ipcMain.on('get-config', (event) => {
     if (!config) {
@@ -95,19 +93,14 @@ ipcMain.on('get-config', (event) => {
     event.returnValue = config;
 });
 
-// save config
-ipcMain.on('save-config', (event, config) => {
-    saveConfig(config);
+// set config
+ipcMain.on('set-config', (event, newConfig) => {
+    config = newConfig;
 });
 
-// save default config
-ipcMain.on('save-default-config', () => {
-    saveDefaultConfig();
-});
-
-// load chat code
-ipcMain.on('load-chat-code', (event) => {
-    event.returnValue = loadChatCode();
+// set default config
+ipcMain.on('set-default-config', () => {
+    config = getDefaultConfig();
 });
 
 // get chat code
@@ -119,14 +112,14 @@ ipcMain.on('get-chat-code', (event) => {
     event.returnValue = chatCode;
 });
 
-// save chat code
-ipcMain.on('save-chat-code', (event, chatCode) => {
-    saveChatCode(chatCode);
+// set chat code
+ipcMain.on('set-chat-code', (event, newChatCode) => {
+    chatCode = newChatCode;
 });
 
-// save default chat code
-ipcMain.on('save-default-chat-code', () => {
-    saveDefaultChatCode();
+// set default chat code
+ipcMain.on('set-default-chat-code', () => {
+    chatCode = getDefaultChatCode();
 });
 
 // open devtools
@@ -164,47 +157,22 @@ ipcMain.on('set-always-on-top', (event, top) => {
     }
 });
 
-// save window position
-ipcMain.on('save-window-position', (event, type, clientX, clientY) => {
-    let config = loadConfig();
-
-    // save position
-    if (type === 'preload') {
-        config.preloadWindow.x = clientX;
-        config.preloadWindow.y = clientY;
-    } else if (type === 'capture') {
-        config.captureWindow.x = clientX;
-        config.captureWindow.y = clientY;
-    }
-
-    saveConfig(config);
-});
-
-// save window size
-ipcMain.on('save-window-size', (event, type, clientWidth, clientHeight) => {
-    let config = loadConfig();
-
-    // save size
-    if (type === 'preload') {
-        config.preloadWindow.width = clientWidth;
-        config.preloadWindow.height = clientHeight;
-    } else if (type === 'capture') {
-        config.captureWindow.width = clientWidth;
-        config.captureWindow.height = clientHeight;
-    }
-
-    saveConfig(config);
-});
-
 // mouse check
-ipcMain.on('mouse-check', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-    console.log(window.getSize());
+ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
+    const cursorScreenPoint = screen.getCursorScreenPoint();
+
+    event.returnValue = (cursorScreenPoint.x < windowX ||
+        cursorScreenPoint.x > windowX + windowWidth ||
+        cursorScreenPoint.y < windowY ||
+        cursorScreenPoint.y > windowY + windowHeight
+    );
 });
 
 // click through
 ipcMain.on('set-click-through', (event, ignore) => {
-    BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(ignore, { forward: true });
+    const window = BrowserWindow.fromWebContents(event.sender);
+    window.setIgnoreMouseEvents(ignore, { forward: true });
+    window.setResizable(!ignore);
 });
 
 // create sindow
@@ -228,10 +196,15 @@ ipcMain.on('create-window', (event, type, data = null) => {
 });
 
 // drag window
-ipcMain.on('drag-window', (event, clientWidth, clientHeight, clientX, clientY) => {
+ipcMain.on('drag-window', (event, clientX, clientY, windowWidth, windowHeight) => {
     try {
-        const window = BrowserWindow.fromWebContents(event.sender);
-        window.setBounds({ width: clientWidth, height: clientHeight, x: clientX, y: clientY });
+        const cursorScreenPoint = screen.getCursorScreenPoint();
+        BrowserWindow.fromWebContents(event.sender).setBounds({
+            x: cursorScreenPoint.x - clientX,
+            y: cursorScreenPoint.y - clientY,
+            width: windowWidth,
+            height: windowHeight
+        });
     } catch (error) {
         console.log(error);
     }
@@ -290,14 +263,6 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     sendPreload('start-screen-translation', rectangleSize, display.bounds, displayIndex);
 });
 
-// save capture config
-ipcMain.on('save-capture-config', (event, split, edit) => {
-    let config = loadConfig();
-    config.captureWindow.split = split;
-    config.captureWindow.edit = edit;
-    saveConfig(config);
-});
-
 // functions
 function sendPreload(channel, ...args) {
     try {
@@ -308,9 +273,6 @@ function sendPreload(channel, ...args) {
 }
 
 function getSize(type) {
-    // load config
-    let config = loadConfig();
-
     // set default value
     let x = 0;
     let y = 0;
@@ -332,8 +294,6 @@ function getSize(type) {
                 config.preloadWindow.height = parseInt(screenHeight * 0.6);
                 config.preloadWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
                 config.preloadWindow.y = parseInt(screenHeight * 0.2);
-
-                saveConfig(config);
             }
 
             x = config.preloadWindow.x;
@@ -356,8 +316,6 @@ function getSize(type) {
                 config.captureWindow.y = parseInt(screenHeight * 0.63);
                 config.captureWindow.width = parseInt(screenWidth * 0.33);
                 config.captureWindow.height = parseInt(screenHeight * 0.36);
-
-                saveConfig(config);
             }
 
             x = config.captureWindow.x;
@@ -432,36 +390,35 @@ function createWindow(type, data) {
         window.setMinimizable(false);
 
         switch (type) {
-            /*
             case 'preload':
-                //window.webContents.openDevTools({ mode: 'undocked' });
                 window.once('close', () => {
-                    let config = loadConfig();
-
                     // save position
                     config.preloadWindow.x = window.getPosition()[0];
                     config.preloadWindow.y = window.getPosition()[1];
+
+                    // save size
                     config.preloadWindow.width = window.getSize()[0];
                     config.preloadWindow.height = window.getSize()[1];
 
+                    // save config
                     saveConfig(config);
+
+                    // save chat code
+                    saveChatCode(chatCode);
                 });
                 break;
 
             case 'capture':
                 window.once('close', () => {
-                    let config = loadConfig();
-
                     // save position
                     config.captureWindow.x = window.getPosition()[0];
                     config.captureWindow.y = window.getPosition()[1];
+
+                    // save size
                     config.captureWindow.width = window.getSize()[0];
                     config.captureWindow.height = window.getSize()[1];
-
-                    saveConfig(config);
                 });
                 break;
-                */
 
             case 'capture_edit':
                 window.webContents.on('did-finish-load', () => {

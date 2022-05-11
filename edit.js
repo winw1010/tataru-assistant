@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // set view
 function setView() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
     document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
@@ -121,16 +121,16 @@ function setEvent() {
     });
 
     document.getElementById('checkbox_replace').oninput = () => {
-        let config = ipcRenderer.sendSync('load-config');
+        let config = ipcRenderer.sendSync('get-config');
         config.translation.replace = document.getElementById('checkbox_replace').checked;
-        ipcRenderer.send('save-config', config);
+        ipcRenderer.send('set-config', config);
     };
 }
 
 // set button
 function setButton() {
     // drag
-    setDragElement(document.getElementById("img_button_drag"));
+    setDragElement(document.getElementById('img_button_drag'));
 
     // github
     document.getElementById('a_github').onclick = () => {
@@ -143,7 +143,7 @@ function setButton() {
 
     // restart
     document.getElementById('button_restart').onclick = () => {
-        const config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('get-config');
 
         if (!config.translation.replace) {
             const timestamp = new Date().getTime();

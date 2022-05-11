@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setEvent();
     setButton();
 
-    loadConfig();
+    getConfig();
 });
 
 // set view
@@ -58,7 +58,7 @@ function setEvent() {
 // set button
 function setButton() {
     // drag
-    setDragElement(document.getElementById("img_button_drag"));
+    setDragElement(document.getElementById('img_button_drag'));
 
     // page
     document.getElementById('button_radio_window').onclick = () => {
@@ -159,14 +159,14 @@ function setButton() {
     // lower
     // default
     document.getElementById('button_default').onclick = () => {
-        // save config
-        ipcRenderer.send('save-default-config');
+        // set default config
+        ipcRenderer.send('set-default-config');
 
-        // save chat code
-        ipcRenderer.send('save-default-chat-code');
+        // set default chat code
+        ipcRenderer.send('set-default-chat-code');
 
         // reset view
-        ipcRenderer.send('send-preload', 'reset-view', ipcRenderer.sendSync('load-config'));
+        ipcRenderer.send('send-preload', 'reset-view', ipcRenderer.sendSync('get-config'));
 
         // read json
         ipcRenderer.send('send-preload', 'read-json');
@@ -177,14 +177,14 @@ function setButton() {
 
     // save
     document.getElementById('button_save').onclick = () => {
-        saveConfig();
+        setConfig();
     };
 }
 
-// load config
-function loadConfig() {
-    const config = ipcRenderer.sendSync('load-config');
-    const chatCode = ipcRenderer.sendSync('load-chat-code');
+// get config
+function getConfig() {
+    const config = ipcRenderer.sendSync('get-config');
+    const chatCode = ipcRenderer.sendSync('get-chat-code');
     const version = ipcRenderer.sendSync('get-version');
 
     // window
@@ -245,10 +245,10 @@ function loadConfig() {
     document.getElementById('span_version').innerText = version;
 }
 
-// save config
-function saveConfig() {
-    let config = ipcRenderer.sendSync('load-config');
-    let chatCode = ipcRenderer.sendSync('load-chat-code');
+// set config
+function setConfig() {
+    let config = ipcRenderer.sendSync('get-config');
+    let chatCode = ipcRenderer.sendSync('get-chat-code');
 
     // window
     config.preloadWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
@@ -322,11 +322,11 @@ function saveConfig() {
     // reset view
     ipcRenderer.send('send-preload', 'reset-view', config);
 
-    // save config
-    ipcRenderer.send('save-config', config);
+    // set config
+    ipcRenderer.send('set-config', config);
 
-    // save chat code
-    ipcRenderer.send('save-chat-code', chatCode);
+    // set chat code
+    ipcRenderer.send('set-chat-code', chatCode);
 
     // read json
     ipcRenderer.send('send-preload', 'read-json');

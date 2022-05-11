@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // set view
 function setView() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
@@ -33,33 +33,26 @@ function setView() {
 
 // set event
 function setEvent() {
-    // window mousemove event
-    window.addEventListener('mousemove', () => {
-        ipcRenderer.send('save-window-position', 'capture', window.screenX, window.screenY);
-    });
-
-    // window resize event
-    window.addEventListener('resize', () => {
-        ipcRenderer.send('save-window-size', 'capture', window.innerWidth, window.innerHeight);
+    // resize
+    window.addEventListener('resize', function() {
         setCanvasSize(document.getElementById('canvas_select'));
-    });
+    }, true);
 
     // checkbox
     document.querySelectorAll('#div_upper_button input[type="checkBox"]').forEach((value) => {
         value.oninput = () => {
-            ipcRenderer.send(
-                'save-capture-config',
-                document.getElementById('checkbox_split').checked,
-                document.getElementById('checkbox_edit').checked
-            );
+            let config = ipcRenderer.sendSync('get-config');
+            config.captureWindow.split = document.getElementById('checkbox_split').checked;
+            config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
+            ipcRenderer.send('set-config', config);
         }
     });
 
     // canvas
     document.getElementById('select_type').onchange = () => {
-        let config = ipcRenderer.sendSync('load-config');
+        let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.type = document.getElementById('select_type').value;
-        ipcRenderer.send('save-config', config);
+        ipcRenderer.send('set-config', config);
     }
 
     // canvas event
@@ -69,7 +62,7 @@ function setEvent() {
 // set button
 function setButton() {
     // drag
-    setDragElement(document.getElementById("img_button_drag"));
+    setDragElement(document.getElementById('img_button_drag'));
 
     // close
     document.getElementById('img_button_close').onclick = () => {

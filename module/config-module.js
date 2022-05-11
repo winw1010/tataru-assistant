@@ -101,6 +101,10 @@ function saveConfig(config) {
     }
 }
 
+function getDefaultConfig() {
+    return defaultConfig;
+}
+
 function saveDefaultConfig() {
     try {
         writeFileSync('./json/setting/config.json', JSON.stringify(defaultConfig, null, '\t'));
@@ -111,4 +115,4 @@ function saveDefaultConfig() {
 
 exports.loadConfig = loadConfig;
 exports.saveConfig = saveConfig;
-exports.saveDefaultConfig = saveDefaultConfig;
+exports.getDefaultConfig = getDefaultConfig;

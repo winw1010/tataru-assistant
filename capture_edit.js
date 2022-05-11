@@ -41,7 +41,7 @@ function setEvent() {
 // set button
 function setButton() {
     // drag
-    setDragElement(document.getElementById("img_button_drag"));
+    setDragElement(document.getElementById('img_button_drag'));
 
     // submit
     document.getElementById('button_submit').onclick = () => {
@@ -55,7 +55,7 @@ function setButton() {
 }
 
 function translate(text) {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
 
     // set string array
     let stringArray = [];

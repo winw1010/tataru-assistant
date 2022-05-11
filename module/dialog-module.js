@@ -24,7 +24,7 @@ function appendBlankDialog(id, code) {
         return;
     }
 
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
     const dialog = document.createElement('div');
     dialog.setAttribute('id', id);
     dialog.setAttribute('class', code);
@@ -53,7 +53,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     dialog.style.cursor = 'pointer';
     dialog.style.display = 'block';
     dialog.onclick = () => {
-        const config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('get-config');
 
         if (config.preloadWindow.advance) {
             ipcRenderer.send('create-window', 'edit', id);
@@ -101,7 +101,7 @@ function showDialog() {
     clearTimeout(hideDialogTimeout);
     hideDialogTimeout = null;
 
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
     const dialog = document.getElementById('div_dialog');
     dialog.hidden = false;
 
@@ -163,7 +163,7 @@ function createLogName(milliseconds = null) {
 
 // get color
 function getColor(code) {
-    const chatCode = ipcRenderer.sendSync('load-chat-code');
+    const chatCode = ipcRenderer.sendSync('get-chat-code');
     let color = '#FFFFFF';
 
     for (let index = 0; index < chatCode.length; index++) {

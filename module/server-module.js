@@ -52,7 +52,7 @@ server.on('error', (err) => {
 
 // start server
 function startServer() {
-    const config = ipcRenderer.sendSync('load-config');
+    const config = ipcRenderer.sendSync('get-config');
     const host = config.server.host;
     const port = config.server.port;
 
@@ -63,7 +63,7 @@ function startServer() {
 // data process
 function dataProcess(data) {
     try {
-        const config = ipcRenderer.sendSync('load-config');
+        const config = ipcRenderer.sendSync('get-config');
         let dialogData = JSON.parse(data.toString());
 
         if (dataCheck(dialogData)) {

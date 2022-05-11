@@ -241,6 +241,10 @@ function saveChatCode(chatCode) {
     }
 }
 
+function getDefaultChatCode() {
+    return defaultChatCode;
+}
+
 function saveDefaultChatCode() {
     try {
         writeFileSync('./json/setting/chat-code.json', JSON.stringify(defaultChatCode, null, '\t'));
@@ -251,4 +255,4 @@ function saveDefaultChatCode() {
 
 exports.loadChatCode = loadChatCode;
 exports.saveChatCode = saveChatCode;
-exports.saveDefaultChatCode = saveDefaultChatCode;
+exports.getDefaultChatCode = getDefaultChatCode;

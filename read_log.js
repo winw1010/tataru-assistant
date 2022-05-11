@@ -40,7 +40,7 @@ function setEvent() {}
 // set button
 function setButton() {
     // drag
-    setDragElement(document.getElementById("img_button_drag"));
+    setDragElement(document.getElementById('img_button_drag'));
 
     // read
     document.getElementById('button_read').onclick = () => {

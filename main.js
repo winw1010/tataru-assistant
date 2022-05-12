@@ -30,30 +30,8 @@ let windowList = {
 }
 
 app.whenReady().then(() => {
-    // check diretory
-    try {
-        if (!existsSync('./json')) {
-            mkdirSync('./json');
-        }
-
-        if (!existsSync('./json/log')) {
-            mkdirSync('./json/log');
-        }
-
-        if (!existsSync('./json/setting')) {
-            mkdirSync('./json/setting');
-        }
-
-        if (!existsSync('./json/text')) {
-            mkdirSync('./json/text');
-        }
-
-        if (!existsSync('./json/text_temp')) {
-            mkdirSync('./json/text_temp');
-        }
-    } catch (error) {
-        console.log(error);
-    }
+    // check directory
+    checkDirectory();
 
     // load config
     config = loadConfig();
@@ -272,7 +250,21 @@ function sendPreload(channel, ...args) {
     }
 }
 
-function getSize(type) {
+function checkDirectory() {
+    const directories = ['./json', './json/log', './json/setting', './json/text', './json/text_temp'];
+
+    directories.forEach((value) => {
+        try {
+            if (!existsSync(value)) {
+                mkdirSync(value);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
+function getWindowSize(type) {
     // set default value
     let x = 0;
     let y = 0;
@@ -361,7 +353,7 @@ function getSize(type) {
 function createWindow(type, data) {
     try {
         // get size
-        const size = getSize(type);
+        const size = getWindowSize(type);
 
         // create new window
         const window = new BrowserWindow({

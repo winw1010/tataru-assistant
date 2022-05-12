@@ -217,23 +217,15 @@ function getPath(file) {
 
 // delete images
 function deleteImages() {
-    try {
-        unlinkSync(getPath('screenshot.png'));
-    } catch (error) {
-        console.log(error);
-    }
+    const images = ['screenshot.png', 'crop.png', 'result.png'];
 
-    try {
-        unlinkSync(getPath('crop.png'));
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
-        unlinkSync(getPath('result.png'));
-    } catch (error) {
-        console.log(error);
-    }
+    images.forEach((value) => {
+        try {
+            unlinkSync(getPath(value));
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }
 
 exports.takeScreenshot = takeScreenshot;

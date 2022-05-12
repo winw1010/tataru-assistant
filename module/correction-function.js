@@ -157,12 +157,14 @@ function valueFixBefore(text) {
     const values = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
     let valueTable = [];
 
-    for (let index = 0; index < values.length; index++) {
-        const element = values[index];
-        if (element.includes(',')) {
-            const element2 = element.replaceAll(',', '');
-            text = text.replaceAll(element, element2);
-            valueTable.push([element2, element]);
+    if (values) {
+        for (let index = 0; index < values.length; index++) {
+            const element = values[index];
+            if (element.includes(',')) {
+                const element2 = element.replaceAll(',', '');
+                text = text.replaceAll(element, element2);
+                valueTable.push([element2, element]);
+            }
         }
     }
 

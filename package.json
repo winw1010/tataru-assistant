@@ -15,7 +15,7 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^18.2.2",
+        "electron": "^18.2.3",
         "electron-builder": "^23.0.3",
         "eslint": "^8.15.0"
     },

@@ -219,11 +219,11 @@ ipcMain.on('close-app', () => {
 // start screen translation
 ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     // get display matching the rectangle
-    let display = screen.getDisplayMatching(rectangleSize);
+    const display = screen.getDisplayMatching(rectangleSize);
 
     // get display's index
+    const displays = screen.getAllDisplays();
     let displayIndex = 0;
-    let displays = screen.getAllDisplays();
 
     for (let index = 0; index < displays.length; index++) {
         if (displays[index].id === display.id) {

@@ -239,10 +239,8 @@ function setButton() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
-        if (kana.test(textBefore)) {
-            textBefore = textBefore + '#';
-        }
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && kana.test(textBefore)) {
+        textBefore = textBefore + '#';
     }
 
     const target = cf.sameAsArrayItem(textBefore, array);
@@ -258,10 +256,8 @@ function addTemp(textBefore, textAfter, type, array) {
 function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
-        if (kana.test(textBefore)) {
-            textBefore = textBefore + '#';
-        }
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && kana.test(textBefore)) {
+        textBefore = textBefore + '#';
     }
 
     for (let index = array.length - 1; index >= 0; index--) {

@@ -283,7 +283,7 @@ function specialTextFix(name, text) {
     }
 
     // バヌバヌ族
-    if (/ヌバ|バヌ|ズンド|ブンド|グンド/gi.test(name)) {
+    if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
         // 長老さま、長老さま！
         // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
         text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');

@@ -67,10 +67,10 @@ async function selectEngine(engine, input) {
 }
 
 async function zhConvert(text, languageTo) {
-    if (languageTo.match(new RegExp([languageTable.zht, languageTable.zhs].join('|'), 'gi'))) {
+    if ([languageTable.zht, languageTable.zhs].includes(languageTo)) {
         const input = {
             text: text,
-            from: languageTo.match(new RegExp(languageTable.zht, 'gi')) ? languageTable.zhs : languageTable.zht,
+            from: languageTo === languageTable.zht ? languageTable.zhs : languageTable.zht,
             to: languageTo
         };
 

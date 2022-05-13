@@ -28,7 +28,7 @@ npm run dist
 
 ## Tararu Helper程式修改步驟
 
-1. 至[這裡](https://github.com/NightlyRevenger/TataruHelper/releases)下載最新版本的Tataru Helper
+1. 下載[Tataru Helper](https://github.com/NightlyRevenger/TataruHelper/releases)
 2. 安裝後至安裝目錄刪除TataruHelper.exe和Update.exe
 3. 進入安裝目錄下的app-0.9.106資料夾，將裡面的TataruHelper.exe取代為Tataru Helper Node專案裡的_Tataru_Helper/Release裡的TataruHelper.exe即可
 

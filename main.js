@@ -57,9 +57,9 @@ ipcMain.on('get-version', (event) => {
     event.returnValue = app.getVersion();
 });
 
-// send index
-ipcMain.on('send-index', (event, channel, ...args) => {
-    sendIndex(channel, ...args);
+// close app
+ipcMain.on('close-app', () => {
+    app.quit();
 });
 
 // get config
@@ -126,33 +126,6 @@ ipcMain.on('open-index-devtools', () => {
     }
 });
 
-// always on top
-ipcMain.on('set-always-on-top', (event, top) => {
-    try {
-        windowList['index'].setAlwaysOnTop(top, 'screen-saver');
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-// mouse check
-ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
-    const cursorScreenPoint = screen.getCursorScreenPoint();
-
-    event.returnValue = (cursorScreenPoint.x < windowX ||
-        cursorScreenPoint.x > windowX + windowWidth ||
-        cursorScreenPoint.y < windowY ||
-        cursorScreenPoint.y > windowY + windowHeight
-    );
-});
-
-// click through
-ipcMain.on('set-click-through', (event, ignore) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-    window.setIgnoreMouseEvents(ignore, { forward: true });
-    window.setResizable(!ignore);
-});
-
 // create sindow
 ipcMain.on('create-window', (event, type, data = null) => {
     try {
@@ -211,9 +184,36 @@ ipcMain.on('close-window', (event) => {
     }
 });
 
-// close app
-ipcMain.on('close-app', () => {
-    app.quit();
+// send index
+ipcMain.on('send-index', (event, channel, ...args) => {
+    sendIndex(channel, ...args);
+});
+
+// always on top
+ipcMain.on('set-always-on-top', (event, top) => {
+    try {
+        windowList['index'].setAlwaysOnTop(top, 'screen-saver');
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// click through
+ipcMain.on('set-click-through', (event, ignore) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    window.setIgnoreMouseEvents(ignore, { forward: true });
+    window.setResizable(!ignore);
+});
+
+// mouse check
+ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
+    const cursorScreenPoint = screen.getCursorScreenPoint();
+
+    event.returnValue = (cursorScreenPoint.x < windowX ||
+        cursorScreenPoint.x > windowX + windowWidth ||
+        cursorScreenPoint.y < windowY ||
+        cursorScreenPoint.y > windowY + windowHeight
+    );
 });
 
 // start screen translation

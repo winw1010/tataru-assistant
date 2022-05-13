@@ -17,7 +17,7 @@ npm install
 npm start
 ```
 
-## Tataru Helper Node安裝檔建立方法
+## Tataru Helper Node安裝檔建立步驟
 
 安裝檔會建立在build資料夾裡
 

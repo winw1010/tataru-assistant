@@ -198,7 +198,7 @@ ipcMain.on('set-always-on-top', (event, top) => {
     }
 });
 
-// click through
+// set click through
 ipcMain.on('set-click-through', (event, ignore) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     window.setIgnoreMouseEvents(ignore, { forward: true });

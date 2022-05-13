@@ -34,8 +34,8 @@ npm run dist
 
 ## Tararu Helper專案修改步驟
 
-1. 至[NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)按下Code > Download ZIP下載最新版的原始碼
-2. 解壓縮後將_Tataru_Helper裡的FFXIVWpfApp1與Updater複製到專案裡
+1. 至[NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)按下Code > Download ZIP下載Tataru Helper的原始碼
+2. 解壓縮後將_Tataru_Helper裡的FFXIVWpfApp1資料夾與Updater資料夾複製到專案裡並取代
 3. 使用Visual Studio開啟專案(.sln檔)
 4. 將Debug改為Release，然後按下開始即可編譯專案
 5. 編譯好的.exe檔會建立在專案裡的FFXIVWpfApp1/bin/Release裡，你也可以拿這裡的TataruHelper.exe取代原版Tataru Helper的TataruHelper.exe(Tararu Helper程式修改步驟第3步驟)

@@ -118,6 +118,9 @@ namespace FFXIVTataruHelper
             }
             catch (Exception e)
             {
+                string serverString = JsonConvert.SerializeObject(new NodeServer());
+                System.IO.File.WriteAllText("server.json", serverString);
+
                 Logger.WriteLog(e);
             }
 

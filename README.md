@@ -2,7 +2,7 @@
 
 ## Tataru Helper Node專案使用步驟
 
-可使用[Visual Studio Code](https://code.visualstudio.com/)編輯
+* 可使用[Visual Studio Code](https://code.visualstudio.com/)編輯
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
@@ -19,8 +19,8 @@ npm start
 
 ## Tataru Helper Node安裝檔建立步驟
 
-安裝檔會建立在build資料夾裡
-安裝檔設定在package.json裡的build物件，打包工具為electron-builder
+* 安裝檔會建立在build資料夾裡
+* 安裝檔設定在package.json裡的build物件，打包工具為electron-builder
 
 ```bash
 # Distribute the app

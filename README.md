@@ -20,6 +20,7 @@ npm start
 ## Tataru Helper Node安裝檔建立步驟
 
 安裝檔會建立在build資料夾裡
+安裝檔設定在package.json裡的build物件，打包工具為electron-builder
 
 ```bash
 # Distribute the app

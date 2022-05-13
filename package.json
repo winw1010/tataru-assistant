@@ -46,7 +46,8 @@
             "trained_data",
             "!trained_data/screenshot.png",
             "!trained_data/crop.png",
-            "!trained_data/result.png"
+            "!trained_data/result.png",
+            "!_Tataru Helper"
         ],
         "win": {
             "icon": "./img/icon/tataru.ico",

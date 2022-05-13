@@ -19,6 +19,8 @@ npm start
 
 ## Tataru Helper Node安裝檔建立方法
 
+安裝檔會建立在build資料夾裡
+
 ```bash
 # Distribute the app
 npm run dist
@@ -36,4 +38,4 @@ npm run dist
 2. 解壓縮後將_Tataru_Helper裡的FFXIVWpfApp1與Updater複製到專案裡
 3. 使用Visual Studio開啟專案(.sln檔)
 4. 將Debug改為Release，然後按下開始即可編譯專案
-5. 編譯好的.exe檔會存放在專案裡的FFXIVWpfApp1/bin/Release裡，你也可以拿這裡的TataruHelper.exe取代原版Tataru Helper的TataruHelper.exe(Tararu Helper程式修改步驟第3步驟)
+5. 編譯好的.exe檔會建立在專案裡的FFXIVWpfApp1/bin/Release裡，你也可以拿這裡的TataruHelper.exe取代原版Tataru Helper的TataruHelper.exe(Tararu Helper程式修改步驟第3步驟)

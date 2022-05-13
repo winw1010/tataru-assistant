@@ -60,9 +60,9 @@
             "perMachine": false,
             "allowElevation": false,
             "packElevateHelper": false,
-            "allowToChangeInstallationDirectory": true,
+            "createStartMenuShortcut": true,
             "createDesktopShortcut": "always",
-            "createStartMenuShortcut": true
+            "allowToChangeInstallationDirectory": true
         }
     }
 }

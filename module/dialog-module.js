@@ -55,7 +55,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     dialog.onclick = () => {
         const config = ipcRenderer.sendSync('get-config');
 
-        if (config.preloadWindow.advance) {
+        if (config.indexWindow.advance) {
             ipcRenderer.send('create-window', 'edit', id);
         }
     }
@@ -105,10 +105,10 @@ function showDialog() {
     const dialog = document.getElementById('div_dialog');
     dialog.hidden = false;
 
-    if (config.preloadWindow.hideDialog) {
+    if (config.indexWindow.hideDialog) {
         hideDialogTimeout = setTimeout(() => {
             dialog.hidden = true;
-        }, config.preloadWindow.hideDialogTimeout * 1000);
+        }, config.indexWindow.hideDialogTimeout * 1000);
     }
 }
 

@@ -163,11 +163,11 @@ function setButton() {
         let translation = config.translation;
         translation.engine = document.getElementById('select_restart_engine').value;
 
-        ipcRenderer.send('send-preload', 'start-translation', dialogData, translation);
+        ipcRenderer.send('send-index', 'start-translation', dialogData, translation);
     };
 
     document.getElementById('button_read_json').onclick = () => {
-        ipcRenderer.send('send-preload', 'read-json');
+        ipcRenderer.send('send-index', 'read-json');
     };
 
     document.getElementById('button_view_temp').onclick = () => {
@@ -199,10 +199,10 @@ function setButton() {
                 cf.writeJSON('text_temp', 'chTemp.json', chTemp);
             }
 
-            ipcRenderer.send('send-preload', 'show-notification', '已儲存自訂翻譯');
-            ipcRenderer.send('send-preload', 'read-json');
+            ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
+            ipcRenderer.send('send-index', 'read-json');
         } else {
-            ipcRenderer.send('send-preload', 'show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
+            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
         }
     };
 
@@ -225,10 +225,10 @@ function setButton() {
                 cf.writeJSON('text_temp', 'chTemp.json', chTemp);
             }
 
-            ipcRenderer.send('send-preload', 'show-notification', '已刪除自訂翻譯');
-            ipcRenderer.send('send-preload', 'read-json');
+            ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');
+            ipcRenderer.send('send-index', 'read-json');
         } else {
-            ipcRenderer.send('send-preload', 'show-notification', '「替換前(原文)」不可為空白');
+            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」不可為空白');
         }
     };
 
@@ -269,7 +269,7 @@ function deleteTemp(textBefore, type, array) {
         }
     }
 
-    ipcRenderer.send('send-preload', 'show-notification', `共找到${count}個`);
+    ipcRenderer.send('send-index', 'show-notification', `共找到${count}個`);
 
     return array;
 }

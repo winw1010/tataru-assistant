@@ -112,12 +112,12 @@ function setButton() {
     // content
     // download json
     document.getElementById('button_download_json').onclick = () => {
-        ipcRenderer.send('send-preload', 'download-json');
+        ipcRenderer.send('send-index', 'download-json');
     };
 
     // devtools
     document.getElementById('button_devtools').onclick = () => {
-        ipcRenderer.send('open-preload-devtools');
+        ipcRenderer.send('open-index-devtools');
     };
 
     // link
@@ -166,10 +166,10 @@ function setButton() {
         ipcRenderer.send('set-default-chat-code');
 
         // reset view
-        ipcRenderer.send('send-preload', 'reset-view', ipcRenderer.sendSync('get-config'));
+        ipcRenderer.send('send-index', 'reset-view', ipcRenderer.sendSync('get-config'));
 
         // read json
-        ipcRenderer.send('send-preload', 'read-json');
+        ipcRenderer.send('send-index', 'read-json');
 
         // restart
         ipcRenderer.send('create-window', 'config');
@@ -188,20 +188,20 @@ function getConfig() {
     const version = ipcRenderer.sendSync('get-version');
 
     // window
-    document.getElementById('checkbox_top').checked = config.preloadWindow.alwaysOnTop;
+    document.getElementById('checkbox_top').checked = config.indexWindow.alwaysOnTop;
 
-    document.getElementById('checkbox_advance').checked = config.preloadWindow.advance;
+    document.getElementById('checkbox_advance').checked = config.indexWindow.advance;
 
-    document.getElementById('checkbox_hide_button').checked = config.preloadWindow.hideButton;
+    document.getElementById('checkbox_hide_button').checked = config.indexWindow.hideButton;
 
-    document.getElementById('checkbox_hide_dialog').checked = config.preloadWindow.hideDialog;
-    document.getElementById('input_hide_dialog').value = config.preloadWindow.hideDialogTimeout;
+    document.getElementById('checkbox_hide_dialog').checked = config.indexWindow.hideDialog;
+    document.getElementById('input_hide_dialog').value = config.indexWindow.hideDialogTimeout;
 
-    document.getElementById('span_background_color').innerText = config.preloadWindow.backgroundColor.slice(0, 7);
-    document.getElementById('color_background_color').value = config.preloadWindow.backgroundColor.slice(0, 7);
+    document.getElementById('span_background_color').innerText = config.indexWindow.backgroundColor.slice(0, 7);
+    document.getElementById('color_background_color').value = config.indexWindow.backgroundColor.slice(0, 7);
 
-    document.getElementById('span_background_transparency').innerText = parseInt(config.preloadWindow.backgroundColor.slice(7), 16);
-    document.getElementById('range_background_transparency').value = parseInt(config.preloadWindow.backgroundColor.slice(7), 16);
+    document.getElementById('span_background_transparency').innerText = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
+    document.getElementById('range_background_transparency').value = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
 
     // font
     document.getElementById('input_font_size').value = config.dialog.fontSize;
@@ -251,19 +251,19 @@ function setConfig() {
     let chatCode = ipcRenderer.sendSync('get-chat-code');
 
     // window
-    config.preloadWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
+    config.indexWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
 
-    config.preloadWindow.advance = document.getElementById('checkbox_advance').checked;
+    config.indexWindow.advance = document.getElementById('checkbox_advance').checked;
 
-    config.preloadWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
+    config.indexWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 
-    config.preloadWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
-    config.preloadWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
+    config.indexWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
+    config.indexWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
 
-    config.preloadWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
+    config.indexWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 
     let pt = parseInt(document.getElementById('range_background_transparency').value).toString(16).toUpperCase();
-    config.preloadWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;
+    config.indexWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;
 
     // font
     config.dialog.fontSize = document.getElementById('input_font_size').value;
@@ -320,7 +320,7 @@ function setConfig() {
     config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
     // reset view
-    ipcRenderer.send('send-preload', 'reset-view', config);
+    ipcRenderer.send('send-index', 'reset-view', config);
 
     // set config
     ipcRenderer.send('set-config', config);
@@ -329,13 +329,13 @@ function setConfig() {
     ipcRenderer.send('set-chat-code', chatCode);
 
     // read json
-    ipcRenderer.send('send-preload', 'read-json');
+    ipcRenderer.send('send-index', 'read-json');
 
     // restart server
-    ipcRenderer.send('send-preload', 'start-server');
+    ipcRenderer.send('send-index', 'start-server');
 
     // notification
-    ipcRenderer.send('send-preload', 'show-notification', '設定已儲存');
+    ipcRenderer.send('send-index', 'show-notification', '設定已儲存');
 }
 
 // load channel

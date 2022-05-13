@@ -21,7 +21,7 @@ let chatCode = null;
 
 // window list
 let windowList = {
-    preload: null,
+    index: null,
     config: null,
     capture: null,
     capture_edit: null,
@@ -39,11 +39,11 @@ app.whenReady().then(() => {
     // load chat code
     chatCode = loadChatCode();
 
-    // create preload window
-    createWindow('preload');
+    // create index window
+    createWindow('index');
 
     app.on('activate', function() {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow('preload');
+        if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
     });
 });
 
@@ -57,9 +57,9 @@ ipcMain.on('get-version', (event) => {
     event.returnValue = app.getVersion();
 });
 
-// send preload
-ipcMain.on('send-preload', (event, channel, ...args) => {
-    sendPreload(channel, ...args);
+// send index
+ipcMain.on('send-index', (event, channel, ...args) => {
+    sendIndex(channel, ...args);
 });
 
 // get config
@@ -113,9 +113,9 @@ ipcMain.on('open-devtools', (event) => {
     }
 });
 
-// open preload devtools
-ipcMain.on('open-preload-devtools', () => {
-    let window = windowList['preload'];
+// open index devtools
+ipcMain.on('open-index-devtools', () => {
+    let window = windowList['index'];
 
     try {
         window.webContents.closeDevTools();
@@ -129,7 +129,7 @@ ipcMain.on('open-preload-devtools', () => {
 // always on top
 ipcMain.on('set-always-on-top', (event, top) => {
     try {
-        windowList['preload'].setAlwaysOnTop(top, 'screen-saver');
+        windowList['index'].setAlwaysOnTop(top, 'screen-saver');
     } catch (error) {
         console.log(error);
     }
@@ -238,13 +238,13 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     }
 
     // image processing
-    sendPreload('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+    sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
 });
 
 // functions
-function sendPreload(channel, ...args) {
+function sendIndex(channel, ...args) {
     try {
-        windowList['preload'].webContents.send(channel, ...args);
+        windowList['index'].webContents.send(channel, ...args);
     } catch (error) {
         console.log(error);
     }
@@ -279,19 +279,19 @@ function getWindowSize(type) {
     let screenHeight = displayBounds.height;
 
     switch (type) {
-        case 'preload':
+        case 'index':
             // first time
-            if (config.preloadWindow.width < 0 || config.preloadWindow.height < 0) {
-                config.preloadWindow.width = parseInt(screenWidth * 0.2);
-                config.preloadWindow.height = parseInt(screenHeight * 0.6);
-                config.preloadWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
-                config.preloadWindow.y = parseInt(screenHeight * 0.2);
+            if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
+                config.indexWindow.width = parseInt(screenWidth * 0.2);
+                config.indexWindow.height = parseInt(screenHeight * 0.6);
+                config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
+                config.indexWindow.y = parseInt(screenHeight * 0.2);
             }
 
-            x = config.preloadWindow.x;
-            y = config.preloadWindow.y;
-            width = config.preloadWindow.width;
-            height = config.preloadWindow.height;
+            x = config.indexWindow.x;
+            y = config.indexWindow.y;
+            width = config.indexWindow.width;
+            height = config.indexWindow.height;
             break;
 
         case 'config':
@@ -375,22 +375,22 @@ function createWindow(type, data) {
         window.loadFile(type + '.html');
 
         // set always on top
-        const isTop = (type === 'preload' || type === 'capture' || type === 'capture_edit');
+        const isTop = (type === 'index' || type === 'capture' || type === 'capture_edit');
         window.setAlwaysOnTop(isTop, 'screen-saver');
 
         // set minimizable
         window.setMinimizable(false);
 
         switch (type) {
-            case 'preload':
+            case 'index':
                 window.once('close', () => {
                     // save position
-                    config.preloadWindow.x = window.getPosition()[0];
-                    config.preloadWindow.y = window.getPosition()[1];
+                    config.indexWindow.x = window.getPosition()[0];
+                    config.indexWindow.y = window.getPosition()[1];
 
                     // save size
-                    config.preloadWindow.width = window.getSize()[0];
-                    config.preloadWindow.height = window.getSize()[1];
+                    config.indexWindow.width = window.getSize()[0];
+                    config.indexWindow.height = window.getSize()[1];
 
                     // save config
                     saveConfig(config);

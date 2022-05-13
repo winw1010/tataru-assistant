@@ -232,14 +232,14 @@ function setButton() {
 // reset view
 function resetView(config) {
     // set always on top
-    ipcRenderer.send('set-always-on-top', config.preloadWindow.alwaysOnTop);
+    ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
 
     // set advance buttons
-    document.getElementById('div_lower_button').hidden = !config.preloadWindow.advance;
+    document.getElementById('div_lower_button').hidden = !config.indexWindow.advance;
 
     // set button
     document.querySelectorAll('.auto_hidden').forEach((value) => {
-        value.hidden = config.preloadWindow.hideButton;
+        value.hidden = config.indexWindow.hideButton;
     });
 
     // set dialog
@@ -260,7 +260,7 @@ function resetView(config) {
     showDialog();
 
     // set background color
-    document.getElementById('div_dialog').style.backgroundColor = config.preloadWindow.backgroundColor;
+    document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
     // start/restart mouse out check interval
     clearInterval(mouseOutCheckInterval);
@@ -271,7 +271,7 @@ function resetView(config) {
             // hide button
             const config = ipcRenderer.sendSync('get-config');
             document.querySelectorAll('.auto_hidden').forEach((value) => {
-                value.hidden = config.preloadWindow.hideButton;
+                value.hidden = config.indexWindow.hideButton;
             });
         } else {
             // show button

@@ -46,7 +46,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         cropImage(rectangleSize, displayBounds, imagePath);
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-preload', 'show-notification', '無法擷取螢幕畫面');
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面');
     }
 }
 
@@ -124,7 +124,7 @@ async function fixImage(croppedImage) {
 // recognize image text
 async function recognizeImage(file) {
     try {
-        ipcRenderer.send('send-preload', 'show-notification', '圖片辨識中');
+        ipcRenderer.send('send-index', 'show-notification', '圖片辨識中');
 
         const config = ipcRenderer.sendSync('get-config');
 
@@ -158,7 +158,7 @@ async function recognizeImage(file) {
             translate(text);
         } else {
             console.log('Text is empty.');
-            ipcRenderer.send('send-preload', 'show-notification', '無法擷取文字');
+            ipcRenderer.send('send-index', 'show-notification', '無法擷取文字');
         }
     } catch (error) {
         console.log(error);
@@ -205,7 +205,7 @@ function translate(text) {
                 timestamp: (timestamp + index)
             }
 
-            ipcRenderer.send('send-preload', 'start-translation', dialogData, config.translation);
+            ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
         }
     }
 }

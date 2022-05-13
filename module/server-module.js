@@ -46,7 +46,7 @@ server.on('listening', () => {
 });
 
 server.on('error', (err) => {
-    ipcRenderer.send('send-preload', 'show-notification', err.message);
+    ipcRenderer.send('send-index', 'show-notification', err.message);
     server.close();
 });
 
@@ -101,7 +101,7 @@ function dataProcess(data) {
                 }
 
                 // start correction
-                ipcRenderer.send('send-preload', 'start-translation', dialogData, config.translation);
+                ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
 
                 // show data
                 console.warn('data:', dialogData);

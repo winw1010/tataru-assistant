@@ -92,7 +92,7 @@ function readLogList() {
 
 function readLog(file) {
     if (file === '') {
-        ipcRenderer.send('send-preload', 'show-notification', '檔案不存在');
+        ipcRenderer.send('send-index', 'show-notification', '檔案不存在');
         return;
     }
 
@@ -105,12 +105,12 @@ function readLog(file) {
                 const logElement = log[logNames[index]];
 
                 if (logElement.code !== 'FFFF') {
-                    ipcRenderer.send('send-preload', 'append-dialog', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text)
+                    ipcRenderer.send('send-index', 'append-dialog', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text)
                 }
             }
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-preload', 'show-notification', '無法讀取檔案');
+        ipcRenderer.send('send-index', 'show-notification', '無法讀取檔案');
     }
 }

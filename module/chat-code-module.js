@@ -237,7 +237,7 @@ function saveChatCode(chatCode) {
     try {
         writeFileSync('./json/setting/chat-code.json', JSON.stringify(chatCode, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-preload', 'show-notification', error);
+        ipcRenderer.send('send-index', 'show-notification', error);
     }
 }
 
@@ -249,7 +249,7 @@ function saveDefaultChatCode() {
     try {
         writeFileSync('./json/setting/chat-code.json', JSON.stringify(defaultChatCode, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-preload', 'show-notification', error);
+        ipcRenderer.send('send-index', 'show-notification', error);
     }
 }
 

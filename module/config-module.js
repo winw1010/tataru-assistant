@@ -11,7 +11,7 @@ const defaultConfig = {
         host: 'localhost',
         port: 8898
     },
-    preloadWindow: {
+    indexWindow: {
         x: -1,
         y: -1,
         width: -1,
@@ -97,7 +97,7 @@ function saveConfig(config) {
     try {
         writeFileSync('./json/setting/config.json', JSON.stringify(config, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-preload', 'show-notification', error);
+        ipcRenderer.send('send-index', 'show-notification', error);
     }
 }
 
@@ -109,7 +109,7 @@ function saveDefaultConfig() {
     try {
         writeFileSync('./json/setting/config.json', JSON.stringify(defaultConfig, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-preload', 'show-notification', error);
+        ipcRenderer.send('send-index', 'show-notification', error);
     }
 }
 

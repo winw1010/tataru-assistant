@@ -115,10 +115,15 @@ namespace FFXIVTataruHelper
             {
                 string json = System.IO.File.ReadAllText("server.json");
                 nodeServer = JsonConvert.DeserializeObject<NodeServer>(json);
-                client.Timeout = TimeSpan.FromMilliseconds(15 * 1000);
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLog(e);
+            }
 
-                Logger.WriteLog(nodeServer.IP);
-                Logger.WriteLog(nodeServer.Port);
+            try
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(15 * 1000);
             }
             catch (Exception e)
             {

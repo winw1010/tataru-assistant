@@ -1,3 +1,5 @@
+'use strict';
+
 const engineList = ['Baidu', 'Caiyun', 'Youdao', 'Google'];
 
 const languageTable = {
@@ -57,12 +59,12 @@ const googleTable = {
 
 function getTableValue(language, table) {
     const languageReg = new RegExp(language, 'gi');
-    const names = Object.getOwnPropertyNames(table);
+    const propertyNames = Object.getOwnPropertyNames(table);
 
-    for (let index = 0; index < names.length; index++) {
-        const name = names[index];
-        if (name.match(languageReg)) {
-            return table[name];
+    for (let index = 0; index < propertyNames.length; index++) {
+        const propertyName = propertyNames[index];
+        if (propertyName.match(languageReg)) {
+            return table[propertyName];
         }
     }
 

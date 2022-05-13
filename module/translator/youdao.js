@@ -1,3 +1,5 @@
+'use strict';
+
 const { youdaoTranslator } = require('translators');
 
 // translate

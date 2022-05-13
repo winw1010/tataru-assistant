@@ -1,3 +1,5 @@
+'use strict';
+
 // baidu
 const baidu = require("baidu-translate-api");
 

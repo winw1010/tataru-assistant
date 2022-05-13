@@ -1,3 +1,5 @@
+'use strict';
+
 // google
 const google = require('@hobbica98/google-translate-api');
 

@@ -1,3 +1,5 @@
+'use strict';
+
 // axios
 const axios = require('axios').default;
 

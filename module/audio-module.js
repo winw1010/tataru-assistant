@@ -1,3 +1,5 @@
+'use strict';
+
 // text to speech
 const googleTTS = require('google-tts-api');
 

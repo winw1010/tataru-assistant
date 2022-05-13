@@ -133,7 +133,7 @@ function setButton() {
     setDragElement(document.getElementById('img_button_drag'));
 
     // github
-    document.getElementById('a_github').onclick = () => {
+    document.getElementById('a_translation_report').onclick = () => {
         try {
             execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
         } catch (error) {

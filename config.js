@@ -121,7 +121,16 @@ function setButton() {
     };
 
     // link
-    document.getElementById('a_link').onclick = () => {
+    document.getElementById('a_github').onclick = () => {
+        try {
+            execSync('explorer "https://github.com/winw1010/tataru-helper-node-ver.2.0.0"');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // link
+    document.getElementById('a_bahamut').onclick = () => {
         try {
             execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
         } catch (error) {
@@ -129,8 +138,8 @@ function setButton() {
         }
     };
 
-    // report
-    document.getElementById('a_report').onclick = () => {
+    // bug report
+    document.getElementById('a_bug_report').onclick = () => {
         try {
             execSync('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
         } catch (error) {
@@ -138,8 +147,8 @@ function setButton() {
         }
     };
 
-    // github
-    document.getElementById('a_github').onclick = () => {
+    // translation report
+    document.getElementById('a_translation_report').onclick = () => {
         try {
             execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
         } catch (error) {

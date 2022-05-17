@@ -139,6 +139,9 @@ function markFix(text) {
     // fix 」」
     text = text.replaceAll(/(」)([^「]*?)(\1)/gi, '「$2」');
 
+    // fix ""
+    text = text.replaceAll(/(")(.*?)(\1)/gi, '「$2」');
+
     return text;
 }
 

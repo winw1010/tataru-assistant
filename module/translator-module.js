@@ -1,9 +1,20 @@
 'use strict';
 
-const { languageTable, engineList, baiduTable, caiyunTable, youdaoTable, googleTable, getTableValue } = require('./translator/language-table');
+const {
+    languageTable,
+    engineList,
+    baiduTable,
+    caiyunTable,
+    youdaoTable,
+    papagoTable,
+    googleTable,
+    getTableValue
+} = require('./translator/language-table');
+
 const baidu = require('./translator/baidu');
 const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
+const papago = require('./translator/papago');
 const google = require('./translator/google');
 
 async function translate(text, engine, languageFrom, languageTo, autoChange = true) {
@@ -36,7 +47,7 @@ async function translate(text, engine, languageFrom, languageTo, autoChange = tr
         }
     }
 
-    return response;
+    return await zhConvert(response, languageTo);
 }
 
 async function selectEngine(engine, input) {
@@ -55,6 +66,10 @@ async function selectEngine(engine, input) {
             text = await youdao.translate(input.text, getTableValue(input.from, youdaoTable), getTableValue(input.to, youdaoTable));
             break;
 
+        case 'Papago':
+            text = await papago.translate(input.text, getTableValue(input.from, papagoTable), getTableValue(input.to, papagoTable));
+            break;
+
         case 'Google':
             text = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
             break;
@@ -63,7 +78,7 @@ async function selectEngine(engine, input) {
             text = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
     }
 
-    return await zhConvert(text, input.to);
+    return text;
 }
 
 async function zhConvert(text, languageTo) {

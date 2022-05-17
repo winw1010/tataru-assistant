@@ -82,7 +82,7 @@ async function selectEngine(engine, input) {
 }
 
 async function zhConvert(text, languageTo) {
-    if ([languageTable.zht, languageTable.zhs].includes(languageTo)) {
+    if (text !== '' && [languageTable.zht, languageTable.zhs].includes(languageTo)) {
         const input = {
             text: text,
             from: languageTo === languageTable.zht ? languageTable.zhs : languageTable.zht,

@@ -101,6 +101,8 @@ function readLog(file) {
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {
+            ipcRenderer.send('send-index', 'clear-dialog');
+
             for (let index = 0; index < logNames.length; index++) {
                 const logElement = log[logNames[index]];
 
@@ -108,6 +110,8 @@ function readLog(file) {
                     ipcRenderer.send('send-index', 'append-dialog', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text)
                 }
             }
+
+            ipcRenderer.send('send-index', 'move-to-bottom');
         }
     } catch (error) {
         console.log(error);

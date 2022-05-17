@@ -119,10 +119,19 @@ function setEvent() {
         startServer();
     });
 
+    // clear dialog
+    ipcRenderer.on('clear-dialog', () => {
+        document.getElementById('div_dialog').replaceChildren();
+    });
+
     // append dialog
     ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
         appendBlankDialog(id, code);
         updateDialog(id, name, text);
+    });
+
+    // append dialog
+    ipcRenderer.on('move-to-bottom', () => {
         moveToBottom();
     });
 
@@ -223,7 +232,7 @@ function setButton() {
         }
     };
 
-    // delete all
+    // clear
     document.getElementById('img_button_clear').onclick = () => {
         document.getElementById('div_dialog').replaceChildren();
     };

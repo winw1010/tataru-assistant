@@ -21,12 +21,12 @@ let chatCode = null;
 
 // window list
 let windowList = {
-    index: null,
-    config: null,
-    capture: null,
-    capture_edit: null,
-    edit: null,
-    read_log: null
+    'index': null,
+    'config': null,
+    'capture': null,
+    'capture-edit': null,
+    'edit': null,
+    'read-log': null
 }
 
 app.whenReady().then(() => {
@@ -134,12 +134,6 @@ ipcMain.on('create-window', (event, type, data = null) => {
 
         // restart
         throw null;
-
-        /*
-        if (type === 'capture_edit') {
-            throw null;
-        }
-        */
     } catch (error) {
         // create window
         createWindow(type, data);
@@ -316,7 +310,7 @@ function getWindowSize(type) {
             height = config.captureWindow.height;
             break;
 
-        case 'capture_edit':
+        case 'capture-edit':
             x = displayBounds.x + parseInt(screenWidth * 0.35);
             y = parseInt(screenHeight * 0.325);
             width = parseInt(screenWidth * 0.27);
@@ -330,7 +324,7 @@ function getWindowSize(type) {
             height = parseInt(screenHeight * 0.6);
             break;
 
-        case 'read_log':
+        case 'read-log':
             x = displayBounds.x + parseInt(screenWidth * 0.5);
             y = parseInt(screenHeight * 0.33);
             width = parseInt(screenWidth * 0.2);
@@ -375,7 +369,7 @@ function createWindow(type, data) {
         window.loadFile(type + '.html');
 
         // set always on top
-        const isTop = (type === 'index' || type === 'capture' || type === 'capture_edit');
+        const isTop = (type === 'index' || type === 'capture' || type === 'capture-edit');
         window.setAlwaysOnTop(isTop, 'screen-saver');
 
         // set minimizable
@@ -412,7 +406,7 @@ function createWindow(type, data) {
                 });
                 break;
 
-            case 'capture_edit':
+            case 'capture-edit':
                 window.webContents.on('did-finish-load', () => {
                     window.webContents.send('send-data', data);
                 });

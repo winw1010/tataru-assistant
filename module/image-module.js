@@ -176,7 +176,7 @@ function translate(text) {
 
     // return if need to edit
     if (config.captureWindow.edit) {
-        ipcRenderer.send('create-window', 'capture_edit', text);
+        ipcRenderer.send('create-window', 'capture-edit', text);
         return;
     }
 

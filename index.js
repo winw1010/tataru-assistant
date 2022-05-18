@@ -220,7 +220,7 @@ function setButton() {
 
     // read log
     document.getElementById('img_button_read_log').onclick = () => {
-        ipcRenderer.send('create-window', 'read_log');
+        ipcRenderer.send('create-window', 'read-log');
     };
 
     // delete last one

@@ -88,7 +88,7 @@ function setEvent() {
                                             </audio>
                                         `;
                                     } else {
-                                        const urls = googleTTS.getAllAudioUrls(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable), splitPunct: ',.?!' });
+                                        const urls = googleTTS.getAllAudioUrls(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) });
                                         console.log('TTS url:', urls);
 
                                         let innerHTML = '';

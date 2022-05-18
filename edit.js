@@ -100,6 +100,7 @@ function setEvent() {
                                                     <source src="${url}" type="audio/ogg">
                                                     <source src="${url}" type="audio/mpeg">
                                                 </audio>
+                                                <br>
                                             `;
                                         }
 

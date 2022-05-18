@@ -361,7 +361,7 @@ function getWindowSize(type) {
     function getNearX(indexBounds, width) {
         return indexBounds.x - width > displayBounds.x ?
             indexBounds.x - width :
-            indexBounds.x + width;
+            indexBounds.x + indexBounds.width;
     }
 
     function getNearY(indexBounds, height) {

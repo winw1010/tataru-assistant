@@ -274,62 +274,78 @@ function getWindowSize(type) {
 
     switch (type) {
         case 'index':
-            // first time
-            if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
-                config.indexWindow.width = parseInt(screenWidth * 0.2);
-                config.indexWindow.height = parseInt(screenHeight * 0.6);
-                config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
-                config.indexWindow.y = parseInt(screenHeight * 0.2);
-            }
+            {
+                // first time
+                if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
+                    config.indexWindow.width = parseInt(screenWidth * 0.2);
+                    config.indexWindow.height = parseInt(screenHeight * 0.6);
+                    config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
+                    config.indexWindow.y = parseInt(screenHeight * 0.2);
+                }
 
-            x = config.indexWindow.x;
-            y = config.indexWindow.y;
-            width = config.indexWindow.width;
-            height = config.indexWindow.height;
-            break;
+                x = config.indexWindow.x;
+                y = config.indexWindow.y;
+                width = config.indexWindow.width;
+                height = config.indexWindow.height;
+                break;
+            }
 
         case 'config':
-            x = displayBounds.x + parseInt(screenWidth * 0.35);
-            y = parseInt(screenHeight * 0.2);
-            width = parseInt(screenWidth * 0.22);
-            height = parseInt(screenHeight * 0.65);
-            break;
-
-        case 'capture':
-            // first time
-            if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
-                config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
-                config.captureWindow.y = parseInt(screenHeight * 0.63);
-                config.captureWindow.width = parseInt(screenWidth * 0.33);
-                config.captureWindow.height = parseInt(screenHeight * 0.36);
+            {
+                const indexBounds = windowList['index'].getBounds();
+                width = parseInt(screenWidth * 0.22);
+                height = parseInt(screenHeight * 0.65);
+                x = getNearX(indexBounds, width);
+                y = getNearY(indexBounds, height);
+                break;
             }
 
-            x = config.captureWindow.x;
-            y = config.captureWindow.y;
-            width = config.captureWindow.width;
-            height = config.captureWindow.height;
-            break;
+        case 'capture':
+            {
+                // first time
+                if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
+                    config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
+                    config.captureWindow.y = parseInt(screenHeight * 0.63);
+                    config.captureWindow.width = parseInt(screenWidth * 0.33);
+                    config.captureWindow.height = parseInt(screenHeight * 0.36);
+                }
+
+                x = config.captureWindow.x;
+                y = config.captureWindow.y;
+                width = config.captureWindow.width;
+                height = config.captureWindow.height;
+                break;
+            }
 
         case 'capture-edit':
-            x = displayBounds.x + parseInt(screenWidth * 0.35);
-            y = parseInt(screenHeight * 0.325);
-            width = parseInt(screenWidth * 0.27);
-            height = parseInt(screenHeight * 0.35);
-            break;
+            {
+                const indexBounds = windowList['index'].getBounds();
+                width = parseInt(screenWidth * 0.27);
+                height = parseInt(screenHeight * 0.35);
+                x = getNearX(indexBounds, width);
+                y = getNearY(indexBounds, height);
+                break;
+            }
 
         case 'edit':
-            x = displayBounds.x + parseInt(screenWidth * 0.2);
-            y = parseInt(screenHeight * 0.2);
-            width = parseInt(screenWidth * 0.5);
-            height = parseInt(screenHeight * 0.6);
-            break;
+            {
+                const indexBounds = windowList['index'].getBounds();
+                width = parseInt(screenWidth * 0.5);
+                height = parseInt(screenHeight * 0.65);
+                x = getNearX(indexBounds, width);
+                y = getNearY(indexBounds, height);
+                break;
+            }
 
         case 'read-log':
-            x = displayBounds.x + parseInt(screenWidth * 0.5);
-            y = parseInt(screenHeight * 0.33);
-            width = parseInt(screenWidth * 0.2);
-            height = parseInt(screenHeight * 0.2);
-            break;
+            {
+                const indexBounds = windowList['index'].getBounds();
+                width = parseInt(screenWidth * 0.2);
+                height = parseInt(screenHeight * 0.2);
+                x = getNearX(indexBounds, width);
+                y = getNearY(indexBounds, height);
+                break;
+            }
 
         default:
             break;
@@ -341,6 +357,18 @@ function getWindowSize(type) {
         width: width,
         height: height
     };
+
+    function getNearX(indexBounds, width) {
+        return indexBounds.x - width > displayBounds.x ?
+            indexBounds.x - width :
+            indexBounds.x + width;
+    }
+
+    function getNearY(indexBounds, height) {
+        return indexBounds.y + height > displayBounds.y + displayBounds.height ?
+            displayBounds.y + displayBounds.height - height :
+            indexBounds.y;
+    }
 }
 
 // create window

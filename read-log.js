@@ -17,12 +17,12 @@ const jsonFixer = require('json-fixer');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // F12
-    document.addEventListener('keydown', (event) => {
+    // devtools
+    document.onkeydown = (event) => {
         if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
-    });
+    };
 
     setView();
     setEvent();

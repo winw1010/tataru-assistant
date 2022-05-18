@@ -35,12 +35,12 @@ let targetLog = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // F12
-    document.addEventListener('keydown', (event) => {
+    // devtools
+    document.onkeydown = (event) => {
         if (event.code === 'F12') {
             ipcRenderer.send('open-devtools');
         }
-    });
+    };
 
     setView();
     setEvent();
@@ -76,15 +76,38 @@ function setEvent() {
 
                             // text to speech
                             if (targetLog.text !== '') {
-                                const url = googleTTS.getAudioUrl(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) });
-                                console.log('TTS url:', url);
+                                try {
+                                    if (targetLog.text.length < 200) {
+                                        const url = googleTTS.getAudioUrl(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) });
+                                        console.log('TTS url:', url);
 
-                                document.getElementById('div_audio').innerHTML = `
-                                    <audio controls preload="metadata">
-                                        <source src="${url}" type="audio/ogg">
-                                        <source src="${url}" type="audio/mpeg">
-                                    </audio>
-                                `;
+                                        document.getElementById('div_audio').innerHTML = `
+                                            <audio controls preload="metadata">
+                                                <source src="${url}" type="audio/ogg">
+                                                <source src="${url}" type="audio/mpeg">
+                                            </audio>
+                                        `;
+                                    } else {
+                                        const urls = googleTTS.getAllAudioUrls(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable), splitPunct: ',.?!' });
+                                        console.log('TTS url:', urls);
+
+                                        let innerHTML = '';
+                                        for (let index = 0; index < urls.length; index++) {
+                                            const url = urls[index].url;
+
+                                            innerHTML += `
+                                                <audio controls preload="metadata">
+                                                    <source src="${url}" type="audio/ogg">
+                                                    <source src="${url}" type="audio/mpeg">
+                                                </audio>
+                                            `;
+                                        }
+
+                                        document.getElementById('div_audio').innerHTML = innerHTML;
+                                    }
+                                } catch (error) {
+                                    console.log(error);
+                                }
                             }
 
                             const dialog1 = document.getElementById('div_dialog1');

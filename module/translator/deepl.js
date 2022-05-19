@@ -1,4 +1,5 @@
 /*Testing*/
+/*
 const puppeteer = require('puppeteer');
 const minimal_args = [
     '--autoplay-policy=user-gesture-required',
@@ -60,3 +61,4 @@ async function translate(text, languageFrom, languageTo) {
 }
 
 exports.translate = translate;
+*/

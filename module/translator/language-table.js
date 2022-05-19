@@ -41,6 +41,7 @@ const youdaoTable = {
     'Simplified-Chinese': 'zh'
 }
 
+/*
 const papagoTable = {
     'Auto': 'detect',
     'Japanese': 'ja',
@@ -48,7 +49,9 @@ const papagoTable = {
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN'
 }
+*/
 
+/*
 const deeplTable = {
     'Auto': 'auto',
     'Japanese': 'ja',
@@ -56,6 +59,7 @@ const deeplTable = {
     'Traditional-Chinese': 'zh',
     'Simplified-Chinese': 'zh'
 }
+*/
 
 const googleTable = {
     'Auto': 'auto',
@@ -87,7 +91,7 @@ exports.languageIndex = languageIndex;
 exports.baiduTable = baiduTable;
 exports.caiyunTable = caiyunTable;
 exports.youdaoTable = youdaoTable;
-exports.papagoTable = papagoTable;
-exports.deeplTable = deeplTable;
+//exports.papagoTable = papagoTable;
+//exports.deeplTable = deeplTable;
 exports.googleTable = googleTable;
 exports.getTableValue = getTableValue;

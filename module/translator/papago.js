@@ -1,3 +1,5 @@
+/*Testing*/
+/*
 // papago
 const papagoTranslate = require('puppeteer-papago-scraping');
 
@@ -15,3 +17,4 @@ async function translate(text, languageFrom, languageTo) {
 }
 
 exports.translate = translate;
+*/

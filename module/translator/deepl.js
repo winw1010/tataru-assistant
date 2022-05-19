@@ -1,6 +1,5 @@
 /*Testing*/
 const puppeteer = require('puppeteer');
-/*
 const minimal_args = [
     '--autoplay-policy=user-gesture-required',
     '--disable-background-networking',
@@ -38,16 +37,18 @@ const minimal_args = [
     '--use-gl=swiftshader',
     '--use-mock-keychain',
 ];
-*/
 
 async function translate(text, languageFrom, languageTo) {
     try {
-        const browser = await puppeteer.launch();
-        const [page] = await browser.pages();
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: minimal_args
+        });
+        const page = await browser.newPage();
 
-        await page.goto(`https://www.deepl.com/zh/translator#${languageFrom}/${languageTo}/${text}`, { waitUntil: 'networkidle0' });
+        await page.goto(`https://www.deepl.com/en/translator#${languageFrom}/${languageTo}/${text}`, { waitUntil: 'networkidle0' });
 
-        const response = await page.evaluate(() => document.querySelector('#target-dummydiv').innerHTML);
+        const response = await page.evaluate(() => document.getElementById('target-dummydiv').innerHTML);
         browser.close();
 
         console.log('DeepL:', response);

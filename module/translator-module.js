@@ -1,5 +1,8 @@
 'use strict';
 
+// communicate with main process
+const { ipcRenderer } = require('electron');
+
 const {
     languageTable,
     engineList,
@@ -7,6 +10,7 @@ const {
     caiyunTable,
     youdaoTable,
     papagoTable,
+    deeplTable,
     googleTable,
     getTableValue
 } = require('./translator/language-table');
@@ -15,6 +19,7 @@ const baidu = require('./translator/baidu');
 const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
 const papago = require('./translator/papago');
+const deepl = require('./translator/deepl');
 const google = require('./translator/google');
 
 async function translate(text, engine, languageFrom, languageTo, autoChange = true) {
@@ -37,6 +42,8 @@ async function translate(text, engine, languageFrom, languageTo, autoChange = tr
 
                 if (element !== engine) {
                     console.log(`Use ${element}.`);
+                    ipcRenderer.send('send-index', 'show-notification', `${engine}翻譯失敗，嘗試使用${element}重新翻譯`);
+
                     response = await selectEngine(element, input);
 
                     if (response !== '') {
@@ -68,6 +75,10 @@ async function selectEngine(engine, input) {
 
         case 'Papago':
             text = await papago.translate(input.text, getTableValue(input.from, papagoTable), getTableValue(input.to, papagoTable));
+            break;
+
+        case 'DeepL':
+            text = await deepl.translate(input.text, getTableValue(input.from, deeplTable), getTableValue(input.to, deeplTable));
             break;
 
         case 'Google':

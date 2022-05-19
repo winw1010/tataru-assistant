@@ -49,6 +49,14 @@ const papagoTable = {
     'Simplified-Chinese': 'zh-CN'
 }
 
+const deeplTable = {
+    'Auto': 'auto',
+    'Japanese': 'ja',
+    'English': 'en',
+    'Traditional-Chinese': 'zh',
+    'Simplified-Chinese': 'zh'
+}
+
 const googleTable = {
     'Auto': 'auto',
     'Japanese': 'ja',
@@ -80,5 +88,6 @@ exports.baiduTable = baiduTable;
 exports.caiyunTable = caiyunTable;
 exports.youdaoTable = youdaoTable;
 exports.papagoTable = papagoTable;
+exports.deeplTable = deeplTable;
 exports.googleTable = googleTable;
 exports.getTableValue = getTableValue;

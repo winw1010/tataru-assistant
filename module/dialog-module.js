@@ -92,7 +92,11 @@ function appendNotification(text) {
 
     // set timeout
     setTimeout(() => {
-        document.getElementById(id).remove();
+        try {
+            document.getElementById(id).remove();
+        } catch (error) {
+            console.log(error);
+        }
     }, 5000);
 }
 

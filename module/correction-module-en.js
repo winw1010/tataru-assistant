@@ -38,6 +38,10 @@ let chArray = {
 let enArray = {
     // ignore
     ignore: [],
+
+    // en => en
+    en1: [],
+    en2: [],
 };
 
 function loadJSON(language) {
@@ -63,6 +67,8 @@ function loadJSON(language) {
 
     // en array
     enArray.ignore = cf.readJSON(englishDirectory, 'ignore.json');
+    enArray.en1 = cf.readJSON(englishDirectory, 'en1.json');
+    enArray.en2 = cf.readJSON(englishDirectory, 'en2.json');
 
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
@@ -220,9 +226,15 @@ async function textCorrection(name, text, translation) {
         // mark fix
         text = cf.markFix(text);
 
+        // en1
+        text = cf.replaceText(text, enArray.en1);
+
         // combine
         const codeResult = cfen.replaceTextByCode(text, chArray.combine);
         text = codeResult.text;
+
+        // en2
+        text = cf.replaceText(text, enArray.en2);
 
         // value fix before
         const valueResult = cf.valueFixBefore(text);

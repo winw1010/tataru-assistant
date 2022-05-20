@@ -17,7 +17,7 @@ const femaleWords = [
 // jp text function
 
 function replaceTextByCode(text, array, search = 0, replacement = 1) {
-    if (!Array.isArray(array)) {
+    if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
             table: []

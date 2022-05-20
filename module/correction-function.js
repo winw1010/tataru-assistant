@@ -18,7 +18,7 @@ function skipCheck(code, name, text, ignoreArray) {
 }
 
 function replaceText(text, array, search = 0, replacement = 1) {
-    if (!Array.isArray(array)) {
+    if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return text;
     }
 
@@ -35,11 +35,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
 }
 
 function canIgnore(text, ignoreArray) {
-    if (text === '') {
-        return false;
-    }
-
-    if (!Array.isArray(ignoreArray)) {
+    if (text === '' || !Array.isArray(ignoreArray) || !ignoreArray.length > 0) {
         return false;
     }
 
@@ -59,11 +55,7 @@ function includesArrayItem(text, array, searchIndex = 0) {
     // target
     let target = null;
 
-    if (text === '') {
-        return target;
-    }
-
-    if (!Array.isArray(array)) {
+    if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return target;
     }
 
@@ -95,11 +87,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
     // target
     let target = null;
 
-    if (text === '') {
-        return target;
-    }
-
-    if (!Array.isArray(array)) {
+    if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return target;
     }
 

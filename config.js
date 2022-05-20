@@ -115,6 +115,11 @@ function setButton() {
         ipcRenderer.send('send-index', 'download-json');
     };
 
+    // version check
+    document.getElementById('button_version_check').onclick = () => {
+        ipcRenderer.send('send-index', 'version-check');
+    };
+
     // devtools
     document.getElementById('button_devtools').onclick = () => {
         ipcRenderer.send('open-index-devtools');

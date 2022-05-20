@@ -52,6 +52,8 @@ window.addEventListener('DOMContentLoaded', () => {
     setButton();
 
     loadJSON();
+    versionCheck();
+
     startPlaying();
     startServer();
 });
@@ -112,6 +114,11 @@ function setEvent() {
     // read json
     ipcRenderer.on('read-json', () => {
         readJSON();
+    });
+
+    // version check
+    ipcRenderer.on('version-check', () => {
+        versionCheck();
     });
 
     // start server
@@ -333,9 +340,6 @@ function readJSON() {
     loadJSON_EN(config.translation.to);
 
     appendNotification('對照表讀取完畢');
-
-    // version check
-    versionCheck();
 }
 
 // version check
@@ -352,13 +356,15 @@ async function versionCheck() {
         const latestVersion = response.data.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
-        if (latestVersion !== appVersion) {
-            document.getElementById('img_button_update').hidden = false;
-        } else {
+        if (latestVersion === appVersion) {
             document.getElementById('img_button_update').hidden = true;
+            appendNotification('已安裝最新版本');
+        } else {
+            throw null;
         }
     } catch (error) {
         console.log(error);
         document.getElementById('img_button_update').hidden = false;
+        appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg">按鈕下載最新版本');
     }
 }

@@ -16,6 +16,9 @@ let correctionQueueInterval = null;
 
 // document
 let chArray = {
+    // force replace
+    overwrite: [],
+
     // after
     afterTranslation: [],
 
@@ -44,11 +47,12 @@ function loadJSON(language) {
 
     const sub0 = getTableValue(languageTable.en, languageIndex);
     const sub1 = getTableValue(language, languageIndex);
-    const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
-    const en = 'text/en';
+    const chineseDirectory = sub1 === 2 ? 'text/cht' : 'text/chs';
+    const englishDirectory = 'text/en';
 
     // ch array
-    chArray.afterTranslation = cf.readJSON(ch, 'afterTranslation.json');
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
+    chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
     chArray.player = cf.readJSON('text_temp', 'player.json');
@@ -58,7 +62,7 @@ function loadJSON(language) {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // en array
-    enArray.ignore = cf.readJSON(en, 'ignore.json');
+    enArray.ignore = cf.readJSON(englishDirectory, 'ignore.json');
 
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
@@ -208,50 +212,48 @@ async function textCorrection(name, text, translation) {
     // text temp
     const originalText = text;
 
-    // special fix
-    text = specialTextFix(name, text);
+    // force overwrite
+    const target = cf.sameAsArrayItem(text, chArray.overwrite);
+    if (target) {
+        return target[0][1];
+    } else {
+        // mark fix
+        text = cf.markFix(text);
 
-    // combine
-    const codeResult = cfen.replaceTextByCode(text, chArray.combine);
-    text = codeResult.text;
+        // combine
+        const codeResult = cfen.replaceTextByCode(text, chArray.combine);
+        text = codeResult.text;
 
-    // value fix before
-    const valueResult = cf.valueFixBefore(text);
-    text = valueResult.text;
+        // value fix before
+        const valueResult = cf.valueFixBefore(text);
+        text = valueResult.text;
 
-    // skip check
-    if (!cfen.canSkipTranslation(text, codeResult.table)) {
-        // translate
-        text = await cf.translate(text, translation);
+        // skip check
+        if (!cfen.canSkipTranslation(text, codeResult.table)) {
+            // translate
+            text = await cf.translate(text, translation);
+        }
+
+        // value fix after
+        text = cf.valueFixAfter(text, valueResult.table);
+
+        // clear code
+        text = cf.clearCode(text, codeResult.table);
+
+        // table
+        text = cf.replaceText(text, codeResult.table);
+
+        // gender fix
+        text = cfen.genderFix(originalText, text);
+
+        // after translation
+        text = cf.replaceText(text, chArray.afterTranslation);
+
+        // mark fix
+        text = cf.markFix(text);
+
+        return text;
     }
-
-    // value fix after
-    text = cf.valueFixAfter(text, valueResult.table);
-
-    // clear code
-    text = cf.clearCode(text, codeResult.table);
-
-    // table
-    text = cf.replaceText(text, codeResult.table);
-
-    // gender fix
-    text = cfen.genderFix(originalText, text);
-
-    // after translation
-    text = cf.replaceText(text, chArray.afterTranslation);
-
-    // mark fix
-    text = cf.markFix(text);
-
-    return text;
-}
-
-// special text fix
-function specialTextFix(name, text) {
-    // mark fix
-    text = cf.markFix(text);
-
-    return text;
 }
 
 exports.loadJSON_EN = loadJSON;

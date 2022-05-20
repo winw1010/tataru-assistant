@@ -65,14 +65,13 @@ function loadJSON(language) {
 
     const sub0 = getTableValue(languageTable.ja, languageIndex);
     const sub1 = getTableValue(language, languageIndex);
-    const ch = sub1 === 2 ? 'text/cht' : 'text/chs';
-    const jp = 'text/jp';
+    const chineseDirectory = sub1 === 2 ? 'text/cht' : 'text/chs';
+    const japaneseDirectory = 'text/jp';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(ch));
-
-    chArray.chName = cf.readJSON(ch, 'chName.json');
-    chArray.afterTranslation = cf.readJSON(ch, 'afterTranslation.json');
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
+    chArray.chName = cf.readJSON(chineseDirectory, 'chName.json');
+    chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
     chArray.player = cf.readJSON('text_temp', 'player.json');
@@ -82,14 +81,14 @@ function loadJSON(language) {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // jp array
-    jpArray.ignore = cf.readJSON(jp, 'ignore.json');
+    jpArray.ignore = cf.readJSON(japaneseDirectory, 'ignore.json');
     jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSONSubtitle());
-    jpArray.jp1 = cf.readJSON(jp, 'jp1.json');
-    jpArray.jp2 = cf.readJSON(jp, 'jp2.json');
+    jpArray.jp1 = cf.readJSON(japaneseDirectory, 'jp1.json');
+    jpArray.jp2 = cf.readJSON(japaneseDirectory, 'jp2.json');
 
-    jpArray.kana = cf.readJSON(jp, 'kana.json');
-    jpArray.listHira = cf.readJSON(jp, 'listHira.json');
-    jpArray.listCrystalium = cf.readJSON(jp, 'listCrystalium.json');
+    jpArray.kana = cf.readJSON(japaneseDirectory, 'kana.json');
+    jpArray.listHira = cf.readJSON(japaneseDirectory, 'listHira.json');
+    jpArray.listCrystalium = cf.readJSON(japaneseDirectory, 'listCrystalium.json');
 
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
@@ -217,6 +216,9 @@ async function textCorrection(name, text, translation) {
         // check katakana
         const allKatakana = isAllKatakana(name, text);
 
+        // mark fix
+        text = cf.markFix(text);
+
         // special fix
         text = specialTextFix(name, text);
 
@@ -269,9 +271,6 @@ async function textCorrection(name, text, translation) {
 
 // special text fix
 function specialTextFix(name, text) {
-    // mark fix
-    text = cf.markFix(text);
-
     // コボルド族
     if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');

@@ -245,9 +245,9 @@ function readJSONMain(sub0, sub1) {
     }
 }
 
-function readJSONOverwrite(ch) {
+function readJSONOverwrite(ch, directory) {
     try {
-        const fileList = readdirSync(`./json/${ch}/overwrite`);
+        const fileList = readdirSync(`./json/${ch}/${directory}`);
         let overwrite = [];
 
         if (fileList.length > 0) {

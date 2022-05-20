@@ -365,6 +365,6 @@ async function versionCheck() {
     } catch (error) {
         console.log(error);
         document.getElementById('img_button_update').hidden = false;
-        appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg">按鈕下載最新版本');
+        appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本');
     }
 }

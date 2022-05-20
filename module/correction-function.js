@@ -114,21 +114,26 @@ async function translate(text, translation) {
     return text;
 }
 
-function markFix(text) {
+function markFix(text, isChinese = false) {
     // remove （） and its content
     text = text.replaceAll(/（.*?）/gi, '');
 
     // remove () and its content
     text = text.replaceAll(/\(.*?\)/gi, '');
 
-    // fix 「「
-    text = text.replaceAll(/(「)([^」]*?)(\1)/gi, '「$2」');
+    if (isChinese) {
+        // fix 「「
+        text = text.replaceAll(/(「)([^」]*?)(\1)/gi, '「$2」');
 
-    // fix 」」
-    text = text.replaceAll(/(」)([^「]*?)(\1)/gi, '「$2」');
+        // fix 」」
+        text = text.replaceAll(/(」)([^「]*?)(\1)/gi, '「$2」');
 
-    // fix ""
-    text = text.replaceAll(/(")(.*?)(\1)/gi, '「$2」');
+        // fix ""
+        text = text.replaceAll(/(")(.*?)(\1)/gi, '「$2」');
+
+        // fix ''
+        text = text.replaceAll(/(')(.*?)(\1)/gi, '「$2」');
+    }
 
     return text;
 }

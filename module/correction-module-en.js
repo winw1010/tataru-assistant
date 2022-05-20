@@ -189,7 +189,7 @@ async function nameCorrection(name, translation) {
         translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // mark fix
-        translatedName = cf.markFix(translatedName);
+        translatedName = cf.markFix(translatedName, true);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
@@ -262,7 +262,7 @@ async function textCorrection(name, text, translation) {
         text = cf.replaceText(text, chArray.afterTranslation);
 
         // mark fix
-        text = cf.markFix(text);
+        text = cf.markFix(text, true);
 
         return text;
     }

@@ -263,67 +263,10 @@ async function textCorrection(name, text, translation) {
         text = cf.replaceText(text, chArray.afterTranslation);
 
         // mark fix
-        text = cf.markFix(text);
+        text = cf.markFix(text, true);
 
         return text;
     }
-}
-
-// special text fix
-function specialTextFix(name, text) {
-    // コボルド族
-    if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
-        text = text.replaceAll('ー', '');
-    }
-
-    // マムージャ族 & 強化グリーンワート
-    if (/マムージャ|ージャジャ$|ージャ$|強化グリーンワート/gi.test(name)) {
-        text = text.replaceAll('、', '');
-    }
-
-    // バヌバヌ族
-    if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
-        // 長老さま、長老さま！
-        // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-        text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
-    }
-
-    // 核修正
-    if (text.includes('核')) {
-        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
-    }
-
-    // 水晶公判斷
-    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
-        text = text
-            .replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
-    }
-
-    // 若判斷
-    if (/ユウギリ|ゴウセツ/gi.test(name)) {
-        text = text.replaceAll('若', '主人');
-    }
-
-    // 召喚士
-    if (/ヤ・ミトラ|プリンキピア/gi.test(name)) {
-        text = text.replaceAll('サリ', 'サリ*');
-    }
-
-    // 暗黒騎士
-    if (/フレイ|シドゥルグ|リエル/gi.test(name) || /^ミスト$/gi.test(name)) {
-        text = text.replaceAll('ミスト', 'ミスト*');
-    }
-
-    return text;
-}
-
-// katakana check
-function isAllKatakana(name, text) {
-    if (cf.includesArrayItem(name, jpArray.listHira)) {
-        return true;
-    }
-
-    return /^[^ぁ-ゖ]+$/gi.test(text);
 }
 
 // get katakana name
@@ -388,7 +331,7 @@ async function translateName(name, katakanaName, translation) {
         translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // mark fix
-        translatedName = cf.markFix(translatedName);
+        translatedName = cf.markFix(translatedName, true);
 
         // save name
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
@@ -414,16 +357,62 @@ async function translateName(name, katakanaName, translation) {
     }
 }
 
-/*
-console.log(getKatakanaName('ス・ラエポリ准甲士'));
-console.log(getKatakanaName('准甲士ス・ラエポリ'));
-console.log(getKatakanaName('ス・ラエポリ准甲士？'));
-console.log(getKatakanaName('ヴェーネスと呼ばれた古代人'));
-console.log(getKatakanaName('２１Ｏ：自我データ'));
-console.log(getKatakanaName('融合シタ人形タチ'));
-console.log(getKatakanaName('開花シタ神'));
-console.log(getKatakanaName('？？？？'));
-*/
+// special text fix
+function specialTextFix(name, text) {
+    // コボルド族
+    if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
+        text = text.replaceAll('ー', '');
+    }
+
+    // マムージャ族 & 強化グリーンワート
+    if (/マムージャ|ージャジャ$|ージャ$|強化グリーンワート/gi.test(name)) {
+        text = text.replaceAll('、', '');
+    }
+
+    // バヌバヌ族
+    if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
+        // 長老さま、長老さま！
+        // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
+        text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
+    }
+
+    // 核修正
+    if (text.includes('核')) {
+        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
+    }
+
+    // 水晶公判斷
+    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
+        text = text
+            .replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
+    }
+
+    // 若判斷
+    if (/ユウギリ|ゴウセツ/gi.test(name)) {
+        text = text.replaceAll('若', '主人');
+    }
+
+    // 召喚士
+    if (/ヤ・ミトラ|プリンキピア/gi.test(name)) {
+        text = text.replaceAll('サリ', 'サリ*');
+    }
+
+    // 暗黒騎士
+    if (/フレイ|シドゥルグ|リエル|^ミスト(|の声)$/gi.test(name)) {
+        text = text.replaceAll('ミスト', 'ミスト*');
+    }
+
+    return text;
+}
+
+// katakana check
+function isAllKatakana(name, text) {
+    if (cf.includesArrayItem(name, jpArray.listHira)) {
+        return true;
+    }
+
+    return /^[^ぁ-ゖ]+$/gi.test(text);
+}
 
 exports.loadJSON_JP = loadJSON;
 exports.addToCorrectionQueue_JP = addToCorrectionQueue;

@@ -1,0 +1,25 @@
+/*body*/
+
+body {
+    background-color: #00000000;
+}
+
+
+/*dialog*/
+
+#div_dialog {
+    scroll-behavior: smooth;
+    overflow: scroll;
+    padding: 0 0.7rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    height: 100vh;
+}
+
+#div_dialog div {
+    margin-bottom: 0.7rem;
+    padding: 0.7rem;
+    word-wrap: break-word;
+    letter-spacing: 0.05rem;
+    color: aliceblue;
+}

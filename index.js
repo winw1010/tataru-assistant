@@ -255,21 +255,22 @@ function resetView(config) {
 
     // set button
     document.querySelectorAll('.auto_hidden').forEach((value) => {
-        value.hidden = config.indexWindow.hideButton;
+        document.getElementById(value.id).hidden = config.indexWindow.hideButton;
     });
 
     // set dialog
     const dialogs = document.querySelectorAll('#div_dialog div');
     if (dialogs.length > 0) {
         dialogs.forEach((value) => {
-            value.style.color = config.channel[value.getAttribute('class')];
-            value.style.fontSize = config.dialog.fontSize + 'rem';
-            value.style.marginTop = config.dialog.spacing + 'rem';
-            value.style.borderRadius = config.dialog.radius + 'rem';
-            value.style.backgroundColor = config.dialog.backgroundColor;
+            const element = document.getElementById(value.id);
+            element.style.color = config.channel[element.getAttribute('class')];
+            element.style.fontSize = config.dialog.fontSize + 'rem';
+            element.style.marginTop = config.dialog.spacing + 'rem';
+            element.style.borderRadius = config.dialog.radius + 'rem';
+            element.style.backgroundColor = config.dialog.backgroundColor;
         });
 
-        document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+        document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';
     }
 
     // show dialog
@@ -287,12 +288,12 @@ function resetView(config) {
             // hide button
             const config = ipcRenderer.sendSync('get-config');
             document.querySelectorAll('.auto_hidden').forEach((value) => {
-                value.hidden = config.indexWindow.hideButton;
+                document.getElementById(value.id).hidden = config.indexWindow.hideButton;
             });
         } else {
             // show button
             document.querySelectorAll('.auto_hidden').forEach((value) => {
-                value.hidden = false;
+                document.getElementById(value.id).hidden = false;
             });
 
             // show dialog

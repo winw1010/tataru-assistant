@@ -38,7 +38,7 @@ function appendBlankDialog(id, code) {
     document.getElementById('div_dialog').append(dialog)
 
     try {
-        document.getElementById('div_dialog').firstElementChild.style.marginTop = 0;
+        document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';
     } catch (error) {
         console.log(error);
     }

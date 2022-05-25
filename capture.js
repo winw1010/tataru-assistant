@@ -39,16 +39,19 @@ function setEvent() {
     }, true);
 
     // checkbox
-    document.querySelectorAll('#div_upper_button input[type="checkBox"]').forEach((value) => {
-        value.oninput = () => {
-            let config = ipcRenderer.sendSync('get-config');
-            config.captureWindow.split = document.getElementById('checkbox_split').checked;
-            config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
-            ipcRenderer.send('set-config', config);
-        }
-    });
+    document.getElementById('checkbox_split').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.captureWindow.split = document.getElementById('checkbox_split').checked;
+        ipcRenderer.send('set-config', config);
+    }
 
-    // canvas
+    document.getElementById('checkbox_edit').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
+        ipcRenderer.send('set-config', config);
+    }
+
+    // select
     document.getElementById('select_type').onchange = () => {
         let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.type = document.getElementById('select_type').value;

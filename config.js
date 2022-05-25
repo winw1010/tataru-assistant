@@ -63,42 +63,42 @@ function setButton() {
     // page
     document.getElementById('button_radio_window').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_window').hidden = false;
     };
 
     document.getElementById('button_radio_font').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_font').hidden = false;
     };
 
     document.getElementById('button_radio_channel').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_channel').hidden = false;
     };
 
     document.getElementById('button_radio_translation').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_translation').hidden = false;
     };
 
     document.getElementById('button_radio_system').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_system').hidden = false;
     };
 
     document.getElementById('button_radio_about').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
-            value.hidden = true;
+            document.getElementById(value.id).hidden = true;
         });
         document.getElementById('div_about').hidden = false;
     };

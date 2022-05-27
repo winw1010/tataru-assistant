@@ -102,7 +102,7 @@ ipcMain.on('set-default-chat-code', () => {
 
 // open devtools
 ipcMain.on('open-devtools', (event) => {
-    let window = BrowserWindow.fromWebContents(event.sender);
+    const window = BrowserWindow.fromWebContents(event.sender);
 
     try {
         window.webContents.closeDevTools();

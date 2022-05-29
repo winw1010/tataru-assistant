@@ -55,198 +55,229 @@
 
         <!-- window page -->
         <div id="div_window" class="setting_page">
-            <!-- always on top -->
-            <input type="checkbox" value="" id="checkbox_top">
-            <label for="checkbox_top">顯示在最上層</label>
+            <div>
+                <!-- always on top -->
+                <input type="checkbox" value="" id="checkbox_top">
+                <label for="checkbox_top">顯示在最上層</label>
+            </div>
 
             <br>
-            <br>
 
-            <!-- advance mode -->
-            <input type="checkbox" value="" id="checkbox_advance">
-            <label for="checkbox_advance">進階功能</label>
-
-            <br>
-            <br>
-
-            <!-- hide button -->
-            <input type="checkbox" value="" id="checkbox_hide_button">
-            <label for="checkbox_hide_button">隱藏按鈕</label>
+            <div>
+                <!-- advance mode -->
+                <input type="checkbox" value="" id="checkbox_advance">
+                <label for="checkbox_advance">進階功能</label>
+            </div>
 
             <br>
-            <br>
 
-            <!-- hide dialog -->
-            <input type="checkbox" value="" id="checkbox_hide_dialog">
-            <input type="number" id="input_hide_dialog" min="1" step="1" value="20">
-            <label for="checkbox_hide_dialog">秒後隱藏對話</label>
-
-            <br>
-            <br>
-
-            <!-- background color -->
-            <label for="color_background_color">
-                背景顏色(<span id="span_background_color"></span>)
-            </label>
-            <br>
-            <input type="color" id="color_background_color">
+            <div>
+                <!-- hide button -->
+                <input type="checkbox" value="" id="checkbox_hide_button">
+                <label for="checkbox_hide_button">隱藏按鈕</label>
+            </div>
 
             <br>
+
+            <div>
+                <!-- hide dialog -->
+                <input type="checkbox" value="" id="checkbox_hide_dialog">
+                <input type="number" id="input_hide_dialog" min="1" step="1" value="20">
+                <label for="checkbox_hide_dialog">秒後隱藏對話</label>
+            </div>
+
             <br>
 
-            <!-- background transparency -->
-            <label for="range_background_transparency">
-                背景透明度(<span id="span_background_transparency"></span>)
-            </label>
-            <input type="range" min="0" max="255" class="form-range" id="range_background_transparency">
+            <div>
+                <!-- background color -->
+                <label for="color_background_color">
+                    背景顏色(<span id="span_background_color"></span>)
+                </label>
+                <br>
+                <input type="color" id="color_background_color">
+            </div>
+
+            <br>
+
+            <div>
+                <!-- background transparency -->
+                <label for="range_background_transparency">
+                    背景透明度(<span id="span_background_transparency"></span>)
+                </label>
+                <input type="range" min="0" max="255" class="form-range" id="range_background_transparency">
+            </div>
         </div>
 
         <!-- font page -->
         <div id="div_font" class="setting_page" hidden>
-            <!-- font size -->
-            <label for="input_font_size">文字大小</label>
-            <input type="number" min="0" value="1" step="0.1" id="input_font_size">
-            <span>rem</span>
+            <div>
+                <!-- font size -->
+                <label for="input_font_size">文字大小</label>
+                <input type="number" min="0" value="1" step="0.1" id="input_font_size">
+                <span>rem</span>
+            </div>
 
             <br>
-            <br>
 
-            <!-- dialog space -->
-            <label for="input_dialog_spacing">對話框間隔</label>
-            <input type="number" min="0" value="1" step="0.1" id="input_dialog_spacing">
-            <span>rem</span>
-
-            <br>
-            <br>
-
-            <!-- dialog radius -->
-            <label for="input_dialog_radius">對話框圓角</label>
-            <input type="number" min="0" value="0" step="0.1" id="input_dialog_radius">
-            <span>rem</span>
+            <div>
+                <!-- dialog space -->
+                <label for="input_dialog_spacing">對話框間隔</label>
+                <input type="number" min="0" value="1" step="0.1" id="input_dialog_spacing">
+                <span>rem</span>
+            </div>
 
             <br>
+
+            <div>
+                <!-- dialog radius -->
+                <label for="input_dialog_radius">對話框圓角</label>
+                <input type="number" min="0" value="0" step="0.1" id="input_dialog_radius">
+                <span>rem</span>
+            </div>
+
             <br>
 
-            <!-- dialog color -->
-            <label for="color_dialog_color">
-                對話框顏色(<span id="span_dialog_color"></span>)
-            </label>
-            <br>
-            <input type="color" id="color_dialog_color">
+            <div>
+                <!-- dialog color -->
+                <label for="color_dialog_color">
+                    對話框顏色(<span id="span_dialog_color"></span>)
+                </label>
+                <br>
+                <input type="color" id="color_dialog_color">
+            </div>
 
             <br>
-            <br>
 
-            <!-- dialog transparency -->
-            <label for="range_dialog_transparency">
-                對話框透明度(<span id="span_dialog_transparency"></span>)
-            </label>
-            <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency">
+            <div>
+                <!-- dialog transparency -->
+                <label for="range_dialog_transparency">
+                    對話框透明度(<span id="span_dialog_transparency"></span>)
+                </label>
+                <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency">
+            </div>
         </div>
 
         <!-- channel page -->
-        <div id="div_channel" class="setting_page" hidden>
-        </div>
+        <div id="div_channel" class="setting_page" hidden></div>
 
         <!-- translation page -->
         <div id="div_translation" class="setting_page" hidden>
-            <!-- auto change -->
-            <input type="checkbox" value="" id="checkbox_auto_change">
-            <label for="checkbox_auto_change">翻譯失敗時嘗試其他翻譯引擎</label>
+            <div>
+                <!-- auto change -->
+                <input type="checkbox" value="" id="checkbox_auto_change">
+                <label for="checkbox_auto_change">翻譯失敗時嘗試其他翻譯引擎</label>
+            </div>
 
             <br>
-            <br>
 
-            <!-- text fix -->
-            <input type="checkbox" value="" id="checkbox_text_fix">
-            <label for="checkbox_text_fix">詞彙校正</label>
-
-            <br>
-            <br>
-
-            <!-- skip system message -->
-            <input type="checkbox" value="" id="checkbox_skip_system">
-            <label for="checkbox_skip_system">忽略常見系統訊息</label>
+            <div>
+                <!-- text fix -->
+                <input type="checkbox" value="" id="checkbox_text_fix">
+                <label for="checkbox_text_fix">詞彙校正</label>
+            </div>
 
             <br>
-            <br>
 
-            <!-- select translator -->
-            <label for="select_engine">翻譯引擎</label><br>
-            <select id="select_engine">
-                <option value="Baidu" selected>百度翻譯</option>
-                <option value="Caiyun">彩雲小譯</option>
-                <option value="Youdao">有道翻譯</option>
-                <option value="Google">Google</option>
-            </select>
+            <div>
+                <!-- skip system message -->
+                <input type="checkbox" value="" id="checkbox_skip_system">
+                <label for="checkbox_skip_system">忽略常見系統訊息</label>
+            </div>
 
             <br>
-            <br>
 
-            <!-- select from -->
-            <label for="select_from">遊戲語言</label><br>
-            <select id="select_from">
-                <option value="Japanese" selected>日文</option>
-                <option value="English">英文</option>
-            </select>
-
-            <br>
-            <br>
-
-            <!-- select from player -->
-            <label for="select_from_player">玩家語言</label><br>
-            <select id="select_from_player">
-                <option value="Japanese" selected>日文</option>
-                <option value="English">英文</option>
-            </select>
+            <div>
+                <!-- select translator -->
+                <label for="select_engine">翻譯引擎</label><br>
+                <select id="select_engine">
+                    <option value="Baidu" selected>百度翻譯</option>
+                    <option value="Caiyun">彩雲小譯</option>
+                    <option value="Youdao">有道翻譯</option>
+                    <option value="Google">Google</option>
+                </select>
+            </div>
 
             <br>
+
+            <div>
+                <!-- select from -->
+                <label for="select_from">遊戲語言</label><br>
+                <select id="select_from">
+                    <option value="Japanese" selected>日文</option>
+                    <option value="English">英文</option>
+                </select>
+            </div>
+
             <br>
 
-            <!-- select to -->
-            <label for="select_to">翻譯語言</label><br>
-            <select id="select_to">
-                <option value="Traditional-Chinese" selected>繁體中文</option>
-                <option value="Simplified-Chinese">簡體中文</option>
-            </select>
+            <div>
+                <!-- select from player -->
+                <label for="select_from_player">玩家頻道語言</label><br>
+                <select id="select_from_player">
+                    <option value="Japanese" selected>日文</option>
+                    <option value="English">英文</option>
+                </select>
+            </div>
+
+            <br>
+
+            <div>
+                <!-- select to -->
+                <label for="select_to">翻譯語言</label><br>
+                <select id="select_to">
+                    <option value="Traditional-Chinese" selected>繁體中文</option>
+                    <option value="Simplified-Chinese">簡體中文</option>
+                </select>
+            </div>
         </div>
 
         <!-- system page -->
         <div id="div_system" class="setting_page" hidden>
+            <div>
+                <div>
+                    <!-- auto download json -->
+                    <input type="checkbox" value="" id="checkbox_auto_download_json">
+                    <label for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
+                </div>
+
+                <br>
+
+                <div>
+                    <!-- download json -->
+                    <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button>
+                </div>
+
+                <br>
+
+                <div>
+                    <!-- version check -->
+                    <button id="button_version_check" class="btn btn-primary">檢查應用程式版本</button>
+                </div>
+
+                <br>
+
+                <div>
+                    <!-- devtools -->
+                    <button id="button_devtools" class="btn btn-primary">開發者工具(F12)</button>
+                </div>
+            </div>
+
+            <br>
+
             <!-- server -->
-            <label for="input_number_port">Host</label><br>
-            <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost">
+            <div>
+                <div title="調整Tataru Heler的內部IP，可翻譯時維持預設">
+                    <label for="input_number_port">Host</label><br>
+                    <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost">
+                </div>
 
-            <br>
-            <br>
+                <br>
 
-            <label for="input_number_port">Port</label><br>
-            <input type="number" name="input_number_port" id="input_number_port" min="5000" max="65535" step="1" value=8899>
-
-            <br>
-            <br>
-
-            <!-- auto download json -->
-            <input type="checkbox" value="" id="checkbox_auto_download_json">
-            <label for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
-
-            <br>
-            <br>
-
-            <!-- download json -->
-            <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button>
-
-            <br>
-            <br>
-
-            <!-- version check -->
-            <button id="button_version_check" class="btn btn-primary">檢查應用程式版本</button>
-
-            <br>
-            <br>
-
-            <!-- devtools -->
-            <button id="button_devtools" class="btn btn-primary">開發者工具(F12)</button>
+                <div title="調整Tataru Heler的連接埠，可翻譯時維持預設">
+                    <label for="input_number_port">Port</label><br>
+                    <input type="number" name="input_number_port" id="input_number_port" min="5000" max="65535" step="1" value=8899>
+                </div>
+            </div>
         </div>
 
         <!-- about page -->

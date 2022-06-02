@@ -169,16 +169,13 @@ function translate(text) {
     const config = ipcRenderer.sendSync('get-config');
 
     // fix
+    if (config.translation.from === 'Japanese') {
+        text = text.replaceAll(' ', '')
+    }
+
     text = text
-        .replaceAll(' ', '')
         .replaceAll('`', '「')
         .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
-
-    // return if need to edit
-    if (config.captureWindow.edit) {
-        ipcRenderer.send('create-window', 'capture-edit', text);
-        return;
-    }
 
     // set string array
     let stringArray = [];
@@ -186,6 +183,12 @@ function translate(text) {
         stringArray = text.split('\n');
     } else {
         stringArray = [text.replaceAll('\n', ' ')];
+    }
+
+    // return if need to edit
+    if (config.captureWindow.edit) {
+        ipcRenderer.send('create-window', 'capture-edit', stringArray);
+        return;
     }
 
     // delete images

@@ -33,8 +33,14 @@ function setView() {
 
 // set event
 function setEvent() {
-    ipcRenderer.on('send-data', (event, data) => {
-        document.getElementById('textarea_screen_text').value = data;
+    ipcRenderer.on('send-data', (event, stringArray) => {
+        let innerHTML = '';
+
+        for (let index = 0; index < stringArray.length; index++) {
+            innerHTML += stringArray[index];
+        }
+
+        document.getElementById('textarea_screen_text').innerHTML = innerHTML;
     });
 }
 

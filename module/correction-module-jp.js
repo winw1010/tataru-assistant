@@ -299,10 +299,12 @@ async function translateName(name, katakanaName, translation) {
         (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(katakanaName, chArray.chName));
 
     if (name === katakanaName) {
+        // all katakana => use translatedKatakanaName
+
         // save name
         saveName(name, translatedKatakanaName);
 
-        // all katakana => return translatedKatakanaName
+        // return translatedKatakanaName
         return translatedKatakanaName;
     } else {
         // not all katakana => use standard

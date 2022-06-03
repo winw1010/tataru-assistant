@@ -27,6 +27,9 @@ const { createLogName } = require('./module/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
+// key down module
+const { onKeyDown } = require('./module/key-down-module');
+
 // Japanese character
 const kana = /^[ァ-ヺぁ-ゖ]+$/gi;
 
@@ -37,9 +40,7 @@ let targetLog = null;
 window.addEventListener('DOMContentLoaded', () => {
     // devtools
     document.onkeydown = (event) => {
-        if (event.code === 'F12') {
-            ipcRenderer.send('open-devtools');
-        }
+        onKeyDown(event.code);
     };
 
     setView();

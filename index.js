@@ -32,6 +32,9 @@ const { takeScreenshot } = require('./module/image-module');
 // server module
 const { startServer } = require('./module/server-module');
 
+// key down module
+const { onKeyDown } = require('./module/key-down-module');
+
 // click through temp
 let isClickThrough = false;
 
@@ -42,9 +45,7 @@ let mouseOutCheckInterval = null;
 window.addEventListener('DOMContentLoaded', () => {
     // devtools
     document.onkeydown = (event) => {
-        if (event.code === 'F12') {
-            ipcRenderer.send('open-devtools');
-        }
+        onKeyDown(event.code);
     };
 
     setView();

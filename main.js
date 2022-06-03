@@ -127,17 +127,21 @@ ipcMain.on('open-index-devtools', () => {
 });
 
 // create sindow
-ipcMain.on('create-window', (event, type, data = null) => {
+ipcMain.on('create-window', (event, type, data = null, switchClose = false) => {
     try {
         // force close
         windowList[type].close();
+        windowList[type] = null;
 
-        // restart
-        throw null;
+        if (switchClose) {
+            return;
+        }
     } catch (error) {
-        // create window
-        createWindow(type, data);
+        // do nothing
     }
+
+    // create window
+    createWindow(type, data);
 });
 
 // drag window
@@ -386,6 +390,7 @@ function createWindow(type, data) {
             height: size.height,
             transparent: true,
             frame: false,
+            fullscreenable: false,
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,

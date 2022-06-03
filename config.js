@@ -9,13 +9,14 @@ const { execSync } = require('child_process');
 // drag module
 const { setDragElement } = require('./module/drag-module');
 
+// key down module
+const { onKeyDown } = require('./module/key-down-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     // devtools
     document.onkeydown = (event) => {
-        if (event.code === 'F12') {
-            ipcRenderer.send('open-devtools');
-        }
+        onKeyDown(event.code);
     };
 
     setView();

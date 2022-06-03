@@ -169,7 +169,7 @@ function translate(text) {
     const config = ipcRenderer.sendSync('get-config');
 
     // fix
-    if (config.translation.from === 'Japanese') {
+    if (config.translation.from === languageTable.ja) {
         text = text.replaceAll(' ', '')
     }
 

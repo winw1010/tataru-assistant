@@ -9,25 +9,17 @@ const { execSync } = require('child_process');
 // drag module
 const { setDragElement } = require('./module/drag-module');
 
-// key down module
-const { onKeyDown } = require('./module/key-down-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // devtools
-    document.onkeydown = (event) => {
-        onKeyDown(event.code);
-    };
-
     setView();
     setEvent();
     setButton();
-
-    getConfig();
 });
 
 // set view
-function setView() {}
+function setView() {
+    showConfig();
+}
 
 // set event
 function setEvent() {
@@ -197,7 +189,7 @@ function setButton() {
 }
 
 // get config
-function getConfig() {
+function showConfig() {
     const config = ipcRenderer.sendSync('get-config');
     const chatCode = ipcRenderer.sendSync('get-chat-code');
     const version = ipcRenderer.sendSync('get-version');

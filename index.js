@@ -32,9 +32,6 @@ const { takeScreenshot } = require('./module/image-module');
 // server module
 const { startServer } = require('./module/server-module');
 
-// key down module
-const { onKeyDown } = require('./module/key-down-module');
-
 // click through temp
 let isClickThrough = false;
 
@@ -43,20 +40,10 @@ let mouseOutCheckInterval = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // devtools
-    document.onkeydown = (event) => {
-        onKeyDown(event.code);
-    };
-
     setView();
     setEvent();
     setButton();
-
-    loadJSON();
-    versionCheck();
-
-    startPlaying();
-    startServer();
+    startApp();
 });
 
 // set view
@@ -166,6 +153,9 @@ function setEvent() {
 
 // set button
 function setButton() {
+    // key down
+    ipcRenderer.send('set-key-down');
+
     // upper buttons
     // drag
     setDragElement(document.getElementById('img_button_drag'));
@@ -301,6 +291,14 @@ function resetView(config) {
             showDialog();
         }
     }, 100);
+}
+
+// start app
+function startApp() {
+    loadJSON();
+    versionCheck();
+    startPlaying();
+    startServer();
 }
 
 // load json

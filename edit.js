@@ -27,9 +27,6 @@ const { createLogName } = require('./module/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
-// key down module
-const { onKeyDown } = require('./module/key-down-module');
-
 // Japanese character
 const kana = /^[ァ-ヺぁ-ゖ]+$/gi;
 
@@ -38,11 +35,6 @@ let targetLog = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // devtools
-    document.onkeydown = (event) => {
-        onKeyDown(event.code);
-    };
-
     setView();
     setEvent();
     setButton();

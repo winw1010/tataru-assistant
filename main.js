@@ -7,7 +7,7 @@ const { existsSync, mkdirSync } = require('fs');
 const path = require('path');
 
 // electron modules
-const { app, ipcMain, screen, BrowserWindow } = require('electron');
+const { app, ipcMain, screen, BrowserWindow, globalShortcut } = require('electron');
 
 // config module
 const { loadConfig, saveConfig, getDefaultConfig } = require('./module/config-module');
@@ -100,6 +100,11 @@ ipcMain.on('set-default-chat-code', () => {
     chatCode = getDefaultChatCode();
 });
 
+// set key down
+ipcMain.on('set-key-down', () => {
+    setKeyDown();
+});
+
 // open devtools
 ipcMain.on('open-devtools', (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
@@ -115,7 +120,7 @@ ipcMain.on('open-devtools', (event) => {
 
 // open index devtools
 ipcMain.on('open-index-devtools', () => {
-    let window = windowList['index'];
+    const window = windowList['index'];
 
     try {
         window.webContents.closeDevTools();
@@ -127,15 +132,11 @@ ipcMain.on('open-index-devtools', () => {
 });
 
 // create sindow
-ipcMain.on('create-window', (event, type, data = null, switchClose = false) => {
+ipcMain.on('create-window', (event, type, data = null) => {
     try {
         // force close
         windowList[type].close();
         windowList[type] = null;
-
-        if (switchClose) {
-            return;
-        }
     } catch (error) {
         // do nothing
     }
@@ -262,6 +263,49 @@ function checkDirectory() {
     });
 }
 
+function setKeyDown() {
+    globalShortcut.register('CommandOrControl+F9', () => {
+        try {
+            windowList['read-log'].close();
+            windowList['read-log'] = null;
+        } catch (error) {
+            // create window
+            createWindow('read-log');
+        }
+    });
+
+    globalShortcut.register('CommandOrControl+F10', () => {
+        try {
+            windowList['config'].close();
+            windowList['config'] = null;
+        } catch (error) {
+            // create window
+            createWindow('config');
+        }
+    });
+
+    globalShortcut.register('CommandOrControl+F11', () => {
+        try {
+            windowList['capture'].close();
+            windowList['capture'] = null;
+        } catch (error) {
+            // create window
+            createWindow('capture');
+        }
+
+    });
+
+    globalShortcut.register('CommandOrControl+F12', () => {
+        const window = windowList['index'];
+
+        if (window.webContents.isDevToolsOpened()) {
+            window.webContents.closeDevTools();
+        } else {
+            window.webContents.openDevTools({ mode: 'detach' });
+        }
+    });
+}
+
 function getWindowSize(type) {
     // set default value
     let x = 0;
@@ -376,7 +420,7 @@ function getWindowSize(type) {
 }
 
 // create window
-function createWindow(type, data) {
+function createWindow(type, data = null) {
     try {
         // get size
         const size = getWindowSize(type);
@@ -439,20 +483,14 @@ function createWindow(type, data) {
                 });
                 break;
 
-            case 'capture-edit':
-                window.webContents.on('did-finish-load', () => {
-                    window.webContents.send('send-data', data);
-                });
-                break;
-
-            case 'edit':
-                window.webContents.on('did-finish-load', () => {
-                    window.webContents.send('send-data', data);
-                });
-                break;
-
             default:
                 break;
+        }
+
+        if (data) {
+            window.webContents.on('did-finish-load', () => {
+                window.webContents.send('send-data', data);
+            });
         }
 
         window.webContents.on('did-finish-load', () => {

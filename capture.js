@@ -6,16 +6,8 @@ const { ipcRenderer } = require('electron');
 // drag module
 const { setDragElement } = require('./module/drag-module');
 
-// key down module
-const { onKeyDown } = require('./module/key-down-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // devtools
-    document.onkeydown = (event) => {
-        onKeyDown(event.code);
-    };
-
     setView();
     setEvent();
     setButton();

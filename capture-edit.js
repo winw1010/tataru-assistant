@@ -27,13 +27,13 @@ function setView() {
 // set event
 function setEvent() {
     ipcRenderer.on('send-data', (event, stringArray) => {
-        let innerHTML = '';
+        let text = '';
 
         for (let index = 0; index < stringArray.length; index++) {
-            innerHTML += stringArray[index];
+            text += stringArray[index] + '\n';
         }
 
-        document.getElementById('textarea_screen_text').innerHTML = innerHTML;
+        document.getElementById('textarea_screen_text').value = text;
     });
 }
 

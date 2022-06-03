@@ -105,32 +105,6 @@ ipcMain.on('set-key-down', () => {
     setKeyDown();
 });
 
-// open devtools
-ipcMain.on('open-devtools', (event) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-
-    try {
-        window.webContents.closeDevTools();
-    } catch (error) {
-        console.log(error);
-    } finally {
-        window.webContents.openDevTools({ mode: 'detach' });
-    }
-});
-
-// open index devtools
-ipcMain.on('open-index-devtools', () => {
-    const window = windowList['index'];
-
-    try {
-        window.webContents.closeDevTools();
-    } catch (error) {
-        console.log(error);
-    } finally {
-        window.webContents.openDevTools({ mode: 'detach' });
-    }
-});
-
 // create sindow
 ipcMain.on('create-window', (event, type, data = null) => {
     try {
@@ -266,6 +240,7 @@ function checkDirectory() {
 function setKeyDown() {
     globalShortcut.register('CommandOrControl+F9', () => {
         try {
+            // close window
             windowList['read-log'].close();
             windowList['read-log'] = null;
         } catch (error) {

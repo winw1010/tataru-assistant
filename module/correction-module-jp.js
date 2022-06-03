@@ -289,21 +289,20 @@ function getKatakanaName(name = '') {
 // translate name
 async function translateName(name, katakanaName, translation) {
     // same check
-    const sameName1 = cf.sameAsArrayItem(katakanaName, chArray.combine);
-    const sameName2 = cf.sameAsArrayItem(katakanaName + '#', chArray.combine);
+    const sameKatakanaName1 = cf.sameAsArrayItem(katakanaName, chArray.combine);
+    const sameKatakanaName2 = cf.sameAsArrayItem(katakanaName + '#', chArray.combine);
 
     // translate katakana name
     const translatedKatakanaName =
-        sameName1 ?
-        sameName1[0][1] :
-        (sameName2 ? sameName2[0][1] : cf.replaceText(katakanaName, chArray.chName));
+        sameKatakanaName1 ?
+        sameKatakanaName1[0][1] :
+        (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(katakanaName, chArray.chName));
 
     if (name === katakanaName) {
-        // all katakana => use chName
-
         // save name
         saveName(name, translatedKatakanaName);
 
+        // all katakana => return translatedKatakanaName
         return translatedKatakanaName;
     } else {
         // not all katakana => use standard

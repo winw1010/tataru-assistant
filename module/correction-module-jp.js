@@ -300,6 +300,10 @@ async function translateName(name, katakanaName, translation) {
 
     if (name === katakanaName) {
         // all katakana => use chName
+
+        // save name
+        saveName(name, translatedKatakanaName);
+
         return translatedKatakanaName;
     } else {
         // not all katakana => use standard
@@ -334,27 +338,34 @@ async function translateName(name, katakanaName, translation) {
         translatedName = cf.markFix(translatedName, true);
 
         // save name
-        chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
-
-        if (name.length < 3) {
-            chArray.chTemp.push([name + '#', translatedName, 'npc']);
-        } else {
-            chArray.chTemp.push([name, translatedName, 'npc']);
-        }
-
-        if (katakanaName.length > 0) {
-            if (katakanaName.length < 3) {
-                chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'npc']);
-            } else {
-                chArray.chTemp.push([katakanaName, translatedKatakanaName, 'npc']);
-            }
-        }
-
-        chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-        cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
+        saveName(name, translatedName, katakanaName, translatedKatakanaName);
 
         return translatedName;
     }
+}
+
+// save name
+function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
+    chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+
+    if (name.length > 0 && name.length < 3) {
+        chArray.chTemp.push([name + '#', translatedName, 'npc']);
+    } else {
+        chArray.chTemp.push([name, translatedName, 'npc']);
+    }
+
+    if (katakanaName.length > 0) {
+        if (katakanaName.length < 3) {
+            chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'npc']);
+        } else {
+            chArray.chTemp.push([katakanaName, translatedKatakanaName, 'npc']);
+        }
+    }
+
+    console.log(chArray.chTemp);
+
+    chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+    cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
 }
 
 // special text fix

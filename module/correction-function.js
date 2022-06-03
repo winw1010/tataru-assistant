@@ -246,7 +246,7 @@ function readJSONOverwrite(ch, directory) {
         if (fileList.length > 0) {
             fileList.forEach((value) => {
                 if (value !== 'hidden.json') {
-                    overwrite = overwrite.concat(readJSON(`${ch}/overwrite`, value));
+                    overwrite = overwrite.concat(readJSON(`${ch}/${directory}`, value));
                 }
             });
         }

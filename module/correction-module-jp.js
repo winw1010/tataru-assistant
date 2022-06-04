@@ -332,11 +332,11 @@ async function translateName(name, katakanaName, translation) {
         // clear code
         translatedName = cf.clearCode(translatedName, codeResult.table);
 
-        // table
-        translatedName = cf.replaceText(translatedName, codeResult.table);
-
         // mark fix
         translatedName = cf.markFix(translatedName, true);
+
+        // table
+        translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // save name
         saveName(name, translatedName, katakanaName, translatedKatakanaName);

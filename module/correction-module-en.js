@@ -185,11 +185,11 @@ async function nameCorrection(name, translation) {
         // clear code
         translatedName = cf.clearCode(translatedName, codeResult.table);
 
-        // table
-        translatedName = cf.replaceText(translatedName, codeResult.table);
-
         // mark fix
         translatedName = cf.markFix(translatedName, true);
+
+        // table
+        translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // save to temp
         chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
@@ -252,9 +252,6 @@ async function textCorrection(name, text, translation) {
         // clear code
         text = cf.clearCode(text, codeResult.table);
 
-        // table
-        text = cf.replaceText(text, codeResult.table);
-
         // gender fix
         text = cfen.genderFix(originalText, text);
 
@@ -263,6 +260,9 @@ async function textCorrection(name, text, translation) {
 
         // mark fix
         text = cf.markFix(text, true);
+
+        // table
+        text = cf.replaceText(text, codeResult.table);
 
         return text;
     }

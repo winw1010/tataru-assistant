@@ -253,9 +253,6 @@ async function textCorrection(name, text, translation) {
         // clear code
         text = cf.clearCode(text, codeResult.table);
 
-        // table
-        text = cf.replaceText(text, codeResult.table);
-
         // gender fix
         text = cfjp.genderFix(originalText, text);
 
@@ -264,6 +261,9 @@ async function textCorrection(name, text, translation) {
 
         // mark fix
         text = cf.markFix(text, true);
+
+        // table
+        text = cf.replaceText(text, codeResult.table);
 
         return text;
     }

@@ -183,7 +183,7 @@ function valueFixAfter(text, valueTable) {
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     try {
         const dir = './json';
-        const finalPath = resolve(dir, path, name);
+        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
 
         // parse
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
@@ -206,7 +206,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         array = sortArray(array);
 
         // log array
-        console.log(`Read ${path}/${name}. (length: ${array.length})`);
+        console.log(`Read ${finalPath}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
@@ -285,13 +285,13 @@ function readJSONSubtitle() {
 function readJSONPure(path = '', name = '') {
     try {
         const dir = './json';
-        const finalPath = resolve(dir, path, name);
+        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
 
         // parse
         let array = jsonFixer(readFileSync(finalPath).toString()).data;
 
         // log array
-        console.log(`Read ${path}/${name}. (length: ${array.length})`);
+        console.log(`Read ${finalPath}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
@@ -303,7 +303,7 @@ function readJSONPure(path = '', name = '') {
 function writeJSON(path = '', name = '', array = []) {
     try {
         const dir = './json';
-        const finalPath = resolve(dir, path, name);
+        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
         writeFileSync(finalPath, JSON.stringify(array)
             .replaceAll('[[', '[\n\t[')
             .replaceAll('],["//comment",', '],\n\n\t["//comment",')

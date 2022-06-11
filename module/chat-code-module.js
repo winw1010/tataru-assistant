@@ -6,6 +6,9 @@ const { readFileSync, writeFileSync } = require('fs');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
+// chat code location
+const chatCodeLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\chat-code.json';
+
 const defaultChatCode = [{
         ChatCode: '0039',
         MsgType: 1,
@@ -220,7 +223,7 @@ const defaultChatCode = [{
 
 function loadChatCode() {
     try {
-        const chatCode = JSON.parse(readFileSync('./json/setting/chat-code.json'));
+        const chatCode = JSON.parse(readFileSync(chatCodeLocation));
 
         if (defaultChatCode.length !== chatCode.length) {
             throw null;
@@ -235,7 +238,7 @@ function loadChatCode() {
 
 function saveChatCode(chatCode) {
     try {
-        writeFileSync('./json/setting/chat-code.json', JSON.stringify(chatCode, null, '\t'));
+        writeFileSync(chatCodeLocation, JSON.stringify(chatCode, null, '\t'));
     } catch (error) {
         ipcRenderer.send('send-index', 'show-notification', error);
     }
@@ -247,7 +250,7 @@ function getDefaultChatCode() {
 
 function saveDefaultChatCode() {
     try {
-        writeFileSync('./json/setting/chat-code.json', JSON.stringify(defaultChatCode, null, '\t'));
+        writeFileSync(chatCodeLocation, JSON.stringify(defaultChatCode, null, '\t'));
     } catch (error) {
         ipcRenderer.send('send-index', 'show-notification', error);
     }

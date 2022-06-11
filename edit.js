@@ -30,6 +30,12 @@ const { execSync } = require('child_process');
 // Japanese character
 const kana = /^[ァ-ヺぁ-ゖ]+$/gi;
 
+// log location
+const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+
+// temp location
+const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+
 // target log
 let targetLog = null;
 
@@ -53,18 +59,17 @@ function setEvent() {
         try {
             const milliseconds = parseInt(id.slice(2));
             const logFileList = [createLogName(milliseconds), createLogName(milliseconds + 86400000), createLogName(milliseconds - 86400000)];
-            console.log('log files:', logFileList);
 
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
-                        const logFile = logFileList[index];
-                        const log = jsonFixer(readFileSync('./json/log/' + logFile).toString()).data;
+                        const fileName = logFileList[index];
+                        const log = jsonFixer(readFileSync(logLocation + '\\' + fileName).toString()).data;
 
 
                         if (log[id]) {
                             targetLog = log[id];
-                            console.log('log file:', logFile);
+                            console.log('log file:', fileName);
                             console.log('target log:', targetLog);
 
                             // text to speech
@@ -189,7 +194,7 @@ function setButton() {
 
     document.getElementById('button_view_temp').onclick = () => {
         try {
-            execSync('start "" "json\\text_temp"');
+            execSync(`start "" "${tempLocation}"`);
         } catch (error) {
             console.log(error);
         }
@@ -203,17 +208,17 @@ function setButton() {
 
         if (textBefore !== '' && textAfter !== '') {
             if (type === 'jp') {
-                let jpTemp = cf.readJSONPure('text_temp', 'jpTemp.json');
+                let jpTemp = cf.readJSONPure(tempLocation, 'jpTemp.json');
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                cf.writeJSON('text_temp', 'jpTemp.json', jpTemp);
+                cf.writeJSON(tempLocation, 'jpTemp.json', jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = cf.readJSONPure('text_temp', 'overwriteTemp.json');
+                let overwriteTemp = cf.readJSONPure(tempLocation, 'overwriteTemp.json');
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                cf.writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
+                cf.writeJSON(tempLocation, 'overwriteTemp.json', overwriteTemp);
             } else {
-                let chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+                let chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                cf.writeJSON('text_temp', 'chTemp.json', chTemp);
+                cf.writeJSON(tempLocation, 'chTemp.json', chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
@@ -229,17 +234,17 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = cf.readJSONPure('text_temp', 'jpTemp.json');
+                let jpTemp = cf.readJSONPure(tempLocation, 'jpTemp.json');
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                cf.writeJSON('text_temp', 'jpTemp.json', jpTemp);
+                cf.writeJSON(tempLocation, 'jpTemp.json', jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = cf.readJSONPure('text_temp', 'overwriteTemp.json');
+                let overwriteTemp = cf.readJSONPure(tempLocation, 'overwriteTemp.json');
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                cf.writeJSON('text_temp', 'overwriteTemp.json', overwriteTemp);
+                cf.writeJSON(tempLocation, 'overwriteTemp.json', overwriteTemp);
             } else {
-                let chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+                let chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                cf.writeJSON('text_temp', 'chTemp.json', chTemp);
+                cf.writeJSON(tempLocation, 'chTemp.json', chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');

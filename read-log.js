@@ -15,6 +15,9 @@ const { setDragElement } = require('./module/drag-module');
 // json fixer
 const jsonFixer = require('json-fixer');
 
+// log location
+const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
@@ -44,7 +47,7 @@ function setButton() {
     // view
     document.getElementById('button_view').onclick = () => {
         try {
-            execSync('start "" "json\\log"');
+            execSync(`start "" "${logLocation}"`);
         } catch (error) {
             console.log(error);
         }
@@ -58,7 +61,7 @@ function setButton() {
 
 function readLogList() {
     try {
-        const logs = readdirSync('./json/log');
+        const logs = readdirSync(logLocation);
 
         if (logs.length > 0) {
             const select = document.getElementById('select_log');
@@ -83,14 +86,15 @@ function readLogList() {
     }
 }
 
-function readLog(file) {
-    if (file === '') {
+function readLog(fileName) {
+    if (fileName === '') {
         ipcRenderer.send('send-index', 'show-notification', '檔案不存在');
         return;
     }
 
     try {
-        const log = jsonFixer(readFileSync('./json/log/' + file).toString()).data;
+        const fileLocation = logLocation + '\\' + fileName;
+        const log = jsonFixer(readFileSync(fileLocation).toString()).data;
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

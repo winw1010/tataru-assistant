@@ -224,12 +224,19 @@ function sendIndex(channel, ...args) {
 }
 
 function checkDirectory() {
-    const directories = ['./json', './json/log', './json/setting', './json/text', './json/text_temp'];
+    const userDirectory = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node';
+    const subDirectories = [
+        '',
+        '\\log',
+        '\\setting',
+        '\\temp'
+    ];
 
-    directories.forEach((value) => {
+    subDirectories.forEach((value) => {
         try {
-            if (!existsSync(value)) {
-                mkdirSync(value);
+            const dir = userDirectory + value;
+            if (!existsSync(dir)) {
+                mkdirSync(dir);
             }
         } catch (error) {
             console.log(error);

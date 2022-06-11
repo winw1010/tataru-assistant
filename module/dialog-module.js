@@ -12,6 +12,9 @@ const jsonFixer = require('json-fixer');
 // audio module
 const { addToPlaylist } = require('./audio-module');
 
+// log location
+const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+
 // dialog timeout
 let hideDialogTimeout = null;
 
@@ -131,11 +134,11 @@ function saveLog(id, name, text, dialogData, translation) {
         translation: translation
     }
 
-    const fileName = createLogName(item.timestamp);
+    const fileLocation = logLocation + '\\' + createLogName(item.timestamp);
     let log = {};
 
     try {
-        log = jsonFixer(readFileSync(`./json/log/${fileName}`).toString()).data;
+        log = jsonFixer(readFileSync(fileLocation).toString()).data;
         log[item.id] = item;
     } catch (error) {
         console.log(error);
@@ -143,7 +146,7 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     try {
-        writeFileSync(`./json/log/${fileName}`, JSON.stringify(log, null, '\t'));
+        writeFileSync(fileLocation, JSON.stringify(log, null, '\t'));
     } catch (error) {
         console.error(error);
     }

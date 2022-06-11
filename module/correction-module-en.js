@@ -10,6 +10,9 @@ const cf = require('./correction-function');
 // dialog module
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
+// temp location
+const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+
 // correction queue
 let correctionQueueItems = [];
 let correctionQueueInterval = null;
@@ -55,12 +58,12 @@ function loadJSON(language) {
     const englishDirectory = 'text/en';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
-    chArray.player = cf.readJSON('text_temp', 'player.json');
-    chArray.chTemp = cf.readJSON('text_temp', 'chTemp.json', true, 0, 1);
+    chArray.player = cf.readJSON(tempLocation, 'player.json');
+    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json', true, 0, 1);
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
@@ -154,7 +157,7 @@ function savePlayerName(playerName) {
             chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
             // write
-            cf.writeJSON('text_temp', 'player.json', chArray.player);
+            cf.writeJSON(tempLocation, 'player.json', chArray.player);
         }
     }
 }
@@ -192,7 +195,7 @@ async function nameCorrection(name, translation) {
         translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // save to temp
-        chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+        chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
 
         if (name.length < 3) {
             chArray.chTemp.push([name + '#', translatedName, 'npc']);
@@ -204,7 +207,7 @@ async function nameCorrection(name, translation) {
         chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
         // write
-        cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
+        cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
 
         return translatedName;
     }

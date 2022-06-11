@@ -10,6 +10,9 @@ const cf = require('./correction-function');
 // dialog module
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
+// temp location
+const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+
 // correction queue
 let correctionQueueItems = [];
 let correctionQueueInterval = null;
@@ -69,20 +72,20 @@ function loadJSON(language) {
     const japaneseDirectory = 'text/jp';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
     chArray.chName = cf.readJSON(chineseDirectory, 'chName.json');
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
-    chArray.player = cf.readJSON('text_temp', 'player.json');
-    chArray.chTemp = cf.readJSON('text_temp', 'chTemp.json', true, 0, 1);
+    chArray.player = cf.readJSON(tempLocation, 'player.json');
+    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json', true, 0, 1);
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // jp array
     jpArray.ignore = cf.readJSON(japaneseDirectory, 'ignore.json');
-    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON('text_temp', 'jpTemp.json'), cf.readJSONSubtitle());
+    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'jpTemp.json'), cf.readJSONSubtitle());
     jpArray.jp1 = cf.readJSON(japaneseDirectory, 'jp1.json');
     jpArray.jp2 = cf.readJSON(japaneseDirectory, 'jp2.json');
 
@@ -173,7 +176,7 @@ function savePlayerName(playerName) {
             chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
             // write
-            cf.writeJSON('text_temp', 'player.json', chArray.player);
+            cf.writeJSON(tempLocation, 'player.json', chArray.player);
         }
     }
 }
@@ -347,7 +350,7 @@ async function translateName(name, katakanaName, translation) {
 
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
-    chArray.chTemp = cf.readJSONPure('text_temp', 'chTemp.json');
+    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'npc']);
@@ -366,7 +369,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     console.log(chArray.chTemp);
 
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-    cf.writeJSON('text_temp', 'chTemp.json', chArray.chTemp);
+    cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
 }
 
 // special text fix

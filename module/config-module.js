@@ -6,6 +6,10 @@ const { readFileSync, writeFileSync } = require('fs');
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
+// config location
+const configLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\config.json';
+
+// default config
 const defaultConfig = {
     server: {
         host: 'localhost',
@@ -64,7 +68,7 @@ const defaultConfig = {
 
 function loadConfig() {
     try {
-        const config = JSON.parse(readFileSync('./json/setting/config.json'));
+        const config = JSON.parse(readFileSync(configLocation));
 
         if (!config.server || !config.server.host || !config.server.port) {
             throw null;
@@ -95,7 +99,7 @@ function isDifferent(config, name) {
 
 function saveConfig(config) {
     try {
-        writeFileSync('./json/setting/config.json', JSON.stringify(config, null, '\t'));
+        writeFileSync(configLocation, JSON.stringify(config, null, '\t'));
     } catch (error) {
         ipcRenderer.send('send-index', 'show-notification', error);
     }
@@ -107,7 +111,7 @@ function getDefaultConfig() {
 
 function saveDefaultConfig() {
     try {
-        writeFileSync('./json/setting/config.json', JSON.stringify(defaultConfig, null, '\t'));
+        writeFileSync(configLocation, JSON.stringify(defaultConfig, null, '\t'));
     } catch (error) {
         ipcRenderer.send('send-index', 'show-notification', error);
     }

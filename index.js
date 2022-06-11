@@ -328,8 +328,9 @@ function downloadJSON() {
                 console.error(err);
             } else {
                 appendNotification('對照表下載完畢');
-                readJSON();
             }
+
+            readJSON();
         });
     } catch (error) {
         console.log(error);

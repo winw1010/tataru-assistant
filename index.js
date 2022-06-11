@@ -317,7 +317,11 @@ function downloadJSON() {
     try {
         // delete text
         execSync('rmdir /Q /S json\\text');
+    } catch (error) {
+        console.log(error);
+    }
 
+    try {
         // clone json
         downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'json/text', (err) => {
             if (err) {

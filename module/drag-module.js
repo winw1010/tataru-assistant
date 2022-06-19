@@ -3,7 +3,6 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-
 function setDragElement(element) {
     let clientX = 0,
         clientY = 0,

@@ -378,22 +378,53 @@ function combineArray(...args) {
 }
 
 function combineArrayWithTemp(temp, ...args) {
+    // remove index
+    let tempIgnoreIndex = [];
+    let combineIgnoreIndex = [];
+
     // combine without temp
     let combine = combineArray(...args);
 
-    // delete same element
-    temp.forEach((value) => {
-        for (let index = 0; index < combine.length; index++) {
-            const element = combine[index];
+    // search same element
+    for (let tempIndex = 0; tempIndex < temp.length; tempIndex++) {
+        const tempElement = temp[tempIndex];
 
-            if (value[0] === element[0]) {
-                combine.splice(index, 1);
+        for (let combineIndex = 0; combineIndex < combine.length; combineIndex++) {
+            const combineElement = combine[combineIndex];
+
+            if (tempElement[0] === combineElement[0]) {
+                if (tempElement[2] === 'temp') {
+                    tempIgnoreIndex.push(tempIndex);
+                } else {
+                    combineIgnoreIndex.push(combineIndex);
+                }
                 break;
             }
         }
-    });
+    }
+
+    // clear temp array
+    if (tempIgnoreIndex.length > 0) {
+        tempIgnoreIndex.sort((a, b) => a - b);
+        tempIgnoreIndex.reverse();
+        for (let index = 0; index < tempIgnoreIndex.length; index++) {
+            const element = tempIgnoreIndex[index];
+            temp.splice(element, 1);
+        }
+    }
+
+    // clear combine array
+    if (combineIgnoreIndex.length > 0) {
+        combineIgnoreIndex.sort((a, b) => a - b);
+        combineIgnoreIndex.reverse();
+        for (let index = 0; index < combineIgnoreIndex.length; index++) {
+            const element = combineIgnoreIndex[index];
+            combine.splice(element, 1);
+        }
+    }
 
     // combine temp
+    temp = temp.map(x => [x[0], x[1]]);
     combine = combineArray(temp, combine);
 
     return sortArray(combine);

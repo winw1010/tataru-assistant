@@ -21,8 +21,6 @@ async function translate(text, translation, table = []) {
     const languageTo = translation.to;
     const autoChange = translation.autoChange;
 
-    console.log(engine, languageFrom, languageTo, autoChange);
-
     // set input
     let input = {
         text: text,

@@ -13,6 +13,9 @@ const tm = require('./translator-module');
 // dialog module
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
+// npc channel
+const npcChannel = ['003D', '0044', '2AB9'];
+
 // temp location
 const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
 
@@ -81,7 +84,7 @@ function loadJSON(language) {
 
     chArray.main = cf.readJSONMain(sub0, sub1);
     chArray.player = cf.readJSON(tempLocation, 'player.json');
-    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json', true, 0, 1);
+    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
@@ -140,10 +143,14 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // name translation
     let translatedName = '';
-    if (translation.fix) {
-        translatedName = await nameCorrection(dialogData.name, translation);
+    if (npcChannel.includes(dialogData.code)) {
+        if (translation.fix) {
+            translatedName = await nameCorrection(dialogData.name, translation);
+        } else {
+            translatedName = await tm.translate(dialogData.name, translation);
+        }
     } else {
-        translatedName = await tm.translate(dialogData.name, translation);
+        translatedName = dialogData.name;
     }
 
     // text translation
@@ -353,19 +360,19 @@ async function translateName(name, katakanaName, translation) {
 
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
-    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
 
     if (name.length > 0 && name.length < 3) {
-        chArray.chTemp.push([name + '#', translatedName, 'npc']);
+        chArray.chTemp.push([name + '#', translatedName, 'temp']);
     } else {
-        chArray.chTemp.push([name, translatedName, 'npc']);
+        chArray.chTemp.push([name, translatedName, 'temp']);
     }
 
-    if (katakanaName.length > 0) {
+    if (katakanaName.length > 0 && !cf.includesArrayItem(katakanaName, chArray.combine)) {
         if (katakanaName.length < 3) {
-            chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'npc']);
+            chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
         } else {
-            chArray.chTemp.push([katakanaName, translatedKatakanaName, 'npc']);
+            chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp']);
         }
     }
 

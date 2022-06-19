@@ -12,6 +12,9 @@ const jsonFixer = require('json-fixer');
 // audio module
 const { addToPlaylist } = require('./audio-module');
 
+// npc channel
+const npcChannel = ['003D', '0044', '2AB9'];
+
 // log location
 const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
 
@@ -76,8 +79,10 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         // save dialog
         saveLog(id, name, text, dialogData, translation);
 
-        // add audio
-        addToPlaylist(dialogData, translation);
+        // play audio
+        if (npcChannel.includes(dialogData.code)) {
+            addToPlaylist(dialogData, translation);
+        }
     }
 
     // move to dialog

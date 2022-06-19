@@ -21,7 +21,6 @@
     },
     "dependencies": {
         "@hobbica98/google-translate-api": "^1.1.1",
-        "axios": "^0.26.1",
         "baidu-translate-api": "^0.4.3",
         "color.js": "^1.2.0",
         "download-git-repo": "^3.0.2",

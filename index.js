@@ -1,5 +1,8 @@
 'use strict';
 
+// https
+const https = require('https');
+
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
@@ -8,9 +11,6 @@ const { execSync } = require('child_process');
 
 // download github repo
 const downloadGitRepo = require('download-git-repo');
-
-// axios
-const axios = require('axios').default;
 
 // audio module
 const { startPlaying } = require('./module/audio-module');
@@ -351,12 +351,14 @@ function readJSON() {
 // version check
 async function versionCheck() {
     try {
-        const response = await axios({
-            method: 'get',
-            url: 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
+        const response = await httpsGet({
+            hostname: 'raw.githubusercontent.com',
+            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
+            method: 'GET',
             timeout: 10000
         });
-        const latestVersion = response.data.number;
+
+        const latestVersion = JSON.parse(response).number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (latestVersion === appVersion) {
@@ -370,4 +372,25 @@ async function versionCheck() {
         document.getElementById('img_button_update').hidden = false;
         appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本');
     }
+}
+
+// https get
+async function httpsGet(options) {
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+            res.on('data', (data) => {
+                if (res.statusCode == 200) {
+                    resolve(data);
+                } else {
+                    reject(data);
+                }
+            });
+        });
+
+        req.on('error', (error) => {
+            reject(error.message);
+        });
+
+        req.end();
+    });
 }

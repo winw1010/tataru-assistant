@@ -111,7 +111,6 @@ async function zhConvert(text, languageTo) {
     }
 }
 
-// code missing check
 function missingCodeCheck(text, table) {
     let isMissing = false;
     let missingCodes = [];
@@ -132,7 +131,6 @@ function missingCodeCheck(text, table) {
     };
 }
 
-// fix code
 function fixCode(text, missingCodes) {
     if (missingCodes.length > 0) {
         for (let index = 0; index < missingCodes.length; index++) {

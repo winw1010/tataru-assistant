@@ -221,7 +221,7 @@ async function textCorrection(name, text, translation) {
     // force overwrite
     const target = cf.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
-        return target[0][1];
+        return cf.replaceText(target[0][1], chArray.combine);
     } else {
         // subtitle
         text = cf.replaceText(text, jpArray.subtitle);

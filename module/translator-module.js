@@ -15,64 +15,84 @@ const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
 const google = require('./translator/google');
 
-async function translate(text, engine, languageFrom, languageTo, autoChange = true) {
+async function translate(text, translation, table = []) {
+    const engine = translation.engine;
+    const languageFrom = translation.from;
+    const languageTo = translation.to;
+    const autoChange = translation.autoChange;
+
+    console.log(engine, languageFrom, languageTo, autoChange);
+
     // set input
-    const input = {
+    let input = {
         text: text,
         from: languageFrom,
         to: languageTo
     };
 
-    let response = await selectEngine(engine, input);
+    let translatedText = '';
+    let retryCount = 1;
+    let checkResult = {
+        isMissing: false,
+        missingCodes: []
+    };
 
-    // auto change
-    if (response === '') {
-        console.log('Response is empty.');
+    do {
+        input.text = fixCode(input.text, checkResult.missingCodes);
+        translatedText = await selectEngine(engine, input);
+        retryCount++;
 
-        if (autoChange) {
-            for (let index = 0; index < engineList.length; index++) {
-                const element = engineList[index];
+        // auto change
+        if (translatedText === '') {
+            console.log('Response is empty.');
 
-                if (element !== engine) {
-                    console.log(`Use ${element}.`);
+            if (autoChange) {
+                for (let index = 0; index < engineList.length; index++) {
+                    const element = engineList[index];
 
-                    response = await selectEngine(element, input);
-                    if (response !== '') {
-                        break;
+                    if (element !== engine) {
+                        console.log(`Use ${element}.`);
+
+                        translatedText = await selectEngine(element, input);
+                        if (translatedText !== '') {
+                            break;
+                        }
                     }
                 }
             }
         }
-    }
 
-    return await zhConvert(response, languageTo);
+        checkResult = missingCodeCheck(translatedText, table);
+    } while (checkResult.isMissing && retryCount < 3);
+
+    return await zhConvert(translatedText, languageTo);
 }
 
 async function selectEngine(engine, input) {
-    let text = '';
+    let translatedText = '';
 
     switch (engine) {
         case 'Baidu':
-            text = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
+            translatedText = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
             break;
 
         case 'Caiyun':
-            text = await caiyun.translate(input.text, getTableValue(input.from, caiyunTable), getTableValue(input.to, caiyunTable));
+            translatedText = await caiyun.translate(input.text, getTableValue(input.from, caiyunTable), getTableValue(input.to, caiyunTable));
             break;
 
         case 'Youdao':
-            text = await youdao.translate(input.text, getTableValue(input.from, youdaoTable), getTableValue(input.to, youdaoTable));
+            translatedText = await youdao.translate(input.text, getTableValue(input.from, youdaoTable), getTableValue(input.to, youdaoTable));
             break;
 
         case 'Google':
-            text = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
+            translatedText = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
             break;
 
         default:
-            text = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
+            translatedText = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
     }
 
-    return text;
+    return translatedText;
 }
 
 async function zhConvert(text, languageTo) {
@@ -89,6 +109,41 @@ async function zhConvert(text, languageTo) {
     } else {
         return text;
     }
+}
+
+// code missing check
+function missingCodeCheck(text, table) {
+    let isMissing = false;
+    let missingCodes = [];
+
+    if (table.length > 0) {
+        for (let index = 0; index < table.length; index++) {
+            const code = table[index][0];
+            if (!text.includes(code)) {
+                isMissing = true;
+                missingCodes.push(code);
+            }
+        }
+    }
+
+    return {
+        isMissing: isMissing,
+        missingCodes: missingCodes
+    };
+}
+
+// fix code
+function fixCode(text, missingCodes) {
+    if (missingCodes.length > 0) {
+        for (let index = 0; index < missingCodes.length; index++) {
+            const code = missingCodes[index][0];
+            const codeRegExp = new RegExp(`(${code}+)`, 'gi');
+
+            text = text.replace(codeRegExp, '$1' + code);
+        }
+    }
+
+    return text;
 }
 
 exports.translate = translate;

@@ -7,6 +7,9 @@ const { languageTable, languageIndex, getTableValue } = require('./translator/la
 const cfjp = require('./correction-function-jp');
 const cf = require('./correction-function');
 
+// translator module
+const tm = require('./translator-module');
+
 // dialog module
 const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
@@ -140,7 +143,7 @@ async function startCorrection(dialogData, translation, tryCount) {
     if (translation.fix) {
         translatedName = await nameCorrection(dialogData.name, translation);
     } else {
-        translatedName = await cf.translate(dialogData.name, translation);
+        translatedName = await tm.translate(dialogData.name, translation);
     }
 
     // text translation
@@ -148,7 +151,7 @@ async function startCorrection(dialogData, translation, tryCount) {
     if (translation.fix) {
         translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
     } else {
-        translatedText = await cf.translate(dialogData.text, translation);
+        translatedText = await tm.translate(dialogData.text, translation);
     }
 
     if (dialogData.text !== '' && translatedText === '') {
@@ -247,7 +250,7 @@ async function textCorrection(name, text, translation) {
         // skip check
         if (!cfjp.canSkipTranslation(text)) {
             // translate
-            text = await cf.translate(text, translation);
+            text = await tm.translate(text, translation, codeResult.table);
         }
 
         // value fix after
@@ -329,7 +332,7 @@ async function translateName(name, katakanaName, translation) {
         // skip check
         if (!cfjp.canSkipTranslation(translatedName)) {
             // translate
-            translatedName = await cf.translate(translatedName, translation);
+            translatedName = await tm.translate(translatedName, translation, codeResult.table);
         }
 
         // clear code

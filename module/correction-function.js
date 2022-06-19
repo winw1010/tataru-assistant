@@ -9,9 +9,6 @@ const { readFileSync, writeFileSync, readdirSync } = require('fs');
 // json fixer
 const jsonFixer = require('json-fixer');
 
-// translator
-const translatorModule = require('./translator-module');
-
 // text function
 function skipCheck(code, name, text, ignoreArray) {
     return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
@@ -107,11 +104,6 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
     }
 
     return target;
-}
-
-async function translate(text, translation) {
-    text = await translatorModule.translate(text, translation.engine, translation.from, translation.to, translation.autoChange);
-    return text;
 }
 
 function markFix(text, isChinese = false) {
@@ -411,7 +403,6 @@ exports.skipCheck = skipCheck;
 exports.replaceText = replaceText;
 exports.includesArrayItem = includesArrayItem;
 exports.sameAsArrayItem = sameAsArrayItem;
-exports.translate = translate;
 exports.markFix = markFix;
 exports.clearCode = clearCode;
 exports.valueFixBefore = valueFixBefore;

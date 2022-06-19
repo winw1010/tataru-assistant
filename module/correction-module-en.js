@@ -205,7 +205,7 @@ async function nameCorrection(name, translation) {
         translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // save to temp
-        chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
+        chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
 
         if (name.length < 3) {
             chArray.chTemp.push([name + '#', translatedName, 'temp']);

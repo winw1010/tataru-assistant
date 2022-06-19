@@ -360,7 +360,7 @@ async function translateName(name, katakanaName, translation) {
 
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
-    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
+    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);

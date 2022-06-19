@@ -15,7 +15,7 @@ const systemChannel = [
     '003C',
     '0048',
     '001D',
-    '001C',
+    '001C'
 ];
 
 // text history
@@ -92,8 +92,8 @@ function dataProcess(data) {
                     dialogData.name = '';
                 }
 
-                // system message process
-                if (isSystemMessage(dialogData)) {
+                // system message fix
+                if (isSystemMessage(dialogData.code)) {
                     if (dialogData.name !== '') {
                         dialogData.text = dialogData.name + ': ' + dialogData.text;
                         dialogData.name = '';
@@ -127,8 +127,8 @@ function dataCheck(dialogData) {
 }
 
 // channel check
-function isSystemMessage(dialogData) {
-    return systemChannel.includes(dialogData.code);
+function isSystemMessage(code) {
+    return systemChannel.includes(code);
 }
 
 exports.startServer = startServer;

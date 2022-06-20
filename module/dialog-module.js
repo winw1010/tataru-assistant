@@ -41,7 +41,7 @@ function appendBlankDialog(id, code) {
     dialog.style.borderRadius = config.dialog.radius + 'rem';
     dialog.style.backgroundColor = config.dialog.backgroundColor;
 
-    document.getElementById('div_dialog').append(dialog)
+    document.getElementById('div_dialog').append(dialog);
 
     try {
         document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';

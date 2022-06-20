@@ -29,7 +29,7 @@ async function translate(text, translation, table = []) {
     };
 
     let translatedText = '';
-    let retryCount = 1;
+    let retryCount = 0;
     let checkResult = {
         isMissing: false,
         missingCodes: []

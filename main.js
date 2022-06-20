@@ -315,16 +315,6 @@ function getWindowSize(windowName) {
                 break;
             }
 
-        case 'config':
-            {
-                const indexBounds = windowList['index'].getBounds();
-                width = parseInt(screenWidth * 0.22);
-                height = parseInt(screenHeight * 0.65);
-                x = getNearX(indexBounds, width);
-                y = getNearY(indexBounds, height);
-                break;
-            }
-
         case 'capture':
             {
                 // first time
@@ -347,6 +337,16 @@ function getWindowSize(windowName) {
                 const indexBounds = windowList['index'].getBounds();
                 width = parseInt(screenWidth * 0.27);
                 height = parseInt(screenHeight * 0.35);
+                x = getNearX(indexBounds, width);
+                y = getNearY(indexBounds, height);
+                break;
+            }
+
+        case 'config':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                width = parseInt(screenWidth * 0.22);
+                height = parseInt(screenHeight * 0.65);
                 x = getNearX(indexBounds, width);
                 y = getNearY(indexBounds, height);
                 break;
@@ -378,7 +378,7 @@ function getWindowSize(windowName) {
 
     return {
         x: x >= displayBounds.x && x < displayBounds.x + displayBounds.width ? x : displayBounds.x,
-        y: y >= 0 && y < displayBounds.y + displayBounds.height ? y : displayBounds.y,
+        y: y >= displayBounds.y && y < displayBounds.y + displayBounds.height ? y : displayBounds.y,
         width: width,
         height: height
     };

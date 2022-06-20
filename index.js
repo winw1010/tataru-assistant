@@ -77,7 +77,7 @@ function setEvent() {
     });
 
     // button click through
-    let buttonArray = document.getElementsByClassName('img_button');
+    const buttonArray = document.getElementsByClassName('img_button');
     for (let index = 0; index < buttonArray.length; index++) {
         const element = buttonArray[index];
 

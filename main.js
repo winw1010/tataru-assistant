@@ -296,11 +296,11 @@ function getWindowSize(windowName) {
     let height = 0;
 
     // get current display bounds
-    let displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
+    const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
     // get current screen size
-    let screenWidth = displayBounds.width;
-    let screenHeight = displayBounds.height;
+    const screenWidth = displayBounds.width;
+    const screenHeight = displayBounds.height;
 
     switch (windowName) {
         case 'index':

@@ -176,7 +176,8 @@ ipcMain.on('set-click-through', (event, ignore) => {
 ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
     const cursorScreenPoint = screen.getCursorScreenPoint();
 
-    event.returnValue = (cursorScreenPoint.x < windowX ||
+    event.returnValue = (
+        cursorScreenPoint.x < windowX ||
         cursorScreenPoint.x > windowX + windowWidth ||
         cursorScreenPoint.y < windowY ||
         cursorScreenPoint.y > windowY + windowHeight

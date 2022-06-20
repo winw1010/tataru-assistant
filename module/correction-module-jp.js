@@ -129,7 +129,7 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // check try count
     if (tryCount > 5) {
-        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, '', '翻譯失敗，請改用其他翻譯引擎', dialogData, translation);
+        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, '', '翻譯失敗，請更換翻譯引擎', dialogData, translation);
         return;
     } else {
         tryCount++;

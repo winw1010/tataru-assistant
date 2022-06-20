@@ -1,8 +1,5 @@
 'use strict';
 
-// https
-const https = require('https');
-
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
@@ -11,6 +8,9 @@ const { execSync } = require('child_process');
 
 // download github repo
 const downloadGitRepo = require('download-git-repo');
+
+// get
+const { httpsGet } = require('./module/https-module');
 
 // audio module
 const { startPlaying } = require('./module/audio-module');
@@ -42,6 +42,7 @@ let mouseOutCheckInterval = null;
 window.addEventListener('DOMContentLoaded', () => {
     setView();
     setEvent();
+    setIPC();
     setButton();
     startApp();
 });
@@ -93,7 +94,10 @@ function setEvent() {
             }
         });
     }
+}
 
+// set IPC
+function setIPC() {
     // download json
     ipcRenderer.on('download-json', () => {
         downloadJSON();
@@ -119,13 +123,23 @@ function setEvent() {
         document.getElementById('div_dialog').replaceChildren();
     });
 
+    // append blank dialog
+    ipcRenderer.on('append-blank-dialog', (event, id, code) => {
+        appendBlankDialog(id, code);
+    });
+
+    // update dialog
+    ipcRenderer.on('update-dialog', (event, ...args) => {
+        updateDialog(...args);
+    });
+
     // append dialog
     ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
         appendBlankDialog(id, code);
         updateDialog(id, name, text);
     });
 
-    // append dialog
+    // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
         moveToBottom();
     });
@@ -369,25 +383,4 @@ async function versionCheck() {
         document.getElementById('img_button_update').hidden = false;
         appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本');
     }
-}
-
-// https get
-async function httpsGet(options) {
-    return new Promise((resolve, reject) => {
-        const req = https.request(options, (res) => {
-            res.on('data', (data) => {
-                if (res.statusCode == 200) {
-                    resolve(data);
-                } else {
-                    reject(data);
-                }
-            });
-        });
-
-        req.on('error', (error) => {
-            reject(error.message);
-        });
-
-        req.end();
-    });
 }

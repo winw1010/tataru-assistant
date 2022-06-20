@@ -54,7 +54,7 @@ app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// ipc
+// ipc - main
 // get app version
 ipcMain.on('get-version', (event) => {
     event.returnValue = app.getVersion();
@@ -103,6 +103,7 @@ ipcMain.on('set-default-chat-code', () => {
     chatCode = getDefaultChatCode();
 });
 
+// ipc - window
 // create sindow
 ipcMain.on('create-window', (event, windowName, data = null) => {
     try {
@@ -128,11 +129,6 @@ ipcMain.on('drag-window', (event, clientX, clientY, windowWidth, windowHeight) =
     }
 });
 
-// mute window
-ipcMain.on('mute-window', (event, isMuted) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(isMuted);
-});
-
 // minimize window
 ipcMain.on('minimize-window', (event) => {
     try {
@@ -149,11 +145,6 @@ ipcMain.on('close-window', (event) => {
     } catch (error) {
         console.log(error);
     }
-});
-
-// send index
-ipcMain.on('send-index', (event, channel, ...args) => {
-    sendIndex(channel, ...args);
 });
 
 // always on top
@@ -184,6 +175,18 @@ ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeigh
     );
 });
 
+// mute window
+ipcMain.on('mute-window', (event, isMuted) => {
+    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(isMuted);
+});
+
+// ipc - index
+// send index
+ipcMain.on('send-index', (event, channel, ...args) => {
+    sendIndex(channel, ...args);
+});
+
+// ipc - capture
 // start screen translation
 ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     // get display matching the rectangle

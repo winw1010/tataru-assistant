@@ -1,7 +1,7 @@
 'use strict';
 
-// https
-const https = require('https');
+// post
+const { httpsPost } = require('../https-module');
 
 // start
 async function translate(text, languageFrom, languageTo) {
@@ -34,28 +34,6 @@ async function translate(text, languageFrom, languageTo) {
         console.log('Caiyun:', error);
         return '';
     }
-}
-
-// https post
-async function httpsPost(postData, options) {
-    return new Promise((resolve, reject) => {
-        const req = https.request(options, (res) => {
-            res.on('data', (data) => {
-                if (res.statusCode == 200) {
-                    resolve(data);
-                } else {
-                    reject(data);
-                }
-            });
-        });
-
-        req.on('error', (error) => {
-            reject(error.message);
-        });
-
-        req.write(postData);
-        req.end();
-    });
 }
 
 exports.translate = translate;

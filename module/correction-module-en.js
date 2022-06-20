@@ -1,5 +1,8 @@
 'use strict';
 
+// ipc
+const { ipcRenderer } = require('electron');
+
 // language table
 const { languageTable, languageIndex, getTableValue } = require('./translator/language-table');
 
@@ -9,9 +12,6 @@ const cf = require('./correction-function');
 
 // translator module
 const tm = require('./translator-module');
-
-// dialog module
-const { appendBlankDialog, updateDialog } = require('./dialog-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -109,14 +109,14 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // check try count
     if (tryCount > 5) {
-        updateDialog(dialogData.id, '', '翻譯失敗，請改用其他翻譯引擎', dialogData, translation);
+        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, '', '翻譯失敗，請改用其他翻譯引擎', dialogData, translation);
         return;
     } else {
         tryCount++;
     }
 
     // append blank dialog
-    appendBlankDialog(dialogData.id, dialogData.code);
+    ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
 
     // save player name
     savePlayerName(dialogData.playerName);
@@ -148,7 +148,7 @@ async function startCorrection(dialogData, translation, tryCount) {
     }
 
     // update dialog
-    updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
+    ipcRenderer.send('send-index', 'update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
 }
 
 function savePlayerName(playerName) {

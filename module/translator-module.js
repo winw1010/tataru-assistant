@@ -63,7 +63,7 @@ async function translate(text, translation, table = []) {
         checkResult = missingCodeCheck(translatedText, table);
     } while (checkResult.isMissing && retryCount < 3);
 
-    return await zhConvert(translatedText, languageTo);
+    return await zhtConvert(translatedText, languageTo);
 }
 
 async function selectEngine(engine, input) {
@@ -93,12 +93,12 @@ async function selectEngine(engine, input) {
     return translatedText;
 }
 
-async function zhConvert(text, languageTo) {
-    if (text !== '' && [languageTable.zht, languageTable.zhs].includes(languageTo)) {
+async function zhtConvert(text, languageTo) {
+    if (languageTo === languageTable.zht && text !== '') {
         const input = {
             text: text,
-            from: languageTo === languageTable.zht ? languageTable.zhs : languageTable.zht,
-            to: languageTo
+            from: languageTable.zhs,
+            to: languageTable.zht
         };
 
         const response = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));

@@ -106,15 +106,11 @@ ipcMain.on('set-default-chat-code', () => {
 // create sindow
 ipcMain.on('create-window', (event, windowName, data = null) => {
     try {
-        // force close
         windowList[windowName].close();
         windowList[windowName] = null;
     } catch (error) {
-        // do nothing
+        createWindow(windowName, data);
     }
-
-    // create window
-    createWindow(windowName, data);
 });
 
 // drag window
@@ -245,11 +241,9 @@ function checkDirectory() {
 function setKeyDown() {
     globalShortcut.register('CommandOrControl+F9', () => {
         try {
-            // close window
             windowList['read-log'].close();
             windowList['read-log'] = null;
         } catch (error) {
-            // create window
             createWindow('read-log');
         }
     });
@@ -259,7 +253,6 @@ function setKeyDown() {
             windowList['config'].close();
             windowList['config'] = null;
         } catch (error) {
-            // create window
             createWindow('config');
         }
     });
@@ -269,10 +262,8 @@ function setKeyDown() {
             windowList['capture'].close();
             windowList['capture'] = null;
         } catch (error) {
-            // create window
             createWindow('capture');
         }
-
     });
 
     globalShortcut.register('CommandOrControl+F12', () => {
@@ -428,8 +419,7 @@ function createWindow(windowName, data = null) {
         window.loadFile(`${windowName}.html`);
 
         // set always on top
-        const isTop = (windowName === 'index' || windowName === 'capture' || windowName === 'capture-edit');
-        window.setAlwaysOnTop(isTop, 'screen-saver');
+        window.setAlwaysOnTop(true, 'screen-saver');
 
         // set minimizable
         window.setMinimizable(false);

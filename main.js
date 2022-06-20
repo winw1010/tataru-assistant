@@ -149,10 +149,14 @@ ipcMain.on('close-window', (event) => {
 
 // always on top
 ipcMain.on('set-always-on-top', (event, top) => {
-    try {
-        windowList['index'].setAlwaysOnTop(top, 'screen-saver');
-    } catch (error) {
-        console.log(error);
+    const window = windowList['index'];
+
+    if (window) {
+        try {
+            window.setAlwaysOnTop(top, 'screen-saver');
+        } catch (error) {
+            console.log(error);
+        }
     }
 });
 
@@ -214,10 +218,14 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 
 // functions
 function sendIndex(channel, ...args) {
-    try {
-        windowList['index'].webContents.send(channel, ...args);
-    } catch (error) {
-        console.log(error);
+    const window = windowList['index'];
+
+    if (window) {
+        try {
+            window.webContents.send(channel, ...args);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

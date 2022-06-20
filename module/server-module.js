@@ -33,11 +33,11 @@ const server = http.createServer(function(request, response) {
 
         request.on('end', function() {
             response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end('POST completed');
+            response.end('POST complete.');
         });
     } else if (request.method === 'GET') {
         response.writeHead(200, { 'Content-Type': 'text/html' });
-        response.end('GET is not supported');
+        response.end('GET is not in service.');
     }
 });
 

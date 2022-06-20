@@ -39,6 +39,9 @@ app.whenReady().then(() => {
     // load chat code
     chatCode = loadChatCode();
 
+    // set key down
+    setKeyDown();
+
     // create index window
     createWindow('index');
 
@@ -100,23 +103,18 @@ ipcMain.on('set-default-chat-code', () => {
     chatCode = getDefaultChatCode();
 });
 
-// set key down
-ipcMain.on('set-key-down', () => {
-    setKeyDown();
-});
-
 // create sindow
-ipcMain.on('create-window', (event, type, data = null) => {
+ipcMain.on('create-window', (event, windowName, data = null) => {
     try {
         // force close
-        windowList[type].close();
-        windowList[type] = null;
+        windowList[windowName].close();
+        windowList[windowName] = null;
     } catch (error) {
         // do nothing
     }
 
     // create window
-    createWindow(type, data);
+    createWindow(windowName, data);
 });
 
 // drag window
@@ -280,15 +278,17 @@ function setKeyDown() {
     globalShortcut.register('CommandOrControl+F12', () => {
         const window = windowList['index'];
 
-        if (window.webContents.isDevToolsOpened()) {
-            window.webContents.closeDevTools();
-        } else {
-            window.webContents.openDevTools({ mode: 'detach' });
+        if (window) {
+            if (window.webContents.isDevToolsOpened()) {
+                window.webContents.closeDevTools();
+            } else {
+                window.webContents.openDevTools({ mode: 'detach' });
+            }
         }
     });
 }
 
-function getWindowSize(type) {
+function getWindowSize(windowName) {
     // set default value
     let x = 0;
     let y = 0;
@@ -302,7 +302,7 @@ function getWindowSize(type) {
     let screenWidth = displayBounds.width;
     let screenHeight = displayBounds.height;
 
-    switch (type) {
+    switch (windowName) {
         case 'index':
             {
                 // first time
@@ -402,39 +402,39 @@ function getWindowSize(type) {
 }
 
 // create window
-function createWindow(type, data = null) {
+function createWindow(windowName, data = null) {
     try {
         // get size
-        const size = getWindowSize(type);
+        const size = getWindowSize(windowName);
 
         // create new window
         const window = new BrowserWindow({
-            show: false,
             x: size.x,
             y: size.y,
             width: size.width,
             height: size.height,
-            transparent: true,
+            show: false,
             frame: false,
+            transparent: true,
             fullscreenable: false,
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                preload: path.join(__dirname, type + '.js')
+                preload: path.join(__dirname, `${windowName}.js`)
             }
         });
 
         // load html
-        window.loadFile(type + '.html');
+        window.loadFile(`${windowName}.html`);
 
         // set always on top
-        const isTop = (type === 'index' || type === 'capture' || type === 'capture-edit');
+        const isTop = (windowName === 'index' || windowName === 'capture' || windowName === 'capture-edit');
         window.setAlwaysOnTop(isTop, 'screen-saver');
 
         // set minimizable
         window.setMinimizable(false);
 
-        switch (type) {
+        switch (windowName) {
             case 'index':
                 window.once('close', () => {
                     // save position
@@ -479,7 +479,7 @@ function createWindow(type, data = null) {
             window.show();
         });
 
-        windowList[type] = window;
+        windowList[windowName] = window;
     } catch (error) {
         console.log(error);
     }

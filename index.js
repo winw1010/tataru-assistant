@@ -153,9 +153,6 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // key down
-    ipcRenderer.send('set-key-down');
-
     // upper buttons
     // drag
     setDragElement(document.getElementById('img_button_drag'));

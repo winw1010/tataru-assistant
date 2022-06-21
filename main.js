@@ -44,7 +44,6 @@ app.whenReady().then(() => {
 
     // create index window
     createWindow('index');
-
     app.on('activate', function() {
         if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
     });

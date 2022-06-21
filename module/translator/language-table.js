@@ -41,6 +41,14 @@ const youdaoTable = {
     'Simplified-Chinese': 'zh'
 }
 
+const googleTable = {
+    'Auto': 'auto',
+    'Japanese': 'ja',
+    'English': 'en',
+    'Traditional-Chinese': 'zh-CN',
+    'Simplified-Chinese': 'zh-CN'
+}
+
 /*
 const papagoTable = {
     'Auto': 'detect',
@@ -60,14 +68,6 @@ const deeplTable = {
     'Simplified-Chinese': 'zh'
 }
 */
-
-const googleTable = {
-    'Auto': 'auto',
-    'Japanese': 'ja',
-    'English': 'en',
-    'Traditional-Chinese': 'zh-TW',
-    'Simplified-Chinese': 'zh-CN'
-}
 
 function getTableValue(language, table) {
     const languageReg = new RegExp(language, 'gi');

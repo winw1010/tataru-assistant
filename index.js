@@ -125,8 +125,8 @@ function setIPC() {
     });
 
     // append blank dialog
-    ipcRenderer.on('append-blank-dialog', (event, id, code) => {
-        appendBlankDialog(id, code);
+    ipcRenderer.on('append-blank-dialog', (event, ...args) => {
+        appendBlankDialog(...args);
     });
 
     // update dialog
@@ -146,8 +146,8 @@ function setIPC() {
     });
 
     // start translation
-    ipcRenderer.on('start-translation', (event, dialogData, translation) => {
-        correctionEntry(dialogData, translation);
+    ipcRenderer.on('start-translation', (event, ...args) => {
+        correctionEntry(...args);
     });
 
     // reset view

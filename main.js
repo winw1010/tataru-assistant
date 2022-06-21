@@ -40,7 +40,7 @@ app.whenReady().then(() => {
     chatCode = loadChatCode();
 
     // set key down
-    setKeyDown();
+    setGlobalShortcut();
 
     // create index window
     createWindow('index');
@@ -249,7 +249,7 @@ function checkDirectory() {
     });
 }
 
-function setKeyDown() {
+function setGlobalShortcut() {
     globalShortcut.register('CommandOrControl+F9', () => {
         try {
             windowList['read-log'].close();
@@ -288,6 +288,89 @@ function setKeyDown() {
             }
         }
     });
+}
+
+// create window
+function createWindow(windowName, data = null) {
+    try {
+        // get size
+        const size = getWindowSize(windowName);
+
+        // create new window
+        const window = new BrowserWindow({
+            x: size.x,
+            y: size.y,
+            width: size.width,
+            height: size.height,
+            show: false,
+            frame: false,
+            transparent: true,
+            fullscreenable: false,
+            webPreferences: {
+                contextIsolation: true,
+                nodeIntegration: false,
+                preload: path.join(__dirname, `${windowName}.js`)
+            }
+        });
+
+        // load html
+        window.loadFile(`${windowName}.html`);
+
+        // set always on top
+        window.setAlwaysOnTop(true, 'screen-saver');
+
+        // set minimizable
+        window.setMinimizable(false);
+
+        switch (windowName) {
+            case 'index':
+                window.once('close', () => {
+                    // save position
+                    config.indexWindow.x = window.getPosition()[0];
+                    config.indexWindow.y = window.getPosition()[1];
+
+                    // save size
+                    config.indexWindow.width = window.getSize()[0];
+                    config.indexWindow.height = window.getSize()[1];
+
+                    // save config
+                    saveConfig(config);
+
+                    // save chat code
+                    saveChatCode(chatCode);
+                });
+                break;
+
+            case 'capture':
+                window.once('close', () => {
+                    // save position
+                    config.captureWindow.x = window.getPosition()[0];
+                    config.captureWindow.y = window.getPosition()[1];
+
+                    // save size
+                    config.captureWindow.width = window.getSize()[0];
+                    config.captureWindow.height = window.getSize()[1];
+                });
+                break;
+
+            default:
+                break;
+        }
+
+        if (data) {
+            window.webContents.on('did-finish-load', () => {
+                window.webContents.send('send-data', data);
+            });
+        }
+
+        window.webContents.on('did-finish-load', () => {
+            window.show();
+        });
+
+        windowList[windowName] = window;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function getWindowSize(windowName) {
@@ -400,88 +483,5 @@ function getWindowSize(windowName) {
         return indexBounds.y + height > displayBounds.y + displayBounds.height ?
             displayBounds.y + displayBounds.height - height :
             indexBounds.y;
-    }
-}
-
-// create window
-function createWindow(windowName, data = null) {
-    try {
-        // get size
-        const size = getWindowSize(windowName);
-
-        // create new window
-        const window = new BrowserWindow({
-            x: size.x,
-            y: size.y,
-            width: size.width,
-            height: size.height,
-            show: false,
-            frame: false,
-            transparent: true,
-            fullscreenable: false,
-            webPreferences: {
-                contextIsolation: true,
-                nodeIntegration: false,
-                preload: path.join(__dirname, `${windowName}.js`)
-            }
-        });
-
-        // load html
-        window.loadFile(`${windowName}.html`);
-
-        // set always on top
-        window.setAlwaysOnTop(true, 'screen-saver');
-
-        // set minimizable
-        window.setMinimizable(false);
-
-        switch (windowName) {
-            case 'index':
-                window.once('close', () => {
-                    // save position
-                    config.indexWindow.x = window.getPosition()[0];
-                    config.indexWindow.y = window.getPosition()[1];
-
-                    // save size
-                    config.indexWindow.width = window.getSize()[0];
-                    config.indexWindow.height = window.getSize()[1];
-
-                    // save config
-                    saveConfig(config);
-
-                    // save chat code
-                    saveChatCode(chatCode);
-                });
-                break;
-
-            case 'capture':
-                window.once('close', () => {
-                    // save position
-                    config.captureWindow.x = window.getPosition()[0];
-                    config.captureWindow.y = window.getPosition()[1];
-
-                    // save size
-                    config.captureWindow.width = window.getSize()[0];
-                    config.captureWindow.height = window.getSize()[1];
-                });
-                break;
-
-            default:
-                break;
-        }
-
-        if (data) {
-            window.webContents.on('did-finish-load', () => {
-                window.webContents.send('send-data', data);
-            });
-        }
-
-        window.webContents.on('did-finish-load', () => {
-            window.show();
-        });
-
-        windowList[windowName] = window;
-    } catch (error) {
-        console.log(error);
     }
 }

@@ -7,7 +7,7 @@ const { existsSync, mkdirSync } = require('fs');
 const path = require('path');
 
 // electron modules
-const { app, ipcMain, screen, BrowserWindow, globalShortcut } = require('electron');
+const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
 
 // config module
 const { loadConfig, saveConfig, getDefaultConfig } = require('./module/config-module');
@@ -179,8 +179,8 @@ ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeigh
 });
 
 // mute window
-ipcMain.on('mute-window', (event, isMuted) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(isMuted);
+ipcMain.on('mute-window', (event, autoPlay) => {
+    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
 });
 
 // ipc - index

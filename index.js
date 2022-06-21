@@ -218,7 +218,7 @@ function setButton() {
         let config = ipcRenderer.sendSync('get-config');
         config.translation.autoPlay = !config.translation.autoPlay;
         ipcRenderer.send('set-config', config)
-        ipcRenderer.send('mute-window', !config.translation.autoPlay);
+        ipcRenderer.send('mute-window', config.translation.autoPlay);
 
         if (config.translation.autoPlay) {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');

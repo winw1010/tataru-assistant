@@ -43,6 +43,7 @@ let targetLog = null;
 window.addEventListener('DOMContentLoaded', () => {
     setView();
     setEvent();
+    setIPC();
     setButton();
 });
 
@@ -55,6 +56,15 @@ function setView() {
 
 // set event
 function setEvent() {
+    document.getElementById('checkbox_replace').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.translation.replace = document.getElementById('checkbox_replace').checked;
+        ipcRenderer.send('set-config', config);
+    };
+}
+
+// set IPC
+function setIPC() {
     ipcRenderer.on('send-data', (event, id) => {
         try {
             const milliseconds = parseInt(id.slice(2));
@@ -65,7 +75,6 @@ function setEvent() {
                     try {
                         const fileName = logFileList[index];
                         const log = jsonFixer(readFileSync(logLocation + '\\' + fileName).toString()).data;
-
 
                         if (log[id]) {
                             targetLog = log[id];
@@ -141,12 +150,6 @@ function setEvent() {
             console.log(error);
         }
     });
-
-    document.getElementById('checkbox_replace').oninput = () => {
-        let config = ipcRenderer.sendSync('get-config');
-        config.translation.replace = document.getElementById('checkbox_replace').checked;
-        ipcRenderer.send('set-config', config);
-    };
 }
 
 // set button

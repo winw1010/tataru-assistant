@@ -15,7 +15,7 @@ const { setDragElement } = require('./module/drag-module');
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
-    setEvent();
+    setIPC();
     setButton();
 });
 
@@ -24,8 +24,8 @@ function setView() {
     document.getElementById('img_result').setAttribute('src', getPath('result.png'));
 }
 
-// set event
-function setEvent() {
+// set IPC
+function setIPC() {
     ipcRenderer.on('send-data', (event, stringArray) => {
         let text = '';
 

@@ -21,7 +21,6 @@ const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
-    setEvent();
     setButton();
 });
 
@@ -29,9 +28,6 @@ window.addEventListener('DOMContentLoaded', () => {
 function setView() {
     readLogList();
 }
-
-// set event
-function setEvent() {}
 
 // set button
 function setButton() {

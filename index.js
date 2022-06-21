@@ -13,7 +13,7 @@ const downloadGitRepo = require('download-git-repo');
 const { httpsGet } = require('./module/https-module');
 
 // audio module
-const { startPlaying } = require('./module/audio-module');
+const { clearPlaylist, startPlaying } = require('./module/audio-module');
 
 // correction module
 const { correctionEntry } = require('./module/correction-module');
@@ -57,6 +57,7 @@ function setView() {
     // auto play
     if (config.translation.autoPlay) {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+        startPlaying();
     } else {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     }
@@ -224,6 +225,7 @@ function setButton() {
             startPlaying();
         } else {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+            clearPlaylist();
         }
     };
 
@@ -308,7 +310,6 @@ function resetView(config) {
 function startApp() {
     loadJSON();
     versionCheck();
-    startPlaying();
     startServer();
 }
 

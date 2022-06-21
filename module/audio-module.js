@@ -44,6 +44,11 @@ function addToPlaylist(dialogData, translation) {
     }
 }
 
+// clear playlist
+function clearPlaylist() {
+    playlist = [];
+}
+
 // start/restart playing
 function startPlaying() {
     clearInterval(playInterval);
@@ -57,7 +62,8 @@ function playNext() {
     try {
         if (!isPlaying) {
             const audio = playlist.shift();
-            if (audio) {
+
+            if (audio instanceof Audio) {
                 isPlaying = true;
                 audio.currentTime = 0;
                 audio.play();
@@ -69,4 +75,5 @@ function playNext() {
 }
 
 exports.addToPlaylist = addToPlaylist;
+exports.clearPlaylist = clearPlaylist;
 exports.startPlaying = startPlaying;

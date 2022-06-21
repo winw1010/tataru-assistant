@@ -63,7 +63,7 @@ function playNext() {
         if (!isPlaying) {
             const audio = playlist.shift();
 
-            if (audio instanceof Audio) {
+            if (audio) {
                 isPlaying = true;
                 audio.currentTime = 0;
                 audio.play();

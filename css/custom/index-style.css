@@ -1,6 +1,7 @@
 /*body*/
 
 body {
+    overflow: hidden;
     background-color: #00000000;
 }
 

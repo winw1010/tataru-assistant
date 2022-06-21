@@ -373,7 +373,7 @@ function getWindowSize(windowName) {
             {
                 const indexBounds = windowList['index'].getBounds();
                 width = parseInt(screenWidth * 0.2);
-                height = parseInt(screenHeight * 0.2);
+                height = parseInt(screenHeight * 0.22);
                 x = getNearX(indexBounds, width);
                 y = getNearY(indexBounds, height);
                 break;

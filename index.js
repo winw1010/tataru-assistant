@@ -234,7 +234,7 @@ function setButton() {
         ipcRenderer.send('create-window', 'read-log');
     };
 
-    // delete last one
+    // backspace
     document.getElementById('img_button_backspace').onclick = () => {
         try {
             document.getElementById('div_dialog').lastElementChild.remove();

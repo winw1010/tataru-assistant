@@ -30,13 +30,10 @@ async function translate(text, translation, table = []) {
 
     let translatedText = '';
     let retryCount = 0;
-    let checkResult = {
-        isMissing: false,
-        missingCodes: []
-    };
+    let missingCodes = [];
 
     do {
-        input.text = fixCode(input.text, checkResult.missingCodes);
+        input.text = fixCode(input.text, missingCodes);
         translatedText = await selectEngine(engine, input);
         retryCount++;
 
@@ -60,8 +57,8 @@ async function translate(text, translation, table = []) {
             }
         }
 
-        checkResult = missingCodeCheck(translatedText, table);
-    } while (checkResult.isMissing && retryCount < 3);
+        missingCodes = missingCodeCheck(translatedText, table);
+    } while (missingCodes.length > 0 && retryCount < 3);
 
     return await zhtConvert(translatedText, languageTo);
 }
@@ -110,23 +107,18 @@ async function zhtConvert(text, languageTo) {
 }
 
 function missingCodeCheck(text, table) {
-    let isMissing = false;
     let missingCodes = [];
 
     if (table.length > 0) {
         for (let index = 0; index < table.length; index++) {
             const code = table[index][0];
             if (!text.includes(code)) {
-                isMissing = true;
                 missingCodes.push(code);
             }
         }
     }
 
-    return {
-        isMissing: isMissing,
-        missingCodes: missingCodes
-    };
+    return missingCodes;
 }
 
 function fixCode(text, missingCodes) {

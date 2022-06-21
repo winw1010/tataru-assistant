@@ -92,14 +92,7 @@ async function selectEngine(engine, input) {
 
 async function zhtConvert(text, languageTo) {
     if (languageTo === languageTable.zht && text !== '') {
-        const input = {
-            text: text,
-            from: languageTable.zhs,
-            to: languageTable.zht
-        };
-
-        const response = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
-
+        const response = await google.translate(text, 'zh-CN', 'zh-TW');
         return response !== '' ? response : text;
     } else {
         return text;

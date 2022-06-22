@@ -16,9 +16,6 @@ const { ipcRenderer } = require('electron');
 // take desktop screenshot
 const screenshot = require('screenshot-desktop');
 
-// jimp
-//const Jimp = require('jimp');
-
 // get prominent color
 const { prominent } = require('color.js');
 
@@ -70,7 +67,8 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 height: parseInt(rectangleSize.height * scaleValue)
             })
             .greyscale()
-            .normalise()
+            .linear(1.5, 0)
+            .png({ colors: 3 })
             .toFile(getPath('crop.png'), (err) => {
                 if (err) {
                     throw err;
@@ -87,16 +85,17 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 async function fixImage() {
     try {
         // get prominent color
-        const prominentColor = await prominent(getPath('crop.png'), { amount: 2 });
+        const prominentColor = await prominent(getPath('crop.png'), { amount: 3 });
+        const textColor = parseInt((prominentColor[1][0] * 0.1 + prominentColor[2][0] * 0.9));
         console.log('prominent color:', prominentColor);
 
         // check prominent color
-        if (prominentColor[0][0] >= 128) {
+        if (hsp(prominentColor[0]) >= 16256.25) {
             // light background
             console.log('light background');
 
             // recognize image
-            sharp(getPath('crop.png')).toFile(getPath('result.png'), () => {
+            sharp(getPath('crop.png')).threshold(textColor).toFile(getPath('result.png'), () => {
                 recognizeImage(getPath('result.png'));
             });
         } else {
@@ -111,6 +110,15 @@ async function fixImage() {
     } catch (error) {
         console.log(error);
     }
+}
+
+// hsp
+function hsp(array) {
+    const red = array[0];
+    const green = array[1];
+    const blue = array[2];
+
+    return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
 
 // recognize image text

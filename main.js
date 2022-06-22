@@ -109,7 +109,7 @@ ipcMain.on('create-window', (event, windowName, data = null) => {
         windowList[windowName].close();
         windowList[windowName] = null;
 
-        if (windowName === 'capture-edit') {
+        if (windowName === 'edit' || windowName === 'capture-edit') {
             throw null;
         }
     } catch (error) {
@@ -321,7 +321,8 @@ function createWindow(windowName, data = null) {
         window.loadFile(`${windowName}.html`);
 
         // set always on top
-        window.setAlwaysOnTop(true, 'screen-saver');
+        const alwaysOnTop = windowName !== 'edit';
+        window.setAlwaysOnTop(alwaysOnTop, 'screen-saver');
 
         // set minimizable
         window.setMinimizable(false);

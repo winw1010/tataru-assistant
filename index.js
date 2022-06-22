@@ -27,7 +27,7 @@ const { appendBlankDialog, updateDialog, appendNotification, showDialog, moveToB
 const { setDragElement } = require('./module/drag-module');
 
 // image processing module
-const { takeScreenshot } = require('./module/image-module');
+const { takeScreenshot } = require('./module/image-module-jimp');
 
 // server module
 const { startServer } = require('./module/server-module');

@@ -108,6 +108,10 @@ ipcMain.on('create-window', (event, windowName, data = null) => {
     try {
         windowList[windowName].close();
         windowList[windowName] = null;
+
+        if (windowName === 'capture-edit') {
+            throw null;
+        }
     } catch (error) {
         createWindow(windowName, data);
     }

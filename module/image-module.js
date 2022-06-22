@@ -3,6 +3,10 @@
 // fs
 const { unlinkSync } = require('fs');
 
+// sharp
+const sharp = require('sharp');
+sharp.cache(false);
+
 // path
 const { resolve } = require('path');
 
@@ -13,7 +17,7 @@ const { ipcRenderer } = require('electron');
 const screenshot = require('screenshot-desktop');
 
 // jimp
-const Jimp = require('jimp');
+//const Jimp = require('jimp');
 
 // get prominent color
 const { prominent } = require('color.js');
@@ -42,7 +46,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
             imagePath = await screenshot({ filename: getPath('screenshot.png'), format: 'png' });
         }
 
-        // fix image
+        // crop image
         cropImage(rectangleSize, displayBounds, imagePath);
     } catch (error) {
         console.log(error);
@@ -53,30 +57,34 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 // crop image
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
-        const croppedImage = (await Jimp.read(imagePath))
-            .resize(displayBounds.width, displayBounds.height)
-            .crop(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height)
-            .scale(2)
+        const scaleValue = 700 / rectangleSize.width;
+        sharp(imagePath)
+            .resize({
+                width: parseInt(displayBounds.width * scaleValue),
+                height: parseInt(displayBounds.height * scaleValue)
+            })
+            .extract({
+                left: parseInt(rectangleSize.x * scaleValue),
+                top: parseInt(rectangleSize.y * scaleValue),
+                width: parseInt(rectangleSize.width * scaleValue),
+                height: parseInt(rectangleSize.height * scaleValue)
+            })
             .greyscale()
-            .contrast(0.3)
+            .normalise()
+            .toFile(getPath('crop.png'), (err) => {
+                if (err) {
+                    throw err;
+                }
 
-        // save cropped image
-        if (croppedImage.getWidth() > 700) {
-            croppedImage.resize(700, Jimp.AUTO);
-        } else if (croppedImage.getHeight() > 700) {
-            croppedImage.resize(Jimp.AUTO, 700);
-        }
-
-        croppedImage.write(getPath('crop.png'), (err, value) => {
-            fixImage(value);
-        });
+                fixImage();
+            });
     } catch (error) {
         console.log(error);
     }
 }
 
 // image process
-async function fixImage(croppedImage) {
+async function fixImage() {
     try {
         // get prominent color
         const prominentColor = await prominent(getPath('crop.png'), { amount: 2 });
@@ -87,43 +95,26 @@ async function fixImage(croppedImage) {
             // light background
             console.log('light background');
 
-            /*
-            croppedImage
-                .invert()
-                //.contrast(0.5)
-                .threshold({ max: 128, replace: 255 })
-                .invert();
-            */
+            // recognize image
+            sharp(getPath('crop.png')).toFile(getPath('result.png'), () => {
+                recognizeImage(getPath('result.png'));
+            });
         } else {
             // dark background
             console.log('dark background');
-            croppedImage.invert();
 
-            /*
-            if (prominentColor[1][0] > 230) {
-                // dark text
-                console.log('dark text');
-                croppedImage.invert();
-            } else {
-                // light text
-                console.log('light text');
-                croppedImage.contrast(0.7).threshold({ max: 128, replace: 255 }).invert();
-            }
-            */
+            // recognize image
+            sharp(getPath('crop.png')).negate({ alpha: false }).toFile(getPath('result.png'), () => {
+                recognizeImage(getPath('result.png'));
+            });
         }
-
-        // save result
-        croppedImage.write(getPath('result.png'));
-
-        // recognize image
-        recognizeImage(await croppedImage.getBufferAsync(Jimp.MIME_PNG));
     } catch (error) {
         console.log(error);
     }
 }
 
 // recognize image text
-async function recognizeImage(file) {
+async function recognizeImage(imagePath) {
     try {
         ipcRenderer.send('send-index', 'show-notification', '圖片辨識中');
 
@@ -149,7 +140,7 @@ async function recognizeImage(file) {
         }
 
         // recognize text
-        const { data: { text } } = await worker.recognize(file);
+        const { data: { text } } = await worker.recognize(imagePath);
 
         // terminate worker
         await worker.terminate();

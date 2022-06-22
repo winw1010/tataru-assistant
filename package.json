@@ -15,7 +15,7 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^18.3.4",
+        "electron": "^19.0.5",
         "electron-builder": "^23.1.0",
         "eslint": "^8.18.0"
     },
@@ -25,9 +25,9 @@
         "color.js": "^1.2.0",
         "download-git-repo": "^3.0.2",
         "google-tts-api": "^2.0.2",
-        "jimp": "^0.16.1",
         "json-fixer": "^1.6.13",
         "screenshot-desktop": "^1.12.7",
+        "sharp": "^0.30.6",
         "tesseract.js": "^2.1.5",
         "translators": "^1.0.3"
     },

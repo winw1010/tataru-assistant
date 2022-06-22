@@ -97,18 +97,19 @@ async function fixImage(croppedImage) {
         } else {
             // dark background
             console.log('dark background');
+            croppedImage.invert();
 
+            /*
             if (prominentColor[1][0] > 230) {
                 // dark text
                 console.log('dark text');
-
                 croppedImage.invert();
             } else {
                 // light text
                 console.log('light text');
-
-                croppedImage.invert(); //.contrast(0.7).threshold({ max: 128, replace: 255 }).invert();
+                croppedImage.contrast(0.7).threshold({ max: 128, replace: 255 }).invert();
             }
+            */
         }
 
         // save result

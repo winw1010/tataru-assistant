@@ -294,14 +294,14 @@ function setGlobalShortcut() {
 function createWindow(windowName, data = null) {
     try {
         // get size
-        const size = getWindowSize(windowName);
+        const windowSize = getWindowSize(windowName);
 
         // create new window
         const window = new BrowserWindow({
-            x: size.x,
-            y: size.y,
-            width: size.width,
-            height: size.height,
+            x: windowSize.x,
+            y: windowSize.y,
+            width: windowSize.width,
+            height: windowSize.height,
             show: false,
             frame: false,
             transparent: true,
@@ -322,6 +322,19 @@ function createWindow(windowName, data = null) {
         // set minimizable
         window.setMinimizable(false);
 
+        // show window
+        window.once('ready-to-show', () => {
+            window.show();
+        });
+
+        // send data
+        if (data) {
+            window.webContents.once('did-finish-load', () => {
+                window.webContents.send('send-data', data);
+            });
+        }
+
+        // save config on closing
         switch (windowName) {
             case 'index':
                 window.once('close', () => {
@@ -356,16 +369,6 @@ function createWindow(windowName, data = null) {
             default:
                 break;
         }
-
-        if (data) {
-            window.webContents.on('did-finish-load', () => {
-                window.webContents.send('send-data', data);
-            });
-        }
-
-        window.webContents.on('did-finish-load', () => {
-            window.show();
-        });
 
         windowList[windowName] = window;
     } catch (error) {

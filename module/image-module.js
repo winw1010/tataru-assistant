@@ -35,7 +35,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         // get displays
         const displays = await screenshot.listDisplays();
 
-        // set image path
+        // declare image path
         let imagePath = '';
 
         // take screenshot
@@ -91,18 +91,24 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 // fix image
 async function fixImage(imageBuffer) {
     try {
-        // determind background color is light or dark
+        // declare result image buffer
         let resultImageBuffer = null;
+
+        // determind background color is light or dark
         const { dominant } = await sharp(imageBuffer).stats();
         if (hsp(dominant) >= 16256.25) {
-            // light background
-            console.log('light background');
+            // light color background
+            console.log('light color background');
+
+            // set result image buffer
             resultImageBuffer = await sharp(imageBuffer)
                 .threshold(parseInt(dominant.r / 2))
                 .toBuffer();
         } else {
-            // dark background
-            console.log('dark background');
+            // dark color background
+            console.log('dark color background');
+
+            // set result image buffer
             resultImageBuffer = await sharp(imageBuffer)
                 .threshold(parseInt((dominant.r + 255) / 2))
                 .negate({ alpha: false })

@@ -22,7 +22,7 @@ const { createWorker } = require('tesseract.js');
 // language table
 const { languageTable } = require('./translator/language-table');
 
-// values
+// contrast values
 const contrastThreshold = 160; //128
 const contrast = 100; //76.5
 const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));

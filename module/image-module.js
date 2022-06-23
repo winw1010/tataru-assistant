@@ -94,15 +94,16 @@ async function fixImage(imageBuffer) {
         if (hsp(dominant) >= 16256.25) {
             // light background
             console.log('light background');
-
-            // recognize image
-            resultImageBuffer = await sharp(imageBuffer).threshold(parseInt(dominant.r / 2)).toBuffer();
+            resultImageBuffer = await sharp(imageBuffer)
+                .threshold(parseInt(dominant.r / 2))
+                .toBuffer();
         } else {
             // dark background
             console.log('dark background');
-
-            // recognize image
-            resultImageBuffer = await sharp(imageBuffer).threshold(parseInt((dominant.r + 255) / 2)).negate({ alpha: false }).toBuffer();
+            resultImageBuffer = await sharp(imageBuffer)
+                .threshold(parseInt((dominant.r + 255) / 2))
+                .negate({ alpha: false })
+                .toBuffer();
         }
 
         // to base64

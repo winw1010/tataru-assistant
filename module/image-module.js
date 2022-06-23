@@ -91,7 +91,6 @@ async function fixImage(imageBuffer) {
         // determind background color is light or dark
         let resultImageBuffer = null;
         const { dominant } = await sharp(imageBuffer).stats();
-        console.log(dominant);
         if (hsp(dominant) >= 16256.25) {
             // light background
             console.log('light background');

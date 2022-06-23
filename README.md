@@ -1,6 +1,6 @@
 # Tataru Helper Node Ver.2.0.0 Source Code
 
-## Tataru Helper Node專案使用步驟
+## Tataru Helper Node專案建置步驟
 
 * 可使用[Visual Studio Code](https://code.visualstudio.com/)編輯
 

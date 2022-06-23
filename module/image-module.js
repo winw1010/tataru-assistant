@@ -22,6 +22,11 @@ const { createWorker } = require('tesseract.js');
 // language table
 const { languageTable } = require('./translator/language-table');
 
+// values
+const contrastThreshold = 160; //128
+const contrast = 100; //76.5
+const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
+
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
     console.log('rectangle size:', rectangleSize);
@@ -51,24 +56,24 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 // crop image
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
-        const scaleValue = 1000 / rectangleSize.width;
-        const contrastThreshold = 128;
-        const contrast = 76.5; //76.5
-        const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
+        const scaleRate = 650 / rectangleSize.width;
         const imageBuffer = await sharp(imagePath)
             .resize({
-                width: parseInt(displayBounds.width * scaleValue),
-                height: parseInt(displayBounds.height * scaleValue)
+                width: parseInt(displayBounds.width * scaleRate),
+                height: parseInt(displayBounds.height * scaleRate)
             })
             .extract({
-                left: parseInt(rectangleSize.x * scaleValue),
-                top: parseInt(rectangleSize.y * scaleValue),
-                width: parseInt(rectangleSize.width * scaleValue),
-                height: parseInt(rectangleSize.height * scaleValue)
+                left: parseInt(rectangleSize.x * scaleRate),
+                top: parseInt(rectangleSize.y * scaleRate),
+                width: parseInt(rectangleSize.width * scaleRate),
+                height: parseInt(rectangleSize.height * scaleRate)
             })
             .greyscale()
             .linear(fator, (1 - fator) * contrastThreshold)
-            .sharpen()
+            .sharpen({
+                sigma: 2,
+                m2: 200
+            })
             .png({ colors: 2 })
             .toBuffer();
 

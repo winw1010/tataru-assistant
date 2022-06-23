@@ -1,7 +1,7 @@
 'use strict';
 
 // fs
-const { unlinkSync } = require('fs');
+const { writeFileSync, unlinkSync } = require('fs');
 
 // sharp
 const sharp = require('sharp');
@@ -17,7 +17,7 @@ const { ipcRenderer } = require('electron');
 const screenshot = require('screenshot-desktop');
 
 // get prominent color
-const { prominent } = require('color.js');
+//const { prominent } = require('color.js');
 
 // tesseract
 const { createWorker } = require('tesseract.js');
@@ -47,15 +47,18 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         cropImage(rectangleSize, displayBounds, imagePath);
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面');
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
     }
 }
 
 // crop image
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
-        const scaleValue = 700 / rectangleSize.width;
-        sharp(imagePath)
+        const scaleValue = 1000 / rectangleSize.width;
+        const contrastThreshold = 128;
+        const contrast = 76.5; //76.5
+        const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
+        const imageBuffer = await sharp(imagePath)
             .resize({
                 width: parseInt(displayBounds.width * scaleValue),
                 height: parseInt(displayBounds.height * scaleValue)
@@ -67,62 +70,67 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 height: parseInt(rectangleSize.height * scaleValue)
             })
             .greyscale()
-            .linear(1.5, 0)
-            .png({ colors: 3 })
-            .toFile(getPath('crop.png'), (err) => {
-                if (err) {
-                    throw err;
-                }
+            .linear(fator, (1 - fator) * contrastThreshold)
+            .png({ colors: 2 })
+            .toBuffer();
 
-                fixImage();
-            });
+        // save crop.png
+        writeFileSync(getPath('crop.png'), Buffer.from(imageBuffer, 'base64'));
+
+        // fix image
+        fixImage(imageBuffer);
     } catch (error) {
         console.log(error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
     }
 }
 
-// image process
-async function fixImage() {
+// fix image
+async function fixImage(imageBuffer) {
     try {
-        // get prominent color
-        const prominentColor = await prominent(getPath('crop.png'), { amount: 3 });
-        const textColor = parseInt((prominentColor[1][0] * 0.1 + prominentColor[2][0] * 0.9));
-        console.log('prominent color:', prominentColor);
-
-        // check prominent color
-        if (hsp(prominentColor[0]) >= 16256.25) {
+        // determind background color is light or dark
+        let resultImageBuffer = null;
+        const { dominant } = await sharp(imageBuffer).stats();
+        console.log(dominant);
+        if (hsp(dominant) >= 16256.25) {
             // light background
             console.log('light background');
 
             // recognize image
-            sharp(getPath('crop.png')).threshold(textColor).toFile(getPath('result.png'), () => {
-                recognizeImage(getPath('result.png'));
-            });
+            resultImageBuffer = await sharp(imageBuffer).threshold(parseInt(dominant.r / 2)).toBuffer();
         } else {
             // dark background
             console.log('dark background');
 
             // recognize image
-            sharp(getPath('crop.png')).negate({ alpha: false }).toFile(getPath('result.png'), () => {
-                recognizeImage(getPath('result.png'));
-            });
+            resultImageBuffer = await sharp(imageBuffer).threshold(parseInt((dominant.r + 255) / 2)).negate({ alpha: false }).toBuffer();
         }
+
+        // to base64
+        resultImageBuffer = Buffer.from(resultImageBuffer, 'base64');
+
+        // save result.png
+        writeFileSync(getPath('result.png'), resultImageBuffer);
+
+        // recognize image
+        recognizeImage(resultImageBuffer);
     } catch (error) {
         console.log(error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
     }
 }
 
 // hsp
-function hsp(array) {
-    const red = array[0];
-    const green = array[1];
-    const blue = array[2];
+function hsp(dominant) {
+    const red = dominant.r;
+    const green = dominant.g;
+    const blue = dominant.b;
 
     return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
 
 // recognize image text
-async function recognizeImage(imagePath) {
+async function recognizeImage(imageBuffer) {
     try {
         ipcRenderer.send('send-index', 'show-notification', '圖片辨識中');
 
@@ -148,7 +156,7 @@ async function recognizeImage(imagePath) {
         }
 
         // recognize text
-        const { data: { text } } = await worker.recognize(imagePath);
+        const { data: { text } } = await worker.recognize(imageBuffer);
 
         // terminate worker
         await worker.terminate();
@@ -162,6 +170,7 @@ async function recognizeImage(imagePath) {
         }
     } catch (error) {
         console.log(error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取文字 ' + error);
     }
 }
 

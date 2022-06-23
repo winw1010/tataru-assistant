@@ -70,11 +70,11 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             })
             .greyscale()
             .linear(fator, (1 - fator) * contrastThreshold)
+            .png({ colors: 2 })
             .sharpen({
                 sigma: 2,
-                m2: 200
+                m2: 1000
             })
-            .png({ colors: 2 })
             .toBuffer();
 
         // save crop.png

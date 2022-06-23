@@ -16,9 +16,6 @@ const { ipcRenderer } = require('electron');
 // take desktop screenshot
 const screenshot = require('screenshot-desktop');
 
-// get prominent color
-//const { prominent } = require('color.js');
-
 // tesseract
 const { createWorker } = require('tesseract.js');
 

@@ -38,7 +38,7 @@ const defaultConfig = {
         y: -1,
         width: -1,
         height: -1,
-        type: "fast",
+        type: "standard",
         split: true,
         edit: false
     },

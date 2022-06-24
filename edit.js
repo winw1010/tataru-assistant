@@ -324,7 +324,7 @@ function postToForm() {
 
         httpsRequest(url, { method: 'POST', timeout: 10000 });
 
-        ipcRenderer.send('send-index', 'show-notification', `翻譯已回報`);
+        ipcRenderer.send('send-index', 'show-notification', `回報完畢`);
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

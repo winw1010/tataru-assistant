@@ -310,7 +310,7 @@ async function translateName(name, katakanaName, translation) {
     const translatedKatakanaName =
         sameKatakanaName1 ?
         sameKatakanaName1[0][1] :
-        (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(katakanaName, chArray.chName));
+        (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(cf.replaceText(katakanaName, chArray.combine), chArray.chName));
 
     if (name === katakanaName) {
         // all katakana => use translatedKatakanaName

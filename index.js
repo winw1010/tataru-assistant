@@ -309,7 +309,7 @@ function resetView(config) {
 // start app
 function startApp() {
     loadJSON();
-    versionCheck();
+    //versionCheck();
     startServer();
 }
 

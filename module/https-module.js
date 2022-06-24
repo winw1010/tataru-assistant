@@ -3,8 +3,36 @@
 // https
 const https = require('https');
 
+// http request
+let uuu = new URL('https://www.google.com');
+console.log(uuu);
+
+function httpsRequest(url, options, data = null) {
+    return new Promise((resolve, reject) => {
+        const req = https.request(url, options, (res) => {
+            res.on('data', (chunk) => {
+                if (res.statusCode == 200) {
+                    resolve(chunk);
+                } else {
+                    reject(chunk);
+                }
+            });
+        });
+
+        req.on('error', (error) => {
+            reject(error.message);
+        });
+
+        if (data) {
+            req.write(data);
+        }
+
+        req.end();
+    });
+}
+
 // https get
-async function httpsGet(options) {
+function httpsGet(options) {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (res) => {
             res.on('data', (data) => {
@@ -25,7 +53,7 @@ async function httpsGet(options) {
 }
 
 // https post
-async function httpsPost(postData, options) {
+function httpsPost(postData, options) {
     return new Promise((resolve, reject) => {
         const req = https.request(options, (res) => {
             res.on('data', (data) => {
@@ -46,5 +74,6 @@ async function httpsPost(postData, options) {
     });
 }
 
+exports.httpsRequest = httpsRequest;
 exports.httpsGet = httpsGet;
 exports.httpsPost = httpsPost;

@@ -124,16 +124,16 @@ function setIPC() {
 
                             dialog1.replaceChildren();
                             if (targetLog.name !== '') {
-                                dialog1.innerHTML = `<span id="span_name1">${targetLog.name}:</span><br><span id="span_text1">${targetLog.text}</span>`;
+                                dialog1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
                             } else {
-                                dialog1.innerHTML = `<span id="span_text1">${targetLog.text}</span>`;
+                                dialog1.innerHTML = `<span>${targetLog.text}</span>`;
                             }
 
                             dialog2.replaceChildren();
                             if (targetLog.translated_name !== '') {
-                                dialog2.innerHTML = `<span id="span_name2">${targetLog.translated_name}:</span><br><span id="span_text2">${targetLog.translated_text}</span>`;
+                                dialog2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
                             } else {
-                                dialog2.innerHTML = `<span id="span_text2">${targetLog.translated_text}</span>`;
+                                dialog2.innerHTML = `<span>${targetLog.translated_text}</span>`;
                             }
 
                             break;
@@ -192,7 +192,7 @@ function setButton() {
 
     // report translation
     document.getElementById('button_report_translation').onclick = () => {
-
+        postToForm();
     };
 
     // save custom
@@ -299,4 +299,32 @@ function deleteTemp(textBefore, type, array) {
     ipcRenderer.send('send-index', 'show-notification', `共找到${count}個`);
 
     return array;
+}
+
+// post to form
+function postToForm() {
+    try {
+        const formId = '1FAIpQLSeyOItuFk8jx9EVcdeBJEmmgAB6PdCkmNhizz6Qr2pfOusg2A'
+        const entry1 = 'entry.146616344';
+        const entry2 = 'entry.978870308';
+        const entry3 = 'entry.2143863804';
+        const entry4 = 'entry.2143863804';
+
+        const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
+        const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
+        const url = `https://docs.google.com/forms/d/e/${formId}/formResponse?` +
+            `${entry1}=未完成` +
+            `&${entry2}=${targetLog.translation.engine}` +
+            `&${entry3}=${text1}` +
+            `&${entry4}=${text2}`;
+
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open('POST', url, true);
+        httpRequest.send();
+
+        ipcRenderer.send('send-index', 'show-notification', `翻譯已回報`);
+    } catch (error) {
+        console.log(error);
+        ipcRenderer.send('send-index', 'show-notification', error);
+    }
 }

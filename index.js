@@ -10,7 +10,7 @@ const { execSync } = require('child_process');
 const downloadGitRepo = require('download-git-repo');
 
 // get
-const { httpsGet } = require('./module/https-module');
+const { httpsRequest } = require('./module/https-module');
 
 // audio module
 const { clearPlaylist, startPlaying } = require('./module/audio-module');
@@ -363,12 +363,8 @@ function readJSON() {
 // version check
 async function versionCheck() {
     try {
-        const response = await httpsGet({
-            hostname: 'raw.githubusercontent.com',
-            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
-            method: 'GET',
-            timeout: 10000
-        });
+        const url = 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json'
+        const response = await httpsRequest(url, { method: 'GET', timeout: 10000 });
 
         const latestVersion = JSON.parse(response).number;
         const appVersion = ipcRenderer.sendSync('get-version');

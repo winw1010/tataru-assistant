@@ -27,6 +27,9 @@ const { createLogName } = require('./module/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
+// https
+const { httpsRequest } = require('./module/https-module');
+
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
@@ -38,6 +41,13 @@ const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\
 
 // target log
 let targetLog = null;
+
+// google form
+const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg'
+const entry1 = 'entry.195796166';
+const entry2 = 'entry.1834106335';
+const entry3 = 'entry.2057890818';
+const entry4 = 'entry.654133178';
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -304,23 +314,15 @@ function deleteTemp(textBefore, type, array) {
 // post to form
 function postToForm() {
     try {
-        const formId = '1FAIpQLSeyOItuFk8jx9EVcdeBJEmmgAB6PdCkmNhizz6Qr2pfOusg2A'
-        const entry1 = 'entry.146616344';
-        //const entry2 = 'entry.978870308';
-        const entry3 = 'entry.978870308';
-        const entry4 = 'entry.2143863804';
-
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
         const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
         const url = `https://docs.google.com/forms/d/e/${formId}/formResponse?` +
             `${entry1}=未完成` +
-            //`&${entry2}=${targetLog.translation.engine}` +
+            `&${entry2}=${targetLog.translation.engine}` +
             `&${entry3}=${text1}` +
             `&${entry4}=${text2}`;
 
-        const httpRequest = new XMLHttpRequest();
-        httpRequest.open('POST', url, true);
-        httpRequest.send();
+        httpsRequest(url, { method: 'POST', timeout: 10000 });
 
         ipcRenderer.send('send-index', 'show-notification', `翻譯已回報`);
     } catch (error) {

@@ -317,7 +317,7 @@ function postToForm() {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
         const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
         const url = `https://docs.google.com/forms/d/e/${formId}/formResponse?` +
-            `${entry1}=未完成` +
+            `${entry1}=待處理` +
             `&${entry2}=${targetLog.translation.engine}` +
             `&${entry3}=${text1}` +
             `&${entry4}=${text2}`;

@@ -4,9 +4,6 @@
 const https = require('https');
 
 // http request
-let uuu = new URL('https://www.google.com');
-console.log(uuu);
-
 function httpsRequest(url, options, data = null) {
     return new Promise((resolve, reject) => {
         const req = https.request(url, options, (res) => {

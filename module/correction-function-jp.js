@@ -218,6 +218,11 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
+function isChinese(text) {
+    return !/[ぁ-ゖァ-ヺ]/gi.test(text);
+}
+
 exports.replaceTextByCode = replaceTextByCode;
 exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;
+exports.isChinese = isChinese;

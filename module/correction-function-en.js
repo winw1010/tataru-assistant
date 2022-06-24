@@ -103,6 +103,11 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
+function isChinese(text) {
+    return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text); // \u3100-\u312F
+}
+
 exports.replaceTextByCode = replaceTextByCode;
 exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;
+exports.isChinese = isChinese;

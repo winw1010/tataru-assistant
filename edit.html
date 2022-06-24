@@ -30,8 +30,6 @@
 
     <div id="div_center" class="flex_wrapper">
         <div class="flex_left">
-            <p><a href="#" id="a_translation_report">翻譯回報</a></p>
-
             <div id="div_dialog1">
                 <span></span>
             </div>
@@ -51,6 +49,10 @@
                     <br>
 
                     <div>
+                        <select id="select_from">
+                            <option value="Japanese" selected>日文</option>
+                            <option value="English">英文</option>
+                        </select>
                         <select name="select_restart_engine" id="select_restart_engine">
                             <option value="Baidu" selected>百度翻譯</option>
                             <option value="Caiyun">彩雲小譯</option>
@@ -67,6 +69,7 @@
                 <div>
                     <button id="button_restart" class="btn btn-primary">重新翻譯</button>
                     <button id="button_read_json" class="btn btn-secondary">重新讀取對照表</button>
+                    <button id="button_report_translation" class="btn btn-secondary">翻譯回報</button>
                 </div>
             </div>
         </div>

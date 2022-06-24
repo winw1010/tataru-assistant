@@ -28,7 +28,7 @@ const { createLogName } = require('./module/dialog-module');
 const { execSync } = require('child_process');
 
 // Japanese character
-const kana = /^[ァ-ヺぁ-ゖ]+$/gi;
+const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
 const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
@@ -50,6 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // set view
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('select_from').value = config.translation.from;
     document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
@@ -123,16 +124,16 @@ function setIPC() {
 
                             dialog1.replaceChildren();
                             if (targetLog.name !== '') {
-                                dialog1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
+                                dialog1.innerHTML = `<span id="span_name1">${targetLog.name}:</span><br><span id="span_text1">${targetLog.text}</span>`;
                             } else {
-                                dialog1.innerHTML = `<span>${targetLog.text}</span>`;
+                                dialog1.innerHTML = `<span id="span_text1">${targetLog.text}</span>`;
                             }
 
                             dialog2.replaceChildren();
                             if (targetLog.translated_name !== '') {
-                                dialog2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
+                                dialog2.innerHTML = `<span id="span_name2">${targetLog.translated_name}:</span><br><span id="span_text2">${targetLog.translated_text}</span>`;
                             } else {
-                                dialog2.innerHTML = `<span>${targetLog.translated_text}</span>`;
+                                dialog2.innerHTML = `<span id="span_text2">${targetLog.translated_text}</span>`;
                             }
 
                             break;
@@ -157,15 +158,6 @@ function setButton() {
     // drag
     setDragElement(document.getElementById('img_button_drag'));
 
-    // github
-    document.getElementById('a_translation_report').onclick = () => {
-        try {
-            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     // restart
     document.getElementById('button_restart').onclick = () => {
         const config = ipcRenderer.sendSync('get-config');
@@ -186,21 +178,21 @@ function setButton() {
         };
 
         let translation = config.translation;
+        translation.from = document.getElementById('select_from').value;
+        translation.fromPlayer = document.getElementById('select_from').value;
         translation.engine = document.getElementById('select_restart_engine').value;
 
         ipcRenderer.send('send-index', 'start-translation', dialogData, translation);
     };
 
+    // read json
     document.getElementById('button_read_json').onclick = () => {
         ipcRenderer.send('send-index', 'read-json');
     };
 
-    document.getElementById('button_view_temp').onclick = () => {
-        try {
-            execSync(`start "" "${tempLocation}"`);
-        } catch (error) {
-            console.log(error);
-        }
+    // report translation
+    document.getElementById('button_report_translation').onclick = () => {
+
     };
 
     // save custom
@@ -231,6 +223,7 @@ function setButton() {
         }
     };
 
+    // delete temp
     document.getElementById('button_delete_temp').onclick = () => {
         const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
         const type = document.getElementById('select_type').value;
@@ -257,6 +250,15 @@ function setButton() {
         }
     };
 
+    // view temp
+    document.getElementById('button_view_temp').onclick = () => {
+        try {
+            execSync(`start "" "${tempLocation}"`);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // close
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
@@ -264,7 +266,7 @@ function setButton() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && kana.test(textBefore)) {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 
@@ -281,7 +283,7 @@ function addTemp(textBefore, textAfter, type, array) {
 function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && kana.test(textBefore)) {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 

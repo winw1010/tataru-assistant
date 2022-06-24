@@ -143,22 +143,26 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // name translation
     let translatedName = '';
-    if (npcChannel.includes(dialogData.code)) {
+    if (cfjp.isChinese(dialogData.name) || !npcChannel.includes(dialogData.code)) {
+        translatedName = dialogData.name;
+    } else {
         if (translation.fix) {
             translatedName = await nameCorrection(dialogData.name, translation);
         } else {
             translatedName = await tm.translate(dialogData.name, translation);
         }
-    } else {
-        translatedName = dialogData.name;
     }
 
     // text translation
     let translatedText = '';
-    if (translation.fix) {
-        translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+    if (cfjp.isChinese(dialogData.text)) {
+        translatedText = dialogData.text;
     } else {
-        translatedText = await tm.translate(dialogData.text, translation);
+        if (translation.fix) {
+            translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+        } else {
+            translatedText = await tm.translate(dialogData.text, translation);
+        }
     }
 
     if (dialogData.text !== '' && translatedText === '') {
@@ -360,6 +364,10 @@ async function translateName(name, katakanaName, translation) {
 
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
+    if (name === translatedName) {
+        return;
+    }
+
     chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
 
     if (name.length > 0 && name.length < 3) {

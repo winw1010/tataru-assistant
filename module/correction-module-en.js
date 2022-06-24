@@ -123,22 +123,26 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // name translation
     let translatedName = '';
-    if (npcChannel.includes(dialogData.code)) {
+    if (cfen.isChinese(dialogData.name) || !npcChannel.includes(dialogData.code)) {
+        translatedName = dialogData.name;
+    } else {
         if (translation.fix) {
             translatedName = await nameCorrection(dialogData.name, translation);
         } else {
             translatedName = await tm.translate(dialogData.name, translation);
         }
-    } else {
-        translatedName = dialogData.name;
     }
 
     // text translation
     let translatedText = '';
-    if (translation.fix) {
-        translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+    if (cfen.isChinese(dialogData.text)) {
+        translatedText = dialogData.text;
     } else {
-        translatedText = await tm.translate(dialogData.text, translation);
+        if (translation.fix) {
+            translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+        } else {
+            translatedText = await tm.translate(dialogData.text, translation);
+        }
     }
 
     // text check
@@ -205,19 +209,7 @@ async function nameCorrection(name, translation) {
         translatedName = cf.replaceText(translatedName, codeResult.table);
 
         // save to temp
-        chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
-
-        if (name.length < 3) {
-            chArray.chTemp.push([name + '#', translatedName, 'temp']);
-        } else {
-            chArray.chTemp.push([name, translatedName, 'temp']);
-        }
-
-        // set combine
-        chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-        // write
-        cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
+        saveName(name, translatedName);
 
         return translatedName;
     }
@@ -279,6 +271,26 @@ async function textCorrection(name, text, translation) {
 
         return text;
     }
+}
+
+function saveName(name = '', translatedName = '') {
+    if (name === translatedName) {
+        return;
+    }
+
+    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+
+    if (name.length < 3) {
+        chArray.chTemp.push([name + '#', translatedName, 'temp']);
+    } else {
+        chArray.chTemp.push([name, translatedName, 'temp']);
+    }
+
+    // set combine
+    chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+    // write
+    cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
 }
 
 exports.loadJSON_EN = loadJSON;

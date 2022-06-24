@@ -233,12 +233,13 @@ function sendIndex(channel, ...args) {
 }
 
 function checkDirectory() {
-    const userDirectory = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node';
+    const userDirectory = process.env.USERPROFILE + '\\Documents';
     const subDirectories = [
         '',
-        '\\log',
-        '\\setting',
-        '\\temp'
+        '\\Tataru Helper Node',
+        '\\Tataru Helper Node\\log',
+        '\\Tataru Helper Node\\setting',
+        '\\Tataru Helper Node\\temp'
     ];
 
     subDirectories.forEach((value) => {

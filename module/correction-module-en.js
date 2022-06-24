@@ -123,26 +123,22 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // name translation
     let translatedName = '';
-    if (cfen.isChinese(dialogData.name) || !npcChannel.includes(dialogData.code)) {
-        translatedName = dialogData.name;
-    } else {
+    if (npcChannel.includes(dialogData.code)) {
         if (translation.fix) {
             translatedName = await nameCorrection(dialogData.name, translation);
         } else {
             translatedName = await tm.translate(dialogData.name, translation);
         }
+    } else {
+        translatedName = dialogData.name;
     }
 
     // text translation
     let translatedText = '';
-    if (cfen.isChinese(dialogData.text)) {
-        translatedText = dialogData.text;
+    if (translation.fix) {
+        translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
     } else {
-        if (translation.fix) {
-            translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
-        } else {
-            translatedText = await tm.translate(dialogData.text, translation);
-        }
+        translatedText = await tm.translate(dialogData.text, translation);
     }
 
     // text check

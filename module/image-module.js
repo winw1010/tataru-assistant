@@ -188,7 +188,7 @@ function translate(text) {
 
     // fix
     if (config.translation.from === languageTable.ja) {
-        text = text.replaceAll(' ', '')
+        text = text.replaceAll(' ', '');
     }
 
     text = text

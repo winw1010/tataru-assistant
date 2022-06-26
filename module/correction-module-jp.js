@@ -285,13 +285,13 @@ async function textCorrection(name, text, translation) {
 
 // get katakana name
 function getKatakanaName(name = '') {
-    if (/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)$？*/gi.test(name)) {
+    if (/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)？*$/gi.test(name)) {
         // katakana + not katakana
-        return name.replaceAll(/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)$？*/gi, '$1');
-    } else if (/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)$？*/gi.test(name)) {
+        return name.replaceAll(/^([ァ-ヺ・ー]+)([^ァ-ヺ・ー]+)？*$/gi, '$1');
+    } else if (/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)？*$/gi.test(name)) {
         // not katakana + katakana
-        return name.replaceAll(/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)$？*/gi, '$2');
-    } else if (/^([ァ-ヺ・ー]+)$？*/gi.test(name)) {
+        return name.replaceAll(/^([^ァ-ヺ・ー]+)([ァ-ヺ・ー]+)？*$/gi, '$2');
+    } else if (/^([ァ-ヺ・ー]+)？*$/gi.test(name)) {
         // all katakana
         return name;
     } else {
@@ -424,12 +424,17 @@ function specialTextFix(name, text) {
 
     // 召喚士
     if (/ヤ・ミトラ|プリンキピア/gi.test(name)) {
-        text = text.replaceAll('サリ', 'サリ*');
+        text = text.replaceAll('サリ', 'サリ#');
     }
 
     // 暗黒騎士
     if (/フレイ|シドゥルグ|リエル|^ミスト(|の声)$/gi.test(name)) {
-        text = text.replaceAll('ミスト', 'ミスト*');
+        text = text.replaceAll('ミスト', 'ミスト#');
+    }
+
+    // あ……
+    while (/^[ぁ-ゖァ-ヺ]……/g.test(text)) {
+        text = text.replace(/^[ぁ-ゖァ-ヺ]……/gi, '');
     }
 
     return text;

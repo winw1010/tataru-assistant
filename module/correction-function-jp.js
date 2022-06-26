@@ -191,7 +191,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
 function canSkipTranslation(text) {
     // remove english word and marks
-    text = text.replaceAll(/[^ァ-ヺぁ-ゖ\u4E00-\u9FFF]/gi, '');
+    text = text.replaceAll(/[^ァ-ヺぁ-ゖ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi, '');
 
     return text === '';
 }

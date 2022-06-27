@@ -64,6 +64,7 @@ let jpArray = {
 
     // jp list
     listHira: [],
+    listReverse: [],
     listCrystalium: [],
 };
 
@@ -97,6 +98,7 @@ function loadJSON(language) {
 
     jpArray.kana = cf.readJSON(japaneseDirectory, 'kana.json');
     jpArray.listHira = cf.readJSON(japaneseDirectory, 'listHira.json');
+    jpArray.listReverse = cf.readJSON(japaneseDirectory, 'listReverse.json');
     jpArray.listCrystalium = cf.readJSON(japaneseDirectory, 'listCrystalium.json');
 
     // start/restart queue interval
@@ -227,8 +229,15 @@ async function textCorrection(name, text, translation) {
         // subtitle
         text = cf.replaceText(text, jpArray.subtitle);
 
-        // check katakana
-        const allKatakana = isAllKatakana(name, text);
+        // check kana type
+        let isAllKata = false;
+        if (cf.includesArrayItem(name, jpArray.listReverse)) {
+            // reverse kana
+            text = reverseKana(text);
+        } else {
+            // all kata check
+            isAllKata = allKataCheck(name, text);
+        }
 
         // mark fix
         text = cf.markFix(text);
@@ -246,9 +255,9 @@ async function textCorrection(name, text, translation) {
         // jp2
         text = cf.replaceText(text, jpArray.jp2);
 
-        // to hira
-        if (allKatakana) {
-            text = cf.replaceText(text, jpArray.kana, 1, 0);
+        // convert to hira
+        if (isAllKata) {
+            text = convertKana(text, 1, 0);
         }
 
         // value fix before
@@ -441,12 +450,32 @@ function specialTextFix(name, text) {
 }
 
 // katakana check
-function isAllKatakana(name, text) {
+function allKataCheck(name, text) {
     if (cf.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
     return /^[^ぁ-ゖ]+$/gi.test(text);
+}
+
+// convert kana
+function convertKana(text, index1, index2) {
+    return cf.replaceText(text, jpArray.kana, index1, index2);
+}
+
+// reverse kana
+function reverseKana(text) {
+    for (let index = 0; index < text.length; index++) {
+        const kana = text[index];
+
+        if (/ぁ-ゖ/gi.test(kana)) {
+            text[index] = convertKana(kana, 0, 1);
+        } else if (/ァ-ヺ/gi.test(kana)) {
+            text[index] = convertKana(kana, 1, 0);
+        }
+    }
+
+    return text;
 }
 
 exports.loadJSON_JP = loadJSON;

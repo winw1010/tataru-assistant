@@ -78,11 +78,6 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     if (dialogData && translation) {
         // save dialog
         saveLog(id, name, text, dialogData, translation);
-
-        // play audio
-        if (npcChannel.includes(dialogData.code)) {
-            addToPlaylist(dialogData, translation);
-        }
     }
 
     // move to dialog
@@ -140,16 +135,27 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     const fileLocation = logLocation + '\\' + createLogName(item.timestamp);
-    let log = {};
+    let log = null;
 
+    // read/create log file
     try {
         log = jsonFixer(readFileSync(fileLocation).toString()).data;
-        log[item.id] = item;
     } catch (error) {
         console.log(error);
-        log[item.id] = item;
+        log = {};
     }
 
+    // play audio at first time
+    if (!log[item.id]) {
+        if (npcChannel.includes(dialogData.code)) {
+            addToPlaylist(dialogData, translation);
+        }
+    }
+
+    // add/replcae log
+    log[item.id] = item;
+
+    // write log file
     try {
         writeFileSync(fileLocation, JSON.stringify(log, null, '\t'));
     } catch (error) {

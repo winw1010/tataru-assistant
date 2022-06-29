@@ -233,6 +233,7 @@ async function textCorrection(name, text, translation) {
         let isAllKata = false;
         if (cf.includesArrayItem(name, jpArray.listReverse)) {
             // reverse kana
+            console.log('reverse');
             text = reverseKana(text);
         } else {
             // all kata check
@@ -465,17 +466,20 @@ function convertKana(text, index1, index2) {
 
 // reverse kana
 function reverseKana(text) {
+    let newString = '';
     for (let index = 0; index < text.length; index++) {
-        const kana = text[index];
+        const word = text[index];
 
-        if (/ぁ-ゖ/gi.test(kana)) {
-            text[index] = convertKana(kana, 0, 1);
-        } else if (/ァ-ヺ/gi.test(kana)) {
-            text[index] = convertKana(kana, 1, 0);
+        if (/[ぁ-ゖ]/.test(word)) {
+            newString += convertKana(word, 0, 1);
+        } else if (/[ァ-ヺ]/.test(word)) {
+            newString += convertKana(word, 1, 0);
+        } else {
+            newString += word;
         }
     }
 
-    return text;
+    return newString;
 }
 
 exports.loadJSON_JP = loadJSON;

@@ -3,6 +3,9 @@
 // text to speech
 const googleTTS = require('google-tts-api');
 
+// cfjp
+const { convertKana } = require('./correction-function-jp');
+
 // language table
 const { googleTable, getTableValue } = require('./translator/language-table');
 
@@ -16,7 +19,7 @@ function addToPlaylist(dialogData, translation) {
     if (translation.autoPlay && dialogData.text !== '') {
         try {
             if (dialogData.text.length < 200) {
-                const url = googleTTS.getAudioUrl(dialogData.text, { lang: getTableValue(translation.from, googleTable) });
+                const url = googleTTS.getAudioUrl(convertKana(dialogData.text, 'hira'), { lang: getTableValue(translation.from, googleTable) });
                 const audio = new Audio(url);
                 audio.onended = () => {
                     isPlaying = false;

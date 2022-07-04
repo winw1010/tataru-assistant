@@ -234,7 +234,7 @@ async function textCorrection(name, text, translation) {
         if (cf.includesArrayItem(name, jpArray.listReverse)) {
             // reverse kana
             console.log('reverse');
-            text = reverseKana(text);
+            text = cfjp.reverseKana(text);
         } else {
             // all kata check
             isAllKata = allKataCheck(name, text);
@@ -258,7 +258,7 @@ async function textCorrection(name, text, translation) {
 
         // convert to hira
         if (isAllKata) {
-            text = convertKana(text, 1, 0);
+            text = cfjp.convertKana(text, 'hira');
         }
 
         // value fix before
@@ -335,6 +335,9 @@ async function translateName(name, katakanaName, translation) {
 
         // translated name
         let translatedName = '';
+
+        // mark fix
+        translatedName = cf.markFix(translatedName);
 
         // code
         const codeResult =
@@ -442,6 +445,11 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ミスト', 'ミスト#');
     }
 
+    // アチャラ
+    if (/アチャラ/gi.test(name)) {
+        text = text.replaceAll('オデ', '俺');
+    }
+
     // あ……
     while (/^[ぁ-ゖァ-ヺ]……/g.test(text)) {
         text = text.replace(/^[ぁ-ゖァ-ヺ]……/gi, '');
@@ -457,29 +465,6 @@ function allKataCheck(name, text) {
     }
 
     return /^[^ぁ-ゖ]+$/gi.test(text);
-}
-
-// convert kana
-function convertKana(text, index1, index2) {
-    return cf.replaceText(text, jpArray.kana, index1, index2);
-}
-
-// reverse kana
-function reverseKana(text) {
-    let newString = '';
-    for (let index = 0; index < text.length; index++) {
-        const word = text[index];
-
-        if (/[ぁ-ゖ]/.test(word)) {
-            newString += convertKana(word, 0, 1);
-        } else if (/[ァ-ヺ]/.test(word)) {
-            newString += convertKana(word, 1, 0);
-        } else {
-            newString += word;
-        }
-    }
-
-    return newString;
 }
 
 exports.loadJSON_JP = loadJSON;

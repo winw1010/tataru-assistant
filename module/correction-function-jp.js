@@ -14,6 +14,10 @@ const femaleWords = [
     'ティターニア'
 ];
 
+// kana
+const hiragana = 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
+const katakana = 'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ';
+
 // jp text function
 
 function replaceTextByCode(text, array, search = 0, replacement = 1) {
@@ -189,6 +193,44 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     return result;
 }
 
+function convertKana(text, type) {
+    switch (type) {
+        case 'hira':
+            for (let index = 0; index < katakana.length; index++) {
+                text = text.replaceAll(katakana[index], hiragana[index]);
+            }
+            break;
+
+        case 'kata':
+            for (let index = 0; index < hiragana.length; index++) {
+                text = text.replaceAll(hiragana[index], katakana[index]);
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return text;
+}
+
+function reverseKana(text) {
+    let newString = '';
+    for (let index = 0; index < text.length; index++) {
+        const word = text[index];
+
+        if (/[ぁ-ゖ]/.test(word)) {
+            newString += convertKana(word, 'kata');
+        } else if (/[ァ-ヺ]/.test(word)) {
+            newString += convertKana(word, 'hira');
+        } else {
+            newString += word;
+        }
+    }
+
+    return newString;
+}
+
 function canSkipTranslation(text) {
     // remove english word and marks
     text = text.replaceAll(/[^ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi, '');
@@ -219,6 +261,8 @@ function isChinese(text) {
 }
 
 exports.replaceTextByCode = replaceTextByCode;
+exports.convertKana = convertKana;
+exports.reverseKana = reverseKana;
 exports.canSkipTranslation = canSkipTranslation;
 exports.genderFix = genderFix;
 exports.isChinese = isChinese;

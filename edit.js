@@ -18,9 +18,6 @@ const { googleTable, getTableValue } = require('./module/translator/language-tab
 // cf
 const cf = require('./module/correction-function');
 
-// cfjp
-const { convertKana } = require('./module/correction-function-jp');
-
 // drag module
 const { setDragElement } = require('./module/drag-module');
 
@@ -100,7 +97,7 @@ function setIPC() {
                                 try {
                                     if (targetLog.text.length < 200) {
                                         const url = googleTTS.getAudioUrl(
-                                            convertKana(targetLog.text, 'hira'), { lang: getTableValue(targetLog.translation.from, googleTable) }
+                                            targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) }
                                         );
                                         console.log('TTS url:', url);
 

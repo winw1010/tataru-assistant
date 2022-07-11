@@ -147,6 +147,9 @@ async function startCorrection(dialogData, translation, tryCount) {
         return;
     }
 
+    // set audio text
+    dialogData.audioText = dialogData.text;
+
     // update dialog
     ipcRenderer.send('send-index', 'update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
 }

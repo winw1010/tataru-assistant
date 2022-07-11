@@ -169,13 +169,15 @@ async function startCorrection(dialogData, translation, tryCount) {
         return;
     }
 
-    // fix audio text
+    // set audio text
     if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
         // reverse kana
         dialogData.audioText = cfjp.reverseKana(dialogData.audioText);
     } else if (allKataCheck(dialogData.name, dialogData.text)) {
         // convert to hira
         dialogData.audioText = cfjp.convertKana(dialogData.audioText, 'hira');
+    } else {
+        dialogData.audioText = dialogData.text;
     }
 
     // update dialog

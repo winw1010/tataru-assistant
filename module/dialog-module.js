@@ -127,6 +127,7 @@ function saveLog(id, name, text, dialogData, translation) {
         player: dialogData.playerName,
         name: dialogData.name,
         text: dialogData.text,
+        audio_text: dialogData.audioText,
         translated_name: name,
         translated_text: text,
         timestamp: dialogData.timestamp,
@@ -148,7 +149,7 @@ function saveLog(id, name, text, dialogData, translation) {
     // play audio at first time
     if (!log[item.id]) {
         if (npcChannel.includes(dialogData.code)) {
-            addToPlaylist(dialogData, translation);
+            addToPlaylist(dialogData.audioText, translation);
         }
     }
 

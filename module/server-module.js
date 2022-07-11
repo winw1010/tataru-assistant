@@ -87,6 +87,9 @@ function dataProcess(data) {
                 }
                 lastTimestamp = dialogData.timestamp;
 
+                // set audio text
+                dialogData.audioText = dialogData.text;
+
                 // name check
                 if (dialogData.name === '...') {
                     dialogData.name = '';

@@ -12,11 +12,11 @@ let isPlaying = false;
 let playInterval = null;
 
 // add audio
-function addToPlaylist(dialogData, translation) {
-    if (translation.autoPlay && dialogData.text !== '') {
+function addToPlaylist(text, translation) {
+    if (translation.autoPlay && text !== '') {
         try {
-            if (dialogData.text.length < 200) {
-                const url = googleTTS.getAudioUrl(dialogData.text, { lang: getTableValue(translation.from, googleTable) });
+            if (text.length < 200) {
+                const url = googleTTS.getAudioUrl(text, { lang: getTableValue(translation.from, googleTable) });
                 const audio = new Audio(url);
                 audio.onended = () => {
                     isPlaying = false;
@@ -25,7 +25,7 @@ function addToPlaylist(dialogData, translation) {
                 // add to playlist
                 playlist.push(audio);
             } else {
-                const urls = googleTTS.getAllAudioUrls(dialogData.text, { lang: getTableValue(translation.from, googleTable) });
+                const urls = googleTTS.getAllAudioUrls(text, { lang: getTableValue(translation.from, googleTable) });
 
                 for (let index = 0; index < urls.length; index++) {
                     const url = urls[index].url;

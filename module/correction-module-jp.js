@@ -169,6 +169,15 @@ async function startCorrection(dialogData, translation, tryCount) {
         return;
     }
 
+    // fix audio text
+    if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
+        // reverse kana
+        dialogData.audioText = cfjp.reverseKana(dialogData.audioText);
+    } else if (allKataCheck(dialogData.name, dialogData.text)) {
+        // convert to hira
+        dialogData.audioText = cfjp.convertKana(dialogData.audioText, 'hira');
+    }
+
     // update dialog
     ipcRenderer.send('send-index', 'update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
 }
@@ -464,7 +473,7 @@ function allKataCheck(name, text) {
         return true;
     }
 
-    return /^[^ぁ-ゖ]+$/gi.test(text);
+    return /^[^ぁ-ゖ]+$/gi.test(text) && text.length > 10;
 }
 
 exports.loadJSON_JP = loadJSON;

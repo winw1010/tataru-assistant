@@ -93,11 +93,15 @@ function setIPC() {
                             console.log('target log:', targetLog);
 
                             // text to speech
-                            if (targetLog.text !== '') {
+                            if (!targetLog.audio_text) {
+                                targetLog.audio_text = targetLog.text;
+                            }
+
+                            if (targetLog.audio_text !== '') {
                                 try {
-                                    if (targetLog.text.length < 200) {
+                                    if (targetLog.audio_text.length < 200) {
                                         const url = googleTTS.getAudioUrl(
-                                            targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) }
+                                            targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) }
                                         );
                                         console.log('TTS url:', url);
 
@@ -108,7 +112,7 @@ function setIPC() {
                                             </audio>
                                         `;
                                     } else {
-                                        const urls = googleTTS.getAllAudioUrls(targetLog.text, { lang: getTableValue(targetLog.translation.from, googleTable) });
+                                        const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) });
                                         console.log('TTS url:', urls);
 
                                         let innerHTML = '';

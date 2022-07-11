@@ -193,7 +193,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     return result;
 }
 
-function convertKana(text, type) {
+function convertKana(text = '', type = '') {
     switch (type) {
         case 'hira':
             for (let index = 0; index < katakana.length; index++) {
@@ -214,7 +214,7 @@ function convertKana(text, type) {
     return text;
 }
 
-function reverseKana(text) {
+function reverseKana(text = '') {
     let newString = '';
     for (let index = 0; index < text.length; index++) {
         const word = text[index];

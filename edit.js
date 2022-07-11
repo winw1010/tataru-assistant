@@ -86,71 +86,17 @@ function setIPC() {
                     try {
                         const fileName = logFileList[index];
                         const log = jsonFixer(readFileSync(logLocation + '\\' + fileName).toString()).data;
+                        targetLog = log[id];
 
-                        if (log[id]) {
-                            targetLog = log[id];
+                        if (targetLog) {
                             console.log('log file:', fileName);
                             console.log('target log:', targetLog);
 
-                            // text to speech
-                            if (!targetLog.audio_text) {
-                                targetLog.audio_text = targetLog.text;
-                            }
+                            // show audio
+                            showAudio(targetLog);
 
-                            if (targetLog.audio_text !== '') {
-                                try {
-                                    if (targetLog.audio_text.length < 200) {
-                                        const url = googleTTS.getAudioUrl(
-                                            targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) }
-                                        );
-                                        console.log('TTS url:', url);
-
-                                        document.getElementById('div_audio').innerHTML = `
-                                            <audio controls preload="metadata">
-                                                <source src="${url}" type="audio/ogg">
-                                                <source src="${url}" type="audio/mpeg">
-                                            </audio>
-                                        `;
-                                    } else {
-                                        const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) });
-                                        console.log('TTS url:', urls);
-
-                                        let innerHTML = '';
-                                        for (let index = 0; index < urls.length; index++) {
-                                            const url = urls[index].url;
-
-                                            innerHTML += `
-                                                <audio controls preload="metadata">
-                                                    <source src="${url}" type="audio/ogg">
-                                                    <source src="${url}" type="audio/mpeg">
-                                                </audio>
-                                                <br>
-                                            `;
-                                        }
-
-                                        document.getElementById('div_audio').innerHTML = innerHTML;
-                                    }
-                                } catch (error) {
-                                    console.log(error);
-                                }
-                            }
-
-                            const dialog1 = document.getElementById('div_dialog1');
-                            const dialog2 = document.getElementById('div_dialog2');
-
-                            dialog1.replaceChildren();
-                            if (targetLog.name !== '') {
-                                dialog1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
-                            } else {
-                                dialog1.innerHTML = `<span>${targetLog.text}</span>`;
-                            }
-
-                            dialog2.replaceChildren();
-                            if (targetLog.translated_name !== '') {
-                                dialog2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
-                            } else {
-                                dialog2.innerHTML = `<span>${targetLog.translated_text}</span>`;
-                            }
+                            // show text
+                            showText(targetLog);
 
                             break;
                         }
@@ -279,6 +225,69 @@ function setButton() {
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
     };
+}
+
+async function showAudio(targetLog) {
+    if (!targetLog.audio_text) {
+        targetLog.audio_text = targetLog.text;
+    }
+
+    if (targetLog.audio_text !== '') {
+        try {
+            if (targetLog.audio_text.length < 200) {
+                const url = googleTTS.getAudioUrl(
+                    targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) }
+                );
+                console.log('TTS url:', url);
+
+                document.getElementById('div_audio').innerHTML = `
+                    <audio controls preload="metadata">
+                        <source src="${url}" type="audio/ogg">
+                        <source src="${url}" type="audio/mpeg">
+                    </audio>
+                `;
+            } else {
+                const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) });
+                console.log('TTS url:', urls);
+
+                let innerHTML = '';
+                for (let index = 0; index < urls.length; index++) {
+                    const url = urls[index].url;
+
+                    innerHTML += `
+                        <audio controls preload="metadata">
+                            <source src="${url}" type="audio/ogg">
+                            <source src="${url}" type="audio/mpeg">
+                        </audio>
+                        <br>
+                    `;
+                }
+
+                document.getElementById('div_audio').innerHTML = innerHTML;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+async function showText(targetLog) {
+    const text1 = document.getElementById('div_text1');
+    const text2 = document.getElementById('div_text2');
+
+    text1.replaceChildren();
+    if (targetLog.name !== '') {
+        text1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
+    } else {
+        text1.innerHTML = `<span>${targetLog.text}</span>`;
+    }
+
+    text2.replaceChildren();
+    if (targetLog.translated_name !== '') {
+        text2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
+    } else {
+        text2.innerHTML = `<span>${targetLog.translated_text}</span>`;
+    }
 }
 
 function addTemp(textBefore, textAfter, type, array) {

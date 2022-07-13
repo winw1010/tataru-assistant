@@ -25,29 +25,19 @@ let hideDialogTimeout = null;
 function appendBlankDialog(id, code) {
     if (document.getElementById(id)) {
         const dialog = document.getElementById(id);
-        dialog.replaceChildren();
         dialog.innerHTML = '<span>......</span>';
         return;
     }
 
-    const config = ipcRenderer.sendSync('get-config');
     const dialog = document.createElement('div');
     dialog.setAttribute('id', id);
     dialog.setAttribute('class', code);
     dialog.style.display = 'none';
-    dialog.style.fontWeight = config.dialog.weight;
-    dialog.style.color = config.channel[code] ? config.channel[code] : getColor(code);
-    dialog.style.fontSize = config.dialog.fontSize + 'rem';
-    dialog.style.marginTop = config.dialog.spacing + 'rem';
-    dialog.style.borderRadius = config.dialog.radius + 'rem';
-    dialog.style.backgroundColor = config.dialog.backgroundColor;
-
+    setStyle(dialog);
     document.getElementById('div_dialog').append(dialog);
 
-    try {
+    if (document.querySelectorAll('#div_dialog div').length > 0) {
         document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';
-    } catch (error) {
-        console.log(error);
     }
 }
 
@@ -118,6 +108,18 @@ function showDialog() {
             dialog.hidden = true;
         }, config.indexWindow.hideDialogTimeout * 1000);
     }
+}
+
+// set style
+function setStyle(dialog) {
+    const config = ipcRenderer.sendSync('get-config');
+
+    dialog.style.fontWeight = config.dialog.weight;
+    dialog.style.color = config.channel[dialog.className] ? config.channel[dialog.className] : getColor(dialog.className);
+    dialog.style.fontSize = config.dialog.fontSize + 'rem';
+    dialog.style.marginTop = config.dialog.spacing + 'rem';
+    dialog.style.borderRadius = config.dialog.radius + 'rem';
+    dialog.style.backgroundColor = config.dialog.backgroundColor;
 }
 
 // save dialog
@@ -218,6 +220,7 @@ function clearSelection() {
 exports.appendBlankDialog = appendBlankDialog;
 exports.updateDialog = updateDialog;
 exports.appendNotification = appendNotification;
+exports.setStyle = setStyle;
 exports.createLogName = createLogName;
 exports.showDialog = showDialog;
 exports.moveToBottom = moveToBottom;

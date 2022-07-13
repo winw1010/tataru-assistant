@@ -21,7 +21,7 @@ const { loadJSON_JP } = require('./module/correction-module-jp');
 const { loadJSON_EN } = require('./module/correction-module-en');
 
 // dialog module
-const { appendBlankDialog, updateDialog, appendNotification, showDialog, moveToBottom } = require('./module/dialog-module');
+const { appendBlankDialog, updateDialog, appendNotification, showDialog, setStyle, moveToBottom } = require('./module/dialog-module');
 
 // drag module
 const { setDragElement } = require('./module/drag-module');
@@ -266,13 +266,7 @@ function resetView(config) {
     const dialogs = document.querySelectorAll('#div_dialog div');
     if (dialogs.length > 0) {
         dialogs.forEach((value) => {
-            const element = document.getElementById(value.id);
-            element.style.fontWeight = config.dialog.weight;
-            element.style.color = config.channel[element.getAttribute('class')];
-            element.style.fontSize = config.dialog.fontSize + 'rem';
-            element.style.marginTop = config.dialog.spacing + 'rem';
-            element.style.borderRadius = config.dialog.radius + 'rem';
-            element.style.backgroundColor = config.dialog.backgroundColor;
+            setStyle(document.getElementById(value.id));
         });
 
         document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';

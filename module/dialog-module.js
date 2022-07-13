@@ -35,6 +35,7 @@ function appendBlankDialog(id, code) {
     dialog.setAttribute('id', id);
     dialog.setAttribute('class', code);
     dialog.style.display = 'none';
+    dialog.style.fontWeight = config.dialog.weight;
     dialog.style.color = config.channel[code] ? config.channel[code] : getColor(code);
     dialog.style.fontSize = config.dialog.fontSize + 'rem';
     dialog.style.marginTop = config.dialog.spacing + 'rem';

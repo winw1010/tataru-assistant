@@ -28,6 +28,7 @@ const defaultConfig = {
         backgroundColor: '#20202050'
     },
     dialog: {
+        weight: 'normal',
         fontSize: '1.1',
         spacing: '1',
         radius: '0',
@@ -69,15 +70,34 @@ const defaultConfig = {
 function loadConfig() {
     try {
         const config = JSON.parse(readFileSync(configLocation));
+        const mainNames = Object.getOwnPropertyNames(defaultConfig);
 
-        if (!config.server || !config.server.host || !config.server.port) {
-            throw null;
-        }
+        mainNames.forEach((mainName) => {
+            if (config[mainName]) {
+                // skip checking when value is channel
+                if (mainName === 'channel') {
+                    return;
+                }
 
-        const defaultNames = Object.getOwnPropertyNames(defaultConfig);
-        defaultNames.forEach((value) => {
-            if (isDifferent(config, value) && value !== 'channel') {
-                throw null;
+                // add property
+                const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
+                subNames.forEach((subName) => {
+                    if (!config[mainName][subName]) {
+                        config[mainName][subName] = defaultConfig[mainName][subName];
+                    }
+                });
+
+                // delete redundant property
+                const subNames2 = Object.getOwnPropertyNames(config[mainName]);
+                if (subNames.length != subNames2.length) {
+                    subNames2.forEach((subName) => {
+                        if (!defaultConfig[mainName][subName]) {
+                            delete config[mainName][subName];
+                        }
+                    });
+                }
+            } else {
+                config[mainName] = defaultConfig[mainName];
             }
         });
 
@@ -85,15 +105,6 @@ function loadConfig() {
     } catch (error) {
         saveDefaultConfig();
         return defaultConfig;
-    }
-}
-
-function isDifferent(config, name) {
-    try {
-        return !config[name] ||
-            Object.getOwnPropertyNames(config[name]).length !== Object.getOwnPropertyNames(defaultConfig[name]).length;
-    } catch (error) {
-        return true;
     }
 }
 

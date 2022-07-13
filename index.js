@@ -267,6 +267,7 @@ function resetView(config) {
     if (dialogs.length > 0) {
         dialogs.forEach((value) => {
             const element = document.getElementById(value.id);
+            element.style.fontWeight = config.dialog.weight;
             element.style.color = config.channel[element.getAttribute('class')];
             element.style.fontSize = config.dialog.fontSize + 'rem';
             element.style.marginTop = config.dialog.spacing + 'rem';

@@ -211,6 +211,8 @@ function showConfig() {
     document.getElementById('range_background_transparency').value = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
 
     // font
+    document.getElementById('select_font_weight').value = config.dialog.weight;
+
     document.getElementById('input_font_size').value = config.dialog.fontSize;
 
     document.getElementById('input_dialog_spacing').value = config.dialog.spacing;
@@ -273,6 +275,8 @@ function setConfig() {
     config.indexWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;
 
     // font
+    config.dialog.weight = document.getElementById('select_font_weight').value;
+
     config.dialog.fontSize = document.getElementById('input_font_size').value;
 
     config.dialog.spacing = document.getElementById('input_dialog_spacing').value;

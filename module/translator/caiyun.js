@@ -28,7 +28,7 @@ async function translate(text, languageFrom, languageTo) {
 
         const response = await httpsRequest(url, options, postData);
 
-        console.log('Caiyun:', response);
+        console.log('Caiyun:', JSON.parse(response).target);
         return JSON.parse(response).target;
     } catch (error) {
         console.log('Caiyun:', error);

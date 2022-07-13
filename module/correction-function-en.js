@@ -35,7 +35,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
     // set code
     let codeIndex = 0;
-    let codeString = 'BCFGHJKLMNPQRSTVWXYZ';
+    let codeString = 'BCFGHJLMNPQRSTVWXYZ';
 
     // clear code
     const characters = text.match(/[a-z]/gi);

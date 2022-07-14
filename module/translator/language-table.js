@@ -1,6 +1,11 @@
 'use strict';
 
-const engineList = ['Baidu', 'Caiyun', 'Youdao', 'Google'];
+const engineList = [
+    //'Baidu',
+    'Caiyun',
+    //'Youdao',
+    'Google'
+];
 
 const languageTable = {
     auto: 'Auto',

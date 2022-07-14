@@ -1,5 +1,7 @@
 'use strict';
 
+// 測試中
+
 const {
     languageTable,
     engineList,
@@ -105,7 +107,7 @@ function missingCodeCheck(text, table) {
     if (table.length > 0) {
         for (let index = 0; index < table.length; index++) {
             const code = table[index][0];
-            if (!text.includes(code)) {
+            if (!new RegExp(code, 'gi').test(text)) {
                 missingCodes.push(code);
             }
         }

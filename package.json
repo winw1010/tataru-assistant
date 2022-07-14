@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@hobbica98/google-translate-api": "^1.1.1",
+        "axios": "^0.27.2",
         "download-git-repo": "^3.0.2",
         "google-tts-api": "^2.0.2",
         "json-fixer": "^1.6.13",

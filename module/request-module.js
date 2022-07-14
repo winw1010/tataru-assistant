@@ -1,5 +1,22 @@
 'use strict';
 
+// axios
+const axios = require('axios').default;
+
+// get
+function axiosGet(...args) {
+    return axios.get(...args);
+}
+
+// post
+function axiosPost(...args) {
+    return axios.post(...args);
+}
+
+exports.axiosGet = axiosGet;
+exports.axiosPost = axiosPost;
+
+/*
 // https
 const https = require('https');
 
@@ -29,3 +46,4 @@ function httpsRequest(url, options, data = null) {
 }
 
 exports.httpsRequest = httpsRequest;
+*/

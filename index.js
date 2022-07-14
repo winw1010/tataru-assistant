@@ -9,8 +9,9 @@ const { execSync } = require('child_process');
 // download github repo
 const downloadGitRepo = require('download-git-repo');
 
-// get
-const { httpsRequest } = require('./module/https-module');
+// requset
+//const { httpsRequest } = require('./module/https-module');
+const { axiosGet } = require('./module/request-module');
 
 // audio module
 const { clearPlaylist, startPlaying } = require('./module/audio-module');
@@ -358,11 +359,18 @@ function readJSON() {
 // version check
 async function versionCheck() {
     try {
-        const url = 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json'
+        /*
+        const url = 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json';
         const response = await httpsRequest(url, { method: 'GET', timeout: 10000 });
-
         const latestVersion = JSON.parse(response).number;
+        */
+
+        const response = await axiosGet('https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json', { timeout: 10000 });
+        const latestVersion = response.data.number;
         const appVersion = ipcRenderer.sendSync('get-version');
+
+        console.log('Latest version:', latestVersion);
+        console.log('App version:', appVersion);
 
         if (latestVersion === appVersion) {
             document.getElementById('img_button_update').hidden = true;

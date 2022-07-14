@@ -27,8 +27,9 @@ const { createLogName } = require('./module/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
-// https
-const { httpsRequest } = require('./module/https-module');
+// request
+//const { httpsRequest } = require('./module/https-module');
+const { axiosPost } = require('./module/request-module');
 
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
@@ -337,9 +338,10 @@ function postToForm() {
             `&${entry3}=${text1}` +
             `&${entry4}=${text2}`;
 
-        httpsRequest(url, { method: 'POST', timeout: 10000 });
-
+        //httpsRequest(url, { method: 'POST', timeout: 10000 });
+        axiosPost(url, null, { timeout: 10000 });
         ipcRenderer.send('send-index', 'show-notification', `回報完畢`);
+
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

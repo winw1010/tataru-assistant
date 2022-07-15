@@ -25,10 +25,8 @@ async function getAuth() {
 // translate
 async function translate(text, languageFrom, languageTo) {
     const auth = await getAuth();
-    console.log('auth:', auth);
-
     if (!auth) {
-        return;
+        return '';
     }
 
     const postData =
@@ -53,18 +51,18 @@ async function translate(text, languageFrom, languageTo) {
     */
 
     try {
-        const headers = {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Origin': 'https://fanyi.qq.com/api/translate'
-        }
+        const response = await axiosPost('https://fanyi.qq.com/api/translate', encodeURI(postData), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Origin': 'https://fanyi.qq.com/api/translate'
+            }
+        });
 
-        const response = await axiosPost('https://fanyi.qq.com/api/translate', encodeURI(postData), { headers: headers });
-        console.log('header:', response.headers);
         console.log('data:', response.data);
-        //return response.data;
+        return '';
     } catch (error) {
         console.log('Tencent error:', error.toString());
-        //return '';
+        return '';
     }
 }
 

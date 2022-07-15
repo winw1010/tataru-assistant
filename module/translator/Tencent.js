@@ -26,7 +26,7 @@ async function getAuth() {
 async function translate(text, languageFrom, languageTo) {
     const auth = await getAuth();
     if (!auth) {
-        return '';
+        throw 'Auth is null';
     }
 
     const postData =

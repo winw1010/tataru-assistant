@@ -39,7 +39,7 @@ async function getAuthentication(baiduApi) {
 async function translate(text, languageFrom, languageTo) {
     const baiduApi = createBaiduApi();
     const auth = await getAuthentication(baiduApi);
-    const data =
+    const postData =
         "from=" + languageFrom +
         "&to=" + languageTo +
         "&query=" + text +
@@ -47,7 +47,7 @@ async function translate(text, languageFrom, languageTo) {
         "&token=" + auth.token;
 
     try {
-        const response = await baiduApi.post('/v2transapi', encodeURI(data), {
+        const response = await baiduApi.post('/v2transapi', encodeURI(postData), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
             responseType: 'json'
         });

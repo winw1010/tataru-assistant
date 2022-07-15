@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.24",
+    "version": "2.0.25",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {

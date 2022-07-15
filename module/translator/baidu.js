@@ -6,28 +6,24 @@ const { axiosCreate } = require('../request-module');
 // get sign
 const { getSign } = require('./baiduEncoder');
 
-// create baidu api
-function createBaiduApi() {
-    return axiosCreate({
-        baseURL: 'https://fanyi.baidu.com',
-        timeout: 5000,
-    });
-}
+// RegExp
+const tokenRegExp = /token:\s*?'(.*?)'/gi;
+const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/gi;
 
 // get authentication 
 async function getAuthentication(baiduApi) {
     try {
         // get token and gtk
         const response = await baiduApi.get('/');
-        let token = /token: '(.*?)'/gi.exec(response.data);
-        let gtk = /gtk = "(.*?)"/gi.exec(response.data);
+        let token = tokenRegExp.exec(response.data);
+        let gtk = gtkRegExp.exec(response.data);
 
         if (token) {
-            token = token[0].replace(/token: '(.*?)'/gi, '$1');
+            token = token[0].replace(tokenRegExp, '$1');
         }
 
         if (gtk) {
-            gtk = gtk[0].replace(/gtk = "(.*?)"/gi, '$1');
+            gtk = gtk[0].replace(gtkRegExp, '$1');
         }
 
         return {
@@ -42,7 +38,11 @@ async function getAuthentication(baiduApi) {
 
 // translate
 async function translate(text, languageFrom, languageTo) {
-    const baiduApi = createBaiduApi();
+    const baiduApi = axiosCreate({
+        baseURL: 'https://fanyi.baidu.com',
+        timeout: 5000,
+    });
+
     const auth = await getAuthentication(baiduApi);
     if (!auth) {
         throw 'Auth is null';

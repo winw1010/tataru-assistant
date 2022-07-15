@@ -9,8 +9,6 @@ const { axiosCreate, axiosGet } = require('../request-module');
 // RegExp
 const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(.*?)"/gi;
 
-// getSign
-
 // translate
 async function translate(text, languageFrom, languageTo) {
     try {

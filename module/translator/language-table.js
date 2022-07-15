@@ -3,6 +3,8 @@
 const engineList = [
     'Baidu',
     'Caiyun',
+    //'Papago',
+    //'DeepL',
     //'Youdao',
     'Google'
 ];

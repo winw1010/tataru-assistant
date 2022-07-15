@@ -38,24 +38,24 @@ async function getAuthentication(baiduApi) {
 
 // translate
 async function translate(text, languageFrom, languageTo) {
-    const baiduApi = axiosCreate({
-        baseURL: 'https://fanyi.baidu.com',
-        timeout: 5000,
-    });
-
-    const auth = await getAuthentication(baiduApi);
-    if (!auth) {
-        throw 'Auth is null';
-    }
-
-    const postData =
-        "from=" + languageFrom +
-        "&to=" + languageTo +
-        "&query=" + text +
-        "&transtype=realtime&simple_means_flag=3&sign=" + getSign(text, auth.gtk) +
-        "&token=" + auth.token;
-
     try {
+        const baiduApi = axiosCreate({
+            baseURL: 'https://fanyi.baidu.com',
+            timeout: 5000,
+        });
+
+        const auth = await getAuthentication(baiduApi);
+        if (!auth) {
+            throw 'Auth is null';
+        }
+
+        const postData =
+            "from=" + languageFrom +
+            "&to=" + languageTo +
+            "&query=" + text +
+            "&transtype=realtime&simple_means_flag=3&sign=" + getSign(text, auth.gtk) +
+            "&token=" + auth.token;
+
         const response = await baiduApi.post('/v2transapi', encodeURI(postData), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
             responseType: 'json'

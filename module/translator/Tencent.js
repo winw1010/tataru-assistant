@@ -3,16 +3,15 @@
 // 測試中
 
 // request
-const { axiosPost } = require('../request-module');
+const { axiosCreate } = require('../request-module');
 
-async function getAuth() {
+async function getAuth(tencentApi) {
     try {
         const headers = {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Origin': 'https://fanyi.qq.com/api/translate'
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
 
-        const response = await axiosPost('https://fanyi.qq.com/api/reauth12f', null, { headers: headers });
+        const response = await tencentApi.post('/reauth12f', null, { headers: headers });
         return {
             qtv: response.data.qtv,
             qtk: response.data.qtk
@@ -24,37 +23,43 @@ async function getAuth() {
 
 // translate
 async function translate(text, languageFrom, languageTo) {
-    const auth = await getAuth();
-    if (!auth) {
-        throw 'Auth is null';
-    }
-
-    const postData =
-        "source=" + languageFrom +
-        "&target=" + languageTo +
-        "&sourceText=" + text +
-        "&qtv=" + auth.qtv +
-        "&qtk=" + auth.qtk +
-        "&sessionUuid=" + 'translate_uuid' + new Date().getTime();
-
-    /*
-    const postData = {
-        source: languageFrom,
-        target: languageTo,
-        sourceText: text,
-        qtv: auth.qtv,
-        qtk: auth.qtk,
-        ticket: '',
-        randstr: '',
-        sessionUuid: 'translate_uuid' + new Date().getTime()
-    };
-    */
-
     try {
-        const response = await axiosPost('https://fanyi.qq.com/api/translate', encodeURI(postData), {
+        const tencentApi = axiosCreate({
+            baseURL: 'https://fanyi.qq.com/api',
+            timeout: 5000,
+        });
+
+        const auth = await getAuth(tencentApi);
+        if (!auth) {
+            throw 'Auth is null';
+        }
+
+        const postData =
+            "source=" + languageFrom +
+            "&target=" + languageTo +
+            "&sourceText=" + text +
+            "&qtv=" + auth.qtv +
+            "&qtk=" + auth.qtk +
+            "&ticket=" +
+            "&randstr=" +
+            "&sessionUuid=" + 'translate_uuid' + new Date().getTime();
+
+        /*
+        const postData = {
+            source: languageFrom,
+            target: languageTo,
+            sourceText: text,
+            qtv: auth.qtv,
+            qtk: auth.qtk,
+            ticket: '',
+            randstr: '',
+            sessionUuid: 'translate_uuid' + new Date().getTime()
+        };
+        */
+
+        const response = await tencentApi.post('/translate', encodeURI(postData), {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Origin': 'https://fanyi.qq.com/api/translate'
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         });
 
@@ -66,6 +71,4 @@ async function translate(text, languageFrom, languageTo) {
     }
 }
 
-translate();
-
-//exports.translate = translate;
+exports.translate = translate;

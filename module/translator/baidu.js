@@ -22,11 +22,11 @@ async function getAuthentication(baiduApi) {
     let gtk = /gtk = "(.*?)"/gi.exec(response.data);
 
     if (token) {
-        token = token[0].replace(/token: '(.*)'/gi, '$1');
+        token = token[0].replace(/token: '(.*?)'/gi, '$1');
     }
 
     if (gtk) {
-        gtk = gtk[0].replace(/gtk = "(.*)"/gi, '$1');
+        gtk = gtk[0].replace(/gtk = "(.*?)"/gi, '$1');
     }
 
     return {

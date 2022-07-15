@@ -14,14 +14,14 @@ const options = {
 
 // translate
 async function translate(text, languageFrom, languageTo) {
-    const postData = JSON.stringify({
+    const postData = {
         source: text,
         trans_type: `${languageFrom}2${languageTo}`,
         replaced: true,
         detect: true,
         media: 'text',
         request_id: '5a096eec830f7876a48aac47'
-    });
+    };
 
     try {
         const response = await axiosPost('https://api.interpreter.caiyunai.com/v1/translator', postData, options);

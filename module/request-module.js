@@ -2,6 +2,12 @@
 
 // axios
 const axios = require('axios').default;
+axios.defaults.withCredentials = true;
+
+// create
+function axiosCreate(...args) {
+    return axios.create(...args);
+}
 
 // get
 function axiosGet(...args) {
@@ -13,6 +19,7 @@ function axiosPost(...args) {
     return axios.post(...args);
 }
 
+exports.axiosCreate = axiosCreate;
 exports.axiosGet = axiosGet;
 exports.axiosPost = axiosPost;
 

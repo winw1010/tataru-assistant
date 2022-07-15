@@ -1,4 +1,4 @@
-var i = '320305.131321201';
+// var i = '320305.131321201';
 
 function a(r) {
     if (Array.isArray(r)) {
@@ -19,7 +19,7 @@ function n(r, o) {
     return r
 }
 
-function e(r) {
+function e(r, i) {
     var o = r.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
     if (null === o) {
         var t = r.length;

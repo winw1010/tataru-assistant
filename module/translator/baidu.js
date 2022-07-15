@@ -16,22 +16,27 @@ function createBaiduApi() {
 
 // get authentication 
 async function getAuthentication(baiduApi) {
-    // get token and gtk
-    const response = await baiduApi.get('/');
-    let token = /token: '(.*?)'/gi.exec(response.data);
-    let gtk = /gtk = "(.*?)"/gi.exec(response.data);
+    try {
+        // get token and gtk
+        const response = await baiduApi.get('/');
+        let token = /token: '(.*?)'/gi.exec(response.data);
+        let gtk = /gtk = "(.*?)"/gi.exec(response.data);
 
-    if (token) {
-        token = token[0].replace(/token: '(.*?)'/gi, '$1');
-    }
+        if (token) {
+            token = token[0].replace(/token: '(.*?)'/gi, '$1');
+        }
 
-    if (gtk) {
-        gtk = gtk[0].replace(/gtk = "(.*?)"/gi, '$1');
-    }
+        if (gtk) {
+            gtk = gtk[0].replace(/gtk = "(.*?)"/gi, '$1');
+        }
 
-    return {
-        token: token,
-        gtk: gtk
+        return {
+            token: token,
+            gtk: gtk
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 }
 
@@ -39,6 +44,10 @@ async function getAuthentication(baiduApi) {
 async function translate(text, languageFrom, languageTo) {
     const baiduApi = createBaiduApi();
     const auth = await getAuthentication(baiduApi);
+    if (!auth) {
+        throw 'Auth is null';
+    }
+
     const postData =
         "from=" + languageFrom +
         "&to=" + languageTo +

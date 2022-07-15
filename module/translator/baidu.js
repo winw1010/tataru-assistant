@@ -10,32 +10,6 @@ const { getSign } = require('./baiduEncoder');
 const tokenRegExp = /token:\s*?'(.*?)'/gi;
 const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/gi;
 
-// get authentication 
-async function getAuthentication(baiduApi) {
-    try {
-        // get token and gtk
-        const response = await baiduApi.get('/');
-        let token = tokenRegExp.exec(response.data);
-        let gtk = gtkRegExp.exec(response.data);
-
-        if (token) {
-            token = token[0].replace(tokenRegExp, '$1');
-        }
-
-        if (gtk) {
-            gtk = gtk[0].replace(gtkRegExp, '$1');
-        }
-
-        return {
-            token: token,
-            gtk: gtk
-        }
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-}
-
 // translate
 async function translate(text, languageFrom, languageTo) {
     try {
@@ -65,6 +39,32 @@ async function translate(text, languageFrom, languageTo) {
     } catch (error) {
         console.log('Baidu:', error);
         return '';
+    }
+}
+
+// get authentication 
+async function getAuthentication(baiduApi) {
+    try {
+        // get token and gtk
+        const response = await baiduApi.get('/');
+        let token = tokenRegExp.exec(response.data);
+        let gtk = gtkRegExp.exec(response.data);
+
+        if (token) {
+            token = token[0].replace(tokenRegExp, '$1');
+        }
+
+        if (gtk) {
+            gtk = gtk[0].replace(gtkRegExp, '$1');
+        }
+
+        return {
+            token: token,
+            gtk: gtk
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 }
 

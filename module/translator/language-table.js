@@ -44,8 +44,8 @@ const youdaoTable = {
     'Auto': 'auto',
     'Japanese': 'ja',
     'English': 'en',
-    'Traditional-Chinese': 'zh',
-    'Simplified-Chinese': 'zh'
+    'Traditional-Chinese': 'zh-CHS',
+    'Simplified-Chinese': 'zh-CHS'
 }
 
 const googleTable = {

@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.25",
+    "version": "2.0.26",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -22,13 +22,13 @@
     "dependencies": {
         "@hobbica98/google-translate-api": "^1.1.1",
         "axios": "^0.27.2",
+        "crypto-js": "^4.1.1",
         "download-git-repo": "^3.0.2",
         "google-tts-api": "^2.0.2",
         "json-fixer": "^1.6.13",
         "screenshot-desktop": "^1.12.7",
         "sharp": "^0.30.6",
-        "tesseract.js": "^2.1.5",
-        "translators": "^1.0.3"
+        "tesseract.js": "^2.1.5"
     },
     "build": {
         "appId": "com.app.tataru.helper.node",

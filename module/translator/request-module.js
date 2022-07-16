@@ -4,53 +4,58 @@
 const { net } = require('electron');
 
 // start request
-function startRequest(options, callback = null, headers = [], data = null) {
+function startRequest({ options, headers = [], data = null, callback = null }) {
     return new Promise((resolve, reject) => {
-        const request = net.request(options);
+        try {
+            const request = net.request(options);
 
-        for (let index = 0; index < headers.length; index++) {
-            const header = headers[index];
-            request.setHeader(header[0], header[1]);
-        }
+            for (let index = 0; index < headers.length; index++) {
+                const header = headers[index];
+                request.setHeader(header[0], header[1]);
+            }
 
-        request.on('response', (response) => {
-            response.on('data', (chunk) => {
-                if (response.statusCode === 200) {
-                    if (callback) {
-                        let result = null;
-                        result = callback(response, chunk);
+            request.on('response', (response) => {
+                response.on('data', (chunk) => {
+                    if (response.statusCode === 200) {
+                        if (callback) {
+                            let result = null;
+                            result = callback(response, chunk);
 
-                        if (result) {
+                            if (result) {
+                                request.abort();
+                                resolve(result);
+                            }
+                        } else {
                             request.abort();
-                            resolve(result);
+                            resolve({
+                                response: response,
+                                chunk: chunk
+                            });
                         }
-                    } else {
-                        request.abort();
-                        resolve({
-                            response: response,
-                            chunk: chunk
-                        });
                     }
-                }
+                });
+
+                response.on('end', () => {
+                    request.abort();
+                    console.log('Response end');
+                    resolve(null);
+                });
             });
 
-            response.on('end', () => {
-                request.abort();
-                console.log('Response end');
-                resolve(null);
+            request.on('error', (error) => {
+                console.log(error);
+                reject(null);
             });
-        });
 
-        request.on('error', (error) => {
+            if (data) {
+                request.write(data);
+            }
+
+            request.end();
+        } catch (error) {
             console.log(error);
-            reject(error);
-        });
-
-        if (data) {
-            request.write(data);
+            reject(null);
         }
-
-        request.end();
     });
 }
 

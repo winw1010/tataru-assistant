@@ -58,7 +58,7 @@ async function executeEngine(engine, option) {
         case 'Baidu':
             //translatedText = await baidu.translate(option.text, option.from, option.to);
             translatedText = ipcRenderer.sendSync('translate', engine, option);
-            console.log(engine, translatedText);
+            console.log(engine + ':', translatedText);
             break;
 
         case 'Caiyun':
@@ -76,7 +76,7 @@ async function executeEngine(engine, option) {
         default:
             //translatedText = await baidu.translate(option.text, option.from, option.to);
             translatedText = ipcRenderer.sendSync('translate', 'Baidu', option);
-            console.log(engine, translatedText);
+            console.log(engine + ':', translatedText);
     }
 
     return translatedText;

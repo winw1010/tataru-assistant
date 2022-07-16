@@ -1,17 +1,6 @@
 'use strict';
 
-// 測試中
-
-const {
-    languageTable,
-    engineList,
-    baiduTable,
-    caiyunTable,
-    youdaoTable,
-    googleTable,
-    getTableValue
-} = require('./translator/language-table');
-
+const { languageEnum, engineList, getOption } = require('./translator/engine-module');
 const baidu = require('./translator/baidu');
 const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
@@ -19,24 +8,18 @@ const google = require('./translator/google');
 
 async function translate(text, translation, table = []) {
     const engine = translation.engine;
-    const languageFrom = translation.from;
-    const languageTo = translation.to;
     const autoChange = translation.autoChange;
 
-    // set input
-    let input = {
-        text: text,
-        from: languageFrom,
-        to: languageTo
-    };
+    // set option
+    let option = getOption(text, translation);
 
     let translatedText = '';
     let retryCount = 0;
     let missingCodes = [];
 
     do {
-        input.text = fixCode(input.text, missingCodes);
-        translatedText = await selectEngine(engine, input);
+        option.text = fixCode(option.text, missingCodes);
+        translatedText = await executeEngine(engine, option);
         retryCount++;
 
         // auto change
@@ -50,7 +33,7 @@ async function translate(text, translation, table = []) {
                     if (element !== engine) {
                         console.log(`Use ${element}.`);
 
-                        translatedText = await selectEngine(element, input);
+                        translatedText = await executeEngine(element, option);
                         if (translatedText !== '') {
                             break;
                         }
@@ -62,38 +45,38 @@ async function translate(text, translation, table = []) {
         missingCodes = missingCodeCheck(translatedText, table);
     } while (missingCodes.length > 0 && retryCount < 3);
 
-    return await zhtConvert(translatedText, languageTo);
+    return await zhtConvert(translatedText, translation.to);
 }
 
-async function selectEngine(engine, input) {
+async function executeEngine(engine, option) {
     let translatedText = '';
 
     switch (engine) {
         case 'Baidu':
-            translatedText = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
+            translatedText = await baidu.translate(option.text, option.from, option.to);
             break;
 
         case 'Caiyun':
-            translatedText = await caiyun.translate(input.text, getTableValue(input.from, caiyunTable), getTableValue(input.to, caiyunTable));
+            translatedText = await caiyun.translate(option.text, option.from, option.to);
             break;
 
         case 'Youdao':
-            translatedText = await youdao.translate(input.text, getTableValue(input.from, youdaoTable), getTableValue(input.to, youdaoTable));
+            translatedText = await youdao.translate(option.text, option.from, option.to);
             break;
 
         case 'Google':
-            translatedText = await google.translate(input.text, getTableValue(input.from, googleTable), getTableValue(input.to, googleTable));
+            translatedText = await google.translate(option.text, option.from, option.to);
             break;
 
         default:
-            translatedText = await baidu.translate(input.text, getTableValue(input.from, baiduTable), getTableValue(input.to, baiduTable));
+            translatedText = await baidu.translate(option.text, option.from, option.to);
     }
 
     return translatedText;
 }
 
 async function zhtConvert(text, languageTo) {
-    if (languageTo === languageTable.zht && text !== '') {
+    if (languageTo === languageEnum.zht && text !== '') {
         const response = await google.translate(text, 'zh-CN', 'zh-TW');
         return response !== '' ? response : text;
     } else {

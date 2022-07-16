@@ -4,7 +4,7 @@
 const CryptoJS = require("crypto-js");
 
 // request
-const { axiosCreate, axiosGet } = require('../request-module');
+const { axiosGet } = require('../request-module');
 
 // RegExp
 const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(.*?)"/gi;
@@ -12,18 +12,14 @@ const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(.*?)
 // translate
 async function translate(text, languageFrom, languageTo) {
     try {
-        const youdaoApi = axiosCreate({
-            baseURL: 'https://fanyi.youdao.com',
-            timeout: 5000,
-        });
-
-        const auth = await getAuthentication(youdaoApi);
+        const auth = await getAuthentication();
         if (!auth) {
             throw 'Auth is null';
         }
 
-        const ctime = new Date().getTime().toString();
-        const salt = ctime + parseInt(10 * Math.random(), 10);
+        const ctime = new Date().getTime();
+        const salt = ctime.toString() + parseInt(10 * Math.random(), 10).toString();
+
         const postData =
             "i=" + text +
             "&from=" + languageFrom +
@@ -33,22 +29,56 @@ async function translate(text, languageFrom, languageTo) {
             "&salt=" + salt +
             "&sign=" + CryptoJS.MD5('fanyideskweb' + text + salt + auth.fanyideskweb).toString() +
             "&lts=" + ctime +
-            "&bv=" + CryptoJS.MD5(navigator.appVersion).toString() +
+            "&bv=" + 'f0819a82107e6150005e75ef5fddcc3b' + //CryptoJS.MD5(ua).toString() +
             "&doctype=json" +
             "&version=2.1" +
             "&keyfrom=fanyi.web" +
             "&action=FY_BY_REALTlME"; //FY_BY_CLICKBUTTION
 
-        console.log(postData);
+        /*
+        const postData = JSON.stringify({
+            i: text,
+            from: languageFrom,
+            to: languageTo,
+            smartresult: 'dict',
+            client: 'fanyideskweb',
+            salt: salt,
+            sign: CryptoJS.MD5('fanyideskweb' + text + salt + auth.fanyideskweb).toString(),
+            lts: ctime.toString(),
+            bv: 'f0819a82107e6150005e75ef5fddcc3b',
+            doctype: 'json',
+            version: '2.1',
+            keyfrom: 'fanyi.web',
+            action: 'FY_BY_REALTlME',
+        });
+        */
 
+        /*
+        await httpsRequest('https://fanyi.youdao.com', { method: 'GET', timeout: 10000 });
+
+        const response = await httpsRequest('https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule', {
+            method: 'POST',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Referer': 'http://fanyi.youdao.com/',
+                //'cookie': document.cookie + '; ___rl__test__cookies=' + (ctime - 1).toString()
+            },
+            timeout: 10000
+        }, encodeURI(postData));
+
+        console.log('Youdao:', response.toString());
+        */
+
+        /*
         // get translate
-        let response = await youdaoApi.post('/translate_o?smartresult=dict&smartresult=rule', encodeURI(postData), {
+        const response = await youdaoApi.post('/translate_o?smartresult=dict&smartresult=rule', encodeURI(postData), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         });
+        */
 
-        console.log('Youdao:', response.data);
         return '';
     } catch (error) {
         console.log('Youdao:', error);

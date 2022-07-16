@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // language table
-const { languageTable, languageIndex, getTableValue } = require('./translator/language-table');
+const { languageEnum, languageIndex } = require('./translator/engine-module');
 
 // correction function
 const cfen = require('./correction-function-en');
@@ -53,14 +53,14 @@ let enArray = {
     en2: [],
 };
 
-function loadJSON(language) {
+function loadJSON(languageTo) {
     // clear queue interval
     clearInterval(correctionQueueInterval);
     correctionQueueInterval = null;
 
-    const sub0 = getTableValue(languageTable.en, languageIndex);
-    const sub1 = getTableValue(language, languageIndex);
-    const chineseDirectory = sub1 === 2 ? 'text/cht' : 'text/chs';
+    const sub0 = languageIndex[languageEnum.en];
+    const sub1 = languageIndex[languageTo];
+    const chineseDirectory = sub1 === languageIndex[languageEnum.zht] ? 'text/cht' : 'text/chs';
     const englishDirectory = 'text/en';
 
     // ch array

@@ -44,12 +44,12 @@ app.whenReady().then(() => {
 
     // create index window
     createWindow('index');
-    app.on('activate', function() {
+    app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
     });
 });
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
 

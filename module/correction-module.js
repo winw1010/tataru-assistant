@@ -1,7 +1,7 @@
 'use strict';
 
 // language table
-const { languageTable } = require('./translator/language-table');
+const { languageEnum } = require('./translator/engine-module');
 
 // correction module
 const { addToCorrectionQueue_JP } = require('./correction-module-jp');
@@ -55,11 +55,11 @@ const playerChannel = [
 ];
 
 function correctionEntry(dialogData, translation) {
-    if (getLanguageFrom(dialogData, translation) === languageTable.ja) {
-        translation.from = languageTable.ja;
+    if (getLanguageFrom(dialogData, translation) === languageEnum.ja) {
+        translation.from = languageEnum.ja;
         addToCorrectionQueue_JP(dialogData, translation);
-    } else if (getLanguageFrom(dialogData, translation) === languageTable.en) {
-        translation.from = languageTable.en;
+    } else if (getLanguageFrom(dialogData, translation) === languageEnum.en) {
+        translation.from = languageEnum.en;
         addToCorrectionQueue_EN(dialogData, translation);
     }
 }

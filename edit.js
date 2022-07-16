@@ -13,7 +13,7 @@ const jsonFixer = require('json-fixer');
 const googleTTS = require('google-tts-api');
 
 // language table
-const { googleTable, getTableValue } = require('./module/translator/language-table');
+const { getLanguageCode } = require('./module/translator/engine-module');
 
 // cf
 const cf = require('./module/correction-function');
@@ -235,9 +235,10 @@ async function showAudio(targetLog) {
 
     if (targetLog.audio_text !== '') {
         try {
+            const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
             if (targetLog.audio_text.length < 200) {
                 const url = googleTTS.getAudioUrl(
-                    targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) }
+                    targetLog.audio_text, { lang: languageCode }
                 );
                 console.log('TTS url:', url);
 
@@ -248,7 +249,7 @@ async function showAudio(targetLog) {
                     </audio>
                 `;
             } else {
-                const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: getTableValue(targetLog.translation.from, googleTable) });
+                const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: languageCode });
                 console.log('TTS url:', urls);
 
                 let innerHTML = '';

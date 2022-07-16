@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // language table
-const { languageTable, languageIndex, getTableValue } = require('./translator/language-table');
+const { languageEnum, languageIndex } = require('./translator/engine-module');
 
 // correction function
 const cfjp = require('./correction-function-jp');
@@ -68,14 +68,14 @@ let jpArray = {
     listCrystalium: [],
 };
 
-function loadJSON(language) {
+function loadJSON(languageTo) {
     // clear queue interval
     clearInterval(correctionQueueInterval);
     correctionQueueInterval = null;
 
-    const sub0 = getTableValue(languageTable.ja, languageIndex);
-    const sub1 = getTableValue(language, languageIndex);
-    const chineseDirectory = sub1 === 2 ? 'text/cht' : 'text/chs';
+    const sub0 = languageIndex[languageEnum.ja];
+    const sub1 = languageIndex[languageTo];
+    const chineseDirectory = sub1 === languageIndex[languageEnum.zht] ? 'text/cht' : 'text/chs';
     const japaneseDirectory = 'text/jp';
 
     // ch array
@@ -330,8 +330,8 @@ async function translateName(name, katakanaName, translation) {
     // translate katakana name
     const translatedKatakanaName =
         sameKatakanaName1 ?
-        sameKatakanaName1[0][1] :
-        (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(cf.replaceText(katakanaName, chArray.combine), chArray.chName));
+            sameKatakanaName1[0][1] :
+            (sameKatakanaName2 ? sameKatakanaName2[0][1] : cf.replaceText(cf.replaceText(katakanaName, chArray.combine), chArray.chName));
 
     if (name === katakanaName) {
         // all katakana => use translatedKatakanaName
@@ -353,10 +353,10 @@ async function translateName(name, katakanaName, translation) {
         // code
         const codeResult =
             katakanaName !== '' ?
-            cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [
-                [katakanaName, translatedKatakanaName]
-            ])) :
-            cfjp.replaceTextByCode(name, chArray.combine);
+                cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [
+                    [katakanaName, translatedKatakanaName]
+                ])) :
+                cfjp.replaceTextByCode(name, chArray.combine);
 
         // translate name
         translatedName = codeResult.text;

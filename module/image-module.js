@@ -20,7 +20,7 @@ const screenshot = require('screenshot-desktop');
 const { createWorker } = require('tesseract.js');
 
 // language table
-const { languageTable } = require('./translator/language-table');
+const { languageEnum } = require('./translator/engine-module');
 
 // contrast values
 const contrastThreshold = 160; //128
@@ -156,10 +156,10 @@ async function recognizeImage(imageBuffer) {
         await worker.load();
 
         // load language
-        if (config.translation.from === languageTable.ja) {
+        if (config.translation.from === languageEnum.ja) {
             await worker.loadLanguage('jpn');
             await worker.initialize('jpn');
-        } else if (config.translation.from === languageTable.en) {
+        } else if (config.translation.from === languageEnum.en) {
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
         }
@@ -187,7 +187,7 @@ function translate(text) {
     const config = ipcRenderer.sendSync('get-config');
 
     // fix
-    if (config.translation.from === languageTable.ja) {
+    if (config.translation.from === languageEnum.ja) {
         text = text.replaceAll(' ', '');
     }
 

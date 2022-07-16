@@ -4,7 +4,7 @@
 const googleTTS = require('google-tts-api');
 
 // language table
-const { googleTable, getTableValue } = require('./translator/language-table');
+const { getLanguageCode } = require('./translator/engine-module');
 
 // play list
 let playlist = [];
@@ -15,8 +15,9 @@ let playInterval = null;
 function addToPlaylist(text, translation) {
     if (translation.autoPlay && text !== '') {
         try {
+            const languageCode = getLanguageCode(translation.from, 'Google');
             if (text.length < 200) {
-                const url = googleTTS.getAudioUrl(text, { lang: getTableValue(translation.from, googleTable) });
+                const url = googleTTS.getAudioUrl(text, { lang: languageCode });
                 const audio = new Audio(url);
                 audio.onended = () => {
                     isPlaying = false;
@@ -25,7 +26,7 @@ function addToPlaylist(text, translation) {
                 // add to playlist
                 playlist.push(audio);
             } else {
-                const urls = googleTTS.getAllAudioUrls(text, { lang: getTableValue(translation.from, googleTable) });
+                const urls = googleTTS.getAllAudioUrls(text, { lang: languageCode });
 
                 for (let index = 0; index < urls.length; index++) {
                     const url = urls[index].url;

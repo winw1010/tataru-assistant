@@ -1,0 +1,53 @@
+{
+    "jsonrpc": "2.0",
+    "method": "LMT_handle_jobs",
+    "params": {
+        "jobs": [{
+            "kind": "default",
+            "sentences": [{ "text": "原文", "id": 0, "prefix": "" }],
+            "raw_en_context_before": [],
+            "raw_en_context_after": [],
+            "preferred_num_beams": 4,
+            "quality": "fast"
+        }],
+        "lang": {
+            "preference": {
+                "weight": {
+                    "DE": 0.25117,
+                    "EN": 0.48025,
+                    "ES": 0.17591,
+                    "FR": 0.18935,
+                    "IT": 0.13973,
+                    "JA": 1.96084,
+                    "NL": 0.12285,
+                    "PL": 0.08614,
+                    "PT": 0.07386,
+                    "RU": 0.06729,
+                    "ZH": 0.39108,
+                    "BG": 0.04152,
+                    "CS": 0.06686,
+                    "DA": 0.0973,
+                    "EL": 0.03489,
+                    "ET": 0.09181,
+                    "FI": 0.07966,
+                    "HU": 0.06285,
+                    "LT": 0.05062,
+                    "LV": 0.04993,
+                    "RO": 0.05036,
+                    "SK": 0.06041,
+                    "SL": 0.04556,
+                    "SV": 0.0826,
+                    "TR": 0.05341,
+                    "ID": 0.05359
+                },
+                "default": "default"
+            },
+            "source_lang_user_selected": "JA",
+            "target_lang": "ZH"
+        },
+        "priority": -1,
+        "commonJobParams": { "browserType": 1, "formality": null },
+        "timestamp": 1657940010261
+    },
+    "id": 18900018
+}

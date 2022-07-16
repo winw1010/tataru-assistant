@@ -1,7 +1,8 @@
 'use strict';
 
+const { ipcRenderer } = require('electron');
 const { languageEnum, engineList, getOption } = require('./translator/engine-module');
-const baidu = require('./translator/baidu');
+//const baidu = require('./translator/baidu');
 const caiyun = require('./translator/caiyun');
 const youdao = require('./translator/youdao');
 const google = require('./translator/google');
@@ -11,7 +12,7 @@ async function translate(text, translation, table = []) {
     const autoChange = translation.autoChange;
 
     // set option
-    let option = getOption(text, translation);
+    let option = getOption(engine, translation.from, translation.to, text);
 
     let translatedText = '';
     let retryCount = 0;
@@ -28,12 +29,13 @@ async function translate(text, translation, table = []) {
 
             if (autoChange) {
                 for (let index = 0; index < engineList.length; index++) {
-                    const element = engineList[index];
+                    const nextEngine = engineList[index];
 
-                    if (element !== engine) {
-                        console.log(`Use ${element}.`);
+                    if (nextEngine !== engine) {
+                        console.log(`Use ${nextEngine}.`);
 
-                        translatedText = await executeEngine(element, option);
+                        option = getOption(nextEngine, translation.from, translation.to, text);
+                        translatedText = await executeEngine(nextEngine, option);
                         if (translatedText !== '') {
                             break;
                         }
@@ -53,7 +55,9 @@ async function executeEngine(engine, option) {
 
     switch (engine) {
         case 'Baidu':
-            translatedText = await baidu.translate(option.text, option.from, option.to);
+            //translatedText = await baidu.translate(option.text, option.from, option.to);
+            translatedText = ipcRenderer.sendSync('translate', engine, option);
+            console.log(engine, translatedText);
             break;
 
         case 'Caiyun':
@@ -69,7 +73,9 @@ async function executeEngine(engine, option) {
             break;
 
         default:
-            translatedText = await baidu.translate(option.text, option.from, option.to);
+            //translatedText = await baidu.translate(option.text, option.from, option.to);
+            translatedText = ipcRenderer.sendSync('translate', 'Baidu', option);
+            console.log(engine, translatedText);
     }
 
     return translatedText;

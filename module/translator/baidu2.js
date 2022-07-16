@@ -1,28 +1,39 @@
+'use strict';
+
+// net
 const { net } = require('electron');
 
 // get sign
 const { getSign } = require('./baiduEncoder');
 
 // RegExp
-const tokenRegExp = /token: '(.*?)'/gi;
-const gtkRegExp = /gtk = "(.*?)"/gi;
+const tokenRegExp = /token: '(.*?)'/i;
+const gtkRegExp = /gtk = "(.*?)"/i;
 
+// exec
 async function exec(option) {
     try {
         let cookie = null;
         let auth = null;
-        let result = null;
+        let result = '';
 
         cookie = await getCookie();
+        console.log('cookie', cookie);
+
         cookie && (auth = await getAuth(cookie));
-        auth && (result = await translate(cookie, auth, option));
+        console.log('auth', auth);
+
+        cookie && auth && (result = await translate(cookie, auth, option));
+        console.log('result', result);
 
         return result;
     } catch (error) {
         console.log(error);
+        return '';
     }
 }
 
+// get cookie
 function getCookie() {
     return new Promise((resolve, reject) => {
         const request = net.request({
@@ -34,6 +45,7 @@ function getCookie() {
         request.on('response', (response) => {
             response.on('data', () => {
                 if (response.statusCode === 200 && response.headers['set-cookie']) {
+                    request.abort();
                     resolve(response.headers['set-cookie'].join('; '));
                 }
             });
@@ -51,6 +63,7 @@ function getCookie() {
     });
 }
 
+// get auth
 function getAuth(cookie = '') {
     return new Promise((resolve, reject) => {
         const request = net.request({
@@ -64,16 +77,17 @@ function getAuth(cookie = '') {
         request.on('response', (response) => {
             response.on('data', (chunk) => {
                 const chunkString = chunk.toString();
-                if (response.statusCode === 200 && chunkString.includes('token') && chunkString.includes('gtk')) {
-                    let token = tokenRegExp.exec(chunkString);
-                    let gtk = gtkRegExp.exec(chunkString);
+                if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
+                    request.abort();
+                    let token = tokenRegExp.exec(chunkString) || '';
+                    let gtk = gtkRegExp.exec(chunkString) || '320305.131321201';
 
-                    if (token) {
-                        token = token[0].replace(tokenRegExp, '$1');
+                    if (token instanceof Array) {
+                        token = token[1];
                     }
 
-                    if (gtk) {
-                        gtk = gtk[0].replace(gtkRegExp, '$1');
+                    if (gtk instanceof Array) {
+                        gtk = gtk[1];
                     }
 
                     resolve({
@@ -96,13 +110,14 @@ function getAuth(cookie = '') {
     });
 }
 
+// translate
 function translate(cookie, auth, option) {
     return new Promise((resolve, reject) => {
         const postData =
             'from=' + option.from +
             '&to=' + option.to +
-            '&query=' + option.source +
-            '&transtype=realtime&simple_means_flag=3&sign=' + getSign('こんにちは！', auth.gtk) +
+            '&query=' + option.text +
+            '&transtype=realtime&simple_means_flag=3&sign=' + getSign(option.text, auth.gtk) +
             '&token=' + auth.token;
 
         const request = net.request({
@@ -114,16 +129,23 @@ function translate(cookie, auth, option) {
 
         request.setHeader('cookie', cookie);
         request.setHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.setHeader('responseType', 'json');
 
         request.on('response', (response) => {
             response.on('data', (chunk) => {
                 if (response.statusCode === 200) {
-                    resolve(JSON.parse(chunk.toString()));
+                    request.abort();
+                    const data = JSON.parse(chunk.toString());
+                    if (data.trans_result) {
+                        resolve(data.trans_result.data[0].dst);
+                    } else {
+                        reject(data);
+                    }
                 }
             });
 
             response.on('end', () => {
-                resolve(null);
+                resolve('');
             })
         });
 

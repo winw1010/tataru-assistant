@@ -70,13 +70,13 @@ const engineTable = {
     }
 }
 
-function getOption(text, translation) {
-    const table = engineTable[translation.engine];
+function getOption(engine, from, to, text) {
+    const table = engineTable[engine];
 
     return {
-        text: text,
-        from: table[translation.from],
-        to: table[translation.to]
+        from: table[from],
+        to: table[to],
+        text: text
     };
 }
 

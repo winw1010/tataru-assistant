@@ -33,7 +33,7 @@ async function translate(text, translation, table = []) {
 
                     if (nextEngine !== engine) {
                         console.log(`Use ${nextEngine}.`);
-                        ipcRenderer.send('send-index', 'show-notification', `翻譯失敗，切換至${nextEngine}`);
+                        //ipcRenderer.send('send-index', 'show-notification', `翻譯失敗，切換至${nextEngine}`);
 
                         option = getOption(nextEngine, translation.from, translation.to, text);
                         translatedText = await executeEngine(nextEngine, option);

@@ -16,7 +16,7 @@ const { loadConfig, saveConfig, getDefaultConfig } = require('./module/config-mo
 const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./module/chat-code-module');
 
 // translator
-const baidu2 = require('./module/translator/baidu2');
+const baidu = require('./module/translator/baidu2');
 
 // config
 let config = null;
@@ -225,7 +225,19 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 // ipc - translate
 // translate
 ipcMain.on('translate', async (event, engine, option) => {
-    event.returnValue = await baidu2.exec(option);
+    let result = '';
+
+    switch (engine) {
+        case 'Baidu':
+            result = await baidu.exec(option);
+            break;
+
+        default:
+            result = await baidu.exec(option);
+            break;
+    }
+
+    event.returnValue = result;
 });
 
 // functions

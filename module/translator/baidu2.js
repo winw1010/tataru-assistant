@@ -40,12 +40,14 @@ async function exec(option) {
         expireDate = 0;
     }
 
+    /*
     console.log({
         expiredDate: expireDate,
         cookie: cookie,
         auth: auth,
         result: result
     });
+    */
 
     return result;
 }

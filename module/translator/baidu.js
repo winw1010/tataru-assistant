@@ -4,7 +4,7 @@
 const { axiosCreate } = require('../request-module');
 
 // get sign
-const { getSign } = require('./baiduEncoder');
+const { signEncoder } = require('./baiduEncoder');
 
 // RegExp
 const tokenRegExp = /token:\s*?'(.*?)'/gi;
@@ -27,7 +27,7 @@ async function translate(text, languageFrom, languageTo) {
             "from=" + languageFrom +
             "&to=" + languageTo +
             "&query=" + text +
-            "&transtype=realtime&simple_means_flag=3&sign=" + getSign(text, auth.gtk) +
+            "&transtype=realtime&simple_means_flag=3&sign=" + signEncoder(text, auth.gtk) +
             "&token=" + auth.token;
 
         const response = await baiduApi.post('/v2transapi', encodeURI(postData), {

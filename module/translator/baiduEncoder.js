@@ -1,54 +1,48 @@
-function a(r) {
-    if (Array.isArray(r)) {
-        for (var o = 0, t = Array(r.length); o < r.length; o++)
-            t[o] = r[o];
-        return t
-    }
-    return Array.from(r)
-}
-
-function n(r, o) {
-    for (var t = 0; t < o.length - 2; t += 3) {
-        var a = o.charAt(t + 2);
-        a = a >= "a" ? a.charCodeAt(0) - 87 : Number(a),
-            a = "+" === o.charAt(t + 1) ? r >>> a : r << a,
-            r = "+" === o.charAt(t) ? r + a & 4294967295 : r ^ a
-    }
+function e(t, e) {
+    (null == e || e > t.length) && (e = t.length);
+    for (var n = 0, r = new Array(e); n < e; n++) r[n] = t[n];
     return r
 }
 
-function e(r, i) {
-    i = i || '320305.131321201';
-    var o = r.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
-    if (null === o) {
-        var t = r.length;
-        t > 30 && (r = "" + r.substr(0, 10) + r.substr(Math.floor(t / 2) - 5, 10) + r.substr(-10, 10))
-    } else {
-        for (var e = r.split(/[\uD800-\uDBFF][\uDC00-\uDFFF]/), C = 0, h = e.length, f = []; h > C; C++)
-            "" !== e[C] && f.push.apply(f, a(e[C].split(""))),
-                C !== h - 1 && f.push(o[C]);
-        var g = f.length;
-        g > 30 && (r = f.slice(0, 10).join("") + f.slice(Math.floor(g / 2) - 5, Math.floor(g / 2) + 5).join("") + f.slice(-10).join(""))
+function n(t, e) {
+    for (var n = 0; n < e.length - 2; n += 3) {
+        var r = e.charAt(n + 2);
+        r = "a" <= r ? r.charCodeAt(0) - 87 : Number(r), r = "+" === e.charAt(n + 1) ? t >>> r : t << r, t = "+" === e.charAt(n) ? t + r & 4294967295 : t ^ r
     }
-    var u = void 0,
-        l = "" + String.fromCharCode(103) + String.fromCharCode(116) + String.fromCharCode(107);
-    u = null !== i ? i : (i = window[l] || "") || "";
-    for (var d = u.split("."), m = Number(d[0]) || 0, s = Number(d[1]) || 0, S = [], c = 0, v = 0; v < r.length; v++) {
-        var A = r.charCodeAt(v);
-        128 > A ? S[c++] = A : (2048 > A ? S[c++] = A >> 6 | 192 : (55296 === (64512 & A) && v + 1 < r.length && 56320 === (64512 & r.charCodeAt(v + 1)) ? (A = 65536 + ((1023 & A) << 10) + (1023 & r.charCodeAt(++v)),
-            S[c++] = A >> 18 | 240,
-            S[c++] = A >> 12 & 63 | 128) : S[c++] = A >> 12 | 224,
-            S[c++] = A >> 6 & 63 | 128),
-            S[c++] = 63 & A | 128)
-    }
-    for (var p = m, F = "" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(97) + ("" + String.fromCharCode(94) + String.fromCharCode(43) + String.fromCharCode(54)), D = "" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(51) + ("" + String.fromCharCode(94) + String.fromCharCode(43) + String.fromCharCode(98)) + ("" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(102)), b = 0; b < S.length; b++)
-        p += S[b],
-            p = n(p, F);
-    return p = n(p, D),
-        p ^= s,
-        0 > p && (p = (2147483647 & p) + 2147483648),
-        p %= 1e6,
-        p.toString() + "." + (p ^ m)
+    return t
 }
 
-exports.getSign = e;
+//var r = null;
+
+function signEncoder(t, r) {
+    r = r || '320305.131321201';
+    var o, i = t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
+    if (null === i) {
+        var a = t.length;
+        a > 30 && (t = "".concat(t.substr(0, 10)).concat(t.substr(Math.floor(a / 2) - 5, 10)).concat(t.substr(-10, 10)))
+    } else {
+        for (var s = t.split(/[\uD800-\uDBFF][\uDC00-\uDFFF]/), c = 0, u = s.length, l = []; c < u; c++) "" !== s[c] && l.push.apply(l, function (t) {
+            if (Array.isArray(t)) return e(t)
+        }(o = s[c].split("")) || function (t) {
+            if ("undefined" != typeof Symbol && null != t[Symbol.iterator] || null != t["@@iterator"]) return Array.from(t)
+        }(o) || function (t, n) {
+            if (t) {
+                if ("string" == typeof t) return e(t, n);
+                var r = Object.prototype.toString.call(t).slice(8, -1);
+                return "Object" === r && t.constructor && (r = t.constructor.name), "Map" === r || "Set" === r ? Array.from(t) : "Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r) ? e(t, n) : void 0
+            }
+        }(o) || function () {
+            throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")
+        }()), c !== u - 1 && l.push(i[c]);
+        var d = l.length;
+        d > 30 && (t = l.slice(0, 10).join("") + l.slice(Math.floor(d / 2) - 5, Math.floor(d / 2) + 5).join("") + l.slice(-10).join(""))
+    }
+    for (var p = "".concat(String.fromCharCode(103)).concat(String.fromCharCode(116)).concat(String.fromCharCode(107)), f = (null !== r ? r : (r = window[p] || "") || "").split("."), h = Number(f[0]) || 0, m = Number(f[1]) || 0, g = [], v = 0, y = 0; y < t.length; y++) {
+        var w = t.charCodeAt(y);
+        w < 128 ? g[v++] = w : (w < 2048 ? g[v++] = w >> 6 | 192 : (55296 == (64512 & w) && y + 1 < t.length && 56320 == (64512 & t.charCodeAt(y + 1)) ? (w = 65536 + ((1023 & w) << 10) + (1023 & t.charCodeAt(++y)), g[v++] = w >> 18 | 240, g[v++] = w >> 12 & 63 | 128) : g[v++] = w >> 12 | 224, g[v++] = w >> 6 & 63 | 128), g[v++] = 63 & w | 128)
+    }
+    for (var b = h, x = "".concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(97)) + "".concat(String.fromCharCode(94)).concat(String.fromCharCode(43)).concat(String.fromCharCode(54)), k = "".concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(51)) + "".concat(String.fromCharCode(94)).concat(String.fromCharCode(43)).concat(String.fromCharCode(98)) + "".concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(102)), _ = 0; _ < g.length; _++) b = n(b += g[_], x);
+    return b = n(b, k), (b ^= m) < 0 && (b = 2147483648 + (2147483647 & b)), "".concat((b %= 1e6).toString(), ".").concat(b ^ h)
+}
+
+exports.signEncoder = signEncoder;

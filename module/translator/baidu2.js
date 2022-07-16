@@ -4,12 +4,11 @@
 const { net } = require('electron');
 
 // baidu encoder
-//const { getSign } = require('./baiduEncoder');
-const { getSign } = require('./baiduEncoder2');
+const { signEncoder } = require('./baiduEncoder');
 
 // RegExp
-const tokenRegExp = /token: '(.*?)'/i;
-const gtkRegExp = /gtk = "(.*?)"/i;
+const tokenRegExp = /token:\s*?'(.*?)'/i;
+const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/i;
 
 // expire date
 let expireDate = 0;
@@ -23,29 +22,22 @@ let auth = null;
 // exec
 async function exec(option) {
     let result = '';
+
     try {
         // check expire date
         if (new Date().getTime() >= expireDate || !cookie || !auth) {
-            // get cookie and auth
-            for (let index = 0; index < 3; index++) {
-                cookie = await getCookie();
-                if (cookie) {
-                    for (let index = 0; index < 3; index++) {
-                        auth = await getAuth(cookie);
-                        if (auth) {
-                            break;
-                        }
-                    }
-
-                    break;
-                }
-            }
+            await resetCookie();
         }
 
         // get result
         result = await translate(cookie, auth, option) || '';
     } catch (error) {
         console.log(error);
+    }
+
+    // if result is blank => reset expire date
+    if (!result || result === '') {
+        expireDate = 0;
     }
 
     console.log({
@@ -55,12 +47,28 @@ async function exec(option) {
         result: result
     });
 
-    if (!result || result === '') {
-        // reset expire date
-        expireDate = 0;
+    return result;
+}
+
+// reset cookie
+async function resetCookie() {
+    // get cookie
+    for (let index = 0; index < 3; index++) {
+        cookie = await getCookie();
+        if (cookie) {
+            break;
+        }
     }
 
-    return result;
+    // get auth
+    if (cookie) {
+        for (let index = 0; index < 3; index++) {
+            auth = await getAuth(cookie);
+            if (auth) {
+                break;
+            }
+        }
+    }
 }
 
 // get cookie
@@ -95,6 +103,10 @@ function getCookie() {
             response.on('end', () => {
                 resolve(null);
             })
+        });
+
+        request.on('close', () => {
+            resolve(null);
         });
 
         request.on('error', (error) => {
@@ -145,6 +157,10 @@ function getAuth(cookie = '') {
             })
         });
 
+        request.on('close', () => {
+            resolve(null);
+        });
+
         request.on('error', (error) => {
             console.log(error);
             reject(error);
@@ -161,7 +177,9 @@ function translate(cookie, auth, option) {
             'from=' + option.from +
             '&to=' + option.to +
             '&query=' + option.text +
-            '&transtype=realtime&simple_means_flag=3&sign=' + getSign(option.text, auth.gtk) +
+            '&transtype=realtime' +
+            '&simple_means_flag=3' +
+            '&sign=' + signEncoder(option.text, auth.gtk) +
             '&token=' + auth.token;
 
         const request = net.request({
@@ -191,6 +209,10 @@ function translate(cookie, auth, option) {
             response.on('end', () => {
                 resolve(null);
             })
+        });
+
+        request.on('close', () => {
+            resolve(null);
         });
 
         request.on('error', (error) => {

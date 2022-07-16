@@ -3,34 +3,64 @@
 // net
 const { net } = require('electron');
 
-// get sign
-const { getSign } = require('./baiduEncoder');
+// baidu encoder
+//const { getSign } = require('./baiduEncoder');
+const { getSign } = require('./baiduEncoder2');
 
 // RegExp
 const tokenRegExp = /token: '(.*?)'/i;
 const gtkRegExp = /gtk = "(.*?)"/i;
 
+// expire date
+let expireDate = 0;
+
+// cookie
+let cookie = null;
+
+// auth
+let auth = null;
+
 // exec
 async function exec(option) {
+    let result = '';
     try {
-        let cookie = null;
-        let auth = null;
-        let result = '';
+        // check expire date
+        if (new Date().getTime() >= expireDate || !cookie || !auth) {
+            // get cookie and auth
+            for (let index = 0; index < 3; index++) {
+                cookie = await getCookie();
+                if (cookie) {
+                    for (let index = 0; index < 3; index++) {
+                        auth = await getAuth(cookie);
+                        if (auth) {
+                            break;
+                        }
+                    }
 
-        cookie = await getCookie();
-        console.log('cookie', cookie);
+                    break;
+                }
+            }
+        }
 
-        cookie && (auth = await getAuth(cookie));
-        console.log('auth', auth);
-
-        cookie && auth && (result = await translate(cookie, auth, option));
-        console.log('result', result);
-
-        return result;
+        // get result
+        result = await translate(cookie, auth, option) || '';
     } catch (error) {
         console.log(error);
-        return '';
     }
+
+    console.log({
+        expiredDate: expireDate,
+        cookie: cookie,
+        auth: auth,
+        result: result
+    });
+
+    if (!result || result === '') {
+        // reset expire date
+        expireDate = 0;
+    }
+
+    return result;
 }
 
 // get cookie
@@ -46,7 +76,19 @@ function getCookie() {
             response.on('data', () => {
                 if (response.statusCode === 200 && response.headers['set-cookie']) {
                     request.abort();
-                    resolve(response.headers['set-cookie'].join('; '));
+                    const newCookie = response.headers['set-cookie'].join('; ');
+
+                    // set expired date
+                    const newCookieArray = newCookie.split(';');
+                    for (let index = 0; index < newCookieArray.length; index++) {
+                        const property = newCookieArray[index];
+                        if (/expires=/i.test(property)) {
+                            expireDate = new Date(property.split('=')[1].trim()).getTime();
+                            break;
+                        }
+                    }
+
+                    resolve(newCookie);
                 }
             });
 
@@ -56,6 +98,7 @@ function getCookie() {
         });
 
         request.on('error', (error) => {
+            console.log(error);
             reject(error);
         });
 
@@ -103,6 +146,7 @@ function getAuth(cookie = '') {
         });
 
         request.on('error', (error) => {
+            console.log(error);
             reject(error);
         });
 
@@ -145,16 +189,16 @@ function translate(cookie, auth, option) {
             });
 
             response.on('end', () => {
-                resolve('');
+                resolve(null);
             })
         });
 
         request.on('error', (error) => {
+            console.log(error);
             reject(error);
         });
 
         request.write(encodeURI(postData));
-
         request.end();
     });
 }

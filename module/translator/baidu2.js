@@ -3,6 +3,9 @@
 // net
 const { net } = require('electron');
 
+// request module
+//const { startRequest } = require('./request-module');
+
 // baidu encoder
 const { signEncoder } = require('./baiduEncoder');
 
@@ -25,7 +28,7 @@ async function exec(option) {
 
     try {
         // check expire date
-        if (new Date().getTime() >= expireDate || !cookie || !auth) {
+        if (new Date().getTime() >= expireDate) {
             await resetCookie();
         }
 
@@ -107,10 +110,6 @@ function getCookie() {
             })
         });
 
-        request.on('close', () => {
-            resolve(null);
-        });
-
         request.on('error', (error) => {
             console.log(error);
             reject(error);
@@ -157,10 +156,6 @@ function getAuth(cookie = '') {
             response.on('end', () => {
                 resolve(null);
             })
-        });
-
-        request.on('close', () => {
-            resolve(null);
         });
 
         request.on('error', (error) => {
@@ -211,10 +206,6 @@ function translate(cookie, auth, option) {
             response.on('end', () => {
                 resolve(null);
             })
-        });
-
-        request.on('close', () => {
-            resolve(null);
         });
 
         request.on('error', (error) => {

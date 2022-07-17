@@ -46,6 +46,7 @@ async function translate(text, translation, table = []) {
 
                         // retranslate
                         translatedText = ipcRenderer.sendSync('translate', engine, option);
+                        console.log(engine + ':', translatedText);
 
                         if (translatedText !== '') {
                             break;

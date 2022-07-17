@@ -16,22 +16,20 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
 
             request.on('response', (response) => {
                 response.on('data', (chunk) => {
-                    if (response.statusCode === 200) {
-                        if (callback) {
-                            let result = null;
-                            result = callback(response, chunk);
+                    if (callback) {
+                        let result = null;
+                        result = callback(response, chunk);
 
-                            if (result) {
-                                request.abort();
-                                resolve(result);
-                            }
-                        } else {
+                        if (result) {
                             request.abort();
-                            resolve({
-                                response: response,
-                                chunk: chunk
-                            });
+                            resolve(result);
                         }
+                    } else {
+                        request.abort();
+                        resolve({
+                            response: response,
+                            chunk: chunk
+                        });
                     }
                 });
 

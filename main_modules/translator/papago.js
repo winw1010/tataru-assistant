@@ -1,17 +1,19 @@
 'use strict';
 
+// CryptoJS
+const CryptoJS = require("crypto-js");
+
+// uuidv4
+//const { v4: uuidv4 } = require('uuid');
+
 // request module
 const { startRequest } = require('./request-module');
-
-// baidu encoder
-const { signEncoder } = require('./baiduEncoder');
 
 // user agent
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
-const tokenRegExp = /token:\s*?'(.*?)'/i;
-const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/i;
+const JSESSIONID = /^.*(JSESSIONID=.*?);.*$/i;
 
 // expire date
 let expireDate = 0;
@@ -43,14 +45,12 @@ async function exec(option) {
         expireDate = 0;
     }
 
-    /*
     console.log({
         expiredDate: expireDate,
         cookie: cookie,
         auth: auth,
         result: result
     });
-    */
 
     return result;
 }
@@ -66,21 +66,14 @@ async function initialize() {
     }
 
     // get auth
-    if (cookie) {
-        for (let index = 0; index < 3; index++) {
-            auth = await getAuth(cookie);
-            if (auth) {
-                break;
-            }
-        }
-    }
+    auth = getAuth();
 }
 
 // get cookie
 async function getCookie() {
     const callback = function (response) {
         if (response.statusCode === 200 && response.headers['set-cookie']) {
-            return response.headers['set-cookie'].join('; ');
+            return response.headers['set-cookie'].join('; ').replace(JSESSIONID, '$1');
         }
     }
 
@@ -88,87 +81,50 @@ async function getCookie() {
         options: {
             method: 'GET',
             protocol: 'https:',
-            hostname: 'fanyi.baidu.com'
+            hostname: 'papago.naver.com'
         },
         callback: callback
     });
 
     if (newCookie) {
         // set expired date
-        const newCookieArray = newCookie.split(';');
-        for (let index = 0; index < newCookieArray.length; index++) {
-            const property = newCookieArray[index];
-            if (/expires=/i.test(property)) {
-                expireDate = new Date(property.split('=')[1].trim()).getTime();
-                break;
-            }
-        }
+        expireDate = new Date().getTime() + 3600000;
     }
 
     return newCookie;
 }
 
 // get auth
-async function getAuth(cookie = '') {
-    const callback = function (response, chunk) {
-        const chunkString = chunk.toString();
-        if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-            let token = tokenRegExp.exec(chunkString) || '';
-            let gtk = gtkRegExp.exec(chunkString) || '320305.131321201';
-
-            if (token instanceof Array) {
-                token = token[1];
-            }
-
-            if (gtk instanceof Array) {
-                gtk = gtk[1];
-            }
-
-            return {
-                token: token,
-                gtk: gtk
-            };
-        }
+function getAuth() {
+    return {
+        deviceId: getDeviceId()
     }
-
-    return await startRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'fanyi.baidu.com'
-        },
-        headers: [
-            ['cookie', cookie]
-        ],
-        callback: callback
-    });
 }
 
 // translate
 async function translate(cookie, auth, option) {
+    const ctime = new Date().getTime();
+    const authorization = `PPG ${auth.deviceId}:${getSignature(auth.deviceId, ctime)}`
+
     const postData =
-        'from=' + option.from +
-        '&to=' + option.to +
-        '&query=' + option.text +
-        '&transtype=realtime' +
-        '&simple_means_flag=3' +
-        '&sign=' + signEncoder(option.text, auth.gtk) +
-        '&token=' + auth.token;
+        "deviceId=" + auth.deviceId +
+        "&locale=zh-TW" +
+        "&dict=true" +
+        "&dictDisplay=30" +
+        "&honorific=false" +
+        "&instant=false" +
+        "&paging=true" +
+        "&source=" + option.from +
+        "&target=" + option.to +
+        "&text=" + option.text;
 
     const callback = function (response, chunk) {
+        console.log(chunk.toString());
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 
-            if (data.trans_result) {
-                let result = '';
-                const resultArray = data.trans_result.data;
-
-                for (let index = 0; index < resultArray.length; index++) {
-                    const element = resultArray[index];
-                    result += element.dst || '';
-                }
-
-                return result;
+            if (data.translatedText) {
+                return data.translatedText;
             }
         }
     }
@@ -177,18 +133,42 @@ async function translate(cookie, auth, option) {
         options: {
             method: 'POST',
             protocol: 'https:',
-            hostname: 'fanyi.baidu.com',
-            path: '/v2transapi'
+            hostname: 'papago.naver.com',
+            path: '/apis/nsmt/translate'
         },
         headers: [
+            ['Authorization', authorization],
+            ['accept-language', 'zh-TW'],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['cookie', cookie],
-            ['responseType', 'json'],
-            ['User-Agent', userAgent]
+            ['cookie', cookie + 'GA1.2.26076760.1658054418; NNB=5I6BOSAZ47JWE; papago_skin_locale=en; _ga=GA1.2.1557340530.1658054418; _ga_7VKFYR6RV1=GS1.1.1658061136.3.1.1658061774.42'],
+            ['device-type', 'pc'],
+            ['origin', 'https://papago.naver.com'],
+            ['Referer', 'https://papago.naver.com/'],
+            ['sec-fetch-site', 'same-origin'],
+            ['timestamp', ctime],
+            ['User-Agent', userAgent],
+            ['x-apigw-partnerid', 'papago']
         ],
         data: encodeURI(postData),
         callback: callback
     });
+}
+
+// get device id
+function getDeviceId() {
+    var a = new Date().getTime();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (e) {
+        var t = (a + 16 * Math.random()) % 16 | 0;
+        return a = Math.floor(a / 16), ("x" === e ? t : 3 & t | 8).toString(16)
+    })
+}
+
+// get hash
+function getSignature(deviceId, timestamp) {
+    return CryptoJS.HmacMD5(
+        `${deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`,
+        'v1.6.9_0f9c783dcc'
+    ).toString(CryptoJS.enc.Base64);
 }
 
 exports.exec = exec;

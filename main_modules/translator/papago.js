@@ -138,11 +138,13 @@ async function translate(cookie, auth, option) {
         },
         headers: [
             ['Authorization', authorization],
+            ['accept', 'application/json'],
             ['accept-language', 'zh-TW'],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
             ['cookie', cookie + 'GA1.2.26076760.1658054418; NNB=5I6BOSAZ47JWE; papago_skin_locale=en; _ga=GA1.2.1557340530.1658054418; _ga_7VKFYR6RV1=GS1.1.1658061136.3.1.1658061774.42'],
             ['device-type', 'pc'],
             ['origin', 'https://papago.naver.com'],
+            ['originPass', 'papago.naver.com'],
             ['Referer', 'https://papago.naver.com/'],
             ['sec-fetch-site', 'same-origin'],
             ['timestamp', ctime],

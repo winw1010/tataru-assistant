@@ -66,7 +66,9 @@ async function executeEngine(engine, option) {
             break;
 
         case 'Youdao':
-            translatedText = await youdao.translate(option.text, option.from, option.to);
+            //translatedText = await youdao.translate(option.text, option.from, option.to);
+            translatedText = ipcRenderer.sendSync('translate', engine, option);
+            console.log(engine + ':', translatedText);
             break;
 
         case 'Google':

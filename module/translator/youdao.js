@@ -79,7 +79,7 @@ async function translate(text, languageFrom, languageTo) {
         });
         */
 
-        return '';
+        return postData;
     } catch (error) {
         console.log('Youdao:', error);
         return '';

@@ -10,13 +10,14 @@ const path = require('path');
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
 
 // config module
-const { loadConfig, saveConfig, getDefaultConfig } = require('./module/config-module');
+const { loadConfig, saveConfig, getDefaultConfig } = require('./main_modules/config-module');
 
 // chat code module
-const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./module/chat-code-module');
+const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modules/chat-code-module');
 
 // translator
-const baidu = require('./module/translator/baidu2');
+const baidu = require('./main_modules/translator/baidu');
+const youdao = require('./main_modules/translator/youdao');
 
 // config
 let config = null;
@@ -230,6 +231,10 @@ ipcMain.on('translate', async (event, engine, option) => {
     switch (engine) {
         case 'Baidu':
             result = await baidu.exec(option);
+            break;
+
+        case 'Youdao':
+            result = await youdao.exec(option);
             break;
 
         default:

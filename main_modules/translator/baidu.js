@@ -1,8 +1,5 @@
 'use strict';
 
-// net
-//const { net } = require('electron');
-
 // request module
 const { startRequest } = require('./request-module');
 

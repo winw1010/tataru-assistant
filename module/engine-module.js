@@ -19,10 +19,19 @@ const languageIndex = {
 const engineList = [
     'Baidu',
     'Caiyun',
+    'Youdao',
+    'Google',
+    'Papago',
+    'DeepL'
+];
+
+const AvailableEngine = [
+    'Baidu',
+    'Caiyun',
+    'Youdao',
     'Google',
     //'Papago',
-    //'DeepL',
-    //'Youdao'
+    //'DeepL'
 ];
 
 const engineTable = {
@@ -46,6 +55,13 @@ const engineTable = {
         'English': 'en',
         'Traditional-Chinese': 'zh-CHS',
         'Simplified-Chinese': 'zh-CHS'
+    },
+    'Tencent': {
+        'Auto': 'auto',
+        'Japanese': 'jp',
+        'English': 'en',
+        'Traditional-Chinese': 'zh',
+        'Simplified-Chinese': 'zh'
     },
     'Papago': {
         'Auto': 'detect',
@@ -85,8 +101,9 @@ function getLanguageCode(language, engine) {
     return table[language];
 }
 
-exports.engineList = engineList;
 exports.languageEnum = languageEnum;
 exports.languageIndex = languageIndex;
+exports.engineList = engineList;
+exports.AvailableEngine = AvailableEngine;
 exports.getOption = getOption;
 exports.getLanguageCode = getLanguageCode;

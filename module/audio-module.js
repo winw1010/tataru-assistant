@@ -4,7 +4,7 @@
 const googleTTS = require('google-tts-api');
 
 // language table
-const { getLanguageCode } = require('./translator/engine-module');
+const { getLanguageCode } = require('./engine-module');
 
 // play list
 let playlist = [];

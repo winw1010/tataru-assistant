@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // language table
-const { languageEnum, languageIndex } = require('./translator/engine-module');
+const { languageEnum, languageIndex } = require('./engine-module');
 
 // correction function
 const cfen = require('./correction-function-en');

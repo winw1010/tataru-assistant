@@ -13,7 +13,7 @@ const jsonFixer = require('json-fixer');
 const googleTTS = require('google-tts-api');
 
 // language table
-const { getLanguageCode } = require('./module/translator/engine-module');
+const { getLanguageCode } = require('./module/engine-module');
 
 // cf
 const cf = require('./module/correction-function');

@@ -20,7 +20,7 @@ const screenshot = require('screenshot-desktop');
 const { createWorker } = require('tesseract.js');
 
 // language table
-const { languageEnum } = require('./translator/engine-module');
+const { languageEnum } = require('./engine-module');
 
 // contrast values
 const contrastThreshold = 160; //128

@@ -1,19 +1,12 @@
 'use strict';
 
-// request
-const { axiosPost } = require('../request-module');
-
-// post options
-const options = {
-    headers: {
-        'content-type': 'application/json',
-        'x-authorization': 'token lqkr1tfixq1wa9kmj9po'
-    },
-    timeout: 10000
-};
+// request module
+const { startRequest } = require('./request-module');
 
 // translate
 async function translate(option) {
+    let result = '';
+
     const postData = {
         source: option.text,
         trans_type: `${option.from}2${option.to}`,
@@ -23,54 +16,37 @@ async function translate(option) {
         request_id: '5a096eec830f7876a48aac47'
     };
 
-    try {
-        const response = await axiosPost('https://api.interpreter.caiyunai.com/v1/translator', postData, options);
-        console.log('Caiyun:', response.data);
-
-        return response.data.target;
-    } catch (error) {
-        console.log('Caiyun:', error);
-        return '';
+    const callback = function (response, chunk) {
+        if (response.statusCode === 200) {
+            const data = JSON.parse(chunk.toString());
+            if (data.target) {
+                return data.target;
+            } else {
+                return null;
+            }
+        }
     }
-}
 
-exports.translate = translate;
-
-/*
-// request
-const { httpsRequest } = require('../https-module');
-
-// post options
-const options = {
-    method: 'POST',
-    headers: {
-        'content-type': 'application/json',
-        'x-authorization': 'token lqkr1tfixq1wa9kmj9po'
-    },
-    timeout: 10000
-};
-
-// translate
-async function translate(text, languageFrom, languageTo) {
     try {
-        const url = 'https://api.interpreter.caiyunai.com/v1/translator';
-
-        const postData = JSON.stringify({
-            source: text,
-            trans_type: `${languageFrom}2${languageTo}`,
-            replaced: true,
-            detect: true,
-            media: 'text',
-            request_id: '5a096eec830f7876a48aac47'
+        result = await startRequest({
+            options: {
+                method: 'POST',
+                protocol: 'https:',
+                hostname: 'api.interpreter.caiyunai.com',
+                path: '/v1/translator'
+            },
+            headers: [
+                ['Content-Type', 'application/json'],
+                ['x-authorization', 'token lqkr1tfixq1wa9kmj9po']
+            ],
+            data: JSON.stringify(postData),
+            callback: callback
         });
-
-        const response = await httpsRequest(url, options, postData);
-        console.log('Caiyun:', JSON.parse(response).target);
-        
-        return JSON.parse(response).target;
     } catch (error) {
-        console.log('Caiyun:', error);
-        return '';
+        console.log(error);
     }
+
+    return result;
 }
-*/
+
+exports.exec = translate;

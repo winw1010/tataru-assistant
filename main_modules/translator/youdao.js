@@ -30,7 +30,7 @@ async function exec(option) {
     try {
         // check expire date
         if (new Date().getTime() >= expireDate) {
-            await resetCookie();
+            await initialize();
         }
 
         // get result
@@ -57,7 +57,7 @@ async function exec(option) {
 }
 
 // reset cookie
-async function resetCookie() {
+async function initialize() {
     // get cookie
     for (let index = 0; index < 3; index++) {
         cookie = await getCookie();
@@ -167,12 +167,12 @@ async function translate(cookie, auth, option) {
 
                 for (let index = 0; index < resultArray.length; index++) {
                     const element = resultArray[index];
-                    result += element.tgt;
+                    result += element.tgt || '';
                 }
 
                 return result;
             } else {
-                return '';
+                return null;
             }
         }
     }

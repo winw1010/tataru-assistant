@@ -17,7 +17,9 @@ const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modul
 
 // translator
 const baidu = require('./main_modules/translator/baidu');
+const caiyun = require('./main_modules/translator/caiyun');
 const youdao = require('./main_modules/translator/youdao');
+const google = require('./main_modules/translator/google');
 
 // config
 let config = null;
@@ -233,8 +235,16 @@ ipcMain.on('translate', async (event, engine, option) => {
             result = await baidu.exec(option);
             break;
 
+        case 'Caiyun':
+            result = await caiyun.exec(option);
+            break;
+
         case 'Youdao':
             result = await youdao.exec(option);
+            break;
+
+        case 'Google':
+            result = await google.exec(option);
             break;
 
         default:

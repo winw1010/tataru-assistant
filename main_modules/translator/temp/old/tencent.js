@@ -3,7 +3,7 @@
 // 測試中
 
 // request
-const { axiosCreate } = require('../request-module');
+const { axiosCreate } = require('../../../../module/request-module');
 
 async function getAuth(tencentApi) {
     try {

@@ -1,42 +1,52 @@
 'use strict';
 
 const { ipcRenderer } = require('electron');
-const { languageEnum, engineList, getOption } = require('./translator/engine-module');
-//const baidu = require('./translator/baidu');
-const caiyun = require('./translator/caiyun');
-const youdao = require('./translator/youdao');
-const google = require('./translator/google');
+const { languageEnum, AvailableEngine, getOption } = require('./engine-module');
 
 async function translate(text, translation, table = []) {
-    const engine = translation.engine;
+    let engine = translation.engine;
     const autoChange = translation.autoChange;
 
     // set option
     let option = getOption(engine, translation.from, translation.to, text);
 
+    // initialize
     let translatedText = '';
     let retryCount = 0;
     let missingCodes = [];
 
     do {
+        // fix text
         option.text = fixCode(option.text, missingCodes);
-        translatedText = await executeEngine(engine, option);
+
+        // translate
+        translatedText = ipcRenderer.sendSync('translate', engine, option);
+        console.log(engine + ':', translatedText);
+
+        // add count
         retryCount++;
 
-        // auto change
         if (translatedText === '') {
             console.log('Response is empty.');
 
+            // auto change
             if (autoChange) {
-                for (let index = 0; index < engineList.length; index++) {
-                    const nextEngine = engineList[index];
+                for (let index = 0; index < AvailableEngine.length; index++) {
+                    const nextEngine = AvailableEngine[index];
 
+                    // find new engine
                     if (nextEngine !== engine) {
                         console.log(`Use ${nextEngine}.`);
-                        //ipcRenderer.send('send-index', 'show-notification', `翻譯失敗，切換至${nextEngine}`);
 
-                        option = getOption(nextEngine, translation.from, translation.to, text);
-                        translatedText = await executeEngine(nextEngine, option);
+                        // set new engine
+                        engine = nextEngine;
+
+                        // set new option
+                        option = getOption(engine, translation.from, translation.to, option.text);
+
+                        // retranslate
+                        translatedText = ipcRenderer.sendSync('translate', engine, option);
+
                         if (translatedText !== '') {
                             break;
                         }
@@ -45,48 +55,21 @@ async function translate(text, translation, table = []) {
             }
         }
 
+        // missing code check
         missingCodes = missingCodeCheck(translatedText, table);
     } while (missingCodes.length > 0 && retryCount < 3);
 
     return await zhtConvert(translatedText, translation.to);
 }
 
-async function executeEngine(engine, option) {
-    let translatedText = '';
-
-    switch (engine) {
-        case 'Baidu':
-            //translatedText = await baidu.translate(option.text, option.from, option.to);
-            translatedText = ipcRenderer.sendSync('translate', engine, option);
-            console.log(engine + ':', translatedText);
-            break;
-
-        case 'Caiyun':
-            translatedText = await caiyun.translate(option.text, option.from, option.to);
-            break;
-
-        case 'Youdao':
-            //translatedText = await youdao.translate(option.text, option.from, option.to);
-            translatedText = ipcRenderer.sendSync('translate', engine, option);
-            console.log(engine + ':', translatedText);
-            break;
-
-        case 'Google':
-            translatedText = await google.translate(option.text, option.from, option.to);
-            break;
-
-        default:
-            //translatedText = await baidu.translate(option.text, option.from, option.to);
-            translatedText = ipcRenderer.sendSync('translate', 'Baidu', option);
-            console.log(engine + ':', translatedText);
-    }
-
-    return translatedText;
-}
-
 async function zhtConvert(text, languageTo) {
     if (languageTo === languageEnum.zht && text !== '') {
-        const response = await google.translate(text, 'zh-CN', 'zh-TW');
+        const option = {
+            from: 'zh-CN',
+            to: 'zh-TW',
+            text: text
+        }
+        const response = ipcRenderer.sendSync('translate', 'Google', option);
         return response !== '' ? response : text;
     } else {
         return text;

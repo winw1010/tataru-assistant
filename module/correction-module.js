@@ -1,7 +1,7 @@
 'use strict';
 
 // language table
-const { languageEnum } = require('./translator/engine-module');
+const { languageEnum } = require('./engine-module');
 
 // correction module
 const { addToCorrectionQueue_JP } = require('./correction-module-jp');

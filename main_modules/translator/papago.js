@@ -6,6 +6,9 @@ const { startRequest } = require('./request-module');
 // baidu encoder
 const { signEncoder } = require('./baiduEncoder');
 
+// user agent
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
+
 // RegExp
 const tokenRegExp = /token:\s*?'(.*?)'/i;
 const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/i;
@@ -155,6 +158,7 @@ async function translate(cookie, auth, option) {
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
+
             if (data.trans_result) {
                 let result = '';
                 const resultArray = data.trans_result.data;
@@ -165,8 +169,6 @@ async function translate(cookie, auth, option) {
                 }
 
                 return result;
-            } else {
-                return null;
             }
         }
     }
@@ -179,9 +181,10 @@ async function translate(cookie, auth, option) {
             path: '/v2transapi'
         },
         headers: [
-            ['cookie', cookie],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['responseType', 'json']
+            ['cookie', cookie],
+            ['responseType', 'json'],
+            ['User-Agent', userAgent]
         ],
         data: encodeURI(postData),
         callback: callback

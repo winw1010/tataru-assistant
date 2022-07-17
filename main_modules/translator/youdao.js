@@ -6,13 +6,13 @@ const CryptoJS = require("crypto-js");
 // request module
 const { startRequest } = require('./request-module');
 
+// user agent
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
+
 // RegExp
 const userID = /^.*(OUTFOX_SEARCH_USER_ID=.*?);.*$/i;
 const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(.*?)"/i;
 //const ncooRegExp = /^.*?(\d+) \* Math\.random\(\).*$/i;
-
-// user agent
-const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // expire date
 let expireDate = 0;
@@ -161,6 +161,7 @@ async function translate(cookie, auth, option) {
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
+
             if (data.translateResult) {
                 let result = '';
                 const resultArray = data.translateResult[0];
@@ -171,8 +172,6 @@ async function translate(cookie, auth, option) {
                 }
 
                 return result;
-            } else {
-                return null;
             }
         }
     }
@@ -185,10 +184,10 @@ async function translate(cookie, auth, option) {
             path: '/translate_o?smartresult=dict&smartresult=rule'
         },
         headers: [
-            ['cookie', cookie + `; ___rl__test__cookies=${ctime}`],
-            ['User-Agent', userAgent],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['Referer', 'http://fanyi.youdao.com/']
+            ['cookie', cookie + `; ___rl__test__cookies=${ctime}`],
+            ['Referer', 'http://fanyi.youdao.com/'],
+            ['User-Agent', userAgent]
         ],
         data: encodeURI(postData),
         callback: callback

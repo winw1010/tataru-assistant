@@ -7,7 +7,7 @@ const { ipcRenderer } = require('electron');
 const { execSync } = require('child_process');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {

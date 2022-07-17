@@ -16,6 +16,7 @@ const { loadConfig, saveConfig, getDefaultConfig } = require('./main_modules/con
 const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modules/chat-code-module');
 
 // translator
+const startRequest = require('./main_modules/translator/request-module').startRequest;
 const baidu = require('./main_modules/translator/baidu');
 const caiyun = require('./main_modules/translator/caiyun');
 const youdao = require('./main_modules/translator/youdao');
@@ -225,7 +226,26 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
 });
 
-// ipc - translate
+// ipc - request
+// get latest verssion
+ipcMain.on('get-latest-version', async (event) => {
+    const callback = function (response, chunk) {
+        if (response.statusCode === 200) {
+            return JSON.parse(chunk.toString()).number;
+        }
+    }
+
+    event.returnValue = await startRequest({
+        options: {
+            method: 'GET',
+            protocol: 'https:',
+            hostname: 'raw.githubusercontent.com',
+            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json'
+        },
+        callback: callback
+    });
+});
+
 // translate
 ipcMain.on('translate', async (event, engine, option) => {
     let result = '';
@@ -253,6 +273,25 @@ ipcMain.on('translate', async (event, engine, option) => {
     }
 
     event.returnValue = result;
+});
+
+// post form
+ipcMain.on('post-form', (event, path) => {
+    const callback = function (response) {
+        if (response.statusCode === 200) {
+            return 'OK';
+        }
+    }
+
+    startRequest({
+        options: {
+            method: 'POST',
+            protocol: 'https:',
+            hostname: 'docs.google.com',
+            path: path
+        },
+        callback: callback
+    });
 });
 
 // functions

@@ -10,7 +10,7 @@ const { resolve } = require('path');
 const { ipcRenderer } = require('electron');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {

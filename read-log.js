@@ -10,7 +10,7 @@ const { readFileSync, readdirSync } = require('fs');
 const { ipcRenderer } = require('electron');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // json fixer
 const jsonFixer = require('json-fixer');

@@ -9,29 +9,25 @@ const { execSync } = require('child_process');
 // download github repo
 const downloadGitRepo = require('download-git-repo');
 
-// requset
-//const { httpsRequest } = require('./module/https-module');
-const { axiosGet } = require('./module/request-module');
-
 // audio module
-const { clearPlaylist, startPlaying } = require('./module/audio-module');
+const { clearPlaylist, startPlaying } = require('./renderer_modules/audio-module');
 
 // correction module
-const { correctionEntry } = require('./module/correction-module');
-const { loadJSON_JP } = require('./module/correction-module-jp');
-const { loadJSON_EN } = require('./module/correction-module-en');
+const { correctionEntry } = require('./renderer_modules/correction-module');
+const { loadJSON_JP } = require('./renderer_modules/correction-module-jp');
+const { loadJSON_EN } = require('./renderer_modules/correction-module-en');
 
 // dialog module
-const { appendBlankDialog, updateDialog, appendNotification, showDialog, setStyle, moveToBottom } = require('./module/dialog-module');
+const { appendBlankDialog, updateDialog, appendNotification, showDialog, setStyle, moveToBottom } = require('./renderer_modules/dialog-module');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // image processing module
-const { takeScreenshot } = require('./module/image-module');
+const { takeScreenshot } = require('./renderer_modules/image-module');
 
 // server module
-const { startServer } = require('./module/server-module');
+const { startServer } = require('./renderer_modules/server-module');
 
 // click through temp
 let isClickThrough = false;
@@ -359,14 +355,7 @@ function readJSON() {
 // version check
 async function versionCheck() {
     try {
-        /*
-        const url = 'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json';
-        const response = await httpsRequest(url, { method: 'GET', timeout: 10000 });
-        const latestVersion = JSON.parse(response).number;
-        */
-
-        const response = await axiosGet('https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json', { timeout: 10000 });
-        const latestVersion = response.data.number;
+        const latestVersion = ipcRenderer.sendSync('get-latest-version');
         const appVersion = ipcRenderer.sendSync('get-version');
 
         console.log('Latest version:', latestVersion);

@@ -13,23 +13,22 @@ const jsonFixer = require('json-fixer');
 const googleTTS = require('google-tts-api');
 
 // language table
-const { getLanguageCode } = require('./module/engine-module');
+const { getLanguageCode } = require('./renderer_modules/engine-module');
 
 // cf
-const cf = require('./module/correction-function');
+const cf = require('./renderer_modules/correction-function');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // create log name
-const { createLogName } = require('./module/dialog-module');
+const { createLogName } = require('./renderer_modules/dialog-module');
 
 // child process
 const { execSync } = require('child_process');
 
 // request
-//const { httpsRequest } = require('./module/https-module');
-const { axiosPost } = require('./module/request-module');
+//const { axiosPost } = require('./renderer_modules/request-module-old');
 
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
@@ -155,7 +154,7 @@ function setButton() {
 
     // report translation
     document.getElementById('button_report_translation').onclick = () => {
-        postToForm();
+        postForm();
     };
 
     // save custom
@@ -329,20 +328,19 @@ function deleteTemp(textBefore, type, array) {
 }
 
 // post to form
-function postToForm() {
+function postForm() {
     try {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
         const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
-        const url = `https://docs.google.com/forms/d/e/${formId}/formResponse?` +
+        const path =
+            `/forms/d/e/${formId}/formResponse?` +
             `${entry1}=待處理` +
             `&${entry2}=${targetLog.translation.engine}` +
             `&${entry3}=${text1}` +
             `&${entry4}=${text2}`;
 
-        //httpsRequest(url, { method: 'POST', timeout: 10000 });
-        axiosPost(url, null, { timeout: 10000 });
-        ipcRenderer.send('send-index', 'show-notification', `回報完畢`);
-
+        ipcRenderer.send('post-form', encodeURI(path));
+        ipcRenderer.send('send-index', 'show-notification', '傳送成功');
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

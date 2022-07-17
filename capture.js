@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // drag module
-const { setDragElement } = require('./module/drag-module');
+const { setDragElement } = require('./renderer_modules/drag-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -27,7 +27,7 @@ function setView() {
 // set event
 function setEvent() {
     // resize
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         setCanvasSize(document.getElementById('canvas_select'));
     }, true);
 

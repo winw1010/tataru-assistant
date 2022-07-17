@@ -17,7 +17,7 @@
     "devDependencies": {
         "electron": "^19.0.8",
         "electron-builder": "^23.1.0",
-        "eslint": "^8.19.0"
+        "eslint": "^8.20.0"
     },
     "dependencies": {
         "@hobbica98/google-translate-api": "^1.1.1",

@@ -4,7 +4,7 @@
 const { startRequest } = require('./request-module');
 
 // translate
-async function translate(option) {
+async function exec(option) {
     let result = '';
 
     const postData = {
@@ -49,4 +49,4 @@ async function translate(option) {
     return result;
 }
 
-exports.exec = translate;
+exports.exec = exec;

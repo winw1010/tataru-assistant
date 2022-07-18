@@ -129,7 +129,7 @@ async function translate(cookie, authentication, option) {
         "&smartresult=dict" +
         "&client=fanyideskweb" +
         "&salt=" + salt +
-        "&sign=" + CryptoJS.MD5('fanyideskweb' + option.text + salt + (authentication.fanyideskweb) || 'Ygy_4c=r#e#4EX^NUGUc5').toString() +
+        "&sign=" + CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString() +
         "&lts=" + ctime2 +
         "&bv=f0819a82107e6150005e75ef5fddcc3b" + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
         "&doctype=json" +

@@ -72,7 +72,7 @@ async function initialize() {
 
     // set authentication
     for (let index = 0; index < 3; index++) {
-        await setAuthentication(cookie);
+        await setAuthentication();
         if (authentication) {
             break;
         }
@@ -94,7 +94,7 @@ async function setCookie() {
 }
 
 // set authentication
-async function setAuthentication(cookie = '') {
+async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {

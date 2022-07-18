@@ -72,10 +72,10 @@ const engineTable = {
     },
     'DeepL': {
         'Auto': 'auto',
-        'Japanese': 'ja',
-        'English': 'en',
-        'Traditional-Chinese': 'zh',
-        'Simplified-Chinese': 'zh'
+        'Japanese': 'JA',
+        'English': 'EN',
+        'Traditional-Chinese': 'ZH',
+        'Simplified-Chinese': 'ZH'
     },
     'Google': {
         'Auto': 'auto',

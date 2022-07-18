@@ -6,9 +6,6 @@
 // CryptoJS
 const CryptoJS = require("crypto-js");
 
-// uuidv4
-//const { v4: uuidv4 } = require('uuid');
-
 // request module
 const { startRequest } = require('./request-module');
 
@@ -113,11 +110,11 @@ async function translate(cookie, auth, option) {
     const postData =
         "deviceId=" + auth.deviceId +
         "&locale=zh-TW" +
-        "&dict=true" +
+        "&dict=false" +
         "&dictDisplay=30" +
         "&honorific=false" +
-        "&instant=false" +
-        "&paging=true" +
+        "&instant=true" +
+        "&paging=false" +
         "&source=" + option.from +
         "&target=" + option.to +
         "&text=" + option.text;
@@ -133,6 +130,30 @@ async function translate(cookie, auth, option) {
         }
     }
 
+    // login
+    await startRequest({
+        options: {
+            method: 'GET',
+            protocol: 'https:',
+            hostname: 'static.nid.naver.com',
+            path: '/getLoginStatus?callback=showGNB&charset=utf-8&svc=papago&template=gnb_utf8&one_naver=0'
+        },
+        headers: [
+            ['accept', '*/*'],
+            ['accept-encoding', 'gzip, deflate, br'],
+            ['accept-language', 'zh-TW,zh;q=0.9'],
+            ['cookie', '_ga_7VKFYR6RV1=GS1.1.1658102987.1.0.1658102987.60; _ga=GA1.2.330371943.1658102988; _gid=GA1.2.1939960718.1658102988; NNB=5V6KUSGQUTKGE'],
+            ['referer', 'https://papago.naver.com/'],
+            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
+            ['sec-ch-ua-mobile', '?0'],
+            ['sec-ch-ua-platform', '"Windows"'],
+            ['sec-fetch-dest', 'script'],
+            ['sec-fetch-mode', 'no-cors'],
+            ['sec-fetch-site', 'same-site'],
+            ['user-agent', userAgent]
+        ]
+    });
+
     return await startRequest({
         options: {
             method: 'POST',
@@ -141,18 +162,24 @@ async function translate(cookie, auth, option) {
             path: '/apis/nsmt/translate'
         },
         headers: [
-            ['Authorization', authorization],
             ['accept', 'application/json'],
+            ['accept-encoding', 'gzip, deflate, br'],
             ['accept-language', 'zh-TW'],
-            ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['cookie', cookie + 'GA1.2.26076760.1658054418; NNB=5I6BOSAZ47JWE; papago_skin_locale=en; _ga=GA1.2.1557340530.1658054418; _ga_7VKFYR6RV1=GS1.1.1658061136.3.1.1658061774.42'],
+            ['authorization', authorization],
+            ['content-type', 'application/x-www-form-urlencoded; charset=UTF-8'],
+            ['cookie', cookie + '; papago_skin_locale=en' + '; _ga_7VKFYR6RV1=GS1.1.1658102987.1.0.1658102987.60; _ga=GA1.2.330371943.1658102988; _gid=GA1.2.1939960718.1658102988; NNB=5V6KUSGQUTKGE'],
             ['device-type', 'pc'],
             ['origin', 'https://papago.naver.com'],
             ['originPass', 'papago.naver.com'],
-            ['Referer', 'https://papago.naver.com/'],
+            ['referer', 'https://papago.naver.com/'],
+            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
+            ['sec-ch-ua-mobile', '?0'],
+            ['sec-ch-ua-platform', '"Windows"'],
+            ['sec-fetch-dest', 'empty'],
+            ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-origin'],
             ['timestamp', ctime],
-            ['User-Agent', userAgent],
+            ['user-agent', userAgent],
             ['x-apigw-partnerid', 'papago']
         ],
         data: encodeURI(postData),

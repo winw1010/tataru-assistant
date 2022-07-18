@@ -20,7 +20,7 @@ async function translate(text, translation, table = []) {
         option.text = fixCode(option.text, missingCodes);
 
         // translate
-        translatedText = ipcRenderer.sendSync('translate', engine, option);
+        translatedText = ipcRenderer.sendSync('get-translation', engine, option);
         console.log(engine + ':', translatedText);
 
         // add count
@@ -46,7 +46,7 @@ async function translate(text, translation, table = []) {
                         option = getOption(engine, translation.from, translation.to, option.text);
 
                         // retranslate
-                        translatedText = ipcRenderer.sendSync('translate', engine, option);
+                        translatedText = ipcRenderer.sendSync('get-translation', engine, option);
                         console.log(engine + ':', translatedText);
 
                         if (translatedText !== '') {
@@ -57,7 +57,7 @@ async function translate(text, translation, table = []) {
             } else {
                 for (let index = 0; index < 2; index++) {
                     // retranslate
-                    translatedText = ipcRenderer.sendSync('translate', engine, option);
+                    translatedText = ipcRenderer.sendSync('get-translation', engine, option);
                     console.log(engine + ':', translatedText);
 
                     if (translatedText !== '') {
@@ -87,7 +87,7 @@ async function zhtConvert(text, languageTo) {
             to: 'zh-TW',
             text: text
         }
-        const response = ipcRenderer.sendSync('translate', 'Google', option);
+        const response = ipcRenderer.sendSync('get-translation', 'Google', option);
         return response !== '' ? response : text;
     } else {
         return text;

@@ -115,7 +115,7 @@ async function setAuthentication() {
             hostname: 'fanyi.baidu.com'
         },
         headers: [
-            ['cookie', cookie]
+            ['Cookie', cookie]
         ],
         callback: callback
     });
@@ -159,7 +159,7 @@ async function translate(cookie, authentication, option) {
         },
         headers: [
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['cookie', cookie],
+            ['Cookie', cookie],
             ['User-Agent', userAgent]
         ],
         data: encodeURI(postData),

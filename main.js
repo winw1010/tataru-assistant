@@ -15,12 +15,9 @@ const { loadConfig, saveConfig, getDefaultConfig } = require('./main_modules/con
 // chat code module
 const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modules/chat-code-module');
 
-// translator
-const startRequest = require('./main_modules/translator/request-module').startRequest;
-const baidu = require('./main_modules/translator/baidu');
-const caiyun = require('./main_modules/translator/caiyun');
-const youdao = require('./main_modules/translator/youdao');
-const google = require('./main_modules/translator/google');
+// request
+const { startRequest } = require('./main_modules/translator/request-module');
+const { getTranslation } = require('./main_modules/translate-module');
 
 // config
 let config = null;
@@ -246,33 +243,9 @@ ipcMain.on('get-latest-version', async (event) => {
     });
 });
 
-// translate
-ipcMain.on('translate', async (event, engine, option) => {
-    let result = '';
-
-    switch (engine) {
-        case 'Baidu':
-            result = await baidu.exec(option);
-            break;
-
-        case 'Caiyun':
-            result = await caiyun.exec(option);
-            break;
-
-        case 'Youdao':
-            result = await youdao.exec(option);
-            break;
-
-        case 'Google':
-            result = await google.exec(option);
-            break;
-
-        default:
-            result = await baidu.exec(option);
-            break;
-    }
-
-    event.returnValue = result;
+// get translation
+ipcMain.on('get-translation', async (event, engine, option) => {
+    event.returnValue = await getTranslation(engine, option);
 });
 
 // post form

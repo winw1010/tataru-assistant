@@ -4,15 +4,15 @@
 const CryptoJS = require("crypto-js");
 
 // request module
-const { startRequest } = require('./request-module');
+const { startRequest, requestCookie } = require('./request-module');
 
 // user agent
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
-const userID = /.*(OUTFOX_SEARCH_USER_ID=.*?);.*/i;
-const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(.*?)"/i;
-//const ncooRegExp = /^.*?(\d+) \* Math\.random\(\).*$/i;
+const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
+const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(?<target>.*?)"/i;
+//const ncooRegExp = /(\d+) \* Math\.random\(\)/i;
 
 // expire date
 let expireDate = 0;
@@ -20,27 +20,27 @@ let expireDate = 0;
 // cookie
 let cookie = null;
 
-// auth
-let auth = null;
+// authentication
+let authentication = null;
 
 // exec
 async function exec(option) {
-    let result = '';
+    let response = '';
 
     try {
         // check expire date
-        if (new Date().getTime() >= expireDate) {
+        if (new Date().getTime() >= expireDate || !cookie || !authentication) {
             await initialize();
         }
 
         // get result
-        result = await translate(cookie, auth, option) || '';
+        response = await translate(cookie, authentication, option) || '';
     } catch (error) {
         console.log(error);
     }
 
     // if result is blank => reset expire date
-    if (!result || result === '') {
+    if (!response || response === '') {
         expireDate = 0;
     }
 
@@ -48,85 +48,64 @@ async function exec(option) {
     console.log({
         expiredDate: expireDate,
         cookie: cookie,
-        auth: auth,
-        result: result
+        authentication: authentication,
+        response: response
     });
     */
 
-    return result;
+    return response;
 }
 
-// reset cookie
+// initialize
 async function initialize() {
-    // get cookie
+    // set cookie
     for (let index = 0; index < 3; index++) {
-        cookie = await getCookie();
+        await setCookie();
         if (cookie) {
             break;
         }
     }
 
-    // get auth
+    if (!cookie) {
+        cookie = '';
+    }
+
+    // set authentication
     for (let index = 0; index < 3; index++) {
-        auth = await getAuth();
-        if (auth) {
+        await setAuthentication();
+        if (authentication) {
             break;
         }
     }
+
+    if (!authentication) {
+        authentication = {
+            fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5'
+        };
+    }
 }
 
-// get cookie
-async function getCookie() {
-    const callback = function (response) {
-        if (response.statusCode === 200 && response.headers['set-cookie']) {
-            let newCookie = response.headers['set-cookie'].join('; ').replace(userID, '$1');
-            newCookie += `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`
-            return newCookie;
-        }
-    }
-
-    const newCookie = await startRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'fanyi.youdao.com'
-        },
-        callback: callback
-    });
-
-    if (newCookie) {
-        // set expired date
-        const newCookieArray = newCookie.split(';');
-        for (let index = 0; index < newCookieArray.length; index++) {
-            const property = newCookieArray[index];
-            if (/expires=/i.test(property)) {
-                expireDate = new Date(property.split('=')[1].trim()).getTime();
-                break;
-            }
-        }
-    }
-
-    return newCookie;
+// set cookie
+async function setCookie() {
+    const response = await requestCookie('fanyi.youdao.com');
+    expireDate = response.expireDate;
+    cookie = userIdRegExp.exec(response.cookie).groups.target + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
 }
 
-// get auth
-async function getAuth() {
+// set authentication
+async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
-            let fanyideskweb = fanyideskwebRegExp.exec(chunkString) || '';
-
-            if (fanyideskweb instanceof Array) {
-                fanyideskweb = fanyideskweb[1];
-            }
+            let fanyideskweb = fanyideskwebRegExp.exec(chunkString).groups.target || '';
 
             return {
-                fanyideskweb: fanyideskweb
+                fanyideskweb
             };
         }
     }
 
-    return await startRequest({
+    authentication = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -138,7 +117,7 @@ async function getAuth() {
 }
 
 // translate
-async function translate(cookie, auth, option) {
+async function translate(cookie, authentication, option) {
     const ctime = new Date().getTime();
     const ctime2 = ctime + 1;
     const salt = ctime2.toString() + parseInt(10 * Math.random(), 10).toString();
@@ -150,7 +129,7 @@ async function translate(cookie, auth, option) {
         "&smartresult=dict" +
         "&client=fanyideskweb" +
         "&salt=" + salt +
-        "&sign=" + CryptoJS.MD5('fanyideskweb' + option.text + salt + (auth.fanyideskweb) || 'Ygy_4c=r#e#4EX^NUGUc5').toString() +
+        "&sign=" + CryptoJS.MD5('fanyideskweb' + option.text + salt + (authentication.fanyideskweb) || 'Ygy_4c=r#e#4EX^NUGUc5').toString() +
         "&lts=" + ctime2 +
         "&bv=f0819a82107e6150005e75ef5fddcc3b" + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
         "&doctype=json" +

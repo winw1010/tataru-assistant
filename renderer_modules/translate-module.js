@@ -26,6 +26,7 @@ async function translate(text, translation, table = []) {
         // add count
         retryCount++;
 
+        // retry
         if (translatedText === '') {
             console.log('Response is empty.');
 
@@ -53,7 +54,23 @@ async function translate(text, translation, table = []) {
                         }
                     }
                 }
+            } else {
+                for (let index = 0; index < 2; index++) {
+                    // retranslate
+                    translatedText = ipcRenderer.sendSync('translate', engine, option);
+                    console.log(engine + ':', translatedText);
+
+                    if (translatedText !== '') {
+                        break;
+                    }
+                }
             }
+        }
+
+        // text check
+        if (translatedText === '') {
+            translatedText = '翻譯失敗，請稍後再試';
+            break;
         }
 
         // missing code check

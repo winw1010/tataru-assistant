@@ -1,5 +1,8 @@
 'use strict';
 
+// https://papago.naver.com/main.326c5bbc1f1b8e106d89.chunk.js
+// return{Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.6.9_0f9c783dcc").toString(p.a.enc.Base64),Timestamp:n}
+
 // CryptoJS
 const CryptoJS = require("crypto-js");
 
@@ -13,6 +16,7 @@ const { startRequest } = require('./request-module');
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
+//const papagoVersion = /.*"(v\d{1,3}?\.\d{1,3}?\.\d{1,3}?_.*?)".*/i;
 const JSESSIONID = /^.*(JSESSIONID=.*?);.*$/i;
 
 // expire date

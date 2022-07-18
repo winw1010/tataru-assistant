@@ -11,7 +11,7 @@ const cfen = require('./correction-function-en');
 const cf = require('./correction-function');
 
 // translator module
-const tm = require('./translator-module');
+const tm = require('./translate-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];

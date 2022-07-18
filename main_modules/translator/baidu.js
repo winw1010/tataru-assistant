@@ -1,7 +1,7 @@
 'use strict';
 
 // request module
-const { startRequest } = require('./request-module');
+const { startRequest, requestCookie } = require('./request-module');
 
 // baidu encoder
 const { signEncoder } = require('./baiduEncoder');
@@ -10,8 +10,9 @@ const { signEncoder } = require('./baiduEncoder');
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
-const tokenRegExp = /token:\s*?'(.*?)'/i;
-const gtkRegExp = /gtk\s*?=\s*?"(.*?)"/i;
+const baiduIdRegExp = /(?<target>BAIDUID=.*?);/i;
+const tokenRegExp = /token:\s*?'(?<target>.*?)'/i;
+const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/i;
 
 // expire date
 let expireDate = 0;
@@ -20,7 +21,7 @@ let expireDate = 0;
 let cookie = null;
 
 // auth
-let auth = null;
+let authentication = null;
 
 // exec
 async function exec(option) {
@@ -33,7 +34,7 @@ async function exec(option) {
         }
 
         // get result
-        result = await translate(cookie, auth, option) || '';
+        result = await translate(cookie, authentication, option) || '';
     } catch (error) {
         console.log(error);
     }
@@ -57,81 +58,48 @@ async function exec(option) {
 
 // reset cookie
 async function initialize() {
-    // get cookie
+    // set cookie
     for (let index = 0; index < 3; index++) {
-        cookie = await getCookie();
+        await setCookie();
         if (cookie) {
             break;
         }
     }
 
-    // get auth
+    // set auth
     if (cookie) {
         for (let index = 0; index < 3; index++) {
-            auth = await getAuth(cookie);
-            if (auth) {
+            await setAuthentication(cookie);
+            if (authentication) {
                 break;
             }
         }
     }
 }
 
-// get cookie
-async function getCookie() {
-    const callback = function (response) {
-        if (response.statusCode === 200 && response.headers['set-cookie']) {
-            return response.headers['set-cookie'].join('; ');
-        }
-    }
-
-    const newCookie = await startRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'fanyi.baidu.com'
-        },
-        callback: callback
-    });
-
-    if (newCookie) {
-        // set expired date
-        const newCookieArray = newCookie.split(';');
-        for (let index = 0; index < newCookieArray.length; index++) {
-            const property = newCookieArray[index];
-            if (/expires=/i.test(property)) {
-                expireDate = new Date(property.split('=')[1].trim()).getTime();
-                break;
-            }
-        }
-    }
-
-    return newCookie;
+// set cookie
+async function setCookie() {
+    const response = await requestCookie('fanyi.baidu.com');
+    expireDate = response.expireDate;
+    cookie = baiduIdRegExp.exec(response.cookie).groups.target;
 }
 
-// get auth
-async function getAuth(cookie = '') {
+// set auth
+async function setAuthentication(cookie = '') {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-            let token = tokenRegExp.exec(chunkString) || '';
-            let gtk = gtkRegExp.exec(chunkString) || '320305.131321201';
-
-            if (token instanceof Array) {
-                token = token[1];
-            }
-
-            if (gtk instanceof Array) {
-                gtk = gtk[1];
-            }
+            let token = tokenRegExp.exec(chunkString).groups.target || '';
+            let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
 
             return {
-                token: token,
-                gtk: gtk
+                token,
+                gtk
             };
         }
     }
 
-    return await startRequest({
+    authentication = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',

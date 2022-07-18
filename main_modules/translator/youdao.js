@@ -12,7 +12,7 @@ const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/53
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
 const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(?<target>.*?)"/i;
-//const ncooRegExp = /(\d+) \* Math\.random\(\)/i;
+//const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
 
 // expire date
 let expireDate = 0;

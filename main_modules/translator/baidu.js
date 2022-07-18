@@ -25,22 +25,22 @@ let authentication = null;
 
 // exec
 async function exec(option) {
-    let result = '';
+    let response = '';
 
     try {
         // check expire date
-        if (new Date().getTime() >= expireDate) {
+        if (new Date().getTime() >= expireDate || !cookie || !authentication) {
             await initialize();
         }
 
         // get result
-        result = await translate(cookie, authentication, option) || '';
+        response = await translate(cookie, authentication, option) || '';
     } catch (error) {
         console.log(error);
     }
 
     // if result is blank => reset expire date
-    if (!result || result === '') {
+    if (!response || response === '') {
         expireDate = 0;
     }
 
@@ -49,14 +49,14 @@ async function exec(option) {
         expiredDate: expireDate,
         cookie: cookie,
         authentication: authentication,
-        result: result
+        response: response
     });
     */
 
-    return result;
+    return response;
 }
 
-// reset cookie
+// initialize
 async function initialize() {
     // set cookie
     for (let index = 0; index < 3; index++) {
@@ -66,14 +66,23 @@ async function initialize() {
         }
     }
 
+    if (!cookie) {
+        cookie = '';
+    }
+
     // set authentication
-    if (cookie) {
-        for (let index = 0; index < 3; index++) {
-            await setAuthentication(cookie);
-            if (authentication) {
-                break;
-            }
+    for (let index = 0; index < 3; index++) {
+        await setAuthentication(cookie);
+        if (authentication) {
+            break;
         }
+    }
+
+    if (!authentication) {
+        authentication = {
+            token: '',
+            gtk: ''
+        };
     }
 }
 
@@ -146,12 +155,11 @@ async function translate(cookie, authentication, option) {
             method: 'POST',
             protocol: 'https:',
             hostname: 'fanyi.baidu.com',
-            path: '/v2transapi'
+            path: `/v2transapi?from=${option.from}&to=${option.to}`
         },
         headers: [
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
             ['cookie', cookie],
-            ['responseType', 'json'],
             ['User-Agent', userAgent]
         ],
         data: encodeURI(postData),

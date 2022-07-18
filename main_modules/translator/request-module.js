@@ -58,7 +58,7 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
 }
 
 // request cookie
-async function requestCookie(hostname = '', path = '') {
+async function requestCookie(hostname = '', path = '/') {
     let cookie = null;
     let expireDate = 0;
 

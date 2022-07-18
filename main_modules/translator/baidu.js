@@ -20,7 +20,7 @@ let expireDate = 0;
 // cookie
 let cookie = null;
 
-// auth
+// authentication
 let authentication = null;
 
 // exec
@@ -48,7 +48,7 @@ async function exec(option) {
     console.log({
         expiredDate: expireDate,
         cookie: cookie,
-        auth: auth,
+        authentication: authentication,
         result: result
     });
     */
@@ -66,7 +66,7 @@ async function initialize() {
         }
     }
 
-    // set auth
+    // set authentication
     if (cookie) {
         for (let index = 0; index < 3; index++) {
             await setAuthentication(cookie);
@@ -84,7 +84,7 @@ async function setCookie() {
     cookie = baiduIdRegExp.exec(response.cookie).groups.target;
 }
 
-// set auth
+// set authentication
 async function setAuthentication(cookie = '') {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
@@ -113,15 +113,15 @@ async function setAuthentication(cookie = '') {
 }
 
 // translate
-async function translate(cookie, auth, option) {
+async function translate(cookie, authentication, option) {
     const postData =
         'from=' + option.from +
         '&to=' + option.to +
         '&query=' + option.text +
         '&transtype=realtime' +
         '&simple_means_flag=3' +
-        '&sign=' + signEncoder(option.text, auth.gtk) +
-        '&token=' + auth.token;
+        '&sign=' + signEncoder(option.text, authentication.gtk) +
+        '&token=' + authentication.token;
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {

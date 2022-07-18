@@ -82,7 +82,7 @@ function loadConfig() {
                 // add property
                 const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
                 subNames.forEach((subName) => {
-                    if (!config[mainName][subName]) {
+                    if (!config[mainName][subName] && config[mainName][subName] !== false) {
                         config[mainName][subName] = defaultConfig[mainName][subName];
                     }
                 });
@@ -91,7 +91,7 @@ function loadConfig() {
                 const subNames2 = Object.getOwnPropertyNames(config[mainName]);
                 if (subNames.length != subNames2.length) {
                     subNames2.forEach((subName) => {
-                        if (!defaultConfig[mainName][subName]) {
+                        if (!defaultConfig[mainName][subName] && defaultConfig[mainName][subName] !== false) {
                             delete config[mainName][subName];
                         }
                     });

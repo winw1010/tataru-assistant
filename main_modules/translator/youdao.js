@@ -11,8 +11,12 @@ const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/53
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
-const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(?<target>.*?)"/i;
-//const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
+const fanyideskwebRegExp = /"fanyideskweb".*?\+.*?\+.*?\+.*?"(?<target>.*?)"/i;
+// const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
+
+// sign: n.md5("fanyideskweb" + e + i + "Ygy_4c=r#e#4EX^NUGUc5")
+// const fanyideskwebRegExp = /"fanyideskweb" \+ e \+ i \+ "(?<target>.*?)"/i;
+// const fanyideskwebRegExp = /"fanyideskweb"\s*?\+\s*?e\s*?\+\s*?i\s*?\+\s*?"(?<target>.*?)"/i;
 
 // expire date
 let expireDate = 0;

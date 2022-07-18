@@ -163,10 +163,22 @@ async function translate(cookie, authentication, option) {
             path: '/translate_o?smartresult=dict&smartresult=rule'
         },
         headers: [
+            ['Accept', 'application/json, text/javascript, */*; q=0.01'],
+            ['Accept-Encoding', 'gzip, deflate, br'],
+            ['Accept-Language', 'zh-TW,zh;q=0.9'],
+            ['Connection', 'keep-alive'],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['cookie', cookie + `; ___rl__test__cookies=${ctime}`],
+            ['Cookie', cookie + `; ___rl__test__cookies=${ctime}`],
+            ['Origin', 'https://fanyi.youdao.com'],
             ['Referer', 'http://fanyi.youdao.com/'],
-            ['User-Agent', userAgent]
+            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
+            ['sec-ch-ua-mobile', '?0'],
+            ['sec-ch-ua-platform', '"Windows"'],
+            ['Sec-Fetch-Dest', 'empty'],
+            ['Sec-Fetch-Mode', 'cors'],
+            ['Sec-Fetch-Site', 'same-origin'],
+            ['User-Agent', userAgent],
+            ['X-Requested-With', 'XMLHttpRequest']
         ],
         data: encodeURI(postData),
         callback: callback

@@ -34,8 +34,8 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
                 });
 
                 response.on('end', () => {
-                    request.abort();
                     console.log('Response end');
+                    request.abort();
                     resolve(null);
                 });
             });

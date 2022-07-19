@@ -7,16 +7,7 @@ const { ipcRenderer } = require('electron');
 const http = require('http');
 
 // system channel
-const systemChannel = [
-    '0039',
-    '0839',
-    '0003',
-    '0038',
-    '003C',
-    '0048',
-    '001D',
-    '001C'
-];
+const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
 // text history
 let textHistory = {};
@@ -25,13 +16,13 @@ let textHistory = {};
 let lastTimestamp = 0;
 
 // create server
-const server = http.createServer(function(request, response) {
+const server = http.createServer(function (request, response) {
     if (request.method === 'POST') {
-        request.on('data', function(data) {
+        request.on('data', function (data) {
             dataProcess(data);
         });
 
-        request.on('end', function() {
+        request.on('end', function () {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end('POST complete.');
         });
@@ -120,10 +111,7 @@ function dataProcess(data) {
 function dataCheck(dialogData) {
     const names = Object.getOwnPropertyNames(dialogData);
 
-    return names.includes('code') &&
-        names.includes('playerName') &&
-        names.includes('name') &&
-        names.includes('text');
+    return names.includes('code') && names.includes('playerName') && names.includes('name') && names.includes('text');
 }
 
 // channel check

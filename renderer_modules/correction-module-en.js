@@ -42,7 +42,7 @@ let chArray = {
 
     // combine
     combine: [],
-}
+};
 
 let enArray = {
     // ignore
@@ -64,7 +64,10 @@ function loadJSON(languageTo) {
     const englishDirectory = 'text/en';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
+    chArray.overwrite = cf.combineArrayWithTemp(
+        cf.readJSON(tempLocation, 'overwriteTemp.json'),
+        cf.readJSONOverwrite(chineseDirectory, 'overwriteEN')
+    );
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
@@ -97,7 +100,7 @@ function addToCorrectionQueue(dialogData, translation, tryCount = 0) {
     correctionQueueItems.push({
         dialogData: dialogData,
         translation: translation,
-        tryCount: tryCount
+        tryCount: tryCount,
     });
 }
 
@@ -163,7 +166,7 @@ function savePlayerName(playerName) {
             chArray.player = [
                 [playerName, playerName],
                 [firstName, firstName],
-                [lastName, lastName]
+                [lastName, lastName],
             ];
 
             // set combine

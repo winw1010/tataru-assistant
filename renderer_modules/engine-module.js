@@ -5,25 +5,18 @@ const languageEnum = {
     ja: 'Japanese',
     en: 'English',
     zht: 'Traditional-Chinese',
-    zhs: 'Simplified-Chinese'
-}
+    zhs: 'Simplified-Chinese',
+};
 
 // for main.json
 const languageIndex = {
-    'Japanese': 0,
-    'English': 1,
+    Japanese: 0,
+    English: 1,
     'Traditional-Chinese': 2,
-    'Simplified-Chinese': 3
-}
+    'Simplified-Chinese': 3,
+};
 
-const engineList = [
-    'Baidu',
-    'Caiyun',
-    'Youdao',
-    'Google',
-    'Papago',
-    'DeepL'
-];
+const engineList = ['Baidu', 'Caiyun', 'Youdao', 'Google', 'Papago', 'DeepL'];
 
 const AvailableEngine = [
     'Baidu',
@@ -35,56 +28,56 @@ const AvailableEngine = [
 ];
 
 const engineTable = {
-    'Baidu': {
-        'Auto': 'auto',
-        'Japanese': 'jp',
-        'English': 'en',
+    Baidu: {
+        Auto: 'auto',
+        Japanese: 'jp',
+        English: 'en',
         'Traditional-Chinese': 'zh',
-        'Simplified-Chinese': 'zh'
+        'Simplified-Chinese': 'zh',
     },
-    'Caiyun': {
-        'Auto': 'auto',
-        'Japanese': 'ja',
-        'English': 'en',
+    Caiyun: {
+        Auto: 'auto',
+        Japanese: 'ja',
+        English: 'en',
         'Traditional-Chinese': 'zh',
-        'Simplified-Chinese': 'zh'
+        'Simplified-Chinese': 'zh',
     },
-    'Youdao': {
-        'Auto': 'auto',
-        'Japanese': 'ja',
-        'English': 'en',
+    Youdao: {
+        Auto: 'auto',
+        Japanese: 'ja',
+        English: 'en',
         'Traditional-Chinese': 'zh-CHS',
-        'Simplified-Chinese': 'zh-CHS'
+        'Simplified-Chinese': 'zh-CHS',
     },
-    'Tencent': {
-        'Auto': 'auto',
-        'Japanese': 'jp',
-        'English': 'en',
+    Tencent: {
+        Auto: 'auto',
+        Japanese: 'jp',
+        English: 'en',
         'Traditional-Chinese': 'zh',
-        'Simplified-Chinese': 'zh'
+        'Simplified-Chinese': 'zh',
     },
-    'Papago': {
-        'Auto': 'detect',
-        'Japanese': 'ja',
-        'English': 'en',
+    Papago: {
+        Auto: 'detect',
+        Japanese: 'ja',
+        English: 'en',
         'Traditional-Chinese': 'zh-CN',
-        'Simplified-Chinese': 'zh-CN'
+        'Simplified-Chinese': 'zh-CN',
     },
-    'DeepL': {
-        'Auto': 'auto',
-        'Japanese': 'JA',
-        'English': 'EN',
+    DeepL: {
+        Auto: 'auto',
+        Japanese: 'JA',
+        English: 'EN',
         'Traditional-Chinese': 'ZH',
-        'Simplified-Chinese': 'ZH'
+        'Simplified-Chinese': 'ZH',
     },
-    'Google': {
-        'Auto': 'auto',
-        'Japanese': 'ja',
-        'English': 'en',
+    Google: {
+        Auto: 'auto',
+        Japanese: 'ja',
+        English: 'en',
         'Traditional-Chinese': 'zh-CN',
-        'Simplified-Chinese': 'zh-CN'
-    }
-}
+        'Simplified-Chinese': 'zh-CN',
+    },
+};
 
 function getOption(engine, from, to, text) {
     const table = engineTable[engine];
@@ -92,7 +85,7 @@ function getOption(engine, from, to, text) {
     return {
         from: table[from],
         to: table[to],
-        text: text
+        text: text,
     };
 }
 

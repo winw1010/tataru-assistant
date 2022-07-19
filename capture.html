@@ -1,49 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Tataru Node UI</title>
 
-<head>
-    <title>Tataru Node UI</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
 
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+        <!-- main Style -->
+        <link rel="stylesheet" href="css/custom/main.css" />
 
-    <!-- main Style -->
-    <link rel="stylesheet" href="css/custom/main.css" />
+        <!-- capture Style -->
+        <link rel="stylesheet" href="css/custom/capture.css" />
+    </head>
 
-    <!-- capture Style -->
-    <link rel="stylesheet" href="css/custom/capture.css" />
-</head>
+    <body>
+        <!-- image button -->
+        <div id="div_upper_button">
+            <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
 
-<body>
-    <!-- image button -->
-    <div id="div_upper_button">
-        <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg">
+            <select name="" id="select_type">
+                <option value="fast">模式: 快速</option>
+                <option value="standard">模式: 標準</option>
+                <option value="best">模式: 最佳</option>
+            </select>
 
-        <select name="" id="select_type">
-            <option value="fast">模式: 快速</option>
-            <option value="standard">模式: 標準</option>
-            <option value="best">模式: 最佳</option>
-        </select>
+            <input type="checkbox" value="" id="checkbox_split" />
+            <label for="checkbox_split">換行分割</label>
 
-        <input type="checkbox" value="" id="checkbox_split">
-        <label for="checkbox_split">換行分割</label>
+            <input type="checkbox" value="" id="checkbox_edit" />
+            <label for="checkbox_edit">編輯擷取文字</label>
 
-        <input type="checkbox" value="" id="checkbox_edit">
-        <label for="checkbox_edit">編輯擷取文字</label>
+            <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+            <span id="span_position" class="float_right"></span>
+        </div>
 
-        <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
-        <span id="span_position" class="float_right"></span>
-    </div>
-
-    <canvas id="canvas_select">
-
-    </canvas>
-</body>
-
+        <canvas id="canvas_select"> </canvas>
+    </body>
 </html>

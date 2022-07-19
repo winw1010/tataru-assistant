@@ -43,7 +43,7 @@ const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\
 let targetLog = null;
 
 // google form
-const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg'
+const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg';
 const entry1 = 'entry.195796166';
 const entry2 = 'entry.1834106335';
 const entry3 = 'entry.2057890818';
@@ -79,7 +79,11 @@ function setIPC() {
     ipcRenderer.on('send-data', (event, id) => {
         try {
             const milliseconds = parseInt(id.slice(2));
-            const logFileList = [createLogName(milliseconds), createLogName(milliseconds + 86400000), createLogName(milliseconds - 86400000)];
+            const logFileList = [
+                createLogName(milliseconds),
+                createLogName(milliseconds + 86400000),
+                createLogName(milliseconds - 86400000),
+            ];
 
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
@@ -136,7 +140,7 @@ function setButton() {
             code: targetLog.code,
             name: targetLog.name,
             text: targetLog.text,
-            timestamp: targetLog.timestamp
+            timestamp: targetLog.timestamp,
         };
 
         let translation = config.translation;
@@ -236,9 +240,7 @@ async function showAudio(targetLog) {
         try {
             const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
             if (targetLog.audio_text.length < 200) {
-                const url = googleTTS.getAudioUrl(
-                    targetLog.audio_text, { lang: languageCode }
-                );
+                const url = googleTTS.getAudioUrl(targetLog.audio_text, { lang: languageCode });
                 console.log('TTS url:', url);
 
                 document.getElementById('div_audio').innerHTML = `
@@ -298,9 +300,9 @@ function addTemp(textBefore, textAfter, type, array) {
 
     const target = cf.sameAsArrayItem(textBefore, array);
     if (target) {
-        array[target[1]] = (type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter];
+        array[target[1]] = type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
-        array.push((type !== 'jp' && type !== 'overwrite') ? [textBefore, textAfter, type] : [textBefore, textAfter]);
+        array.push(type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }
 
     return array;

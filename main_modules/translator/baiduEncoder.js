@@ -63,9 +63,7 @@ function signEncoder(t, r) {
         var d = l.length;
         d > 30 &&
             (t =
-                l.slice(0, 10).join('') +
-                l.slice(Math.floor(d / 2) - 5, Math.floor(d / 2) + 5).join('') +
-                l.slice(-10).join(''));
+                l.slice(0, 10).join('') + l.slice(Math.floor(d / 2) - 5, Math.floor(d / 2) + 5).join('') + l.slice(-10).join(''));
     }
     for (
         var p = ''.concat(String.fromCharCode(103)).concat(String.fromCharCode(116)).concat(String.fromCharCode(107)),
@@ -106,9 +104,7 @@ function signEncoder(t, r) {
     )
         b = n((b += g[_]), x);
     return (
-        (b = n(b, k)),
-        (b ^= m) < 0 && (b = 2147483648 + (2147483647 & b)),
-        ''.concat((b %= 1e6).toString(), '.').concat(b ^ h)
+        (b = n(b, k)), (b ^= m) < 0 && (b = 2147483648 + (2147483647 & b)), ''.concat((b %= 1e6).toString(), '.').concat(b ^ h)
     );
 }
 

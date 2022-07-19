@@ -42,7 +42,7 @@ function canIgnore(text, ignoreArray) {
         }
     }
 
-    return false
+    return false;
 }
 
 function includesArrayItem(text, array, searchIndex = 0) {
@@ -58,7 +58,7 @@ function includesArrayItem(text, array, searchIndex = 0) {
 
     // 2d check
     if (Array.isArray(array[0])) {
-        searchArray = array.map(value => value[searchIndex]);
+        searchArray = array.map((value) => value[searchIndex]);
     }
 
     // match
@@ -90,7 +90,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
 
     // 2d check
     if (Array.isArray(array[0])) {
-        searchArray = array.map(value => value[searchIndex]);
+        searchArray = array.map((value) => value[searchIndex]);
     }
 
     // match
@@ -158,8 +158,8 @@ function valueFixBefore(text) {
 
     return {
         text: text,
-        table: valueTable
-    }
+        table: valueTable,
+    };
 }
 
 function valueFixAfter(text, valueTable) {
@@ -296,12 +296,14 @@ function writeJSON(path = '', name = '', array = []) {
     try {
         const dir = './json';
         const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
-        writeFileSync(finalPath, JSON.stringify(array)
-            .replaceAll('[[', '[\n\t[')
-            .replaceAll('],["//comment",', '],\n\n\t["//comment",')
-            .replaceAll('],[', '],\n\t[')
-            .replaceAll(',"', ', "')
-            .replaceAll(']]', ']\n]')
+        writeFileSync(
+            finalPath,
+            JSON.stringify(array)
+                .replaceAll('[[', '[\n\t[')
+                .replaceAll('],["//comment",', '],\n\n\t["//comment",')
+                .replaceAll('],[', '],\n\t[')
+                .replaceAll(',"', ', "')
+                .replaceAll(']]', ']\n]')
         );
     } catch (error) {
         console.log(error);
@@ -310,11 +312,11 @@ function writeJSON(path = '', name = '', array = []) {
 
 function subArray(array, sub0, sub1) {
     if (!Array.isArray(array)) {
-        return []
+        return [];
     }
 
     if (!array.length > 0) {
-        return []
+        return [];
     }
 
     array.forEach((value, index, array) => {
@@ -326,11 +328,11 @@ function subArray(array, sub0, sub1) {
 
 function clearArray(array) {
     if (!Array.isArray(array)) {
-        return []
+        return [];
     }
 
     if (!array.length > 0) {
-        return []
+        return [];
     }
 
     if (Array.isArray(array[0])) {
@@ -357,11 +359,11 @@ function clearArray(array) {
 
 function sortArray(array) {
     if (!Array.isArray(array)) {
-        return []
+        return [];
     }
 
     if (!array.length > 0) {
-        return []
+        return [];
     }
 
     if (Array.isArray(array[0])) {
@@ -424,7 +426,7 @@ function combineArrayWithTemp(temp, ...args) {
     }
 
     // combine temp
-    temp = temp.map(x => [x[0], x[1]]);
+    temp = temp.map((x) => [x[0], x[1]]);
     combine = combineArray(temp, combine);
 
     return sortArray(combine);

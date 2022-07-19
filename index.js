@@ -18,7 +18,14 @@ const { loadJSON_JP } = require('./renderer_modules/correction-module-jp');
 const { loadJSON_EN } = require('./renderer_modules/correction-module-en');
 
 // dialog module
-const { appendBlankDialog, updateDialog, appendNotification, showDialog, setStyle, moveToBottom } = require('./renderer_modules/dialog-module');
+const {
+    appendBlankDialog,
+    updateDialog,
+    appendNotification,
+    showDialog,
+    setStyle,
+    moveToBottom,
+} = require('./renderer_modules/dialog-module');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
@@ -214,7 +221,7 @@ function setButton() {
     document.getElementById('img_button_auto_play').onclick = () => {
         let config = ipcRenderer.sendSync('get-config');
         config.translation.autoPlay = !config.translation.autoPlay;
-        ipcRenderer.send('set-config', config)
+        ipcRenderer.send('set-config', config);
         ipcRenderer.send('mute-window', config.translation.autoPlay);
 
         if (config.translation.autoPlay) {
@@ -278,7 +285,13 @@ function resetView(config) {
     // start/restart mouse out check interval
     clearInterval(mouseOutCheckInterval);
     mouseOutCheckInterval = setInterval(() => {
-        const isMouseOut = ipcRenderer.sendSync('mouse-out-check', window.screenX, window.screenY, window.innerWidth, window.innerHeight);
+        const isMouseOut = ipcRenderer.sendSync(
+            'mouse-out-check',
+            window.screenX,
+            window.screenY,
+            window.innerWidth,
+            window.innerHeight
+        );
 
         if (isMouseOut) {
             // hide button
@@ -370,6 +383,8 @@ async function versionCheck() {
     } catch (error) {
         console.log(error);
         document.getElementById('img_button_update').hidden = false;
-        appendNotification('已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本');
+        appendNotification(
+            '已有可用的更新，請按下上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本'
+        );
     }
 }

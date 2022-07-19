@@ -94,8 +94,7 @@ async function initialize() {
 async function setCookie() {
     const response = await requestCookie('fanyi.youdao.com');
     expireDate = response.expireDate;
-    cookie =
-        userIdRegExp.exec(response.cookie).groups.target + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+    cookie = userIdRegExp.exec(response.cookie).groups.target + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
 }
 
 // set authentication

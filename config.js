@@ -25,26 +25,32 @@ function setView() {
 function setEvent() {
     // background color
     document.getElementById('color_background_color').oninput = () => {
-        document.getElementById('span_background_color').innerText =
-            document.getElementById('color_background_color').value.toString().toUpperCase();
+        document.getElementById('span_background_color').innerText = document
+            .getElementById('color_background_color')
+            .value.toString()
+            .toUpperCase();
     };
 
     // background transparency
     document.getElementById('range_background_transparency').oninput = () => {
-        document.getElementById('span_background_transparency').innerText =
-            document.getElementById('range_background_transparency').value;
+        document.getElementById('span_background_transparency').innerText = document.getElementById(
+            'range_background_transparency'
+        ).value;
     };
 
     // dialog color
     document.getElementById('color_dialog_color').oninput = () => {
-        document.getElementById('span_dialog_color').innerText =
-            document.getElementById('color_dialog_color').value.toString().toUpperCase();
+        document.getElementById('span_dialog_color').innerText = document
+            .getElementById('color_dialog_color')
+            .value.toString()
+            .toUpperCase();
     };
 
     // dialog transparency
     document.getElementById('range_dialog_transparency').oninput = () => {
-        document.getElementById('span_dialog_transparency').innerText =
-            document.getElementById('range_dialog_transparency').value;
+        document.getElementById('span_dialog_transparency').innerText = document.getElementById(
+            'range_dialog_transparency'
+        ).value;
     };
 }
 
@@ -380,8 +386,10 @@ function loadChannel(config, chatCode) {
         `;
 
         document.getElementById(`color_${element.ChatCode}_color`).oninput = () => {
-            document.getElementById(`span_${element.ChatCode}_color`).innerText =
-                document.getElementById(`color_${element.ChatCode}_color`).value.toString().toUpperCase();
+            document.getElementById(`span_${element.ChatCode}_color`).innerText = document
+                .getElementById(`color_${element.ChatCode}_color`)
+                .value.toString()
+                .toUpperCase();
         };
     }
 }

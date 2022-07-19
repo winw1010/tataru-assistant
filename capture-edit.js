@@ -78,8 +78,8 @@ function translate(text) {
                 playerName: '',
                 name: '',
                 text: element,
-                timestamp: (timestamp + index)
-            }
+                timestamp: timestamp + index,
+            };
 
             ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
         }

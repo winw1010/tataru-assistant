@@ -100,7 +100,14 @@ function readLog(fileName) {
                 const logElement = log[logNames[index]];
 
                 if (logElement.code !== 'FFFF') {
-                    ipcRenderer.send('send-index', 'append-dialog', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text)
+                    ipcRenderer.send(
+                        'send-index',
+                        'append-dialog',
+                        logElement.id,
+                        logElement.code,
+                        logElement.translated_name,
+                        logElement.translated_text
+                    );
                 }
             }
 

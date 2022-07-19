@@ -40,7 +40,11 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 
         // take screenshot
         try {
-            imagePath = await screenshot({ screen: displays[displayIndex].id, filename: getPath('screenshot.png'), format: 'png' });
+            imagePath = await screenshot({
+                screen: displays[displayIndex].id,
+                filename: getPath('screenshot.png'),
+                format: 'png',
+            });
         } catch (error) {
             imagePath = await screenshot({ filename: getPath('screenshot.png'), format: 'png' });
         }
@@ -60,20 +64,20 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         const imageBuffer = await sharp(imagePath)
             .resize({
                 width: parseInt(displayBounds.width * scaleRate),
-                height: parseInt(displayBounds.height * scaleRate)
+                height: parseInt(displayBounds.height * scaleRate),
             })
             .extract({
                 left: parseInt(rectangleSize.x * scaleRate),
                 top: parseInt(rectangleSize.y * scaleRate),
                 width: parseInt(rectangleSize.width * scaleRate),
-                height: parseInt(rectangleSize.height * scaleRate)
+                height: parseInt(rectangleSize.height * scaleRate),
             })
             .greyscale()
             .linear(fator, (1 - fator) * contrastThreshold)
             .png({ colors: 2 })
             .sharpen({
                 sigma: 2,
-                m2: 1000
+                m2: 1000,
             })
             .toBuffer();
 
@@ -149,7 +153,7 @@ async function recognizeImage(imageBuffer) {
         const worker = createWorker({
             langPath: getPath(config.captureWindow.type),
             cacheMethod: 'none',
-            gzip: false
+            gzip: false,
         });
 
         // load worker
@@ -165,7 +169,9 @@ async function recognizeImage(imageBuffer) {
         }
 
         // recognize text
-        const { data: { text } } = await worker.recognize(imageBuffer);
+        const {
+            data: { text },
+        } = await worker.recognize(imageBuffer);
 
         // terminate worker
         await worker.terminate();
@@ -191,9 +197,7 @@ function translate(text) {
         text = text.replaceAll(' ', '');
     }
 
-    text = text
-        .replaceAll('`', '「')
-        .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
+    text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
 
     // set string array
     let stringArray = [];
@@ -223,8 +227,8 @@ function translate(text) {
                 playerName: '',
                 name: '',
                 text: element,
-                timestamp: (timestamp + index)
-            }
+                timestamp: timestamp + index,
+            };
 
             ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
         }

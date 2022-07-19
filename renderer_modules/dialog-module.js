@@ -55,7 +55,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         if (config.indexWindow.advance) {
             ipcRenderer.send('create-window', 'edit', id);
         }
-    }
+    };
 
     if (name !== '') {
         dialog.innerHTML = `<span class="drop_shadow">${name}:</span><br><span class="drop_shadow">${text}</span>`;
@@ -135,8 +135,8 @@ function saveLog(id, name, text, dialogData, translation) {
         translated_text: text,
         timestamp: dialogData.timestamp,
         datetime: new Date(dialogData.timestamp).toLocaleString(),
-        translation: translation
-    }
+        translation: translation,
+    };
 
     const fileLocation = logLocation + '\\' + createLogName(item.timestamp);
     let log = null;
@@ -204,7 +204,7 @@ function getColor(code) {
 function moveToBottom() {
     clearSelection();
 
-    let div = (document.getElementById('div_dialog') || document.scrollingElement || document.body);
+    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
     div.scrollTop = div.scrollHeight;
 }
 

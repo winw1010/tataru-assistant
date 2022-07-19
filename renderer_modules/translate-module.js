@@ -85,8 +85,8 @@ async function zhtConvert(text, languageTo) {
         const option = {
             from: 'zh-CN',
             to: 'zh-TW',
-            text: text
-        }
+            text: text,
+        };
         const response = ipcRenderer.sendSync('get-translation', 'Google', option);
         return response !== '' ? response : text;
     } else {

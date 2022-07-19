@@ -27,29 +27,33 @@ function setView() {
 // set event
 function setEvent() {
     // resize
-    window.addEventListener('resize', function () {
-        setCanvasSize(document.getElementById('canvas_select'));
-    }, true);
+    window.addEventListener(
+        'resize',
+        function () {
+            setCanvasSize(document.getElementById('canvas_select'));
+        },
+        true
+    );
 
     // checkbox
     document.getElementById('checkbox_split').oninput = () => {
         let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.split = document.getElementById('checkbox_split').checked;
         ipcRenderer.send('set-config', config);
-    }
+    };
 
     document.getElementById('checkbox_edit').oninput = () => {
         let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
         ipcRenderer.send('set-config', config);
-    }
+    };
 
     // select
     document.getElementById('select_type').onchange = () => {
         let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('set-config', config);
-    }
+    };
 
     // canvas event
     setCanvasEvent(document.getElementById('canvas_select'));
@@ -88,15 +92,15 @@ function setCanvasEvent(canvas) {
         // get mousedown screen position
         mousedownSP = {
             x: event.screenX,
-            y: event.screenY
+            y: event.screenY,
         };
 
         // get mousedown client position
         mousedownCP = {
             x: event.clientX,
-            y: event.clientY
+            y: event.clientY,
         };
-    }
+    };
 
     // on mouse up
     canvas.onmouseup = (event) => {
@@ -112,7 +116,7 @@ function setCanvasEvent(canvas) {
         // get mouseup screen position
         mouseupSP = {
             x: event.screenX,
-            y: event.screenY
+            y: event.screenY,
         };
 
         // get rectangle size
@@ -122,7 +126,7 @@ function setCanvasEvent(canvas) {
         if (rectangleSize.width > 0 && rectangleSize.height > 0) {
             ipcRenderer.send('start-screen-translation', rectangleSize);
         }
-    }
+    };
 
     // on mouse move
     canvas.onmousemove = (event) => {
@@ -131,7 +135,7 @@ function setCanvasEvent(canvas) {
         if (isMouseDown) {
             drawRectangle(mousedownCP.x, mousedownCP.y, event.clientX, event.clientY);
         }
-    }
+    };
 
     // draw rectangle
     function drawRectangle(startX, startY, endX, endY) {
@@ -156,7 +160,7 @@ function setCanvasEvent(canvas) {
             x: startX > endX ? endX : startX,
             y: startY > endY ? endY : startY,
             width: mathAbs(endX - startX),
-            height: mathAbs(endY - startY)
+            height: mathAbs(endY - startY),
         };
     }
 

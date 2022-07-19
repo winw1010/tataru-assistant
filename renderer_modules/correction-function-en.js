@@ -21,7 +21,7 @@ const femaleWords = [
     'Niece',
     'Waitress',
     'Actress',
-    'Heroine'
+    'Heroine',
 ];
 
 // en text function
@@ -29,7 +29,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
-            table: []
+            table: [],
         };
     }
 
@@ -65,8 +65,8 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
     const result = {
         text: text,
-        table: table
-    }
+        table: table,
+    };
 
     console.log('result:', result);
 
@@ -75,7 +75,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
 function canSkipTranslation(text, table) {
     // remove table index
-    const enReg = table.map(value => value[0]).join('|');
+    const enReg = table.map((value) => value[0]).join('|');
     if (enReg !== '') {
         text = text.replaceAll(new RegExp(enReg, 'gi'), '');
     }
@@ -90,10 +90,7 @@ function genderFix(originalText, translatedText) {
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
     if (!isFemale) {
-        translatedText = translatedText
-            .replaceAll('她', '他')
-            .replaceAll('小姐', '')
-            .replaceAll('女王', '王');
+        translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
     }
 
     return translatedText;

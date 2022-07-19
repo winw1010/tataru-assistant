@@ -4,19 +4,13 @@
 const cf = require('./correction-function');
 
 // female words
-const femaleWords = [
-    '女',
-    '娘',
-    '嬢',
-    '母',
-    'マザー',
-    'ピクシー',
-    'ティターニア'
-];
+const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];
 
 // kana
-const hiragana = 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
-const katakana = 'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ';
+const hiragana =
+    'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
+const katakana =
+    'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ';
 
 // jp text function
 
@@ -24,7 +18,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
-            table: []
+            table: [],
         };
     }
 
@@ -185,8 +179,8 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
     const result = {
         text: text,
-        table: table
-    }
+        table: table,
+    };
 
     console.log('result:', result);
 
@@ -242,15 +236,11 @@ function genderFix(originalText, translatedText) {
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
     if (!isFemale) {
-        translatedText = translatedText
-            .replaceAll('她', '他')
-            .replaceAll('小姐', '')
-            .replaceAll('女王', '王');
+        translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
     }
 
     if (!originalText.includes('娘')) {
-        translatedText = translatedText
-            .replaceAll('女兒', '女孩');
+        translatedText = translatedText.replaceAll('女兒', '女孩');
     }
 
     return translatedText;

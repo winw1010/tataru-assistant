@@ -1,114 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Tataru Node UI</title>
 
-<head>
-    <title>Tataru Node UI</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://translate.google.com/; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
 
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://translate.google.com/; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+        <!-- main Style -->
+        <link rel="stylesheet" href="css/custom/main.css" />
 
-    <!-- main Style -->
-    <link rel="stylesheet" href="css/custom/main.css" />
+        <!-- edit Style -->
+        <link rel="stylesheet" href="css/custom/edit.css" />
+    </head>
 
-    <!-- edit Style -->
-    <link rel="stylesheet" href="css/custom/edit.css" />
-</head>
+    <body>
+        <!-- image button -->
+        <div id="div_upper_button">
+            <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+            <span>重新翻譯 & 自訂翻譯</span>
+            <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+        </div>
 
-<body>
-    <!-- image button -->
-    <div id="div_upper_button">
-        <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg">
-        <span>重新翻譯 & 自訂翻譯</span>
-        <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg">
-    </div>
+        <div id="div_center" class="flex_wrapper">
+            <div class="flex_left">
+                <div id="div_text1"></div>
 
-    <div id="div_center" class="flex_wrapper">
-        <div class="flex_left">
-            <div id="div_text1"></div>
+                <br />
 
-            <br>
+                <div id="div_text2"></div>
 
-            <div id="div_text2"></div>
+                <br />
 
-            <br>
+                <div id="div_restart" hidden>
+                    <div>
+                        <div id="div_audio"></div>
 
-            <div id="div_restart" hidden>
-                <div>
-                    <div id="div_audio"></div>
+                        <br />
 
-                    <br>
+                        <div>
+                            <select id="select_from">
+                                <option value="Japanese" selected>日文</option>
+                                <option value="English">英文</option>
+                            </select>
+                            <select name="select_restart_engine" id="select_restart_engine">
+                                <option value="Baidu" selected>百度翻譯</option>
+                                <option value="Youdao">有道翻譯</option>
+                                <option value="Caiyun">彩雲小譯</option>
+                                <option value="Google">Google</option>
+                            </select>
+                            <input type="checkbox" name="" id="checkbox_replace" />
+                            <label for="checkbox_replace">取代原本翻譯</label>
+                        </div>
+                    </div>
+
+                    <br />
 
                     <div>
-                        <select id="select_from">
-                            <option value="Japanese" selected>日文</option>
-                            <option value="English">英文</option>
-                        </select>
-                        <select name="select_restart_engine" id="select_restart_engine">
-                            <option value="Baidu" selected>百度翻譯</option>
-                            <option value="Youdao">有道翻譯</option>
-                            <option value="Caiyun">彩雲小譯</option>
-                            <option value="Google">Google</option>
-                        </select>
-                        <input type="checkbox" name="" id="checkbox_replace">
-                        <label for="checkbox_replace">取代原本翻譯</label>
+                        <button id="button_restart" class="btn btn-primary">重新翻譯</button>
+                        <button id="button_read_json" class="btn btn-secondary">重新讀取對照表</button>
+                        <button id="button_report_translation" class="btn btn-secondary">回報翻譯錯誤</button>
                     </div>
                 </div>
+            </div>
 
-                <br>
+            <div class="flex_right">
+                <div>
+                    <label for="textarea_before">替換前(原文)</label><br />
+                    <textarea placeholder="替換前" id="textarea_before" rows="4"></textarea>
+                </div>
+
+                <br />
 
                 <div>
-                    <button id="button_restart" class="btn btn-primary">重新翻譯</button>
-                    <button id="button_read_json" class="btn btn-secondary">重新讀取對照表</button>
-                    <button id="button_report_translation" class="btn btn-secondary">回報翻譯錯誤</button>
+                    <label for="textarea_after">替換後(自訂翻譯)</label><br />
+                    <textarea placeholder="替換後" id="textarea_after" rows="4"></textarea>
+                </div>
+
+                <br />
+
+                <div>
+                    <label for="select_type">類別</label><br />
+                    <select id="select_type">
+                        <option value="npc" selected>人物 (原文 => 中文)</option>
+                        <option value="group">組織 (原文 => 中文)</option>
+                        <option value="title">職稱 (原文 => 中文)</option>
+                        <option value="monster">魔物 (原文 => 中文)</option>
+                        <option value="things">事物 (原文 => 中文)</option>
+                        <option value="skill">技能 (原文 => 中文)</option>
+                        <option value="map">地區 (原文 => 中文)</option>
+                        <option value="overwrite">覆寫整句 (原文 => 中文)</option>
+                        <option value="jp">日文原文替換 (日文 => 日文)</option>
+                    </select>
+                </div>
+
+                <br />
+
+                <div>
+                    <button id="button_save_temp" class="btn btn-primary">儲存自訂翻譯</button>
+                    <button id="button_delete_temp" class="btn btn-danger">刪除自訂翻譯</button>
+                    <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
                 </div>
             </div>
         </div>
-
-        <div class="flex_right">
-            <div>
-                <label for="textarea_before">替換前(原文)</label><br>
-                <textarea placeholder="替換前" id="textarea_before" rows="4"></textarea>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="textarea_after">替換後(自訂翻譯)</label><br>
-                <textarea placeholder="替換後" id="textarea_after" rows="4"></textarea>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="select_type">類別</label><br>
-                <select id="select_type">
-                <option value="npc" selected>人物 (原文 => 中文)</option>
-                <option value="group">組織 (原文 => 中文)</option>
-                <option value="title">職稱 (原文 => 中文)</option>
-                <option value="monster">魔物 (原文 => 中文)</option>
-                <option value="things">事物 (原文 => 中文)</option>
-                <option value="skill">技能 (原文 => 中文)</option>
-                <option value="map">地區 (原文 => 中文)</option>
-                <option value="overwrite">覆寫整句 (原文 => 中文)</option>
-                <option value="jp">日文原文替換 (日文 => 日文)</option>
-            </select>
-            </div>
-
-            <br>
-
-            <div>
-                <button id="button_save_temp" class="btn btn-primary">儲存自訂翻譯</button>
-                <button id="button_delete_temp" class="btn btn-danger">刪除自訂翻譯</button>
-                <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯</button>
-            </div>
-        </div>
-    </div>
-</body>
-
+    </body>
 </html>

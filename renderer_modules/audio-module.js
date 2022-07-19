@@ -21,7 +21,7 @@ function addToPlaylist(text, translation) {
                 const audio = new Audio(url);
                 audio.onended = () => {
                     isPlaying = false;
-                }
+                };
 
                 // add to playlist
                 playlist.push(audio);
@@ -33,7 +33,7 @@ function addToPlaylist(text, translation) {
                     const audio = new Audio(url);
                     audio.onended = () => {
                         isPlaying = false;
-                    }
+                    };
 
                     // add to playlist
                     playlist.push(audio);

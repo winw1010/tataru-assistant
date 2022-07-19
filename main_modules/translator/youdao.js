@@ -129,20 +129,14 @@ async function translate(cookie, authentication, option) {
     const salt = ctime2.toString() + parseInt(10 * Math.random(), 10).toString();
 
     const postData =
-        'i=' +
-        option.text +
-        '&from=' +
-        option.languageFrom +
-        '&to=' +
-        option.languageTo +
+        `i=${option.text}` +
+        `&from=${option.languageFrom}` +
+        `&to=${option.languageTo}` +
         '&smartresult=dict' +
         '&client=fanyideskweb' +
-        '&salt=' +
-        salt +
-        '&sign=' +
-        CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString() +
-        '&lts=' +
-        ctime2 +
+        `&salt=${salt}` +
+        `&sign=${CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString()}` +
+        `&lts=${ctime2}` +
         '&bv=f0819a82107e6150005e75ef5fddcc3b' + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
         '&doctype=json' +
         '&version=2.1' +

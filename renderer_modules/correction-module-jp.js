@@ -473,13 +473,28 @@ function specialTextFix(name, text) {
     return text;
 }
 
-// katakana check
+// check katakana
 function allKataCheck(name, text) {
     if (cf.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
-    return /^[^ぁ-ゖ]+$/gi.test(text) && text.length > 10;
+    return /^[^ぁ-ゖ]+$/gi.test(text) && countKata(text) > 10;
+}
+
+// count katakana
+function countKata(text) {
+    const kataRegExp = /[ァ-ヺ]/;
+    let count = 0;
+
+    for (let index = 0; index < text.length; index++) {
+        const char = text[index];
+        if (kataRegExp.test(char)) {
+            count++;
+        }
+    }
+
+    return count;
 }
 
 exports.loadJSON_JP = loadJSON;

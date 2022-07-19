@@ -12,9 +12,9 @@ const userAgent =
 
 // RegExp
 const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/i;
-const appVersionRegExp = /"appVersion":"(?<target>.*?)"/i;
 const tokenRegExp = /token:\s*?'(?<target>.*?)'/i;
 const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/i;
+const appVersionRegExp = /"appVersion":"(?<target>.*?)"/i;
 
 // expire date
 let expireDate = 0;

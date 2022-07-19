@@ -20,7 +20,6 @@
         "eslint": "^8.20.0"
     },
     "dependencies": {
-        "@hobbica98/google-translate-api": "^1.1.1",
         "crypto-js": "^4.1.1",
         "download-git-repo": "^3.0.2",
         "google-tts-api": "^2.0.2",

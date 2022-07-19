@@ -1,7 +1,7 @@
 'use strict';
 
-// text to speech
-const googleTTS = require('google-tts-api');
+// ipcRenderer
+const { ipcRenderer } = require('electron');
 
 // language table
 const { getLanguageCode } = require('./engine-module');
@@ -16,8 +16,10 @@ function addToPlaylist(text, translation) {
     if (translation.autoPlay && text !== '') {
         try {
             const languageCode = getLanguageCode(translation.from, 'Google');
-            if (text.length < 200) {
-                const url = googleTTS.getAudioUrl(text, { lang: languageCode });
+            const urls = ipcRenderer.sendSync('get-translation', 'GoogleTTS', { text: text, language: languageCode });
+
+            for (let index = 0; index < urls.length; index++) {
+                const url = urls[index];
                 const audio = new Audio(url);
                 audio.onended = () => {
                     isPlaying = false;
@@ -25,19 +27,6 @@ function addToPlaylist(text, translation) {
 
                 // add to playlist
                 playlist.push(audio);
-            } else {
-                const urls = googleTTS.getAllAudioUrls(text, { lang: languageCode });
-
-                for (let index = 0; index < urls.length; index++) {
-                    const url = urls[index].url;
-                    const audio = new Audio(url);
-                    audio.onended = () => {
-                        isPlaying = false;
-                    };
-
-                    // add to playlist
-                    playlist.push(audio);
-                }
             }
         } catch (error) {
             console.log(error);
@@ -64,7 +53,7 @@ function playNext() {
         if (!isPlaying) {
             const audio = playlist.shift();
 
-            if (audio instanceof Audio) {
+            if (audio) {
                 isPlaying = true;
                 audio.currentTime = 0;
                 audio.play();
@@ -72,6 +61,7 @@ function playNext() {
         }
     } catch (error) {
         console.log(error);
+        isPlaying = false;
     }
 }
 

@@ -22,7 +22,6 @@
     "dependencies": {
         "crypto-js": "^4.1.1",
         "download-git-repo": "^3.0.2",
-        "google-tts-api": "^2.0.2",
         "json-fixer": "^1.6.13",
         "screenshot-desktop": "^1.12.7",
         "sharp": "^0.30.6",

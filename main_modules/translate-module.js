@@ -2,6 +2,7 @@ const baidu = require('./translator/baidu');
 const youdao = require('./translator/youdao');
 const caiyun = require('./translator/caiyun');
 const google = require('./translator/google');
+const googleTTS = require('./translator/google-tts');
 
 async function getTranslation(engine, option) {
     let result = '';
@@ -21,6 +22,10 @@ async function getTranslation(engine, option) {
 
         case 'Google':
             result = await google.exec(option);
+            break;
+
+        case 'GoogleTTS':
+            result = googleTTS.getAudioUrl(option);
             break;
 
         default:

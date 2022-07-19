@@ -9,9 +9,6 @@ const { readFileSync } = require('fs');
 // json fixer
 const jsonFixer = require('json-fixer');
 
-// text to speech
-const googleTTS = require('google-tts-api');
-
 // language table
 const { getLanguageCode } = require('./renderer_modules/engine-module');
 
@@ -97,10 +94,10 @@ function setIPC() {
                             console.log('target log:', targetLog);
 
                             // show audio
-                            showAudio(targetLog);
+                            showAudio();
 
                             // show text
-                            showText(targetLog);
+                            showText();
 
                             break;
                         }
@@ -231,50 +228,36 @@ function setButton() {
     };
 }
 
-async function showAudio(targetLog) {
-    if (!targetLog.audio_text) {
-        targetLog.audio_text = targetLog.text;
-    }
+async function showAudio() {
+    const text = targetLog.audio_text ? targetLog.audio_text : targetLog.text;
 
-    if (targetLog.audio_text !== '') {
+    if (text !== '') {
         try {
             const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
-            if (targetLog.audio_text.length < 200) {
-                const url = googleTTS.getAudioUrl(targetLog.audio_text, { lang: languageCode });
-                console.log('TTS url:', url);
+            const urls = ipcRenderer.sendSync('get-translation', 'GoogleTTS', { text: text, language: languageCode });
+            console.log('TTS url:', urls);
 
-                document.getElementById('div_audio').innerHTML = `
+            let innerHTML = '';
+            for (let index = 0; index < urls.length; index++) {
+                const url = urls[index];
+
+                innerHTML += `
                     <audio controls preload="metadata">
                         <source src="${url}" type="audio/ogg">
                         <source src="${url}" type="audio/mpeg">
                     </audio>
+                    <br>
                 `;
-            } else {
-                const urls = googleTTS.getAllAudioUrls(targetLog.audio_text, { lang: languageCode });
-                console.log('TTS url:', urls);
-
-                let innerHTML = '';
-                for (let index = 0; index < urls.length; index++) {
-                    const url = urls[index].url;
-
-                    innerHTML += `
-                        <audio controls preload="metadata">
-                            <source src="${url}" type="audio/ogg">
-                            <source src="${url}" type="audio/mpeg">
-                        </audio>
-                        <br>
-                    `;
-                }
-
-                document.getElementById('div_audio').innerHTML = innerHTML;
             }
+
+            document.getElementById('div_audio').innerHTML = innerHTML;
         } catch (error) {
             console.log(error);
         }
     }
 }
 
-async function showText(targetLog) {
+async function showText() {
     const text1 = document.getElementById('div_text1');
     const text2 = document.getElementById('div_text2');
 

@@ -39,7 +39,7 @@ async function exec(option) {
         }
 
         // get result
-        response = (await translate(option)) || '';
+        response = (await translate(cookie, authentication, option)) || '';
     } catch (error) {
         console.log(error);
     }
@@ -122,7 +122,7 @@ async function setAuthentication() {
 }
 
 // translate
-async function translate(option) {
+async function translate(cookie, authentication, option) {
     const ctime = new Date().getTime();
     const ctime2 = ctime + 1;
     const salt = ctime2.toString() + parseInt(10 * Math.random(), 10).toString();

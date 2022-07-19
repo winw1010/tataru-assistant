@@ -7,10 +7,12 @@ const { startRequest, requestCookie } = require('./request-module');
 const { signEncoder } = require('./baiduEncoder');
 
 // user agent
-const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
+const userAgent =
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
 const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/i;
+const appVersionRegExp = /"appVersion":"(?<target>.*?)"/i;
 const tokenRegExp = /token:\s*?'(?<target>.*?)'/i;
 const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/i;
 
@@ -34,7 +36,7 @@ async function exec(option) {
         }
 
         // get result
-        response = await translate(cookie, authentication, option) || '';
+        response = (await translate(cookie, authentication, option)) || '';
     } catch (error) {
         console.log(error);
     }
@@ -81,16 +83,20 @@ async function initialize() {
     if (!authentication) {
         authentication = {
             token: '',
-            gtk: ''
+            gtk: '',
         };
     }
 }
 
 // set cookie
 async function setCookie() {
+    let ctime = Math.floor(new Date().getTime() / 1000);
     const response = await requestCookie('fanyi.baidu.com');
+
     expireDate = response.expireDate;
-    cookie = baiduIdRegExp.exec(response.cookie).groups.target;
+    cookie =
+        baiduIdRegExp.exec(response.cookie).groups.target +
+        `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}`;
 }
 
 // set authentication
@@ -100,37 +106,47 @@ async function setAuthentication() {
         if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
             let token = tokenRegExp.exec(chunkString).groups.target || '';
             let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
+            let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
+
+            if (appVersion != '') {
+                cookie +=
+                    `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
+                    '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
+            }
 
             return {
                 token,
-                gtk
+                gtk,
             };
         }
-    }
+    };
 
     authentication = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
-            hostname: 'fanyi.baidu.com'
+            hostname: 'fanyi.baidu.com',
         },
-        headers: [
-            ['Cookie', cookie]
-        ],
-        callback: callback
+        headers: [['Cookie', cookie]],
+        callback: callback,
     });
 }
 
 // translate
 async function translate(cookie, authentication, option) {
     const postData =
-        'from=' + option.from +
-        '&to=' + option.to +
-        '&query=' + option.text +
+        'from=' +
+        option.from +
+        '&to=' +
+        option.to +
+        '&query=' +
+        option.text +
         '&transtype=realtime' +
         '&simple_means_flag=3' +
-        '&sign=' + signEncoder(option.text, authentication.gtk) +
-        '&token=' + authentication.token;
+        '&sign=' +
+        signEncoder(option.text, authentication.gtk) +
+        '&token=' +
+        authentication.token;
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
@@ -148,14 +164,14 @@ async function translate(cookie, authentication, option) {
                 return result;
             }
         }
-    }
+    };
 
     return await startRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
             hostname: 'fanyi.baidu.com',
-            path: `/v2transapi?from=${option.from}&to=${option.to}`
+            path: `/v2transapi?from=${option.from}&to=${option.to}`,
         },
         headers: [
             ['Accept-Encoding', 'gzip, deflate, br'],
@@ -172,10 +188,10 @@ async function translate(cookie, authentication, option) {
             ['Sec-Fetch-Mode', 'cors'],
             ['Sec-Fetch-Site', 'same-origin'],
             ['User-Agent', userAgent],
-            ['X-Requested-With', 'XMLHttpRequest']
+            ['X-Requested-With', 'XMLHttpRequest'],
         ],
         data: encodeURI(postData),
-        callback: callback
+        callback: callback,
     });
 }
 

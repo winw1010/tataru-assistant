@@ -24,8 +24,6 @@ async function exec(option) {
             const data = JSON.parse(chunk.toString());
             if (data[0] && data[0][0] && data[0][0][0]) {
                 return data[0][0][0];
-            } else {
-                return null;
             }
         }
     };

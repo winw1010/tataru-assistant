@@ -36,7 +36,7 @@ async function exec(option) {
         }
 
         // get result
-        response = (await translate(cookie, authentication, option)) || '';
+        response = (await translate(option)) || '';
     } catch (error) {
         console.log(error);
     }
@@ -133,7 +133,7 @@ async function setAuthentication() {
 }
 
 // translate
-async function translate(cookie, authentication, option) {
+async function translate(option) {
     const postData =
         `from=${option.from}` +
         `&to=${option.to}` +

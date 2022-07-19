@@ -21,9 +21,9 @@ async function exec(option) {
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
-            const data = JSON.parse(chunk.toString())[0][0][0];
-            if (data) {
-                return data;
+            const data = JSON.parse(chunk.toString());
+            if (data[0] && data[0][0] && data[0][0][0]) {
+                return data[0][0][0];
             } else {
                 return null;
             }

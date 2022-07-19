@@ -135,18 +135,13 @@ async function setAuthentication() {
 // translate
 async function translate(cookie, authentication, option) {
     const postData =
-        'from=' +
-        option.from +
-        '&to=' +
-        option.to +
-        '&query=' +
-        option.text +
+        `from=${option.from}` +
+        `&to=${option.to}` +
+        `&query=${option.text}` +
         '&transtype=realtime' +
         '&simple_means_flag=3' +
-        '&sign=' +
-        signEncoder(option.text, authentication.gtk) +
-        '&token=' +
-        authentication.token;
+        `&sign=${signEncoder(option.text, authentication.gtk)}` +
+        `&token=${authentication.token}`;
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {

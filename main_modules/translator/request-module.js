@@ -28,7 +28,7 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
                         request.abort();
                         resolve({
                             response: response,
-                            chunk: chunk
+                            chunk: chunk,
                         });
                     }
                 });
@@ -70,16 +70,16 @@ async function requestCookie(hostname = '', path = '/') {
                 return response.headers['set-cookie'];
             }
         }
-    }
+    };
 
     cookie = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
             hostname: hostname,
-            path: path
+            path: path,
         },
-        callback: callback
+        callback: callback,
     });
 
     // set expire date

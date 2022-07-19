@@ -1,13 +1,14 @@
 'use strict';
 
 // CryptoJS
-const CryptoJS = require("crypto-js");
+const CryptoJS = require('crypto-js');
 
 // request module
 const { startRequest, requestCookie } = require('./request-module');
 
 // user agent
-const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
+const userAgent =
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
@@ -38,7 +39,7 @@ async function exec(option) {
         }
 
         // get result
-        response = await translate(cookie, authentication, option) || '';
+        response = (await translate(cookie, authentication, option)) || '';
     } catch (error) {
         console.log(error);
     }
@@ -84,7 +85,7 @@ async function initialize() {
 
     if (!authentication) {
         authentication = {
-            fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5'
+            fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
         };
     }
 }
@@ -93,7 +94,8 @@ async function initialize() {
 async function setCookie() {
     const response = await requestCookie('fanyi.youdao.com');
     expireDate = response.expireDate;
-    cookie = userIdRegExp.exec(response.cookie).groups.target + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+    cookie =
+        userIdRegExp.exec(response.cookie).groups.target + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
 }
 
 // set authentication
@@ -104,19 +106,19 @@ async function setAuthentication() {
             let fanyideskweb = fanyideskwebRegExp.exec(chunkString).groups.target || '';
 
             return {
-                fanyideskweb
+                fanyideskweb,
             };
         }
-    }
+    };
 
     authentication = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
             hostname: 'shared.ydstatic.com',
-            path: '/fanyi/newweb/v1.1.10/scripts/newweb/fanyi.min.js'
+            path: '/fanyi/newweb/v1.1.10/scripts/newweb/fanyi.min.js',
         },
-        callback: callback
+        callback: callback,
     });
 }
 
@@ -127,19 +129,25 @@ async function translate(cookie, authentication, option) {
     const salt = ctime2.toString() + parseInt(10 * Math.random(), 10).toString();
 
     const postData =
-        "i=" + option.text +
-        "&from=" + option.languageFrom +
-        "&to=" + option.languageTo +
-        "&smartresult=dict" +
-        "&client=fanyideskweb" +
-        "&salt=" + salt +
-        "&sign=" + CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString() +
-        "&lts=" + ctime2 +
-        "&bv=f0819a82107e6150005e75ef5fddcc3b" + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
-        "&doctype=json" +
-        "&version=2.1" +
-        "&keyfrom=fanyi.web" +
-        "&action=FY_BY_REALTlME"; //FY_BY_CLICKBUTTION
+        'i=' +
+        option.text +
+        '&from=' +
+        option.languageFrom +
+        '&to=' +
+        option.languageTo +
+        '&smartresult=dict' +
+        '&client=fanyideskweb' +
+        '&salt=' +
+        salt +
+        '&sign=' +
+        CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString() +
+        '&lts=' +
+        ctime2 +
+        '&bv=f0819a82107e6150005e75ef5fddcc3b' + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
+        '&doctype=json' +
+        '&version=2.1' +
+        '&keyfrom=fanyi.web' +
+        '&action=FY_BY_REALTlME'; //FY_BY_CLICKBUTTION
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
@@ -157,14 +165,14 @@ async function translate(cookie, authentication, option) {
                 return result;
             }
         }
-    }
+    };
 
     return await startRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
             hostname: 'fanyi.youdao.com',
-            path: '/translate_o?smartresult=dict&smartresult=rule'
+            path: '/translate_o?smartresult=dict&smartresult=rule',
         },
         headers: [
             ['Accept', 'application/json, text/javascript, */*; q=0.01'],
@@ -182,10 +190,10 @@ async function translate(cookie, authentication, option) {
             ['Sec-Fetch-Mode', 'cors'],
             ['Sec-Fetch-Site', 'same-origin'],
             ['User-Agent', userAgent],
-            ['X-Requested-With', 'XMLHttpRequest']
+            ['X-Requested-With', 'XMLHttpRequest'],
         ],
         data: encodeURI(postData),
-        callback: callback
+        callback: callback,
     });
 }
 

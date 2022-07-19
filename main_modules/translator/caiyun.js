@@ -13,7 +13,7 @@ async function exec(option) {
         replaced: true,
         detect: true,
         media: 'text',
-        request_id: '5a096eec830f7876a48aac47'
+        request_id: '5a096eec830f7876a48aac47',
     };
 
     const callback = function (response, chunk) {
@@ -25,7 +25,7 @@ async function exec(option) {
                 return null;
             }
         }
-    }
+    };
 
     try {
         result = await startRequest({
@@ -33,14 +33,14 @@ async function exec(option) {
                 method: 'POST',
                 protocol: 'https:',
                 hostname: 'api.interpreter.caiyunai.com',
-                path: '/v1/translator'
+                path: '/v1/translator',
             },
             headers: [
                 ['Content-Type', 'application/json'],
-                ['x-authorization', 'token lqkr1tfixq1wa9kmj9po']
+                ['x-authorization', 'token lqkr1tfixq1wa9kmj9po'],
             ],
             data: JSON.stringify(postData),
-            callback: callback
+            callback: callback,
         });
     } catch (error) {
         console.log(error);

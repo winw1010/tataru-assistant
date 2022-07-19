@@ -25,13 +25,13 @@ let chatCode = null;
 
 // window list
 let windowList = {
-    'index': null,
-    'config': null,
-    'capture': null,
+    index: null,
+    config: null,
+    capture: null,
     'capture-edit': null,
-    'edit': null,
-    'read-log': null
-}
+    edit: null,
+    'read-log': null,
+};
 
 app.whenReady().then(() => {
     // check directory
@@ -129,7 +129,7 @@ ipcMain.on('drag-window', (event, clientX, clientY, windowWidth, windowHeight) =
             x: cursorScreenPoint.x - clientX,
             y: cursorScreenPoint.y - clientY,
             width: windowWidth,
-            height: windowHeight
+            height: windowHeight,
         });
     } catch (error) {
         console.log(error);
@@ -178,12 +178,11 @@ ipcMain.on('set-click-through', (event, ignore) => {
 ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
     const cursorScreenPoint = screen.getCursorScreenPoint();
 
-    event.returnValue = (
+    event.returnValue =
         cursorScreenPoint.x < windowX ||
         cursorScreenPoint.x > windowX + windowWidth ||
         cursorScreenPoint.y < windowY ||
-        cursorScreenPoint.y > windowY + windowHeight
-    );
+        cursorScreenPoint.y > windowY + windowHeight;
 });
 
 // mute window
@@ -230,16 +229,16 @@ ipcMain.on('get-latest-version', async (event) => {
         if (response.statusCode === 200) {
             return JSON.parse(chunk.toString()).number;
         }
-    }
+    };
 
     event.returnValue = await startRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
             hostname: 'raw.githubusercontent.com',
-            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json'
+            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
         },
-        callback: callback
+        callback: callback,
     });
 });
 
@@ -254,16 +253,16 @@ ipcMain.on('post-form', (event, path) => {
         if (response.statusCode === 200) {
             return 'OK';
         }
-    }
+    };
 
     startRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
             hostname: 'docs.google.com',
-            path: path
+            path: path,
         },
-        callback: callback
+        callback: callback,
     });
 });
 
@@ -287,7 +286,7 @@ function checkDirectory() {
         '\\Tataru Helper Node',
         '\\Tataru Helper Node\\log',
         '\\Tataru Helper Node\\setting',
-        '\\Tataru Helper Node\\temp'
+        '\\Tataru Helper Node\\temp',
     ];
 
     subDirectories.forEach((value) => {
@@ -362,8 +361,8 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                preload: path.join(__dirname, `${windowName}.js`)
-            }
+                preload: path.join(__dirname, `${windowName}.js`),
+            },
         });
 
         // load html
@@ -445,79 +444,73 @@ function getWindowSize(windowName) {
     const screenHeight = displayBounds.height;
 
     switch (windowName) {
-        case 'index':
-            {
-                // first time
-                if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
-                    config.indexWindow.width = parseInt(screenWidth * 0.2);
-                    config.indexWindow.height = parseInt(screenHeight * 0.6);
-                    config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
-                    config.indexWindow.y = parseInt(screenHeight * 0.2);
-                }
-
-                x = config.indexWindow.x;
-                y = config.indexWindow.y;
-                width = config.indexWindow.width;
-                height = config.indexWindow.height;
-                break;
+        case 'index': {
+            // first time
+            if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
+                config.indexWindow.width = parseInt(screenWidth * 0.2);
+                config.indexWindow.height = parseInt(screenHeight * 0.6);
+                config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
+                config.indexWindow.y = parseInt(screenHeight * 0.2);
             }
 
-        case 'capture':
-            {
-                // first time
-                if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
-                    config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
-                    config.captureWindow.y = parseInt(screenHeight * 0.63);
-                    config.captureWindow.width = parseInt(screenWidth * 0.33);
-                    config.captureWindow.height = parseInt(screenHeight * 0.36);
-                }
+            x = config.indexWindow.x;
+            y = config.indexWindow.y;
+            width = config.indexWindow.width;
+            height = config.indexWindow.height;
+            break;
+        }
 
-                x = config.captureWindow.x;
-                y = config.captureWindow.y;
-                width = config.captureWindow.width;
-                height = config.captureWindow.height;
-                break;
+        case 'capture': {
+            // first time
+            if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
+                config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
+                config.captureWindow.y = parseInt(screenHeight * 0.63);
+                config.captureWindow.width = parseInt(screenWidth * 0.33);
+                config.captureWindow.height = parseInt(screenHeight * 0.36);
             }
 
-        case 'capture-edit':
-            {
-                const indexBounds = windowList['index'].getBounds();
-                width = parseInt(screenWidth * 0.27);
-                height = parseInt(screenHeight * 0.35);
-                x = getNearX(indexBounds, width);
-                y = getNearY(indexBounds, height);
-                break;
-            }
+            x = config.captureWindow.x;
+            y = config.captureWindow.y;
+            width = config.captureWindow.width;
+            height = config.captureWindow.height;
+            break;
+        }
 
-        case 'config':
-            {
-                const indexBounds = windowList['index'].getBounds();
-                width = parseInt(screenWidth * 0.22);
-                height = parseInt(screenHeight * 0.65);
-                x = getNearX(indexBounds, width);
-                y = getNearY(indexBounds, height);
-                break;
-            }
+        case 'capture-edit': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(screenWidth * 0.27);
+            height = parseInt(screenHeight * 0.35);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
 
-        case 'edit':
-            {
-                const indexBounds = windowList['index'].getBounds();
-                width = parseInt(screenWidth * 0.5);
-                height = parseInt(screenHeight * 0.65);
-                x = getNearX(indexBounds, width);
-                y = getNearY(indexBounds, height);
-                break;
-            }
+        case 'config': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(screenWidth * 0.22);
+            height = parseInt(screenHeight * 0.65);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
 
-        case 'read-log':
-            {
-                const indexBounds = windowList['index'].getBounds();
-                width = parseInt(screenWidth * 0.2);
-                height = parseInt(screenHeight * 0.22);
-                x = getNearX(indexBounds, width);
-                y = getNearY(indexBounds, height);
-                break;
-            }
+        case 'edit': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(screenWidth * 0.5);
+            height = parseInt(screenHeight * 0.65);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
+
+        case 'read-log': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(screenWidth * 0.2);
+            height = parseInt(screenHeight * 0.22);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
 
         default:
             break;
@@ -527,18 +520,16 @@ function getWindowSize(windowName) {
         x: x >= displayBounds.x && x < displayBounds.x + displayBounds.width ? x : displayBounds.x,
         y: y >= displayBounds.y && y < displayBounds.y + displayBounds.height ? y : displayBounds.y,
         width: width,
-        height: height
+        height: height,
     };
 
     function getNearX(indexBounds, width) {
-        return indexBounds.x - width > displayBounds.x ?
-            indexBounds.x - width :
-            indexBounds.x + indexBounds.width;
+        return indexBounds.x - width > displayBounds.x ? indexBounds.x - width : indexBounds.x + indexBounds.width;
     }
 
     function getNearY(indexBounds, height) {
-        return indexBounds.y + height > displayBounds.y + displayBounds.height ?
-            displayBounds.y + displayBounds.height - height :
-            indexBounds.y;
+        return indexBounds.y + height > displayBounds.y + displayBounds.height
+            ? displayBounds.y + displayBounds.height - height
+            : indexBounds.y;
     }
 }

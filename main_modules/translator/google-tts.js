@@ -1,5 +1,12 @@
 'use strict';
 
+// punctuations
+const punctuations = {
+    first: /。|！|？|\.|!|\?/i,
+    second: /、|,/i,
+    third: /\u3000| /i,
+};
+
 // TTS
 function getAudioUrl(option = { text: '', language: 'en' }) {
     let startIndex = 0;
@@ -31,27 +38,23 @@ function getAudioUrl(option = { text: '', language: 'en' }) {
 
 // split text
 function splitText(text = '') {
-    const firstPunctuations = /。|！|？|\.|!|\?/i;
-    const secondPunctuations = /、|,/i;
-    const thirdPunctuations = /\u3000| /i;
-
     for (let index = 199; index >= 0; index--) {
         const char = text[index];
-        if (firstPunctuations.test(char)) {
+        if (punctuations.first.test(char)) {
             return [text.slice(0, index + 1), text.slice(index + 1)];
         }
     }
 
     for (let index = 199; index >= 0; index--) {
         const char = text[index];
-        if (secondPunctuations.test(char)) {
+        if (punctuations.second.test(char)) {
             return [text.slice(0, index + 1), text.slice(index + 1)];
         }
     }
 
     for (let index = 199; index >= 0; index--) {
         const char = text[index];
-        if (thirdPunctuations.test(char)) {
+        if (punctuations.third.test(char)) {
             return [text.slice(0, index + 1), text.slice(index + 1)];
         }
     }

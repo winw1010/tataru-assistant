@@ -43,6 +43,7 @@ function addToPlaylist(text, translation) {
         }
     }
 }
+
 // start playing
 function startPlaying() {
     clearInterval(playInterval);

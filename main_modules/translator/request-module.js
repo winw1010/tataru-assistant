@@ -58,16 +58,22 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
 }
 
 // request cookie
-async function requestCookie(hostname = '', path = '/') {
+async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
     let cookie = null;
     let expireDate = 0;
 
     const callback = function (response) {
         if (response.statusCode === 200 && response.headers['set-cookie']) {
-            if (response.headers['set-cookie'] instanceof Array) {
-                return response.headers['set-cookie'].join('; ');
+            let newCookie = '';
+
+            if (Array.isArray(response.headers['set-cookie'])) {
+                newCookie = response.headers['set-cookie'].join('; ');
             } else {
-                return response.headers['set-cookie'];
+                newCookie = response.headers['set-cookie'];
+            }
+
+            if (targetRegExp.test(newCookie)) {
+                return targetRegExp.exec(newCookie).groups.target + addon;
             }
         }
     };

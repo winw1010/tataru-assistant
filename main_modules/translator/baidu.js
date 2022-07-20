@@ -91,12 +91,15 @@ async function initialize() {
 // set cookie
 async function setCookie() {
     let ctime = Math.floor(new Date().getTime() / 1000);
-    const response = await requestCookie('fanyi.baidu.com');
+    const response = await requestCookie(
+        'fanyi.baidu.com',
+        '/',
+        baiduIdRegExp,
+        `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}`
+    );
 
     expireDate = response.expireDate;
-    cookie =
-        baiduIdRegExp.exec(response.cookie).groups.target +
-        `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}`;
+    cookie = response.cookie;
 }
 
 // set authentication

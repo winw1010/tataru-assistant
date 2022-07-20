@@ -5,7 +5,7 @@ const { net } = require('electron');
 
 // start request
 function startRequest({ options, headers = [], data = null, callback = null }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         try {
             const request = net.request(options);
 
@@ -40,11 +40,6 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
                 });
             });
 
-            request.on('error', (error) => {
-                console.log(error);
-                reject(null);
-            });
-
             if (data) {
                 request.write(data);
             }
@@ -52,7 +47,7 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
             request.end();
         } catch (error) {
             console.log(error);
-            reject(null);
+            resolve(null);
         }
     });
 }

@@ -14,30 +14,30 @@ const userAgent =
 async function exec(option) {
     let result = '';
 
-    const path =
-        `/translate_a/single?client=webapp&sl=${option.from}&tl=${option.to}&hl=${option.to}` +
-        `&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=sos&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=3` +
-        `&tk=${tokenEncoder(option.text)}&q=${option.text}`;
+    try {
+        const path =
+            `/translate_a/single?client=webapp&sl=${option.from}&tl=${option.to}&hl=${option.to}` +
+            `&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=sos&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=3` +
+            `&tk=${tokenEncoder(option.text)}&q=${option.text}`;
 
-    const callback = function (response, chunk) {
-        if (response.statusCode === 200) {
-            let result = '';
-            const data = JSON.parse(chunk.toString());
+        const callback = function (response, chunk) {
+            if (response.statusCode === 200) {
+                let result = '';
+                const data = JSON.parse(chunk.toString());
 
-            if (data[0] && data[0] instanceof Array) {
-                for (let index = 0; index < data[0].length; index++) {
-                    const element = data[0][index][0];
+                if (data[0] && data[0] instanceof Array) {
+                    for (let index = 0; index < data[0].length; index++) {
+                        const element = data[0][index][0];
 
-                    if (element) {
-                        result += element;
+                        if (element) {
+                            result += element;
+                        }
                     }
                 }
+                return result;
             }
-            return result;
-        }
-    };
+        };
 
-    try {
         result = await startRequest({
             options: {
                 method: 'GET',

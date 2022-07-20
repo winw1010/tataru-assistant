@@ -7,25 +7,25 @@ const { startRequest } = require('./request-module');
 async function exec(option) {
     let result = '';
 
-    const postData = {
-        source: option.text,
-        trans_type: `${option.from}2${option.to}`,
-        replaced: true,
-        detect: true,
-        media: 'text',
-        request_id: '5a096eec830f7876a48aac47',
-    };
-
-    const callback = function (response, chunk) {
-        if (response.statusCode === 200) {
-            const data = JSON.parse(chunk.toString());
-            if (data.target) {
-                return data.target;
-            }
-        }
-    };
-
     try {
+        const postData = {
+            source: option.text,
+            trans_type: `${option.from}2${option.to}`,
+            replaced: true,
+            detect: true,
+            media: 'text',
+            request_id: '5a096eec830f7876a48aac47',
+        };
+
+        const callback = function (response, chunk) {
+            if (response.statusCode === 200) {
+                const data = JSON.parse(chunk.toString());
+                if (data.target) {
+                    return data.target;
+                }
+            }
+        };
+
         result = await startRequest({
             options: {
                 method: 'POST',

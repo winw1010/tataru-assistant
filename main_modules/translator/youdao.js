@@ -30,7 +30,7 @@ let authentication = null;
 
 // exec
 async function exec(option) {
-    let response = '';
+    let result = '';
 
     try {
         // check expire date
@@ -39,26 +39,27 @@ async function exec(option) {
         }
 
         // get result
-        response = (await translate(cookie, authentication, option)) || '';
+        result = await translate(cookie, authentication, option);
+
+        // if result is blank => reset expire date
+        if (!result) {
+            throw 'No Response';
+        }
+
+        /*
+        console.log({
+            expiredDate: expireDate,
+            cookie: cookie,
+            authentication: authentication,
+            response: response
+        });
+        */
     } catch (error) {
         console.log(error);
-    }
-
-    // if result is blank => reset expire date
-    if (!response || response === '') {
         expireDate = 0;
     }
 
-    /*
-    console.log({
-        expiredDate: expireDate,
-        cookie: cookie,
-        authentication: authentication,
-        response: response
-    });
-    */
-
-    return response;
+    return result;
 }
 
 // initialize

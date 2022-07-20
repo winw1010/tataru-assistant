@@ -3,9 +3,6 @@
 //fs
 const { readFileSync, writeFileSync } = require('fs');
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
 // config location
 const configLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\config.json';
 
@@ -112,7 +109,7 @@ function saveConfig(config) {
     try {
         writeFileSync(configLocation, JSON.stringify(config, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-index', 'show-notification', error);
+        console.log(error);
     }
 }
 
@@ -124,7 +121,7 @@ function saveDefaultConfig() {
     try {
         writeFileSync(configLocation, JSON.stringify(defaultConfig, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-index', 'show-notification', error);
+        console.log(error);
     }
 }
 

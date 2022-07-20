@@ -3,9 +3,6 @@
 // fs
 const { readFileSync, writeFileSync } = require('fs');
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
 // chat code location
 const chatCodeLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\chat-code.json';
 
@@ -241,7 +238,7 @@ function saveChatCode(chatCode) {
     try {
         writeFileSync(chatCodeLocation, JSON.stringify(chatCode, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-index', 'show-notification', error);
+        console.log(error);
     }
 }
 
@@ -253,7 +250,7 @@ function saveDefaultChatCode() {
     try {
         writeFileSync(chatCodeLocation, JSON.stringify(defaultChatCode, null, '\t'));
     } catch (error) {
-        ipcRenderer.send('send-index', 'show-notification', error);
+        console.log(error);
     }
 }
 

@@ -10,7 +10,7 @@ const { execSync } = require('child_process');
 const downloadGitRepo = require('download-git-repo');
 
 // audio module
-const { clearPlaylist, startPlaying } = require('./renderer_modules/audio-module');
+const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
 // correction module
 const { correctionEntry } = require('./renderer_modules/correction-module');
@@ -229,7 +229,7 @@ function setButton() {
             startPlaying();
         } else {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-            clearPlaylist();
+            stopPlaying();
         }
     };
 

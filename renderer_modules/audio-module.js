@@ -8,7 +8,7 @@ const { getLanguageCode } = require('./engine-module');
 
 // play list
 let playlist = [];
-let isPlaying = false;
+let nowPlaying = null;
 let playInterval = null;
 
 // add audio
@@ -21,8 +21,18 @@ function addToPlaylist(text, translation) {
             for (let index = 0; index < urls.length; index++) {
                 const url = urls[index];
                 const audio = new Audio(url);
+
+                // set audio event
+                audio.onpause = () => {
+                    nowPlaying = null;
+                };
+
                 audio.onended = () => {
-                    isPlaying = false;
+                    nowPlaying = null;
+                };
+
+                audio.onerror = () => {
+                    nowPlaying = null;
                 };
 
                 // add to playlist
@@ -33,38 +43,47 @@ function addToPlaylist(text, translation) {
         }
     }
 }
-
-// clear playlist
-function clearPlaylist() {
-    playlist = [];
-}
-
-// start/restart playing
+// start playing
 function startPlaying() {
     clearInterval(playInterval);
+
     playInterval = setInterval(() => {
         playNext();
     }, 1000);
 }
 
+// stop playing
+function stopPlaying() {
+    clearInterval(playInterval);
+
+    try {
+        nowPlaying.pause();
+    } catch (error) {
+        console.log(error);
+    }
+
+    nowPlaying = null;
+    playlist = [];
+}
+
 // play next audio
 function playNext() {
     try {
-        if (!isPlaying) {
+        if (!nowPlaying) {
             const audio = playlist.shift();
 
             if (audio) {
-                isPlaying = true;
+                nowPlaying = audio;
                 audio.currentTime = 0;
                 audio.play();
             }
         }
     } catch (error) {
         console.log(error);
-        isPlaying = false;
+        nowPlaying = null;
     }
 }
 
 exports.addToPlaylist = addToPlaylist;
-exports.clearPlaylist = clearPlaylist;
 exports.startPlaying = startPlaying;
+exports.stopPlaying = stopPlaying;

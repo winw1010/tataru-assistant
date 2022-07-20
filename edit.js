@@ -125,12 +125,6 @@ function setButton() {
     document.getElementById('button_restart').onclick = () => {
         const config = ipcRenderer.sendSync('get-config');
 
-        if (!config.translation.replace) {
-            const timestamp = new Date().getTime();
-            targetLog.id = 'id' + timestamp;
-            targetLog.timestamp = timestamp;
-        }
-
         let dialogData = {
             id: targetLog.id,
             playerName: targetLog.player,
@@ -140,11 +134,18 @@ function setButton() {
             timestamp: targetLog.timestamp,
         };
 
+        if (!config.translation.replace) {
+            const timestamp = new Date().getTime();
+            dialogData.id = 'id' + timestamp;
+            dialogData.timestamp = timestamp;
+        }
+
         let translation = config.translation;
         translation.from = document.getElementById('select_from').value;
         translation.fromPlayer = document.getElementById('select_from').value;
         translation.engine = document.getElementById('select_restart_engine').value;
 
+        ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
         ipcRenderer.send('send-index', 'start-translation', dialogData, translation);
     };
 

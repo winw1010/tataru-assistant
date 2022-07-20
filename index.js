@@ -366,7 +366,7 @@ function readJSON() {
 }
 
 // version check
-async function versionCheck() {
+function versionCheck() {
     try {
         const latestVersion = ipcRenderer.sendSync('get-latest-version');
         const appVersion = ipcRenderer.sendSync('get-version');

@@ -7,7 +7,7 @@ const punctuations = {
     third: /\u3000| /i,
 };
 
-// TTS
+// get audio url
 function getAudioUrl(option = { text: '', language: 'en' }) {
     let startIndex = 0;
     let textArray = [option.text];

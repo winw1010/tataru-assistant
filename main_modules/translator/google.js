@@ -21,20 +21,24 @@ async function exec(option) {
             `&tk=${tokenEncoder(option.text)}&q=${option.text}`;
 
         const callback = function (response, chunk) {
-            if (response.statusCode === 200) {
-                let result = '';
-                const data = JSON.parse(chunk.toString());
+            try {
+                if (response.statusCode === 200) {
+                    let result = '';
+                    const data = JSON.parse(chunk.toString());
 
-                if (data[0] && data[0] instanceof Array) {
-                    for (let index = 0; index < data[0].length; index++) {
-                        const element = data[0][index][0];
+                    if (data[0] && data[0] instanceof Array) {
+                        for (let index = 0; index < data[0].length; index++) {
+                            const element = data[0][index][0];
 
-                        if (element) {
-                            result += element;
+                            if (element) {
+                                result += element;
+                            }
                         }
                     }
+                    return result;
                 }
-                return result;
+            } catch (error) {
+                console.log(error);
             }
         };
 

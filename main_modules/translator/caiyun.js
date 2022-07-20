@@ -18,11 +18,15 @@ async function exec(option) {
         };
 
         const callback = function (response, chunk) {
-            if (response.statusCode === 200) {
-                const data = JSON.parse(chunk.toString());
-                if (data.target) {
-                    return data.target;
+            try {
+                if (response.statusCode === 200) {
+                    const data = JSON.parse(chunk.toString());
+                    if (data.target) {
+                        return data.target;
+                    }
                 }
+            } catch (error) {
+                console.log(error);
             }
         };
 

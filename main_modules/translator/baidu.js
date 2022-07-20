@@ -106,22 +106,26 @@ async function setCookie() {
 // set authentication
 async function setAuthentication() {
     const callback = function (response, chunk) {
-        const chunkString = chunk.toString();
-        if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-            let token = tokenRegExp.exec(chunkString).groups.target || '';
-            let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
-            let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
+        try {
+            const chunkString = chunk.toString();
+            if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
+                let token = tokenRegExp.exec(chunkString).groups.target || '';
+                let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
+                let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
 
-            if (appVersion != '') {
-                cookie +=
-                    `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
-                    '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
+                if (appVersion != '') {
+                    cookie +=
+                        `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
+                        '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
+                }
+
+                return {
+                    token,
+                    gtk,
+                };
             }
-
-            return {
-                token,
-                gtk,
-            };
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -148,20 +152,24 @@ async function translate(cookie, authentication, option) {
         `&token=${authentication.token}`;
 
     const callback = function (response, chunk) {
-        if (response.statusCode === 200) {
-            const data = JSON.parse(chunk.toString());
+        try {
+            if (response.statusCode === 200) {
+                const data = JSON.parse(chunk.toString());
 
-            if (data.trans_result) {
-                let result = '';
-                const resultArray = data.trans_result.data;
+                if (data.trans_result) {
+                    let result = '';
+                    const resultArray = data.trans_result.data;
 
-                for (let index = 0; index < resultArray.length; index++) {
-                    const element = resultArray[index];
-                    result += element.dst || '';
+                    for (let index = 0; index < resultArray.length; index++) {
+                        const element = resultArray[index];
+                        result += element.dst || '';
+                    }
+
+                    return result;
                 }
-
-                return result;
             }
+        } catch (error) {
+            console.log(error);
         }
     };
 

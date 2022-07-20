@@ -31,10 +31,6 @@ function getAudioUrl(option = { text: '', language: 'en' }) {
 
 // split text
 function splitText(text = '') {
-    if (text.length < 200) {
-        return [text, ''];
-    }
-
     const firstPunctuations = /。|！|？|\.|!|\?/i;
     const secondPunctuations = /、|,/i;
     const thirdPunctuations = /\u3000| /i;

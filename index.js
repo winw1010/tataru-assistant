@@ -36,6 +36,9 @@ const { takeScreenshot } = require('./renderer_modules/image-module');
 // server module
 const { startServer } = require('./renderer_modules/server-module');
 
+// update button
+const updateButton = '<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">';
+
 // click through temp
 let isClickThrough = false;
 
@@ -367,6 +370,8 @@ function readJSON() {
 
 // version check
 function versionCheck() {
+    let latest = '';
+
     try {
         const latestVersion = ipcRenderer.sendSync('get-latest-version');
         const appVersion = ipcRenderer.sendSync('get-version');
@@ -378,13 +383,12 @@ function versionCheck() {
             document.getElementById('img_button_update').hidden = true;
             appendNotification('已安裝最新版本');
         } else {
-            throw null;
+            latest += `(Ver.${latestVersion})`;
+            throw 'Update available.';
         }
     } catch (error) {
         console.log(error);
         document.getElementById('img_button_update').hidden = false;
-        appendNotification(
-            '已有可用的更新，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本'
-        );
+        appendNotification(`已有可用的更新${latest}，請點選上方的${updateButton}按鈕下載最新版本`);
     }
 }

@@ -33,7 +33,7 @@ async function getTranslation(engine, option) {
             break;
     }
 
-    return result;
+    return result || '';
 }
 
 exports.getTranslation = getTranslation;

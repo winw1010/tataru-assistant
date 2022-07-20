@@ -1,5 +1,8 @@
 'use strict';
 
+// json fixer
+const jsonFixer = require('json-fixer');
+
 // request module
 const { startRequest, requestCookie } = require('./request-module');
 
@@ -154,7 +157,7 @@ async function translate(cookie, authentication, option) {
     const callback = function (response, chunk) {
         try {
             if (response.statusCode === 200) {
-                const data = JSON.parse(chunk.toString());
+                const { data } = jsonFixer(chunk.toString());
 
                 if (data.trans_result) {
                     let result = '';

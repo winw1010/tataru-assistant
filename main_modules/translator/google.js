@@ -1,5 +1,8 @@
 'use strict';
 
+// json fixer
+const jsonFixer = require('json-fixer');
+
 // request module
 const { startRequest } = require('./request-module');
 
@@ -24,7 +27,7 @@ async function exec(option) {
             try {
                 if (response.statusCode === 200) {
                     let result = '';
-                    const data = JSON.parse(chunk.toString());
+                    const { data } = jsonFixer(chunk.toString());
 
                     if (data[0] && data[0] instanceof Array) {
                         for (let index = 0; index < data[0].length; index++) {

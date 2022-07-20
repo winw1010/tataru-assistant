@@ -1,5 +1,8 @@
 'use strict';
 
+// json fixer
+const jsonFixer = require('json-fixer');
+
 // CryptoJS
 const CryptoJS = require('crypto-js');
 
@@ -155,7 +158,7 @@ async function translate(cookie, authentication, option) {
     const callback = function (response, chunk) {
         try {
             if (response.statusCode === 200) {
-                const data = JSON.parse(chunk.toString());
+                const { data } = jsonFixer(chunk.toString());
 
                 if (data.translateResult) {
                     let result = '';

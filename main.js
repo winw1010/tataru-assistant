@@ -19,6 +19,9 @@ const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modul
 const { startRequest } = require('./main_modules/translator/request-module');
 const { getTranslation } = require('./main_modules/translate-module');
 
+// disable http cache
+app.commandLine.appendSwitch('disable-http-cache');
+
 // config
 let config = null;
 let chatCode = null;

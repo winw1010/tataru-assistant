@@ -4,9 +4,9 @@
 const { net } = require('electron');
 
 // start request
-function startRequest({ options, headers = [], data = null, callback = null }) {
-    return new Promise((resolve) => {
-        try {
+async function startRequest({ options, headers = [], data = null, callback = null }) {
+    try {
+        const result = await new Promise((resolve) => {
             const request = net.request(options);
 
             for (let index = 0; index < headers.length; index++) {
@@ -17,15 +17,11 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
             request.on('response', (response) => {
                 response.on('data', (chunk) => {
                     if (callback) {
-                        try {
-                            const result = callback(response, chunk);
+                        const result = callback(response, chunk);
 
-                            if (result) {
-                                request.abort();
-                                resolve(result);
-                            }
-                        } catch (error) {
-                            console.log(error);
+                        if (result) {
+                            request.abort();
+                            resolve(result);
                         }
                     } else {
                         request.abort();
@@ -48,11 +44,13 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
             }
 
             request.end();
-        } catch (error) {
-            console.log(error);
-            resolve(null);
-        }
-    });
+        });
+
+        return result;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 }
 
 // request cookie

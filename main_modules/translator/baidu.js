@@ -185,7 +185,7 @@ async function translate(cookie, authentication, option) {
         },
         headers: [
             ['Accept-Encoding', 'gzip, deflate, br'],
-            ['Accept-Language', 'zh-TW,zh;q=0.9'],
+            ['Accept-Language', 'zh-CN,zh;q=0.9'],
             ['Connection', 'keep-alive'],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
             ['Cookie', cookie],

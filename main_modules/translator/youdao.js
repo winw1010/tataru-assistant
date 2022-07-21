@@ -109,17 +109,13 @@ async function setCookie() {
 // set authentication
 async function setAuthentication() {
     const callback = function (response, chunk) {
-        try {
-            const chunkString = chunk.toString();
-            if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
-                let fanyideskweb = fanyideskwebRegExp.exec(chunkString).groups.target || '';
+        const chunkString = chunk.toString();
+        if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
+            let fanyideskweb = fanyideskwebRegExp.exec(chunkString).groups.target || '';
 
-                return {
-                    fanyideskweb,
-                };
-            }
-        } catch (error) {
-            console.log(error);
+            return {
+                fanyideskweb,
+            };
         }
     };
 
@@ -156,24 +152,20 @@ async function translate(cookie, authentication, option) {
         '&action=FY_BY_REALTlME'; //FY_BY_CLICKBUTTION
 
     const callback = function (response, chunk) {
-        try {
-            if (response.statusCode === 200) {
-                const { data } = jsonFixer(chunk.toString());
+        if (response.statusCode === 200) {
+            const { data } = jsonFixer(chunk.toString());
 
-                if (data.translateResult) {
-                    let result = '';
-                    const resultArray = data.translateResult[0];
+            if (data.translateResult) {
+                let result = '';
+                const resultArray = data.translateResult[0];
 
-                    for (let index = 0; index < resultArray.length; index++) {
-                        const element = resultArray[index];
-                        result += element.tgt || '';
-                    }
-
-                    return result;
+                for (let index = 0; index < resultArray.length; index++) {
+                    const element = resultArray[index];
+                    result += element.tgt || '';
                 }
+
+                return result;
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 

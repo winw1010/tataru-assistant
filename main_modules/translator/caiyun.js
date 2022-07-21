@@ -21,15 +21,11 @@ async function exec(option) {
         };
 
         const callback = function (response, chunk) {
-            try {
-                if (response.statusCode === 200) {
-                    const { data } = jsonFixer(chunk.toString());
-                    if (data.target) {
-                        return data.target;
-                    }
+            if (response.statusCode === 200) {
+                const { data } = jsonFixer(chunk.toString());
+                if (data.target) {
+                    return data.target;
                 }
-            } catch (error) {
-                console.log(error);
             }
         };
 

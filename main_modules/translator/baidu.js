@@ -109,26 +109,22 @@ async function setCookie() {
 // set authentication
 async function setAuthentication() {
     const callback = function (response, chunk) {
-        try {
-            const chunkString = chunk.toString();
-            if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-                let token = tokenRegExp.exec(chunkString).groups.target || '';
-                let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
-                let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
+        const chunkString = chunk.toString();
+        if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
+            let token = tokenRegExp.exec(chunkString).groups.target || '';
+            let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
+            let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
 
-                if (appVersion != '') {
-                    cookie +=
-                        `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
-                        '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
-                }
-
-                return {
-                    token,
-                    gtk,
-                };
+            if (appVersion != '') {
+                cookie +=
+                    `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
+                    '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
             }
-        } catch (error) {
-            console.log(error);
+
+            return {
+                token,
+                gtk,
+            };
         }
     };
 
@@ -155,24 +151,20 @@ async function translate(cookie, authentication, option) {
         `&token=${authentication.token}`;
 
     const callback = function (response, chunk) {
-        try {
-            if (response.statusCode === 200) {
-                const { data } = jsonFixer(chunk.toString());
+        if (response.statusCode === 200) {
+            const { data } = jsonFixer(chunk.toString());
 
-                if (data.trans_result) {
-                    let result = '';
-                    const resultArray = data.trans_result.data;
+            if (data.trans_result) {
+                let result = '';
+                const resultArray = data.trans_result.data;
 
-                    for (let index = 0; index < resultArray.length; index++) {
-                        const element = resultArray[index];
-                        result += element.dst || '';
-                    }
-
-                    return result;
+                for (let index = 0; index < resultArray.length; index++) {
+                    const element = resultArray[index];
+                    result += element.dst || '';
                 }
+
+                return result;
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 

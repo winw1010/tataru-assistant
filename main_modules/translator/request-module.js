@@ -17,12 +17,15 @@ function startRequest({ options, headers = [], data = null, callback = null }) {
             request.on('response', (response) => {
                 response.on('data', (chunk) => {
                     if (callback) {
-                        let result = null;
-                        result = callback(response, chunk);
+                        try {
+                            const result = callback(response, chunk);
 
-                        if (result) {
-                            request.abort();
-                            resolve(result);
+                            if (result) {
+                                request.abort();
+                                resolve(result);
+                            }
+                        } catch (error) {
+                            console.log(error);
                         }
                     } else {
                         request.abort();

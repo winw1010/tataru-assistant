@@ -1,16 +1,13 @@
 'use strict';
 
-// json fixer
-const jsonFixer = require('json-fixer');
-
 // request module
 const { startRequest } = require('./request-module');
 
 // translate
 async function exec(option) {
-    let result = '';
-
     try {
+        let result = '';
+
         const postData = {
             source: option.text,
             trans_type: `${option.from}2${option.to}`,
@@ -22,7 +19,7 @@ async function exec(option) {
 
         const callback = function (response, chunk) {
             if (response.statusCode === 200) {
-                const { data } = jsonFixer(chunk.toString());
+                const data = JSON.parse(chunk.toString());
                 if (data.target) {
                     return data.target;
                 }
@@ -43,11 +40,12 @@ async function exec(option) {
             data: JSON.stringify(postData),
             callback: callback,
         });
+
+        return result;
     } catch (error) {
         console.log(error);
+        return '';
     }
-
-    return result;
 }
 
 exports.exec = exec;

@@ -1,8 +1,5 @@
 'use strict';
 
-// json fixer
-const jsonFixer = require('json-fixer');
-
 // request module
 const { startRequest, requestCookie } = require('./request-module');
 
@@ -30,9 +27,9 @@ let authentication = null;
 
 // exec
 async function exec(option) {
-    let result = '';
-
     try {
+        let result = '';
+
         // check expire date
         if (new Date().getTime() >= expireDate || !cookie || !authentication) {
             await initialize();
@@ -54,12 +51,13 @@ async function exec(option) {
             response: response
         });
         */
+
+        return result;
     } catch (error) {
         console.log(error);
         expireDate = 0;
+        return '';
     }
-
-    return result;
 }
 
 // initialize
@@ -152,7 +150,7 @@ async function translate(cookie, authentication, option) {
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
-            const { data } = jsonFixer(chunk.toString());
+            const data = JSON.parse(chunk.toString());
 
             if (data.trans_result) {
                 let result = '';

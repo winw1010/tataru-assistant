@@ -1,8 +1,5 @@
 'use strict';
 
-// json fixer
-const jsonFixer = require('json-fixer');
-
 // request module
 const { startRequest } = require('./request-module');
 
@@ -15,9 +12,9 @@ const userAgent =
 
 // translate
 async function exec(option) {
-    let result = '';
-
     try {
+        let result = '';
+
         const path =
             `/translate_a/single?client=webapp&sl=${option.from}&tl=${option.to}&hl=${option.to}` +
             `&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=sos&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=3` +
@@ -26,7 +23,7 @@ async function exec(option) {
         const callback = function (response, chunk) {
             if (response.statusCode === 200) {
                 let result = '';
-                const { data } = jsonFixer(chunk.toString());
+                const data = JSON.parse(chunk.toString());
 
                 if (data[0] && data[0] instanceof Array) {
                     for (let index = 0; index < data[0].length; index++) {
@@ -67,11 +64,12 @@ async function exec(option) {
             ],
             callback: callback,
         });
+
+        return result;
     } catch (error) {
         console.log(error);
+        return '';
     }
-
-    return result;
 }
 
 exports.exec = exec;

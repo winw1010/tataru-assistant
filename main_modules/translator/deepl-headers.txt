@@ -1,0 +1,78 @@
+https://www.deepl.com/translator
+(Response Headers)
+cache-control: no-store, no-cache, must-revalidate, max-age=0
+content-encoding: gzip
+content-security-policy: frame-ancestors 'self' *.deepl.com
+content-type: text/html
+date: Fri, 22 Jul 2022 02:03:29 GMT
+server: nginx
+set-cookie: userCountry=TW;Path=/;Secure=True;SameSite=Lax;
+set-cookie: releaseGroups=135.TC-23.2.1_142.DF-1764.2.5_158.TG-167.2.2_209.DF-1896.2.4_223.DF-1965.2.2_233.DF-2016.2.3_252.DF-2084.2.2_266.DM-46.2.3_267.DF-2217.2.3_285.DF-2126.2.3_295.DF-2341.2.2_322.DF-2320.2.3_334.DF-1960.2.2_335.DF-2420.2.2_338.DF-2352.2.3_340.DF-2477.2.2_373.DF-2523.2.2_386.DF-2633.2.2_391.DPAY-2343.2.2_398.DF-2434.2.5_399.RC-3.2.8_401.DF-2683.2.2_404.DF-2502.2.2_408.DM-520.2.2_409.DM-521.2.2_410.DF-2631.2.2_415.DF-2806.1.2_418.DF-2801.2.2_421.DF-2872.2.2_422.DF-2901.2.2_433.DM-578.2.2_435.B2B-15.2.2_468.DF-2966.2.2_472.B2B-84.2.2_476.DF-2882.2.1_480.DF-2930.1.1_603.DF-2881.1.1_531.AAEXP-51.1.1_540.AAEXP-60.2.1_558.AAEXP-78.1.1_545.AAEXP-65.1.1_314.TC-49.2.3_557.AAEXP-77.1.1_549.AAEXP-69.1.1_523.AAEXP-43.2.1_220.DF-1925.1.8_528.AAEXP-48.2.1_533.AAEXP-53.2.1_524.AAEXP-44.1.1_225.TC-33.2.5_534.AAEXP-54.1.1_559.AAEXP-79.1.1_535.AAEXP-55.1.1_555.AAEXP-75.1.1_228.WPT-196.2.3_552.AAEXP-72.1.1_554.AAEXP-74.1.1_547.AAEXP-67.2.1_226.TC-47.2.3_529.AAEXP-49.1.1_522.AAEXP-42.2.1_538.AAEXP-58.2.1_532.AAEXP-52.1.1_530.AAEXP-50.2.1_539.AAEXP-59.1.1_521.AAEXP-41.2.1_546.AAEXP-66.1.1_541.AAEXP-61.1.1_550.AAEXP-70.1.1_527.AAEXP-47.1.1_544.AAEXP-64.1.1_536.AAEXP-56.1.1_548.AAEXP-68.2.1_556.AAEXP-76.1.1_551.AAEXP-71.1.1_553.AAEXP-73.1.1_526.AAEXP-46.1.1_537.AAEXP-57.1.1_560.AAEXP-80.1.1_543.AAEXP-63.1.1_525.AAEXP-45.1.1_542.AAEXP-62.1.1;Max-Age=2628000;Path=/;Secure=True;SameSite=Lax;
+set-cookie: dapUid=43628477-0a24-439a-8e4e-95c6ba523bf6;Max-Age=31536000;Path=/;Secure=True;SameSite=Lax;
+strict-transport-security: max-age=63072000; includeSubDomains; preload;
+
+https://www.deepl.com/
+(Request Headers)
+:authority: www.deepl.com
+:method: GET
+:path: /
+:scheme: https
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+accept-encoding: gzip, deflate, br
+accept-language: zh-TW,zh;q=0.9
+referer: https://www.google.com/
+sec-ch-ua: ".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+sec-fetch-dest: document
+sec-fetch-mode: navigate
+sec-fetch-site: cross-site
+sec-fetch-user: ?1
+upgrade-insecure-requests: 1
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+
+
+https://www2.deepl.com/jsonrpc?method=LMT_split_text
+(Request Headers)
+:authority: www2.deepl.com
+:method: POST
+:path: /jsonrpc?method=LMT_split_text
+:scheme: https
+accept: */*
+accept-encoding: gzip, deflate, br
+accept-language: zh-TW,zh;q=0.9
+content-length: 720
+content-type: application/json
+cookie: dapUid=43628477-0a24-439a-8e4e-95c6ba523bf6; privacySettings=%7B%22v%22%3A%221%22%2C%22t%22%3A1658448000%2C%22m%22%3A%22LAX_AUTO%22%2C%22consent%22%3A%5B%22NECESSARY%22%2C%22PERFORMANCE%22%2C%22COMFORT%22%5D%7D; LMTBID=v2|050cc79c-879f-49de-bfb3-27da3cd607b2|deb75cc55c166604f7b232dae485e875; dapVn=2; dapSid=%7B%22sid%22%3A%2278a6d6a0-7ef4-49e4-80b3-941bac36bb04%22%2C%22lastUpdate%22%3A1658461982%7D
+origin: https://www.deepl.com
+referer: https://www.deepl.com/
+sec-ch-ua: ".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+
+
+// https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
+(Request Headers)
+:authority: www2.deepl.com
+:method: POST
+:path: /jsonrpc?method=LMT_handle_jobs
+:scheme: https
+accept: */*
+accept-encoding: gzip, deflate, br
+accept-language: zh-TW,zh;q=0.9
+content-length: 998
+content-type: application/json
+cookie: dapUid=43628477-0a24-439a-8e4e-95c6ba523bf6; privacySettings=%7B%22v%22%3A%221%22%2C%22t%22%3A1658448000%2C%22m%22%3A%22LAX_AUTO%22%2C%22consent%22%3A%5B%22NECESSARY%22%2C%22PERFORMANCE%22%2C%22COMFORT%22%5D%7D; LMTBID=v2|050cc79c-879f-49de-bfb3-27da3cd607b2|deb75cc55c166604f7b232dae485e875; dapVn=2; dapSid=%7B%22sid%22%3A%2278a6d6a0-7ef4-49e4-80b3-941bac36bb04%22%2C%22lastUpdate%22%3A1658461983%7D
+origin: https://www.deepl.com
+referer: https://www.deepl.com/
+sec-ch-ua: ".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36

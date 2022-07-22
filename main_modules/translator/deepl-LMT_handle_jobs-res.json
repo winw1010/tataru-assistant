@@ -1,0 +1,40 @@
+{
+    "jsonrpc": "2.0",
+    "id": 50920016,
+    "result": {
+        "translations": [
+            {
+                "beams": [
+                    {
+                        "sentences": [
+                            {
+                                "text": "\u4E00\u4F4D\u5728\u6E58\u5357\u68EE\u6797\u9001\u8D27\u7684\u540C\u4E8B\u8BF4\uFF0C\u4ED6\u770B\u5230\u4E86\u4E00\u4E2A\u53EF\u7591\u7684\u4EBA\u3002",
+                                "ids": [0]
+                            }
+                        ],
+                        "num_symbols": 20
+                    }
+                ],
+                "quality": "normal"
+            },
+            {
+                "beams": [
+                    {
+                        "sentences": [
+                            {
+                                "text": "\u4ED6\u4EEC\u8BF4\u4ED6\u770B\u8D77\u6765\u50CF\u963F\u5C14\u5361\u7D22\u8FBE\u62C9\u90E8\u843D\u7684\u4EBA\u3002...... \u4ED6\u4EEC\u62C5\u5FC3\u9001\u8D27\u7684\u4EBA\u53EF\u80FD\u6709\u5371\u9669\u3002......",
+                                "ids": [1]
+                            }
+                        ],
+                        "num_symbols": 31
+                    }
+                ],
+                "quality": "normal"
+            }
+        ],
+        "target_lang": "ZH",
+        "source_lang": "JA",
+        "source_lang_is_confident": false,
+        "detectedLanguages": {}
+    }
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 const baidu = require('./translator/baidu');
 const youdao = require('./translator/youdao');
 const caiyun = require('./translator/caiyun');

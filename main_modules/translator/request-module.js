@@ -16,19 +16,23 @@ async function startRequest({ options, headers = [], data = null, callback = nul
 
             request.on('response', (response) => {
                 response.on('data', (chunk) => {
-                    if (callback) {
-                        const result = callback(response, chunk);
+                    try {
+                        if (callback) {
+                            const result = callback(response, chunk);
 
-                        if (result) {
+                            if (result) {
+                                request.abort();
+                                resolve(result);
+                            }
+                        } else {
                             request.abort();
-                            resolve(result);
+                            resolve({
+                                response: response,
+                                chunk: chunk,
+                            });
                         }
-                    } else {
-                        request.abort();
-                        resolve({
-                            response: response,
-                            chunk: chunk,
-                        });
+                    } catch (error) {
+                        console.log(error);
                     }
                 });
 

@@ -7,35 +7,40 @@ const google = require('./translator/google');
 const googleTTS = require('./translator/google-tts');
 
 async function getTranslation(engine, option) {
-    let result = '';
+    try {
+        let result = '';
 
-    switch (engine) {
-        case 'Baidu':
-            result = await baidu.exec(option);
-            break;
+        switch (engine) {
+            case 'Baidu':
+                result = await baidu.exec(option);
+                break;
 
-        case 'Youdao':
-            result = await youdao.exec(option);
-            break;
+            case 'Youdao':
+                result = await youdao.exec(option);
+                break;
 
-        case 'Caiyun':
-            result = await caiyun.exec(option);
-            break;
+            case 'Caiyun':
+                result = await caiyun.exec(option);
+                break;
 
-        case 'Google':
-            result = await google.exec(option);
-            break;
+            case 'Google':
+                result = await google.exec(option);
+                break;
 
-        case 'GoogleTTS':
-            result = googleTTS.getAudioUrl(option);
-            break;
+            case 'GoogleTTS':
+                result = googleTTS.getAudioUrl(option);
+                break;
 
-        default:
-            result = 'Engine is not available!';
-            break;
+            default:
+                result = 'Engine is not available!';
+                break;
+        }
+
+        return result || '';
+    } catch (error) {
+        console.log(error);
+        return '';
     }
-
-    return result || '';
 }
 
 exports.getTranslation = getTranslation;

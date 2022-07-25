@@ -128,7 +128,7 @@ function setIPC() {
 
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
-        document.getElementById('div_dialog').replaceChildren();
+        document.getElementById('div_dialog').innerHTML = '';
     });
 
     // append blank dialog
@@ -252,7 +252,7 @@ function setButton() {
 
     // clear
     document.getElementById('img_button_clear').onclick = () => {
-        document.getElementById('div_dialog').replaceChildren();
+        document.getElementById('div_dialog').innerHTML = '';
     };
 }
 

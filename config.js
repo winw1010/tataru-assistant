@@ -358,7 +358,7 @@ function setConfig() {
 // load channel
 function loadChannel(config, chatCode) {
     const channel = document.getElementById('div_channel');
-    channel.replaceChildren();
+    channel.innerHTML = '';
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];

@@ -10,7 +10,7 @@ const { readFileSync } = require('fs');
 const jsonFixer = require('json-fixer');
 
 // language table
-const { getLanguageCode } = require('./renderer_modules/engine-module');
+const { languageEnum, getLanguageCode } = require('./renderer_modules/engine-module');
 
 // cf
 const cf = require('./renderer_modules/correction-function');
@@ -262,19 +262,10 @@ async function showText() {
     const text1 = document.getElementById('div_text1');
     const text2 = document.getElementById('div_text2');
 
-    text1.replaceChildren();
-    if (targetLog.name !== '') {
-        text1.innerHTML = `<span>${targetLog.name}:</span><br><span>${targetLog.text}</span>`;
-    } else {
-        text1.innerHTML = `<span>${targetLog.text}</span>`;
-    }
-
-    text2.replaceChildren();
-    if (targetLog.translated_name !== '') {
-        text2.innerHTML = `<span>${targetLog.translated_name}:</span><br><span>${targetLog.translated_text}</span>`;
-    } else {
-        text2.innerHTML = `<span>${targetLog.translated_text}</span>`;
-    }
+    text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + ':<br>' : ''}${targetLog.text}</span>`;
+    text2.innerHTML =
+        `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + ':<br>' : ''}` +
+        `${targetLog.translated_text}</span>`;
 }
 
 function addTemp(textBefore, textAfter, type, array) {
@@ -327,6 +318,10 @@ function postForm() {
 
         ipcRenderer.send('post-form', encodeURI(path));
         ipcRenderer.send('send-index', 'show-notification', '傳送成功');
+
+        if (targetLog.translation.engine === 'Google' && targetLog.translation.from === languageEnum.ja) {
+            ipcRenderer.send('send-index', 'show-notification', 'Google翻譯日文較為不準確，建議更換翻譯引擎改善使用體驗');
+        }
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

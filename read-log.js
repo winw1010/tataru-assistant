@@ -61,7 +61,6 @@ function readLogList() {
 
         if (logs.length > 0) {
             const select = document.getElementById('select_log');
-            select.replaceChildren();
 
             let innerHTML = '';
             for (let index = 0; index < logs.length; index++) {
@@ -70,12 +69,7 @@ function readLogList() {
             }
 
             select.innerHTML = innerHTML;
-
-            try {
-                select.value = select.lastElementChild.value;
-            } catch (error) {
-                console.log(error);
-            }
+            select.value = logs[logs.length - 1];
         }
     } catch (error) {
         console.log(error);

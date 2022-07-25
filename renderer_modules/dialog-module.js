@@ -46,7 +46,6 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     // set dialog
     const dialog = document.getElementById(id);
 
-    dialog.replaceChildren();
     dialog.style.cursor = 'pointer';
     dialog.style.display = 'block';
     dialog.onclick = () => {
@@ -57,11 +56,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         }
     };
 
-    if (name !== '') {
-        dialog.innerHTML = `<span class="drop_shadow">${name}:</span><br><span class="drop_shadow">${text}</span>`;
-    } else {
-        dialog.innerHTML = `<span class="drop_shadow">${text}</span>`;
-    }
+    dialog.innerHTML = `<span class="drop_shadow">${name !== '' ? name + ':<br>' : ''}${text}</span>`;
 
     // show dialog
     showDialog();
@@ -91,7 +86,7 @@ function appendNotification(text) {
         } catch (error) {
             console.log(error);
         }
-    }, 5000);
+    }, Math.min(Math.round(text.length / 10) * 2500, 10000));
 }
 
 // show dialog

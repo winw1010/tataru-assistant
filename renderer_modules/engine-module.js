@@ -16,15 +16,15 @@ const languageIndex = {
     'Simplified-Chinese': 3,
 };
 
-const engineList = ['Baidu', 'Caiyun', 'Youdao', 'Google', 'Papago', 'DeepL'];
+const engineList = ['Baidu', 'Youdao', 'Caiyun', 'Google', 'Papago', 'DeepL'];
 
 const AvailableEngine = [
     'Baidu',
-    'Caiyun',
     'Youdao',
+    'Caiyun',
+    'DeepL',
     'Google',
-    //'Papago',
-    //'DeepL'
+    //'Papago'
 ];
 
 const engineTable = {

@@ -1,8 +1,8 @@
 'use strict';
 
-// https://www.deepl.com/translator
-// https://www2.deepl.com/jsonrpc?method=LMT_split_text
-// https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
+// Cookie: https://www.deepl.com/translator
+// Split Text: https://www2.deepl.com/jsonrpc?method=LMT_split_text
+// Translate: https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
 
 // request module
 const { startRequest /*, requestCookie*/ } = require('./request-module');

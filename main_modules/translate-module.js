@@ -4,6 +4,7 @@ const baidu = require('./translator/baidu');
 const youdao = require('./translator/youdao');
 const caiyun = require('./translator/caiyun');
 const google = require('./translator/google');
+const deepl = require('./translator/deepl');
 const googleTTS = require('./translator/google-tts');
 
 async function getTranslation(engine, option) {
@@ -21,6 +22,10 @@ async function getTranslation(engine, option) {
 
             case 'Caiyun':
                 result = await caiyun.exec(option);
+                break;
+
+            case 'DeepL':
+                result = await deepl.exec(option);
                 break;
 
             case 'Google':

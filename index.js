@@ -205,7 +205,9 @@ function setButton() {
         if (isClickThrough) {
             document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
         } else {
-            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+            document
+                .getElementById('img_button_through')
+                .setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
         }
     };
 

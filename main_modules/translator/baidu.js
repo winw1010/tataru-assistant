@@ -4,7 +4,7 @@
 const { startRequest, requestCookie } = require('./request-module');
 
 // baidu encoder
-const { signEncoder } = require('./baiduEncoder');
+const { signEncoder } = require('./baidu-encoder');
 
 // user agent
 const userAgent =

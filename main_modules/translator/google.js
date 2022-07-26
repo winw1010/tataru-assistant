@@ -4,7 +4,7 @@
 const { startRequest } = require('./request-module');
 
 // google encoder
-const { tokenEncoder } = require('./googleEncoder');
+const { tokenEncoder } = require('./google-encoder');
 
 // user agent
 const userAgent =

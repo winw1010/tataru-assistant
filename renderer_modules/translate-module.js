@@ -4,8 +4,10 @@ const { ipcRenderer } = require('electron');
 const { languageEnum, AvailableEngine, getOption } = require('./engine-module');
 
 async function translate(text, translation, table = []) {
-    let engine = translation.engine;
     const autoChange = translation.autoChange;
+
+    // set engine
+    let engine = translation.engine;
 
     // set option
     let option = getOption(engine, translation.from, translation.to, text);

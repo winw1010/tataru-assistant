@@ -35,9 +35,6 @@ async function exec(option) {
         // get result
         chunks && (result = await translate(authentication, chunks, option));
 
-        console.log('chunks', chunks);
-        console.log('result', result);
-
         // if result is blank => reset expire date
         if (!chunks || !result) {
             throw 'No Response';
@@ -70,8 +67,6 @@ function setAuthentication() {
 // split text
 async function splitText(text) {
     const callback = function (response, chunk) {
-        console.log(chunk.toString());
-
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 
@@ -117,8 +112,6 @@ async function splitText(text) {
 // translate
 async function translate(authentication, chunks, option) {
     const callback = function (response, chunk) {
-        console.log(chunk.toString());
-
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 

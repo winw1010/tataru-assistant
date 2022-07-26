@@ -17,6 +17,12 @@ async function startRequest({ options, headers = [], data = null, callback = nul
             request.on('response', (response) => {
                 response.on('data', (chunk) => {
                     try {
+                        console.log(chunk.toString());
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                    try {
                         if (callback) {
                             const result = callback(response, chunk);
 

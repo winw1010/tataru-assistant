@@ -5,7 +5,7 @@
 // Translate: https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
 
 // request module
-const { startRequest /*, requestCookie*/ } = require('./request-module');
+const { startRequest } = require('./request-module');
 
 // deepl request
 const deeplRequest = require('./deepl-request');
@@ -25,6 +25,7 @@ async function exec(option) {
     try {
         let result = '';
 
+        // check authentication
         if (!authentication) {
             setAuthentication();
         }
@@ -35,7 +36,7 @@ async function exec(option) {
         // get result
         chunks && (result = await translate(authentication, chunks, option));
 
-        // if result is blank => reset expire date
+        // if chunks or result is null => reset authentication
         if (!chunks || !result) {
             throw 'No Response';
         }

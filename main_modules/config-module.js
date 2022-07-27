@@ -86,7 +86,7 @@ function loadConfig() {
 
                 // delete redundant property
                 const subNames2 = Object.getOwnPropertyNames(config[mainName]);
-                if (subNames.length != subNames2.length) {
+                if (subNames.length !== subNames2.length) {
                     subNames2.forEach((subName) => {
                         if (!defaultConfig[mainName][subName] && defaultConfig[mainName][subName] !== false) {
                             delete config[mainName][subName];

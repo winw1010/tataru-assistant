@@ -16,15 +16,13 @@ const languageIndex = {
     'Simplified-Chinese': 3,
 };
 
-const engineList = ['Baidu', 'Youdao', 'Caiyun', 'Google', 'Papago', 'DeepL'];
-
-const AvailableEngine = [
+const AvailableEngineList = [
     'Baidu',
     'Youdao',
     'Caiyun',
+    //'Papago',
     'DeepL',
     'Google',
-    //'Papago'
 ];
 
 const engineTable = {
@@ -96,7 +94,6 @@ function getLanguageCode(language, engine) {
 
 exports.languageEnum = languageEnum;
 exports.languageIndex = languageIndex;
-exports.engineList = engineList;
-exports.AvailableEngine = AvailableEngine;
+exports.AvailableEngineList = AvailableEngineList;
 exports.getOption = getOption;
 exports.getLanguageCode = getLanguageCode;

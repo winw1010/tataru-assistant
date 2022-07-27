@@ -1,7 +1,7 @@
 'use strict';
 
 const { ipcRenderer } = require('electron');
-const { languageEnum, AvailableEngine, getOption } = require('./engine-module');
+const { languageEnum, AvailableEngineList, getOption } = require('./engine-module');
 
 async function translate(text, translation, table = []) {
     const autoChange = translation.autoChange;
@@ -34,8 +34,8 @@ async function translate(text, translation, table = []) {
 
             // auto change
             if (autoChange) {
-                for (let index = 0; index < AvailableEngine.length; index++) {
-                    const nextEngine = AvailableEngine[index];
+                for (let index = 0; index < AvailableEngineList.length; index++) {
+                    const nextEngine = AvailableEngineList[index];
 
                     // find new engine
                     if (nextEngine !== engine) {

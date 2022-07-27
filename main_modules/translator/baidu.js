@@ -113,7 +113,7 @@ async function setAuthentication() {
             let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
             let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
 
-            if (appVersion != '') {
+            if (appVersion !== '') {
                 cookie +=
                     `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
                     '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';

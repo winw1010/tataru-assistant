@@ -172,15 +172,12 @@ function generateJobs(chunks) {
     let jobs = [];
 
     for (let index = 0; index < newChunks.length; index++) {
-        const sentence = newChunks[index];
-        sentence.id = index;
-
         jobs.push({
             kind: 'default',
             sentences: [
                 {
                     text: newChunks[index][0].text,
-                    id: 0,
+                    id: index,
                     prefix: newChunks[index][0].prefix,
                 },
             ],

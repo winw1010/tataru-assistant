@@ -134,7 +134,15 @@ async function startCorrection(dialogData, translation, tryCount) {
 
     // check try count
     if (tryCount > 5) {
-        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, '', '翻譯失敗，請更換翻譯引擎', dialogData, translation);
+        ipcRenderer.send(
+            'send-index',
+            'update-dialog',
+            dialogData.id,
+            '',
+            '翻譯失敗，請更換翻譯引擎',
+            dialogData,
+            translation
+        );
         return;
     } else {
         tryCount++;
@@ -184,7 +192,15 @@ async function startCorrection(dialogData, translation, tryCount) {
     }
 
     // update dialog
-    ipcRenderer.send('send-index', 'update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
+    ipcRenderer.send(
+        'send-index',
+        'update-dialog',
+        dialogData.id,
+        translatedName,
+        translatedText,
+        dialogData,
+        translation
+    );
 }
 
 function savePlayerName(playerName) {
@@ -357,7 +373,10 @@ async function translateName(name, katakanaName, translation) {
         // code
         const codeResult =
             katakanaName !== ''
-                ? cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]]))
+                ? cfjp.replaceTextByCode(
+                      name,
+                      cf.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]])
+                  )
                 : cfjp.replaceTextByCode(name, chArray.combine);
 
         // translate name
@@ -465,9 +484,9 @@ function specialTextFix(name, text) {
         text = text.replaceAll('オデ', '俺');
     }
 
-    // あ……
-    while (/^[ぁ-ゖァ-ヺ]……/g.test(text)) {
-        text = text.replace(/^[ぁ-ゖァ-ヺ]……/gi, '');
+    // あ…… or あ、
+    while (/^[ぁ-ゖァ-ヺ](……|、)/g.test(text)) {
+        text = text.replace(/^[ぁ-ゖァ-ヺ](……|、)/gi, '');
     }
 
     return text;

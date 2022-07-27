@@ -168,7 +168,7 @@ async function translate(authentication, chunks, option) {
 
 // generate jobs
 function generateJobs(chunks) {
-    let newChunks = chunks.map((x) => x.sentences);
+    let newChunks = chunks.map((x) => x.sentences[0]);
     let jobs = [];
 
     for (let index = 0; index < newChunks.length; index++) {
@@ -176,13 +176,13 @@ function generateJobs(chunks) {
             kind: 'default',
             sentences: [
                 {
-                    text: newChunks[index][0].text,
+                    text: newChunks[index].text,
                     id: index,
-                    prefix: newChunks[index][0].prefix,
+                    prefix: newChunks[index].prefix,
                 },
             ],
-            raw_en_context_before: newChunks[index - 1] ? [newChunks[index - 1][0].text] : [],
-            raw_en_context_after: newChunks[index + 1] ? [newChunks[index + 1][0].text] : [],
+            raw_en_context_before: newChunks[index - 1] ? [newChunks[index - 1].text] : [],
+            raw_en_context_after: newChunks[index + 1] ? [newChunks[index + 1].text] : [],
             preferred_num_beams: 1,
         });
     }

@@ -15,17 +15,33 @@ async function startRequest({ options, headers = [], data = null, callback = nul
             }
 
             request.on('response', (response) => {
+                let chunkArray = [];
+
                 response.on('data', (chunk) => {
+                    if (response.statusCode === 200 && chunk.length > 0) {
+                        chunkArray.push(chunk);
+                    }
+                });
+
+                response.on('end', () => {
                     try {
+                        request.abort();
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                    try {
+                        const chunk = Buffer.concat(chunkArray);
+
                         if (callback) {
                             const result = callback(response, chunk);
 
                             if (result) {
-                                request.abort();
                                 resolve(result);
+                            } else {
+                                resolve(null);
                             }
                         } else {
-                            request.abort();
                             resolve({
                                 response: response,
                                 chunk: chunk,
@@ -33,13 +49,8 @@ async function startRequest({ options, headers = [], data = null, callback = nul
                         }
                     } catch (error) {
                         console.log(error);
+                        resolve(null);
                     }
-                });
-
-                response.on('end', () => {
-                    console.log('Response end');
-                    request.abort();
-                    resolve(null);
                 });
             });
 

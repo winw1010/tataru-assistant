@@ -6,7 +6,7 @@ const { net } = require('electron');
 // start request
 async function startRequest({ options, headers = [], data = null, callback = null }) {
     try {
-        const result = await new Promise((resolve) => {
+        return await new Promise((resolve) => {
             const request = net.request(options);
 
             for (let index = 0; index < headers.length; index++) {
@@ -52,6 +52,16 @@ async function startRequest({ options, headers = [], data = null, callback = nul
                         resolve(null);
                     }
                 });
+
+                response.on('error', () => {
+                    console.log(response.statusCode + ': ' + response.statusMessage);
+                    resolve(null);
+                });
+            });
+
+            request.on('error', (error) => {
+                console.log(error.name + ': ' + error.message);
+                resolve(null);
             });
 
             if (data) {
@@ -60,8 +70,6 @@ async function startRequest({ options, headers = [], data = null, callback = nul
 
             request.end();
         });
-
-        return result;
     } catch (error) {
         console.log(error);
         return null;

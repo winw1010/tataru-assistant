@@ -130,9 +130,9 @@ async function setAuthentication() {
 
 // translate
 async function translate(cookie, authentication, option) {
-    const ctime = new Date().getTime();
-    const ctime2 = ctime + 1;
-    const salt = ctime2.toString() + parseInt(10 * Math.random(), 10).toString();
+    const currentTime = new Date().getTime();
+    const currentTime2 = currentTime + 1;
+    const salt = currentTime2.toString() + parseInt(10 * Math.random(), 10).toString();
 
     const postData =
         `i=${option.text}` +
@@ -142,7 +142,7 @@ async function translate(cookie, authentication, option) {
         '&client=fanyideskweb' +
         `&salt=${salt}` +
         `&sign=${CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString()}` +
-        `&lts=${ctime2}` +
+        `&lts=${currentTime2}` +
         '&bv=f0819a82107e6150005e75ef5fddcc3b' + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
         '&doctype=json' +
         '&version=2.1' +
@@ -180,7 +180,7 @@ async function translate(cookie, authentication, option) {
             ['Accept-Language', 'zh-CN,zh;q=0.9'],
             ['Connection', 'keep-alive'],
             ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['Cookie', cookie + `; ___rl__test__cookies=${ctime}`],
+            ['Cookie', cookie + `; ___rl__test__cookies=${currentTime}`],
             ['Origin', 'https://fanyi.youdao.com'],
             ['Referer', 'http://fanyi.youdao.com/'],
             ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],

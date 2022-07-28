@@ -92,12 +92,12 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    let ctime = Math.floor(new Date().getTime() / 1000);
+    const currentTime = Math.floor(new Date().getTime() / 1000);
     const response = await requestCookie(
         'fanyi.baidu.com',
         '/',
         baiduIdRegExp,
-        `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${ctime}`
+        `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}`
     );
 
     expireDate = response.expireDate;

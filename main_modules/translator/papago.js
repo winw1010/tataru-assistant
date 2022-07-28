@@ -85,7 +85,7 @@ async function initialize() {
 
     if (!authentication) {
         authentication = {
-            deviceId: getDeviceId(),
+            deviceId: generateDeviceId(),
             papagoVersion: 'v1.6.9_0f9c783dcc',
         };
     }
@@ -103,9 +103,10 @@ async function setCookie() {
 async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
+
         if (response.statusCode === 200 && papagoVersionRegExp.test(chunkString)) {
             return {
-                deviceId: getDeviceId(),
+                deviceId: generateDeviceId(),
                 papagoVersion: papagoVersionRegExp.exec(chunkString).groups.target,
             };
         }
@@ -132,7 +133,7 @@ async function setAuthentication() {
 // translate
 async function translate(cookie, authentication, option) {
     const currentTime = new Date().getTime();
-    const authorization = `PPG ${authentication.deviceId}:${getSignature(authentication.deviceId, currentTime)}`;
+    const authorization = `PPG ${authentication.deviceId}:${generateSignature(authentication.deviceId, currentTime)}`;
 
     const postData =
         `deviceId=${authentication.deviceId}` +
@@ -188,7 +189,7 @@ async function translate(cookie, authentication, option) {
 }
 
 // get device id
-function getDeviceId() {
+function generateDeviceId() {
     var a = new Date().getTime();
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (e) {
         var t = (a + 16 * Math.random()) % 16 | 0;
@@ -197,7 +198,7 @@ function getDeviceId() {
 }
 
 // get hash
-function getSignature(deviceId, timestamp) {
+function generateSignature(deviceId, timestamp) {
     return CryptoJS.HmacMD5(
         `${deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`,
         authentication.papagoVersion

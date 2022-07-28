@@ -275,7 +275,8 @@ function addTemp(textBefore, textAfter, type, array) {
 
     const target = cf.sameAsArrayItem(textBefore, array);
     if (target) {
-        array[target[1]] = type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter];
+        array[target[1]] =
+            type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
         array.push(type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }
@@ -308,7 +309,8 @@ function deleteTemp(textBefore, type, array) {
 function postForm() {
     try {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
-        const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
+        const text2 =
+            (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
         const path =
             `/forms/d/e/${formId}/formResponse?` +
             `${entry1}=待處理` +
@@ -320,7 +322,11 @@ function postForm() {
         ipcRenderer.send('send-index', 'show-notification', '傳送成功');
 
         if (targetLog.translation.engine === 'Google' && targetLog.translation.from === languageEnum.ja) {
-            ipcRenderer.send('send-index', 'show-notification', 'Google翻譯日文較為不準確，建議更換翻譯引擎改善使用體驗');
+            ipcRenderer.send(
+                'send-index',
+                'show-notification',
+                'Google翻譯日文非常不準確，建議更換翻譯引擎改善使用體驗'
+            );
         }
     } catch (error) {
         console.log(error);

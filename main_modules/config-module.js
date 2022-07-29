@@ -54,7 +54,7 @@ const defaultConfig = {
         fix: true,
         skip: true,
         replace: true,
-        engine: 'Baidu',
+        engine: 'Youdao',
         from: 'Japanese',
         fromPlayer: 'Japanese',
         to: 'Traditional-Chinese',

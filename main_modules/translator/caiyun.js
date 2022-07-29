@@ -1,7 +1,7 @@
 'use strict';
 
 // request module
-const { startRequest } = require('./request-module');
+const { makeRequest } = require('./request-module');
 
 // translate
 async function exec(option) {
@@ -26,7 +26,7 @@ async function exec(option) {
             }
         };
 
-        result = await startRequest({
+        result = await makeRequest({
             options: {
                 method: 'POST',
                 protocol: 'https:',

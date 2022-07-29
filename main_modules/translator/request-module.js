@@ -4,7 +4,7 @@
 const { net } = require('electron');
 
 // start request
-async function startRequest({ options, headers = [], data = null, callback = null }) {
+async function makeRequest({ options, headers = [], data = null, callback = null }) {
     try {
         return await new Promise((resolve) => {
             const request = net.request(options);
@@ -101,7 +101,7 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
         }
     };
 
-    cookie = await startRequest({
+    cookie = await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -126,5 +126,5 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
     return { cookie, expireDate };
 }
 
-exports.startRequest = startRequest;
+exports.makeRequest = makeRequest;
 exports.requestCookie = requestCookie;

@@ -1,7 +1,7 @@
 'use strict';
 
 // request module
-const { startRequest } = require('./request-module');
+const { makeRequest } = require('./request-module');
 
 // google encoder
 const { tokenEncoder } = require('./google-encoder');
@@ -38,7 +38,7 @@ async function exec(option) {
             }
         };
 
-        result = await startRequest({
+        result = await makeRequest({
             options: {
                 method: 'GET',
                 protocol: 'https:',

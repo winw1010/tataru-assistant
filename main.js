@@ -16,7 +16,7 @@ const { loadConfig, saveConfig, getDefaultConfig } = require('./main_modules/con
 const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modules/chat-code-module');
 
 // request
-const { startRequest } = require('./main_modules/translator/request-module');
+const { makeRequest } = require('./main_modules/translator/request-module');
 const { getTranslation } = require('./main_modules/translate-module');
 
 // disable http cache
@@ -234,7 +234,7 @@ ipcMain.on('get-latest-version', async (event) => {
         }
     };
 
-    event.returnValue = await startRequest({
+    event.returnValue = await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -258,7 +258,7 @@ ipcMain.on('post-form', (event, path) => {
         }
     };
 
-    startRequest({
+    makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',

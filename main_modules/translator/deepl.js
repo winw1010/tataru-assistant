@@ -5,7 +5,7 @@
 // Translate: https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
 
 // request module
-const { startRequest, requestCookie } = require('./request-module');
+const { makeRequest, requestCookie } = require('./request-module');
 
 // deepl request
 const deeplRequest = require('./deepl-request');
@@ -115,7 +115,7 @@ async function splitText(text) {
 
     const postDataString = fixMethod(postData.id, JSON.stringify(postData));
 
-    return await startRequest({
+    return await makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
@@ -171,7 +171,7 @@ async function translate(cookie, authentication, option, chunks) {
 
     const postDataString = fixMethod(postData.id, JSON.stringify(postData));
 
-    return await startRequest({
+    return await makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',

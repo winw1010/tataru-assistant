@@ -7,7 +7,7 @@
 const CryptoJS = require('crypto-js');
 
 // request module
-const { startRequest, requestCookie } = require('./request-module');
+const { makeRequest, requestCookie } = require('./request-module');
 
 // user agent
 const userAgent =
@@ -112,7 +112,7 @@ async function setAuthentication() {
         }
     };
 
-    authentication = await startRequest({
+    authentication = await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -157,7 +157,7 @@ async function translate(cookie, authentication, option) {
         }
     };
 
-    return await startRequest({
+    return await makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',

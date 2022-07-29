@@ -3,7 +3,7 @@
 // net
 const { net } = require('electron');
 
-// start request
+// make request
 async function makeRequest({ options, headers = [], data = null, callback = null }) {
     try {
         return await new Promise((resolve) => {

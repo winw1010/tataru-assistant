@@ -226,10 +226,7 @@ function reverseKana(text = '') {
 }
 
 function canSkipTranslation(text) {
-    // remove english word and marks
-    text = text.replaceAll(/[^ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi, '');
-
-    return text === '';
+    return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
 function genderFix(originalText, translatedText) {

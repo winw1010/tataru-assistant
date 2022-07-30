@@ -106,101 +106,79 @@ function loadJSON(languageTo) {
 
     // start/restart queue interval
     correctionQueueInterval = setInterval(() => {
-        try {
-            const item = correctionQueueItems.shift();
+        const item = correctionQueueItems.shift();
 
-            if (item) {
-                startCorrection(item.dialogData, item.translation, item.tryCount);
-            }
-        } catch (error) {
-            console.log(error);
+        if (item) {
+            startCorrection(item.dialogData, item.translation);
         }
     }, 1000);
 }
 
-function addToCorrectionQueue(dialogData, translation, tryCount = 0) {
+function addToCorrectionQueue(dialogData, translation) {
     correctionQueueItems.push({
         dialogData: dialogData,
         translation: translation,
-        tryCount: tryCount,
     });
 }
 
-async function startCorrection(dialogData, translation, tryCount) {
-    // skip check
-    if (translation.skip && cf.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
-        return;
-    }
+async function startCorrection(dialogData, translation) {
+    try {
+        // skip check
+        if (translation.skip && cf.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
+            return;
+        }
 
-    // check try count
-    if (tryCount > 5) {
+        // append blank dialog
+        ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
+
+        // save player name
+        savePlayerName(dialogData.playerName);
+
+        // name translation
+        let translatedName = '';
+        if (npcChannel.includes(dialogData.code)) {
+            if (translation.fix) {
+                translatedName = await nameCorrection(dialogData.name, translation);
+            } else {
+                translatedName = await tm.translate(dialogData.name, translation);
+            }
+        } else {
+            translatedName = dialogData.name;
+        }
+
+        // text translation
+        let translatedText = '';
+        if (translation.fix) {
+            translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+        } else {
+            translatedText = await tm.translate(dialogData.text, translation);
+        }
+
+        // set audio text
+        if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
+            // reverse kana
+            dialogData.audioText = cfjp.reverseKana(dialogData.text);
+        } else if (allKataCheck(dialogData.name, dialogData.text)) {
+            // convert to hira
+            dialogData.audioText = cfjp.convertKana(dialogData.text, 'hira');
+        } else {
+            dialogData.audioText = dialogData.text;
+        }
+
+        // update dialog
         ipcRenderer.send(
             'send-index',
             'update-dialog',
             dialogData.id,
-            '',
-            '翻譯失敗，請更換翻譯引擎',
+            translatedName,
+            translatedText,
             dialogData,
             translation
         );
-        return;
-    } else {
-        tryCount++;
+    } catch (error) {
+        console.log(error);
+        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, 'Error', error, dialogData, translation);
     }
-
-    // append blank dialog
-    ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
-
-    // save player name
-    savePlayerName(dialogData.playerName);
-
-    // name translation
-    let translatedName = '';
-    if (npcChannel.includes(dialogData.code)) {
-        if (translation.fix) {
-            translatedName = await nameCorrection(dialogData.name, translation);
-        } else {
-            translatedName = await tm.translate(dialogData.name, translation);
-        }
-    } else {
-        translatedName = dialogData.name;
-    }
-
-    // text translation
-    let translatedText = '';
-    if (translation.fix) {
-        translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
-    } else {
-        translatedText = await tm.translate(dialogData.text, translation);
-    }
-
-    // text check
-    if (dialogData.text !== '' && translatedText === '') {
-        addToCorrectionQueue(dialogData, translation, tryCount);
-        return;
-    }
-
-    // set audio text
-    if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
-        // reverse kana
-        dialogData.audioText = cfjp.reverseKana(dialogData.text);
-    } else if (allKataCheck(dialogData.name, dialogData.text)) {
-        // convert to hira
-        dialogData.audioText = cfjp.convertKana(dialogData.text, 'hira');
-    } else {
-        dialogData.audioText = dialogData.text;
-    }
-
-    // update dialog
-    ipcRenderer.send(
-        'send-index',
-        'update-dialog',
-        dialogData.id,
-        translatedName,
-        translatedText,
-        dialogData,
-        translation
-    );
 }
 
 function savePlayerName(playerName) {

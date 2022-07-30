@@ -10,7 +10,7 @@ const punctuations = {
 // get audio url
 function getAudioUrl(option = { text: '', language: 'en' }) {
     let startIndex = 0;
-    let textArray = [option.text];
+    let textArray = [option.text ? option.text : ''];
     let urlArray = [];
 
     while (textArray[startIndex].length >= 200) {

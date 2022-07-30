@@ -435,7 +435,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 // special text fix
 function specialTextFix(name, text) {
     // コボルド族
-    if (/コボルド|\d{1,3}.*・.*|(?<![ァ-ヺ]).{1}・.{1}(?![ァ-ヺ])/gi.test(name) && !name.includes('マメット')) {
+    if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
     }
 

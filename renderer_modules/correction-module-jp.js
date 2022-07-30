@@ -183,10 +183,10 @@ async function startCorrection(dialogData, translation, tryCount) {
     // set audio text
     if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
         // reverse kana
-        dialogData.audioText = cfjp.reverseKana(dialogData.audioText);
+        dialogData.audioText = cfjp.reverseKana(dialogData.text);
     } else if (allKataCheck(dialogData.name, dialogData.text)) {
         // convert to hira
-        dialogData.audioText = cfjp.convertKana(dialogData.audioText, 'hira');
+        dialogData.audioText = cfjp.convertKana(dialogData.text, 'hira');
     } else {
         dialogData.audioText = dialogData.text;
     }

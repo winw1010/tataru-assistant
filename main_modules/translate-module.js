@@ -7,6 +7,7 @@ const papago = require('./translator/papago');
 const deepl = require('./translator/deepl');
 const google = require('./translator/google');
 const googleTTS = require('./translator/google-tts');
+const zhConvert = require('./translator/zh-convert');
 
 async function getTranslation(engine, option) {
     try {
@@ -39,6 +40,10 @@ async function getTranslation(engine, option) {
 
             case 'GoogleTTS':
                 result = googleTTS.getAudioUrl(option);
+                break;
+
+            case 'zhConvert':
+                result = zhConvert.exec(option);
                 break;
 
             default:

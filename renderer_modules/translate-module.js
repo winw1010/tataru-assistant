@@ -79,18 +79,14 @@ async function translate(text, translation, table = []) {
         missingCodes = missingCodeCheck(translatedText, table);
     } while (missingCodes.length > 0 && retryCount < 3);
 
-    return await zhtConvert(translatedText, translation.to);
+    return zhtConvert(translatedText, translation.to);
 }
 
-async function zhtConvert(text, languageTo) {
-    if (languageTo === languageEnum.zht && text !== '') {
-        const option = {
-            from: 'zh-CN',
-            to: 'zh-TW',
-            text: text,
-        };
-        const response = ipcRenderer.sendSync('get-translation', 'Google', option);
-        return response !== '' ? response : text;
+function zhtConvert(text, languageTo) {
+    if (languageTo === languageEnum.zht) {
+        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hant' });
+    } else if (languageTo === languageEnum.zhs) {
+        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hans' });
     } else {
         return text;
     }

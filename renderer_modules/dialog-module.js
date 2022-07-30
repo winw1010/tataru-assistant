@@ -12,6 +12,9 @@ const jsonFixer = require('json-fixer');
 // audio module
 const { addToPlaylist } = require('./audio-module');
 
+// engine module
+const { languageEnum } = require('./engine-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
@@ -43,6 +46,12 @@ function appendBlankDialog(id, code) {
 
 // update dialog
 function updateDialog(id, name, text, dialogData = null, translation = null) {
+    // zh convert
+    if (translation) {
+        name = zhtConvert(name, translation.to);
+        text = zhtConvert(text, translation.to);
+    }
+
     // set dialog
     const dialog = document.getElementById(id);
 
@@ -72,9 +81,13 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
 // append notification
 function appendNotification(text) {
+    const config = ipcRenderer.sendSync('get-config');
     const timestamp = new Date().getTime();
     const id = 'id' + timestamp;
     const code = 'FFFF';
+
+    // zh convert
+    text = zhtConvert(text, config.translation.to);
 
     appendBlankDialog(id, code);
     updateDialog(id, '', text, { id: id, code: code, playerName: '', name: '', text: '', timestamp: timestamp }, {});
@@ -110,11 +123,41 @@ function setStyle(dialog) {
     const config = ipcRenderer.sendSync('get-config');
 
     dialog.style.fontWeight = config.dialog.weight;
-    dialog.style.color = config.channel[dialog.className] ? config.channel[dialog.className] : getColor(dialog.className);
+    dialog.style.color = config.channel[dialog.className]
+        ? config.channel[dialog.className]
+        : getColor(dialog.className);
     dialog.style.fontSize = config.dialog.fontSize + 'rem';
     dialog.style.marginTop = config.dialog.spacing + 'rem';
     dialog.style.borderRadius = config.dialog.radius + 'rem';
     dialog.style.backgroundColor = config.dialog.backgroundColor;
+}
+
+// get color
+function getColor(code) {
+    const chatCode = ipcRenderer.sendSync('get-chat-code');
+    let color = '#FFFFFF';
+
+    for (let index = 0; index < chatCode.length; index++) {
+        const element = chatCode[index];
+
+        if (code === element.ChatCode) {
+            color = element.Color;
+            break;
+        }
+    }
+
+    return color;
+}
+
+// zh convert
+function zhtConvert(text, languageTo) {
+    if (languageTo === languageEnum.zht) {
+        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hant' });
+    } else if (languageTo === languageEnum.zhs) {
+        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hans' });
+    } else {
+        return text;
+    }
 }
 
 // save dialog
@@ -176,23 +219,6 @@ function createLogName(milliseconds = null) {
     }
 
     return dateString.join('-') + '.json';
-}
-
-// get color
-function getColor(code) {
-    const chatCode = ipcRenderer.sendSync('get-chat-code');
-    let color = '#FFFFFF';
-
-    for (let index = 0; index < chatCode.length; index++) {
-        const element = chatCode[index];
-
-        if (code === element.ChatCode) {
-            color = element.Color;
-            break;
-        }
-    }
-
-    return color;
 }
 
 // move to bottom

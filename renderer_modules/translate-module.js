@@ -26,8 +26,7 @@ async function translate(text, translation, table = []) {
         option.text = fixCode(option.text, missingCodes);
 
         // translate
-        translatedText = ipcRenderer.sendSync('get-translation', engine, option);
-        console.log(engine + ':', translatedText);
+        translatedText = getTranslation(engine, option);
 
         // add count
         retryCount++;
@@ -36,24 +35,23 @@ async function translate(text, translation, table = []) {
         if (translatedText === '') {
             console.log('Response is empty.');
 
-            // auto change
             if (autoChange) {
+                // change another engine
                 for (let index = 0; index < AvailableEngineList.length; index++) {
-                    const nextEngine = AvailableEngineList[index];
+                    const newEngine = AvailableEngineList[index];
 
                     // find new engine
-                    if (nextEngine !== engine) {
-                        console.log(`Use ${nextEngine}.`);
+                    if (newEngine !== engine) {
+                        console.log(`Use ${newEngine}.`);
 
                         // set new engine
-                        engine = nextEngine;
+                        engine = newEngine;
 
                         // set new option
                         option = getOption(engine, translation.from, translation.to, option.text);
 
                         // retranslate
-                        translatedText = ipcRenderer.sendSync('get-translation', engine, option);
-                        console.log(engine + ':', translatedText);
+                        translatedText = getTranslation(engine, option);
 
                         if (translatedText !== '') {
                             break;
@@ -61,10 +59,13 @@ async function translate(text, translation, table = []) {
                     }
                 }
             } else {
+                // use same engine
                 for (let index = 0; index < 2; index++) {
+                    // sleep 1 second
+                    await sleep(1000);
+
                     // retranslate
-                    translatedText = ipcRenderer.sendSync('get-translation', engine, option);
-                    console.log(engine + ':', translatedText);
+                    translatedText = getTranslation(engine, option);
 
                     if (translatedText !== '') {
                         break;
@@ -86,11 +87,17 @@ async function translate(text, translation, table = []) {
     return zhtConvert(translatedText, translation.to);
 }
 
+function getTranslation(engine, option) {
+    let translatedText = ipcRenderer.sendSync('get-translation', engine, option);
+    console.log(engine + ':', translatedText);
+    return translatedText;
+}
+
 function zhtConvert(text, languageTo) {
     if (languageTo === languageEnum.zht) {
-        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hant' });
+        return getTranslation('zhConvert', { text: text, tableName: 'zh2Hant' });
     } else if (languageTo === languageEnum.zhs) {
-        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hans' });
+        return getTranslation('zhConvert', { text: text, tableName: 'zh2Hans' });
     } else {
         return text;
     }
@@ -99,12 +106,10 @@ function zhtConvert(text, languageTo) {
 function missingCodeCheck(text, table) {
     let missingCodes = [];
 
-    if (table.length > 0) {
-        for (let index = 0; index < table.length; index++) {
-            const code = table[index][0];
-            if (!new RegExp(code, 'gi').test(text)) {
-                missingCodes.push(code);
-            }
+    for (let index = 0; index < table.length; index++) {
+        const code = table[index][0];
+        if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
+            missingCodes.push(code);
         }
     }
 
@@ -122,6 +127,10 @@ function fixCode(text, missingCodes) {
     }
 
     return text;
+}
+
+function sleep(ms = 1000) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 exports.translate = translate;

@@ -106,14 +106,14 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
     return target;
 }
 
-function markFix(text, isChinese = false) {
+function markFix(text, isTranslated = false) {
     // remove （） and its content
     text = text.replaceAll(/（.*?）/gi, '');
 
     // remove () and its content
     text = text.replaceAll(/\(.*?\)/gi, '');
 
-    if (isChinese) {
+    if (isTranslated) {
         // fix 「「
         text = text.replaceAll(/(「)([^」]*?)(\1)/gi, '「$2」');
 
@@ -125,6 +125,9 @@ function markFix(text, isChinese = false) {
 
         // fix ''
         text = text.replaceAll(/(')(.*?)(\1)/gi, '「$2」');
+
+        // fix .
+        text = text.replaceAll(/([^.])\.([^.])/gi, '$1・$2');
     }
 
     return text;

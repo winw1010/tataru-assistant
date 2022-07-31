@@ -136,8 +136,8 @@ async function translate(cookie, authentication, option) {
 
     const postData =
         `i=${option.text}` +
-        `&from=${option.languageFrom}` +
-        `&to=${option.languageTo}` +
+        `&from=${option.from}` +
+        `&to=${option.to}` +
         '&smartresult=dict' +
         '&client=fanyideskweb' +
         `&salt=${salt}` +

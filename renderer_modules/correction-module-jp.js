@@ -457,12 +457,6 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ミスト', 'ミスト#');
     }
 
-    // リーパー
-    if (/ドルシラ(|の声)$/gi.test(name)) {
-        text = text.replaceAll('ブラザー', '兄弟');
-        text = text.replaceAll('シスター', '姉妹');
-    }
-
     // アチャラ
     if (/アチャラ/gi.test(name)) {
         text = text.replaceAll('オデ', '俺');

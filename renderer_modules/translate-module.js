@@ -90,6 +90,7 @@ async function translate(text, translation, table = []) {
 function getTranslation(engine, option) {
     let translatedText = ipcRenderer.sendSync('get-translation', engine, option);
     console.log(engine + ':', translatedText);
+
     return translatedText;
 }
 

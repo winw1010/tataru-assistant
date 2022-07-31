@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.35",
+    "version": "2.0.36",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -35,9 +35,6 @@
         },
         "extraFiles": [
             "json",
-            "!json/log",
-            "!json/setting",
-            "!json/text_temp",
             "trained_data",
             "!trained_data/screenshot.png",
             "!trained_data/crop.png",

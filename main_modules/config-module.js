@@ -54,7 +54,7 @@ const defaultConfig = {
         fix: true,
         skip: true,
         replace: true,
-        engine: 'Baidu',
+        engine: 'Youdao',
         from: 'Japanese',
         fromPlayer: 'Japanese',
         to: 'Traditional-Chinese',
@@ -100,6 +100,10 @@ function loadConfig() {
                 config[mainName] = defaultConfig[mainName];
             }
         });
+
+        if (config.translation.engine === 'Google') {
+            config.translation.engine = 'Youdao';
+        }
 
         return config;
     } catch (error) {

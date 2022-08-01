@@ -10,7 +10,7 @@ const { readFileSync } = require('fs');
 const jsonFixer = require('json-fixer');
 
 // language table
-const { languageEnum, getLanguageCode } = require('./renderer_modules/engine-module');
+const { /*languageEnum,*/ getLanguageCode } = require('./renderer_modules/engine-module');
 
 // cf
 const cf = require('./renderer_modules/correction-function');
@@ -321,6 +321,7 @@ function postForm() {
         ipcRenderer.send('post-form', encodeURI(path));
         ipcRenderer.send('send-index', 'show-notification', '傳送成功');
 
+        /*
         if (targetLog.translation.engine === 'Google' && targetLog.translation.from === languageEnum.ja) {
             ipcRenderer.send(
                 'send-index',
@@ -328,6 +329,7 @@ function postForm() {
                 'Google翻譯日文非常不準確，建議更換翻譯引擎改善使用體驗'
             );
         }
+        */
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

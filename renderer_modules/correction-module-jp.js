@@ -444,7 +444,7 @@ function specialTextFix(name, text) {
 
     // 若判斷
     if (/ユウギリ|ゴウセツ/gi.test(name)) {
-        text = text.replaceAll('若', '主人');
+        text = text.replaceAll('若', '坊ちゃん');
     }
 
     // 召喚士

@@ -161,7 +161,7 @@ function valueFixBefore(text) {
 
     return {
         text: text,
-        table: valueTable,
+        table: sortArray(valueTable),
     };
 }
 

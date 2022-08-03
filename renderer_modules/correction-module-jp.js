@@ -457,11 +457,6 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ミスト', 'ミスト#');
     }
 
-    // アチャラ
-    if (/アチャラ/gi.test(name)) {
-        text = text.replaceAll('オデ', '俺');
-    }
-
     // あ…… or あ、
     while (/^[ぁ-ゖァ-ヺ](……|、)/g.test(text)) {
         text = text.replace(/^[ぁ-ゖァ-ヺ](……|、)/gi, '');

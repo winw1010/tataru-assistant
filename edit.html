@@ -54,18 +54,20 @@
                         <br />
 
                         <div>
-                            <select id="select_from">
-                                <option value="Japanese" selected>日文</option>
-                                <option value="English">英文</option>
-                            </select>
                             <select name="select_restart_engine" id="select_restart_engine">
-                                <option value="Baidu" selected>百度翻譯</option>
-                                <option value="Youdao">有道翻譯</option>
+                                <option value="Youdao" selected>有道翻譯</option>
+                                <option value="Baidu">百度翻譯</option>
                                 <option value="Caiyun">彩雲小譯</option>
                                 <option value="Papago">Papago</option>
                                 <option value="DeepL">DeepL</option>
                                 <!-- <option value="Google">Google</option> -->
                             </select>
+
+                            <select id="select_from">
+                                <option value="Japanese" selected>日文</option>
+                                <option value="English">英文</option>
+                            </select>
+
                             <input type="checkbox" name="" id="checkbox_replace" />
                             <label for="checkbox_replace">取代原本翻譯</label>
                         </div>
@@ -100,14 +102,14 @@
                     <label for="select_type">類別</label><br />
                     <select id="select_type">
                         <option value="npc" selected>人物 (原文 => 中文)</option>
-                        <option value="group">組織 (原文 => 中文)</option>
-                        <option value="title">職稱 (原文 => 中文)</option>
-                        <option value="monster">魔物 (原文 => 中文)</option>
-                        <option value="things">事物 (原文 => 中文)</option>
-                        <option value="skill">技能 (原文 => 中文)</option>
-                        <option value="map">地區 (原文 => 中文)</option>
-                        <option value="overwrite">覆寫整句 (原文 => 中文)</option>
-                        <option value="jp">日文原文替換 (日文 => 日文)</option>
+                        <option value="group">組織 (原文 -> 中文)</option>
+                        <option value="title">職稱 (原文 -> 中文)</option>
+                        <option value="monster">魔物 (原文 -> 中文)</option>
+                        <option value="things">事物 (原文 -> 中文)</option>
+                        <option value="skill">技能 (原文 -> 中文)</option>
+                        <option value="map">地區 (原文 -> 中文)</option>
+                        <option value="overwrite">整句轉換 (原文 -> 中文)</option>
+                        <option value="jp">日文替換 (日文 -> 日文)</option>
                     </select>
                 </div>
 

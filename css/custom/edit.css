@@ -21,10 +21,11 @@ body {
     padding-top: 4rem;
 }
 
-#div_dialog1,
-#div_dialog2 {
+#div_text1,
+#div_text2 {
     word-wrap: break-word;
-    letter-spacing: 0.05rem;
+    font-size: large;
+    font-weight: bold;
 }
 
 

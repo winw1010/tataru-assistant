@@ -1,0 +1,16 @@
+/*body*/
+
+body {
+    color: aliceblue;
+}
+
+#div_center{
+    margin-top: 4rem;
+    padding: 0 0.7rem;
+}
+
+#span_translated_text{
+    word-wrap: break-word;
+    font-size: large;
+    font-weight: bold;
+}

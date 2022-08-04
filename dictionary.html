@@ -16,8 +16,87 @@
         <link rel="stylesheet" href="css/custom/main.css" />
 
         <!-- config Style -->
-        <link rel="stylesheet" href="css/custom/config.css" />
+        <link rel="stylesheet" href="css/custom/dictionary.css" />
     </head>
 
-    <body></body>
+    <body>
+        <!-- image button -->
+        <div id="div_upper_button">
+            <img
+                id="img_button_drag"
+                class="img_button auto_hidden"
+                title="拖曳視窗"
+                src="./img/ui/open_with_white_24dp.svg"
+            />
+
+            <span>線上翻譯</span>
+
+            <img
+                id="img_button_close"
+                class="img_button float_right"
+                title="關閉"
+                src="./img/ui/close_white_24dp.svg"
+            />
+        </div>
+
+        <div id="div_center">
+            <div>
+                <div>
+                    <select name="select_engine" id="select_engine">
+                        <option value="Youdao" selected>有道翻譯</option>
+                        <option value="Baidu">百度翻譯</option>
+                        <option value="Caiyun">彩雲小譯</option>
+                        <option value="Papago">Papago</option>
+                        <option value="DeepL">DeepL</option>
+                        <!-- <option value="Google">Google</option> -->
+                    </select>
+
+                    <span>:&nbsp;</span>
+
+                    <select id="select_from">
+                        <option value="Japanese">日文</option>
+                        <option value="English">英文</option>
+                        <option value="Chinese" selected>中文</option>
+                    </select>
+
+                    <span>&nbsp;->&nbsp;</span>
+
+                    <select id="select_to">
+                        <option value="Japanese" selected>日文</option>
+                        <option value="English">英文</option>
+                        <option value="Chinese">中文</option>
+                    </select>
+                </div>
+
+                <br />
+
+                <div>
+                    <textarea
+                        id="textarea_original_text"
+                        rows="5"
+                        cols="60"
+                        placeholder="請輸入你要翻譯的文字"
+                    ></textarea>
+                </div>
+
+                <br />
+
+                <button id="button_translate" class="btn btn-primary" id="button_submit">翻譯</button>
+            </div>
+
+            <hr />
+
+            <div>
+                <p>翻譯結果</p>
+
+                <div><span id="span_translated_text"></span></div>
+
+                <br />
+
+                <div id="div_audio"></div>
+
+                <br />
+            </div>
+        </div>
+    </body>
 </html>

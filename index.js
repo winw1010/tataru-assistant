@@ -243,6 +243,11 @@ function setButton() {
         ipcRenderer.send('create-window', 'read-log');
     };
 
+    // dictionary
+    document.getElementById('img_button_dictionary').onclick = () => {
+        ipcRenderer.send('create-window', 'dictionary');
+    };
+
     // backspace
     document.getElementById('img_button_backspace').onclick = () => {
         try {

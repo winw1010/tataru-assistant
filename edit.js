@@ -28,7 +28,7 @@ const { execSync } = require('child_process');
 //const { axiosPost } = require('./renderer_modules/request-module-old');
 
 // Japanese character
-const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+//const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
 const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
@@ -57,8 +57,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set view
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
-    document.getElementById('select_from').value = config.translation.from;
     document.getElementById('select_restart_engine').value = config.translation.engine;
+    document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
 
@@ -229,7 +229,7 @@ function setButton() {
     };
 }
 
-async function showAudio() {
+function showAudio() {
     const text = targetLog.audio_text ? targetLog.audio_text : targetLog.text;
 
     if (text !== '') {
@@ -258,7 +258,7 @@ async function showAudio() {
     }
 }
 
-async function showText() {
+function showText() {
     const text1 = document.getElementById('div_text1');
     const text2 = document.getElementById('div_text2');
 
@@ -269,7 +269,7 @@ async function showText() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
         textBefore = textBefore + '#';
     }
 
@@ -287,7 +287,7 @@ function addTemp(textBefore, textAfter, type, array) {
 function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
         textBefore = textBefore + '#';
     }
 

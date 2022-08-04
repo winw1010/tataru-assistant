@@ -515,6 +515,15 @@ function getWindowSize(windowName) {
             break;
         }
 
+        case 'dictionary': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(screenWidth * 0.3);
+            height = parseInt(screenHeight * 0.7);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
+
         default:
             break;
     }

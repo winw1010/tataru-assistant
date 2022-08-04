@@ -41,6 +41,13 @@ function setButton() {
         ipcRenderer.send('close-window');
     };
 
+    // exchange
+    document.getElementById('button_exchange').onclick = () => {
+        const valueFrom = document.getElementById('select_from').value;
+        document.getElementById('select_from').value = document.getElementById('select_to').value;
+        document.getElementById('select_to').value = valueFrom;
+    };
+
     // translate
     document.getElementById('button_translate').onclick = () => {
         if (document.getElementById('textarea_original_text').value.trim() !== '') {

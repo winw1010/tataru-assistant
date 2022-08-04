@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.38",
+    "version": "2.0.39",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -15,9 +15,9 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^19.0.10",
+        "electron": "^20.0.1",
         "electron-builder": "^23.3.3",
-        "eslint": "^8.20.0"
+        "eslint": "^8.21.0"
     },
     "dependencies": {
         "crypto-js": "^4.1.1",

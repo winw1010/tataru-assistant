@@ -364,6 +364,7 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
+                sandbox: false,
                 preload: path.join(__dirname, `${windowName}.js`),
             },
         });

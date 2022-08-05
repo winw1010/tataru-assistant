@@ -34,6 +34,7 @@ let windowList = {
     'capture-edit': null,
     edit: null,
     'read-log': null,
+    dictionary: null,
 };
 
 app.whenReady().then(() => {

@@ -36,9 +36,7 @@
         "extraFiles": [
             "json",
             "trained_data",
-            "!trained_data/screenshot.png",
-            "!trained_data/crop.png",
-            "!trained_data/result.png",
+            "!trained_data/*.png",
             "!_Tataru_Helper"
         ],
         "win": {

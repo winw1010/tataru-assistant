@@ -6,7 +6,14 @@ const { net } = require('electron');
 // make request
 async function makeRequest({ options, headers = [], data = null, callback = null }) {
     try {
-        return await new Promise((resolve) => {
+        // set timeout
+        const requestTimeout = setTimeout(() => {
+            console.log('Request timeout');
+            return null;
+        }, 10000);
+
+        // get result
+        const result = await new Promise((resolve) => {
             const request = net.request(options);
 
             for (let index = 0; index < headers.length; index++) {
@@ -24,6 +31,9 @@ async function makeRequest({ options, headers = [], data = null, callback = null
                 });
 
                 response.on('end', () => {
+                    // clear timeout
+                    clearTimeout(requestTimeout);
+
                     try {
                         request.abort();
                     } catch (error) {
@@ -70,6 +80,12 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 
             request.end();
         });
+
+        // clear timeout
+        clearTimeout(requestTimeout);
+
+        // return result
+        return result;
     } catch (error) {
         console.log(error);
         return null;

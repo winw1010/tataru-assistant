@@ -352,13 +352,12 @@ function downloadJSON() {
         // clone json
         downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'json/text', (error) => {
             if (error) {
-                console.error(error);
+                console.log(error);
                 downloadJSON2();
             } else {
                 appendNotification('對照表下載完畢');
+                readJSON();
             }
-
-            readJSON();
         });
     } catch (error) {
         console.log(error);
@@ -369,7 +368,7 @@ function downloadJSON() {
 function downloadJSON2() {
     downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'json/text', (error) => {
         if (error) {
-            console.error(error);
+            console.log(error);
             appendNotification('對照表下載失敗：' + error);
         } else {
             appendNotification('對照表下載完畢');

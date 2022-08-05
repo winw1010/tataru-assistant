@@ -367,7 +367,7 @@ function downloadJSON() {
 
 // download json 2
 function downloadJSON2() {
-    downloadGitRepo('winw1010/tataru-helper-node-text-v2.0.0#main', 'json/text', (error) => {
+    downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'json/text', (error) => {
         if (error) {
             console.error(error);
             appendNotification('對照表下載失敗：' + error);

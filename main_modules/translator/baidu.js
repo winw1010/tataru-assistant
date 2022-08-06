@@ -105,7 +105,7 @@ async function setAuthentication() {
         }
     };
 
-    authentication = await makeRequest({
+    authentication = (await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -114,7 +114,10 @@ async function setAuthentication() {
         headers: [['Cookie', cookie]],
         callback: callback,
         tryCountMax: 3,
-    });
+    })) || {
+        token: '',
+        gtk: '320305.131321201',
+    };
 }
 
 // translate

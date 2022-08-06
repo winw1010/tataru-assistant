@@ -91,7 +91,7 @@ async function setAuthentication() {
         }
     };
 
-    authentication = await makeRequest({
+    authentication = (await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -107,7 +107,10 @@ async function setAuthentication() {
         ],
         callback: callback,
         tryCountMax: 3,
-    });
+    })) || {
+        deviceId: generateDeviceId(),
+        papagoVersion: 'v1.6.9_0f9c783dcc',
+    };
 }
 
 // translate

@@ -16,7 +16,7 @@ const languageIndex = {
     'Simplified-Chinese': 3,
 };
 
-const AvailableEngineList = ['Baidu', 'Youdao', 'Caiyun', 'Papago', 'DeepL' /*, 'Google'*/];
+const AvailableEngineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL' /*, 'Google'*/];
 
 const engineTable = {
     Baidu: {

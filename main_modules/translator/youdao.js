@@ -97,7 +97,7 @@ async function setAuthentication() {
         }
     };
 
-    authentication = await makeRequest({
+    authentication = (await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -106,7 +106,9 @@ async function setAuthentication() {
         },
         callback: callback,
         tryCountMax: 3,
-    });
+    })) || {
+        fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
+    };
 }
 
 // translate

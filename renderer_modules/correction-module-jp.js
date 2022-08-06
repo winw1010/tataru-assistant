@@ -213,7 +213,6 @@ async function nameCorrection(name, translation) {
     if (target1) {
         return target1[0][1];
     } else if (target2) {
-        // 2 characters name
         return target2[0][1].replaceAll('#', '');
     } else {
         const translatedName = translateName(name, getKatakanaName(name), translation);

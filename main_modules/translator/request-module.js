@@ -89,7 +89,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 
             // clear timeout
             clearTimeout(requestTimeout);
-        } while (!result && tryCount < tryCountMax);
+        } while (tryCount < tryCountMax && !result);
 
         // return result
         return result;

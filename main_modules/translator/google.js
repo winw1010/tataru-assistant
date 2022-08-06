@@ -27,11 +27,7 @@ async function exec(option) {
 
                 if (data[0] && data[0] instanceof Array) {
                     for (let index = 0; index < data[0].length; index++) {
-                        const element = data[0][index][0];
-
-                        if (element) {
-                            result += element;
-                        }
+                        result += data[0][index][0] || '';
                     }
                 }
                 return result;

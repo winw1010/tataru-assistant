@@ -66,30 +66,10 @@ async function exec(option) {
 // initialize
 async function initialize() {
     // set cookie
-    for (let index = 0; index < 3; index++) {
-        await setCookie();
-        if (cookie) {
-            break;
-        }
-    }
-
-    if (!cookie) {
-        cookie = '';
-    }
+    await setCookie();
 
     // set authentication
-    for (let index = 0; index < 3; index++) {
-        await setAuthentication();
-        if (authentication) {
-            break;
-        }
-    }
-
-    if (!authentication) {
-        authentication = {
-            fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
-        };
-    }
+    await setAuthentication();
 }
 
 // set cookie
@@ -109,7 +89,7 @@ async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
-            let fanyideskweb = fanyideskwebRegExp.exec(chunkString).groups.target || '';
+            let fanyideskweb = fanyideskwebRegExp.exec(chunkString)?.groups?.target || 'Ygy_4c=r#e#4EX^NUGUc5';
 
             return {
                 fanyideskweb,
@@ -125,6 +105,7 @@ async function setAuthentication() {
             path: '/fanyi/newweb/v1.1.10/scripts/newweb/fanyi.min.js',
         },
         callback: callback,
+        tryCountMax: 3,
     });
 }
 
@@ -159,7 +140,7 @@ async function translate(cookie, authentication, option) {
 
                 for (let index = 0; index < resultArray.length; index++) {
                     const element = resultArray[index];
-                    result += element.tgt || '';
+                    result += element?.tgt || '';
                 }
 
                 return result;

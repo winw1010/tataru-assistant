@@ -63,31 +63,10 @@ async function exec(option) {
 // initialize
 async function initialize() {
     // set cookie
-    for (let index = 0; index < 3; index++) {
-        await setCookie();
-        if (cookie) {
-            break;
-        }
-    }
-
-    if (!cookie) {
-        cookie = '';
-    }
+    await setCookie();
 
     // set authentication
-    for (let index = 0; index < 3; index++) {
-        await setAuthentication();
-        if (authentication) {
-            break;
-        }
-    }
-
-    if (!authentication) {
-        authentication = {
-            token: '',
-            gtk: '',
-        };
-    }
+    await setAuthentication();
 }
 
 // set cookie
@@ -109,9 +88,9 @@ async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-            let token = tokenRegExp.exec(chunkString).groups.target || '';
-            let gtk = gtkRegExp.exec(chunkString).groups.target || '320305.131321201';
-            let appVersion = appVersionRegExp.exec(chunkString).groups.target || '';
+            let token = tokenRegExp.exec(chunkString)?.groups?.target || '';
+            let gtk = gtkRegExp.exec(chunkString)?.groups?.target || '320305.131321201';
+            let appVersion = appVersionRegExp.exec(chunkString)?.groups?.target || '';
 
             if (appVersion !== '') {
                 cookie +=
@@ -134,6 +113,7 @@ async function setAuthentication() {
         },
         headers: [['Cookie', cookie]],
         callback: callback,
+        tryCountMax: 3,
     });
 }
 
@@ -152,7 +132,7 @@ async function translate(cookie, authentication, option) {
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 
-            if (data.trans_result) {
+            if (data.trans_result?.data) {
                 let result = '';
                 const resultArray = data.trans_result.data;
 

@@ -64,38 +64,17 @@ async function exec(option) {
 // initialize
 async function initialize() {
     // set cookie
-    for (let index = 0; index < 3; index++) {
-        await setCookie();
-        if (cookie) {
-            break;
-        }
-    }
-
-    if (!cookie) {
-        cookie = '';
-    }
+    await setCookie();
 
     // set authentication
-    for (let index = 0; index < 3; index++) {
-        await setAuthentication();
-        if (authentication) {
-            break;
-        }
-    }
-
-    if (!authentication) {
-        authentication = {
-            deviceId: generateDeviceId(),
-            papagoVersion: 'v1.6.9_0f9c783dcc',
-        };
-    }
+    await setAuthentication();
 }
 
 // set cookie
 async function setCookie() {
     const response = await requestCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
 
-    expireDate = new Date().getTime() + 21600000;
+    expireDate = response.expireDate;
     cookie = response.cookie;
 }
 
@@ -107,7 +86,7 @@ async function setAuthentication() {
         if (response.statusCode === 200 && papagoVersionRegExp.test(chunkString)) {
             return {
                 deviceId: generateDeviceId(),
-                papagoVersion: papagoVersionRegExp.exec(chunkString).groups.target,
+                papagoVersion: papagoVersionRegExp.exec(chunkString)?.groups?.target || 'v1.6.9_0f9c783dcc',
             };
         }
     };
@@ -127,6 +106,7 @@ async function setAuthentication() {
             ['user-agent', userAgent],
         ],
         callback: callback,
+        tryCountMax: 3,
     });
 }
 

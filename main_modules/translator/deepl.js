@@ -67,16 +67,7 @@ async function exec(option) {
 // initialize
 async function initialize() {
     // set cookie
-    for (let index = 0; index < 3; index++) {
-        await setCookie();
-        if (cookie) {
-            break;
-        }
-    }
-
-    if (!cookie) {
-        cookie = '';
-    }
+    await setCookie();
 
     // set authentication
     setAuthentication();
@@ -86,7 +77,7 @@ async function initialize() {
 async function setCookie() {
     const response = await requestCookie('www.deepl.com', '/translator', dapUidRegExp, '');
 
-    expireDate = new Date().getTime() + 21600000;
+    expireDate = response.expireDate;
     cookie = response.cookie;
 }
 
@@ -103,7 +94,7 @@ async function splitText(text) {
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 
-            if (data.result) {
+            if (data.result?.texts[0]?.chunks) {
                 return data.result.texts[0].chunks;
             }
         }
@@ -148,13 +139,12 @@ async function translate(cookie, authentication, option, chunks) {
         if (response.statusCode === 200) {
             const data = JSON.parse(chunk.toString());
 
-            if (data.result) {
+            if (data.result?.translations) {
                 let result = '';
                 const resultArray = data.result.translations;
 
                 for (let index = 0; index < resultArray.length; index++) {
-                    const element = resultArray[index].beams[0].sentences[0].text;
-                    result += element || '';
+                    result += resultArray[index]?.beams[0]?.sentences[0]?.text || '';
                 }
 
                 return result;
@@ -229,7 +219,7 @@ function generateTimestamp(jobs) {
     let currentTime = new Date().getTime();
 
     for (let index = 0; index < jobs.length; index++) {
-        const sentence = jobs[index].sentences[0].text;
+        const sentence = jobs[index]?.sentences[0]?.text || '';
         iCount += sentence.split('i').length - 1;
     }
 

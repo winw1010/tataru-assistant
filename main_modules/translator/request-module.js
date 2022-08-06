@@ -4,85 +4,92 @@
 const { net } = require('electron');
 
 // make request
-async function makeRequest({ options, headers = [], data = null, callback = null }) {
+async function makeRequest({ options, headers = [], data = null, callback = null, tryCountMax = 1 }) {
     try {
-        // set timeout
-        const requestTimeout = setTimeout(() => {
-            console.log('Request timeout');
-            return null;
-        }, 10000);
+        let tryCount = 0;
+        let result = null;
 
-        // get result
-        const result = await new Promise((resolve) => {
-            const request = net.request(options);
+        do {
+            tryCount++;
 
-            for (let index = 0; index < headers.length; index++) {
-                const header = headers[index];
-                request.setHeader(header[0], header[1]);
-            }
+            // set timeout
+            const requestTimeout = setTimeout(() => {
+                console.log('Request timeout');
+                return null;
+            }, 10000);
 
-            request.on('response', (response) => {
-                let chunkArray = [];
+            // get result
+            result = await new Promise((resolve) => {
+                const request = net.request(options);
 
-                response.on('data', (chunk) => {
-                    if (response.statusCode === 200 && chunk.length > 0) {
-                        chunkArray.push(chunk);
-                    }
-                });
+                for (let index = 0; index < headers.length; index++) {
+                    const header = headers[index];
+                    request.setHeader(header[0], header[1]);
+                }
 
-                response.on('end', () => {
-                    // clear timeout
-                    clearTimeout(requestTimeout);
+                request.on('response', (response) => {
+                    let chunkArray = [];
 
-                    try {
-                        request.abort();
-                    } catch (error) {
-                        console.log(error);
-                    }
-
-                    try {
-                        const chunk = Buffer.concat(chunkArray);
-
-                        if (callback) {
-                            const result = callback(response, chunk);
-
-                            if (result) {
-                                resolve(result);
-                            } else {
-                                resolve(null);
-                            }
-                        } else {
-                            resolve({
-                                response: response,
-                                chunk: chunk,
-                            });
+                    response.on('data', (chunk) => {
+                        if (response.statusCode === 200 && chunk.length > 0) {
+                            chunkArray.push(chunk);
                         }
-                    } catch (error) {
-                        console.log(error);
+                    });
+
+                    response.on('end', () => {
+                        // clear timeout
+                        clearTimeout(requestTimeout);
+
+                        try {
+                            request.abort();
+                        } catch (error) {
+                            console.log(error);
+                        }
+
+                        try {
+                            const chunk = Buffer.concat(chunkArray);
+
+                            if (callback) {
+                                const result = callback(response, chunk);
+
+                                if (result) {
+                                    resolve(result);
+                                } else {
+                                    resolve(null);
+                                }
+                            } else {
+                                resolve({
+                                    response: response,
+                                    chunk: chunk,
+                                });
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            resolve(null);
+                        }
+                    });
+
+                    response.on('error', () => {
+                        console.log(response.statusCode + ': ' + response.statusMessage);
                         resolve(null);
-                    }
+                    });
                 });
 
-                response.on('error', () => {
-                    console.log(response.statusCode + ': ' + response.statusMessage);
+                request.on('error', (error) => {
+                    console.log(error.name + ': ' + error.message);
                     resolve(null);
                 });
+
+                if (data) {
+                    request.write(data);
+                }
+
+                request.end();
             });
 
-            request.on('error', (error) => {
-                console.log(error.name + ': ' + error.message);
-                resolve(null);
-            });
-
-            if (data) {
-                request.write(data);
-            }
-
-            request.end();
-        });
-
-        // clear timeout
-        clearTimeout(requestTimeout);
+            // clear timeout
+            clearTimeout(requestTimeout);
+        } while (!result && tryCount < tryCountMax);
 
         // return result
         return result;
@@ -95,7 +102,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 // request cookie
 async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
     let cookie = null;
-    let expireDate = 0;
+    let expireDate = new Date().getTime() + 21600000;
 
     const callback = function (response) {
         try {
@@ -108,7 +115,7 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
                     newCookie = response.headers['set-cookie'];
                 }
 
-                if (targetRegExp.test(newCookie)) {
+                if (targetRegExp.exec(newCookie)?.groups?.target) {
                     return targetRegExp.exec(newCookie).groups.target + addon;
                 }
             }
@@ -117,27 +124,17 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
         }
     };
 
-    cookie = await makeRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: hostname,
-            path: path,
-        },
-        callback: callback,
-    });
-
-    // set expire date
-    if (cookie) {
-        const cookies = cookie.split(';');
-        for (let index = 0; index < cookies.length; index++) {
-            const property = cookies[index];
-            if (/expires=/i.test(property)) {
-                expireDate = new Date(property.split('=')[1].trim()).getTime();
-                break;
-            }
-        }
-    }
+    cookie =
+        (await makeRequest({
+            options: {
+                method: 'GET',
+                protocol: 'https:',
+                hostname: hostname,
+                path: path,
+            },
+            callback: callback,
+            tryCountMax: 3,
+        })) || '';
 
     return { cookie, expireDate };
 }

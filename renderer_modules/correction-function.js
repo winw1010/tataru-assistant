@@ -128,6 +128,9 @@ function markFix(text, isTranslated = false) {
 
         // fix .
         text = text.replaceAll(/([^.])\.([^.])/gi, '$1・$2');
+
+        // fix ·
+        text = text.replaceAll(/([^.])·([^.])/gi, '$1・$2');
     }
 
     return text;

@@ -19,6 +19,9 @@ const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modul
 const { makeRequest } = require('./main_modules/translator/request-module');
 const { getTranslation } = require('./main_modules/translate-module');
 
+// main window module
+const { setIndexId, sendIndex } = require('./main_modules/main-window-module');
+
 // disable http cache
 app.commandLine.appendSwitch('disable-http-cache');
 
@@ -270,6 +273,7 @@ ipcMain.on('post-form', (event, path) => {
     });
 });
 
+/*
 // functions
 function sendIndex(channel, ...args) {
     const window = windowList['index'];
@@ -282,6 +286,7 @@ function sendIndex(channel, ...args) {
         }
     }
 }
+*/
 
 function checkDirectory() {
     const userDirectory = process.env.USERPROFILE + '\\Documents';
@@ -395,6 +400,8 @@ function createWindow(windowName, data = null) {
         // save config on closing
         switch (windowName) {
             case 'index':
+                setIndexId(window.id);
+
                 window.once('close', () => {
                     // save position
                     config.indexWindow.x = window.getPosition()[0];

@@ -7,7 +7,7 @@ const { BrowserWindow } = require('electron');
 let indexId = -1;
 
 // set id
-function setId(id) {
+function setIndexId(id) {
     indexId = id;
 }
 
@@ -20,6 +20,6 @@ function sendIndex(channel, ...args) {
 
 // exports
 module.exports = {
-    setId,
+    setIndexId,
     sendIndex,
 };

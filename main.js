@@ -239,6 +239,8 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 ipcMain.on('load-json', (event, languageTo) => {
     loadJSON_EN(languageTo);
     loadJSON_JP(languageTo);
+
+    sendIndex('show-notification', '對照表讀取完畢');
 });
 
 // start translation

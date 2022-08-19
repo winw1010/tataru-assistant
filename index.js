@@ -372,13 +372,6 @@ function downloadJSON2() {
 function readJSON() {
     const config = ipcRenderer.sendSync('get-config');
     ipcRenderer.send('load-json', config.translation.to);
-
-    /*
-    loadJSON_JP(config.translation.to);
-    loadJSON_EN(config.translation.to);
-
-    appendNotification('對照表讀取完畢');
-    */
 }
 
 // version check

@@ -1,8 +1,5 @@
 'use strict';
 
-// ipc
-const { ipcRenderer } = require('electron');
-
 // language table
 const { languageEnum, languageIndex } = require('./engine-module');
 
@@ -12,6 +9,9 @@ const cf = require('./correction-function');
 
 // translator module
 const tm = require('./translate-module');
+
+// main window module
+const { sendIndex } = require('./main-window-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -129,7 +129,7 @@ async function startCorrection(dialogData, translation) {
         }
 
         // append blank dialog
-        ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
+        sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
 
         // save player name
         savePlayerName(dialogData.playerName);
@@ -166,18 +166,10 @@ async function startCorrection(dialogData, translation) {
         }
 
         // update dialog
-        ipcRenderer.send(
-            'send-index',
-            'update-dialog',
-            dialogData.id,
-            translatedName,
-            translatedText,
-            dialogData,
-            translation
-        );
+        sendIndex('update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'update-dialog', dialogData.id, 'Error', error, dialogData, translation);
+        sendIndex('update-dialog', dialogData.id, 'Error', error, dialogData, translation);
     }
 }
 

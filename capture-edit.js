@@ -81,7 +81,7 @@ function translate(text) {
                 timestamp: timestamp + index,
             };
 
-            ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
+            ipcRenderer.send('start-translation', dialogData, config.translation);
         }
     }
 }

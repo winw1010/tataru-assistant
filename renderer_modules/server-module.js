@@ -92,7 +92,7 @@ function dataProcess(data) {
                 }
 
                 // start correction
-                ipcRenderer.send('send-index', 'start-translation', dialogData, config.translation);
+                ipcRenderer.send('start-translation', dialogData, config.translation);
 
                 // show data
                 console.warn('data:', dialogData);

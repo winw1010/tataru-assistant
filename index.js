@@ -12,11 +12,6 @@ const downloadGitRepo = require('download-git-repo');
 // audio module
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
-// correction module
-const { correctionEntry } = require('./renderer_modules/correction-module');
-const { loadJSON_JP } = require('./renderer_modules/correction-module-jp');
-const { loadJSON_EN } = require('./renderer_modules/correction-module-en');
-
 // dialog module
 const {
     appendBlankDialog,
@@ -150,11 +145,6 @@ function setIPC() {
     // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
         moveToBottom();
-    });
-
-    // start translation
-    ipcRenderer.on('start-translation', (event, ...args) => {
-        correctionEntry(...args);
     });
 
     // reset view
@@ -381,11 +371,14 @@ function downloadJSON2() {
 // read json
 function readJSON() {
     const config = ipcRenderer.sendSync('get-config');
+    ipcRenderer.send('load-json', config.translation.to);
 
+    /*
     loadJSON_JP(config.translation.to);
     loadJSON_EN(config.translation.to);
 
     appendNotification('對照表讀取完畢');
+    */
 }
 
 // version check

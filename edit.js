@@ -146,7 +146,7 @@ function setButton() {
         translation.engine = document.getElementById('select_restart_engine').value;
 
         ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
-        ipcRenderer.send('send-index', 'start-translation', dialogData, translation);
+        ipcRenderer.send('start-translation', dialogData, translation);
     };
 
     // read json

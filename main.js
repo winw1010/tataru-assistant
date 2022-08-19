@@ -22,6 +22,11 @@ const { getTranslation } = require('./main_modules/translate-module');
 // main window module
 const { setIndexId, sendIndex } = require('./main_modules/main-window-module');
 
+// correction-module
+const { correctionEntry } = require('./main_modules/correction-module');
+const { loadJSON_EN } = require('./main_modules/correction-module-en');
+const { loadJSON_JP } = require('./main_modules/correction-module-jp');
+
 // disable http cache
 app.commandLine.appendSwitch('disable-http-cache');
 
@@ -227,6 +232,18 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 
     // image processing
     sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+});
+
+// translation
+// load json
+ipcMain.on('load-json', (event, languageTo) => {
+    loadJSON_EN(languageTo);
+    loadJSON_JP(languageTo);
+});
+
+// start translation
+ipcMain.on('start-translation', (event, ...args) => {
+    correctionEntry(...args);
 });
 
 // ipc - request

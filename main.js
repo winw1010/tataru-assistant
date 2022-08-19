@@ -271,6 +271,12 @@ ipcMain.on('get-translation', async (event, engine, option) => {
     event.returnValue = await getTranslation(engine, option);
 });
 
+// get translation dictionary
+ipcMain.on('get-translation-dictionary', async (event, engine, option) => {
+    const translatedText = await getTranslation(engine, option);
+    event.sender.send('send-data', translatedText);
+});
+
 // post form
 ipcMain.on('post-form', (event, path) => {
     const callback = function (response) {

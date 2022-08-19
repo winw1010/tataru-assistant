@@ -29,7 +29,21 @@ function setView() {
 }
 
 // set IPC
-function setIPC() {}
+function setIPC() {
+    ipcRenderer.on('send-data', (event, translatedText) => {
+        // show translated text
+        if (translatedText !== '') {
+            document.getElementById('span_translated_text').innerText = translatedText;
+            document.getElementById('div_audio').innerHTML = getAudioHtml(
+                translatedText,
+                document.getElementById('select_to').value
+            );
+        } else {
+            document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
+            document.getElementById('div_audio').innerHTML = '';
+        }
+    });
+}
 
 // set button
 function setButton() {
@@ -50,6 +64,9 @@ function setButton() {
 
     // translate
     document.getElementById('button_translate').onclick = () => {
+        document.getElementById('span_translated_text').innerText = '...';
+        document.getElementById('div_audio').innerHTML = '';
+
         if (document.getElementById('textarea_original_text').value.trim() !== '') {
             // set engine
             const engine = document.getElementById('select_engine').value;
@@ -62,33 +79,13 @@ function setButton() {
                 document.getElementById('textarea_original_text').value
             );
 
-            // get translated text
-            const translatedText = getTranslation(engine, option);
-
-            // show translated text
-            if (translatedText !== '') {
-                document.getElementById('span_translated_text').innerText = translatedText;
-                document.getElementById('div_audio').innerHTML = getAudioHtml(
-                    translatedText,
-                    document.getElementById('select_to').value
-                );
-            } else {
-                document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
-                document.getElementById('div_audio').innerHTML = '';
-            }
+            // translate text
+            ipcRenderer.send('get-translation-dictionary', engine, option);
         } else {
             document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
             document.getElementById('div_audio').innerHTML = '';
         }
     };
-}
-
-// get translation
-function getTranslation(engine, option) {
-    let translatedText = ipcRenderer.sendSync('get-translation', engine, option);
-    console.log(engine + ':', translatedText);
-
-    return translatedText;
 }
 
 // get audio html

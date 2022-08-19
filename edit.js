@@ -24,6 +24,9 @@ const { createLogName } = require('./renderer_modules/dialog-module');
 // child process
 const { execSync } = require('child_process');
 
+// google tts
+const { getAudioUrl } = require('./main_modules/translator/google-tts');
+
 // request
 //const { axiosPost } = require('./renderer_modules/request-module-old');
 
@@ -235,7 +238,7 @@ function showAudio() {
     if (text !== '') {
         try {
             const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
-            const urls = ipcRenderer.sendSync('get-translation', 'GoogleTTS', { text: text, language: languageCode });
+            const urls = getAudioUrl({ text: text, language: languageCode });
             console.log('TTS url:', urls);
 
             let innerHTML = '';

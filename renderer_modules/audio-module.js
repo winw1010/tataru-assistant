@@ -1,10 +1,10 @@
 'use strict';
 
-// ipcRenderer
-const { ipcRenderer } = require('electron');
-
 // language table
 const { getLanguageCode } = require('./engine-module');
+
+// google tts
+const { getAudioUrl } = require('../main_modules/translator/google-tts');
 
 // play list
 let playlist = [];
@@ -16,7 +16,7 @@ function addToPlaylist(text, translation) {
     if (translation.autoPlay && text !== '') {
         try {
             const languageCode = getLanguageCode(translation.from, 'Google');
-            const urls = ipcRenderer.sendSync('get-translation', 'GoogleTTS', { text: text, language: languageCode });
+            const urls = getAudioUrl({ text: text, language: languageCode });
 
             for (let index = 0; index < urls.length; index++) {
                 const url = urls[index];

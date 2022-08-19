@@ -15,6 +15,9 @@ const { addToPlaylist } = require('./audio-module');
 // engine module
 const { languageEnum } = require('./engine-module');
 
+// zh convert
+const zhConvert = require('../main_modules/translator/zh-convert');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
@@ -152,9 +155,9 @@ function getColor(code) {
 // zh convert
 function zhtConvert(text, languageTo) {
     if (languageTo === languageEnum.zht) {
-        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hant' });
+        return zhConvert.exec({ text: text, tableName: 'zh2Hant' });
     } else if (languageTo === languageEnum.zhs) {
-        return ipcRenderer.sendSync('get-translation', 'zhConvert', { text: text, tableName: 'zh2Hans' });
+        return zhConvert.exec({ text: text, tableName: 'zh2Hans' });
     } else {
         return text;
     }

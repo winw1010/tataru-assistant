@@ -20,7 +20,7 @@ const { makeRequest } = require('./main_modules/translator/request-module');
 const { getTranslation } = require('./main_modules/translate-module');
 
 // main window module
-const { setIndexId, sendIndex } = require('./main_modules/main-window-module');
+const { setIndex, sendIndex } = require('./main_modules/main-window-module');
 
 // correction-module
 const { correctionEntry } = require('./main_modules/correction-module');
@@ -425,7 +425,7 @@ function createWindow(windowName, data = null) {
         // save config on closing
         switch (windowName) {
             case 'index':
-                setIndexId(window.id);
+                setIndex(window);
 
                 window.once('close', () => {
                     // save position

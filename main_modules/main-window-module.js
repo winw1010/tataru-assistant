@@ -1,25 +1,29 @@
 'use strict';
 
 // electron module
-const { BrowserWindow } = require('electron');
+//const { BrowserWindow } = require('electron');
 
 // index id
-let indexId = -1;
+let indexWindow = null;
 
-// set id
-function setIndexId(id) {
-    indexId = id;
+// set index window
+function setIndex(window) {
+    indexWindow = window;
 }
 
 // send index
 function sendIndex(channel, ...args) {
-    if (indexId >= 0) {
-        BrowserWindow.fromId(indexId).webContents.send(channel, ...args);
+    if (indexWindow) {
+        try {
+            indexWindow.webContents.send(channel, ...args);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
 // exports
 module.exports = {
-    setIndexId,
+    setIndex,
     sendIndex,
 };

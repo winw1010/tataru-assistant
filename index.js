@@ -113,7 +113,12 @@ function setIPC() {
 
     // version check
     ipcRenderer.on('version-check', () => {
-        versionCheck();
+        requestLatestVersion();
+    });
+
+    // version check response
+    ipcRenderer.on('version-check-response', (event, appVersion, latestVersion) => {
+        versionCheck(appVersion, latestVersion);
     });
 
     // start server
@@ -314,8 +319,8 @@ function resetView(config) {
 // start app
 function startApp() {
     loadJSON();
-    versionCheck();
     startServer();
+    requestLatestVersion();
 }
 
 // load json
@@ -374,27 +379,23 @@ function readJSON() {
     ipcRenderer.send('load-json', config.translation.to);
 }
 
+// request latest version
+function requestLatestVersion() {
+    ipcRenderer.send('request-latest-version');
+}
+
 // version check
-function versionCheck() {
+function versionCheck(appVersion, latestVersion) {
     let latest = '';
 
-    try {
-        const latestVersion = ipcRenderer.sendSync('get-latest-version');
-        const appVersion = ipcRenderer.sendSync('get-version');
+    console.log('App version:', appVersion);
+    console.log('Latest version:', latestVersion);
 
-        console.log('Latest version:', latestVersion);
-        console.log('App version:', appVersion);
-
-        if (latestVersion === appVersion) {
-            document.getElementById('img_button_update').hidden = true;
-            appendNotification('已安裝最新版本');
-        } else {
-            latest += `(Ver.${latestVersion})`;
-            throw 'Update available.';
-        }
-    } catch (error) {
-        console.log(error);
-        document.getElementById('img_button_update').hidden = false;
+    if (appVersion === latestVersion) {
+        document.getElementById('img_button_update').hidden = true;
+        appendNotification('已安裝最新版本');
+    } else {
+        latest += `(Ver.${latestVersion})`;
         appendNotification(`已有可用的更新${latest}，請點選上方的${updateButton}按鈕下載最新版本`);
     }
 }

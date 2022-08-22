@@ -249,15 +249,15 @@ ipcMain.on('start-translation', (event, ...args) => {
 });
 
 // ipc - request
-// get latest verssion
-ipcMain.on('get-latest-version', async (event) => {
+// request latest verssion
+ipcMain.on('request-latest-version', (event) => {
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
             return JSON.parse(chunk.toString()).number;
         }
     };
 
-    event.returnValue = await makeRequest({
+    makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -265,18 +265,27 @@ ipcMain.on('get-latest-version', async (event) => {
             path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
         },
         callback: callback,
-    });
+    })
+        .then((latestVersion) => {
+            event.sender.send('version-check-response', app.getVersion(), latestVersion);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
 
 // get translation
-ipcMain.on('get-translation', async (event, engine, option) => {
-    event.returnValue = await getTranslation(engine, option);
+ipcMain.on('get-translation', (event, engine, option) => {
+    getTranslation(engine, option).then((translatedText) => {
+        event.returnValue = translatedText;
+    });
 });
 
 // get translation dictionary
-ipcMain.on('get-translation-dictionary', async (event, engine, option) => {
-    const translatedText = await getTranslation(engine, option);
-    event.sender.send('send-data', translatedText);
+ipcMain.on('get-translation-dictionary', (event, engine, option) => {
+    getTranslation(engine, option).then((translatedText) => {
+        event.sender.send('send-data', translatedText);
+    });
 });
 
 // post form

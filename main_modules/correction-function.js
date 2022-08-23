@@ -64,9 +64,9 @@ function includesArrayItem(text, array, searchIndex = 0) {
     // match
     let temp = [];
     for (let index = 0; index < searchArray.length; index++) {
-        const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const element = searchArray[index];
 
-        if (new RegExp(element, 'gi').test(text)) {
+        if (text.includes(element)) {
             text = text.replaceAll(element, '');
             temp.push(array[index]);
         }
@@ -95,9 +95,9 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
 
     // match
     for (let index = 0; index < searchArray.length; index++) {
-        const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const element = searchArray[index];
 
-        if (new RegExp('^' + element + '$', 'gi').test(text)) {
+        if (text === element) {
             target = [array[index], index];
             break;
         }

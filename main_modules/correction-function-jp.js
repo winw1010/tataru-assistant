@@ -169,6 +169,18 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
                 codeIndex++;
             }
 
+            if (text.includes(element[search] + 'め')) {
+                text = text.replaceAll(element[search] + 'め', codeString[codeIndex]);
+                table.push([codeString[codeIndex], element[replacement] + '那傢伙']);
+                codeIndex++;
+            }
+
+            if (text.includes(element[search] + 'どもめ')) {
+                text = text.replaceAll(element[search] + 'どもめ', codeString[codeIndex]);
+                table.push([codeString[codeIndex], '可恨的' + element[replacement]]);
+                codeIndex++;
+            }
+
             if (text.includes(element[search])) {
                 text = text.replaceAll(element[search], codeString[codeIndex]);
                 table.push([codeString[codeIndex], element[replacement]]);

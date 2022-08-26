@@ -214,16 +214,9 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     // get display matching the rectangle
     const display = screen.getDisplayMatching(rectangleSize);
 
-    // get display's index
-    const displays = screen.getAllDisplays();
-    let displayIndex = 0;
-
-    for (let index = 0; index < displays.length; index++) {
-        if (displays[index].id === display.id) {
-            displayIndex = index;
-            break;
-        }
-    }
+    // find display's index
+    const displayIDs = screen.getAllDisplays().map((x) => x.id);
+    const displayIndex = displayIDs.indexOf(display.id);
 
     // fix x
     if (rectangleSize.x < 0 || rectangleSize.x >= display.bounds.width) {
@@ -232,6 +225,11 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 
     // image processing
     sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+});
+
+// get position
+ipcMain.on('get-position', (event) => {
+    event.returnValue = screen.getCursorScreenPoint();
 });
 
 // translation

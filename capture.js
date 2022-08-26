@@ -80,9 +80,9 @@ function setCanvasSize(canvas) {
 function setCanvasEvent(canvas) {
     // mouse
     let isMouseDown = false,
-        mousedownSP = { x: 0, y: 0 },
-        mouseupSP = { x: 0, y: 0 },
-        mousedownCP = { x: 0, y: 0 };
+        mousedownScreenPosition = { x: 0, y: 0 },
+        mouseupScreenPosition = { x: 0, y: 0 },
+        mousedownClientPosition = { x: 0, y: 0 };
 
     // on mouse down
     canvas.onmousedown = (event) => {
@@ -90,20 +90,17 @@ function setCanvasEvent(canvas) {
         isMouseDown = true;
 
         // get mousedown screen position
-        mousedownSP = {
-            x: event.screenX,
-            y: event.screenY,
-        };
+        mousedownScreenPosition = ipcRenderer.sendSync('get-position');
 
         // get mousedown client position
-        mousedownCP = {
+        mousedownClientPosition = {
             x: event.clientX,
             y: event.clientY,
         };
     };
 
     // on mouse up
-    canvas.onmouseup = (event) => {
+    canvas.onmouseup = (/*event*/) => {
         // stop drawing
         isMouseDown = false;
 
@@ -114,13 +111,15 @@ function setCanvasEvent(canvas) {
         }
 
         // get mouseup screen position
-        mouseupSP = {
-            x: event.screenX,
-            y: event.screenY,
-        };
+        mouseupScreenPosition = ipcRenderer.sendSync('get-position');
 
         // get rectangle size
-        let rectangleSize = getRectangleSize(mousedownSP.x, mousedownSP.y, mouseupSP.x, mouseupSP.y);
+        let rectangleSize = getRectangleSize(
+            mousedownScreenPosition.x,
+            mousedownScreenPosition.y,
+            mouseupScreenPosition.x,
+            mouseupScreenPosition.y
+        );
 
         // send rectangle size
         if (rectangleSize.width > 0 && rectangleSize.height > 0) {
@@ -133,7 +132,7 @@ function setCanvasEvent(canvas) {
         document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
 
         if (isMouseDown) {
-            drawRectangle(mousedownCP.x, mousedownCP.y, event.clientX, event.clientY);
+            drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
         }
     };
 

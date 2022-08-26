@@ -228,7 +228,7 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
 });
 
 // get position
-ipcMain.on('get-position', (event) => {
+ipcMain.on('get-screen-position', (event) => {
     event.returnValue = screen.getCursorScreenPoint();
 });
 

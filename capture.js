@@ -90,7 +90,7 @@ function setCanvasEvent(canvas) {
         isMouseDown = true;
 
         // get mousedown screen position
-        mousedownScreenPosition = ipcRenderer.sendSync('get-position');
+        mousedownScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
         // get mousedown client position
         mousedownClientPosition = {
@@ -111,7 +111,7 @@ function setCanvasEvent(canvas) {
         }
 
         // get mouseup screen position
-        mouseupScreenPosition = ipcRenderer.sendSync('get-position');
+        mouseupScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
         // get rectangle size
         let rectangleSize = getRectangleSize(

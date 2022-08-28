@@ -449,8 +449,8 @@ function specialTextFix(name, text) {
     }
 
     // あ…… or あ、
-    while (/^[ぁ-ゖァ-ヺ](……|、)/g.test(text)) {
-        text = text.replace(/^[ぁ-ゖァ-ヺ](……|、)/gi, '');
+    while (/^[ぁ-ゖァ-ヺ](……|…|、)/g.test(text)) {
+        text = text.replace(/^[ぁ-ゖァ-ヺ](……|…|、)/gi, '');
     }
 
     return text;

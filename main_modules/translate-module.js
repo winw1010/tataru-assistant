@@ -13,7 +13,7 @@ const zhConvert = require('./translator/zh-convert');
 
 async function translate(text, translation, table = []) {
     if (text === '') {
-        return '';
+        return '……';
     }
 
     const autoChange = translation.autoChange;

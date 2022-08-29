@@ -407,9 +407,6 @@ function createWindow(windowName, data = null) {
             },
         });
 
-        // load html
-        window.loadFile(`${windowName}.html`);
-
         // set always on top
         const alwaysOnTop = windowName !== 'edit';
         window.setAlwaysOnTop(alwaysOnTop, 'screen-saver');
@@ -432,10 +429,20 @@ function createWindow(windowName, data = null) {
         // save config on closing
         switch (windowName) {
             case 'index':
+                // set index
                 setIndex(window);
 
+                // set foucusable
+                window.setFocusable(false);
+                window.on('restore', () => {
+                    window.setFocusable(false);
+                });
+                window.on('minimize', () => {
+                    window.setFocusable(true);
+                });
+
+                // save position on close
                 window.once('close', () => {
-                    // save position
                     config.indexWindow.x = window.getPosition()[0];
                     config.indexWindow.y = window.getPosition()[1];
 
@@ -467,6 +474,10 @@ function createWindow(windowName, data = null) {
                 break;
         }
 
+        // load html
+        window.loadFile(`${windowName}.html`);
+
+        // save window
         windowList[windowName] = window;
     } catch (error) {
         console.log(error);

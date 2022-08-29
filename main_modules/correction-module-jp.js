@@ -448,9 +448,9 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ミスト', 'ミスト#');
     }
 
-    // あ…… or あ、
-    while (/^[ぁ-ゖァ-ヺ](……|…|、)/g.test(text)) {
-        text = text.replace(/^[ぁ-ゖァ-ヺ](……|…|、)/gi, '');
+    // あ…… or あ… or あ、
+    while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text)) {
+        text = text.replace(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
     }
 
     return text;

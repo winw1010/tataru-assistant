@@ -218,15 +218,17 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     const displayIDs = screen.getAllDisplays().map((x) => x.id);
     const displayIndex = displayIDs.indexOf(display.id);
 
-    // fix x
+    /*
     if (rectangleSize.x < 0 || rectangleSize.x >= display.bounds.width) {
         rectangleSize.x = rectangleSize.x - display.bounds.x;
     }
+    */
+
+    // fix x
+    rectangleSize.x = rectangleSize.x - display.bounds.x;
 
     // fix y
-    if (rectangleSize.y < 0 || rectangleSize.y >= display.bounds.height) {
-        rectangleSize.y = rectangleSize.y - display.bounds.y;
-    }
+    rectangleSize.y = rectangleSize.y - display.bounds.y;
 
     // image processing
     sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);

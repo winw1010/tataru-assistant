@@ -219,6 +219,7 @@ ipcMain.on('start-screen-translation', (event, rectangleSize) => {
     const displayIndex = displayIDs.indexOf(display.id);
 
     /*
+    // fix x
     if (rectangleSize.x < 0 || rectangleSize.x >= display.bounds.width) {
         rectangleSize.x = rectangleSize.x - display.bounds.x;
     }

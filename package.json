@@ -34,10 +34,10 @@
             "output": "build"
         },
         "extraFiles": [
-            "json",
-            "trained_data",
-            "!trained_data/*.png",
-            "!_Tataru_Helper"
+            "src/json",
+            "src/trained_data",
+            "!src/trained_data/*.png",
+            "!src/_Tataru_Helper"
         ],
         "win": {
             "icon": "./img/icon/tataru.ico",

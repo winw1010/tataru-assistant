@@ -72,7 +72,6 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
                 codeIndex++;
             }
 
-            // たん
             if (text.includes(element[search] + 'ちゃん')) {
                 text = text.replaceAll(element[search] + 'ちゃん', codeString[codeIndex]);
                 table.push([codeString[codeIndex], '小' + element[replacement]]);

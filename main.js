@@ -167,16 +167,21 @@ ipcMain.on('close-window', (event) => {
 });
 
 // always on top
-ipcMain.on('set-always-on-top', (event, top) => {
+ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
     const window = windowList['index'];
 
     if (window) {
         try {
-            window.setAlwaysOnTop(top, 'screen-saver');
+            window.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
         } catch (error) {
             console.log(error);
         }
     }
+});
+
+// set focusable
+ipcMain.on('set-focusable', (event, isFocusable) => {
+    BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
 });
 
 // set click through
@@ -434,9 +439,9 @@ function createWindow(windowName, data = null) {
                 setIndex(window);
 
                 // set foucusable
-                window.setFocusable(false);
+                window.setFocusable(config.indexWindow.focusable);
                 window.on('restore', () => {
-                    window.setFocusable(false);
+                    window.setFocusable(config.indexWindow.focusable);
                 });
                 window.on('minimize', () => {
                     window.setFocusable(true);

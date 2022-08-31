@@ -203,6 +203,8 @@ function showConfig() {
     // window
     document.getElementById('checkbox_top').checked = config.indexWindow.alwaysOnTop;
 
+    document.getElementById('checkbox_focusable').checked = config.indexWindow.focusable;
+
     document.getElementById('checkbox_advance').checked = config.indexWindow.advance;
 
     document.getElementById('checkbox_hide_button').checked = config.indexWindow.hideButton;
@@ -213,8 +215,14 @@ function showConfig() {
     document.getElementById('span_background_color').innerText = config.indexWindow.backgroundColor.slice(0, 7);
     document.getElementById('color_background_color').value = config.indexWindow.backgroundColor.slice(0, 7);
 
-    document.getElementById('span_background_transparency').innerText = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
-    document.getElementById('range_background_transparency').value = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
+    document.getElementById('span_background_transparency').innerText = parseInt(
+        config.indexWindow.backgroundColor.slice(7),
+        16
+    );
+    document.getElementById('range_background_transparency').value = parseInt(
+        config.indexWindow.backgroundColor.slice(7),
+        16
+    );
 
     // font
     document.getElementById('select_font_weight').value = config.dialog.weight;
@@ -228,7 +236,10 @@ function showConfig() {
     document.getElementById('span_dialog_color').innerText = config.dialog.backgroundColor.slice(0, 7);
     document.getElementById('color_dialog_color').value = config.dialog.backgroundColor.slice(0, 7);
 
-    document.getElementById('span_dialog_transparency').innerText = parseInt(config.dialog.backgroundColor.slice(7), 16);
+    document.getElementById('span_dialog_transparency').innerText = parseInt(
+        config.dialog.backgroundColor.slice(7),
+        16
+    );
     document.getElementById('range_dialog_transparency').value = parseInt(config.dialog.backgroundColor.slice(7), 16);
 
     // channel
@@ -268,6 +279,8 @@ function setConfig() {
     // window
     config.indexWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
 
+    config.indexWindow.focusable = document.getElementById('checkbox_focusable').checked;
+
     config.indexWindow.advance = document.getElementById('checkbox_advance').checked;
 
     config.indexWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
@@ -275,7 +288,10 @@ function setConfig() {
     config.indexWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
     config.indexWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
 
-    config.indexWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
+    config.indexWindow.backgroundColor = document
+        .getElementById('color_background_color')
+        .value.toString()
+        .toUpperCase();
 
     let pt = parseInt(document.getElementById('range_background_transparency').value).toString(16).toUpperCase();
     config.indexWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;

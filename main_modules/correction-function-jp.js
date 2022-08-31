@@ -103,6 +103,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
                 codeIndex++;
             }
 
+            if (text.includes(element[search] + '先生')) {
+                text = text.replaceAll(element[search] + '先生', codeString[codeIndex]);
+                table.push([codeString[codeIndex], element[replacement] + '老師']);
+                codeIndex++;
+            }
+
             if (text.includes(element[search] + 'さま')) {
                 text = text.replaceAll(element[search] + 'さま', codeString[codeIndex]);
                 table.push([codeString[codeIndex], element[replacement] + '大人']);

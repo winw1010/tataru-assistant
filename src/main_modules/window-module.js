@@ -6,6 +6,10 @@ const { resolve } = require('path');
 // electron module
 const { screen, BrowserWindow } = require('electron');
 
+// electron module
+const { getConfig, setConfig } = require('./config-module');
+
+// window list
 let windowList = {
     index: null,
     edit: null,

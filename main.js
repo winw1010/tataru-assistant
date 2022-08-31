@@ -4,28 +4,28 @@
 const { existsSync, mkdirSync } = require('fs');
 
 // path
-const path = require('path');
+const { resolve } = require('path');
 
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
 
 // config module
-const { loadConfig, saveConfig, getDefaultConfig } = require('./main_modules/config-module');
+const { loadConfig, saveConfig, getDefaultConfig } = require('./src/main_modules/config-module');
 
 // chat code module
-const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./main_modules/chat-code-module');
+const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./src/main_modules/chat-code-module');
 
 // request
-const { makeRequest } = require('./main_modules/translator/request-module');
-const { getTranslation } = require('./main_modules/translate-module');
+const { makeRequest } = require('./src/main_modules/translator/request-module');
+const { getTranslation } = require('./src/main_modules/translate-module');
 
 // main window module
-const { setIndex, sendIndex } = require('./main_modules/main-window-module');
+const { setIndex, sendIndex } = require('./src/main_modules/main-window-module');
 
 // correction-module
-const { correctionEntry } = require('./main_modules/correction-module');
-const { loadJSON_EN } = require('./main_modules/correction-module-en');
-const { loadJSON_JP } = require('./main_modules/correction-module-jp');
+const { correctionEntry } = require('./src/main_modules/correction-module');
+const { loadJSON_EN } = require('./src/main_modules/correction-module-en');
+const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
 
 // disable http cache
 app.commandLine.appendSwitch('disable-http-cache');
@@ -409,7 +409,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: path.join(__dirname, `${windowName}.js`),
+                preload: resolve(process.cwd(), 'src', `${windowName}.js`),
             },
         });
 
@@ -481,7 +481,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(`${windowName}.html`);
+        window.loadFile(resolve(process.cwd(), 'src', `${windowName}.html`));
 
         // save window
         windowList[windowName] = window;

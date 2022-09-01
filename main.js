@@ -73,7 +73,7 @@ app.whenReady().then(() => {
     // set ipc main
     setIpcMain();
 
-    // set key down
+    // set shortcut
     setGlobalShortcut();
 
     // create index window

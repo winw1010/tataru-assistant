@@ -127,7 +127,7 @@ function setButton() {
     // link
     document.getElementById('a_github').onclick = () => {
         try {
-            execSync('explorer "https://github.com/winw1010/tataru-helper-node-ver.2.0.0"');
+            execSync('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
         } catch (error) {
             console.log(error);
         }

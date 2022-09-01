@@ -27,9 +27,6 @@ const { execSync } = require('child_process');
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
 
-// request
-//const { axiosPost } = require('./renderer_modules/request-module-old');
-
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 

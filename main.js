@@ -36,11 +36,6 @@ const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
 // app version
 const appVersion = app.getVersion();
 
-// app path
-const mainPath = __dirname;
-const rootPath = process.cwd();
-const userPath = process.env.USERPROFILE;
-
 // config
 let config = null;
 let chatCode = null;
@@ -145,21 +140,6 @@ function setSystemChannel() {
     // set default chat code
     ipcMain.on('set-default-chat-code', () => {
         chatCode = getDefaultChatCode();
-    });
-
-    // get main path
-    ipcMain.on('get-main-path', (event) => {
-        event.returnValue = mainPath;
-    });
-
-    // get root path
-    ipcMain.on('get-root-path', (event) => {
-        event.returnValue = rootPath;
-    });
-
-    // get user path
-    ipcMain.on('get-user-path', (event) => {
-        event.returnValue = userPath;
     });
 }
 
@@ -391,7 +371,7 @@ function setRequestChannel() {
 
 // directory check
 function directoryCheck() {
-    const documentPath = userPath + '\\Documents';
+    const documentPath = process.env.USERPROFILE + '\\Documents';
     const subPath = [
         '',
         '\\Tataru Helper Node',
@@ -517,7 +497,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: path.join(mainPath, 'src', `${windowName}.js`),
+                preload: path.join(__dirname, 'src', `${windowName}.js`),
             },
         });
 
@@ -589,7 +569,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(path.join(mainPath, 'src', `${windowName}.html`));
+        window.loadFile(path.join(__dirname, 'src', `${windowName}.html`));
 
         // save window
         windowList[windowName] = window;

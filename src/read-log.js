@@ -12,9 +12,6 @@ const { ipcRenderer } = require('electron');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
-// json fixer
-const jsonFixer = require('json-fixer');
-
 // log location
 const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
 
@@ -84,7 +81,7 @@ function readLog(fileName) {
 
     try {
         const fileLocation = logLocation + '\\' + fileName;
-        const log = jsonFixer(readFileSync(fileLocation).toString()).data;
+        const log = JSON.parse(readFileSync(fileLocation));
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

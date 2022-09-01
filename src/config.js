@@ -119,11 +119,6 @@ function setButton() {
         ipcRenderer.send('version-check');
     };
 
-    // devtools
-    document.getElementById('button_devtools').onclick = () => {
-        ipcRenderer.send('open-index-devtools');
-    };
-
     // github
     document.getElementById('a_github').onclick = () => {
         try {

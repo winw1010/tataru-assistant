@@ -10,7 +10,7 @@ const { readFileSync } = require('fs');
 const jsonFixer = require('json-fixer');
 
 // language table
-const { /*languageEnum,*/ getLanguageCode } = require('./renderer_modules/engine-module');
+const { getLanguageCode } = require('./renderer_modules/engine-module');
 
 // cf
 const cf = require('./renderer_modules/correction-function');
@@ -31,7 +31,7 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 //const { axiosPost } = require('./renderer_modules/request-module-old');
 
 // Japanese character
-//const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
 const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
@@ -93,15 +93,6 @@ function setIPC() {
                         targetLog = log[id];
 
                         if (targetLog) {
-                            console.log('log file:', fileName);
-                            console.log('target log:', targetLog);
-
-                            // show audio
-                            showAudio();
-
-                            // show text
-                            showText();
-
                             break;
                         }
                     } catch (error) {
@@ -109,8 +100,17 @@ function setIPC() {
                     }
                 }
 
-                if (targetLog && targetLog.code !== 'FFFF') {
-                    document.getElementById('div_restart').hidden = false;
+                if (targetLog) {
+                    // show audio
+                    showAudio();
+
+                    // show text
+                    showText();
+
+                    // show restart
+                    if (targetLog.code !== 'FFFF') {
+                        document.getElementById('div_restart').hidden = false;
+                    }
                 }
             }
         } catch (error) {
@@ -272,7 +272,7 @@ function showText() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 
@@ -290,7 +290,7 @@ function addTemp(textBefore, textAfter, type, array) {
 function deleteTemp(textBefore, type, array) {
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite') {
+    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 

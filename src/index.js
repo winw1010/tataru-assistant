@@ -6,9 +6,6 @@ const { ipcRenderer } = require('electron');
 // exec
 const { execSync } = require('child_process');
 
-// download github repo
-const downloadGitRepo = require('download-git-repo');
-
 // audio module
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
@@ -98,11 +95,6 @@ function setEvent() {
 
 // set IPC
 function setIPC() {
-    // download json
-    ipcRenderer.on('download-json', () => {
-        downloadJSON();
-    });
-
     // start server
     ipcRenderer.on('start-server', () => {
         startServer();
@@ -240,6 +232,13 @@ function setButton() {
     };
 }
 
+// start app
+function startApp() {
+    startServer();
+    ipcRenderer.send('initialize-json');
+    ipcRenderer.send('version-check');
+}
+
 // reset view
 function resetView(config) {
     // set always on top
@@ -293,52 +292,4 @@ function resetView(config) {
             showDialog();
         }
     }, 100);
-}
-
-// start app
-function startApp() {
-    startServer();
-    initializeJSON();
-    ipcRenderer.send('version-check');
-}
-
-// load json
-function initializeJSON() {
-    const config = ipcRenderer.sendSync('get-config');
-
-    if (config.system.autoDownloadJson) {
-        downloadJSON();
-    } else {
-        loadJSON();
-    }
-}
-
-// download json
-function downloadJSON() {
-    try {
-        // delete text
-        execSync('rmdir /Q /S src\\json\\text');
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
-        // clone json
-        downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
-            if (error) {
-                console.log(error);
-                appendNotification('對照表下載失敗：' + error);
-            } else {
-                appendNotification('對照表下載完畢');
-                loadJSON();
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// load json
-function loadJSON() {
-    ipcRenderer.send('load-json');
 }

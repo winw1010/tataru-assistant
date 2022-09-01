@@ -9,6 +9,12 @@ const { resolve } = require('path');
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
 
+// exec
+const { execSync } = require('child_process');
+
+// download github repo
+const downloadGitRepo = require('download-git-repo');
+
 // config module
 const { loadConfig, saveConfig, getDefaultConfig } = require('./src/main_modules/config-module');
 
@@ -263,13 +269,19 @@ function setCaptureChannel() {
 
 // set translation channel
 function setTranslationChannel() {
+    // initialize json
+    ipcMain.on('initialize-json', () => {
+        initializeJSON();
+    });
+
+    // download json
+    ipcMain.on('download-json', () => {
+        downloadJSON();
+    });
+
     // load json
     ipcMain.on('load-json', () => {
-        let languageTo = config.translation.to;
-        loadJSON_EN(languageTo);
-        loadJSON_JP(languageTo);
-
-        sendIndex('show-notification', '對照表讀取完畢');
+        loadJSON();
     });
 
     // start translation
@@ -419,6 +431,49 @@ function setGlobalShortcut() {
             }
         }
     });
+}
+
+// initialize json
+function initializeJSON() {
+    if (config.system.autoDownloadJson) {
+        downloadJSON();
+    } else {
+        loadJSON();
+    }
+}
+
+// download json
+function downloadJSON() {
+    try {
+        // delete text
+        execSync('rmdir /Q /S src\\json\\text');
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+        // clone json
+        downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
+            if (error) {
+                console.log(error);
+                sendIndex('show-notification', '對照表下載失敗：' + error);
+            } else {
+                sendIndex('show-notification', '對照表下載完畢');
+                loadJSON();
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// load json
+function loadJSON() {
+    let languageTo = config.translation.to;
+    loadJSON_EN(languageTo);
+    loadJSON_JP(languageTo);
+
+    sendIndex('show-notification', '對照表讀取完畢');
 }
 
 // create window

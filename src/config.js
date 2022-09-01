@@ -111,7 +111,7 @@ function setButton() {
     // content
     // download json
     document.getElementById('button_download_json').onclick = () => {
-        ipcRenderer.send('send-index', 'download-json');
+        ipcRenderer.send('download-json');
     };
 
     // version check

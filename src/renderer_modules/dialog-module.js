@@ -241,10 +241,13 @@ function clearSelection() {
     }
 }
 
-exports.appendBlankDialog = appendBlankDialog;
-exports.updateDialog = updateDialog;
-exports.appendNotification = appendNotification;
-exports.setStyle = setStyle;
-exports.createLogName = createLogName;
-exports.showDialog = showDialog;
-exports.moveToBottom = moveToBottom;
+// exports
+module.exports = {
+    appendBlankDialog,
+    updateDialog,
+    appendNotification,
+    setStyle,
+    createLogName,
+    showDialog,
+    moveToBottom,
+};

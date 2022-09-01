@@ -119,4 +119,7 @@ function isSystemMessage(code) {
     return systemChannel.includes(code);
 }
 
-exports.startServer = startServer;
+// exports
+module.exports = {
+    startServer,
+};

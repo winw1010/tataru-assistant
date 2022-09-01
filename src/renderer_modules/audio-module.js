@@ -85,6 +85,9 @@ function playNext() {
     }
 }
 
-exports.addToPlaylist = addToPlaylist;
-exports.startPlaying = startPlaying;
-exports.stopPlaying = stopPlaying;
+// exports
+module.exports = {
+    addToPlaylist,
+    startPlaying,
+    stopPlaying,
+};

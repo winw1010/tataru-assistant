@@ -43,4 +43,7 @@ function setDragElement(element) {
     }
 }
 
-exports.setDragElement = setDragElement;
+// exports
+module.exports = {
+    setDragElement,
+};

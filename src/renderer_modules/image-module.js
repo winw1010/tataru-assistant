@@ -253,4 +253,7 @@ function deleteImages() {
     });
 }
 
-exports.takeScreenshot = takeScreenshot;
+// exports
+module.exports = {
+    takeScreenshot,
+};

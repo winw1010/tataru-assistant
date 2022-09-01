@@ -1,8 +1,5 @@
 'use strict';
 
-// electron module
-//const { BrowserWindow } = require('electron');
-
 // index id
 let indexWindow = null;
 

@@ -100,6 +100,11 @@ function setIPC() {
         startServer();
     });
 
+    // hide update button
+    ipcRenderer.on('hide-update-button', (event, ishidden) => {
+        document.getElementById('img_button_update').hidden = ishidden;
+    });
+
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
         document.getElementById('div_dialog').innerHTML = '';

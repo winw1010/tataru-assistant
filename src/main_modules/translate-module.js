@@ -9,7 +9,7 @@ const papago = require('./translator/papago');
 const deepl = require('./translator/deepl');
 const google = require('./translator/google');
 const googleTTS = require('./translator/google-tts');
-const zhConvert = require('./translator/zh-convert');
+const zhConverter = require('./translator/zh-convert');
 
 async function translate(text, translation, table = []) {
     if (text === '') {
@@ -92,7 +92,7 @@ async function translate(text, translation, table = []) {
         missingCodes = missingCodeCheck(translatedText, table);
     } while (missingCodes.length > 0 && retryCount < 3);
 
-    return zhtConvert(translatedText, translation.to);
+    return zhConvert(translatedText, translation.to);
 }
 
 async function getTranslation(engine, option) {
@@ -129,7 +129,7 @@ async function getTranslation(engine, option) {
                 break;
 
             case 'zhConvert':
-                result = zhConvert.exec(option);
+                result = zhConverter.exec(option);
                 break;
 
             default:
@@ -144,11 +144,11 @@ async function getTranslation(engine, option) {
     }
 }
 
-function zhtConvert(text, languageTo) {
+function zhConvert(text, languageTo) {
     if (languageTo === languageEnum.zht) {
-        return zhConvert.exec({ text: text, tableName: 'zh2Hant' });
+        return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
     } else if (languageTo === languageEnum.zhs) {
-        return zhConvert.exec({ text: text, tableName: 'zh2Hans' });
+        return zhConverter.exec({ text: text, tableName: 'zh2Hans' });
     } else {
         return text;
     }

@@ -16,7 +16,7 @@ const { addToPlaylist } = require('./audio-module');
 const { languageEnum } = require('./engine-module');
 
 // zh convert
-const zhConvert = require('../main_modules/translator/zh-convert');
+const zhConverter = require('../main_modules/translator/zh-convert');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -51,8 +51,8 @@ function appendBlankDialog(id, code) {
 function updateDialog(id, name, text, dialogData = null, translation = null) {
     // zh convert
     if (translation) {
-        name = zhtConvert(name, translation.to);
-        text = zhtConvert(text, translation.to);
+        name = zhConvert(name, translation.to);
+        text = zhConvert(text, translation.to);
     }
 
     // set dialog
@@ -90,7 +90,7 @@ function appendNotification(text) {
     const code = 'FFFF';
 
     // zh convert
-    text = zhtConvert(text, config.translation.to);
+    text = zhConvert(text, config.translation.to);
 
     appendBlankDialog(id, code);
     updateDialog(id, '', text, { id: id, code: code, playerName: '', name: '', text: '', timestamp: timestamp }, {});
@@ -153,11 +153,11 @@ function getColor(code) {
 }
 
 // zh convert
-function zhtConvert(text, languageTo) {
+function zhConvert(text, languageTo) {
     if (languageTo === languageEnum.zht) {
-        return zhConvert.exec({ text: text, tableName: 'zh2Hant' });
+        return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
     } else if (languageTo === languageEnum.zhs) {
-        return zhConvert.exec({ text: text, tableName: 'zh2Hans' });
+        return zhConverter.exec({ text: text, tableName: 'zh2Hans' });
     } else {
         return text;
     }

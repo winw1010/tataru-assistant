@@ -65,11 +65,11 @@ app.whenReady().then(() => {
     // load chat code
     chatCode = loadChatCode();
 
-    // set key down
-    setGlobalShortcut();
-
     // set ipc main
     setIpcMain();
+
+    // set key down
+    setGlobalShortcut();
 
     // create index window
     createWindow('index');

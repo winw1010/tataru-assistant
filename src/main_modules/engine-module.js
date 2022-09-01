@@ -92,8 +92,11 @@ function getLanguageCode(language, engine) {
     return table[language];
 }
 
-exports.languageEnum = languageEnum;
-exports.languageIndex = languageIndex;
-exports.AvailableEngineList = AvailableEngineList;
-exports.getOption = getOption;
-exports.getLanguageCode = getLanguageCode;
+// exports
+module.exports = {
+    languageEnum,
+    languageIndex,
+    AvailableEngineList,
+    getOption,
+    getLanguageCode,
+};

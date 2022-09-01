@@ -133,6 +133,9 @@ function saveDefaultConfig() {
     }
 }
 
-exports.loadConfig = loadConfig;
-exports.saveConfig = saveConfig;
-exports.getDefaultConfig = getDefaultConfig;
+// exports
+module.exports = {
+    loadConfig,
+    saveConfig,
+    getDefaultConfig,
+};

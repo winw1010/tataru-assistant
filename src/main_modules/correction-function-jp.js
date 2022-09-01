@@ -270,9 +270,12 @@ function isChinese(text) {
     return !/[ぁ-ゖァ-ヺ]/gi.test(text);
 }
 
-exports.replaceTextByCode = replaceTextByCode;
-exports.convertKana = convertKana;
-exports.reverseKana = reverseKana;
-exports.canSkipTranslation = canSkipTranslation;
-exports.genderFix = genderFix;
-exports.isChinese = isChinese;
+// exports
+module.exports = {
+    replaceTextByCode,
+    convertKana,
+    reverseKana,
+    canSkipTranslation,
+    genderFix,
+    isChinese,
+};

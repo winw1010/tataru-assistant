@@ -281,5 +281,8 @@ function saveName(name = '', translatedName = '') {
     cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
 }
 
-exports.loadJSON_EN = loadJSON;
-exports.addToCorrectionQueue_EN = addToCorrectionQueue;
+// exports
+module.exports = {
+    loadJSON_EN: loadJSON,
+    addToCorrectionQueue_EN: addToCorrectionQueue,
+};

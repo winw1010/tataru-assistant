@@ -480,5 +480,8 @@ function countKata(text) {
     return count;
 }
 
-exports.loadJSON_JP = loadJSON;
-exports.addToCorrectionQueue_JP = addToCorrectionQueue;
+// exports
+module.exports = {
+    loadJSON_JP: loadJSON,
+    addToCorrectionQueue_JP: addToCorrectionQueue,
+};

@@ -100,7 +100,10 @@ function isChinese(text) {
     return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
-exports.replaceTextByCode = replaceTextByCode;
-exports.canSkipTranslation = canSkipTranslation;
-exports.genderFix = genderFix;
-exports.isChinese = isChinese;
+// exports
+module.exports = {
+    replaceTextByCode,
+    canSkipTranslation,
+    genderFix,
+    isChinese,
+};

@@ -254,6 +254,9 @@ function saveDefaultChatCode() {
     }
 }
 
-exports.loadChatCode = loadChatCode;
-exports.saveChatCode = saveChatCode;
-exports.getDefaultChatCode = getDefaultChatCode;
+// exports
+module.exports = {
+    loadChatCode,
+    saveChatCode,
+    getDefaultChatCode,
+};

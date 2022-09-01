@@ -438,20 +438,23 @@ function combineArrayWithTemp(temp, ...args) {
     return sortArray(combine);
 }
 
-exports.skipCheck = skipCheck;
-exports.replaceText = replaceText;
-exports.includesArrayItem = includesArrayItem;
-exports.sameAsArrayItem = sameAsArrayItem;
-exports.markFix = markFix;
-exports.clearCode = clearCode;
-exports.valueFixBefore = valueFixBefore;
-exports.valueFixAfter = valueFixAfter;
+// exports
+module.exports = {
+    skipCheck,
+    replaceText,
+    includesArrayItem,
+    sameAsArrayItem,
+    markFix,
+    clearCode,
+    valueFixBefore,
+    valueFixAfter,
 
-exports.readJSON = readJSON;
-exports.readJSONMain = readJSONMain;
-exports.readJSONOverwrite = readJSONOverwrite;
-exports.readJSONSubtitle = readJSONSubtitle;
-exports.readJSONPure = readJSONPure;
-exports.writeJSON = writeJSON;
-exports.combineArray = combineArray;
-exports.combineArrayWithTemp = combineArrayWithTemp;
+    readJSON,
+    readJSONMain,
+    readJSONOverwrite,
+    readJSONSubtitle,
+    readJSONPure,
+    writeJSON,
+    combineArray,
+    combineArrayWithTemp,
+};

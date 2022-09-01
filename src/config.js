@@ -116,7 +116,7 @@ function setButton() {
 
     // version check
     document.getElementById('button_version_check').onclick = () => {
-        ipcRenderer.send('send-index', 'version-check');
+        ipcRenderer.send('version-check');
     };
 
     // devtools
@@ -181,8 +181,8 @@ function setButton() {
         // reset view
         ipcRenderer.send('send-index', 'reset-view', ipcRenderer.sendSync('get-config'));
 
-        // read json
-        ipcRenderer.send('send-index', 'read-json');
+        // load json
+        ipcRenderer.send('load-json');
 
         // restart
         ipcRenderer.send('create-window', 'config');
@@ -190,7 +190,7 @@ function setButton() {
 
     // save
     document.getElementById('button_save').onclick = () => {
-        setConfig();
+        saveConfig();
     };
 }
 
@@ -271,8 +271,8 @@ function showConfig() {
     document.getElementById('span_version').innerText = version;
 }
 
-// set config
-function setConfig() {
+// save config
+function saveConfig() {
     let config = ipcRenderer.sendSync('get-config');
     let chatCode = ipcRenderer.sendSync('get-chat-code');
 
@@ -361,8 +361,8 @@ function setConfig() {
     // set chat code
     ipcRenderer.send('set-chat-code', chatCode);
 
-    // read json
-    ipcRenderer.send('send-index', 'read-json');
+    // load json
+    ipcRenderer.send('load-json');
 
     // restart server
     ipcRenderer.send('send-index', 'start-server');

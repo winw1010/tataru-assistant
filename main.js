@@ -27,6 +27,9 @@ const { correctionEntry } = require('./src/main_modules/correction-module');
 const { loadJSON_EN } = require('./src/main_modules/correction-module-en');
 const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
 
+// app version
+const appVersion = app.getVersion();
+
 // config
 let config = null;
 let chatCode = null;
@@ -48,7 +51,7 @@ app.whenReady().then(() => {
     app.commandLine.appendSwitch('disable-http-cache');
 
     // check directory
-    checkDirectory();
+    directoryCheck();
 
     // load config
     config = loadConfig();
@@ -87,7 +90,7 @@ function setIpcMain() {
 function setSystemChannel() {
     // get app version
     ipcMain.on('get-version', (event) => {
-        event.returnValue = app.getVersion();
+        event.returnValue = appVersion;
     });
 
     // close app
@@ -209,14 +212,15 @@ function setWindowChannel() {
     });
 
     // mouse check
-    ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
+    ipcMain.on('mouse-out-check', (event) => {
         const cursorScreenPoint = screen.getCursorScreenPoint();
+        const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
 
         event.returnValue =
-            cursorScreenPoint.x < windowX ||
-            cursorScreenPoint.x > windowX + windowWidth ||
-            cursorScreenPoint.y < windowY ||
-            cursorScreenPoint.y > windowY + windowHeight;
+            cursorScreenPoint.x < windowBounds.x ||
+            cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
+            cursorScreenPoint.y < windowBounds.y ||
+            cursorScreenPoint.y > windowBounds.y + windowBounds.height;
     });
 
     // mute window
@@ -260,7 +264,8 @@ function setCaptureChannel() {
 // set translation channel
 function setTranslationChannel() {
     // load json
-    ipcMain.on('load-json', (event, languageTo) => {
+    ipcMain.on('load-json', () => {
+        let languageTo = config.translation.to;
         loadJSON_EN(languageTo);
         loadJSON_JP(languageTo);
 
@@ -276,7 +281,7 @@ function setTranslationChannel() {
 // set request channel
 function setRequestChannel() {
     // request latest verssion
-    ipcMain.on('request-latest-version', (event) => {
+    ipcMain.on('version-check', () => {
         const callback = function (response, chunk) {
             if (response.statusCode === 200) {
                 return JSON.parse(chunk.toString()).number;
@@ -293,7 +298,24 @@ function setRequestChannel() {
             callback: callback,
         })
             .then((latestVersion) => {
-                event.sender.send('version-check-response', app.getVersion(), latestVersion);
+                const updateButton =
+                    '<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">';
+
+                if (appVersion === latestVersion) {
+                    document.getElementById('img_button_update').hidden = true;
+                    sendIndex('show-notification', '已安裝最新版本');
+                } else {
+                    let latest = '';
+
+                    if (latestVersion?.length > 0) {
+                        latest += `(Ver.${latestVersion})`;
+                    }
+
+                    sendIndex(
+                        'show-notification',
+                        `已有可用的更新${latest}，請點選上方的${updateButton}按鈕下載最新版本`
+                    );
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -334,8 +356,8 @@ function setRequestChannel() {
     });
 }
 
-// check directory
-function checkDirectory() {
+// directory check
+function directoryCheck() {
     const userDirectory = process.env.USERPROFILE + '\\Documents';
     const subDirectories = [
         '',

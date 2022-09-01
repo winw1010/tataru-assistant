@@ -31,9 +31,6 @@ const { takeScreenshot } = require('./renderer_modules/image-module');
 // server module
 const { startServer } = require('./renderer_modules/server-module');
 
-// update button
-const updateButton = '<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">';
-
 // click through temp
 let isClickThrough = false;
 
@@ -104,21 +101,6 @@ function setIPC() {
     // download json
     ipcRenderer.on('download-json', () => {
         downloadJSON();
-    });
-
-    // read json
-    ipcRenderer.on('read-json', () => {
-        readJSON();
-    });
-
-    // version check
-    ipcRenderer.on('version-check', () => {
-        requestLatestVersion();
-    });
-
-    // version check response
-    ipcRenderer.on('version-check-response', (event, appVersion, latestVersion) => {
-        versionCheck(appVersion, latestVersion);
     });
 
     // start server
@@ -293,13 +275,7 @@ function resetView(config) {
     // start/restart mouse out check interval
     clearInterval(mouseOutCheckInterval);
     mouseOutCheckInterval = setInterval(() => {
-        const isMouseOut = ipcRenderer.sendSync(
-            'mouse-out-check',
-            window.screenX,
-            window.screenY,
-            window.innerWidth,
-            window.innerHeight
-        );
+        const isMouseOut = ipcRenderer.sendSync('mouse-out-check');
 
         if (isMouseOut) {
             // hide button
@@ -321,19 +297,19 @@ function resetView(config) {
 
 // start app
 function startApp() {
-    loadJSON();
     startServer();
-    requestLatestVersion();
+    initializeJSON();
+    ipcRenderer.send('version-check');
 }
 
 // load json
-function loadJSON() {
+function initializeJSON() {
     const config = ipcRenderer.sendSync('get-config');
 
     if (config.system.autoDownloadJson) {
         downloadJSON();
     } else {
-        readJSON();
+        loadJSON();
     }
 }
 
@@ -348,13 +324,13 @@ function downloadJSON() {
 
     try {
         // clone json
-        downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'src/json/text', (error) => {
+        downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
             if (error) {
                 console.log(error);
-                downloadJSON2();
+                appendNotification('對照表下載失敗：' + error);
             } else {
                 appendNotification('對照表下載完畢');
-                readJSON();
+                loadJSON();
             }
         });
     } catch (error) {
@@ -362,43 +338,7 @@ function downloadJSON() {
     }
 }
 
-// download json 2
-function downloadJSON2() {
-    downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
-        if (error) {
-            console.log(error);
-            appendNotification('對照表下載失敗：' + error);
-        } else {
-            appendNotification('對照表下載完畢');
-        }
-
-        readJSON();
-    });
-}
-
-// read json
-function readJSON() {
-    const config = ipcRenderer.sendSync('get-config');
-    ipcRenderer.send('load-json', config.translation.to);
-}
-
-// request latest version
-function requestLatestVersion() {
-    ipcRenderer.send('request-latest-version');
-}
-
-// version check
-function versionCheck(appVersion, latestVersion) {
-    let latest = '';
-
-    console.log('App version:', appVersion);
-    console.log('Latest version:', latestVersion);
-
-    if (appVersion === latestVersion) {
-        document.getElementById('img_button_update').hidden = true;
-        appendNotification('已安裝最新版本');
-    } else {
-        latest += `(Ver.${latestVersion})`;
-        appendNotification(`已有可用的更新${latest}，請點選上方的${updateButton}按鈕下載最新版本`);
-    }
+// load json
+function loadJSON() {
+    ipcRenderer.send('load-json');
 }

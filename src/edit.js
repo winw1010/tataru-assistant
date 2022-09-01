@@ -152,9 +152,9 @@ function setButton() {
         ipcRenderer.send('start-translation', dialogData, translation);
     };
 
-    // read json
+    // load json
     document.getElementById('button_read_json').onclick = () => {
-        ipcRenderer.send('send-index', 'read-json');
+        ipcRenderer.send('load-json');
     };
 
     // report translation
@@ -184,7 +184,7 @@ function setButton() {
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
-            ipcRenderer.send('send-index', 'read-json');
+            ipcRenderer.send('load-json');
         } else {
             ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
         }
@@ -211,7 +211,7 @@ function setButton() {
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');
-            ipcRenderer.send('send-index', 'read-json');
+            ipcRenderer.send('load-json');
         } else {
             ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」不可為空白');
         }

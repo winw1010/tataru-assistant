@@ -34,14 +34,15 @@ let chatCode = null;
 // window list
 let windowList = {
     index: null,
+    edit: null,
     config: null,
     capture: null,
     'capture-edit': null,
-    edit: null,
     'read-log': null,
     dictionary: null,
 };
 
+// when ready
 app.whenReady().then(() => {
     // disable http cache
     app.commandLine.appendSwitch('disable-http-cache');
@@ -68,6 +69,7 @@ app.whenReady().then(() => {
     });
 });
 
+// on window all closed
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
@@ -355,6 +357,7 @@ function checkDirectory() {
     });
 }
 
+// set global shortcut
 function setGlobalShortcut() {
     globalShortcut.register('CommandOrControl+F9', () => {
         try {
@@ -497,6 +500,7 @@ function createWindow(windowName, data = null) {
     }
 }
 
+// get window size
 function getWindowSize(windowName) {
     // set default value
     let x = 0;

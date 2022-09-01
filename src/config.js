@@ -354,14 +354,14 @@ function saveConfig() {
 
     config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
-    // reset view
-    ipcRenderer.send('send-index', 'reset-view', config);
-
     // set config
     ipcRenderer.send('set-config', config);
 
     // set chat code
     ipcRenderer.send('set-chat-code', chatCode);
+
+    // reset view
+    ipcRenderer.send('send-index', 'reset-view', config);
 
     // load json
     ipcRenderer.send('load-json');

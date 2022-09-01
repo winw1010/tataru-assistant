@@ -218,15 +218,16 @@ function setWindowChannel() {
     });
 
     // mouse check
-    ipcMain.on('mouse-out-check', (event) => {
+    ipcMain.on('hide-button-check', (event) => {
         const cursorScreenPoint = screen.getCursorScreenPoint();
         const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
-
-        event.returnValue =
+        const isHidden =
             cursorScreenPoint.x < windowBounds.x ||
             cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
             cursorScreenPoint.y < windowBounds.y ||
             cursorScreenPoint.y > windowBounds.y + windowBounds.height;
+
+        BrowserWindow.fromWebContents(event.sender).webContents.send('hide-button', isHidden, config);
     });
 
     // mute window

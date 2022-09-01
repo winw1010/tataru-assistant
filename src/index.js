@@ -31,8 +31,8 @@ const { startServer } = require('./renderer_modules/server-module');
 // click through temp
 let isClickThrough = false;
 
-// mouse out check interval
-let mouseOutCheckInterval = null;
+// hide button check interval
+let hideButtonCheckInterval = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -103,6 +103,24 @@ function setIPC() {
     // hide update button
     ipcRenderer.on('hide-update-button', (event, ishidden) => {
         document.getElementById('img_button_update').hidden = ishidden;
+    });
+
+    // hide button
+    ipcRenderer.on('hide-button', (event, ishidden, config) => {
+        if (ishidden) {
+            // hide button
+            document.querySelectorAll('.auto_hidden').forEach((value) => {
+                document.getElementById(value.id).hidden = config.indexWindow.hideButton;
+            });
+        } else {
+            // show button
+            document.querySelectorAll('.auto_hidden').forEach((value) => {
+                document.getElementById(value.id).hidden = false;
+            });
+
+            // show dialog
+            showDialog();
+        }
     });
 
     // clear dialog
@@ -276,25 +294,9 @@ function resetView(config) {
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
-    // start/restart mouse out check interval
-    clearInterval(mouseOutCheckInterval);
-    mouseOutCheckInterval = setInterval(() => {
-        const isMouseOut = ipcRenderer.sendSync('mouse-out-check');
-
-        if (isMouseOut) {
-            // hide button
-            const config = ipcRenderer.sendSync('get-config');
-            document.querySelectorAll('.auto_hidden').forEach((value) => {
-                document.getElementById(value.id).hidden = config.indexWindow.hideButton;
-            });
-        } else {
-            // show button
-            document.querySelectorAll('.auto_hidden').forEach((value) => {
-                document.getElementById(value.id).hidden = false;
-            });
-
-            // show dialog
-            showDialog();
-        }
+    // start/restart hide button check interval
+    clearInterval(hideButtonCheckInterval);
+    hideButtonCheckInterval = setInterval(() => {
+        ipcRenderer.send('hide-button-check');
     }, 100);
 }

@@ -65,8 +65,6 @@ const defaultConfig = {
     },
 };
 
-let currentConfig = defaultConfig;
-
 function loadConfig() {
     try {
         const config = JSON.parse(readFileSync(configLocation));
@@ -108,8 +106,6 @@ function loadConfig() {
             config.translation.engine = 'Youdao';
         }
 
-        currentConfig = config;
-
         return config;
     } catch (error) {
         saveDefaultConfig();
@@ -125,6 +121,10 @@ function saveConfig(config) {
     }
 }
 
+function getDefaultConfig() {
+    return defaultConfig;
+}
+
 function saveDefaultConfig() {
     try {
         writeFileSync(configLocation, JSON.stringify(defaultConfig, null, '\t'));
@@ -133,28 +133,6 @@ function saveDefaultConfig() {
     }
 }
 
-function getConfig() {
-    return currentConfig;
-}
-
-function getDefaultConfig() {
-    return defaultConfig;
-}
-
-function setConfig(newConfig) {
-    currentConfig = newConfig;
-}
-
-function setDefaultConfig() {
-    currentConfig = defaultConfig;
-}
-
-// exports
-module.exports = {
-    loadConfig,
-    saveConfig,
-    getConfig,
-    getDefaultConfig,
-    setConfig,
-    setDefaultConfig,
-};
+exports.loadConfig = loadConfig;
+exports.saveConfig = saveConfig;
+exports.getDefaultConfig = getDefaultConfig;

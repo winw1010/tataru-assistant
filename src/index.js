@@ -341,14 +341,14 @@ function loadJSON() {
 function downloadJSON() {
     try {
         // delete text
-        execSync('rmdir /Q /S json\\text');
+        execSync('rmdir /Q /S src\\json\\text');
     } catch (error) {
         console.log(error);
     }
 
     try {
         // clone json
-        downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'json/text', (error) => {
+        downloadGitRepo('winw1010/tataru-helper-node-text-ver.2.0.0#main', 'src/json/text', (error) => {
             if (error) {
                 console.log(error);
                 downloadJSON2();
@@ -364,7 +364,7 @@ function downloadJSON() {
 
 // download json 2
 function downloadJSON2() {
-    downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'json/text', (error) => {
+    downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
         if (error) {
             console.log(error);
             appendNotification('對照表下載失敗：' + error);

@@ -36,6 +36,10 @@ const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
 // app version
 const appVersion = app.getVersion();
 
+// app path
+const mainPath = __dirname;
+const userPath = process.env.USERPROFILE;
+
 // config
 let config = null;
 let chatCode = null;
@@ -371,8 +375,8 @@ function setRequestChannel() {
 
 // directory check
 function directoryCheck() {
-    const userDirectory = process.env.USERPROFILE + '\\Documents';
-    const subDirectories = [
+    const documentPath = userPath + '\\Documents';
+    const subPath = [
         '',
         '\\Tataru Helper Node',
         '\\Tataru Helper Node\\log',
@@ -380,9 +384,9 @@ function directoryCheck() {
         '\\Tataru Helper Node\\temp',
     ];
 
-    subDirectories.forEach((value) => {
+    subPath.forEach((value) => {
         try {
-            const dir = userDirectory + value;
+            const dir = documentPath + value;
             if (!existsSync(dir)) {
                 mkdirSync(dir);
             }
@@ -497,7 +501,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: path.join(__dirname, 'src', `${windowName}.js`),
+                preload: path.join(mainPath, 'src', `${windowName}.js`),
             },
         });
 
@@ -569,7 +573,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(path.join(__dirname, 'src', `${windowName}.html`));
+        window.loadFile(path.join(mainPath, 'src', `${windowName}.html`));
 
         // save window
         windowList[windowName] = window;

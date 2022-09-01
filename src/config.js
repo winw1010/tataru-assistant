@@ -124,7 +124,7 @@ function setButton() {
         ipcRenderer.send('open-index-devtools');
     };
 
-    // link
+    // github
     document.getElementById('a_github').onclick = () => {
         try {
             execSync('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
@@ -133,7 +133,7 @@ function setButton() {
         }
     };
 
-    // link
+    // bahamut
     document.getElementById('a_bahamut').onclick = () => {
         try {
             execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
@@ -154,12 +154,13 @@ function setButton() {
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
         try {
-            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-ver.2.0.0#readme"');
+            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
         } catch (error) {
             console.log(error);
         }
     };
 
+    /*
     // donate
     document.getElementById('a_donate').onclick = () => {
         try {
@@ -168,6 +169,7 @@ function setButton() {
             console.log(error);
         }
     };
+    */
 
     // lower
     // default

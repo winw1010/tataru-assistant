@@ -305,7 +305,7 @@ function setRequestChannel() {
                 method: 'GET',
                 protocol: 'https:',
                 hostname: 'raw.githubusercontent.com',
-                path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
+                path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
             },
             callback: callback,
         })

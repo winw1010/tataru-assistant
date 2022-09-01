@@ -22,7 +22,7 @@ const defaultConfig = {
         advance: true,
         hideButton: true,
         hideDialog: true,
-        hideDialogTimeout: 20,
+        hideDialogTimeout: 30,
         backgroundColor: '#20202050',
     },
     dialog: {

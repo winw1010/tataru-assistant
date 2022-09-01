@@ -1,6 +1,6 @@
 const { readFileSync } = require('fs');
 const { resolve } = require('path');
-const zhTables = JSON.parse(readFileSync(resolve('./src/json/zh-convert.json')).toString());
+const zhTables = JSON.parse(readFileSync(resolve(process.cwd(), 'src/json/zh-convert.json')).toString());
 
 function exec(option = { text: '', tableName: 'zh2Hant' }) {
     return replaceText(option.text, zhTables[option.tableName]);

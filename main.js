@@ -38,6 +38,7 @@ const appVersion = app.getVersion();
 
 // app path
 const mainPath = __dirname;
+const rootPath = process.cwd();
 const userPath = process.env.USERPROFILE;
 
 // config
@@ -144,6 +145,21 @@ function setSystemChannel() {
     // set default chat code
     ipcMain.on('set-default-chat-code', () => {
         chatCode = getDefaultChatCode();
+    });
+
+    // get main path
+    ipcMain.on('get-main-path', (event) => {
+        event.returnValue = mainPath;
+    });
+
+    // get root path
+    ipcMain.on('get-root-path', (event) => {
+        event.returnValue = rootPath;
+    });
+
+    // get user path
+    ipcMain.on('get-user-path', (event) => {
+        event.returnValue = userPath;
     });
 }
 

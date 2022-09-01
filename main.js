@@ -27,9 +27,6 @@ const { correctionEntry } = require('./src/main_modules/correction-module');
 const { loadJSON_EN } = require('./src/main_modules/correction-module-en');
 const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
 
-// disable http cache
-app.commandLine.appendSwitch('disable-http-cache');
-
 // config
 let config = null;
 let chatCode = null;
@@ -46,6 +43,9 @@ let windowList = {
 };
 
 app.whenReady().then(() => {
+    // disable http cache
+    app.commandLine.appendSwitch('disable-http-cache');
+
     // check directory
     checkDirectory();
 
@@ -58,6 +58,9 @@ app.whenReady().then(() => {
     // set key down
     setGlobalShortcut();
 
+    // set ipc main
+    setIpcMain();
+
     // create index window
     createWindow('index');
     app.on('activate', function () {
@@ -69,263 +72,267 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// ipc - main
-// get app version
-ipcMain.on('get-version', (event) => {
-    event.returnValue = app.getVersion();
-});
-
-// close app
-ipcMain.on('close-app', () => {
-    app.quit();
-});
-
-// get config
-ipcMain.on('get-config', (event) => {
-    if (!config) {
-        config = loadConfig();
-    }
-
-    event.returnValue = config;
-});
-
-// set config
-ipcMain.on('set-config', (event, newConfig) => {
-    config = newConfig;
-});
-
-// set default config
-ipcMain.on('set-default-config', () => {
-    config = getDefaultConfig();
-});
-
-// get chat code
-ipcMain.on('get-chat-code', (event) => {
-    if (!chatCode) {
-        chatCode = loadChatCode();
-    }
-
-    event.returnValue = chatCode;
-});
-
-// set chat code
-ipcMain.on('set-chat-code', (event, newChatCode) => {
-    chatCode = newChatCode;
-});
-
-// set default chat code
-ipcMain.on('set-default-chat-code', () => {
-    chatCode = getDefaultChatCode();
-});
-
-// ipc - window
-// create sindow
-ipcMain.on('create-window', (event, windowName, data = null) => {
-    try {
-        windowList[windowName].close();
-        windowList[windowName] = null;
-
-        if (windowName === 'edit' || windowName === 'capture-edit') {
-            throw null;
-        }
-    } catch (error) {
-        createWindow(windowName, data);
-    }
-});
-
-// drag window
-ipcMain.on('drag-window', (event, clientX, clientY, windowWidth, windowHeight) => {
-    try {
-        const cursorScreenPoint = screen.getCursorScreenPoint();
-        BrowserWindow.fromWebContents(event.sender).setBounds({
-            x: cursorScreenPoint.x - clientX,
-            y: cursorScreenPoint.y - clientY,
-            width: windowWidth,
-            height: windowHeight,
-        });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-// minimize window
-ipcMain.on('minimize-window', (event) => {
-    try {
-        BrowserWindow.fromWebContents(event.sender).minimize();
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-// close window
-ipcMain.on('close-window', (event) => {
-    try {
-        BrowserWindow.fromWebContents(event.sender).close();
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-// always on top
-ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
-    const window = windowList['index'];
-
-    if (window) {
-        try {
-            window.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
-        } catch (error) {
-            console.log(error);
-        }
-    }
-});
-
-// set focusable
-ipcMain.on('set-focusable', (event, isFocusable) => {
-    BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
-});
-
-// set click through
-ipcMain.on('set-click-through', (event, ignore) => {
-    const window = BrowserWindow.fromWebContents(event.sender);
-    window.setIgnoreMouseEvents(ignore, { forward: true });
-    window.setResizable(!ignore);
-});
-
-// mouse check
-ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
-    const cursorScreenPoint = screen.getCursorScreenPoint();
-
-    event.returnValue =
-        cursorScreenPoint.x < windowX ||
-        cursorScreenPoint.x > windowX + windowWidth ||
-        cursorScreenPoint.y < windowY ||
-        cursorScreenPoint.y > windowY + windowHeight;
-});
-
-// mute window
-ipcMain.on('mute-window', (event, autoPlay) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
-});
-
-// ipc - index
-// send index
-ipcMain.on('send-index', (event, channel, ...args) => {
-    sendIndex(channel, ...args);
-});
-
-// ipc - capture
-// start screen translation
-ipcMain.on('start-screen-translation', (event, rectangleSize) => {
-    // get display matching the rectangle
-    const display = screen.getDisplayMatching(rectangleSize);
-
-    // find display's index
-    const displayIDs = screen.getAllDisplays().map((x) => x.id);
-    const displayIndex = displayIDs.indexOf(display.id);
-
-    // fix x
-    rectangleSize.x = rectangleSize.x - display.bounds.x;
-
-    // fix y
-    rectangleSize.y = rectangleSize.y - display.bounds.y;
-
-    // image processing
-    sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
-});
-
-// get position
-ipcMain.on('get-screen-position', (event) => {
-    event.returnValue = screen.getCursorScreenPoint();
-});
-
-// translation
-// load json
-ipcMain.on('load-json', (event, languageTo) => {
-    loadJSON_EN(languageTo);
-    loadJSON_JP(languageTo);
-
-    sendIndex('show-notification', '對照表讀取完畢');
-});
-
-// start translation
-ipcMain.on('start-translation', (event, ...args) => {
-    correctionEntry(...args);
-});
-
-// ipc - request
-// request latest verssion
-ipcMain.on('request-latest-version', (event) => {
-    const callback = function (response, chunk) {
-        if (response.statusCode === 200) {
-            return JSON.parse(chunk.toString()).number;
-        }
-    };
-
-    makeRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'raw.githubusercontent.com',
-            path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
-        },
-        callback: callback,
-    })
-        .then((latestVersion) => {
-            event.sender.send('version-check-response', app.getVersion(), latestVersion);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
-
-// get translation
-ipcMain.on('get-translation', (event, engine, option) => {
-    getTranslation(engine, option).then((translatedText) => {
-        event.returnValue = translatedText;
-    });
-});
-
-// get translation dictionary
-ipcMain.on('get-translation-dictionary', (event, engine, option) => {
-    getTranslation(engine, option).then((translatedText) => {
-        event.sender.send('send-data', translatedText);
-    });
-});
-
-// post form
-ipcMain.on('post-form', (event, path) => {
-    const callback = function (response) {
-        if (response.statusCode === 200) {
-            return 'OK';
-        }
-    };
-
-    makeRequest({
-        options: {
-            method: 'POST',
-            protocol: 'https:',
-            hostname: 'docs.google.com',
-            path: path,
-        },
-        callback: callback,
-    });
-});
-
-/*
-// functions
-function sendIndex(channel, ...args) {
-    const window = windowList['index'];
-
-    if (window) {
-        try {
-            window.webContents.send(channel, ...args);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+// set ipc main
+function setIpcMain() {
+    setSystemChannel();
+    setWindowChannel();
+    setCaptureChannel();
+    setTranslationChannel();
+    setRequestChannel();
 }
-*/
 
+// set system channel
+function setSystemChannel() {
+    // get app version
+    ipcMain.on('get-version', (event) => {
+        event.returnValue = app.getVersion();
+    });
+
+    // close app
+    ipcMain.on('close-app', () => {
+        app.quit();
+    });
+
+    // get config
+    ipcMain.on('get-config', (event) => {
+        if (!config) {
+            config = loadConfig();
+        }
+
+        event.returnValue = config;
+    });
+
+    // set config
+    ipcMain.on('set-config', (event, newConfig) => {
+        config = newConfig;
+    });
+
+    // set default config
+    ipcMain.on('set-default-config', () => {
+        config = getDefaultConfig();
+    });
+
+    // get chat code
+    ipcMain.on('get-chat-code', (event) => {
+        if (!chatCode) {
+            chatCode = loadChatCode();
+        }
+
+        event.returnValue = chatCode;
+    });
+
+    // set chat code
+    ipcMain.on('set-chat-code', (event, newChatCode) => {
+        chatCode = newChatCode;
+    });
+
+    // set default chat code
+    ipcMain.on('set-default-chat-code', () => {
+        chatCode = getDefaultChatCode();
+    });
+}
+
+// set system channel
+function setWindowChannel() {
+    // create sindow
+    ipcMain.on('create-window', (event, windowName, data = null) => {
+        try {
+            windowList[windowName].close();
+            windowList[windowName] = null;
+
+            if (windowName === 'edit' || windowName === 'capture-edit') {
+                throw null;
+            }
+        } catch (error) {
+            createWindow(windowName, data);
+        }
+    });
+
+    // drag window
+    ipcMain.on('drag-window', (event, clientX, clientY, windowWidth, windowHeight) => {
+        try {
+            const cursorScreenPoint = screen.getCursorScreenPoint();
+            BrowserWindow.fromWebContents(event.sender).setBounds({
+                x: cursorScreenPoint.x - clientX,
+                y: cursorScreenPoint.y - clientY,
+                width: windowWidth,
+                height: windowHeight,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    // minimize window
+    ipcMain.on('minimize-window', (event) => {
+        try {
+            BrowserWindow.fromWebContents(event.sender).minimize();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    // close window
+    ipcMain.on('close-window', (event) => {
+        try {
+            BrowserWindow.fromWebContents(event.sender).close();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    // always on top
+    ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
+        const window = windowList['index'];
+
+        if (window) {
+            try {
+                window.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    });
+
+    // set focusable
+    ipcMain.on('set-focusable', (event, isFocusable) => {
+        BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
+    });
+
+    // set click through
+    ipcMain.on('set-click-through', (event, ignore) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+        window.setIgnoreMouseEvents(ignore, { forward: true });
+        window.setResizable(!ignore);
+    });
+
+    // mouse check
+    ipcMain.on('mouse-out-check', (event, windowX, windowY, windowWidth, windowHeight) => {
+        const cursorScreenPoint = screen.getCursorScreenPoint();
+
+        event.returnValue =
+            cursorScreenPoint.x < windowX ||
+            cursorScreenPoint.x > windowX + windowWidth ||
+            cursorScreenPoint.y < windowY ||
+            cursorScreenPoint.y > windowY + windowHeight;
+    });
+
+    // mute window
+    ipcMain.on('mute-window', (event, autoPlay) => {
+        BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
+    });
+
+    // send index
+    ipcMain.on('send-index', (event, channel, ...args) => {
+        sendIndex(channel, ...args);
+    });
+}
+
+// set capture channel
+function setCaptureChannel() {
+    // start screen translation
+    ipcMain.on('start-screen-translation', (event, rectangleSize) => {
+        // get display matching the rectangle
+        const display = screen.getDisplayMatching(rectangleSize);
+
+        // find display's index
+        const displayIDs = screen.getAllDisplays().map((x) => x.id);
+        const displayIndex = displayIDs.indexOf(display.id);
+
+        // fix x
+        rectangleSize.x = rectangleSize.x - display.bounds.x;
+
+        // fix y
+        rectangleSize.y = rectangleSize.y - display.bounds.y;
+
+        // image processing
+        sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+    });
+
+    // get position
+    ipcMain.on('get-screen-position', (event) => {
+        event.returnValue = screen.getCursorScreenPoint();
+    });
+}
+
+// set translation channel
+function setTranslationChannel() {
+    // load json
+    ipcMain.on('load-json', (event, languageTo) => {
+        loadJSON_EN(languageTo);
+        loadJSON_JP(languageTo);
+
+        sendIndex('show-notification', '對照表讀取完畢');
+    });
+
+    // start translation
+    ipcMain.on('start-translation', (event, ...args) => {
+        correctionEntry(...args);
+    });
+}
+
+// set request channel
+function setRequestChannel() {
+    // request latest verssion
+    ipcMain.on('request-latest-version', (event) => {
+        const callback = function (response, chunk) {
+            if (response.statusCode === 200) {
+                return JSON.parse(chunk.toString()).number;
+            }
+        };
+
+        makeRequest({
+            options: {
+                method: 'GET',
+                protocol: 'https:',
+                hostname: 'raw.githubusercontent.com',
+                path: '/winw1010/tataru-helper-node-text-ver.2.0.0/main/version.json',
+            },
+            callback: callback,
+        })
+            .then((latestVersion) => {
+                event.sender.send('version-check-response', app.getVersion(), latestVersion);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
+
+    // get translation
+    ipcMain.on('get-translation', (event, engine, option) => {
+        getTranslation(engine, option).then((translatedText) => {
+            event.returnValue = translatedText;
+        });
+    });
+
+    // get translation dictionary
+    ipcMain.on('get-translation-dictionary', (event, engine, option) => {
+        getTranslation(engine, option).then((translatedText) => {
+            event.sender.send('send-data', translatedText);
+        });
+    });
+
+    // post form
+    ipcMain.on('post-form', (event, path) => {
+        const callback = function (response) {
+            if (response.statusCode === 200) {
+                return 'OK';
+            }
+        };
+
+        makeRequest({
+            options: {
+                method: 'POST',
+                protocol: 'https:',
+                hostname: 'docs.google.com',
+                path: path,
+            },
+            callback: callback,
+        });
+    });
+}
+
+// check directory
 function checkDirectory() {
     const userDirectory = process.env.USERPROFILE + '\\Documents';
     const subDirectories = [

@@ -135,5 +135,8 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
     return { cookie, expireDate };
 }
 
-exports.makeRequest = makeRequest;
-exports.requestCookie = requestCookie;
+// exports
+module.exports = {
+    makeRequest,
+    requestCookie,
+};

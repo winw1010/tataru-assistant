@@ -4,7 +4,7 @@
 const { existsSync, mkdirSync } = require('fs');
 
 // path
-const { resolve } = require('path');
+const path = require('path');
 
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
@@ -497,7 +497,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: resolve(process.cwd(), 'src', `${windowName}.js`),
+                preload: path.join(__dirname, 'src', `${windowName}.js`),
             },
         });
 
@@ -569,7 +569,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(resolve(process.cwd(), 'src', `${windowName}.html`));
+        window.loadFile(path.join(__dirname, 'src', `${windowName}.html`));
 
         // save window
         windowList[windowName] = window;

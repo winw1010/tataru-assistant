@@ -90,7 +90,7 @@ function appendNotification(text) {
     text = zhConvert(text, config.translation.to);
 
     appendBlankDialog(id, code);
-    updateDialog(id, '', text, { id: id, code: code, playerName: '', name: '', text: '', timestamp: timestamp }, {});
+    updateDialog(id, '', text);
 
     // set timeout
     setTimeout(() => {

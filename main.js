@@ -56,7 +56,7 @@ app.whenReady().then(() => {
     // disable http cache
     app.commandLine.appendSwitch('disable-http-cache');
 
-    // check directory
+    // directory check
     directoryCheck();
 
     // load config

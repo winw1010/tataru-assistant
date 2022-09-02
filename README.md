@@ -21,7 +21,7 @@ npm start
 
 -   安裝檔會建立在 build 資料夾裡
 -   安裝檔設定在 package.json 裡的 build 物件，打包工具為 electron-builder
--   建立安裝檔之前請先 npm start 啟動並執行一次過螢幕擷取功能，否則打包的安裝檔無法使用螢幕擷取功能
+-   建立安裝檔之前請先 npm start 啟動並使用一次螢幕擷取功能(隨便找個文字選取並翻譯一次)，否則打包的安裝檔無法使用螢幕擷取功能
 
 ```bash
 # Distribute the app

@@ -85,7 +85,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop.png
-        fm.imageWritter(getPath('crop.png'), imageBuffer);
+        fm.imageWriter(getPath('crop.png'), imageBuffer);
 
         // fix image
         fixImage(imageBuffer);
@@ -123,7 +123,7 @@ async function fixImage(imageBuffer) {
         }
 
         // save result.png
-        fm.imageWritter(getPath('result.png'), resultImageBuffer);
+        fm.imageWriter(getPath('result.png'), resultImageBuffer);
 
         // recognize image
         recognizeImage(resultImageBuffer);

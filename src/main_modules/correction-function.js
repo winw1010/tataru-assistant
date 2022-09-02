@@ -302,7 +302,7 @@ function writeJSON(path = '', name = '', array = []) {
         const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
 
         // write array
-        fm.jsonWritter(finalPath, array);
+        fm.jsonWriter(finalPath, array);
     } catch (error) {
         console.log(error);
     }

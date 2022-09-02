@@ -239,7 +239,7 @@ function loadChatCode() {
 // save chat code
 function saveChatCode(chatCode) {
     try {
-        fm.jsonWritter(chatCodeLocation, chatCode);
+        fm.jsonWriter(chatCodeLocation, chatCode);
     } catch (error) {
         console.log(error);
     }
@@ -253,7 +253,7 @@ function getDefaultChatCode() {
 // save default chat code
 function saveDefaultChatCode() {
     try {
-        fm.jsonWritter(chatCodeLocation, defaultChatCode);
+        fm.jsonWriter(chatCodeLocation, defaultChatCode);
     } catch (error) {
         console.log(error);
     }

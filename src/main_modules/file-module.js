@@ -23,7 +23,7 @@ function jsonReader(filePath = './') {
     }
 }
 
-// json writter
+// json writer
 function jsonWriter(filePath = './', data = []) {
     try {
         fs.writeFileSync(filePath, JSON.stringify(data, null, '\t'));
@@ -32,7 +32,7 @@ function jsonWriter(filePath = './', data = []) {
     }
 }
 
-// image writter
+// image writer
 function imageWriter(filePath = './', imageBuffer = Buffer.from('')) {
     fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
 }

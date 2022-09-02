@@ -117,7 +117,7 @@ function loadConfig() {
 // save config
 function saveConfig(config) {
     try {
-        fm.jsonWritter(configLocation, config);
+        fm.jsonWriter(configLocation, config);
     } catch (error) {
         console.log(error);
     }
@@ -131,7 +131,7 @@ function getDefaultConfig() {
 // save default config
 function saveDefaultConfig() {
     try {
-        fm.jsonWritter(configLocation, defaultConfig);
+        fm.jsonWriter(configLocation, defaultConfig);
     } catch (error) {
         console.log(error);
     }

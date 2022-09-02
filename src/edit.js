@@ -166,15 +166,15 @@ function setButton() {
             if (type === 'jp') {
                 let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
                 let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else {
                 let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
@@ -193,15 +193,15 @@ function setButton() {
             if (type === 'jp') {
                 let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
                 let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else {
                 let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                fm.jsonWritter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');

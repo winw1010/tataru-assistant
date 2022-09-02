@@ -199,7 +199,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // write log file
     try {
-        fm.jsonWritter(filePath, log);
+        fm.jsonWriter(filePath, log);
     } catch (error) {
         console.error(error);
     }

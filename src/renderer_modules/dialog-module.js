@@ -1,13 +1,10 @@
 'use strict';
 
-// json fixer
-const { readFileSync, writeFileSync } = require('fs');
-
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// json fixer
-const jsonFixer = require('json-fixer');
+// file module
+const fm = require('../main_modules/file-module');
 
 // audio module
 const { addToPlaylist } = require('./audio-module');
@@ -22,7 +19,7 @@ const zhConverter = require('../main_modules/translator/zh-convert');
 const npcChannel = ['003D', '0044', '2AB9'];
 
 // log location
-const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+const logLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
 
 // dialog timeout
 let hideDialogTimeout = null;
@@ -179,12 +176,12 @@ function saveLog(id, name, text, dialogData, translation) {
         translation: translation,
     };
 
-    const fileLocation = logLocation + '\\' + createLogName(item.timestamp);
+    const filePath = fm.getPath(logLocation, createLogName(item.timestamp));
     let log = null;
 
     // read/create log file
     try {
-        log = jsonFixer(readFileSync(fileLocation).toString()).data;
+        log = fm.jsonReader(filePath);
     } catch (error) {
         console.log(error);
         log = {};
@@ -202,7 +199,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // write log file
     try {
-        writeFileSync(fileLocation, JSON.stringify(log, null, '\t'));
+        fm.jsonWritter(filePath, log);
     } catch (error) {
         console.error(error);
     }

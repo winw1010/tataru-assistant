@@ -1,6 +1,6 @@
 # Tataru Helper Node Ver.2.0.0 Source Code
 
-## Tataru Helper Node 專案建置步驟
+## Tataru Helper Node 原始碼專案建置步驟
 
 -   可使用[Visual Studio Code](https://code.visualstudio.com/)編輯
 
@@ -34,7 +34,7 @@ npm run dist
 2. 安裝後至 Tataru Helper 安裝目錄刪除 TataruHelper.exe 和 Update.exe
 3. 進入安裝目錄下的 app-0.9.106 資料夾，將裡面的 TataruHelper.exe 取代為 Tataru Helper Node 專案裡的 src/\_Tataru_Helper/Release 裡的 TataruHelper.exe 即可
 
-## Tararu Helper 專案修改步驟
+## Tararu Helper 原始碼專案修改步驟
 
 1. 至 Tararu Helper 原作者的 GitHub([NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper))，按下 Code > Download ZIP 下載 Tataru Helper 的原始碼
 2. 解壓縮後將 src/\_Tataru_Helper 裡的 FFXIVWpfApp1 資料夾與 Updater 資料夾複製到專案裡並取代

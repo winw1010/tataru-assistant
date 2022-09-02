@@ -32,6 +32,7 @@ function jsonWritter(filePath = './', data = []) {
     }
 }
 
+// image writter
 function imageWritter(filePath = './', imageBuffer = Buffer.from('')) {
     fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
 }

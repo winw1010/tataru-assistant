@@ -3,17 +3,14 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// fs
-const { readFileSync } = require('fs');
+// correction function
+const cf = require('./main_modules/correction-function');
 
-// json fixer
-const jsonFixer = require('json-fixer');
+// file module
+const fm = require('./main_modules/file-module');
 
 // language table
 const { getLanguageCode } = require('./renderer_modules/engine-module');
-
-// cf
-const cf = require('./renderer_modules/correction-function');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
@@ -31,10 +28,10 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
-const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+const logLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
 
 // temp location
-const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+const tempLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'temp');
 
 // target log
 let targetLog = null;
@@ -85,8 +82,8 @@ function setIPC() {
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
-                        const fileName = logFileList[index];
-                        const log = jsonFixer(readFileSync(logLocation + '\\' + fileName).toString()).data;
+                        const filePath = fm.getPath(logLocation, logFileList[index]);
+                        const log = fm.jsonReader(filePath);
                         targetLog = log[id];
 
                         if (targetLog) {
@@ -167,17 +164,17 @@ function setButton() {
 
         if (textBefore !== '' && textAfter !== '') {
             if (type === 'jp') {
-                let jpTemp = cf.readJSONPure(tempLocation, 'jpTemp.json');
+                let jpTemp = fm.jsonReader(fm.getPath(tempLocation, 'jpTemp.json'));
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                cf.writeJSON(tempLocation, 'jpTemp.json', jpTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = cf.readJSONPure(tempLocation, 'overwriteTemp.json');
+                let overwriteTemp = fm.jsonReader(fm.getPath(tempLocation, 'overwriteTemp.json'));
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                cf.writeJSON(tempLocation, 'overwriteTemp.json', overwriteTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'overwriteTemp.json'), overwriteTemp);
             } else {
-                let chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+                let chTemp = fm.jsonReader(fm.getPath(tempLocation, 'chTemp.json'));
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                cf.writeJSON(tempLocation, 'chTemp.json', chTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
@@ -194,17 +191,17 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = cf.readJSONPure(tempLocation, 'jpTemp.json');
+                let jpTemp = fm.jsonReader(fm.getPath(tempLocation, 'jpTemp.json'));
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                cf.writeJSON(tempLocation, 'jpTemp.json', jpTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = cf.readJSONPure(tempLocation, 'overwriteTemp.json');
+                let overwriteTemp = fm.jsonReader(fm.getPath(tempLocation, 'overwriteTemp.json'));
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                cf.writeJSON(tempLocation, 'overwriteTemp.json', overwriteTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'overwriteTemp.json'), overwriteTemp);
             } else {
-                let chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+                let chTemp = fm.jsonReader(fm.getPath(tempLocation, 'chTemp.json'));
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                cf.writeJSON(tempLocation, 'chTemp.json', chTemp);
+                fm.jsonWritter(fm.getPath(tempLocation, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');

@@ -6,11 +6,12 @@ const { readdirSync } = require('fs');
 // file module
 const fm = require('./file-module');
 
-// text function
+// skip check
 function skipCheck(code, name, text, ignoreArray) {
     return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
 }
 
+// replace text
 function replaceText(text, array, search = 0, replacement = 1) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return text;
@@ -28,6 +29,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
     return text;
 }
 
+// can ignore
 function canIgnore(text, ignoreArray) {
     if (text === '' || !Array.isArray(ignoreArray) || !ignoreArray.length > 0) {
         return false;
@@ -42,6 +44,7 @@ function canIgnore(text, ignoreArray) {
     return false;
 }
 
+// includes array item
 function includesArrayItem(text, array, searchIndex = 0) {
     // search array
     let searchArray = array;
@@ -74,6 +77,7 @@ function includesArrayItem(text, array, searchIndex = 0) {
     return target;
 }
 
+// same as array item
 function sameAsArrayItem(text, array, searchIndex = 0) {
     // search array
     let searchArray = array;
@@ -103,6 +107,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
     return target;
 }
 
+// mark fix
 function markFix(text, isTranslated = false) {
     // remove （） and its content
     text = text.replaceAll(/（.*?）/gi, '');
@@ -133,6 +138,7 @@ function markFix(text, isTranslated = false) {
     return text;
 }
 
+// clear code
 function clearCode(text, table) {
     if (table.length > 0) {
         table.forEach((value) => {
@@ -144,6 +150,7 @@ function clearCode(text, table) {
     return text;
 }
 
+// value fix before
 function valueFixBefore(text) {
     const values = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
     let valueTable = [];
@@ -165,6 +172,7 @@ function valueFixBefore(text) {
     };
 }
 
+// value fix after
 function valueFixAfter(text, valueTable) {
     for (let index = 0; index < valueTable.length; index++) {
         const element = valueTable[index];
@@ -174,13 +182,13 @@ function valueFixAfter(text, valueTable) {
     return text;
 }
 
-// json function
+// read json
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     try {
         // get path
         const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
 
-        // parse
+        // read
         let array = fm.jsonReader(finalPath);
 
         // type check
@@ -212,6 +220,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     }
 }
 
+// read json main
 function readJSONMain(sub0, sub1) {
     try {
         const fileList = readdirSync('./src/json/text/main');
@@ -234,6 +243,7 @@ function readJSONMain(sub0, sub1) {
     }
 }
 
+// read json overwrite
 function readJSONOverwrite(ch, directory) {
     try {
         const fileList = readdirSync(`./src/json/${ch}/${directory}`);
@@ -256,6 +266,7 @@ function readJSONOverwrite(ch, directory) {
     }
 }
 
+// read json subtitle
 function readJSONSubtitle() {
     try {
         const fileList = readdirSync('./src/json/text/jp/subtitle');
@@ -278,12 +289,13 @@ function readJSONSubtitle() {
     }
 }
 
+// read json pure
 function readJSONPure(path = '', name = '') {
     try {
         // get path
         const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
 
-        // parse
+        // read
         let array = fm.jsonReader(finalPath);
 
         // log array
@@ -296,6 +308,7 @@ function readJSONPure(path = '', name = '') {
     }
 }
 
+// write json
 function writeJSON(path = '', name = '', array = []) {
     try {
         // get path
@@ -308,6 +321,7 @@ function writeJSON(path = '', name = '', array = []) {
     }
 }
 
+// sub array
 function subArray(array, sub0, sub1) {
     if (!Array.isArray(array)) {
         return [];
@@ -324,6 +338,7 @@ function subArray(array, sub0, sub1) {
     return array;
 }
 
+// clear array
 function clearArray(array) {
     if (!Array.isArray(array)) {
         return [];
@@ -338,7 +353,13 @@ function clearArray(array) {
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
 
-            if (element[0].includes('//comment') || element[0] === 'N/A' || element[1] === 'N/A') {
+            if (
+                element[0].includes('//comment') ||
+                element[0] === 'N/A' ||
+                element[0] === '' ||
+                element[1] === 'N/A' ||
+                element[1] === ''
+            ) {
                 array.splice(index, 1);
             }
         }
@@ -355,6 +376,7 @@ function clearArray(array) {
     return array;
 }
 
+// sort array
 function sortArray(array) {
     if (!Array.isArray(array)) {
         return [];
@@ -373,10 +395,12 @@ function sortArray(array) {
     }
 }
 
+// combine array
 function combineArray(...args) {
     return [].concat(...args);
 }
 
+// combine array with temp
 function combineArrayWithTemp(temp, ...args) {
     // remove index
     let tempIgnoreIndex = [];

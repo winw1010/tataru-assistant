@@ -1,4 +1,4 @@
-# Tataru Helper Node Ver.2.0.0 Source Code
+# Tataru Helper Node V2 Source Code
 
 ## Tataru Helper Node 原始碼專案建置步驟
 
@@ -8,9 +8,9 @@
 
 ```bash
 # Clone this repository
-git clone https://github.com/winw1010/tataru-helper-node-ver.2.0.0
+git clone https://github.com/winw1010/tataru-helper-node-v2
 # Go into the repository
-cd tataru-helper-node-ver.2.0.0
+cd tataru-helper-node-v2
 # Install dependencies
 npm install
 # Run the app

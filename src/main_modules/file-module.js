@@ -24,7 +24,7 @@ function jsonReader(filePath = './') {
 }
 
 // json writter
-function jsonWritter(filePath = './', data = []) {
+function jsonWriter(filePath = './', data = []) {
     try {
         fs.writeFileSync(filePath, JSON.stringify(data, null, '\t'));
     } catch (error) {
@@ -33,7 +33,7 @@ function jsonWritter(filePath = './', data = []) {
 }
 
 // image writter
-function imageWritter(filePath = './', imageBuffer = Buffer.from('')) {
+function imageWriter(filePath = './', imageBuffer = Buffer.from('')) {
     fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
 }
 
@@ -55,8 +55,8 @@ function getUserPath(...args) {
 // exports
 module.exports = {
     jsonReader,
-    jsonWritter,
-    imageWritter,
+    jsonWriter,
+    imageWriter,
     getPath,
     getRootPath,
     getUserPath,

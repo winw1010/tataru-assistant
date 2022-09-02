@@ -34,7 +34,7 @@ npm run dist
 2. 解壓縮後將 src/\_Tataru_Helper 裡的 FFXIVWpfApp1 資料夾與 Updater 資料夾複製到專案裡並取代
 3. 使用 Visual Studio 開啟專案(.sln 檔)
 4. 將 Debug 改為 Release，然後按下開始即可編譯專案
-5. 編譯好的.exe 檔會建立在專案裡的 FFXIVWpfApp1/bin/Release 裡，你也可以拿這裡的 TataruHelper.exe 取代原版 Tataru Helper 的 TataruHelper.exe(Tararu Helper 程式修改步驟第 3 步驟)
+5. 編譯好的.exe 檔會建立在專案裡的 FFXIVWpfApp1/bin/Release 裡，你也可以拿這裡的 TataruHelper.exe 取代原版 Tataru Helper 的 TataruHelper.exe(詳見 Tararu Helper 程式修改步驟)
 
 ## Tararu Helper 程式修改步驟
 

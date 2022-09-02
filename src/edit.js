@@ -10,7 +10,7 @@ const { sameAsArrayItem } = require('./main_modules/correction-function');
 const fm = require('./main_modules/file-module');
 
 // language table
-const { getLanguageCode } = require('./renderer_modules/engine-module');
+const { getLanguageCode } = require('./main_modules/engine-module');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');

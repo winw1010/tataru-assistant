@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // engine module
-const { getOption, getLanguageCode } = require('./renderer_modules/engine-module');
+const { getOption, getLanguageCode } = require('./main_modules/engine-module');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');

@@ -1,10 +1,10 @@
 'use strict';
 
-//fs
-const { readFileSync, writeFileSync } = require('fs');
+// file module
+const fm = require('./file-module');
 
 // config location
-const configLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\config.json';
+const configLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'setting', 'config.json');
 
 // default config
 const defaultConfig = {
@@ -65,9 +65,10 @@ const defaultConfig = {
     },
 };
 
+// load config
 function loadConfig() {
     try {
-        const config = JSON.parse(readFileSync(configLocation));
+        const config = fm.jsonReader(configLocation);
         const mainNames = Object.getOwnPropertyNames(defaultConfig);
 
         mainNames.forEach((mainName) => {
@@ -113,21 +114,24 @@ function loadConfig() {
     }
 }
 
+// save config
 function saveConfig(config) {
     try {
-        writeFileSync(configLocation, JSON.stringify(config, null, '\t'));
+        fm.jsonWritter(configLocation, config);
     } catch (error) {
         console.log(error);
     }
 }
 
+// get default config
 function getDefaultConfig() {
     return defaultConfig;
 }
 
+// save default config
 function saveDefaultConfig() {
     try {
-        writeFileSync(configLocation, JSON.stringify(defaultConfig, null, '\t'));
+        fm.jsonWritter(configLocation, defaultConfig);
     } catch (error) {
         console.log(error);
     }

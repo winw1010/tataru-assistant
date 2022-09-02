@@ -1,11 +1,12 @@
 'use strict';
 
-// fs
-const { readFileSync, writeFileSync } = require('fs');
+// file module
+const fm = require('./file-module');
 
 // chat code location
-const chatCodeLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\setting\\chat-code.json';
+const chatCodeLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'setting', 'chat-code.json');
 
+// default chat code
 const defaultChatCode = [
     {
         ChatCode: '0039',
@@ -219,9 +220,10 @@ const defaultChatCode = [
     },
 ];
 
+// load chat code
 function loadChatCode() {
     try {
-        const chatCode = JSON.parse(readFileSync(chatCodeLocation));
+        const chatCode = fm.jsonReader(chatCodeLocation);
 
         if (defaultChatCode.length !== chatCode.length) {
             throw null;
@@ -234,21 +236,24 @@ function loadChatCode() {
     }
 }
 
+// save chat code
 function saveChatCode(chatCode) {
     try {
-        writeFileSync(chatCodeLocation, JSON.stringify(chatCode, null, '\t'));
+        fm.jsonWritter(chatCodeLocation, chatCode);
     } catch (error) {
         console.log(error);
     }
 }
 
+// get default chat code
 function getDefaultChatCode() {
     return defaultChatCode;
 }
 
+// save default chat code
 function saveDefaultChatCode() {
     try {
-        writeFileSync(chatCodeLocation, JSON.stringify(defaultChatCode, null, '\t'));
+        fm.jsonWritter(chatCodeLocation, defaultChatCode);
     } catch (error) {
         console.log(error);
     }

@@ -3,14 +3,17 @@
 // fs
 const { unlinkSync } = require('fs');
 
-// path
-const { resolve } = require('path');
+// file module
+const fm = require('./main_modules/file-module');
 
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
+
+// temp image path
+const tempImagePath = fm.getRootPath('src', 'trained_data');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -87,8 +90,8 @@ function translate(text) {
 }
 
 // get path
-function getPath(file) {
-    return resolve(process.cwd(), 'src', 'trained_data', file);
+function getPath(fileName) {
+    return fm.getPath(tempImagePath, fileName);
 }
 
 // delete images

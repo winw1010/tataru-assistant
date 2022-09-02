@@ -28,10 +28,10 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
-const logLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
+const logPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
 
 // temp location
-const tempLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'temp');
+const tempPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'temp');
 
 // target log
 let targetLog = null;
@@ -82,7 +82,7 @@ function setIPC() {
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
-                        const filePath = fm.getPath(logLocation, logFileList[index]);
+                        const filePath = fm.getPath(logPath, logFileList[index]);
                         const log = fm.jsonReader(filePath);
                         targetLog = log[id];
 
@@ -164,17 +164,17 @@ function setButton() {
 
         if (textBefore !== '' && textAfter !== '') {
             if (type === 'jp') {
-                let jpTemp = fm.jsonReader(fm.getPath(tempLocation, 'jpTemp.json'));
+                let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'jpTemp.json'), jpTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fm.jsonReader(fm.getPath(tempLocation, 'overwriteTemp.json'));
+                let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'overwriteTemp.json'), overwriteTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else {
-                let chTemp = fm.jsonReader(fm.getPath(tempLocation, 'chTemp.json'));
+                let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'chTemp.json'), chTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
@@ -191,17 +191,17 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = fm.jsonReader(fm.getPath(tempLocation, 'jpTemp.json'));
+                let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'jpTemp.json'), jpTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fm.jsonReader(fm.getPath(tempLocation, 'overwriteTemp.json'));
+                let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'overwriteTemp.json'), overwriteTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else {
-                let chTemp = fm.jsonReader(fm.getPath(tempLocation, 'chTemp.json'));
+                let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                fm.jsonWritter(fm.getPath(tempLocation, 'chTemp.json'), chTemp);
+                fm.jsonWritter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');
@@ -214,7 +214,7 @@ function setButton() {
     // view temp
     document.getElementById('button_view_temp').onclick = () => {
         try {
-            execSync(`start "" "${tempLocation}"`);
+            execSync(`start "" "${tempPath}"`);
         } catch (error) {
             console.log(error);
         }

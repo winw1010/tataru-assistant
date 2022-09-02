@@ -4,7 +4,10 @@
 const { execSync } = require('child_process');
 
 // fs
-const { readFileSync, readdirSync } = require('fs');
+const { readdirSync } = require('fs');
+
+// file module
+const fm = require('./main_modules/file-module');
 
 // communicate with main process
 const { ipcRenderer } = require('electron');
@@ -13,7 +16,7 @@ const { ipcRenderer } = require('electron');
 const { setDragElement } = require('./renderer_modules/drag-module');
 
 // log location
-const logLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\log';
+const logPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -40,7 +43,7 @@ function setButton() {
     // view
     document.getElementById('button_view').onclick = () => {
         try {
-            execSync(`start "" "${logLocation}"`);
+            execSync(`start "" "${logPath}"`);
         } catch (error) {
             console.log(error);
         }
@@ -54,7 +57,7 @@ function setButton() {
 
 function readLogList() {
     try {
-        const logs = readdirSync(logLocation);
+        const logs = readdirSync(logPath);
 
         if (logs.length > 0) {
             const select = document.getElementById('select_log');
@@ -80,8 +83,8 @@ function readLog(fileName) {
     }
 
     try {
-        const fileLocation = logLocation + '\\' + fileName;
-        const log = JSON.parse(readFileSync(fileLocation));
+        const fileLocation = fm.getPath(logPath, fileName);
+        const log = fm.jsonReader(fileLocation);
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

@@ -1,14 +1,14 @@
 'use strict';
 
 // fs
-const { writeFileSync, unlinkSync } = require('fs');
+const { unlinkSync } = require('fs');
+
+// file module
+const fm = require('../main_modules/file-module');
 
 // sharp
 const sharp = require('sharp');
 sharp.cache(false);
-
-// path
-const { resolve } = require('path');
 
 // communicate with main
 const { ipcRenderer } = require('electron');
@@ -21,6 +21,9 @@ const { createWorker } = require('tesseract.js');
 
 // language table
 const { languageEnum } = require('./engine-module');
+
+// temp image path
+const tempImagePath = fm.getRootPath('src', 'trained_data');
 
 // contrast values
 const contrastThreshold = 160; //128
@@ -82,7 +85,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop.png
-        writeFileSync(getPath('crop.png'), Buffer.from(imageBuffer, 'base64'));
+        fm.imageWritter(getPath('crop.png'), imageBuffer);
 
         // fix image
         fixImage(imageBuffer);
@@ -119,11 +122,8 @@ async function fixImage(imageBuffer) {
                 .toBuffer();
         }
 
-        // to base64
-        resultImageBuffer = Buffer.from(resultImageBuffer, 'base64');
-
         // save result.png
-        writeFileSync(getPath('result.png'), resultImageBuffer);
+        fm.imageWritter(getPath('result.png'), resultImageBuffer);
 
         // recognize image
         recognizeImage(resultImageBuffer);
@@ -236,8 +236,8 @@ function translate(text) {
 }
 
 // get path
-function getPath(file) {
-    return resolve(process.cwd(), 'src', 'trained_data', file);
+function getPath(fileName) {
+    return fm.getPath(tempImagePath, fileName);
 }
 
 // delete images

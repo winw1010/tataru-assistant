@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // correction function
-const cf = require('./main_modules/correction-function');
+const { sameAsArrayItem } = require('./main_modules/correction-function');
 
 // file module
 const fm = require('./main_modules/file-module');
@@ -270,7 +270,7 @@ function addTemp(textBefore, textAfter, type, array) {
         textBefore = textBefore + '#';
     }
 
-    const target = cf.sameAsArrayItem(textBefore, array);
+    const target = sameAsArrayItem(textBefore, array);
     if (target) {
         array[target[1]] =
             type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter];

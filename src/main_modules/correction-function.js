@@ -117,16 +117,17 @@ function markFix(text, isTranslated = false) {
 
     if (isTranslated) {
         // fix 「「
-        text = text.replaceAll(/(「)([^」]*?)(\1)/gi, '「$2」');
+        if (text.includes('「') && !text.includes('」')) {
+            text = text.replaceAll(/「(.+?)「/gi, '「$1」');
+        }
 
         // fix 」」
-        text = text.replaceAll(/(」)([^「]*?)(\1)/gi, '「$2」');
+        if (text.includes('」') && !text.includes('「')) {
+            text = text.replaceAll(/」(.+?)」/gi, '「$1」');
+        }
 
         // fix ""
-        text = text.replaceAll(/(")(.*?)(\1)/gi, '「$2」');
-
-        // fix ''
-        text = text.replaceAll(/(')(.*?)(\1)/gi, '「$2」');
+        text = text.replaceAll(/"(.+?)"/gi, '「$1」');
 
         // fix .
         text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');

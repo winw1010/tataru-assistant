@@ -1,13 +1,10 @@
 'use strict';
 
-// path
-const { resolve } = require('path');
-
 // fs
-const { readFileSync, writeFileSync, readdirSync } = require('fs');
+const { readdirSync } = require('fs');
 
-// json fixer
-const jsonFixer = require('json-fixer');
+// file module
+const fm = require('./file-module');
 
 // text function
 function skipCheck(code, name, text, ignoreArray) {
@@ -180,12 +177,13 @@ function valueFixAfter(text, valueTable) {
 // json function
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     try {
-        const dir = './src/json';
-        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
+        // get path
+        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
 
         // parse
-        let array = jsonFixer(readFileSync(finalPath).toString()).data;
+        let array = fm.jsonReader(finalPath);
 
+        // type check
         if (!Array.isArray(array)) {
             console.log(`${path}/${name} is not an array.`);
             writeJSON(path, name, []);
@@ -282,11 +280,11 @@ function readJSONSubtitle() {
 
 function readJSONPure(path = '', name = '') {
     try {
-        const dir = './src/json';
-        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
+        // get path
+        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
 
         // parse
-        let array = jsonFixer(readFileSync(finalPath).toString()).data;
+        let array = fm.jsonReader(finalPath);
 
         // log array
         console.log(`Read ${finalPath}. (length: ${array.length})`);
@@ -300,17 +298,11 @@ function readJSONPure(path = '', name = '') {
 
 function writeJSON(path = '', name = '', array = []) {
     try {
-        const dir = './src/json';
-        const finalPath = path.includes(':') ? resolve(path, name) : resolve(dir, path, name);
-        writeFileSync(
-            finalPath,
-            JSON.stringify(array)
-                .replaceAll('[[', '[\n\t[')
-                .replaceAll('],["//comment",', '],\n\n\t["//comment",')
-                .replaceAll('],[', '],\n\t[')
-                .replaceAll(',"', ', "')
-                .replaceAll(']]', ']\n]')
-        );
+        // get path
+        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
+
+        // write array
+        fm.jsonWritter(finalPath, array);
     } catch (error) {
         console.log(error);
     }

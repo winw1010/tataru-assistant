@@ -32,6 +32,11 @@ function jsonWritter(filePath = './', data = []) {
     }
 }
 
+// get path
+function getPath(...args) {
+    return path.join(...args);
+}
+
 // get root path
 function getRootPath(...args) {
     return path.join(rootPath, ...args);
@@ -46,6 +51,7 @@ function getUserPath(...args) {
 module.exports = {
     jsonReader,
     jsonWritter,
+    getPath,
     getRootPath,
     getUserPath,
 };

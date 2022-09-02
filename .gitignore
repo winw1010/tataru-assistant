@@ -1,4 +1,4 @@
 build
-json/text
 node_modules
-trained_data/*.png
+src/json/text
+src/trained_data/*.png

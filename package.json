@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.0.45",
+    "version": "2.1.0",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -8,7 +8,7 @@
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
-    "repository": "https://github.com/winw1010/tataru-helper-node-v2.0.0",
+    "repository": "https://github.com/winw1010/tataru-helper-node-v2",
     "keywords": [
         "Tataru Helper"
     ],
@@ -34,13 +34,13 @@
             "output": "build"
         },
         "extraFiles": [
-            "json",
-            "trained_data",
-            "!trained_data/*.png",
-            "!_Tataru_Helper"
+            "src/json",
+            "src/trained_data",
+            "!src/trained_data/*.png",
+            "!src/_Tataru_Helper"
         ],
         "win": {
-            "icon": "./img/icon/tataru.ico",
+            "icon": "./src/img/icon/tataru.ico",
             "target": [
                 "nsis"
             ]

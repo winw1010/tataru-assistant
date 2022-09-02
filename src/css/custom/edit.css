@@ -1,0 +1,43 @@
+body {
+    color: aliceblue;
+}
+
+.flex_wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.flex_left,
+.flex_right {
+    padding-top: 0.7rem;
+    width: 45vw;
+}
+
+#div_upper_button {
+    background-color: #202020;
+}
+
+#div_center {
+    padding: 0 0.7rem;
+    padding-top: 4rem;
+}
+
+#div_text1,
+#div_text2 {
+    word-wrap: break-word;
+    font-size: large;
+}
+
+
+/*select*/
+
+select {
+    margin-right: 0.5rem;
+}
+
+
+/*textarea*/
+
+textarea {
+    width: 40vw;
+}

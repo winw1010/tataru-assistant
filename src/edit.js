@@ -316,7 +316,7 @@ function postForm() {
             `&${entry4}=${text2}`;
 
         ipcRenderer.send('post-form', encodeURI(path));
-        ipcRenderer.send('send-index', 'show-notification', '傳送成功');
+        ipcRenderer.send('send-index', 'show-notification', '回報完成');
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);

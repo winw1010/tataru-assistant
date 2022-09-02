@@ -9,6 +9,7 @@ body {
 
 .flex_left,
 .flex_right {
+    padding-top: 0.7rem;
     width: 45vw;
 }
 

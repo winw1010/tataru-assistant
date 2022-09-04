@@ -448,9 +448,29 @@ function specialTextFix(name, text) {
         text = text.replaceAll('ミスト', 'ミスト#');
     }
 
+    // あ…… or あ… or あ
+    while (/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+[^…、]+/gi.test(text)) {
+        text = text.replace(/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+/gi, '');
+    }
+
+    /*
     // あ…… or あ… or あ、
     while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text)) {
         text = text.replace(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
+    }
+    */
+
+    // あアあ => あああ
+    while (/([^ァ-ヺ]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ]|$)/gi.test(text)) {
+        let t1 = /([^ァ-ヺ]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ]|$)/gi.exec(text);
+
+        if (!t1?.length > 0) {
+            break;
+        }
+
+        t1 = t1[0];
+        const t2 = cfjp.convertKana(t1, 'hira');
+        text = text.replaceAll(t1, t2);
     }
 
     return text;

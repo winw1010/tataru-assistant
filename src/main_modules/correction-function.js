@@ -22,6 +22,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
     if (target) {
         for (let index = 0; index < target.length; index++) {
             const element = target[index];
+            text = text.replaceAll(element[search] + '公司', element[replacement]);
             text = text.replaceAll(element[search], element[replacement]);
         }
     }

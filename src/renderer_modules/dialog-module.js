@@ -185,6 +185,10 @@ function saveLog(id, name, text, dialogData, translation) {
     // read/create log file
     try {
         log = JSON.parse(fs.readFileSync(filePath));
+
+        if (Array.isArray(log)) {
+            log = {};
+        }
     } catch (error) {
         console.log(error);
         log = {};

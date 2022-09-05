@@ -184,7 +184,7 @@ function saveLog(id, name, text, dialogData, translation) {
         log = fm.jsonReader(filePath, false);
 
         if (Array.isArray(log)) {
-            log = {};
+            throw null;
         }
     } catch (error) {
         console.log(error);

@@ -241,7 +241,6 @@ function readJSONMain(sub0, sub1) {
         }
 
         mainArray = sortArray(mainArray);
-        console.log('main:', mainArray);
         return mainArray;
     } catch (error) {
         console.log(error);
@@ -264,7 +263,6 @@ function readJSONOverwrite(ch, directory) {
         }
 
         overwrite = sortArray(overwrite);
-        console.log('overwrite:', overwrite);
         return overwrite;
     } catch (error) {
         console.log(error);
@@ -287,7 +285,6 @@ function readJSONSubtitle() {
         }
 
         subtitle = sortArray(subtitle);
-        console.log('subtitle:', subtitle);
         return subtitle;
     } catch (error) {
         console.log(error);

@@ -9,8 +9,8 @@ const path = require('path');
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
 
-// exec
-const { execSync } = require('child_process');
+// child process
+const { exec } = require('child_process');
 
 // download github repo
 const downloadGitRepo = require('download-git-repo');
@@ -447,21 +447,17 @@ function initializeJSON() {
 function downloadJSON() {
     try {
         // delete text
-        execSync('rmdir /Q /S src\\json\\text');
-    } catch (error) {
-        console.log(error);
-    }
-
-    try {
-        // clone json
-        downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
-            if (error) {
-                console.log(error);
-                sendIndex('show-notification', '對照表下載失敗：' + error);
-            } else {
-                sendIndex('show-notification', '對照表下載完畢');
-                loadJSON();
-            }
+        exec('rmdir /Q /S src\\json\\text', () => {
+            // clone json
+            downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
+                if (error) {
+                    console.log(error);
+                    sendIndex('show-notification', '對照表下載失敗：' + error);
+                } else {
+                    sendIndex('show-notification', '對照表下載完畢');
+                    loadJSON();
+                }
+            });
         });
     } catch (error) {
         console.log(error);

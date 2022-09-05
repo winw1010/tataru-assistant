@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // child process
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
@@ -122,7 +122,7 @@ function setButton() {
     // github
     document.getElementById('a_github').onclick = () => {
         try {
-            execSync('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
+            exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
         } catch (error) {
             console.log(error);
         }
@@ -131,7 +131,7 @@ function setButton() {
     // bahamut
     document.getElementById('a_bahamut').onclick = () => {
         try {
-            execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+            exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
         } catch (error) {
             console.log(error);
         }
@@ -140,7 +140,7 @@ function setButton() {
     // bug report
     document.getElementById('a_bug_report').onclick = () => {
         try {
-            execSync('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+            exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
         } catch (error) {
             console.log(error);
         }
@@ -149,7 +149,7 @@ function setButton() {
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
         try {
-            execSync('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
+            exec('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
         } catch (error) {
             console.log(error);
         }
@@ -159,7 +159,7 @@ function setButton() {
     // donate
     document.getElementById('a_donate').onclick = () => {
         try {
-            execSync('explorer "https://www.patreon.com/user?u=8274441"');
+            exec('explorer "https://www.patreon.com/user?u=8274441"');
         } catch (error) {
             console.log(error);
         }

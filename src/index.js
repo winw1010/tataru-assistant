@@ -3,8 +3,8 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// exec
-const { execSync } = require('child_process');
+// child process
+const { exec } = require('child_process');
 
 // audio module
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
@@ -174,7 +174,7 @@ function setButton() {
     // update
     document.getElementById('img_button_update').onclick = () => {
         try {
-            execSync('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+            exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
         } catch (error) {
             console.log(error);
         }

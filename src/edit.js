@@ -19,7 +19,7 @@ const { setDragElement } = require('./renderer_modules/drag-module');
 const { createLogName } = require('./renderer_modules/dialog-module');
 
 // child process
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
 
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
@@ -214,7 +214,7 @@ function setButton() {
     // view temp
     document.getElementById('button_view_temp').onclick = () => {
         try {
-            execSync(`start "" "${tempPath}"`);
+            exec(`start "" "${tempPath}"`);
         } catch (error) {
             console.log(error);
         }

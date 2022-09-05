@@ -68,7 +68,7 @@ const defaultConfig = {
 // load config
 function loadConfig() {
     try {
-        const config = fm.jsonReader(configLocation);
+        let config = fm.jsonReader(configLocation, false);
         const mainNames = Object.getOwnPropertyNames(defaultConfig);
 
         mainNames.forEach((mainName) => {

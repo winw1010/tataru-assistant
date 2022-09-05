@@ -83,7 +83,7 @@ function setIPC() {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
                         const filePath = fm.getPath(logPath, logFileList[index]);
-                        const log = fm.jsonReader(filePath);
+                        const log = fm.jsonReader(filePath, false);
                         targetLog = log[id];
 
                         if (targetLog) {

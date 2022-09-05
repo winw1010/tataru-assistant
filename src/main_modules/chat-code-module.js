@@ -223,7 +223,7 @@ const defaultChatCode = [
 // load chat code
 function loadChatCode() {
     try {
-        const chatCode = fm.jsonReader(chatCodeLocation);
+        const chatCode = fm.jsonReader(chatCodeLocation, false);
 
         if (defaultChatCode.length !== chatCode.length) {
             throw null;

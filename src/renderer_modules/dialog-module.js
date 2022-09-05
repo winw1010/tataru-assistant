@@ -3,9 +3,6 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// fs
-const fs = require('fs');
-
 // file module
 const fm = require('../main_modules/file-module');
 
@@ -184,11 +181,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // read/create log file
     try {
-        log = JSON.parse(fs.readFileSync(filePath));
-
-        if (Array.isArray(log)) {
-            log = {};
-        }
+        log = fm.jsonReader(filePath, false);
     } catch (error) {
         console.log(error);
         log = {};

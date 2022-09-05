@@ -84,7 +84,7 @@ function readLog(fileName) {
 
     try {
         const fileLocation = fm.getPath(logPath, fileName);
-        const log = fm.jsonReader(fileLocation);
+        const log = fm.jsonReader(fileLocation, false);
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

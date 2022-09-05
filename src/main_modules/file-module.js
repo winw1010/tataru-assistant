@@ -13,13 +13,18 @@ const rootPath = process.cwd();
 const userPath = process.env.USERPROFILE;
 
 // json reader
-function jsonReader(filePath = './') {
+function jsonReader(filePath = './', returnArray = true) {
     try {
         const data = JSON.parse(fs.readFileSync(filePath));
         return data;
     } catch (error) {
         console.log(error);
-        return [];
+
+        if (returnArray) {
+            return [];
+        } else {
+            throw error;
+        }
     }
 }
 

@@ -70,6 +70,7 @@ function loadConfig() {
     try {
         let config = fm.jsonReader(configLocation, false);
 
+        // for old bug
         if (Array.isArray(config)) {
             throw null;
         }

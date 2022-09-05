@@ -182,6 +182,10 @@ function saveLog(id, name, text, dialogData, translation) {
     // read/create log file
     try {
         log = fm.jsonReader(filePath, false);
+
+        if (Array.isArray(log)) {
+            log = {};
+        }
     } catch (error) {
         console.log(error);
         log = {};

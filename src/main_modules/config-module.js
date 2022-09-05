@@ -76,7 +76,6 @@ function loadConfig() {
         }
 
         const mainNames = Object.getOwnPropertyNames(defaultConfig);
-
         mainNames.forEach((mainName) => {
             if (config[mainName]) {
                 // skip checking when value is channel

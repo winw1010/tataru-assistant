@@ -194,27 +194,34 @@ function setWindowChannel() {
 
     // always on top
     ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
-        const window = windowList['index'];
-
-        if (window) {
-            try {
-                window.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
-            } catch (error) {
-                console.log(error);
-            }
+        try {
+            const indexWindow = BrowserWindow.fromWebContents(event.sender);
+            indexWindow.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
+        } catch (error) {
+            console.log(error);
         }
     });
 
     // set focusable
     ipcMain.on('set-focusable', (event, isFocusable) => {
-        BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
+        try {
+            const indexWindow = BrowserWindow.fromWebContents(event.sender);
+            indexWindow.setFocusable(isFocusable);
+            indexWindow.setAlwaysOnTop(true, 'screen-saver');
+        } catch (error) {
+            console.log(error);
+        }
     });
 
     // set click through
     ipcMain.on('set-click-through', (event, ignore) => {
-        const window = BrowserWindow.fromWebContents(event.sender);
-        window.setIgnoreMouseEvents(ignore, { forward: true });
-        window.setResizable(!ignore);
+        try {
+            const indexWindow = BrowserWindow.fromWebContents(event.sender);
+            indexWindow.setIgnoreMouseEvents(ignore, { forward: true });
+            indexWindow.setResizable(!ignore);
+        } catch (error) {
+            console.log(error);
+        }
     });
 
     // mouse check
@@ -422,13 +429,13 @@ function setGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F12', () => {
-        const window = windowList['index'];
+        const indexWindow = windowList['index'];
 
-        if (window) {
-            if (window.webContents.isDevToolsOpened()) {
-                window.webContents.closeDevTools();
+        if (indexWindow) {
+            if (indexWindow.webContents.isDevToolsOpened()) {
+                indexWindow.webContents.closeDevTools();
             } else {
-                window.webContents.openDevTools({ mode: 'detach' });
+                indexWindow.webContents.openDevTools({ mode: 'detach' });
             }
         }
     });

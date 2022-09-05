@@ -68,7 +68,7 @@ async function translate(text, translation, table = []) {
                 }
             } else {
                 // use same engine
-                for (let index = 0; index < 2; index++) {
+                for (let index = 0; index < 1; index++) {
                     // sleep 1 second
                     await sleep(1000);
 

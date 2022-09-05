@@ -183,7 +183,7 @@ function saveLog(id, name, text, dialogData, translation) {
     try {
         log = fm.jsonReader(filePath, false);
 
-        // for old bug
+        // fix old bug
         if (Array.isArray(log)) {
             throw null;
         }

@@ -320,7 +320,7 @@ async function translateName(name, katakanaName, translation) {
         ? sameKatakanaName1[0][1]
         : sameKatakanaName2
         ? sameKatakanaName2[0][1]
-        : cf.replaceText(cf.replaceText(katakanaName, chArray.combine), chArray.chName);
+        : createName(katakanaName);
 
     if (name === katakanaName) {
         // all katakana => use translatedKatakanaName
@@ -371,6 +371,15 @@ async function translateName(name, katakanaName, translation) {
 
         return translatedName;
     }
+}
+
+// create name
+function createName(katakanaName) {
+    let tempName = cf.replaceText(katakanaName, chArray.combine);
+    tempName = tempName.replace(/^ルル/, '路路');
+    tempName = tempName.replace(/^ル/, '路');
+
+    return cf.replaceText(tempName, chArray.chName);
 }
 
 // save name

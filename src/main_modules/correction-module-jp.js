@@ -136,22 +136,30 @@ async function startCorrection(dialogData, translation) {
 
         // name translation
         let translatedName = '';
-        if (npcChannel.includes(dialogData.code)) {
-            if (translation.fix) {
-                translatedName = await nameCorrection(dialogData.name, translation);
-            } else {
-                translatedName = await tm.translate(dialogData.name, translation);
-            }
-        } else {
+        if (cfjp.isChinese(dialogData.name)) {
             translatedName = dialogData.name;
+        } else {
+            if (npcChannel.includes(dialogData.code)) {
+                if (translation.fix) {
+                    translatedName = await nameCorrection(dialogData.name, translation);
+                } else {
+                    translatedName = await tm.translate(dialogData.name, translation);
+                }
+            } else {
+                translatedName = dialogData.name;
+            }
         }
 
         // text translation
         let translatedText = '';
-        if (translation.fix) {
-            translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+        if (cfjp.isChinese(dialogData.text)) {
+            translatedText = dialogData.text;
         } else {
-            translatedText = await tm.translate(dialogData.text, translation);
+            if (translation.fix) {
+                translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+            } else {
+                translatedText = await tm.translate(dialogData.text, translation);
+            }
         }
 
         // set audio text
@@ -501,22 +509,7 @@ function allKataCheck(name, text) {
         return true;
     }
 
-    return /^[^ぁ-ゖ]+$/gi.test(text) && countKata(text) > 10;
-}
-
-// count katakana
-function countKata(text) {
-    const kataRegExp = /[ァ-ヺ]/;
-    let count = 0;
-
-    for (let index = 0; index < text.length; index++) {
-        const char = text[index];
-        if (kataRegExp.test(char)) {
-            count++;
-        }
-    }
-
-    return count;
+    return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
 }
 
 // exports

@@ -382,6 +382,9 @@ function createName(katakanaName) {
     return cf.replaceText(tempName, chArray.chName);
 }
 
+// create east name
+//function createEastName(katakanaName) {}
+
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
     if (name === translatedName) {

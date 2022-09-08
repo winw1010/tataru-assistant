@@ -121,7 +121,16 @@ function setButton() {
         ipcRenderer.send('version-check');
     };
 
-    // set google vision credential
+    // get google credential
+    document.getElementById('a_get_credential').onclick = () => {
+        try {
+            exec('explorer "https://cloud.google.com/vision/docs/ocr"');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // set google credential
     document.getElementById('button_google_credential').onclick = () => {
         fm.fileWriter(
             fm.getUserDataPath('setting', 'google-credential.json'),

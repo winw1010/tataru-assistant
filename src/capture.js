@@ -16,11 +16,9 @@ window.addEventListener('DOMContentLoaded', () => {
 // set view
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
-
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
     document.getElementById('select_type').value = config.captureWindow.type;
-
     setCanvasSize(document.getElementById('canvas_select'));
     setBackground(config);
 }

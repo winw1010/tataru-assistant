@@ -4,6 +4,11 @@ body {
     color: aliceblue;
 }
 
+/*checkbox*/
+input[type="checkbox"] {
+    margin-left: 1rem;
+}
+
 /*div*/
 
 #div_center {

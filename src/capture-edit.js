@@ -18,13 +18,26 @@ const tempImagePath = fm.getRootPath('src', 'trained_data');
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
+    setEvent();
     setIPC();
     setButton();
 });
 
 // set view
 function setView() {
+    const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('img_result').setAttribute('src', getPath('crop.png'));
+}
+
+// set event
+function setEvent() {
+    // checkbox
+    document.getElementById('checkbox_split').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.captureWindow.split = document.getElementById('checkbox_split').checked;
+        ipcRenderer.send('set-config', config);
+    };
 }
 
 // set IPC

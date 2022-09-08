@@ -6,10 +6,12 @@ body {
     border: 0.1rem #808080 solid;
 }
 
+/*checkbox*/
 input[type="checkbox"] {
     margin-left: 1rem;
 }
 
+/*select*/
 select {
     margin-left: 1rem;
 }

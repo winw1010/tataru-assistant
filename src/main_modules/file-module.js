@@ -57,6 +57,11 @@ function getUserPath(...args) {
     return path.join(userPath, ...args);
 }
 
+// get user path
+function getTataruPath(...args) {
+    return path.join(userPath, 'Documents', 'Tataru Helper Node', ...args);
+}
+
 // exports
 module.exports = {
     jsonReader,
@@ -65,4 +70,5 @@ module.exports = {
     getPath,
     getRootPath,
     getUserPath,
+    getTataruPath,
 };

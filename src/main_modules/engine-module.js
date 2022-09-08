@@ -92,6 +92,24 @@ function getLanguageCode(language, engine) {
     return table[language];
 }
 
+/*
+function fixLanguageCode(code) {
+    if (/Auto/gi.test(code)) {
+        code = 'Auto';
+    } else if (/Japanese/gi.test(code)) {
+        code = 'Japanese';
+    } else if (/English/gi.test(code)) {
+        code = 'English';
+    } else if (/Traditional-Chinese/gi.test(code)) {
+        code = 'Traditional-Chinese';
+    } else if (/Simplified-Chinese/gi.test(code)) {
+        code = 'Simplified-Chinese';
+    }
+
+    return code;
+}
+*/
+
 // exports
 module.exports = {
     languageEnum,

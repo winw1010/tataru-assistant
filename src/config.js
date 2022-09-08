@@ -270,6 +270,8 @@ function showConfig() {
 
     document.getElementById('checkbox_skip_system').checked = config.translation.skip;
 
+    document.getElementById('checkbox_skip_chinese').checked = config.translation.skipChinese;
+
     document.getElementById('select_engine').value = config.translation.engine;
 
     document.getElementById('select_from').value = config.translation.from;
@@ -354,6 +356,8 @@ function saveConfig() {
     config.translation.fix = document.getElementById('checkbox_text_fix').checked;
 
     config.translation.skip = document.getElementById('checkbox_skip_system').checked;
+
+    config.translation.skipChinese = document.getElementById('checkbox_skip_chinese').checked;
 
     config.translation.engine = document.getElementById('select_engine').value;
 

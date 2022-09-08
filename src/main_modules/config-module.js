@@ -54,6 +54,7 @@ const defaultConfig = {
         autoPlay: false,
         fix: true,
         skip: true,
+        skipChinese: true,
         replace: true,
         engine: 'Youdao',
         from: 'Japanese',

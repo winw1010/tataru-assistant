@@ -1,5 +1,8 @@
 'use strict';
 
+// google vision
+const vision = require('@google-cloud/vision');
+
 // fs
 const { unlinkSync } = require('fs');
 
@@ -63,7 +66,8 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 // crop image
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
-        const scaleRate = 650 / rectangleSize.width;
+        const config = ipcRenderer.sendSync('get-config');
+        const scaleRate = 1; //650 / rectangleSize.width;
         const imageBuffer = await sharp(imagePath)
             .resize({
                 width: parseInt(displayBounds.width * scaleRate),
@@ -87,11 +91,32 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         // save crop.png
         fm.imageWriter(getPath('crop.png'), imageBuffer);
 
-        // fix image
-        fixImage(imageBuffer);
+        if (config.captureWindow.type === 'google') {
+            // google vision
+            googleVision(getPath('crop.png'));
+        } else {
+            // fix image
+            fixImage(imageBuffer);
+        }
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
+    }
+}
+
+// google vision
+async function googleVision(imagePath) {
+    const client = new vision.ImageAnnotatorClient({
+        keyFilename:
+            'C:\\Users\\GL626QF\\Documents\\GitHub\\tataru-helper-node-v2\\src\\json\\tataru-helper-node-4e002aac9d79.json',
+    });
+    const [result] = await client.textDetection(imagePath);
+    const detections = result.textAnnotations[0];
+
+    if (detections?.description) {
+        translate(detections.description);
+    } else {
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取文字 ' + result.error);
     }
 }
 
@@ -193,11 +218,13 @@ function translate(text) {
     const config = ipcRenderer.sendSync('get-config');
 
     // fix
-    if (config.translation.from === languageEnum.ja) {
-        text = text.replaceAll(' ', '');
-    }
+    if (config.captureWindow.type !== 'google') {
+        if (config.translation.from === languageEnum.ja) {
+            text = text.replaceAll(' ', '');
+        }
 
-    text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
+        text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
+    }
 
     // set string array
     let stringArray = [];

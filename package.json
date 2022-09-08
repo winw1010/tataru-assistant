@@ -20,6 +20,7 @@
         "eslint": "^8.23.0"
     },
     "dependencies": {
+        "@google-cloud/vision": "^3.0.0",
         "crypto-js": "^4.1.1",
         "download-git-repo": "^3.0.2",
         "screenshot-desktop": "^1.12.7",

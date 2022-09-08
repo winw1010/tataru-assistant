@@ -28,10 +28,10 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
-const logPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
+const logPath = fm.getUserDataPath('log');
 
 // temp location
-const tempPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'temp');
+const tempPath = fm.getUserDataPath('temp');
 
 // target log
 let targetLog = null;

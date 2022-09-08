@@ -19,7 +19,7 @@ const zhConverter = require('../main_modules/translator/zh-convert');
 const npcChannel = ['003D', '0044', '2AB9'];
 
 // log location
-const logLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
+const logLocation = fm.getUserDataPath('log');
 
 // dialog timeout
 let hideDialogTimeout = null;

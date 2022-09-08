@@ -16,7 +16,7 @@ const { ipcRenderer } = require('electron');
 const { setDragElement } = require('./renderer_modules/drag-module');
 
 // log location
-const logPath = fm.getUserPath('Documents', 'Tataru Helper Node', 'log');
+const logPath = fm.getUserDataPath('log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {

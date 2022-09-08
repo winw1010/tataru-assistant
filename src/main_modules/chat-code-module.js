@@ -4,7 +4,7 @@
 const fm = require('./file-module');
 
 // chat code location
-const chatCodeLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'setting', 'chat-code.json');
+const chatCodeLocation = fm.getUserDataPath('setting', 'chat-code.json');
 
 // default chat code
 const defaultChatCode = [

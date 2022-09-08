@@ -4,7 +4,7 @@
 const fm = require('./file-module');
 
 // config location
-const configLocation = fm.getUserPath('Documents', 'Tataru Helper Node', 'setting', 'config.json');
+const configLocation = fm.getUserDataPath('setting', 'config.json');
 
 // default config
 const defaultConfig = {
@@ -37,7 +37,7 @@ const defaultConfig = {
         y: -1,
         width: -1,
         height: -1,
-        type: 'standard',
+        type: 'best',
         split: true,
         edit: false,
     },

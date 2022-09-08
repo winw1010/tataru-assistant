@@ -47,6 +47,11 @@ function fileWriter(filePath = './', data) {
     fs.writeFileSync(filePath, data);
 }
 
+// file checker
+function fileChecker(filePath = './') {
+    return fs.existsSync(filePath);
+}
+
 // get path
 function getPath(...args) {
     return path.join(...args);
@@ -73,6 +78,7 @@ module.exports = {
     jsonWriter,
     imageWriter,
     fileWriter,
+    fileChecker,
     getPath,
     getRootPath,
     getUserPath,

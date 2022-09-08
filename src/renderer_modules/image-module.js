@@ -63,7 +63,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         ipcRenderer.send('restore-all-windows');
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
 
@@ -107,22 +107,30 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
 
 // google vision
 async function googleVision(imagePath) {
-    const client = new vision.ImageAnnotatorClient({
-        keyFilename: fm.getUserDataPath('setting', 'google-credential.json'),
-    });
-    const [result] = await client.textDetection(imagePath);
-    const detections = result.textAnnotations[0];
+    try {
+        if (!fm.fileChecker(fm.getUserDataPath('setting', 'google-credential.json'))) {
+            throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
+        }
 
-    if (detections?.description) {
-        translate(detections.description);
-    } else {
-        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字 ' + result.error);
+        const client = new vision.ImageAnnotatorClient({
+            keyFilename: fm.getUserDataPath('setting', 'google-credential.json'),
+        });
+        const [result] = await client.textDetection(imagePath);
+        const detections = result.textAnnotations[0];
+
+        if (detections?.description) {
+            translate(detections.description);
+        } else {
+            throw result.error;
+        }
+    } catch (error) {
+        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字: ' + error);
     }
 }
 
@@ -169,7 +177,7 @@ async function fixImage(imageBuffer) {
         recognizeImage(resultImageBuffer);
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
+        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
 
@@ -222,7 +230,7 @@ async function recognizeImage(imageBuffer) {
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字 ' + error);
+        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字: ' + error);
     }
 }
 

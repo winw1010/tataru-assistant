@@ -99,7 +99,7 @@ function appendNotification(text) {
         } catch (error) {
             console.log(error);
         }
-    }, 5000);
+    }, 5000 + Math.floor(text.length / 20));
 }
 
 // show dialog

@@ -3,7 +3,7 @@
 body {
     background-color: #00000022;
     color: aliceblue;
-    border: 0.1rem white solid;
+    border: 0.1rem #808080 solid;
 }
 
 input[type="checkbox"] {
@@ -19,7 +19,7 @@ select {
 
 #div_upper_button {
     background-color: #202020;
-    border: 0.1rem white solid;
+    border: 0.1rem #808080 solid;
 }
 
 

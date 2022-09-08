@@ -6,6 +6,8 @@ const { ipcRenderer } = require('electron');
 // child process
 const { exec } = require('child_process');
 
+const fm = require('./main_modules/file-module');
+
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
@@ -117,6 +119,16 @@ function setButton() {
     // version check
     document.getElementById('button_version_check').onclick = () => {
         ipcRenderer.send('version-check');
+    };
+
+    // set google vision credential
+    document.getElementById('button_google_credential').onclick = () => {
+        fm.fileWriter(
+            fm.getUserDataPath('setting', 'google-credential.json'),
+            document.getElementById('input_password_google_credential').value
+        );
+
+        ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
     };
 
     // github

@@ -273,6 +273,35 @@ function setCaptureChannel() {
     ipcMain.on('get-screen-position', (event) => {
         event.returnValue = screen.getCursorScreenPoint();
     });
+
+    // get dispaly bounds
+    ipcMain.on('get-dispaly-bounds', (event) => {
+        event.returnValue = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
+    });
+
+    // minimize all windows
+    ipcMain.on('minimize-all-windows', () => {
+        const windowNames = Object.getOwnPropertyNames(windowList);
+        windowNames.forEach((windowName) => {
+            try {
+                windowList[windowName].minimize();
+            } catch (error) {
+                // do nothing
+            }
+        });
+    });
+
+    // restore all windows
+    ipcMain.on('restore-all-windows', () => {
+        const windowNames = Object.getOwnPropertyNames(windowList);
+        windowNames.forEach((windowName) => {
+            try {
+                windowList[windowName].restore();
+            } catch (error) {
+                // do nothing
+            }
+        });
+    });
 }
 
 // set translation channel

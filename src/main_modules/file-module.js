@@ -42,6 +42,11 @@ function imageWriter(filePath = './', imageBuffer = Buffer.from('')) {
     fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
 }
 
+// file writer
+function fileWriter(filePath = './', data) {
+    fs.writeFileSync(filePath, data);
+}
+
 // get path
 function getPath(...args) {
     return path.join(...args);
@@ -67,6 +72,7 @@ module.exports = {
     jsonReader,
     jsonWriter,
     imageWriter,
+    fileWriter,
     getPath,
     getRootPath,
     getUserPath,

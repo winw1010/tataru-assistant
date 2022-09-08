@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // set view
 function setView() {
-    document.getElementById('img_result').setAttribute('src', getPath('result.png'));
+    document.getElementById('img_result').setAttribute('src', getPath('crop.png'));
 }
 
 // set IPC

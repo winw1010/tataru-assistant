@@ -22,6 +22,7 @@ function setView() {
     document.getElementById('select_type').value = config.captureWindow.type;
 
     setCanvasSize(document.getElementById('canvas_select'));
+    setBackground(config);
 }
 
 // set event
@@ -53,6 +54,8 @@ function setEvent() {
         let config = ipcRenderer.sendSync('get-config');
         config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('set-config', config);
+
+        setBackground(config);
     };
 
     // canvas event
@@ -64,6 +67,24 @@ function setButton() {
     // drag
     setDragElement(document.getElementById('img_button_drag'));
 
+    // screenshot
+    document.getElementById('button_screenshot').onclick = () => {
+        // minimize all windows
+        ipcRenderer.send('minimize-all-windows');
+
+        // start screen translation
+        const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
+        ipcRenderer.send(
+            'start-screen-translation',
+            getRectangleSize(
+                displayBounds.x,
+                displayBounds.y,
+                displayBounds.x + displayBounds.width,
+                displayBounds.y + displayBounds.height
+            )
+        );
+    };
+
     // close
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
@@ -74,6 +95,17 @@ function setButton() {
 function setCanvasSize(canvas) {
     canvas.setAttribute('width', window.innerWidth);
     canvas.setAttribute('height', window.innerHeight);
+}
+
+// set background color
+function setBackground(config) {
+    if (config.captureWindow.type === 'google') {
+        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000000';
+        document.getElementById('button_screenshot').hidden = false;
+    } else {
+        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000022';
+        document.getElementById('button_screenshot').hidden = true;
+    }
 }
 
 // set canvas event
@@ -121,7 +153,7 @@ function setCanvasEvent(canvas) {
             mouseupScreenPosition.y
         );
 
-        // send rectangle size
+        // start screen translation
         if (rectangleSize.width > 0 && rectangleSize.height > 0) {
             ipcRenderer.send('start-screen-translation', rectangleSize);
         }
@@ -129,8 +161,7 @@ function setCanvasEvent(canvas) {
 
     // on mouse move
     canvas.onmousemove = (event) => {
-        document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
-
+        //document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
         if (isMouseDown) {
             drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
         }
@@ -152,19 +183,19 @@ function setCanvasEvent(canvas) {
             ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
         }
     }
+}
 
-    // get rectangle size
-    function getRectangleSize(startX, startY, endX, endY) {
-        return {
-            x: startX > endX ? endX : startX,
-            y: startY > endY ? endY : startY,
-            width: mathAbs(endX - startX),
-            height: mathAbs(endY - startY),
-        };
-    }
+// get rectangle size
+function getRectangleSize(startX, startY, endX, endY) {
+    return {
+        x: startX > endX ? endX : startX,
+        y: startY > endY ? endY : startY,
+        width: mathAbs(endX - startX),
+        height: mathAbs(endY - startY),
+    };
+}
 
-    // get abs
-    function mathAbs(number) {
-        return number > 0 ? number : -number;
-    }
+// get abs
+function mathAbs(number) {
+    return number > 0 ? number : -number;
 }

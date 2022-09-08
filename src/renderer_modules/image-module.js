@@ -35,6 +35,7 @@ const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
 
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+    ipcRenderer.send('send-index', 'show-notification', '正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
     try {
@@ -57,6 +58,9 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 
         // crop image
         cropImage(rectangleSize, displayBounds, imagePath);
+
+        // restore all windows
+        ipcRenderer.send('restore-all-windows');
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面 ' + error);
@@ -67,8 +71,15 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
         const config = ipcRenderer.sendSync('get-config');
-        const scaleRate = 1; //650 / rectangleSize.width;
-        const imageBuffer = await sharp(imagePath)
+        const scaleRate = (() => {
+            if (config.captureWindow.type === 'google') {
+                return 1;
+            } else {
+                return 650 / rectangleSize.width;
+            }
+        })();
+
+        let imageBuffer = sharp(imagePath)
             .resize({
                 width: parseInt(displayBounds.width * scaleRate),
                 height: parseInt(displayBounds.height * scaleRate),
@@ -78,19 +89,27 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 top: parseInt(rectangleSize.y * scaleRate),
                 width: parseInt(rectangleSize.width * scaleRate),
                 height: parseInt(rectangleSize.height * scaleRate),
-            })
-            .greyscale()
-            .linear(fator, (1 - fator) * contrastThreshold)
-            .png({ colors: 2 })
-            .sharpen({
-                sigma: 2,
-                m2: 1000,
-            })
-            .toBuffer();
+            });
+
+        if (config.captureWindow.type === 'google') {
+            imageBuffer = await imageBuffer.toBuffer();
+        } else {
+            imageBuffer = await imageBuffer
+                .greyscale()
+                .linear(fator, (1 - fator) * contrastThreshold)
+                .png({ colors: 2 })
+                .sharpen({
+                    sigma: 2,
+                    m2: 1000,
+                })
+                .toBuffer();
+        }
 
         // save crop.png
         fm.imageWriter(getPath('crop.png'), imageBuffer);
 
+        // start reconize
+        ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
             googleVision(getPath('crop.png'));
@@ -107,7 +126,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 // google vision
 async function googleVision(imagePath) {
     const client = new vision.ImageAnnotatorClient({
-        keyFilename: fm.getUserDataPath('setting', 'google-vision.json'),
+        keyFilename: fm.getUserDataPath('setting', 'google-credential.json'),
     });
     const [result] = await client.textDetection(imagePath);
     const detections = result.textAnnotations[0];
@@ -115,32 +134,33 @@ async function googleVision(imagePath) {
     if (detections?.description) {
         translate(detections.description);
     } else {
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取文字 ' + result.error);
+        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字 ' + result.error);
     }
 }
 
 // fix image
 async function fixImage(imageBuffer) {
     try {
+        // get image
+        let image = sharp(imageBuffer);
+
         // declare result image buffer
         let resultImageBuffer = null;
 
         // determind background color is light or dark
-        const { dominant } = await sharp(imageBuffer).stats();
+        const { dominant } = await image.stats();
         if (hsp(dominant) >= 16256.25) {
             // light color background
             console.log('light color background');
 
             // set result image buffer
-            resultImageBuffer = await sharp(imageBuffer)
-                .threshold(parseInt(dominant.r / 2))
-                .toBuffer();
+            resultImageBuffer = await image.threshold(parseInt(dominant.r / 2)).toBuffer();
         } else {
             // dark color background
             console.log('dark color background');
 
             // set result image buffer
-            resultImageBuffer = await sharp(imageBuffer)
+            resultImageBuffer = await image
                 .threshold(parseInt((dominant.r + 255) / 2))
                 .negate({ alpha: false })
                 .toBuffer();
@@ -169,8 +189,6 @@ function hsp(dominant) {
 // recognize image text
 async function recognizeImage(imageBuffer) {
     try {
-        ipcRenderer.send('send-index', 'show-notification', '圖片辨識中');
-
         const config = ipcRenderer.sendSync('get-config');
 
         // set worker
@@ -204,12 +222,11 @@ async function recognizeImage(imageBuffer) {
         if (text.trim().length !== 0) {
             translate(text);
         } else {
-            console.log('Text is empty.');
-            ipcRenderer.send('send-index', 'show-notification', '無法擷取文字');
+            throw 'Text is empty.';
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取文字 ' + error);
+        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字 ' + error);
     }
 }
 
@@ -230,7 +247,11 @@ function translate(text) {
     if (config.captureWindow.split) {
         stringArray = text.split('\n');
     } else {
-        stringArray = [text.replaceAll('\n', ' ')];
+        if (config.translation.from === languageEnum.ja) {
+            stringArray = [text.replaceAll('\n', '')];
+        } else {
+            stringArray = [text.replaceAll('\n', ' ')];
+        }
     }
 
     // return if need to edit

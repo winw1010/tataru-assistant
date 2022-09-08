@@ -262,7 +262,6 @@
             <!-- system page -->
             <div id="div_system" class="setting_page" hidden>
                 <div>
-                    <p>快捷鍵</p>
                     <ul>
                         <li>Ctrl+F9: 對話紀錄視窗</li>
                         <li>Ctrl+F10: 設定視窗</li>
@@ -291,31 +290,47 @@
                         <!-- version check -->
                         <button id="button_version_check" class="btn btn-primary">檢查應用程式更新</button>
                     </div>
+
+                    <br />
+
+                    <div>
+                        <p>設定Google憑證</p>
+                        <!-- set google credential -->
+                        <input
+                            type="password"
+                            name=""
+                            id="input_password_google_credential"
+                            placeholder="請輸入Google憑證"
+                        />
+                        <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
+                    </div>
                 </div>
 
                 <br />
 
                 <!-- server -->
                 <div>
-                    <div title="更改Tataru Heler的內部IP，正常運作時維持預設">
-                        <label for="input_number_port">Host</label><br />
-                        <input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" />
-                    </div>
-
-                    <br />
-
-                    <div title="更改Tataru Heler的連接埠，正常運作時維持預設">
-                        <label for="input_number_port">Port</label><br />
-                        <input
-                            type="number"
-                            name="input_number_port"
-                            id="input_number_port"
-                            min="5000"
-                            max="65535"
-                            step="1"
-                            value="8899"
-                        />
-                    </div>
+                    <p>設定Node伺服器</p>
+                    <table>
+                        <tr title="更改Tataru Heler的內部IP，正常運作時維持預設">
+                            <td>Host:</td>
+                            <td><input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" /></td>
+                        </tr>
+                        <tr title="更改Tataru Heler的連接埠，正常運作時維持預設">
+                            <td>Port:</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    name="input_number_port"
+                                    id="input_number_port"
+                                    min="5000"
+                                    max="65535"
+                                    step="1"
+                                    value="8899"
+                                />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 

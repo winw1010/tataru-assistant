@@ -107,8 +107,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 // google vision
 async function googleVision(imagePath) {
     const client = new vision.ImageAnnotatorClient({
-        keyFilename:
-            'C:\\Users\\GL626QF\\Documents\\GitHub\\tataru-helper-node-v2\\src\\json\\tataru-helper-node-4e002aac9d79.json',
+        keyFilename: fm.getUserPath('setting', 'google-vision.json'),
     });
     const [result] = await client.textDetection(imagePath);
     const detections = result.textAnnotations[0];

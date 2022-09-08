@@ -1,0 +1,15 @@
+/*body*/
+body {
+    width: 50vw;
+    padding: 0.7rem;
+    background-color: #202020;
+    color: aliceblue;
+}
+
+li {
+    padding: 0.7rem;
+}
+
+img {
+    padding: 0.7rem;
+}

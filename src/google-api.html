@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Google憑證取得步驟</title>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://raw.githubusercontent.com/ https://translate.google.com/ http://api.interpreter.caiyunai.com/v1/translator; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+
+        <!-- main Style -->
+        <link rel="stylesheet" href="css/custom/main.css" />
+
+        <!-- google api Style -->
+        <link rel="stylesheet" href="css/custom/google-api.css" />
+    </head>
+
+    <body>
+        <ol>
+            <li>
+                <span>
+                    前往
+                    <a href="https://cloud.google.com/vision/docs/ocr" target="_blank">Cloud Vision API說明文件</a>
+                    ，點選右上角的【Language】將網頁切換成中文，然後點選【登入】登入您的Google帳號(若沒有Google帳號請建立一個)
+                </span>
+            </li>
+            <li>
+                <span>
+                    登入後再次前往
+                    <a href="https://cloud.google.com/vision/docs/ocr" target="_blank">Cloud Vision API說明文件 </a>
+                    ，展開【文本检测请求】下方的+號，然後點選【设置项目】按鈕，依照指示選擇專案(若無專案請點選【+ Create
+                    a new project】建立一個新專案，名字隨意)，選擇後按NEXT繼續
+                </span>
+                <img src="./img/readme/gv1.png" alt="" />
+                <img src="./img/readme/gv2.png" alt="" />
+                <img src="./img/readme/gv3.png" alt="" />
+                <img src="./img/readme/gv4.png" alt="" />
+                <img src="./img/readme/gv5.png" alt="" />
+            </li>
+            <li>
+                <span>
+                    等待一段時間後會顯示這個視窗，按下【DOWNLOAD PRIVATE KEY AS JSON】按鈕下載憑證檔案(.json檔案)
+                </span>
+                <img src="./img/readme/gv6.png" alt="" />
+            </li>
+            <li><span>用記事本打開憑證檔案，全選複製裡面所有的內容(Ctrl+A --> Ctrl+C)</span></li>
+            <li>
+                <span>
+                    開啟Tataru Helper
+                    Node設定，點選【系統】，將剛剛複製的憑證文字貼在【設定Google憑證】下方的輸入欄位，按下【儲存Google憑證】即可使用Google
+                    Vision擷取螢幕文字
+                </span>
+                <br />
+                <img src="./img/readme/gv7.png" alt="" />
+            </li>
+        </ol>
+    </body>
+</html>

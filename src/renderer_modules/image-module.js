@@ -90,16 +90,17 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 width: parseInt(rectangleSize.width * scaleRate),
                 height: parseInt(rectangleSize.height * scaleRate),
             })
+            .jpeg({ quality: 100 })
             .toBuffer();
 
-        // save crop.png
-        fm.imageWriter(getPath('crop.png'), imageBuffer);
+        // save crop
+        fm.imageWriter(getPath('crop.jpeg'), imageBuffer);
 
         // start reconize
         ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            googleVision(getPath('crop.png'));
+            googleVision(getPath('crop.jpeg'));
         } else {
             // fix image
             fixImage(imageBuffer);
@@ -132,7 +133,7 @@ async function fixImage(imageBuffer) {
         let image = sharp(imageBuffer)
             .greyscale()
             .linear(fator, (1 - fator) * contrastThreshold)
-            .png({ colors: 2 })
+            .jpeg({ colors: 2 })
             .sharpen({
                 sigma: 2,
                 m2: 1000,
@@ -161,8 +162,8 @@ async function fixImage(imageBuffer) {
                 .toBuffer();
         }
 
-        // save result.png
-        fm.imageWriter(getPath('result.png'), resultImageBuffer);
+        // save result
+        fm.imageWriter(getPath('result.jpeg'), resultImageBuffer);
 
         // recognize image
         recognizeImage(resultImageBuffer);
@@ -234,6 +235,7 @@ function translate(text) {
             text = text.replaceAll(' ', '');
         }
 
+        text = text.replaceAll('\n\n', '\n');
         text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
     }
 
@@ -284,7 +286,7 @@ function getPath(fileName) {
 
 // delete images
 function deleteImages() {
-    const images = ['screenshot.png', 'crop.png', 'result.png'];
+    const images = ['screenshot.png', 'crop.jpeg', 'result.jpeg'];
 
     images.forEach((value) => {
         try {

@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
-    document.getElementById('img_result').setAttribute('src', getPath('crop.png'));
+    document.getElementById('img_result').setAttribute('src', getPath('crop.jpeg'));
 }
 
 // set event
@@ -109,7 +109,7 @@ function getPath(fileName) {
 
 // delete images
 function deleteImages() {
-    const images = ['screenshot.png', 'crop.png', 'result.png'];
+    const images = ['screenshot.png', 'crop.jpeg', 'result.jpeg'];
 
     images.forEach((value) => {
         try {

@@ -79,7 +79,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             }
         })();
 
-        let imageBuffer = sharp(imagePath)
+        let imageBuffer = await sharp(imagePath)
             .resize({
                 width: parseInt(displayBounds.width * scaleRate),
                 height: parseInt(displayBounds.height * scaleRate),
@@ -89,21 +89,8 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 top: parseInt(rectangleSize.y * scaleRate),
                 width: parseInt(rectangleSize.width * scaleRate),
                 height: parseInt(rectangleSize.height * scaleRate),
-            });
-
-        if (config.captureWindow.type === 'google') {
-            imageBuffer = await imageBuffer.toBuffer();
-        } else {
-            imageBuffer = await imageBuffer
-                .greyscale()
-                .linear(fator, (1 - fator) * contrastThreshold)
-                .png({ colors: 2 })
-                .sharpen({
-                    sigma: 2,
-                    m2: 1000,
-                })
-                .toBuffer();
-        }
+            })
+            .toBuffer();
 
         // save crop.png
         fm.imageWriter(getPath('crop.png'), imageBuffer);
@@ -142,7 +129,14 @@ async function googleVision(imagePath) {
 async function fixImage(imageBuffer) {
     try {
         // get image
-        let image = sharp(imageBuffer);
+        let image = sharp(imageBuffer)
+            .greyscale()
+            .linear(fator, (1 - fator) * contrastThreshold)
+            .png({ colors: 2 })
+            .sharpen({
+                sigma: 2,
+                m2: 1000,
+            });
 
         // declare result image buffer
         let resultImageBuffer = null;
@@ -154,14 +148,15 @@ async function fixImage(imageBuffer) {
             console.log('light color background');
 
             // set result image buffer
-            resultImageBuffer = await image.threshold(parseInt(dominant.r / 2)).toBuffer();
+            resultImageBuffer = await image /*.threshold(parseInt(dominant.r / 2))*/
+                .toBuffer();
         } else {
             // dark color background
             console.log('dark color background');
 
             // set result image buffer
             resultImageBuffer = await image
-                .threshold(parseInt((dominant.r + 255) / 2))
+                //.threshold(parseInt((dominant.r + 255) / 2))
                 .negate({ alpha: false })
                 .toBuffer();
         }

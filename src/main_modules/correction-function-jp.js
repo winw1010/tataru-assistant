@@ -266,8 +266,8 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-function isChinese(text) {
-    return /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
+function isChinese(text, translation) {
+    return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
 }
 
 // exports

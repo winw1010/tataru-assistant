@@ -114,7 +114,7 @@ async function startCorrection(dialogData, translation) {
 
         // name translation
         let translatedName = '';
-        if (cfen.isChinese(dialogData.name)) {
+        if (cfen.isChinese(dialogData.name, translation)) {
             translatedName = dialogData.name;
         } else {
             if (npcChannel.includes(dialogData.code)) {
@@ -130,7 +130,7 @@ async function startCorrection(dialogData, translation) {
 
         // text translation
         let translatedText = '';
-        if (cfen.isChinese(dialogData.text)) {
+        if (cfen.isChinese(dialogData.text, translation)) {
             translatedText = dialogData.text;
         } else {
             if (translation.fix) {

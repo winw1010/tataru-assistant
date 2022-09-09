@@ -96,9 +96,9 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-function isChinese(text) {
+function isChinese(text, translation) {
     //return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
-    return text.match(/[\u3400-\u9FFF]/gi)?.length > text.length / 2;
+    return translation.skipChinese && text.match(/[\u3400-\u9FFF]/gi)?.length > text.length / 2;
 }
 
 // exports

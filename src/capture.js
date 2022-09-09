@@ -176,7 +176,7 @@ function setCanvasEvent(canvas) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // draw rectangle
-            ctx.strokeStyle = 'aliceblue';
+            ctx.strokeStyle = '#808080';
             ctx.lineWidth = 1;
             ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
         }

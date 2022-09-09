@@ -356,13 +356,7 @@ function clearArray(array) {
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
 
-            if (
-                element[0].includes('//comment') ||
-                element[0] === 'N/A' ||
-                element[0] === '' ||
-                element[1] === 'N/A' ||
-                element[1] === ''
-            ) {
+            if (element[0].includes('//comment') || element[0] === 'N/A' || element[0] === '' || element[1] === 'N/A') {
                 array.splice(index, 1);
             }
         }

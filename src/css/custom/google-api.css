@@ -1,18 +1,18 @@
 /*body*/
 body {
     width: 40vw;
-    padding: 0.7rem;
+    padding: 1.4rem;
     background-color: #202020;
     color: aliceblue;
 }
 
 li {
-    padding: 0.7rem;
+    padding: 1.4rem;
 }
 
 img {
     max-width: 40vw;
-    margin: 0.7rem;
+    margin: 1.4rem;
     border: 0.1rem solid #808080;
 }
 

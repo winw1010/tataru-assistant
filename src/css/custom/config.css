@@ -1,5 +1,4 @@
 /*body*/
-
 body {
     overflow: hidden;
     -webkit-user-select: none;
@@ -7,16 +6,12 @@ body {
     color: aliceblue;
 }
 
-
 /*input*/
-
-input[type="number"] {
+input[type='number'] {
     width: 5rem;
 }
 
-
 /*div*/
-
 #div_page_button {
     display: flex;
     justify-content: space-evenly;

@@ -6,7 +6,7 @@ body {
 }
 
 /*checkbox*/
-input[type="checkbox"] {
+input[type='checkbox'] {
     margin-left: 1rem;
 }
 
@@ -15,14 +15,12 @@ select {
     margin-left: 1rem;
 }
 
-
 /*div*/
 
 #div_upper_button {
     background-color: #202020;
     border: 0.2rem #808080 solid;
 }
-
 
 /*canvas*/
 

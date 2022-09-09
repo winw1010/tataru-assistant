@@ -2,9 +2,8 @@
 
 body {
     height: 100vh;
-    background-color: #202020CC;
+    background-color: #202020cc;
 }
-
 
 /*scrollbar*/
 
@@ -12,14 +11,12 @@ body {
     display: none;
 }
 
-
 /*shadow*/
 
 .drop_shadow {
     -webkit-filter: drop-shadow(0 0 0.2rem #000000);
     filter: drop-shadow(0 0 0 0.2rem #000000);
 }
-
 
 /*image button*/
 
@@ -48,9 +45,8 @@ body {
 #img_button_close:hover,
 #img_button_backspace:hover,
 #img_button_clear:hover {
-    background-color: #D9534F;
+    background-color: #d9534f;
 }
-
 
 /*div*/
 
@@ -75,7 +71,6 @@ body {
     bottom: 0;
     left: 0;
 }
-
 
 /*select*/
 

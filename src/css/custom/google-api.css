@@ -1,6 +1,6 @@
 /*body*/
 body {
-    width: 50vw;
+    width: 40vw;
     padding: 0.7rem;
     background-color: #202020;
     color: aliceblue;
@@ -11,6 +11,12 @@ li {
 }
 
 img {
+    max-width: 40vw;
     margin: 0.7rem;
     border: 0.1rem solid #808080;
+}
+
+p,
+#span_warning {
+    font-weight: bolder;
 }

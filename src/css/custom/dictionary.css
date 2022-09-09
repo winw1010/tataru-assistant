@@ -4,16 +4,16 @@ body {
     color: aliceblue;
 }
 
-#div_center{
+#div_center {
     margin-top: 4rem;
     padding: 0 0.7rem;
 }
 
-#button_exchange{
+#button_exchange {
     margin-left: 0.7rem;
 }
 
-#span_translated_text{
+#span_translated_text {
     word-wrap: break-word;
     font-size: large;
 }

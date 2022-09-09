@@ -1,11 +1,10 @@
 /*body*/
-
 body {
     color: aliceblue;
 }
 
 /*checkbox*/
-input[type="checkbox"] {
+input[type='checkbox'] {
     margin-left: 1rem;
 }
 

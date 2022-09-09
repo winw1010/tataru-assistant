@@ -108,6 +108,9 @@ function setBackground(config) {
 
 // set canvas event
 function setCanvasEvent(canvas) {
+    // line width
+    const lineWidth = 0.2 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
     // mouse
     let isMouseDown = false,
         mousedownScreenPosition = { x: 0, y: 0 },
@@ -177,7 +180,7 @@ function setCanvasEvent(canvas) {
 
             // draw rectangle
             ctx.strokeStyle = '#808080';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = lineWidth;
             ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
         }
     }

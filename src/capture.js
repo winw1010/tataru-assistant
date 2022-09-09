@@ -177,7 +177,7 @@ function setCanvasEvent(canvas) {
 
             // draw rectangle
             ctx.strokeStyle = '#808080';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 2;
             ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
         }
     }

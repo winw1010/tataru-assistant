@@ -37,7 +37,10 @@
             "src/json",
             "src/trained_data",
             "!src/trained_data/*.png",
-            "!src/_Tataru_Helper"
+            "!src/_Tataru_Helper",
+            "src/img/readme",
+            "src/css/custom/google-api.css",
+            "src/google-api.html"
         ],
         "win": {
             "icon": "./src/img/icon/tataru.ico",

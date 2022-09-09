@@ -2,7 +2,7 @@
 body {
     background-color: #00000022;
     color: aliceblue;
-    border: 0.1rem #808080 solid;
+    border: 0.2rem #808080 solid;
 }
 
 /*checkbox*/
@@ -20,7 +20,7 @@ select {
 
 #div_upper_button {
     background-color: #202020;
-    border: 0.1rem #808080 solid;
+    border: 0.2rem #808080 solid;
 }
 
 

@@ -137,7 +137,7 @@ function markFix(text, isTranslated = false) {
         text = text.replaceAll(/([^·0-9])·([^·0-9])/gi, '$1・$2');
 
         // fix 0
-        text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w]|$)/gi, '$1零$2');
+        text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w%]|$)/gi, '$1零$2');
         text = text.replaceAll(/zero/gi, '零');
     }
 

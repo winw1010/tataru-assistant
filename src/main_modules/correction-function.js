@@ -407,22 +407,17 @@ function combineArrayWithTemp(temp, ...args) {
     let combine = combineArray(...args);
 
     // search same element
-    for (let tempIndex = 0; tempIndex < temp.length; tempIndex++) {
-        const tempElement = temp[tempIndex];
-
-        for (let combineIndex = 0; combineIndex < combine.length; combineIndex++) {
-            const combineElement = combine[combineIndex];
-
-            if (tempElement[0] === combineElement[0]) {
-                if (tempElement[2] === 'temp') {
-                    tempIgnoreIndex.push(tempIndex);
-                } else {
-                    combineIgnoreIndex.push(combineIndex);
-                }
-                break;
+    const combine0 = combine.map((x) => x[0]);
+    temp.forEach((tempElement, tempIndex) => {
+        const targetIndex = combine0.indexOf(tempElement[0]);
+        if (targetIndex >= 0) {
+            if (tempElement[2] === 'temp') {
+                tempIgnoreIndex.push(tempIndex);
+            } else {
+                combineIgnoreIndex.push(targetIndex);
             }
         }
-    }
+    });
 
     // clear temp array
     if (tempIgnoreIndex.length > 0) {

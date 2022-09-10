@@ -421,8 +421,7 @@ function combineArrayWithTemp(temp, ...args) {
 
     // clear temp array
     if (tempIgnoreIndex.length > 0) {
-        tempIgnoreIndex.sort((a, b) => a - b);
-        tempIgnoreIndex.reverse();
+        tempIgnoreIndex.sort((a, b) => b - a);
         for (let index = 0; index < tempIgnoreIndex.length; index++) {
             const element = tempIgnoreIndex[index];
             temp.splice(element, 1);
@@ -431,8 +430,7 @@ function combineArrayWithTemp(temp, ...args) {
 
     // clear combine array
     if (combineIgnoreIndex.length > 0) {
-        combineIgnoreIndex.sort((a, b) => a - b);
-        combineIgnoreIndex.reverse();
+        combineIgnoreIndex.sort((a, b) => b - a);
         for (let index = 0; index < combineIgnoreIndex.length; index++) {
             const element = combineIgnoreIndex[index];
             combine.splice(element, 1);

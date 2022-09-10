@@ -54,16 +54,18 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
     // set dialog
     const dialog = document.getElementById(id);
-
-    dialog.style.cursor = 'pointer';
     dialog.style.display = 'block';
-    dialog.onclick = () => {
-        const config = ipcRenderer.sendSync('get-config');
 
-        if (config.indexWindow.advance) {
-            ipcRenderer.send('create-window', 'edit', id);
-        }
-    };
+    if (dialog.className !== 'FFFF') {
+        dialog.style.cursor = 'pointer';
+        dialog.onclick = () => {
+            const config = ipcRenderer.sendSync('get-config');
+
+            if (config.indexWindow.advance) {
+                ipcRenderer.send('create-window', 'edit', id);
+            }
+        };
+    }
 
     dialog.innerHTML = `<span class="drop_shadow">${name !== '' ? name + ':<br>' : ''}${text}</span>`;
 

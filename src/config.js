@@ -387,15 +387,30 @@ function loadChannel(config, chatCode) {
 
         channel.innerHTML += `        
             <div>
-                <input type="checkbox" value="" id="checkbox_${element.ChatCode}" ${checked}>
-                <label for="checkbox_${element.ChatCode}">
-                    ${element.Name}(<span id="span_${element.ChatCode}_color">${color}</span>)
-                </label>
-                <br>
-                <input type="color" value="${color}" id="color_${element.ChatCode}_color">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="" id="checkbox_${element.ChatCode}" ${checked}>
+                        </td>
+
+                        <td>
+                            <label for="checkbox_${element.ChatCode}">${element.Name}</label>
+                        </td>
+                    <tr>
+                    
+                    <tr>
+                        <td>
+                        </td>
+
+                        <td>
+                            <input type="color" value="${color}" id="color_${element.ChatCode}_color">
+                            <span id="span_${element.ChatCode}_color">${color}</span>
+                        </td>
+                    <tr>
+                </table>
             </div>
 
-            <br>
+            <hr>
         `;
 
         document.getElementById(`color_${element.ChatCode}_color`).oninput = () => {

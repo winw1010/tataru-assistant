@@ -4,7 +4,13 @@ body {
 }
 
 a {
-    color: rgb(120, 200, 255);
+    color: skyblue;
+    text-decoration: none;
+}
+
+a:hover {
+    color: skyblue;
+    text-decoration: underline;
 }
 
 select {

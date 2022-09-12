@@ -173,11 +173,7 @@ function setButton() {
 
     // update
     document.getElementById('img_button_update').onclick = () => {
-        try {
-            exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     // config

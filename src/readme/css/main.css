@@ -2,12 +2,12 @@ body {
     width: 40vw;
     padding: 1.4rem;
     padding-top: 0rem;
-    background-color: #404040;
+    background-color: #303030;
     color: aliceblue;
 }
 
 a {
-    color: aquamarine;
+    color: rgb(120, 200, 255);
 }
 
 li {
@@ -32,5 +32,5 @@ p,
     z-index: 1;
     width: fit-content;
     padding-top: 0.7rem;
-    background-color: #404040;
+    background-color: #303030;
 }

@@ -124,7 +124,7 @@ function setButton() {
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
         try {
-            exec(`explorer "${fm.getRootPath('src', 'google-api.html')}"`);
+            exec(`explorer "${fm.getRootPath('src', 'readme', 'google-api.html')}"`);
         } catch (error) {
             console.log(error);
         }

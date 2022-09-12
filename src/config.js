@@ -123,7 +123,7 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        exec(`explorer "${fm.getRootPath('src', 'readme', 'sub-google-api.html')}"`);
+        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'sub-google-api.html')}"`);
     };
 
     // set google credential
@@ -138,7 +138,7 @@ function setButton() {
 
     // readme
     document.getElementById('a_readme').onclick = () => {
-        exec(`explorer "${fm.getRootPath('src', 'readme', 'index.html')}"`);
+        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
     };
 
     // bug report

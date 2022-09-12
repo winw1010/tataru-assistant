@@ -161,12 +161,10 @@ function setButton() {
         exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
-    /*
     // donate
     document.getElementById('a_donate').onclick = () => {
         exec('explorer "https://www.patreon.com/user?u=8274441"');
     };
-    */
 
     // lower
     // default

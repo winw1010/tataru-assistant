@@ -177,10 +177,10 @@ function setButton() {
                 fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
-            ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
+            ipcRenderer.send('send-index', 'show-notification', '已儲存自訂詞彙');
             ipcRenderer.send('load-json');
         } else {
-            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
+            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」和「替換後(自訂詞彙)」不可為空白');
         }
     };
 
@@ -204,7 +204,7 @@ function setButton() {
                 fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
-            ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');
+            ipcRenderer.send('send-index', 'show-notification', '已刪除自訂詞彙');
             ipcRenderer.send('load-json');
         } else {
             ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」不可為空白');

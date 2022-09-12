@@ -35,7 +35,6 @@
         },
         "extraFiles": [
             "src/json",
-            "src/readme",
             "src/trained_data",
             "!src/trained_data/*.png",
             "!src/_Tataru_Helper"

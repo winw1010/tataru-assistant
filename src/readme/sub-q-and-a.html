@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>常見問題&解答</title>
+
+        <!-- main Style -->
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <div class="div-return">
+            <a href="./index.html">回首頁</a>
+        </div>
+
+        <ol>
+            <li>
+                <h3>這程式安全嗎</h3>
+                <span>
+                    此應用程式僅有翻譯對話的功能，不會修改FF14的任何檔案，也不會抓取遊戲的數值和資訊，翻譯結果皆從翻譯網站擷取，並不會在您的電腦上安裝翻譯軟體，請放心使用
+                </span>
+            </li>
+
+            <li>
+                <h3>這程式支援什麼語言</h3>
+                <span>
+                    支援日文和英文，但翻譯以日文版為主
+                </span>
+            </li>
+
+            <li>
+                <h3>能與漢化一起使用嗎</h3>
+                <span>
+                    可以，但部分情況下翻譯可能會不正確
+                </span>
+            </li>
+
+            <li>
+                <h3>Node視窗無法維持在最上層</h3>
+                <span>
+                    請至FF14的【系統設定】將【顯示模式】改為【無邊框全螢幕模式(Borderless Windowed)】
+                </span>
+                <br />
+                <img src="./img/qa/qa4.png" alt="picture" />
+            </li>
+
+            <li>
+                <h3>啟動時出現listen EADDRINUSE: address already in use 127.0.0.1:8898</h3>
+                <span>
+                    代表127.0.0.1:8898這IP已被電腦上的某個應用程式所佔用，遇到這錯誤的話可以重新開機或是更改本應用程式的port來解決，修改步驟如下：
+                    <br /><br />A. 修改TataruHelper
+                    /app-0.9.106裡面的server.json，將port的8898改為其他數值(例如8899)然後重新啟動TataruHelper
+                    <br /><br />B.
+                    開啟Node版的應用程式設定，切到系統頁將port改成你剛剛輸入的數值(例如server.json的port是8899，這邊也要輸入8899)，修改後按下儲存設定
+                    <br /><br />C. 如果儲存設定後仍然跳出listen EADDRINUSE: address already in
+                    use的訊息，就嘗試其他的數值(8890、8891、8892......以此類推)，數值5000~65535皆可使用，但TataruHelper和Node的連線設定要一致才行
+                </span>
+            </li>
+
+            <li>
+                <h3>如何查看錯誤訊息</h3>
+                <span>
+                    Ctrl+F12
+                </span>
+            </li>
+
+            <li>
+                <h3>每一句都要手動選取翻譯嗎</h3>
+                <span>
+                    不需要，大部分的劇情字幕都是會自動翻譯的
+                    <br />只要啟動【Tataru Helper】和【Tataru Helper Node】即可使用自動翻譯功能
+                </span>
+                <br />
+                <img src="./img/qa/qa7.jpg" alt="picture" />
+            </li>
+
+            <li>
+                <h3>如何重新翻譯</h3>
+                <span>
+                    滑鼠點選想要重新翻譯的字幕，再點選彈出視窗裡的【重新翻譯】按鈕即可
+                </span>
+                <br />
+                <img src="./img/qa/qa8.png" alt="picture" />
+            </li>
+
+            <li>
+                <h3>哪個翻譯引擎比較好</h3>
+                <span>
+                    目前最推薦【有道翻譯】，翻不好就使用重新翻譯功能試試看其他翻譯引擎，如果用其他翻譯引擎也翻不好請使回報給
+                </span>
+            </li>
+
+            <li>
+                <h3>旁白字幕無法擷取</h3>
+                <span>
+                    請使用最新版本的Tataru Helper，並使用【全螢幕翻譯】功能(需使用Google Vision模式)
+                </span>
+                <br />
+                <img src="./img/qa/qa10.png" alt="picture" />
+            </li>
+
+            <li>
+                <h3>視窗半透明失效</h3>
+                <span>
+                    請將【NVIDIA控制面板】的【廣域設定】恢復成預設值(感謝avbkopye沒牙提供解法)
+                    <br />或是使用【全新安裝】的方式重新安裝NVIDIA驅動程式(安裝時選擇自訂即可看到此選項)
+                </span>
+            </li>
+
+            <li>
+                <h3>要等很久才會顯示翻譯</h3>
+                <span>本應用程式是使用線上翻譯引擎， 因此翻譯速度取決於自身網路狀況和翻譯引擎方的伺服器狀況 </span>
+            </li>
+
+            <li>
+                <h3>出現「翻譯錯誤」</h3>
+                <span>
+                    原因可能是您的網路連不上該翻譯引擎，或是遇到流量限制，只能等翻譯引擎解除限制，或是使用別的翻譯引擎
+                </span>
+            </li>
+
+            <li>
+                <h3>如何移動視窗</h3>
+                <span>
+                    滑鼠按住左上的【十字箭頭】圖示即可移動視窗
+                </span>
+                <br />
+                <img src="./img/qa/qa14.png" alt="picture" />
+            </li>
+
+            <li>
+                <h3>螢幕擷取該使用哪種模式</h3>
+                <span>
+                    建議使用【Google Vision】，因為Google Vision的辨識能力最為精準，若無法使用Google
+                    Vision才使用其他選項 <br /><br />【快速】、【標準】、【最佳】各有優缺點，但精準度都比Google
+                    Vision差，且不一定每次都能正確地擷取文字
+                </span>
+            </li>
+
+            <li>
+                <h3>如何擷取對話選項和介面文字</h3>
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/yzQVAexpFDA"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                ></iframe>
+                <br />
+                <br />
+                <img src="./img/qa/qa16.jpg" alt="picture" />
+            </li>
+
+            <li>
+                <h3>無法套用變更後的設定</h3>
+                <span>
+                    更改設定後需點選右下角的【儲存變更】按鈕才會生效
+                </span>
+            </li>
+
+            <li>
+                <h3>按鈕有點擋畫面</h3>
+                <span>
+                    【設定】裡有【隱藏按鈕】選項
+                </span>
+            </li>
+
+            <li>
+                <h3>如何重置設定</h3>
+                <span>
+                    開啟【設定】視窗，點選右下角的【恢復預設值】按鈕
+                </span>
+            </li>
+
+            <li>
+                <h3>如何更新Tataru Helper Node</h3>
+                <span
+                    >請至
+                    <a href="https://home.gamer.com.tw/artwork.php?sn=5323128" target="_blank">這裡</a>
+                    下載和安裝最新本
+                </span>
+            </li>
+
+            <li>
+                <h3>如何移除Tataru Helper Node</h3>
+                <span>
+                    至【新增或移除程式】即可找到移除選項
+                </span>
+            </li>
+        </ol>
+    </body>
+</html>

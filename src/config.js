@@ -123,7 +123,7 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        exec(`explorer "${fm.getRootPath('src', 'readme', 'google-api.html')}"`);
+        exec(`explorer "${fm.getRootPath('src', 'readme', 'sub-google-api.html')}"`);
     };
 
     // set google credential
@@ -134,16 +134,6 @@ function setButton() {
         );
 
         ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
-    };
-
-    // github
-    document.getElementById('a_github').onclick = () => {
-        exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
-    };
-
-    // bahamut
-    document.getElementById('a_bahamut').onclick = () => {
-        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     // readme
@@ -159,6 +149,16 @@ function setButton() {
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
         exec('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
+    };
+
+    // github
+    document.getElementById('a_github').onclick = () => {
+        exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
+    };
+
+    // bahamut
+    document.getElementById('a_bahamut').onclick = () => {
+        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     /*

@@ -16,7 +16,8 @@ li {
 
 img {
     max-width: 40vw;
-    margin: 1.4rem;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
     border: 0.1rem solid #808080;
 }
 

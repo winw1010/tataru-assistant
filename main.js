@@ -3,8 +3,8 @@
 // fs
 const { existsSync, mkdirSync } = require('fs');
 
-// path
-const path = require('path');
+// file module
+const fm = require('./src/main_modules/file-module');
 
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
@@ -407,18 +407,18 @@ function setRequestChannel() {
 
 // directory check
 function directoryCheck() {
-    const documentPath = process.env.USERPROFILE + '\\Documents';
+    const documentPath = fm.getUserPath('Documents');
     const subPath = [
         '',
-        '\\Tataru Helper Node',
-        '\\Tataru Helper Node\\log',
-        '\\Tataru Helper Node\\setting',
-        '\\Tataru Helper Node\\temp',
+        'Tataru Helper Node',
+        'Tataru Helper Node\\log',
+        'Tataru Helper Node\\setting',
+        'Tataru Helper Node\\temp',
     ];
 
     subPath.forEach((value) => {
         try {
-            const dir = documentPath + value;
+            const dir = fm.getPath(documentPath, value);
             if (!existsSync(dir)) {
                 mkdirSync(dir);
             }
@@ -431,12 +431,7 @@ function directoryCheck() {
 // set global shortcut
 function setGlobalShortcut() {
     globalShortcut.register('CommandOrControl+F9', () => {
-        try {
-            windowList['read-log'].close();
-            windowList['read-log'] = null;
-        } catch (error) {
-            createWindow('read-log');
-        }
+        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
     });
 
     globalShortcut.register('CommandOrControl+F10', () => {
@@ -529,7 +524,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: path.join(__dirname, 'src', `${windowName}.js`),
+                preload: fm.getPath(__dirname, 'src', `${windowName}.js`),
             },
         });
 
@@ -601,7 +596,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(path.join(__dirname, 'src', `${windowName}.html`));
+        window.loadFile(fm.getPath(__dirname, 'src', `${windowName}.html`));
 
         // save window
         windowList[windowName] = window;

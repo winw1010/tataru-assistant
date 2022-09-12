@@ -1,24 +1,24 @@
-/*body*/
-
 body {
     height: 100vh;
     background-color: #202020cc;
 }
 
-/*scrollbar*/
+a {
+    color: aquamarine;
+}
+
+select {
+    padding: 0.2rem;
+}
 
 ::-webkit-scrollbar {
     display: none;
 }
 
-/*shadow*/
-
 .drop_shadow {
     -webkit-filter: drop-shadow(0 0 0.2rem #000000);
     filter: drop-shadow(0 0 0 0.2rem #000000);
 }
-
-/*image button*/
 
 .img_button {
     -webkit-filter: drop-shadow(0 0 0.2rem #000000);
@@ -48,8 +48,6 @@ body {
     background-color: #d9534f;
 }
 
-/*div*/
-
 #div_upper_button,
 #div_lower_button {
     -webkit-user-select: none;
@@ -70,10 +68,4 @@ body {
 #div_lower_button {
     bottom: 0;
     left: 0;
-}
-
-/*select*/
-
-select {
-    padding: 0.2rem;
 }

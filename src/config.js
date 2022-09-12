@@ -128,12 +128,14 @@ function setButton() {
 
     // set google credential
     document.getElementById('button_google_credential').onclick = () => {
-        fm.fileWriter(
-            fm.getUserDataPath('setting', 'google-credential.json'),
-            document.getElementById('input_password_google_credential').value
-        );
+        const googleCredential = document.getElementById('input_password_google_credential').value;
 
-        ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
+        if (googleCredential.length > 0) {
+            fm.fileWriter(fm.getUserDataPath('setting', 'google-credential.json'), googleCredential);
+            ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
+        } else {
+            ipcRenderer.send('send-index', 'show-notification', 'Google憑證不可為空白');
+        }
     };
 
     // readme

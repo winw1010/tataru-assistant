@@ -59,11 +59,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     if (dialog.className !== 'FFFF') {
         dialog.style.cursor = 'pointer';
         dialog.onclick = () => {
-            const config = ipcRenderer.sendSync('get-config');
-
-            if (config.indexWindow.advance) {
-                ipcRenderer.send('create-window', 'edit', id);
-            }
+            ipcRenderer.send('create-window', 'edit', id);
         };
     }
 

@@ -204,8 +204,6 @@ function showConfig() {
 
     document.getElementById('checkbox_focusable').checked = config.indexWindow.focusable;
 
-    document.getElementById('checkbox_advance').checked = config.indexWindow.advance;
-
     document.getElementById('checkbox_hide_button').checked = config.indexWindow.hideButton;
 
     document.getElementById('checkbox_hide_dialog').checked = config.indexWindow.hideDialog;
@@ -281,8 +279,6 @@ function saveConfig() {
     config.indexWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
 
     config.indexWindow.focusable = document.getElementById('checkbox_focusable').checked;
-
-    config.indexWindow.advance = document.getElementById('checkbox_advance').checked;
 
     config.indexWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 

@@ -123,11 +123,7 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        try {
-            exec(`explorer "${fm.getRootPath('src', 'readme', 'google-api.html')}"`);
-        } catch (error) {
-            console.log(error);
-        }
+        exec(`explorer "${fm.getRootPath('src', 'readme', 'google-api.html')}"`);
     };
 
     // set google credential
@@ -142,48 +138,33 @@ function setButton() {
 
     // github
     document.getElementById('a_github').onclick = () => {
-        try {
-            exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
     };
 
     // bahamut
     document.getElementById('a_bahamut').onclick = () => {
-        try {
-            exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+    };
+
+    // readme
+    document.getElementById('a_readme').onclick = () => {
+        exec(`explorer "${fm.getRootPath('src', 'readme', 'index.html')}"`);
     };
 
     // bug report
     document.getElementById('a_bug_report').onclick = () => {
-        try {
-            exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
     };
 
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
-        try {
-            exec('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://github.com/winw1010/tataru-helper-node-text-v2#readme"');
     };
 
     /*
     // donate
     document.getElementById('a_donate').onclick = () => {
-        try {
-            exec('explorer "https://www.patreon.com/user?u=8274441"');
-        } catch (error) {
-            console.log(error);
-        }
+        exec('explorer "https://www.patreon.com/user?u=8274441"');
     };
     */
 

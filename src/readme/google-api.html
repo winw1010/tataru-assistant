@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Google憑證取得步驟</title>
-
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://raw.githubusercontent.com/ https://translate.google.com/ http://api.interpreter.caiyunai.com/v1/translator; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
-
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Google憑證取得步驟</title>
 
         <!-- main Style -->
         <link rel="stylesheet" href="css/main.css" />
     </head>
 
     <body>
+        <div class="div-return">
+            <a href="./index.html">回首頁</a>
+        </div>
+
         <p>註1：Google Vision需綁定信用卡，沒信用卡或不想綁定者請無視本功能</p>
         <p>
             註2：Google Vision每個月有1000次的免費使用次數，超過後每1000張會額外收費(
@@ -69,7 +67,7 @@
                 <img src="./img/gv7.png" alt="" />
             </li>
             <li>
-                <span id="span_warning">
+                <span id="span-warning">
                     憑證檔案請妥善保管，除非你想和他人共用您的信用卡額度否則千萬不要和他人分享您的憑證檔案，若想移除憑證請至
                     <a href="https://console.cloud.google.com/iam-admin/serviceaccounts" target="_blank">這裡</a>
                     移除服務帳號即可，移除後須利用上述步驟重新取得憑證才能繼續使用Google Vision服務

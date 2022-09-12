@@ -262,15 +262,6 @@
             <!-- system page -->
             <div id="div_system" class="setting_page" hidden>
                 <div>
-                    <ul>
-                        <li>Ctrl+F9: 對話紀錄視窗</li>
-                        <li>Ctrl+F10: 設定視窗</li>
-                        <li>Ctrl+F11: 螢幕擷取視窗</li>
-                        <li>Ctrl+F12: 開發者工具視窗</li>
-                    </ul>
-                </div>
-
-                <div>
                     <div>
                         <!-- auto download json -->
                         <input type="checkbox" value="" id="checkbox_auto_download_json" />
@@ -291,7 +282,7 @@
                         <button id="button_version_check" class="btn btn-primary">檢查應用程式更新</button>
                     </div>
 
-                    <br />
+                    <hr />
 
                     <div>
                         <!-- set google credential -->
@@ -306,17 +297,17 @@
                     </div>
                 </div>
 
-                <br />
+                <hr />
 
                 <div>
                     <!-- set server -->
-                    <p>設定Node伺服器</p>
+                    <p title="更改Tataru Heler的伺服器設定，如非必要請維持預設">設定Node伺服器</p>
                     <table>
-                        <tr title="更改Tataru Heler的內部IP，正常運作時維持預設">
+                        <tr title="更改Tataru Heler的內部IP，如非必要請維持預設">
                             <td>Host:</td>
                             <td><input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" /></td>
                         </tr>
-                        <tr title="更改Tataru Heler的連接埠，正常運作時維持預設">
+                        <tr title="更改Tataru Heler的連接埠，如非必要請維持預設">
                             <td>Port:</td>
                             <td>
                                 <input
@@ -339,9 +330,11 @@
                 <p>感謝您使用Tataru Helper Node，本應用程式需與壓縮檔隨附的Tataru Helper一併使用才有完整功能</p>
                 <p>版本: ver.<span id="span_version"></span></p>
                 <p>作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</p>
+                <hr />
                 <p><a href="#" id="a_readme">使用說明書</a></p>
                 <p><a href="#" id="a_bug_report">問題回報</a></p>
                 <p><a href="#" id="a_translation_report">回報翻譯錯誤</a></p>
+                <hr />
                 <p><a href="#" id="a_github">GitHub原始碼</a></p>
                 <p><a href="#" id="a_bahamut">訪問作者</a></p>
                 <p><a href="#" id="a_donate">贊助作者</a></p>

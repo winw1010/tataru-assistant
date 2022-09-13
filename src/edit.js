@@ -171,6 +171,10 @@ function setButton() {
                 let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
                 fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+            } else if (type === 'player' || type === 'retainer') {
+                let playerTemp = fm.jsonReader(fm.getPath(tempPath, 'player.json'));
+                playerTemp = addTemp(textBefore, textAfter, type, playerTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'player.json'), playerTemp);
             } else {
                 let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
@@ -198,6 +202,10 @@ function setButton() {
                 let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
                 fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+            } else if (type === 'player' || type === 'retainer') {
+                let playerTemp = fm.jsonReader(fm.getPath(tempPath, 'player.json'));
+                playerTemp = deleteTemp(textBefore, type, playerTemp);
+                fm.jsonWriter(fm.getPath(tempPath, 'player.json'), playerTemp);
             } else {
                 let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
                 chTemp = deleteTemp(textBefore, type, chTemp);
@@ -266,25 +274,26 @@ function showText() {
 }
 
 function addTemp(textBefore, textAfter, type, array) {
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
+    const list = ['jp', 'overwrite', 'player', 'retainer'];
+    if (textBefore.length < 3 && !list.includes(type) && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 
     const target = sameAsArrayItem(textBefore, array);
     if (target) {
-        array[target[1]] =
-            type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter];
+        array[target[1]] = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
-        array.push(type !== 'jp' && type !== 'overwrite' ? [textBefore, textAfter, type] : [textBefore, textAfter]);
+        array.push(!list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter]);
     }
 
     return array;
 }
 
 function deleteTemp(textBefore, type, array) {
+    const list = ['jp', 'overwrite', 'player', 'retainer'];
     let count = 0;
 
-    if (textBefore.length < 3 && type !== 'jp' && type !== 'overwrite' && allKana.test(textBefore)) {
+    if (textBefore.length < 3 && !list.includes(type) && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 

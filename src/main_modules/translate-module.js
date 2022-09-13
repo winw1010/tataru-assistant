@@ -23,6 +23,7 @@ async function translate(text, translation, table = []) {
         let option = getOption(engine, translation.from, translation.to, text);
         let engines = engineList;
         let translatedText = '';
+        let previousTranslatedText = '';
         let tryCount = 0;
         let missingCodes = [];
 
@@ -66,7 +67,14 @@ async function translate(text, translation, table = []) {
 
             // check response
             if (translatedText === '') {
-                throw 'Empty response';
+                if (previousTranslatedText === '') {
+                    throw 'Empty response';
+                } else {
+                    translatedText = previousTranslatedText;
+                    break;
+                }
+            } else {
+                previousTranslatedText = translatedText;
             }
 
             // missing code check

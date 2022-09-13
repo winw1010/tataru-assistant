@@ -67,18 +67,7 @@ async function translate(text, translation, table = []) {
                     }
                 }
             } else {
-                // use same engine
-                for (let index = 0; index < 1; index++) {
-                    // sleep 1 second
-                    await sleep(1000);
-
-                    // retranslate
-                    translatedText = await getTranslation(engine, option);
-
-                    if (translatedText !== '') {
-                        break;
-                    }
-                }
+                break;
             }
         }
 
@@ -180,9 +169,11 @@ function fixCode(text, missingCodes) {
     return text;
 }
 
+/*
 function sleep(ms = 1000) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+*/
 
 // exports
 module.exports = {

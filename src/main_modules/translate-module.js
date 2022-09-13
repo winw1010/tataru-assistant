@@ -12,71 +12,74 @@ const googleTTS = require('./translator/google-tts');
 const zhConverter = require('./translator/zh-convert');
 
 async function translate(text, translation, table = []) {
-    if (text === '') {
-        return '……';
-    }
+    try {
+        if (text === '') {
+            return '……';
+        }
 
-    // set auto change
-    const autoChange = translation.autoChange;
+        // set auto change
+        const autoChange = translation.autoChange;
 
-    // set engine
-    let engine = translation.engine;
+        // set engine
+        let engine = translation.engine;
 
-    // set option
-    let option = getOption(engine, translation.from, translation.to, text);
+        // set option
+        let option = getOption(engine, translation.from, translation.to, text);
 
-    // initialize
-    let translatedText = '';
-    let retryCount = 0;
-    let missingCodes = [];
+        // initialize
+        let translatedText = '';
+        let retryCount = 0;
+        let missingCodes = [];
 
-    do {
-        // fix text
-        option.text = fixCode(option.text, missingCodes);
+        do {
+            // fix text
+            option.text = fixCode(option.text, missingCodes);
 
-        // translate
-        translatedText = await getTranslation(engine, option);
+            // translate
+            translatedText = await getTranslation(engine, option);
 
-        // add count
-        retryCount++;
+            // add count
+            retryCount++;
 
-        // retry
-        if (translatedText === '' && autoChange) {
-            // change engine
-            for (let index = 0; index < AvailableEngineList.length; index++) {
-                const newEngine = AvailableEngineList[index];
+            // retry
+            if (translatedText === '' && autoChange) {
+                // change engine
+                for (let index = 0; index < AvailableEngineList.length; index++) {
+                    const newEngine = AvailableEngineList[index];
 
-                // find new engine
-                if (newEngine !== translation.engine) {
-                    console.log(`'Response is empty. Try to use ${newEngine}.`);
+                    // get new engine
+                    if (newEngine !== translation.engine) {
+                        console.log(`'Response is empty. Try to use ${newEngine}.`);
 
-                    // set new engine
-                    engine = newEngine;
+                        // set new engine
+                        engine = newEngine;
 
-                    // set new option
-                    option = getOption(engine, translation.from, translation.to, option.text);
+                        // set new option
+                        option = getOption(engine, translation.from, translation.to, option.text);
 
-                    // retranslate
-                    translatedText = await getTranslation(engine, option);
+                        // retranslate
+                        translatedText = await getTranslation(engine, option);
 
-                    if (translatedText !== '') {
-                        break;
+                        if (translatedText !== '') {
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        // double check
-        if (translatedText === '') {
-            translatedText = '翻譯失敗，請稍後再試';
-            break;
-        }
+            // check response
+            if (translatedText === '') {
+                throw 'Response is empty.';
+            }
 
-        // missing code check
-        missingCodes = missingCodeCheck(translatedText, table);
-    } while (missingCodes.length > 0 && retryCount < 3);
+            // missing code check
+            missingCodes = missingCodeCheck(translatedText, table);
+        } while (missingCodes.length > 0 && retryCount < 3);
 
-    return zhConvert(translatedText, translation.to);
+        return zhConvert(translatedText, translation.to);
+    } catch (error) {
+        return zhConvert('翻譯失敗: ' + error, translation.to);
+    }
 }
 
 async function getTranslation(engine, option) {

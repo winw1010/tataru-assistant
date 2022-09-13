@@ -32,6 +32,7 @@ async function translate(text, translation, table = []) {
         do {
             // sleep
             if (retryCount > 0) {
+                console.log('Missing Codes:', missingCodes);
                 await sleep();
             }
 
@@ -52,7 +53,7 @@ async function translate(text, translation, table = []) {
 
                     // get new engine
                     if (newEngine !== translation.engine) {
-                        console.log(`'Response is empty. Try to use ${newEngine}.`);
+                        console.log(`Response is empty. Try to use ${newEngine}.`);
 
                         // set new engine
                         engine = newEngine;

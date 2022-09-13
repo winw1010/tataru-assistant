@@ -4,92 +4,85 @@
 const { net } = require('electron');
 
 // make request
-async function makeRequest({ options, headers = [], data = null, callback = null, tryCountMax = 1 }) {
+async function makeRequest({ options, headers = [], data = null, callback = null }) {
     try {
-        let tryCount = 0;
-        let result = null;
+        // set timeout
+        const requestTimeout = setTimeout(() => {
+            console.log('Request timeout');
+            return null;
+        }, 10000);
 
-        do {
-            tryCount++;
+        // get result
+        let result = await new Promise((resolve) => {
+            const request = net.request(options);
 
-            // set timeout
-            const requestTimeout = setTimeout(() => {
-                console.log('Request timeout');
-                return null;
-            }, 10000);
+            for (let index = 0; index < headers.length; index++) {
+                const header = headers[index];
+                request.setHeader(header[0], header[1]);
+            }
 
-            // get result
-            result = await new Promise((resolve) => {
-                const request = net.request(options);
+            request.on('response', (response) => {
+                let chunkArray = [];
 
-                for (let index = 0; index < headers.length; index++) {
-                    const header = headers[index];
-                    request.setHeader(header[0], header[1]);
-                }
-
-                request.on('response', (response) => {
-                    let chunkArray = [];
-
-                    response.on('data', (chunk) => {
-                        if (response.statusCode === 200 && chunk.length > 0) {
-                            chunkArray.push(chunk);
-                        }
-                    });
-
-                    response.on('end', () => {
-                        // clear timeout
-                        clearTimeout(requestTimeout);
-
-                        try {
-                            request.abort();
-                        } catch (error) {
-                            console.log(error);
-                        }
-
-                        try {
-                            const chunk = Buffer.concat(chunkArray);
-
-                            if (callback) {
-                                const result = callback(response, chunk);
-
-                                if (result) {
-                                    resolve(result);
-                                } else {
-                                    resolve(null);
-                                }
-                            } else {
-                                resolve({
-                                    response: response,
-                                    chunk: chunk,
-                                });
-                            }
-                        } catch (error) {
-                            console.log(error);
-                            resolve(null);
-                        }
-                    });
-
-                    response.on('error', () => {
-                        console.log(response.statusCode + ': ' + response.statusMessage);
-                        resolve(null);
-                    });
+                response.on('data', (chunk) => {
+                    if (response.statusCode === 200 && chunk.length > 0) {
+                        chunkArray.push(chunk);
+                    }
                 });
 
-                request.on('error', (error) => {
-                    console.log(error.name + ': ' + error.message);
+                response.on('end', () => {
+                    // clear timeout
+                    clearTimeout(requestTimeout);
+
+                    try {
+                        request.abort();
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                    try {
+                        const chunk = Buffer.concat(chunkArray);
+
+                        if (callback) {
+                            const result = callback(response, chunk);
+
+                            if (result) {
+                                resolve(result);
+                            } else {
+                                resolve(null);
+                            }
+                        } else {
+                            resolve({
+                                response: response,
+                                chunk: chunk,
+                            });
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        resolve(null);
+                    }
+                });
+
+                response.on('error', () => {
+                    console.log(response.statusCode + ': ' + response.statusMessage);
                     resolve(null);
                 });
-
-                if (data) {
-                    request.write(data);
-                }
-
-                request.end();
             });
 
-            // clear timeout
-            clearTimeout(requestTimeout);
-        } while (!result && tryCount < tryCountMax);
+            request.on('error', (error) => {
+                console.log(error.name + ': ' + error.message);
+                resolve(null);
+            });
+
+            if (data) {
+                request.write(data);
+            }
+
+            request.end();
+        });
+
+        // clear timeout
+        clearTimeout(requestTimeout);
 
         // return result
         return result;
@@ -101,7 +94,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 
 // request cookie
 async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
-    let cookie = null;
+    let cookie = '';
     let expireDate = new Date().getTime() + 21600000;
 
     const callback = function (response) {
@@ -129,7 +122,6 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
                 path: path,
             },
             callback: callback,
-            tryCountMax: 3,
         })) || '';
 
     return { cookie, expireDate };

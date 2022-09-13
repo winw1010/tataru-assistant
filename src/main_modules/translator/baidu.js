@@ -113,7 +113,6 @@ async function setAuthentication() {
         },
         headers: [['Cookie', cookie]],
         callback: callback,
-        tryCountMax: 3,
     })) || {
         token: '',
         gtk: '320305.131321201',

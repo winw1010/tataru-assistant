@@ -106,7 +106,6 @@ async function setAuthentication() {
             ['user-agent', userAgent],
         ],
         callback: callback,
-        tryCountMax: 3,
     })) || {
         deviceId: generateDeviceId(),
         papagoVersion: 'v1.6.9_0f9c783dcc',

@@ -105,7 +105,6 @@ async function setAuthentication() {
             path: '/fanyi/newweb/v1.1.10/scripts/newweb/fanyi.min.js',
         },
         callback: callback,
-        tryCountMax: 3,
     })) || {
         fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
     };

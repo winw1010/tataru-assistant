@@ -16,6 +16,7 @@ async function translate(text, translation, table = []) {
         return '……';
     }
 
+    // set auto change
     const autoChange = translation.autoChange;
 
     // set engine
@@ -40,38 +41,32 @@ async function translate(text, translation, table = []) {
         retryCount++;
 
         // retry
-        if (translatedText === '') {
-            console.log('Response is empty.');
+        if (translatedText === '' && autoChange) {
+            // change engine
+            for (let index = 0; index < AvailableEngineList.length; index++) {
+                const newEngine = AvailableEngineList[index];
 
-            if (autoChange) {
-                // change another engine
-                for (let index = 0; index < AvailableEngineList.length; index++) {
-                    const newEngine = AvailableEngineList[index];
+                // find new engine
+                if (newEngine !== translation.engine) {
+                    console.log(`'Response is empty. Use ${newEngine}.`);
 
-                    // find new engine
-                    if (newEngine !== engine) {
-                        console.log(`Use ${newEngine}.`);
+                    // set new engine
+                    engine = newEngine;
 
-                        // set new engine
-                        engine = newEngine;
+                    // set new option
+                    option = getOption(engine, translation.from, translation.to, option.text);
 
-                        // set new option
-                        option = getOption(engine, translation.from, translation.to, option.text);
+                    // retranslate
+                    translatedText = await getTranslation(engine, option);
 
-                        // retranslate
-                        translatedText = await getTranslation(engine, option);
-
-                        if (translatedText !== '') {
-                            break;
-                        }
+                    if (translatedText !== '') {
+                        break;
                     }
                 }
-            } else {
-                break;
             }
         }
 
-        // text check
+        // double check
         if (translatedText === '') {
             translatedText = '翻譯失敗，請稍後再試';
             break;

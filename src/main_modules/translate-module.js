@@ -39,9 +39,6 @@ async function translate(text, translation, table = []) {
             // translate
             translatedText = await getTranslation(engine, option);
 
-            // add count
-            tryCount++;
-
             // retry
             if (translatedText === '' && autoChange) {
                 // remove current engine
@@ -74,6 +71,9 @@ async function translate(text, translation, table = []) {
 
             // missing code check
             missingCodes = missingCodeCheck(translatedText, table);
+
+            // add count
+            tryCount++;
         } while (missingCodes.length > 0 && tryCount < 3);
 
         return zhConvert(translatedText, translation.to);

@@ -1,6 +1,6 @@
 'use strict';
 
-const { languageEnum, AvailableEngineList, getOption } = require('./engine-module');
+const { languageEnum, engineList, getOption } = require('./engine-module');
 
 const baidu = require('./translator/baidu');
 const youdao = require('./translator/youdao');
@@ -17,14 +17,11 @@ async function translate(text, translation, table = []) {
             return '……';
         }
 
-        // set engine
-        let engine = translation.engine;
-
-        // set option
-        let option = getOption(engine, translation.from, translation.to, text);
-
         // initialize
         const autoChange = translation.autoChange;
+        let engine = translation.engine;
+        let option = getOption(engine, translation.from, translation.to, text);
+        let engines = engineList;
         let translatedText = '';
         let tryCount = 0;
         let missingCodes = [];
@@ -36,7 +33,7 @@ async function translate(text, translation, table = []) {
                 await sleep();
             }
 
-            // fix text
+            // fix code
             option.text = fixCode(option.text, missingCodes);
 
             // translate
@@ -47,26 +44,25 @@ async function translate(text, translation, table = []) {
 
             // retry
             if (translatedText === '' && autoChange) {
+                // remove current engine
+                engines.splice(engines.indexOf(engine), 1);
+
                 // change engine
-                for (let index = 0; index < AvailableEngineList.length; index++) {
-                    const newEngine = AvailableEngineList[index];
+                for (let index = 0; index < engines.length; index++) {
+                    const newEngine = engines[index];
+                    console.log(`Try ${newEngine}`);
 
-                    // get new engine
-                    if (newEngine !== translation.engine && newEngine !== engine) {
-                        console.log(`Try ${newEngine}`);
+                    // set new engine
+                    engine = newEngine;
 
-                        // set new engine
-                        engine = newEngine;
+                    // set new option
+                    option = getOption(engine, translation.from, translation.to, option.text);
 
-                        // set new option
-                        option = getOption(engine, translation.from, translation.to, option.text);
+                    // try new engine
+                    translatedText = await getTranslation(engine, option);
 
-                        // try new engine
-                        translatedText = await getTranslation(engine, option);
-
-                        if (translatedText !== '') {
-                            break;
-                        }
+                    if (translatedText !== '') {
+                        break;
                     }
                 }
             }

@@ -16,7 +16,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
             const requestTimeout = setTimeout(() => {
                 console.log('Request timeout');
                 return null;
-            }, 15000);
+            }, 10000);
 
             // get result
             result = await new Promise((resolve) => {

@@ -12,11 +12,11 @@ const googleTTS = require('./translator/google-tts');
 const zhConverter = require('./translator/zh-convert');
 
 async function translate(text, translation, table = []) {
-    try {
-        if (text === '') {
-            return '……';
-        }
+    if (text === '') {
+        return '……';
+    }
 
+    try {
         // initialize
         const autoChange = translation.autoChange;
         let engine = translation.engine;

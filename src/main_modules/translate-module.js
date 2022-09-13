@@ -52,7 +52,7 @@ async function translate(text, translation, table = []) {
                     const newEngine = AvailableEngineList[index];
 
                     // get new engine
-                    if (newEngine !== translation.engine) {
+                    if (newEngine !== translation.engine && newEngine !== engine) {
                         console.log(`Try ${newEngine}`);
 
                         // set new engine

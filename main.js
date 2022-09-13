@@ -347,9 +347,6 @@ function setRequestChannel() {
             callback: callback,
         })
             .then((latestVersion) => {
-                const updateButton =
-                    '<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">';
-
                 if (appVersion === latestVersion) {
                     sendIndex('hide-update-button', true);
                     sendIndex('show-notification', '已安裝最新版本');
@@ -362,7 +359,7 @@ function setRequestChannel() {
                     sendIndex('hide-update-button', false);
                     sendIndex(
                         'show-notification',
-                        `已有可用的更新${latest}，請點選上方的${updateButton}按鈕下載最新版本`
+                        `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`
                     );
                 }
             })

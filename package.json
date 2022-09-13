@@ -36,9 +36,9 @@
         "extraFiles": [
             "src/json",
             "src/trained_data",
+            "!src/_Tataru_Helper",
             "!src/trained_data/*.Jpeg",
-            "!src/trained_data/*.png",
-            "!src/_Tataru_Helper"
+            "!src/trained_data/*.png"
         ],
         "win": {
             "icon": "./src/img/icon/tataru.ico",

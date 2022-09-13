@@ -132,7 +132,7 @@ async function startCorrection(dialogData, translation) {
         sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
 
         // save player name
-        savePlayerName(dialogData.playerName);
+        //savePlayerName(dialogData.playerName);
 
         // name translation
         let translatedName = '';
@@ -181,6 +181,7 @@ async function startCorrection(dialogData, translation) {
     }
 }
 
+/*
 function savePlayerName(playerName) {
     if (playerName !== '' && playerName.includes(' ')) {
         if (!chArray.player.length > 0 || chArray.player[0][0] !== playerName) {
@@ -201,6 +202,7 @@ function savePlayerName(playerName) {
         }
     }
 }
+*/
 
 async function nameCorrection(name, translation) {
     if (name === '') {

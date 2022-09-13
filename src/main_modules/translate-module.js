@@ -17,9 +17,6 @@ async function translate(text, translation, table = []) {
             return '……';
         }
 
-        // set auto change
-        const autoChange = translation.autoChange;
-
         // set engine
         let engine = translation.engine;
 
@@ -27,6 +24,7 @@ async function translate(text, translation, table = []) {
         let option = getOption(engine, translation.from, translation.to, text);
 
         // initialize
+        const autoChange = translation.autoChange;
         let translatedText = '';
         let retryCount = 0;
         let missingCodes = [];
@@ -57,7 +55,7 @@ async function translate(text, translation, table = []) {
                         // set new option
                         option = getOption(engine, translation.from, translation.to, option.text);
 
-                        // retranslate
+                        // try new engine
                         translatedText = await getTranslation(engine, option);
 
                         if (translatedText !== '') {

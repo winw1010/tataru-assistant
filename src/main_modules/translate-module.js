@@ -48,7 +48,7 @@ async function translate(text, translation, table = []) {
 
                 // find new engine
                 if (newEngine !== translation.engine) {
-                    console.log(`'Response is empty. Use ${newEngine}.`);
+                    console.log(`'Response is empty. Try to use ${newEngine}.`);
 
                     // set new engine
                     engine = newEngine;

@@ -26,12 +26,12 @@ async function translate(text, translation, table = []) {
         // initialize
         const autoChange = translation.autoChange;
         let translatedText = '';
-        let retryCount = 0;
+        let tryCount = 0;
         let missingCodes = [];
 
         do {
             // sleep
-            if (retryCount > 0) {
+            if (tryCount > 0) {
                 console.log('Missing Codes:', missingCodes);
                 await sleep();
             }
@@ -43,7 +43,7 @@ async function translate(text, translation, table = []) {
             translatedText = await getTranslation(engine, option);
 
             // add count
-            retryCount++;
+            tryCount++;
 
             // retry
             if (translatedText === '' && autoChange) {
@@ -78,7 +78,7 @@ async function translate(text, translation, table = []) {
 
             // missing code check
             missingCodes = missingCodeCheck(translatedText, table);
-        } while (missingCodes.length > 0 && retryCount < 3);
+        } while (missingCodes.length > 0 && tryCount < 3);
 
         return zhConvert(translatedText, translation.to);
     } catch (error) {

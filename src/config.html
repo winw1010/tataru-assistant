@@ -281,33 +281,33 @@
                         <!-- version check -->
                         <button id="button_version_check" class="btn btn-primary">檢查應用程式更新</button>
                     </div>
-
-                    <hr />
-
-                    <div>
-                        <!-- set google credential -->
-                        <p>設定Google憑證(<a href="#" id="a_get_credential">取得憑證</a>)</p>
-                        <input
-                            type="password"
-                            name=""
-                            id="input_password_google_credential"
-                            placeholder="請輸入Google憑證"
-                        />
-                        <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
-                    </div>
                 </div>
 
                 <hr />
 
-                <div>
+                <div title="設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填">
+                    <!-- set google credential -->
+                    <p>Google憑證設定(<a href="#" id="a_get_credential">取得憑證</a>)</p>
+                    <input
+                        type="password"
+                        name=""
+                        id="input_password_google_credential"
+                        placeholder="請輸入Google憑證"
+                    />
+                    <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
+                </div>
+
+                <hr />
+
+                <div title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
                     <!-- set server -->
-                    <p title="更改Tataru Heler的伺服器設定，如非必要請維持預設">設定Node伺服器</p>
+                    <p>Node伺服器設定</p>
                     <table>
-                        <tr title="更改Tataru Heler的內部IP，如非必要請維持預設">
+                        <tr>
                             <td>Host:</td>
                             <td><input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" /></td>
                         </tr>
-                        <tr title="更改Tataru Heler的連接埠，如非必要請維持預設">
+                        <tr>
                             <td>Port:</td>
                             <td>
                                 <input

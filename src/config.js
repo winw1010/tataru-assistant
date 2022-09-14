@@ -392,14 +392,13 @@ function loadChannel(config, chatCode) {
             color = element.Color;
         }
 
-        channel.innerHTML += `        
+        channel.innerHTML += `
             <div>
                 <table>
                     <tr>
                         <td>
                             <input type="checkbox" value="" id="${checkboxId}" ${checked} />
                         </td>
-
                         <td>
                             <label for="${checkboxId}">${element.Name}</label>
                         </td>
@@ -407,7 +406,6 @@ function loadChannel(config, chatCode) {
 
                     <tr>
                         <td></td>
-
                         <td>
                             <input type="color" value="${color}" id="${colorId}" />
                             <span id="${spanId}">${color}</span>
@@ -418,6 +416,12 @@ function loadChannel(config, chatCode) {
 
             <hr />
         `;
+    }
+
+    for (let index = 0; index < chatCode.length; index++) {
+        const element = chatCode[index];
+        const colorId = `color_${element.ChatCode}_color`;
+        const spanId = `span_${element.ChatCode}_color`;
 
         document.getElementById(colorId).oninput = () => {
             document.getElementById(spanId).innerText = document.getElementById(colorId).value.toString().toUpperCase();

@@ -6,6 +6,9 @@ const { ipcRenderer } = require('electron');
 // engine module
 const { getOption, getLanguageCode } = require('./main_modules/engine-module');
 
+// google tts
+const { getAudioUrl } = require('./main_modules/translator/google-tts');
+
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
@@ -93,7 +96,7 @@ function getAudioHtml(text, language) {
     if (text !== '') {
         try {
             const languageCode = getLanguageCode(language, 'Google');
-            const urls = ipcRenderer.sendSync('get-translation', 'GoogleTTS', { text: text, language: languageCode });
+            const urls = getAudioUrl({ text: text, language: languageCode });
             console.log('TTS url:', urls);
 
             let innerHTML = '';

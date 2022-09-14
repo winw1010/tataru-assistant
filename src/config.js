@@ -379,10 +379,13 @@ function loadChannel(config, chatCode) {
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
+        const checkboxId = `checkbox_${element.ChatCode}`;
+        const colorId = `color_${element.ChatCode}_color`;
+        const spanId = `span_${element.ChatCode}_color`;
         let checked, color;
 
         if (config.channel[element.ChatCode]) {
-            checked = ' checked';
+            checked = 'checked';
             color = config.channel[element.ChatCode];
         } else {
             checked = '';
@@ -394,34 +397,30 @@ function loadChannel(config, chatCode) {
                 <table>
                     <tr>
                         <td>
-                            <input type="checkbox" value="" id="checkbox_${element.ChatCode}" ${checked}>
+                            <input type="checkbox" value="" id="${checkboxId}" ${checked} />
                         </td>
 
                         <td>
-                            <label for="checkbox_${element.ChatCode}">${element.Name}</label>
+                            <label for="${checkboxId}">${element.Name}</label>
                         </td>
+                    </tr>
+
                     <tr>
-                    
-                    <tr>
-                        <td>
-                        </td>
+                        <td></td>
 
                         <td>
-                            <input type="color" value="${color}" id="color_${element.ChatCode}_color">
-                            <span id="span_${element.ChatCode}_color">${color}</span>
+                            <input type="color" value="${color}" id="${colorId}" />
+                            <span id="${spanId}">${color}</span>
                         </td>
-                    <tr>
+                    </tr>
                 </table>
             </div>
 
-            <hr>
+            <hr />
         `;
 
-        document.getElementById(`color_${element.ChatCode}_color`).oninput = () => {
-            document.getElementById(`span_${element.ChatCode}_color`).innerText = document
-                .getElementById(`color_${element.ChatCode}_color`)
-                .value.toString()
-                .toUpperCase();
+        document.getElementById(colorId).oninput = () => {
+            document.getElementById(spanId).innerText = document.getElementById(colorId).value.toString().toUpperCase();
         };
     }
 }

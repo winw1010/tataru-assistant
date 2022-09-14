@@ -422,11 +422,11 @@ function loadChannel(config, chatCode) {
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
-        const colorId = `color_${element.ChatCode}_color`;
-        const spanId = `span_${element.ChatCode}_color`;
+        const channelColor = document.getElementById(`color_${element.ChatCode}_color`);
+        const channelSpan = document.getElementById(`span_${element.ChatCode}_color`);
 
-        document.getElementById(colorId).oninput = () => {
-            document.getElementById(spanId).innerText = document.getElementById(colorId).value.toString().toUpperCase();
+        channelColor.oninput = () => {
+            channelSpan.innerText = channelColor.value.toString().toUpperCase();
         };
     }
 }

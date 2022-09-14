@@ -111,7 +111,9 @@ function dataProcess(data) {
 function dataCheck(dialogData) {
     const names = Object.getOwnPropertyNames(dialogData);
 
-    return names.includes('code') && names.includes('playerName') && names.includes('name') && names.includes('text');
+    return (
+        names.includes('code') /*&& names.includes('playerName')*/ && names.includes('name') && names.includes('text')
+    );
 }
 
 // channel check

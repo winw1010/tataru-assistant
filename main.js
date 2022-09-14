@@ -246,6 +246,16 @@ function setWindowChannel() {
     ipcMain.on('send-index', (event, channel, ...args) => {
         sendIndex(channel, ...args);
     });
+
+    // restart config
+    ipcMain.on('restart-config', (event) => {
+        try {
+            BrowserWindow.fromWebContents(event.sender).close();
+            createWindow('config');
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }
 
 // set capture channel

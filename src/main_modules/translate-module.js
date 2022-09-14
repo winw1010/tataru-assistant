@@ -119,7 +119,7 @@ async function getTranslation(engine, option) {
                 break;
 
             default:
-                result = 'Engine is not available!';
+                result = '';
                 break;
         }
 

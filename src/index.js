@@ -30,6 +30,7 @@ const { startServer } = require('./renderer_modules/server-module');
 
 // click through temp
 let isClickThrough = false;
+let isClickThroughTemp = false;
 
 // hide button check interval
 let hideButtonCheckInterval = null;
@@ -170,6 +171,13 @@ function setButton() {
     // upper buttons
     // drag
     setDragElement(document.getElementById('img_button_drag'));
+    document.getElementById('img_button_drag').addEventListener('mousedown', () => {
+        isClickThroughTemp = isClickThrough;
+        isClickThrough = false;
+    });
+    document.getElementById('img_button_drag').addEventListener('mouseup', () => {
+        isClickThrough = isClickThroughTemp;
+    });
 
     // update
     document.getElementById('img_button_update').onclick = () => {

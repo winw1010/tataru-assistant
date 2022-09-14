@@ -8,7 +8,6 @@ const caiyun = require('./translator/caiyun');
 const papago = require('./translator/papago');
 const deepl = require('./translator/deepl');
 const google = require('./translator/google');
-const googleTTS = require('./translator/google-tts');
 const zhConverter = require('./translator/zh-convert');
 
 async function translate(text, translation, table = []) {
@@ -117,14 +116,6 @@ async function getTranslation(engine, option) {
 
             case 'Google':
                 result = await google.exec(option);
-                break;
-
-            case 'GoogleTTS':
-                result = googleTTS.getAudioUrl(option);
-                break;
-
-            case 'zhConvert':
-                result = zhConverter.exec(option);
                 break;
 
             default:

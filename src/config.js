@@ -375,7 +375,7 @@ function saveConfig() {
 // load channel
 function loadChannel(config, chatCode) {
     const channel = document.getElementById('div_channel');
-    channel.innerHTML = '';
+    let newInnerHTML = '';
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
@@ -392,7 +392,7 @@ function loadChannel(config, chatCode) {
             color = element.Color;
         }
 
-        channel.innerHTML += `
+        newInnerHTML += `
             <div>
                 <table>
                     <tr>
@@ -417,6 +417,8 @@ function loadChannel(config, chatCode) {
             <hr />
         `;
     }
+
+    channel.innerHTML = newInnerHTML;
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];

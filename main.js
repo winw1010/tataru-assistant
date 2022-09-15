@@ -224,17 +224,21 @@ function setWindowChannel() {
         }
     });
 
-    // mouse check
-    ipcMain.on('hide-button-check', (event) => {
+    // mouse out check
+    ipcMain.on('mouse-out-check', (event) => {
         const cursorScreenPoint = screen.getCursorScreenPoint();
         const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
-        const isHidden =
+        const isMouseOut =
             cursorScreenPoint.x < windowBounds.x ||
             cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
             cursorScreenPoint.y < windowBounds.y ||
             cursorScreenPoint.y > windowBounds.y + windowBounds.height;
 
-        BrowserWindow.fromWebContents(event.sender).webContents.send('hide-button', isHidden, config);
+        BrowserWindow.fromWebContents(event.sender).webContents.send(
+            'hide-button',
+            isMouseOut,
+            config.indexWindow.hideButton
+        );
     });
 
     // mute window

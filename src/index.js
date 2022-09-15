@@ -32,8 +32,11 @@ const { startServer } = require('./renderer_modules/server-module');
 let isClickThrough = false;
 let isClickThroughTemp = false;
 
-// hide button check interval
-let hideButtonCheckInterval = null;
+// mouse out check interval
+let mouseOutCheckInterval = null;
+
+// update button
+let hideUpdateButton = true;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -104,20 +107,24 @@ function setIPC() {
     // hide update button
     ipcRenderer.on('hide-update-button', (event, ishidden) => {
         document.getElementById('img_button_update').hidden = ishidden;
+        hideUpdateButton = ishidden;
     });
 
     // hide button
-    ipcRenderer.on('hide-button', (event, ishidden, config) => {
-        if (ishidden) {
+    ipcRenderer.on('hide-button', (event, isMouseOut, hideButton) => {
+        if (isMouseOut) {
             // hide button
             document.querySelectorAll('.auto_hidden').forEach((value) => {
-                document.getElementById(value.id).hidden = config.indexWindow.hideButton;
+                document.getElementById(value.id).hidden = hideButton;
             });
         } else {
             // show button
             document.querySelectorAll('.auto_hidden').forEach((value) => {
                 document.getElementById(value.id).hidden = false;
             });
+
+            // show/hide update button
+            document.getElementById('img_button_update').hidden = hideUpdateButton;
 
             // show dialog
             showDialog();
@@ -295,9 +302,9 @@ function resetView(config) {
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
-    // start/restart hide button check interval
-    clearInterval(hideButtonCheckInterval);
-    hideButtonCheckInterval = setInterval(() => {
-        ipcRenderer.send('hide-button-check');
+    // start/restart mouse out check interval
+    clearInterval(mouseOutCheckInterval);
+    mouseOutCheckInterval = setInterval(() => {
+        ipcRenderer.send('mouse-out-check');
     }, 100);
 }

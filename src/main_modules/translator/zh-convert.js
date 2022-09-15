@@ -1,5 +1,4 @@
-const fm = require('../file-module');
-const zhTables = fm.jsonReader(fm.getRootPath('src', 'json', 'zh-convert.json'));
+const zhTables = require('./zh-convert-list');
 
 function exec(option = { text: '', tableName: 'zh2Hant' }) {
     return replaceText(option.text, zhTables[option.tableName]);

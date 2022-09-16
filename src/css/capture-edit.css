@@ -1,14 +1,10 @@
-/*body*/
 body {
     color: aliceblue;
 }
 
-/*checkbox*/
 input[type='checkbox'] {
     margin-left: 1rem;
 }
-
-/*div*/
 
 #div_center {
     padding: 0 0.7rem;
@@ -20,13 +16,9 @@ input[type='checkbox'] {
     background-color: #202020;
 }
 
-/*img*/
-
 img {
     width: 80vw;
 }
-
-/*textarea*/
 
 textarea {
     width: 90vw;

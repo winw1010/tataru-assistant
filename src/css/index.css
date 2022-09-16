@@ -1,11 +1,7 @@
-/*body*/
-
 body {
     overflow: hidden;
     background-color: #00000000;
 }
-
-/*dialog*/
 
 #div_dialog {
     scroll-behavior: smooth;

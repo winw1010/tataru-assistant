@@ -1,12 +1,8 @@
-/*body*/
-
 body {
     -webkit-user-select: none;
     user-select: none;
     color: aliceblue;
 }
-
-/*form*/
 
 #div_center {
     padding: 0 0.7rem;

@@ -28,13 +28,9 @@ body {
     font-size: large;
 }
 
-/*select*/
-
 select {
     margin-right: 0.5rem;
 }
-
-/*textarea*/
 
 textarea {
     width: 40vw;

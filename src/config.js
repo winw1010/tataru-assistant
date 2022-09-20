@@ -186,7 +186,7 @@ function setButton() {
         ipcRenderer.send('load-json');
 
         // restart config
-        ipcRenderer.send('restart-config');
+        ipcRenderer.send('restart-window', 'config');
     };
 
     // save

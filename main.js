@@ -145,15 +145,22 @@ function setSystemChannel() {
 
 // set system channel
 function setWindowChannel() {
-    // create sindow
+    // create window
     ipcMain.on('create-window', (event, windowName, data = null) => {
         try {
             windowList[windowName].close();
             windowList[windowName] = null;
+        } catch (error) {
+            createWindow(windowName, data);
+        }
+    });
 
-            if (windowName === 'edit' || windowName === 'capture-edit') {
-                throw null;
-            }
+    // restart window
+    ipcMain.on('restart-window', (event, windowName, data = null) => {
+        try {
+            windowList[windowName].close();
+            windowList[windowName] = null;
+            throw null;
         } catch (error) {
             createWindow(windowName, data);
         }
@@ -249,16 +256,6 @@ function setWindowChannel() {
     // send index
     ipcMain.on('send-index', (event, channel, ...args) => {
         sendIndex(channel, ...args);
-    });
-
-    // restart config
-    ipcMain.on('restart-config', (event) => {
-        try {
-            BrowserWindow.fromWebContents(event.sender).close();
-            createWindow('config');
-        } catch (error) {
-            console.log(error);
-        }
     });
 }
 

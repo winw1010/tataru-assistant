@@ -59,7 +59,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
     if (dialog.className !== 'FFFF') {
         dialog.style.cursor = 'pointer';
         dialog.onclick = () => {
-            ipcRenderer.send('create-window', 'edit', id);
+            ipcRenderer.send('restart-window', 'edit', id);
         };
     }
 

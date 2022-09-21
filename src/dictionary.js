@@ -12,6 +12,9 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
@@ -29,6 +32,7 @@ function setView() {
     document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
         ? 'Chinese'
         : config.translation.from;
+    changeUIText();
 }
 
 // set IPC

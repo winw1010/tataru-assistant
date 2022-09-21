@@ -9,13 +9,14 @@ ipcRenderer.on('change-ui-text', () => {
 // element text list
 const elementTextList = {
     img: {
+        // index
         img_button_drag: ['拖曳', '拖曳'],
         img_button_config: ['設定', '设定'],
         img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字'],
         img_button_through: ['滑鼠穿透', '鼠标穿透'],
         img_button_update: ['下載最新版本', '下载最新版本'],
-        img_button_close: ['關閉', '关闭'],
         img_button_minimize: ['縮小', '缩小'],
+        img_button_close: ['關閉', '关闭'],
 
         img_button_auto_play: ['文字語音', '文字语音'],
         img_button_dictionary: ['翻譯查詢', '翻译查询'],
@@ -24,6 +25,7 @@ const elementTextList = {
         img_button_backspace: ['刪除最後一句', '删除最后一句'],
     },
     button: {
+        // config
         button_save: ['儲存變更', '储存变更'],
         button_default: ['恢復預設值', '恢复预设值'],
 
@@ -31,11 +33,30 @@ const elementTextList = {
         button_version_check: ['檢查更新', '检查更新'],
         button_google_credential: ['儲存Google憑證', '储存Google凭证'],
 
+        // capture
         button_screenshot: ['全螢幕擷取', '全萤幕撷取'],
 
+        // capture edit
         button_translate: ['翻譯', '翻译'],
+
+        // dictionary
+        button_exchange: ['語言互換', '语言互换'],
+
+        // edit
+        button_restart_translate: ['重新翻譯', '重新翻译'],
+        button_read_json: ['重新讀取對照表', '重新读取对照表'],
+        button_report_translation: ['回報翻譯錯誤', '回报翻译错误'],
+
+        button_save_temp: ['儲存自訂翻譯', '储存自订翻译'],
+        button_delete_temp: ['刪除自訂翻譯', '删除自订翻译'],
+        button_view_temp: ['檢視自訂翻譯', '检视自订翻译'],
+
+        // read log
+        button_read_log: ['讀取', '读取'],
+        button_view_log: ['檢視對話紀錄', '检视对话纪录'],
     },
     a: {
+        // config
         a_get_credential: ['取得憑證', '取得凭证'],
         a_readme: ['使用說明書', '使用说明书'],
         a_bug_report: ['問題回報', '问题回报'],
@@ -45,6 +66,7 @@ const elementTextList = {
         a_donate: ['贊助作者', '赞助作者'],
     },
     label: {
+        // config
         button_radio_window: ['視窗', '视窗'],
         button_radio_font: ['文字', '文字'],
         button_radio_channel: ['頻道', '频道'],
@@ -77,12 +99,23 @@ const elementTextList = {
 
         checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表'],
         input_password_google_credential: ['Google憑證設定', 'Google凭证设定'],
-        input_text_hsot: ['Node伺服器設定', 'Node服务器设定'],
+        input_text_hsot: ['Tataru Helper Node伺服器設定', 'Tataru Helper Node服务器设定'],
 
+        // capture
         checkbox_split: ['換行分割', '换行分割'],
         checkbox_edit: ['編輯擷取文字', '编辑撷取文字'],
+
+        // edit
+        checkbox_replace: ['取代原本翻譯', '取代原本翻译'],
+        textarea_before: ['替換前(原文)', '替换前(原文)'],
+        textarea_after: ['替換後(自訂翻譯)', '替换后(自订翻译)'],
+        select_type: ['類別', '类别'],
+
+        // read log
+        select_log: ['選擇對話紀錄', '选择对话纪录'],
     },
     option: {
+        // config
         normal: ['細', '细'],
         bold: ['粗', '粗'],
 
@@ -95,19 +128,64 @@ const elementTextList = {
         'Traditional-Chinese': ['繁體中文', '繁体中文'],
         'Simplified-Chinese': ['簡體中文', '简体中文'],
 
+        // capture
         fast: ['模式: 快速', '模式: 快速'],
         standard: ['模式: 標準', '模式: 标准'],
         best: ['模式: 最佳', '模式: 最佳'],
+
+        // edit
+        player: ['玩家名稱 (原文 --> 中文)', '玩家名称 (原文 --> 中文)'],
+        retainer: ['雇員名稱 (原文 --> 中文)', '雇员名称 (原文 --> 中文)'],
+        npc: ['NPC名稱 (原文 --> 中文)', 'NPC名称 (原文 --> 中文)'],
+        title: ['稱呼 (原文 --> 中文)', '称呼 (原文 --> 中文)'],
+        group: ['組織 (原文 --> 中文)', '组织 (原文 --> 中文)'],
+        monster: ['魔物 (原文 --> 中文)', '魔物 (原文 --> 中文)'],
+        things: ['事物 (原文 --> 中文)', '事物 (原文 --> 中文)'],
+        skill: ['技能 (原文 --> 中文)', '技能 (原文 --> 中文)'],
+        map: ['地區 (原文 --> 中文)', '地区 (原文 --> 中文)'],
+        overwrite: ['整句替換 (整句原文 --> 整句中文)', '整句替换 (整句原文 --> 整句中文)'],
+        jp: ['日文替換 (日文 --> 日文)', '日文替换 (日文 --> 日文)'],
+
+        // read log
+        none: ['無', '无'],
     },
     span: {
+        // window title
         span_config: ['設定', '设定'],
         span_capture_edit: ['編輯擷取文字', '编辑撷取文字'],
+        span_dictionary: ['翻譯查詢', '翻译查询'],
+        span_edit: ['重新翻譯 & 自訂翻譯', '重新翻译 & 自订翻译'],
+        span_read_log: ['讀取對話紀錄', '读取对话纪录'],
 
+        // config
         span_about: [
             '感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能',
             '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',
         ],
         span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
+    },
+    input: {
+        // config
+        input_password_google_credential: ['請輸入Google憑證', '请输入Google凭证'],
+    },
+    textarea: {
+        // dictionary
+        textarea_original_text: ['請輸入你要翻譯的文字', '请输入你要翻译的文字'],
+
+        // edit
+        textarea_before: ['替換前', '替换前'],
+        textarea_after: ['替換後', '替换后'],
+    },
+    div: {
+        // config
+        div_google_credential: [
+            '設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填',
+            '设定Google凭证，如不使用Google Vision图形文字辨识功能则不用填',
+        ],
+        div_server: [
+            '更改Tataru Heler的伺服器設定，如非必要請維持預設',
+            '更改Tataru Heler的服务器设定，如非必要请维持预设',
+        ],
     },
 };
 
@@ -119,6 +197,9 @@ const elementNameList = [
     ['label', 'for', 'innerText'],
     ['option', 'value', 'innerText'],
     ['span', 'id', 'innerText'],
+    ['input', 'id', 'placeholder'],
+    ['textarea', 'id', 'placeholder'],
+    ['div', 'id', 'title'],
 ];
 
 // change UI text

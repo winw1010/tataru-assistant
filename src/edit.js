@@ -15,6 +15,9 @@ const { getLanguageCode } = require('./main_modules/engine-module');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // create log name
 const { createLogName } = require('./renderer_modules/dialog-module');
 
@@ -57,6 +60,7 @@ function setView() {
     document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
+    changeUIText();
 }
 
 // set event
@@ -119,7 +123,7 @@ function setButton() {
     setDragElement(document.getElementById('img_button_drag'));
 
     // restart
-    document.getElementById('button_restart').onclick = () => {
+    document.getElementById('button_restart_translate').onclick = () => {
         const config = ipcRenderer.sendSync('get-config');
 
         let dialogData = {

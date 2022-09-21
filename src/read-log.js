@@ -15,6 +15,9 @@ const { ipcRenderer } = require('electron');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // log location
 const logPath = fm.getUserDataPath('log');
 
@@ -27,6 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // set view
 function setView() {
     readLogList();
+    changeUIText();
 }
 
 // set button
@@ -35,13 +39,13 @@ function setButton() {
     setDragElement(document.getElementById('img_button_drag'));
 
     // read
-    document.getElementById('button_read').onclick = () => {
+    document.getElementById('button_read_log').onclick = () => {
         const file = document.getElementById('select_log').value;
         readLog(file);
     };
 
     // view
-    document.getElementById('button_view').onclick = () => {
+    document.getElementById('button_view_log').onclick = () => {
         try {
             exec(`start "" "${logPath}"`);
         } catch (error) {
@@ -77,7 +81,7 @@ function readLogList() {
 }
 
 function readLog(fileName) {
-    if (fileName === '') {
+    if (fileName === 'none') {
         ipcRenderer.send('send-index', 'show-notification', '檔案不存在');
         return;
     }

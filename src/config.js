@@ -11,6 +11,9 @@ const fm = require('./main_modules/file-module');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
@@ -21,6 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // set view
 function setView() {
     showConfig();
+    changeUIText();
 }
 
 // set event

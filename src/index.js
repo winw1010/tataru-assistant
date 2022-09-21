@@ -6,6 +6,12 @@ const { ipcRenderer } = require('electron');
 // child process
 const { exec } = require('child_process');
 
+// drag module
+const { setDragElement } = require('./renderer_modules/drag-module');
+
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // audio module
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
@@ -18,9 +24,6 @@ const {
     setStyle,
     moveToBottom,
 } = require('./renderer_modules/dialog-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
 
 // image processing module
 const { takeScreenshot } = require('./renderer_modules/image-module');
@@ -300,4 +303,7 @@ function resetView(config) {
     mouseOutCheckInterval = setInterval(() => {
         ipcRenderer.send('mouse-out-check');
     }, 100);
+
+    // change UI text
+    changeUIText();
 }

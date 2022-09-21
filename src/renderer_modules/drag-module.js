@@ -40,6 +40,10 @@ function setDragElement(element) {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;
+
+        // set window size
+        window.innerWidth = windowWidth;
+        window.innerHeight = windowHeight;
     }
 }
 

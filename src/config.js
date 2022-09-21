@@ -196,6 +196,7 @@ function setButton() {
     // save
     document.getElementById('button_save').onclick = () => {
         saveConfig();
+        ipcRenderer.send('change-ui-text');
     };
 }
 

@@ -61,6 +61,9 @@ function setView() {
     } else {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     }
+
+    // change UI text
+    changeUIText();
 }
 
 // set event
@@ -303,7 +306,4 @@ function resetView(config) {
     mouseOutCheckInterval = setInterval(() => {
         ipcRenderer.send('mouse-out-check');
     }, 100);
-
-    // change UI text
-    changeUIText();
 }

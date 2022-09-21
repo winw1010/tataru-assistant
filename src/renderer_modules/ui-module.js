@@ -2,6 +2,9 @@
 
 // electron
 const { ipcRenderer } = require('electron');
+ipcRenderer.on('change-ui-text', () => {
+    changeUIText();
+});
 
 // element text list
 const elementTextList = {

@@ -143,7 +143,7 @@ function setSystemChannel() {
     });
 }
 
-// set system channel
+// set window channel
 function setWindowChannel() {
     // create window
     ipcMain.on('create-window', (event, windowName, data = null) => {
@@ -256,6 +256,18 @@ function setWindowChannel() {
     // send index
     ipcMain.on('send-index', (event, channel, ...args) => {
         sendIndex(channel, ...args);
+    });
+
+    // change UI text
+    ipcMain.on('change-ui-text', () => {
+        const windowNames = Object.getOwnPropertyNames(windowList);
+        windowNames.forEach((windowName) => {
+            try {
+                windowList[windowName].webContents.send('change-ui-text');
+            } catch (error) {
+                // do nothing
+            }
+        });
     });
 }
 

@@ -101,7 +101,8 @@
 
                 <div>
                     <!-- background color -->
-                    <label for="color_background_color"> 背景顏色(<span id="span_background_color"></span>) </label>
+                    <label for="color_background_color">背景顏色</label>
+                    (<span id="span_background_color"></span>)
                     <br />
                     <input type="color" id="color_background_color" />
                 </div>
@@ -110,9 +111,8 @@
 
                 <div>
                     <!-- background transparency -->
-                    <label for="range_background_transparency">
-                        背景透明度(<span id="span_background_transparency"></span>)
-                    </label>
+                    <label for="range_background_transparency">背景透明度</label>
+                    (<span id="span_background_transparency"></span>)
                     <input type="range" min="0" max="255" class="form-range" id="range_background_transparency" />
                 </div>
             </div>
@@ -159,7 +159,8 @@
 
                 <div>
                     <!-- dialog color -->
-                    <label for="color_dialog_color"> 對話框顏色(<span id="span_dialog_color"></span>) </label>
+                    <label for="color_dialog_color">對話框顏色</label>
+                    (<span id="span_dialog_color"></span>)
                     <br />
                     <input type="color" id="color_dialog_color" />
                 </div>
@@ -168,9 +169,8 @@
 
                 <div>
                     <!-- dialog transparency -->
-                    <label for="range_dialog_transparency">
-                        對話框透明度(<span id="span_dialog_transparency"></span>)
-                    </label>
+                    <label for="range_dialog_transparency">對話框透明度</label>
+                    (<span id="span_dialog_transparency"></span>)
                     <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency" />
                 </div>
             </div>
@@ -207,7 +207,7 @@
                 <div>
                     <!-- skip chinese message -->
                     <input type="checkbox" value="" id="checkbox_skip_chinese" />
-                    <label for="checkbox_skip_chinese">忽略漢化字幕(測試功能)</label>
+                    <label for="checkbox_skip_chinese">忽略漢化字幕</label>
                 </div>
 
                 <br />
@@ -287,7 +287,10 @@
 
                 <div title="設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填">
                     <!-- set google credential -->
-                    <p>Google憑證設定(<a href="#" id="a_get_credential">取得憑證</a>)</p>
+                    <label for="input_password_google_credential">Google憑證設定</label>
+                    (<a href="#" id="a_get_credential">取得憑證</a>)
+                    <br />
+                    <br />
                     <input
                         type="password"
                         name=""
@@ -301,7 +304,9 @@
 
                 <div title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
                     <!-- set server -->
-                    <p>Node伺服器設定</p>
+                    <label for="input_text_hsot">Node伺服器設定</label>
+                    <br />
+                    <br />
                     <table>
                         <tr>
                             <td>Host:</td>

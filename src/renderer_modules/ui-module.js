@@ -5,7 +5,7 @@ const { ipcRenderer } = require('electron');
 
 // element text list
 const elementTextList = {
-    img_button: {
+    img: {
         img_button_drag: ['拖曳', '拖曳'],
         img_button_config: ['設定', '设定'],
         img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字'],
@@ -44,9 +44,9 @@ const elementTextList = {
 
 // element name list
 const elementNameList = [
-    ['img', 'img_button', 'title'],
-    ['button', 'button', 'innerText'],
-    ['a', 'a', 'innerText'],
+    ['img', 'title'],
+    ['button', 'innerText'],
+    ['a', 'innerText'],
 ];
 
 // change UI text
@@ -60,10 +60,10 @@ function changeUIText() {
 
         for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
             const element = elementList[elementIndex];
-            const elementText = elementTextList[nameList[1]][element.id];
+            const elementText = elementTextList[nameList[0]][element.id];
 
             if (elementText) {
-                element[nameList[2]] = elementText[textIndex];
+                element[nameList[1]] = elementText[textIndex];
             }
         }
     }

@@ -20,7 +20,13 @@ const elementTextList = {
         img_button_clear: ['刪除全部文字', '删除全部文字'],
         img_button_backspace: ['刪除最後一句', '删除最后一句'],
     },
-    button: {},
+    button: {
+        button_download_json: ['下載翻譯對照表', '下载翻译对照表'],
+        button_version_check: ['檢查程式更新', '检查程序更新'],
+        button_google_credential: ['儲存Google憑證', '储存Google凭证'],
+        button_save: ['儲存變更', '储存变更'],
+        button_default: ['恢復預設值', '恢复预设值'],
+    },
     a: {
         a_get_credential: ['取得憑證', '取得凭证'],
         a_readme: ['使用說明書', '使用说明书'],

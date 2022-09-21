@@ -58,8 +58,8 @@ function setButton() {
     // drag
     setDragElement(document.getElementById('img_button_drag'));
 
-    // submit
-    document.getElementById('button_submit').onclick = () => {
+    // translate
+    document.getElementById('button_translate').onclick = () => {
         translate(document.getElementById('textarea_screen_text').value);
     };
 

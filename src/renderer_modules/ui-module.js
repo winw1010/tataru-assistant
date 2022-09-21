@@ -12,7 +12,7 @@ const elementTextList = {
         img_button_drag: ['拖曳', '拖曳'],
         img_button_config: ['設定', '设定'],
         img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字'],
-        img_button_through: ['點選穿透', '点选穿透'],
+        img_button_through: ['滑鼠穿透', '鼠标穿透'],
         img_button_update: ['下載最新版本', '下载最新版本'],
         img_button_close: ['關閉', '关闭'],
         img_button_minimize: ['縮小', '缩小'],
@@ -28,8 +28,12 @@ const elementTextList = {
         button_default: ['恢復預設值', '恢复预设值'],
 
         button_download_json: ['下載翻譯對照表', '下载翻译对照表'],
-        button_version_check: ['檢查程式更新', '检查程序更新'],
+        button_version_check: ['檢查更新', '检查更新'],
         button_google_credential: ['儲存Google憑證', '储存Google凭证'],
+
+        button_screenshot: ['全螢幕擷取', '全萤幕撷取'],
+
+        button_translate: ['翻譯', '翻译'],
     },
     a: {
         a_get_credential: ['取得憑證', '取得凭证'],
@@ -74,6 +78,9 @@ const elementTextList = {
         checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表'],
         input_password_google_credential: ['Google憑證設定', 'Google凭证设定'],
         input_text_hsot: ['Node伺服器設定', 'Node服务器设定'],
+
+        checkbox_split: ['換行分割', '换行分割'],
+        checkbox_edit: ['編輯擷取文字', '编辑撷取文字'],
     },
     option: {
         normal: ['細', '细'],
@@ -87,8 +94,21 @@ const elementTextList = {
         English: ['英文', '英文'],
         'Traditional-Chinese': ['繁體中文', '繁体中文'],
         'Simplified-Chinese': ['簡體中文', '简体中文'],
+
+        fast: ['模式: 快速', '模式: 快速'],
+        standard: ['模式: 標準', '模式: 标准'],
+        best: ['模式: 最佳', '模式: 最佳'],
     },
-    span: {},
+    span: {
+        span_config: ['設定', '设定'],
+        span_capture_edit: ['編輯擷取文字', '编辑撷取文字'],
+
+        span_about: [
+            '感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能',
+            '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',
+        ],
+        span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
+    },
 };
 
 // element name list
@@ -98,6 +118,7 @@ const elementNameList = [
     ['a', 'id', 'innerText'],
     ['label', 'for', 'innerText'],
     ['option', 'value', 'innerText'],
+    ['span', 'id', 'innerText'],
 ];
 
 // change UI text

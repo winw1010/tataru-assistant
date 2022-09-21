@@ -29,7 +29,7 @@
                 src="./img/ui/open_with_white_24dp.svg"
             />
 
-            <span>編輯擷取文字</span>
+            <span id="span_capture_edit">編輯擷取文字</span>
 
             <input type="checkbox" value="" id="checkbox_split" />
             <label for="checkbox_split">換行分割</label>
@@ -43,17 +43,39 @@
         </div>
 
         <div id="div_center">
-            <div>
+            <!-- page button -->
+            <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input
+                    type="radio"
+                    class="btn-check"
+                    name="btnradio"
+                    id="button_radio_captured_text"
+                    autocomplete="off"
+                    checked
+                />
+                <label class="btn btn-outline-primary" for="button_radio_captured_text">擷取文字</label>
+
+                <input
+                    type="radio"
+                    class="btn-check"
+                    name="btnradio"
+                    id="button_radio_captured_image"
+                    autocomplete="off"
+                />
+                <label class="btn btn-outline-primary" for="button_radio_captured_image">擷取圖片</label>
+            </div>
+
+            <br />
+            <br />
+
+            <div id="div_captured_text" class="div_page">
                 <textarea id="textarea_screen_text" rows="10"></textarea>
                 <br />
                 <button id="button_translate" class="btn btn-primary">翻譯</button>
             </div>
 
-            <br />
-
-            <div>
-                <span>擷取畫面</span><br />
-                <img id="img_result" src="" alt="擷取畫面 " />
+            <div id="div_captured_image" class="div_page" hidden>
+                <img id="img_result" src="" alt="" />
             </div>
         </div>
     </body>

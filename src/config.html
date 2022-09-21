@@ -29,7 +29,7 @@
                 src="./img/ui/open_with_white_24dp.svg"
             />
 
-            <span>設定</span>
+            <span id="span_config">設定</span>
 
             <img
                 id="img_button_close"
@@ -279,7 +279,7 @@
 
                     <div>
                         <!-- version check -->
-                        <button id="button_version_check" class="btn btn-primary">檢查程式更新</button>
+                        <button id="button_version_check" class="btn btn-primary">檢查更新</button>
                     </div>
                 </div>
 
@@ -330,10 +330,14 @@
 
             <!-- about page -->
             <div id="div_about" class="setting_page" hidden>
-                <p>感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能</p>
+                <p>
+                    <span id="span_about">
+                        感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能
+                    </span>
+                </p>
                 <hr />
                 <p>版本: ver.<span id="span_version"></span></p>
-                <p>作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</p>
+                <p><span id="span_author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span></p>
                 <hr />
                 <p><a href="#" id="a_readme">使用說明書</a></p>
                 <p><a href="#" id="a_bug_report">問題回報</a></p>

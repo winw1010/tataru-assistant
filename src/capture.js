@@ -6,6 +6,9 @@ const { ipcRenderer } = require('electron');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setView();
@@ -21,6 +24,7 @@ function setView() {
     document.getElementById('select_type').value = config.captureWindow.type;
     setCanvasSize(document.getElementById('canvas_select'));
     setBackground(config);
+    changeUIText();
 }
 
 // set event

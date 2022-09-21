@@ -6,6 +6,7 @@ const { ipcRenderer } = require('electron');
 // child process
 const { exec } = require('child_process');
 
+// file module
 const fm = require('./main_modules/file-module');
 
 // drag module
@@ -196,7 +197,6 @@ function setButton() {
     // save
     document.getElementById('button_save').onclick = () => {
         saveConfig();
-        ipcRenderer.send('change-ui-text');
     };
 }
 
@@ -372,6 +372,9 @@ function saveConfig() {
 
     // restart server
     ipcRenderer.send('send-index', 'start-server');
+
+    // change UI text
+    ipcRenderer.send('change-ui-text');
 
     // notification
     ipcRenderer.send('send-index', 'show-notification', '設定已儲存');

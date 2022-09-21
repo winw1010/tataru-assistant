@@ -676,7 +676,7 @@ function getWindowSize(windowName) {
         case 'capture-edit': {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(screenWidth * 0.27);
-            height = parseInt(screenHeight * 0.35);
+            height = parseInt(screenHeight * 0.42);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
             break;

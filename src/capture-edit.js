@@ -12,6 +12,9 @@ const { ipcRenderer } = require('electron');
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
+// ui module
+const { changeUIText } = require('./renderer_modules/ui-module');
+
 // temp image path
 const tempImagePath = fm.getRootPath('src', 'trained_data');
 
@@ -28,6 +31,7 @@ function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('img_result').setAttribute('src', getPath('crop.jpeg'));
+    changeUIText();
 }
 
 // set event
@@ -57,6 +61,21 @@ function setIPC() {
 function setButton() {
     // drag
     setDragElement(document.getElementById('img_button_drag'));
+
+    // page
+    document.getElementById('button_radio_captured_text').onclick = () => {
+        document.querySelectorAll('.div_page').forEach((value) => {
+            document.getElementById(value.id).hidden = true;
+        });
+        document.getElementById('div_captured_text').hidden = false;
+    };
+
+    document.getElementById('button_radio_captured_image').onclick = () => {
+        document.querySelectorAll('.div_page').forEach((value) => {
+            document.getElementById(value.id).hidden = true;
+        });
+        document.getElementById('div_captured_image').hidden = false;
+    };
 
     // translate
     document.getElementById('button_translate').onclick = () => {

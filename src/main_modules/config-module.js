@@ -62,6 +62,7 @@ const defaultConfig = {
     },
     system: {
         autoDownloadJson: true,
+        firstTime: true,
     },
 };
 

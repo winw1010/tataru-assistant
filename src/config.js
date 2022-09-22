@@ -19,6 +19,7 @@ const { changeUIText } = require('./renderer_modules/ui-module');
 window.addEventListener('DOMContentLoaded', () => {
     setView();
     setEvent();
+    setIPC();
     setButton();
 });
 
@@ -59,6 +60,14 @@ function setEvent() {
             'range_dialog_transparency'
         ).value;
     };
+}
+
+// set IPC
+function setIPC() {
+    // start server
+    ipcRenderer.on('reset-config', () => {
+        setView();
+    });
 }
 
 // set button
@@ -179,19 +188,19 @@ function setButton() {
     // default
     document.getElementById('button_default').onclick = () => {
         // set default config
-        ipcRenderer.send('set-default-config');
+        ipcRenderer.sendSync('set-default-config');
 
         // set default chat code
-        ipcRenderer.send('set-default-chat-code');
+        ipcRenderer.sendSync('set-default-chat-code');
 
         // reset view
         ipcRenderer.send('send-index', 'reset-view', ipcRenderer.sendSync('get-config'));
 
+        // reset config
+        ipcRenderer.send('reset-config');
+
         // load json
         ipcRenderer.send('load-json');
-
-        // restart config
-        ipcRenderer.send('restart-window', 'config');
     };
 
     // save

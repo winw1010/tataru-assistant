@@ -119,8 +119,9 @@ function setSystemChannel() {
     });
 
     // set default config
-    ipcMain.on('set-default-config', () => {
+    ipcMain.on('set-default-config', (event) => {
         config = getDefaultConfig();
+        event.returnValue = null;
     });
 
     // get chat code
@@ -138,8 +139,9 @@ function setSystemChannel() {
     });
 
     // set default chat code
-    ipcMain.on('set-default-chat-code', () => {
+    ipcMain.on('set-default-chat-code', (event) => {
         chatCode = getDefaultChatCode();
+        event.returnValue = null;
     });
 }
 
@@ -256,6 +258,11 @@ function setWindowChannel() {
     // send index
     ipcMain.on('send-index', (event, channel, ...args) => {
         sendIndex(channel, ...args);
+    });
+
+    // reset config
+    ipcMain.on('reset-config', (event) => {
+        BrowserWindow.fromWebContents(event.sender).webContents.send('reset-config');
     });
 
     // change UI text

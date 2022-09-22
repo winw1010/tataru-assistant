@@ -178,23 +178,7 @@ function setButton() {
     // lower
     // default
     document.getElementById('button_default').onclick = () => {
-        // set default config
-        ipcRenderer.sendSync('set-default-config');
-
-        // set default chat code
-        ipcRenderer.sendSync('set-default-chat-code');
-
-        // load json
-        ipcRenderer.send('load-json');
-
-        // reset config
-        showConfig();
-
-        // reset view
-        ipcRenderer.send('send-index', 'reset-view', ipcRenderer.sendSync('get-config'));
-
-        // change UI text
-        ipcRenderer.send('change-ui-text');
+        saveDefaultConfig();
     };
 
     // save
@@ -381,6 +365,27 @@ function saveConfig() {
 
     // notification
     ipcRenderer.send('send-index', 'show-notification', '設定已儲存');
+}
+
+// save default config
+function saveDefaultConfig() {
+    // set default config
+    const config = ipcRenderer.sendSync('set-default-config');
+
+    // set default chat code
+    ipcRenderer.sendSync('set-default-chat-code');
+
+    // load json
+    ipcRenderer.send('load-json');
+
+    // reset config
+    showConfig();
+
+    // reset view
+    ipcRenderer.send('send-index', 'reset-view', config);
+
+    // change UI text
+    ipcRenderer.send('change-ui-text');
 }
 
 // load channel

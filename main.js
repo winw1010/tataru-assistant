@@ -116,13 +116,13 @@ function setSystemChannel() {
     // set config
     ipcMain.on('set-config', (event, newConfig) => {
         config = newConfig;
-        event.returnValue = null;
+        event.returnValue = config;
     });
 
     // set default config
     ipcMain.on('set-default-config', (event) => {
         config = getDefaultConfig();
-        event.returnValue = null;
+        event.returnValue = config;
     });
 
     // get chat code
@@ -137,13 +137,13 @@ function setSystemChannel() {
     // set chat code
     ipcMain.on('set-chat-code', (event, newChatCode) => {
         chatCode = newChatCode;
-        event.returnValue = null;
+        event.returnValue = chatCode;
     });
 
     // set default chat code
     ipcMain.on('set-default-chat-code', (event) => {
         chatCode = getDefaultChatCode();
-        event.returnValue = null;
+        event.returnValue = chatCode;
     });
 }
 

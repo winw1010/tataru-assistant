@@ -19,6 +19,7 @@ const { changeUIText } = require('./renderer_modules/ui-module');
 window.addEventListener('DOMContentLoaded', () => {
     setView();
     setEvent();
+    setIPC();
     setButton();
 });
 
@@ -59,6 +60,18 @@ function setEvent() {
             'range_dialog_transparency'
         ).value;
     };
+}
+
+// set IPC
+function setIPC() {
+    ipcRenderer.on('send-data', (event, elements) => {
+        document.getElementById(elements[0]).checked = true;
+
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            document.getElementById(value.id).hidden = true;
+        });
+        document.getElementById(elements[1]).hidden = false;
+    });
 }
 
 // set button

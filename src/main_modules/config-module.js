@@ -109,9 +109,12 @@ function loadConfig() {
             }
         });
 
+        // adjust property
         if (config.translation.engine === 'Google') {
             config.translation.engine = 'Youdao';
         }
+
+        config.system.firstTime = false;
 
         return config;
     } catch (error) {

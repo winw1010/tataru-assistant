@@ -64,6 +64,11 @@ function setView() {
 
     // change UI text
     changeUIText();
+
+    // first time check
+    if (config.system.firstTime) {
+        ipcRenderer.send('create-window', 'config', ['button_radio_translation', 'div_translation']);
+    }
 }
 
 // set event

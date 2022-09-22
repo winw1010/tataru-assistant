@@ -458,8 +458,6 @@ function directoryCheck() {
 // detect user language
 function detectUserLanguage() {
     if (config.system.firstTime) {
-        config.system.firstTime = false;
-
         const env = process.env;
         const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
 

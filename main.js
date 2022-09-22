@@ -65,6 +65,9 @@ app.whenReady().then(() => {
     // load chat code
     chatCode = loadChatCode();
 
+    // detect user language
+    detectUserLanguage();
+
     // set ipc main
     setIpcMain();
 
@@ -450,6 +453,24 @@ function directoryCheck() {
             console.log(error);
         }
     });
+}
+
+// detect user language
+function detectUserLanguage() {
+    if (config.system.firstTime) {
+        config.system.firstTime = false;
+
+        const env = process.env;
+        const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
+
+        if (/zh_TW|zh_HK|zh_Hant/gi.test(envLanguage)) {
+            config.translation.to = 'Traditional-Chinese';
+        } else if (/zh_CN|zh_Hans/gi.test(envLanguage)) {
+            config.translation.to = 'Simplified-Chinese';
+        } else {
+            config.translation.to = 'Traditional-Chinese';
+        }
+    }
 }
 
 // set global shortcut

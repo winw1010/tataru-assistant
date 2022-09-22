@@ -19,7 +19,6 @@ const { changeUIText } = require('./renderer_modules/ui-module');
 window.addEventListener('DOMContentLoaded', () => {
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
 
@@ -60,14 +59,6 @@ function setEvent() {
             'range_dialog_transparency'
         ).value;
     };
-}
-
-// set IPC
-function setIPC() {
-    // start server
-    ipcRenderer.on('reset-config', () => {
-        setView();
-    });
 }
 
 // set button
@@ -193,14 +184,17 @@ function setButton() {
         // set default chat code
         ipcRenderer.sendSync('set-default-chat-code');
 
+        // load json
+        ipcRenderer.send('load-json');
+
+        // reset config
+        showConfig();
+
         // reset view
         ipcRenderer.send('send-index', 'reset-view', ipcRenderer.sendSync('get-config'));
 
-        // reset config
-        ipcRenderer.send('reset-config');
-
-        // load json
-        ipcRenderer.send('load-json');
+        // change UI text
+        ipcRenderer.send('change-ui-text');
     };
 
     // save
@@ -368,19 +362,19 @@ function saveConfig() {
     config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
     // set config
-    ipcRenderer.send('set-config', config);
+    ipcRenderer.sendSync('set-config', config);
 
     // set chat code
-    ipcRenderer.send('set-chat-code', chatCode);
-
-    // reset view
-    ipcRenderer.send('send-index', 'reset-view', config);
+    ipcRenderer.sendSync('set-chat-code', chatCode);
 
     // load json
     ipcRenderer.send('load-json');
 
     // restart server
     ipcRenderer.send('send-index', 'start-server');
+
+    // reset view
+    ipcRenderer.send('send-index', 'reset-view', config);
 
     // change UI text
     ipcRenderer.send('change-ui-text');

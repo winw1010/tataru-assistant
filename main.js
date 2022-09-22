@@ -116,6 +116,7 @@ function setSystemChannel() {
     // set config
     ipcMain.on('set-config', (event, newConfig) => {
         config = newConfig;
+        event.returnValue = null;
     });
 
     // set default config
@@ -136,6 +137,7 @@ function setSystemChannel() {
     // set chat code
     ipcMain.on('set-chat-code', (event, newChatCode) => {
         chatCode = newChatCode;
+        event.returnValue = null;
     });
 
     // set default chat code
@@ -258,11 +260,6 @@ function setWindowChannel() {
     // send index
     ipcMain.on('send-index', (event, channel, ...args) => {
         sendIndex(channel, ...args);
-    });
-
-    // reset config
-    ipcMain.on('reset-config', (event) => {
-        BrowserWindow.fromWebContents(event.sender).webContents.send('reset-config');
     });
 
     // change UI text

@@ -191,22 +191,22 @@ const elementTextList = {
 
 // element name list
 const elementNameList = [
-    ['img', 'id', 'title'],
-    ['button', 'id', 'innerText'],
-    ['a', 'id', 'innerText'],
-    ['label', 'for', 'innerText'],
-    ['option', 'value', 'innerText'],
-    ['span', 'id', 'innerText'],
-    ['input', 'id', 'placeholder'],
-    ['textarea', 'id', 'placeholder'],
-    ['div', 'id', 'title'],
+    ['img', 'img', 'id', 'title'],
+    ['button', 'button', 'id', 'innerText'],
+    ['a', 'a', 'id', 'innerText'],
+    ['label', 'label', 'for', 'innerText'],
+    ['option', 'option', 'value', 'innerText'],
+    ['span', 'span', 'id', 'innerText'],
+    ['input', 'input', 'id', 'placeholder'],
+    ['textarea', 'textarea', 'id', 'placeholder'],
+    ['div', 'div', 'id', 'title'],
 ];
 
 // change UI text
 function changeUIText() {
     try {
         const config = ipcRenderer.sendSync('get-config');
-        const textIndex = config.translation.to === 'Simplified-Chinese' ? 1 : 0;
+        const textIndex = getTextIndex(config.translation.to);
 
         for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
             const nameList = elementNameList[nameIndex];
@@ -214,15 +214,29 @@ function changeUIText() {
 
             for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
                 const element = elementList[elementIndex];
-                const elementText = elementTextList[nameList[0]][element.getAttribute(nameList[1])];
+                const elementText = elementTextList[nameList[1]][element.getAttribute(nameList[2])];
 
                 if (elementText?.length > 0) {
-                    element[nameList[2]] = elementText[textIndex];
+                    element[nameList[3]] = elementText[textIndex];
                 }
             }
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+// get text index
+function getTextIndex(translateTo) {
+    switch (translateTo) {
+        case 'Traditional-Chinese':
+            return 0;
+
+        case 'Simplified-Chinese':
+            return 1;
+
+        default:
+            return 0;
     }
 }
 

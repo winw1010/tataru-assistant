@@ -26,8 +26,8 @@ const elementTextList = {
     },
     button: {
         // config
-        button_save: ['儲存變更', '储存变更'],
-        button_default: ['恢復預設值', '恢复预设值'],
+        button_save_config: ['儲存變更', '储存变更'],
+        button_save_default_config: ['恢復預設值', '恢复预设值'],
 
         button_download_json: ['下載翻譯對照表', '下载翻译对照表'],
         button_version_check: ['檢查更新', '检查更新'],

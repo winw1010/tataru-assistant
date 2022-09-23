@@ -190,12 +190,12 @@ function setButton() {
 
     // lower
     // default
-    document.getElementById('button_default').onclick = () => {
+    document.getElementById('button_save_default_config').onclick = () => {
         saveDefaultConfig();
     };
 
     // save
-    document.getElementById('button_save').onclick = () => {
+    document.getElementById('button_save_config').onclick = () => {
         saveConfig();
     };
 }

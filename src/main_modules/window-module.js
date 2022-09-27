@@ -25,10 +25,6 @@ function getWindowSize(windowName, config) {
     // get current display bounds
     const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
-    // get current screen size
-    const screenWidth = displayBounds.width;
-    const screenHeight = displayBounds.height;
-
     switch (windowName) {
         case 'index': {
             // first time
@@ -38,10 +34,10 @@ function getWindowSize(windowName, config) {
                 config.indexWindow.width == null ||
                 config.indexWindow.height == null
             ) {
-                config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
-                config.indexWindow.y = parseInt(screenHeight * 0.2);
-                config.indexWindow.width = parseInt(screenWidth * 0.2);
-                config.indexWindow.height = parseInt(screenHeight * 0.6);
+                config.indexWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
+                config.indexWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
+                config.indexWindow.width = parseInt(displayBounds.width * 0.2);
+                config.indexWindow.height = parseInt(displayBounds.height * 0.6);
             }
 
             x = config.indexWindow.x;
@@ -59,10 +55,10 @@ function getWindowSize(windowName, config) {
                 config.captureWindow.width == null ||
                 config.captureWindow.height == null
             ) {
-                config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
-                config.captureWindow.y = parseInt(screenHeight * 0.63);
-                config.captureWindow.width = parseInt(screenWidth * 0.33);
-                config.captureWindow.height = parseInt(screenHeight * 0.36);
+                config.captureWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
+                config.captureWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
+                config.captureWindow.width = parseInt(displayBounds.width * 0.33);
+                config.captureWindow.height = parseInt(displayBounds.height * 0.36);
             }
 
             x = config.captureWindow.x;
@@ -74,46 +70,46 @@ function getWindowSize(windowName, config) {
 
         case 'capture-edit': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.27);
-            height = parseInt(screenHeight * 0.42);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            width = parseInt(displayBounds.width * 0.27);
+            height = parseInt(displayBounds.height * 0.42);
             break;
         }
 
         case 'config': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.22);
-            height = parseInt(screenHeight * 0.65);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            width = parseInt(displayBounds.width * 0.22);
+            height = parseInt(displayBounds.height * 0.65);
             break;
         }
 
         case 'edit': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.5);
-            height = parseInt(screenHeight * 0.65);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            width = parseInt(displayBounds.width * 0.5);
+            height = parseInt(displayBounds.height * 0.65);
             break;
         }
 
         case 'read-log': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.2);
-            height = parseInt(screenHeight * 0.22);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            width = parseInt(displayBounds.width * 0.2);
+            height = parseInt(displayBounds.height * 0.22);
             break;
         }
 
         case 'dictionary': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.3);
-            height = parseInt(screenHeight * 0.6);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            width = parseInt(displayBounds.width * 0.3);
+            height = parseInt(displayBounds.height * 0.6);
             break;
         }
 

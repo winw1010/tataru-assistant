@@ -3,9 +3,6 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// child process
-const { exec } = require('child_process');
-
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');
 
@@ -192,7 +189,7 @@ function setButton() {
 
     // update
     document.getElementById('img_button_update').onclick = () => {
-        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     // config

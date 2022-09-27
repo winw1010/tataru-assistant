@@ -1,8 +1,5 @@
 'use strict';
 
-// child process
-const { exec } = require('child_process');
-
 // fs
 const { readdirSync } = require('fs');
 
@@ -47,7 +44,7 @@ function setButton() {
     // view
     document.getElementById('button_view_log').onclick = () => {
         try {
-            exec(`start "" "${logPath}"`);
+            ipcRenderer.send('execute-command', `start "" "${logPath}"`);
         } catch (error) {
             console.log(error);
         }

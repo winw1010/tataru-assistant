@@ -21,9 +21,6 @@ const { changeUIText } = require('./renderer_modules/ui-module');
 // create log name
 const { createLogName } = require('./renderer_modules/dialog-module');
 
-// child process
-const { exec } = require('child_process');
-
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
 
@@ -226,7 +223,7 @@ function setButton() {
     // view temp
     document.getElementById('button_view_temp').onclick = () => {
         try {
-            exec(`start "" "${tempPath}"`);
+            ipcRenderer.send('execute-command', `start "" "${tempPath}"`);
         } catch (error) {
             console.log(error);
         }

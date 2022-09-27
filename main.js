@@ -258,6 +258,11 @@ function setWindowChannel() {
             myWindow.webContents.send('change-ui-text');
         });
     });
+
+    // execute command
+    ipcMain.on('execute-command', (event, command) => {
+        exec(command);
+    });
 }
 
 // set capture channel

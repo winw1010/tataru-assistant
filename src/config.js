@@ -3,9 +3,6 @@
 // communicate with main process
 const { ipcRenderer } = require('electron');
 
-// child process
-const { exec } = require('child_process');
-
 // file module
 const fm = require('./main_modules/file-module');
 
@@ -141,7 +138,10 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'sub-google-api.html')}"`);
+        ipcRenderer.send(
+            'execute-command',
+            `explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'sub-google-api.html')}"`
+        );
     };
 
     // set google credential
@@ -158,34 +158,38 @@ function setButton() {
 
     // readme
     document.getElementById('a_readme').onclick = () => {
-        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
+        ipcRenderer.send(
+            'execute-command',
+            `explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`
+        );
     };
 
     // bug report
     document.getElementById('a_bug_report').onclick = () => {
-        exec('explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+        ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
     };
 
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
-        exec(
+        ipcRenderer.send(
+            'execute-command',
             'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
         );
     };
 
     // github
     document.getElementById('a_github').onclick = () => {
-        exec('explorer "https://github.com/winw1010/tataru-helper-node-v2"');
+        ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-v2"');
     };
 
     // bahamut
     document.getElementById('a_bahamut').onclick = () => {
-        exec('explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+        ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     // donate
     document.getElementById('a_donate').onclick = () => {
-        exec('explorer "https://www.patreon.com/user?u=8274441"');
+        ipcRenderer.send('execute-command', 'explorer "https://www.patreon.com/user?u=8274441"');
     };
 
     // lower

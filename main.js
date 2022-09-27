@@ -432,9 +432,9 @@ function detectUserLanguage() {
     if (config.system.firstTime) {
         const systemLocale = app.getSystemLocale();
 
-        if (/zh-TW|zh-HK|zh-MO|zh-CHT|zh-Hant/gi.test(systemLocale)) {
+        if (/zh-TW|zh-HK|zh-MO|zh-CHT|zh-Hant/i.test(systemLocale)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh-CN|zh-SG|zh-CHS|zh-Hans/gi.test(systemLocale)) {
+        } else if (/zh-CN|zh-SG|zh-CHS|zh-Hans/i.test(systemLocale)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';

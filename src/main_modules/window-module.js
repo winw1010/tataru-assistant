@@ -29,10 +29,10 @@ function getWindowSize(windowName, config) {
         case 'index': {
             // first time
             if (
-                config.indexWindow.x == null ||
-                config.indexWindow.y == null ||
-                config.indexWindow.width == null ||
-                config.indexWindow.height == null
+                config.indexWindow.x === null ||
+                config.indexWindow.y === null ||
+                config.indexWindow.width === null ||
+                config.indexWindow.height === null
             ) {
                 config.indexWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                 config.indexWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
@@ -50,10 +50,10 @@ function getWindowSize(windowName, config) {
         case 'capture': {
             // first time
             if (
-                config.captureWindow.x == null ||
-                config.captureWindow.y == null ||
-                config.captureWindow.width == null ||
-                config.captureWindow.height == null
+                config.captureWindow.x === null ||
+                config.captureWindow.y === null ||
+                config.captureWindow.width === null ||
+                config.captureWindow.height === null
             ) {
                 config.captureWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
                 config.captureWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.63);

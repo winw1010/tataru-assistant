@@ -70,46 +70,46 @@ function getWindowSize(windowName, config) {
 
         case 'capture-edit': {
             const indexBounds = windowList['index'].getBounds();
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
             width = parseInt(displayBounds.width * 0.27);
             height = parseInt(displayBounds.height * 0.42);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
             break;
         }
 
         case 'config': {
             const indexBounds = windowList['index'].getBounds();
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
             width = parseInt(displayBounds.width * 0.22);
             height = parseInt(displayBounds.height * 0.65);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
             break;
         }
 
         case 'edit': {
             const indexBounds = windowList['index'].getBounds();
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
             width = parseInt(displayBounds.width * 0.5);
             height = parseInt(displayBounds.height * 0.65);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
             break;
         }
 
         case 'read-log': {
             const indexBounds = windowList['index'].getBounds();
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
             width = parseInt(displayBounds.width * 0.2);
             height = parseInt(displayBounds.height * 0.22);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
             break;
         }
 
         case 'dictionary': {
             const indexBounds = windowList['index'].getBounds();
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
             width = parseInt(displayBounds.width * 0.3);
             height = parseInt(displayBounds.height * 0.6);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
             break;
         }
 

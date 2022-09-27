@@ -430,12 +430,11 @@ function directoryCheck() {
 // detect user language
 function detectUserLanguage() {
     if (config.system.firstTime) {
-        const env = process.env;
-        const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
+        const systemLocale = app.getSystemLocale();
 
-        if (/zh_TW|zh_HK|zh_Hant/gi.test(envLanguage)) {
+        if (/zh-TW|zh-HK|zh-MO|zh-CHT|zh-Hant/gi.test(systemLocale)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh_CN|zh_Hans/gi.test(envLanguage)) {
+        } else if (/zh-CN|zh-SG|zh-CHS|zh-Hans/gi.test(systemLocale)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';

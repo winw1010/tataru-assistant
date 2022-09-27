@@ -25,8 +25,8 @@ const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./src/main_m
 const { makeRequest } = require('./src/main_modules/translator/request-module');
 const { getTranslation } = require('./src/main_modules/translate-module');
 
-// main window module
-const { setIndex, sendIndex } = require('./src/main_modules/main-window-module');
+// window module
+const windowModule = require('./src/main_modules/window-module');
 
 // correction-module
 const { correctionEntry } = require('./src/main_modules/correction-module');
@@ -39,17 +39,6 @@ const appVersion = app.getVersion();
 // config
 let config = null;
 let chatCode = null;
-
-// window list
-let windowList = {
-    index: null,
-    edit: null,
-    config: null,
-    capture: null,
-    'capture-edit': null,
-    'read-log': null,
-    dictionary: null,
-};
 
 // when ready
 app.whenReady().then(() => {
@@ -155,8 +144,7 @@ function setWindowChannel() {
     // create window
     ipcMain.on('create-window', (event, windowName, data = null) => {
         try {
-            windowList[windowName].close();
-            windowList[windowName] = null;
+            windowModule.closeWindow(windowName);
         } catch (error) {
             createWindow(windowName, data);
         }
@@ -165,8 +153,7 @@ function setWindowChannel() {
     // restart window
     ipcMain.on('restart-window', (event, windowName, data = null) => {
         try {
-            windowList[windowName].close();
-            windowList[windowName] = null;
+            windowModule.closeWindow(windowName);
             throw null;
         } catch (error) {
             createWindow(windowName, data);
@@ -262,18 +249,13 @@ function setWindowChannel() {
 
     // send index
     ipcMain.on('send-index', (event, channel, ...args) => {
-        sendIndex(channel, ...args);
+        windowModule.sendIndex(channel, ...args);
     });
 
     // change UI text
     ipcMain.on('change-ui-text', () => {
-        const windowNames = Object.getOwnPropertyNames(windowList);
-        windowNames.forEach((windowName) => {
-            try {
-                windowList[windowName].webContents.send('change-ui-text');
-            } catch (error) {
-                // do nothing
-            }
+        windowModule.forEachWindow((myWindow) => {
+            myWindow.webContents.send('change-ui-text');
         });
     });
 }
@@ -296,7 +278,7 @@ function setCaptureChannel() {
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
         // image processing
-        sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+        windowModule.sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
     });
 
     // get position
@@ -311,25 +293,15 @@ function setCaptureChannel() {
 
     // minimize all windows
     ipcMain.on('minimize-all-windows', () => {
-        const windowNames = Object.getOwnPropertyNames(windowList);
-        windowNames.forEach((windowName) => {
-            try {
-                windowList[windowName].minimize();
-            } catch (error) {
-                // do nothing
-            }
+        windowModule.forEachWindow((myWindow) => {
+            myWindow.minimize();
         });
     });
 
     // restore all windows
     ipcMain.on('restore-all-windows', () => {
-        const windowNames = Object.getOwnPropertyNames(windowList);
-        windowNames.forEach((windowName) => {
-            try {
-                windowList[windowName].restore();
-            } catch (error) {
-                // do nothing
-            }
+        windowModule.forEachWindow((myWindow) => {
+            myWindow.restore();
         });
     });
 }
@@ -378,16 +350,16 @@ function setRequestChannel() {
         })
             .then((latestVersion) => {
                 if (appVersion === latestVersion) {
-                    sendIndex('hide-update-button', true);
-                    sendIndex('show-notification', '已安裝最新版本');
+                    windowModule.sendIndex('hide-update-button', true);
+                    windowModule.sendIndex('show-notification', '已安裝最新版本');
                 } else {
                     let latest = '';
                     if (latestVersion?.length > 0) {
                         latest += `(Ver.${latestVersion})`;
                     }
 
-                    sendIndex('hide-update-button', false);
-                    sendIndex(
+                    windowModule.sendIndex('hide-update-button', false);
+                    windowModule.sendIndex(
                         'show-notification',
                         `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`
                     );
@@ -479,8 +451,7 @@ function setGlobalShortcut() {
 
     globalShortcut.register('CommandOrControl+F10', () => {
         try {
-            windowList['config'].close();
-            windowList['config'] = null;
+            windowModule.closeWindow('config');
         } catch (error) {
             createWindow('config');
         }
@@ -488,23 +459,14 @@ function setGlobalShortcut() {
 
     globalShortcut.register('CommandOrControl+F11', () => {
         try {
-            windowList['capture'].close();
-            windowList['capture'] = null;
+            windowModule.closeWindow('capture');
         } catch (error) {
             createWindow('capture');
         }
     });
 
     globalShortcut.register('CommandOrControl+F12', () => {
-        const indexWindow = windowList['index'];
-
-        if (indexWindow) {
-            if (indexWindow.webContents.isDevToolsOpened()) {
-                indexWindow.webContents.closeDevTools();
-            } else {
-                indexWindow.webContents.openDevTools({ mode: 'detach' });
-            }
-        }
+        windowModule.openDevTools();
     });
 }
 
@@ -526,9 +488,9 @@ function downloadJSON() {
             downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
                 if (error) {
                     console.log(error);
-                    sendIndex('show-notification', '對照表下載失敗：' + error);
+                    windowModule.sendIndex('show-notification', '對照表下載失敗：' + error);
                 } else {
-                    sendIndex('show-notification', '對照表下載完畢');
+                    windowModule.sendIndex('show-notification', '對照表下載完畢');
                     loadJSON();
                 }
             });
@@ -544,14 +506,14 @@ function loadJSON() {
     loadJSON_EN(languageTo);
     loadJSON_JP(languageTo);
 
-    sendIndex('show-notification', '對照表讀取完畢');
+    windowModule.sendIndex('show-notification', '對照表讀取完畢');
 }
 
 // create window
 function createWindow(windowName, data = null) {
     try {
         // get size
-        const windowSize = getWindowSize(windowName);
+        const windowSize = windowModule.getWindowSize(windowName, config);
 
         // create new window
         const window = new BrowserWindow({
@@ -593,9 +555,6 @@ function createWindow(windowName, data = null) {
         // save config on closing
         switch (windowName) {
             case 'index':
-                // set index
-                setIndex(window);
-
                 // set foucusable
                 window.setFocusable(config.indexWindow.focusable);
                 window.on('restore', () => {
@@ -642,123 +601,8 @@ function createWindow(windowName, data = null) {
         window.loadFile(fm.getPath(__dirname, 'src', `${windowName}.html`));
 
         // save window
-        windowList[windowName] = window;
+        windowModule.setWindow(windowName, window);
     } catch (error) {
         console.log(error);
-    }
-}
-
-// get window size
-function getWindowSize(windowName) {
-    // set default value
-    let x = 0;
-    let y = 0;
-    let width = 0;
-    let height = 0;
-
-    // get current display bounds
-    const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
-
-    // get current screen size
-    const screenWidth = displayBounds.width;
-    const screenHeight = displayBounds.height;
-
-    switch (windowName) {
-        case 'index': {
-            // first time
-            if (config.indexWindow.width < 0 || config.indexWindow.height < 0) {
-                config.indexWindow.width = parseInt(screenWidth * 0.2);
-                config.indexWindow.height = parseInt(screenHeight * 0.6);
-                config.indexWindow.x = displayBounds.x + parseInt(screenWidth * 0.7);
-                config.indexWindow.y = parseInt(screenHeight * 0.2);
-            }
-
-            x = config.indexWindow.x;
-            y = config.indexWindow.y;
-            width = config.indexWindow.width;
-            height = config.indexWindow.height;
-            break;
-        }
-
-        case 'capture': {
-            // first time
-            if (config.captureWindow.width < 0 || config.captureWindow.height < 0) {
-                config.captureWindow.x = displayBounds.x + parseInt(screenWidth * 0.33);
-                config.captureWindow.y = parseInt(screenHeight * 0.63);
-                config.captureWindow.width = parseInt(screenWidth * 0.33);
-                config.captureWindow.height = parseInt(screenHeight * 0.36);
-            }
-
-            x = config.captureWindow.x;
-            y = config.captureWindow.y;
-            width = config.captureWindow.width;
-            height = config.captureWindow.height;
-            break;
-        }
-
-        case 'capture-edit': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.27);
-            height = parseInt(screenHeight * 0.42);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
-        case 'config': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.22);
-            height = parseInt(screenHeight * 0.65);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
-        case 'edit': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.5);
-            height = parseInt(screenHeight * 0.65);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
-        case 'read-log': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.2);
-            height = parseInt(screenHeight * 0.22);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
-        case 'dictionary': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(screenWidth * 0.3);
-            height = parseInt(screenHeight * 0.6);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
-        default:
-            break;
-    }
-
-    return {
-        x: x >= displayBounds.x && x < displayBounds.x + displayBounds.width ? x : displayBounds.x,
-        y: y >= displayBounds.y && y < displayBounds.y + displayBounds.height ? y : displayBounds.y,
-        width: width,
-        height: height,
-    };
-
-    function getNearX(indexBounds, width) {
-        return indexBounds.x - width > displayBounds.x ? indexBounds.x - width : indexBounds.x + indexBounds.width;
-    }
-
-    function getNearY(indexBounds, height) {
-        return indexBounds.y + height > displayBounds.y + displayBounds.height
-            ? displayBounds.y + displayBounds.height - height
-            : indexBounds.y;
     }
 }

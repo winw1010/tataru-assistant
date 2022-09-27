@@ -11,7 +11,7 @@ const cf = require('./correction-function');
 const tm = require('./translate-module');
 
 // main window module
-const { sendIndex } = require('./main-window-module');
+const windowModule = require('./window-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -107,7 +107,7 @@ async function startCorrection(dialogData, translation) {
         }
 
         // append blank dialog
-        sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
+        windowModule.sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
 
         // save player name
         //savePlayerName(dialogData.playerName);
@@ -144,10 +144,10 @@ async function startCorrection(dialogData, translation) {
         dialogData.audioText = dialogData.text;
 
         // update dialog
-        sendIndex('update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
+        windowModule.sendIndex('update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
     } catch (error) {
         console.log(error);
-        sendIndex('update-dialog', dialogData.id, 'Error', error, dialogData, translation);
+        windowModule.sendIndex('update-dialog', dialogData.id, 'Error', error, dialogData, translation);
     }
 }
 

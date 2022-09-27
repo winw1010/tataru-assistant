@@ -67,7 +67,7 @@ async function translate(text, translation, table = []) {
             // check response
             if (translatedText === '') {
                 if (previousTranslatedText === '') {
-                    throw 'Empty response';
+                    throw '無法取得翻譯文字';
                 } else {
                     translatedText = previousTranslatedText;
                     break;

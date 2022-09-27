@@ -435,11 +435,12 @@ function directoryCheck() {
 // detect user language
 function detectUserLanguage() {
     if (config.system.firstTime) {
-        const systemLocale = app.getSystemLocale();
+        const env = process.env;
+        const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
 
-        if (/zh-TW|zh-HK|zh-MO|zh-CHT|zh-Hant/i.test(systemLocale)) {
+        if (/zh_TW|zh_HK|zh_MO|zh_CHT|zh_Hant/i.test(envLanguage)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh-CN|zh-SG|zh-CHS|zh-Hans/i.test(systemLocale)) {
+        } else if (/zh_CN|zh_SG|zh_CHS|zh_Hans/i.test(envLanguage)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';

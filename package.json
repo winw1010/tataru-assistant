@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.1.9",
+    "version": "2.1.10",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -15,9 +15,9 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^20.2.0",
+        "electron": "^21.0.0",
         "electron-builder": "^23.3.3",
-        "eslint": "^8.23.1"
+        "eslint": "^8.24.0"
     },
     "dependencies": {
         "@google-cloud/vision": "^3.0.0",

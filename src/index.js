@@ -13,14 +13,7 @@ const { changeUIText } = require('./renderer_modules/ui-module');
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
 // dialog module
-const {
-    appendBlankDialog,
-    updateDialog,
-    appendNotification,
-    showDialog,
-    setStyle,
-    moveToBottom,
-} = require('./renderer_modules/dialog-module');
+const dialogModule = require('./renderer_modules/dialog-module');
 
 // image processing module
 const { takeScreenshot } = require('./renderer_modules/image-module');
@@ -128,7 +121,7 @@ function setIPC() {
             });
 
             // show dialog
-            showDialog();
+            dialogModule.showDialog();
         }
     });
 
@@ -139,23 +132,23 @@ function setIPC() {
 
     // append blank dialog
     ipcRenderer.on('append-blank-dialog', (event, ...args) => {
-        appendBlankDialog(...args);
+        dialogModule.appendBlankDialog(...args);
     });
 
     // update dialog
     ipcRenderer.on('update-dialog', (event, ...args) => {
-        updateDialog(...args);
+        dialogModule.updateDialog(...args);
     });
 
     // append dialog
     ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
-        appendBlankDialog(id, code);
-        updateDialog(id, name, text);
+        dialogModule.appendBlankDialog(id, code);
+        dialogModule.updateDialog(id, name, text);
     });
 
     // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
-        moveToBottom();
+        dialogModule.moveToBottom();
     });
 
     // reset view
@@ -170,7 +163,7 @@ function setIPC() {
 
     // show notification
     ipcRenderer.on('show-notification', (event, text) => {
-        appendNotification(text);
+        dialogModule.appendNotification(text);
     });
 }
 
@@ -291,14 +284,14 @@ function resetView(config) {
     const dialogs = document.querySelectorAll('#div_dialog div');
     if (dialogs.length > 0) {
         dialogs.forEach((value) => {
-            setStyle(document.getElementById(value.id));
+            dialogModule.setStyle(document.getElementById(value.id));
         });
 
         document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';
     }
 
     // show dialog
-    showDialog();
+    dialogModule.showDialog();
 
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;

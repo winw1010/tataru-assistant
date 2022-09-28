@@ -1,3 +1,4 @@
+// module exports
 module.exports = {
     zh2Hant: [
         ['中国国际信托投资公司', '中國國際信托投資公司'],

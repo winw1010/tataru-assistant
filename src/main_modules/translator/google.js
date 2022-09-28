@@ -68,4 +68,5 @@ async function exec(option) {
     }
 }
 
-exports.exec = exec;
+// module exports
+module.exports = { exec };

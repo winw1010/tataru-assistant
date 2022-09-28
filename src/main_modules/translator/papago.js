@@ -187,4 +187,5 @@ function generateSignature(deviceId, timestamp) {
     ).toString(CryptoJS.enc.Base64);
 }
 
-exports.exec = exec;
+// module exports
+module.exports = { exec };

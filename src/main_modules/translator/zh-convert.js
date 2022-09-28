@@ -12,4 +12,5 @@ function replaceText(text = '', zhTable = []) {
     return text;
 }
 
-exports.exec = exec;
+// module exports
+module.exports = { exec };

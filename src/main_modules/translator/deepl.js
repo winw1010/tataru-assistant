@@ -237,4 +237,5 @@ function fixMethod(id, text) {
     return text;
 }
 
-exports.exec = exec;
+// module exports
+module.exports = { exec };

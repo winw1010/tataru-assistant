@@ -35,4 +35,5 @@ var nu = function (a, b) {
         return a.toString() + '.' + (a ^ b);
     };
 
-exports.tokenEncoder = pu;
+// module exports
+module.exports = { tokenEncoder: pu };

@@ -127,7 +127,7 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
     return { cookie, expireDate };
 }
 
-// exports
+// module exports
 module.exports = {
     makeRequest,
     requestCookie,

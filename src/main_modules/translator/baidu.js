@@ -177,4 +177,5 @@ async function translate(cookie, authentication, option) {
     });
 }
 
-exports.exec = exec;
+// module exports
+module.exports = { exec };

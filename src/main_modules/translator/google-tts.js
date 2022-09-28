@@ -62,4 +62,5 @@ function splitText(text = '') {
     return [text.slice(0, 200), text.slice(200)];
 }
 
-exports.getAudioUrl = getAudioUrl;
+// module exports
+module.exports = { getAudioUrl };

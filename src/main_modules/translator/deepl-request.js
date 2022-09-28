@@ -27,5 +27,5 @@ const handleJobs = {
     id: 50920016,
 };
 
-exports.splitText = splitText;
-exports.handleJobs = handleJobs;
+// module exports
+module.exports = { splitText, handleJobs };

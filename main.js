@@ -12,7 +12,7 @@ const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electro
 // child process
 const { exec } = require('child_process');
 
-// download github repo
+// download git repo
 const downloadGitRepo = require('./src/main_modules/download-module');
 
 // config module

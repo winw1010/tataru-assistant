@@ -1,17 +1,26 @@
 const downloadUrl = require('download');
 
+/**
+ * Download `repo` to `dest` and callback `fn(err)`.
+ *
+ * @param {String} repo
+ * @param {String} dest
+ * @param {Object} opts
+ * @param {Function} fn
+ */
+
 function download(repo, dest, opts, fn) {
     if (typeof opts === 'function') {
         fn = opts;
         opts = null;
     }
-
     opts = opts || {};
     var clone = opts.clone || false;
     delete opts.clone;
 
     repo = normalize(repo);
     var url = repo.url || getUrl(repo, clone);
+
     var downloadOptions = {
         extract: true,
         strip: 1,

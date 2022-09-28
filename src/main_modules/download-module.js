@@ -111,7 +111,7 @@ function getUrl(repo, clone) {
         url = origin + repo.owner + '/' + repo.name + '.git';
     } else {
         if (repo.type === 'github') {
-            url = origin + repo.owner + '/' + repo.name + '/archive/' + repo.checkout + '.zip';
+            url = origin + repo.owner + '/' + repo.name + '/archive/refs/heads/' + repo.checkout + '.zip';
         } else if (repo.type === 'gitlab') {
             url = origin + repo.owner + '/' + repo.name + '/repository/archive.zip?ref=' + repo.checkout;
         } else if (repo.type === 'bitbucket') {

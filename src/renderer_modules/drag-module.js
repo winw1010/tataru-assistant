@@ -43,7 +43,7 @@ function setDragElement(element) {
     }
 }
 
-// exports
+// module exports
 module.exports = {
     setDragElement,
 };

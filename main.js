@@ -489,7 +489,7 @@ function downloadJSON() {
     try {
         // delete text
         exec('rmdir /Q /S src\\json\\text', () => {
-            // clone json
+            // download text
             downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
                 if (error) {
                     console.log(error);

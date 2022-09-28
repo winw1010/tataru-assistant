@@ -146,7 +146,7 @@ function saveDefaultConfig() {
     }
 }
 
-// exports
+// module exports
 module.exports = {
     loadConfig,
     saveConfig,

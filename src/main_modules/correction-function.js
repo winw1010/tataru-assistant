@@ -444,7 +444,7 @@ function combineArrayWithTemp(temp, ...args) {
     return sortArray(combine);
 }
 
-// exports
+// module exports
 module.exports = {
     skipCheck,
     replaceText,

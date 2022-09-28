@@ -514,7 +514,7 @@ function allKataCheck(name, text) {
     return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
 }
 
-// exports
+// module exports
 module.exports = {
     loadJSON_JP: loadJSON,
     addToCorrectionQueue_JP: addToCorrectionQueue,

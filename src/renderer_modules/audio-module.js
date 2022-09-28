@@ -85,7 +85,7 @@ function playNext() {
     }
 }
 
-// exports
+// module exports
 module.exports = {
     addToPlaylist,
     startPlaying,

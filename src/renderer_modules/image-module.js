@@ -305,7 +305,7 @@ function deleteImages() {
     });
 }
 
-// exports
+// module exports
 module.exports = {
     takeScreenshot,
 };

@@ -240,7 +240,7 @@ function getTextIndex(translateTo) {
     }
 }
 
-// module export
+// module exports
 module.exports = {
     changeUIText,
 };

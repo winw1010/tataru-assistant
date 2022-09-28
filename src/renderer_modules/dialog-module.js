@@ -241,7 +241,7 @@ function clearSelection() {
     }
 }
 
-// exports
+// module exports
 module.exports = {
     appendBlankDialog,
     updateDialog,

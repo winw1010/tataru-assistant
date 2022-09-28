@@ -110,7 +110,7 @@ function fixLanguageCode(code) {
 }
 */
 
-// exports
+// module exports
 module.exports = {
     languageEnum,
     languageIndex,

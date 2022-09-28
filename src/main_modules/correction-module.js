@@ -72,7 +72,7 @@ function isPlayerChannel(code) {
     return playerChannel.includes(code);
 }
 
-// exports
+// module exports
 module.exports = {
     correctionEntry,
 };

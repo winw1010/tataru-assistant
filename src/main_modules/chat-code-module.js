@@ -259,7 +259,7 @@ function saveDefaultChatCode() {
     }
 }
 
-// exports
+// module exports
 module.exports = {
     loadChatCode,
     saveChatCode,

@@ -101,7 +101,7 @@ function isChinese(text, translation) {
     return translation.skipChinese && text.match(/[\u3400-\u9FFF]/gi)?.length > text.length / 2;
 }
 
-// exports
+// module exports
 module.exports = {
     replaceTextByCode,
     canSkipTranslation,

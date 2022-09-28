@@ -270,7 +270,7 @@ function isChinese(text, translation) {
     return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
 }
 
-// exports
+// module exports
 module.exports = {
     replaceTextByCode,
     convertKana,

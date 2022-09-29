@@ -42,6 +42,25 @@ let chatCode = null;
 
 // when ready
 app.whenReady().then(() => {
+    // start app
+    startApp();
+
+    // create index window
+    createWindow('index');
+    app.on('activate', function () {
+        if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
+    });
+});
+
+// on window all closed
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit();
+});
+
+// function
+
+// start app
+function startApp() {
     // disable http cache
     app.commandLine.appendSwitch('disable-http-cache');
 
@@ -62,18 +81,7 @@ app.whenReady().then(() => {
 
     // set shortcut
     setGlobalShortcut();
-
-    // create index window
-    createWindow('index');
-    app.on('activate', function () {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
-    });
-});
-
-// on window all closed
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit();
-});
+}
 
 // set ipc main
 function setIpcMain() {

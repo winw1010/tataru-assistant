@@ -76,15 +76,15 @@ function startApp() {
     // detect user language
     detectUserLanguage();
 
-    // set ipc main
-    setIpcMain();
+    // set ipc
+    setIPC();
 
     // set shortcut
     setGlobalShortcut();
 }
 
-// set ipc main
-function setIpcMain() {
+// set ipc
+function setIPC() {
     setSystemChannel();
     setWindowChannel();
     setCaptureChannel();

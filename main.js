@@ -243,11 +243,7 @@ function setWindowChannel() {
             cursorScreenPoint.y < windowBounds.y ||
             cursorScreenPoint.y > windowBounds.y + windowBounds.height;
 
-        BrowserWindow.fromWebContents(event.sender).webContents.send(
-            'hide-button',
-            isMouseOut,
-            config.indexWindow.hideButton
-        );
+        event.sender.send('hide-button', isMouseOut, config.indexWindow.hideButton);
     });
 
     // mute window

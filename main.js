@@ -1,10 +1,10 @@
 'use strict';
 
-// file module
-const fileModule = require('./src/main_modules/file-module');
-
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
+
+// file module
+const fileModule = require('./src/main_modules/file-module');
 
 // child process
 const { exec } = require('child_process');

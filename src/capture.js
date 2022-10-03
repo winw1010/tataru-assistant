@@ -22,21 +22,17 @@ function setView() {
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
     document.getElementById('select_type').value = config.captureWindow.type;
-    setCanvasSize(document.getElementById('canvas_select'));
     setBackground(config);
+    setCanvasSize();
     changeUIText();
 }
 
 // set event
 function setEvent() {
-    // resize
-    window.addEventListener(
-        'resize',
-        function () {
-            setCanvasSize(document.getElementById('canvas_select'));
-        },
-        true
-    );
+    // on resize
+    window.onresize = () => {
+        setCanvasSize();
+    };
 
     // checkbox
     document.getElementById('checkbox_split').oninput = () => {
@@ -93,12 +89,6 @@ function setButton() {
     };
 }
 
-// set canvas size
-function setCanvasSize(canvas) {
-    canvas.setAttribute('width', window.innerWidth);
-    canvas.setAttribute('height', window.innerHeight);
-}
-
 // set background color
 function setBackground(config) {
     if (config.captureWindow.type === 'google') {
@@ -110,66 +100,73 @@ function setBackground(config) {
     }
 }
 
+// set canvas size
+function setCanvasSize() {
+    // get canvas
+    const canvas = document.getElementById('canvas_select');
+
+    // set size
+    canvas.setAttribute('width', window.innerWidth);
+    canvas.setAttribute('height', window.innerHeight);
+}
+
 // set canvas event
-function setCanvasEvent(canvas) {
+function setCanvasEvent() {
+    // get canvas
+    const canvas = document.getElementById('canvas_select');
+
     // line width
     const lineWidth = 0.2 * parseFloat(getComputedStyle(document.documentElement).fontSize);
 
     // mouse
-    let isMouseDown = false,
-        mousedownScreenPosition = { x: 0, y: 0 },
-        mouseupScreenPosition = { x: 0, y: 0 },
-        mousedownClientPosition = { x: 0, y: 0 };
+    let mousedownScreenPosition = { x: 0, y: 0 };
+    let mouseupScreenPosition = { x: 0, y: 0 };
+    let mousedownClientPosition = { x: 0, y: 0 };
 
     // on mouse down
-    canvas.onmousedown = (event) => {
-        // start drawing
-        isMouseDown = true;
-
+    canvas.onmousedown = (ev) => {
         // get mousedown screen position
         mousedownScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
         // get mousedown client position
         mousedownClientPosition = {
-            x: event.clientX,
-            y: event.clientY,
+            x: ev.clientX,
+            y: ev.clientY,
         };
-    };
 
-    // on mouse up
-    canvas.onmouseup = (/*event*/) => {
-        // stop drawing
-        isMouseDown = false;
+        // on mouse move
+        canvas.onmousemove = (ev) => {
+            drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, ev.clientX, ev.clientY);
+        };
 
-        // clear rectangle
-        if (canvas.getContext) {
-            let ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+        // on mouse up
+        canvas.onmouseup = () => {
+            // stop drawing
+            canvas.onmouseup = null;
+            canvas.onmousemove = null;
 
-        // get mouseup screen position
-        mouseupScreenPosition = ipcRenderer.sendSync('get-screen-position');
+            // clear rectangle
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
 
-        // get rectangle size
-        let rectangleSize = getRectangleSize(
-            mousedownScreenPosition.x,
-            mousedownScreenPosition.y,
-            mouseupScreenPosition.x,
-            mouseupScreenPosition.y
-        );
+            // get mouseup screen position
+            mouseupScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
-        // start screen translation
-        if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-            ipcRenderer.send('start-screen-translation', rectangleSize);
-        }
-    };
+            // get rectangle size
+            let rectangleSize = getRectangleSize(
+                mousedownScreenPosition.x,
+                mousedownScreenPosition.y,
+                mouseupScreenPosition.x,
+                mouseupScreenPosition.y
+            );
 
-    // on mouse move
-    canvas.onmousemove = (event) => {
-        //document.getElementById('span_position').innerText = `X: ${event.screenX}, Y: ${event.screenY}`;
-        if (isMouseDown) {
-            drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
-        }
+            // start screen translation
+            if (rectangleSize.width > 0 && rectangleSize.height > 0) {
+                ipcRenderer.send('start-screen-translation', rectangleSize);
+            }
+        };
     };
 
     // draw rectangle

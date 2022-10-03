@@ -34,17 +34,18 @@ function getWindowSize(windowName, config) {
                 config.indexWindow.width === null ||
                 config.indexWindow.height === null
             ) {
-                config.indexWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
-                config.indexWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-                config.indexWindow.width = parseInt(displayBounds.width * 0.2);
-                config.indexWindow.height = parseInt(displayBounds.height * 0.6);
+                x = displayBounds.x + parseInt(displayBounds.width * 0.7);
+                y = displayBounds.y + parseInt(displayBounds.height * 0.2);
+                width = parseInt(displayBounds.width * 0.2);
+                height = parseInt(displayBounds.height * 0.6);
+                break;
+            } else {
+                x = config.indexWindow.x;
+                y = config.indexWindow.y;
+                width = config.indexWindow.width;
+                height = config.indexWindow.height;
+                break;
             }
-
-            x = config.indexWindow.x;
-            y = config.indexWindow.y;
-            width = config.indexWindow.width;
-            height = config.indexWindow.height;
-            break;
         }
 
         case 'capture': {
@@ -55,17 +56,18 @@ function getWindowSize(windowName, config) {
                 config.captureWindow.width === null ||
                 config.captureWindow.height === null
             ) {
-                config.captureWindow.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
-                config.captureWindow.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
-                config.captureWindow.width = parseInt(displayBounds.width * 0.33);
-                config.captureWindow.height = parseInt(displayBounds.height * 0.36);
+                x = displayBounds.x + parseInt(displayBounds.width * 0.33);
+                y = displayBounds.y + parseInt(displayBounds.height * 0.63);
+                width = parseInt(displayBounds.width * 0.33);
+                height = parseInt(displayBounds.height * 0.36);
+                break;
+            } else {
+                x = config.captureWindow.x;
+                y = config.captureWindow.y;
+                width = config.captureWindow.width;
+                height = config.captureWindow.height;
+                break;
             }
-
-            x = config.captureWindow.x;
-            y = config.captureWindow.y;
-            width = config.captureWindow.width;
-            height = config.captureWindow.height;
-            break;
         }
 
         case 'capture-edit': {

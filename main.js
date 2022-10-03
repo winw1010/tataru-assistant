@@ -1,10 +1,7 @@
 'use strict';
 
-// fs
-const { existsSync, mkdirSync } = require('fs');
-
 // file module
-const fm = require('./src/main_modules/file-module');
+const fileModule = require('./src/main_modules/file-module');
 
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
@@ -65,7 +62,7 @@ function startApp() {
     app.commandLine.appendSwitch('disable-http-cache');
 
     // directory check
-    directoryCheck();
+    fileModule.directoryCheck();
 
     // load config
     config = loadConfig();
@@ -413,29 +410,6 @@ function setRequestChannel() {
     });
 }
 
-// directory check
-function directoryCheck() {
-    const documentPath = fm.getUserPath('Documents');
-    const subPath = [
-        '',
-        'Tataru Helper Node',
-        'Tataru Helper Node\\log',
-        'Tataru Helper Node\\setting',
-        'Tataru Helper Node\\temp',
-    ];
-
-    subPath.forEach((value) => {
-        try {
-            const dir = fm.getPath(documentPath, value);
-            if (!existsSync(dir)) {
-                mkdirSync(dir);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    });
-}
-
 // detect user language
 function detectUserLanguage() {
     if (config.system.firstTime) {
@@ -455,7 +429,7 @@ function detectUserLanguage() {
 // set global shortcut
 function setGlobalShortcut() {
     globalShortcut.register('CommandOrControl+F9', () => {
-        exec(`explorer "${fm.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
+        exec(`explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
     });
 
     globalShortcut.register('CommandOrControl+F10', () => {
@@ -538,7 +512,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: fm.getPath(__dirname, 'src', `${windowName}.js`),
+                preload: fileModule.getPath(__dirname, 'src', `${windowName}.js`),
             },
         });
 
@@ -607,7 +581,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(fm.getPath(__dirname, 'src', `${windowName}.html`));
+        window.loadFile(fileModule.getPath(__dirname, 'src', `${windowName}.html`));
 
         // save window
         windowModule.setWindow(windowName, window);

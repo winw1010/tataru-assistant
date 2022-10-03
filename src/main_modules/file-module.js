@@ -12,6 +12,26 @@ const rootPath = process.cwd();
 // user path
 const userPath = process.env.USERPROFILE;
 
+// app name
+const appName = 'Tataru Helper Node';
+
+// directory check
+function directoryCheck() {
+    const documentPath = getUserPath('Documents');
+    const subPath = ['', appName, appName + '\\log', appName + '\\setting', appName + '\\temp'];
+
+    subPath.forEach((value) => {
+        try {
+            const dir = getPath(documentPath, value);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
 // json reader
 function jsonReader(filePath = './', returnArray = true) {
     try {
@@ -69,11 +89,12 @@ function getUserPath(...args) {
 
 // get user path
 function getUserDataPath(...args) {
-    return path.join(userPath, 'Documents', 'Tataru Helper Node', ...args);
+    return path.join(userPath, 'Documents', appName, ...args);
 }
 
 // module exports
 module.exports = {
+    directoryCheck,
     jsonReader,
     jsonWriter,
     imageWriter,

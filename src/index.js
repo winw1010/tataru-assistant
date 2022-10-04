@@ -287,7 +287,7 @@ function resetView(config) {
             dialogModule.setStyle(document.getElementById(value.id));
         });
 
-        document.getElementById(document.getElementById('div_dialog').firstElementChild.id).style.marginTop = '0';
+        document.getElementById(dialogs[0].id).style.marginTop = '0';
     }
 
     // show dialog

@@ -22,14 +22,14 @@ const defaultConfig = {
         hideButton: true,
         hideDialog: true,
         hideDialogTimeout: 30,
-        backgroundColor: '#20202050',
+        backgroundColor: '#00000034',
     },
     dialog: {
         weight: 'normal',
         fontSize: '1.1',
         spacing: '1',
         radius: '0',
-        backgroundColor: '#202020A0',
+        backgroundColor: '#000000A0',
     },
     captureWindow: {
         x: null,

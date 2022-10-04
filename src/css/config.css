@@ -2,7 +2,7 @@ body {
     overflow: hidden;
     -webkit-user-select: none;
     user-select: none;
-    color: aliceblue;
+    color: #ffffff;
 }
 
 input[type='number'] {

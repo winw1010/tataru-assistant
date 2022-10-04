@@ -1,6 +1,6 @@
 body {
     background-color: #00000022;
-    color: aliceblue;
+    color: #ffffff;
     border: 0.2rem #808080 solid;
 }
 
@@ -13,7 +13,7 @@ select {
 }
 
 #div_upper_button {
-    background-color: #202020ee;
+    background-color: #000000bb;
     border: 0.2rem #808080 solid;
 }
 

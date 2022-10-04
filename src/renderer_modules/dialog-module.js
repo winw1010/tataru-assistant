@@ -54,6 +54,7 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
 
     // set dialog
     const dialog = document.getElementById(id);
+    dialog.innerHTML = '';
     dialog.style.display = 'block';
 
     if (dialog.className !== 'FFFF') {
@@ -63,7 +64,15 @@ function updateDialog(id, name, text, dialogData = null, translation = null) {
         };
     }
 
-    dialog.innerHTML = `<span class="drop_shadow">${name !== '' ? name + ':<br>' : ''}${text}</span>`;
+    // set content
+    const spanName = document.createElement('span');
+    spanName.innerHTML = name + '：<br>';
+
+    const spanText = document.createElement('span');
+    spanText.innerHTML = text;
+
+    name !== '' ? dialog.append(spanName) : null;
+    dialog.append(spanText);
 
     // show dialog
     showDialog();

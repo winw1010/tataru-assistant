@@ -268,9 +268,9 @@ function showText() {
     const text1 = document.getElementById('div_text1');
     const text2 = document.getElementById('div_text2');
 
-    text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + ':<br>' : ''}${targetLog.text}</span>`;
+    text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
     text2.innerHTML =
-        `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + ':<br>' : ''}` +
+        `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
         `${targetLog.translated_text}</span>`;
 }
 

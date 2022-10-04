@@ -17,5 +17,11 @@ body {
     padding: 0.7rem;
     word-wrap: break-word;
     letter-spacing: 0.05rem;
-    color: aliceblue;
+    color: #ffffff;
+}
+
+#div_dialog p,
+#div_dialog span {
+    -webkit-filter: drop-shadow(0 0 0.2rem #000000);
+    filter: drop-shadow(0 0 0 0.2rem #000000);
 }

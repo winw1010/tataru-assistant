@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // file module
-const fm = require('../main_modules/file-module');
+const fileModule = require('../main_modules/file-module');
 
 // audio module
 const { addToPlaylist } = require('./audio-module');
@@ -19,7 +19,7 @@ const zhConverter = require('../main_modules/translator/zh-convert');
 const npcChannel = ['003D', '0044', '2AB9'];
 
 // log location
-const logLocation = fm.getUserDataPath('log');
+const logLocation = fileModule.getUserDataPath('log');
 
 // dialog timeout
 let hideDialogTimeout = null;
@@ -183,12 +183,12 @@ function saveLog(id, name, text, dialogData, translation) {
         translation: translation,
     };
 
-    const filePath = fm.getPath(logLocation, createLogName(item.timestamp));
+    const filePath = fileModule.getPath(logLocation, createLogName(item.timestamp));
     let log = null;
 
     // read/create log file
     try {
-        log = fm.jsonReader(filePath, false);
+        log = fileModule.jsonReader(filePath, false);
 
         // fix old bug
         if (Array.isArray(log)) {
@@ -211,7 +211,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // write log file
     try {
-        fm.jsonWriter(filePath, log);
+        fileModule.jsonWriter(filePath, log);
     } catch (error) {
         console.error(error);
     }

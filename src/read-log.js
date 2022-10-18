@@ -4,7 +4,7 @@
 const { readdirSync } = require('fs');
 
 // file module
-const fm = require('./main_modules/file-module');
+const fileModule = require('./main_modules/file-module');
 
 // communicate with main process
 const { ipcRenderer } = require('electron');
@@ -16,7 +16,7 @@ const { setDragElement } = require('./renderer_modules/drag-module');
 const { changeUIText } = require('./renderer_modules/ui-module');
 
 // log location
-const logPath = fm.getUserDataPath('log');
+const logPath = fileModule.getUserDataPath('log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -84,8 +84,8 @@ function readLog(fileName) {
     }
 
     try {
-        const fileLocation = fm.getPath(logPath, fileName);
-        const log = fm.jsonReader(fileLocation, false);
+        const fileLocation = fileModule.getPath(logPath, fileName);
+        const log = fileModule.jsonReader(fileLocation, false);
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

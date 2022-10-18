@@ -4,7 +4,7 @@
 const { readdirSync } = require('fs');
 
 // file module
-const fm = require('./file-module');
+const fileModule = require('./file-module');
 
 // skip check
 function skipCheck(code, name, text, ignoreArray) {
@@ -192,10 +192,12 @@ function valueFixAfter(text, valueTable) {
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     try {
         // get path
-        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':')
+            ? fileModule.getPath(path, name)
+            : fileModule.getRootPath('src', 'json', path, name);
 
         // read
-        let array = fm.jsonReader(finalPath);
+        let array = fileModule.jsonReader(finalPath);
 
         // type check
         if (!Array.isArray(array)) {
@@ -296,10 +298,12 @@ function readJSONSubtitle() {
 function readJSONPure(path = '', name = '') {
     try {
         // get path
-        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':')
+            ? fileModule.getPath(path, name)
+            : fileModule.getRootPath('src', 'json', path, name);
 
         // read
-        let array = fm.jsonReader(finalPath);
+        let array = fileModule.jsonReader(finalPath);
 
         // log array
         console.log(`Read ${finalPath}. (length: ${array.length})`);
@@ -315,10 +319,12 @@ function readJSONPure(path = '', name = '') {
 function writeJSON(path = '', name = '', array = []) {
     try {
         // get path
-        const finalPath = path.includes(':') ? fm.getPath(path, name) : fm.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':')
+            ? fileModule.getPath(path, name)
+            : fileModule.getRootPath('src', 'json', path, name);
 
         // write array
-        fm.jsonWriter(finalPath, array);
+        fileModule.jsonWriter(finalPath, array);
     } catch (error) {
         console.log(error);
     }

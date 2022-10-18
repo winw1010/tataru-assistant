@@ -1,10 +1,10 @@
 'use strict';
 
 // file module
-const fm = require('./file-module');
+const fileModule = require('./file-module');
 
 // config location
-const configLocation = fm.getUserDataPath('setting', 'config.json');
+const configLocation = fileModule.getUserDataPath('setting', 'config.json');
 
 // default config
 const defaultConfig = {
@@ -69,7 +69,7 @@ const defaultConfig = {
 // load config
 function loadConfig() {
     try {
-        let config = fm.jsonReader(configLocation, false);
+        let config = fileModule.jsonReader(configLocation, false);
 
         // fix old bug
         if (Array.isArray(config)) {
@@ -126,7 +126,7 @@ function loadConfig() {
 // save config
 function saveConfig(config) {
     try {
-        fm.jsonWriter(configLocation, config);
+        fileModule.jsonWriter(configLocation, config);
     } catch (error) {
         console.log(error);
     }
@@ -140,7 +140,7 @@ function getDefaultConfig() {
 // save default config
 function saveDefaultConfig() {
     try {
-        fm.jsonWriter(configLocation, defaultConfig);
+        fileModule.jsonWriter(configLocation, defaultConfig);
     } catch (error) {
         console.log(error);
     }

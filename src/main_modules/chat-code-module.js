@@ -1,10 +1,10 @@
 'use strict';
 
 // file module
-const fm = require('./file-module');
+const fileModule = require('./file-module');
 
 // chat code location
-const chatCodeLocation = fm.getUserDataPath('setting', 'chat-code.json');
+const chatCodeLocation = fileModule.getUserDataPath('setting', 'chat-code.json');
 
 // default chat code
 const defaultChatCode = [
@@ -223,7 +223,7 @@ const defaultChatCode = [
 // load chat code
 function loadChatCode() {
     try {
-        const chatCode = fm.jsonReader(chatCodeLocation, false);
+        const chatCode = fileModule.jsonReader(chatCodeLocation, false);
 
         if (defaultChatCode.length !== chatCode.length) {
             throw null;
@@ -239,7 +239,7 @@ function loadChatCode() {
 // save chat code
 function saveChatCode(chatCode) {
     try {
-        fm.jsonWriter(chatCodeLocation, chatCode);
+        fileModule.jsonWriter(chatCodeLocation, chatCode);
     } catch (error) {
         console.log(error);
     }
@@ -253,7 +253,7 @@ function getDefaultChatCode() {
 // save default chat code
 function saveDefaultChatCode() {
     try {
-        fm.jsonWriter(chatCodeLocation, defaultChatCode);
+        fileModule.jsonWriter(chatCodeLocation, defaultChatCode);
     } catch (error) {
         console.log(error);
     }

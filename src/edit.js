@@ -7,7 +7,7 @@ const { ipcRenderer } = require('electron');
 const { sameAsArrayItem } = require('./main_modules/correction-function');
 
 // file module
-const fm = require('./main_modules/file-module');
+const fileModule = require('./main_modules/file-module');
 
 // language table
 const { getLanguageCode } = require('./main_modules/engine-module');
@@ -28,10 +28,10 @@ const { getAudioUrl } = require('./main_modules/translator/google-tts');
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // log location
-const logPath = fm.getUserDataPath('log');
+const logPath = fileModule.getUserDataPath('log');
 
 // temp location
-const tempPath = fm.getUserDataPath('temp');
+const tempPath = fileModule.getUserDataPath('temp');
 
 // target log
 let targetLog = null;
@@ -83,8 +83,8 @@ function setIPC() {
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
-                        const filePath = fm.getPath(logPath, logFileList[index]);
-                        const log = fm.jsonReader(filePath, false);
+                        const filePath = fileModule.getPath(logPath, logFileList[index]);
+                        const log = fileModule.jsonReader(filePath, false);
                         targetLog = log[id];
 
                         if (targetLog) {
@@ -165,21 +165,21 @@ function setButton() {
 
         if (textBefore !== '' && textAfter !== '') {
             if (type === 'jp') {
-                let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
+                let jpTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
+                let overwriteTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else if (type === 'player' || type === 'retainer') {
-                let playerTemp = fm.jsonReader(fm.getPath(tempPath, 'player.json'));
+                let playerTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'player.json'));
                 playerTemp = addTemp(textBefore, textAfter, type, playerTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'player.json'), playerTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'player.json'), playerTemp);
             } else {
-                let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
+                let chTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'chTemp.json'));
                 chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
@@ -196,21 +196,21 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = fm.jsonReader(fm.getPath(tempPath, 'jpTemp.json'));
+                let jpTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'jpTemp.json'));
                 jpTemp = deleteTemp(textBefore, type, jpTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'jpTemp.json'), jpTemp);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fm.jsonReader(fm.getPath(tempPath, 'overwriteTemp.json'));
+                let overwriteTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'overwriteTemp.json'));
                 overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
             } else if (type === 'player' || type === 'retainer') {
-                let playerTemp = fm.jsonReader(fm.getPath(tempPath, 'player.json'));
+                let playerTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'player.json'));
                 playerTemp = deleteTemp(textBefore, type, playerTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'player.json'), playerTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'player.json'), playerTemp);
             } else {
-                let chTemp = fm.jsonReader(fm.getPath(tempPath, 'chTemp.json'));
+                let chTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'chTemp.json'));
                 chTemp = deleteTemp(textBefore, type, chTemp);
-                fm.jsonWriter(fm.getPath(tempPath, 'chTemp.json'), chTemp);
+                fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
             ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');

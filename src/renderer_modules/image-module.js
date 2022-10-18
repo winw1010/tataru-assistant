@@ -7,7 +7,7 @@ const vision = require('@google-cloud/vision');
 const { unlinkSync } = require('fs');
 
 // file module
-const fm = require('../main_modules/file-module');
+const fileModule = require('../main_modules/file-module');
 
 // sharp
 const sharp = require('sharp');
@@ -26,7 +26,7 @@ const { createWorker } = require('tesseract.js');
 const { languageEnum } = require('./engine-module');
 
 // temp image path
-const tempImagePath = fm.getRootPath('src', 'trained_data');
+const tempImagePath = fileModule.getRootPath('src', 'trained_data');
 
 // contrast values
 const contrastThreshold = 160; //128
@@ -94,7 +94,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop
-        fm.imageWriter(getPath('crop.jpeg'), imageBuffer);
+        fileModule.imageWriter(getPath('crop.jpeg'), imageBuffer);
 
         // start reconize
         ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
@@ -114,12 +114,12 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 // google vision
 async function googleVision(imagePath) {
     try {
-        if (!fm.fileChecker(fm.getUserDataPath('setting', 'google-credential.json'))) {
+        if (!fileModule.fileChecker(fileModule.getUserDataPath('setting', 'google-credential.json'))) {
             throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
         }
 
         const client = new vision.ImageAnnotatorClient({
-            keyFilename: fm.getUserDataPath('setting', 'google-credential.json'),
+            keyFilename: fileModule.getUserDataPath('setting', 'google-credential.json'),
         });
         const [result] = await client.textDetection(imagePath);
         const detections = result.textAnnotations[0];
@@ -171,7 +171,7 @@ async function fixImage(imageBuffer) {
         }
 
         // save result
-        fm.imageWriter(getPath('result.jpeg'), resultImageBuffer);
+        fileModule.imageWriter(getPath('result.jpeg'), resultImageBuffer);
 
         // recognize image
         recognizeImage(resultImageBuffer);
@@ -289,7 +289,7 @@ function translate(text) {
 
 // get path
 function getPath(fileName) {
-    return fm.getPath(tempImagePath, fileName);
+    return fileModule.getPath(tempImagePath, fileName);
 }
 
 // delete images

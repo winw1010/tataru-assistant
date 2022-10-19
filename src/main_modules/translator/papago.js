@@ -15,7 +15,7 @@ const userAgent =
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.*?)(?=;|$)/i;
-const papagoVersionRegExp = /"(?<target>v\d+?\.\d+?\.\d+?_.+?)"/i;
+// const papagoVersionRegExp = /"(?<target>v\d+?\.\d+?\.\d+?_.+?)"/i;
 
 // expire date
 let expireDate = 0;
@@ -44,15 +44,6 @@ async function exec(option) {
             throw 'No Response';
         }
 
-        /*
-        console.log({
-            expiredDate: expireDate,
-            cookie: cookie,
-            authentication: authentication,
-            response: response
-        });
-        */
-
         return result;
     } catch (error) {
         console.log(error);
@@ -80,6 +71,7 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
+    /*
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
 
@@ -107,6 +99,12 @@ async function setAuthentication() {
         ],
         callback: callback,
     })) || {
+        deviceId: generateDeviceId(),
+        papagoVersion: 'v1.6.9_0f9c783dcc',
+    };
+    */
+
+    authentication = {
         deviceId: generateDeviceId(),
         papagoVersion: 'v1.6.9_0f9c783dcc',
     };

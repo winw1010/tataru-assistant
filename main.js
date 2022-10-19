@@ -1,34 +1,37 @@
 'use strict';
 
+// package module
+const packageModule = require('./src/main_modules/package-module');
+
 // electron modules
-const { app, ipcMain, screen, globalShortcut, BrowserWindow } = require('electron');
+const { app, ipcMain, screen, globalShortcut, BrowserWindow } = packageModule.electron;
 
 // file module
-const fileModule = require('./src/main_modules/file-module');
+const fileModule = packageModule.fileModule;
 
 // child process
-const { exec } = require('child_process');
+const { exec } = packageModule.childProcess;
 
 // download git repo
-const downloadGitRepo = require('./src/main_modules/download-module');
+const downloadGitRepo = packageModule.downloadGitRepo;
 
 // config module
-const { loadConfig, saveConfig, getDefaultConfig } = require('./src/main_modules/config-module');
+const { loadConfig, saveConfig, getDefaultConfig } = packageModule.configModule;
 
 // chat code module
-const { loadChatCode, saveChatCode, getDefaultChatCode } = require('./src/main_modules/chat-code-module');
+const { loadChatCode, saveChatCode, getDefaultChatCode } = packageModule.chatCodeModule;
 
 // request
-const { makeRequest } = require('./src/main_modules/translator/request-module');
-const { getTranslation } = require('./src/main_modules/translate-module');
+const { makeRequest } = packageModule.requestModule;
+const { getTranslation } = packageModule.translateModule;
 
 // window module
-const windowModule = require('./src/main_modules/window-module');
+const windowModule = packageModule.windowModule;
 
 // correction-module
-const { correctionEntry } = require('./src/main_modules/correction-module');
-const { loadJSON_EN } = require('./src/main_modules/correction-module-en');
-const { loadJSON_JP } = require('./src/main_modules/correction-module-jp');
+const { correctionEntry } = packageModule.correctionModule;
+const { loadJSON_EN } = packageModule.correctionModuleEn;
+const { loadJSON_JP } = packageModule.correctionModuleJp;
 
 // app version
 const appVersion = app.getVersion();

@@ -13,7 +13,7 @@ const fileModule = packageModule.fileModule;
 const { exec } = packageModule.childProcess;
 
 // download git repo
-const downloadGitRepo = packageModule.downloadGitRepo;
+const downloadGitRepo = packageModule.downloadModule;
 
 // config module
 const { loadConfig, saveConfig, getDefaultConfig } = packageModule.configModule;

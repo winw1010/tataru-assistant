@@ -115,10 +115,15 @@ function setCanvasEvent() {
     // get canvas
     const canvas = document.getElementById('canvas_select');
 
-    // line width
-    const lineWidth = 0.2 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    // set line width
+    let lineWidth = 1;
+    try {
+        lineWidth = 0.1 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    } catch (error) {
+        console.log(error);
+    }
 
-    // mouse
+    // set mouse position
     let mousedownScreenPosition = { x: 0, y: 0 };
     let mouseupScreenPosition = { x: 0, y: 0 };
     let mousedownClientPosition = { x: 0, y: 0 };

@@ -1,8 +1,5 @@
 'use strict';
 
-// https://papago.naver.com/main.326c5bbc1f1b8e106d89.chunk.js
-// return{Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.6.9_0f9c783dcc").toString(p.a.enc.Base64),Timestamp:n}
-
 // CryptoJS
 const CryptoJS = require('crypto-js');
 
@@ -15,7 +12,10 @@ const userAgent =
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.*?)(?=;|$)/i;
-const papagoVersionRegExp = /"(?<target>v\d+?\.\d+?\.\d+?_.+?)"/i;
+// const papagoVersionRegExp = /"(?<target>v\d+?\.\d+?\.\d+?_.+?)"/i;
+
+// https://papago.naver.com/main.326c5bbc1f1b8e106d89.chunk.js
+// return{Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.6.9_0f9c783dcc").toString(p.a.enc.Base64),Timestamp:n}
 
 // expire date
 let expireDate = 0;
@@ -80,6 +80,7 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
+    /*
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
 
@@ -107,6 +108,12 @@ async function setAuthentication() {
         ],
         callback: callback,
     })) || {
+        deviceId: generateDeviceId(),
+        papagoVersion: 'v1.6.9_0f9c783dcc',
+    };
+    */
+
+    authentication = {
         deviceId: generateDeviceId(),
         papagoVersion: 'v1.6.9_0f9c783dcc',
     };

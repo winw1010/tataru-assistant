@@ -1,7 +1,7 @@
 body {
     background-color: #00000022;
     color: #ffffff;
-    border: 0.2rem #808080 solid;
+    border: 0.1rem #808080 solid;
 }
 
 input[type='checkbox'] {
@@ -14,7 +14,7 @@ select {
 
 #div_upper_button {
     background-color: #000000bb;
-    border: 0.2rem #808080 solid;
+    border: 0.1rem #808080 solid;
 }
 
 #canvas_select {

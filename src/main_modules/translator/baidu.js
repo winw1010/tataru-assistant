@@ -43,15 +43,6 @@ async function exec(option) {
             throw 'No Response';
         }
 
-        /*
-        console.log({
-            expiredDate: expireDate,
-            cookie: cookie,
-            authentication: authentication,
-            response: response
-        });
-        */
-
         return result;
     } catch (error) {
         console.log(error);

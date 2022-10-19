@@ -12,9 +12,8 @@ const userAgent =
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
-// const fanyideskwebRegExp = /\("fanyideskweb".*?"(?<target>.*?)"\)/i;
+// const fanyideskwebRegExp = /\("fanyideskweb".*?"(?<target>.*?)"\)/i; // sign: n.md5("fanyideskweb" + e + i + "Ygy_4c=r#e#4EX^NUGUc5")
 // const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
-// sign: n.md5("fanyideskweb" + e + i + "Ygy_4c=r#e#4EX^NUGUc5")
 
 // expire date
 let expireDate = 0;
@@ -42,15 +41,6 @@ async function exec(option) {
         if (!result) {
             throw 'No Response';
         }
-
-        /*
-        console.log({
-            expiredDate: expireDate,
-            cookie: cookie,
-            authentication: authentication,
-            response: response
-        });
-        */
 
         return result;
     } catch (error) {

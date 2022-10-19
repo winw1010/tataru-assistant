@@ -12,7 +12,7 @@ const userAgent =
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
-const fanyideskwebRegExp = /\("fanyideskweb".*?"(?<target>.*?)"\)/i;
+// const fanyideskwebRegExp = /\("fanyideskweb".*?"(?<target>.*?)"\)/i;
 // const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
 // sign: n.md5("fanyideskweb" + e + i + "Ygy_4c=r#e#4EX^NUGUc5")
 
@@ -83,6 +83,7 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
+    /*
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
@@ -103,6 +104,11 @@ async function setAuthentication() {
         },
         callback: callback,
     })) || {
+        fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
+    };
+    */
+
+    authentication = {
         fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
     };
 }

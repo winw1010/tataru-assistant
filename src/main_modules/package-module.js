@@ -10,10 +10,12 @@ const myPackages = {
     download: require('download'),
 
     // system
+    appModule: require('./system/app-module'),
     chatCodeModule: require('./system/chat-code-module'),
     configModule: require('./system/config-module'),
     engineModule: require('./system/engine-module'),
     fileModule: require('./system/file-module'),
+    ipcModule: require('./system/ipc-module'),
     requestModule: require('./system/request-module'),
     translateModule: require('./system/translate-module'),
     windowModule: require('./system/window-module'),

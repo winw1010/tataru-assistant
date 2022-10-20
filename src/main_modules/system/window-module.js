@@ -1,7 +1,10 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // electron modules
-const { screen } = require('electron');
+const { screen } = packageModule.electron;
 
 // window list
 let windowList = {

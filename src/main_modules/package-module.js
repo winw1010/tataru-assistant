@@ -4,6 +4,7 @@ const myPackages = {
     // main
     childProcess: require('child_process'),
     fileSystem: require('fs'),
+    path: require('path'),
     electron: require('electron'),
     cryptoJS: require('crypto-js'),
 

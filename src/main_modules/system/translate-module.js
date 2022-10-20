@@ -1,15 +1,21 @@
 'use strict';
 
-const { languageEnum, engineList, getOption } = require('./engine-module');
+// package module
+const packageModule = require('../package-module');
 
-const baidu = require('./translator/baidu');
-const youdao = require('./translator/youdao');
-const caiyun = require('./translator/caiyun');
-const papago = require('./translator/papago');
-const deepl = require('./translator/deepl');
-const google = require('./translator/google');
-const zhConverter = require('./translator/zh-convert');
+// engine module
+const { languageEnum, engineList, getOption } = packageModule.engineModule;
 
+// translator
+const baidu = packageModule.baidu;
+const youdao = packageModule.youdao;
+const caiyun = packageModule.caiyun;
+const papago = packageModule.papago;
+const deepl = packageModule.deepl;
+const google = packageModule.google;
+const zhConverter = packageModule.zhConvert;
+
+// translate
 async function translate(text, translation, table = []) {
     if (text === '') {
         return '……';
@@ -27,12 +33,6 @@ async function translate(text, translation, table = []) {
         let missingCodes = [];
 
         do {
-            // sleep
-            if (tryCount > 0) {
-                console.log('Missing Codes:', missingCodes);
-                await sleep();
-            }
-
             // fix code
             option.text = fixCode(option.text, missingCodes);
 
@@ -89,6 +89,7 @@ async function translate(text, translation, table = []) {
     }
 }
 
+// get translation
 async function getTranslation(engine, option) {
     try {
         let result = '';
@@ -130,6 +131,7 @@ async function getTranslation(engine, option) {
     }
 }
 
+// zh convert
 function zhConvert(text, languageTo) {
     if (languageTo === languageEnum.zht) {
         return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
@@ -140,6 +142,7 @@ function zhConvert(text, languageTo) {
     }
 }
 
+// missing code check
 function missingCodeCheck(text, table) {
     let missingCodes = [];
 
@@ -153,6 +156,7 @@ function missingCodeCheck(text, table) {
     return missingCodes;
 }
 
+// fix code
 function fixCode(text, missingCodes) {
     if (missingCodes.length > 0) {
         for (let index = 0; index < missingCodes.length; index++) {
@@ -166,12 +170,16 @@ function fixCode(text, missingCodes) {
     return text;
 }
 
+/*
+// sleep
 function sleep(ms = 1000) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+*/
 
 // module exports
 module.exports = {
     translate,
     getTranslation,
+    zhConvert,
 };

@@ -1,7 +1,10 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // net
-const { net } = require('electron');
+const { net } = packageModule.electron;
 
 // make request
 async function makeRequest({ options, headers = [], data = null, callback = null }) {

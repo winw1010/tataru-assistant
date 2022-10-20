@@ -1,7 +1,10 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // file module
-const fileModule = require('./file-module');
+const fileModule = packageModule.fileModule;
 
 // config location
 const configLocation = fileModule.getUserDataPath('setting', 'config.json');

@@ -84,7 +84,6 @@ function createWindow(windowName, data = null) {
                     window.setFocusable(true);
                 });
 
-                // save bounds on close
                 window.once('close', () => {
                     // set bounds
                     config.indexWindow.x = window.getPosition()[0];
@@ -102,7 +101,6 @@ function createWindow(windowName, data = null) {
                 break;
 
             case 'capture':
-                // save bounds on close
                 window.once('close', () => {
                     // set bounds
                     config.captureWindow.x = window.getPosition()[0];

@@ -3,14 +3,17 @@
 // package module
 const packageModule = require('./src/main_modules/package-module');
 
+// child process
+const { exec } = packageModule.childProcess;
+
 // electron modules
 const { app, ipcMain, screen, globalShortcut, BrowserWindow } = packageModule.electron;
 
+// engine module
+const { getLanguageCode } = packageModule.engineModule;
+
 // file module
 const fileModule = packageModule.fileModule;
-
-// child process
-const { exec } = packageModule.childProcess;
 
 // download git repo
 const downloadGitRepo = packageModule.downloadModule;
@@ -402,6 +405,11 @@ function setJsonChannel() {
 
 // set translate channel
 function setTranslateChannel() {
+    // get language code
+    ipcMain.on('get-language-code', (event, language, engine) => {
+        event.returnValue = getLanguageCode(language, engine);
+    });
+
     // start translation
     ipcMain.on('start-translation', (event, ...args) => {
         correctionEntry(...args);
@@ -410,14 +418,7 @@ function setTranslateChannel() {
     // get translation
     ipcMain.on('get-translation', (event, engine, option) => {
         getTranslation(engine, option).then((translatedText) => {
-            event.returnValue = translatedText;
-        });
-    });
-
-    // get translation dictionary
-    ipcMain.on('get-translation-dictionary', (event, engine, option) => {
-        getTranslation(engine, option).then((translatedText) => {
-            event.sender.send('send-data', translatedText);
+            event.reply('send-data', translatedText);
         });
     });
 

@@ -87,7 +87,7 @@ function setButton() {
             );
 
             // translate text
-            ipcRenderer.send('get-translation-dictionary', engine, option);
+            ipcRenderer.send('get-translation', engine, option);
         } else {
             document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
             document.getElementById('div_audio').innerHTML = '';

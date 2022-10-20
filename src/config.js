@@ -374,7 +374,7 @@ function saveConfig() {
     ipcRenderer.send('load-json');
 
     // restart server
-    ipcRenderer.send('send-index', 'start-server');
+    ipcRenderer.send('start-server');
 
     // reset view
     ipcRenderer.send('send-index', 'reset-view', config);

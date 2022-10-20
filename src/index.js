@@ -18,9 +18,6 @@ const dialogModule = require('./renderer_modules/dialog-module');
 // image processing module
 const { takeScreenshot } = require('./renderer_modules/image-module');
 
-// server module
-const { startServer } = require('./renderer_modules/server-module');
-
 // click through temp
 let isClickThrough = false;
 let isClickThroughTemp = false;
@@ -97,11 +94,6 @@ function setEvent() {
 
 // set IPC
 function setIPC() {
-    // start server
-    ipcRenderer.on('start-server', () => {
-        startServer();
-    });
-
     // hide update button
     ipcRenderer.on('hide-update-button', (event, ishidden) => {
         document.getElementById('img_button_update').hidden = ishidden;
@@ -262,7 +254,7 @@ function setButton() {
 
 // start app
 function startApp() {
-    startServer();
+    ipcRenderer.send('start-server');
     ipcRenderer.send('initialize-json');
     ipcRenderer.send('version-check');
 }

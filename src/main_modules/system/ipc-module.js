@@ -18,6 +18,9 @@ const { getLanguageCode } = require('./engine-module');
 // request module
 const { makeRequest } = require('./request-module');
 
+// server module
+const serverModule = require('./server-module');
+
 // translate module
 const { getTranslation, zhConvert } = require('./translate-module');
 
@@ -90,6 +93,11 @@ function setSystemChannel() {
     ipcMain.on('set-default-chat-code', (event) => {
         chatCodeModule.setDefaultChatCode();
         event.returnValue = chatCodeModule.getChatCode();
+    });
+
+    // start server
+    ipcMain.on('start-server', () => {
+        serverModule.startServer();
     });
 }
 

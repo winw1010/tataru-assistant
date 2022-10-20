@@ -1,10 +1,13 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
 // http
 const http = require('http');
+
+// config module
+const configModule = require('./config-module');
+
+// correction-module
+const { correctionEntry } = require('../correction/correction-module');
 
 // system channel
 const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
@@ -36,14 +39,13 @@ server.on('listening', () => {
     console.log('Opened server on', server.address());
 });
 
-server.on('error', (err) => {
-    ipcRenderer.send('send-index', 'show-notification', err.message);
+server.on('error', () => {
     server.close();
 });
 
 // start server
 function startServer() {
-    const config = ipcRenderer.sendSync('get-config');
+    const config = configModule.getConfig();
     const host = config.server.host;
     const port = config.server.port;
 
@@ -54,7 +56,7 @@ function startServer() {
 // data process
 function dataProcess(data) {
     try {
-        const config = ipcRenderer.sendSync('get-config');
+        const config = configModule.getConfig();
         let dialogData = JSON.parse(data.toString());
 
         if (dataCheck(dialogData)) {
@@ -92,10 +94,10 @@ function dataProcess(data) {
                 }
 
                 // start correction
-                ipcRenderer.send('start-translation', dialogData, config.translation);
+                correctionEntry(dialogData, config.translation);
 
                 // show data
-                console.warn('data:', dialogData);
+                console.log('data:', dialogData);
             } else {
                 // show data
                 console.log('data:', dialogData);

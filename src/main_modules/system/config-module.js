@@ -69,19 +69,22 @@ const defaultConfig = {
     },
 };
 
+// current config
+let currentConfig = defaultConfig;
+
 // load config
 function loadConfig() {
     try {
-        let config = fileModule.jsonReader(configLocation, false);
+        currentConfig = fileModule.jsonReader(configLocation, false);
 
         // fix old bug
-        if (Array.isArray(config)) {
+        if (Array.isArray(currentConfig)) {
             throw null;
         }
 
         const mainNames = Object.getOwnPropertyNames(defaultConfig);
         mainNames.forEach((mainName) => {
-            if (config[mainName]) {
+            if (currentConfig[mainName]) {
                 // skip checking when value is channel
                 if (mainName === 'channel') {
                     return;
@@ -90,68 +93,70 @@ function loadConfig() {
                 // add property
                 const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
                 subNames.forEach((subName) => {
-                    if (config[mainName][subName] === null || config[mainName][subName] === undefined) {
-                        config[mainName][subName] = defaultConfig[mainName][subName];
+                    if (currentConfig[mainName][subName] === null || currentConfig[mainName][subName] === undefined) {
+                        currentConfig[mainName][subName] = defaultConfig[mainName][subName];
                     }
                 });
 
                 // delete redundant property
-                const subNames2 = Object.getOwnPropertyNames(config[mainName]);
+                const subNames2 = Object.getOwnPropertyNames(currentConfig[mainName]);
                 if (subNames.length !== subNames2.length) {
                     subNames2.forEach((subName) => {
                         if (
                             defaultConfig[mainName][subName] === null ||
                             defaultConfig[mainName][subName] === undefined
                         ) {
-                            delete config[mainName][subName];
+                            delete currentConfig[mainName][subName];
                         }
                     });
                 }
             } else {
-                config[mainName] = defaultConfig[mainName];
+                currentConfig[mainName] = defaultConfig[mainName];
             }
         });
 
         // adjust property
-        if (config.translation.engine === 'Google') {
-            config.translation.engine = 'Youdao';
+        if (currentConfig.translation.engine === 'Google') {
+            currentConfig.translation.engine = 'Youdao';
         }
 
-        config.system.firstTime = false;
-
-        return config;
+        currentConfig.system.firstTime = false;
     } catch (error) {
-        saveDefaultConfig();
-        return defaultConfig;
+        console.log(error);
     }
+
+    return currentConfig;
 }
 
 // save config
-function saveConfig(config) {
+function saveConfig() {
     try {
-        fileModule.jsonWriter(configLocation, config);
+        fileModule.jsonWriter(configLocation, currentConfig);
     } catch (error) {
         console.log(error);
     }
 }
 
-// get default config
-function getDefaultConfig() {
-    return defaultConfig;
+// get config
+function getConfig() {
+    return currentConfig;
 }
 
-// save default config
-function saveDefaultConfig() {
-    try {
-        fileModule.jsonWriter(configLocation, defaultConfig);
-    } catch (error) {
-        console.log(error);
-    }
+// set config
+function setConfig(newConfig) {
+    currentConfig = newConfig;
+}
+
+// set default config
+function setDefaultConfig() {
+    currentConfig = defaultConfig;
 }
 
 // module exports
 module.exports = {
     loadConfig,
     saveConfig,
-    getDefaultConfig,
+    getConfig,
+    setConfig,
+    setDefaultConfig,
 };

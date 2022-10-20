@@ -19,10 +19,10 @@ const fileModule = packageModule.fileModule;
 const downloadGitRepo = packageModule.downloadModule;
 
 // config module
-const { loadConfig, saveConfig, getDefaultConfig } = packageModule.configModule;
+const configModule = packageModule.configModule;
 
 // chat code module
-const { loadChatCode, saveChatCode, getDefaultChatCode } = packageModule.chatCodeModule;
+const chatCodeModule = packageModule.chatCodeModule;
 
 // correction-module
 const { correctionEntry } = packageModule.correctionModule;
@@ -44,19 +44,15 @@ const windowModule = packageModule.windowModule;
 // app version
 const appVersion = app.getVersion();
 
-// config
-let config = null;
-let chatCode = null;
-
 // when ready
 app.whenReady().then(() => {
     // start app
     startApp();
 
     // create index window
-    createWindow('index');
+    windowModule.createWindow('index');
     app.on('activate', function () {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow('index');
+        if (BrowserWindow.getAllWindows().length === 0) windowModule.createWindow('index');
     });
 });
 
@@ -76,10 +72,10 @@ function startApp() {
     fileModule.directoryCheck();
 
     // load config
-    config = loadConfig();
+    configModule.loadConfig();
 
     // load chat code
-    chatCode = loadChatCode();
+    chatCodeModule.loadChatCode();
 
     // detect user language
     detectUserLanguage();
@@ -115,44 +111,36 @@ function setSystemChannel() {
 
     // get config
     ipcMain.on('get-config', (event) => {
-        if (!config) {
-            config = loadConfig();
-        }
-
-        event.returnValue = config;
+        event.returnValue = configModule.getConfig();
     });
 
     // set config
     ipcMain.on('set-config', (event, newConfig) => {
-        config = newConfig;
-        event.returnValue = config;
+        configModule.setConfig(newConfig);
+        event.returnValue = configModule.getConfig();
     });
 
     // set default config
     ipcMain.on('set-default-config', (event) => {
-        config = getDefaultConfig();
-        event.returnValue = config;
+        configModule.setDefaultConfig();
+        event.returnValue = configModule.getConfig();
     });
 
     // get chat code
     ipcMain.on('get-chat-code', (event) => {
-        if (!chatCode) {
-            chatCode = loadChatCode();
-        }
-
-        event.returnValue = chatCode;
+        event.returnValue = chatCodeModule.getChatCode();
     });
 
     // set chat code
     ipcMain.on('set-chat-code', (event, newChatCode) => {
-        chatCode = newChatCode;
-        event.returnValue = chatCode;
+        chatCodeModule.setChatCode(newChatCode);
+        event.returnValue = chatCodeModule.getChatCode();
     });
 
     // set default chat code
     ipcMain.on('set-default-chat-code', (event) => {
-        chatCode = getDefaultChatCode();
-        event.returnValue = chatCode;
+        chatCodeModule.setDefaultChatCode();
+        event.returnValue = chatCodeModule.getChatCode();
     });
 }
 
@@ -163,7 +151,7 @@ function setWindowChannel() {
         try {
             windowModule.closeWindow(windowName);
         } catch (error) {
-            createWindow(windowName, data);
+            windowModule.createWindow(windowName, data);
         }
     });
 
@@ -173,7 +161,7 @@ function setWindowChannel() {
             windowModule.closeWindow(windowName);
             throw null;
         } catch (error) {
-            createWindow(windowName, data);
+            windowModule.createWindow(windowName, data);
         }
     });
 
@@ -244,6 +232,7 @@ function setWindowChannel() {
 
     // mouse out check
     ipcMain.on('mouse-out-check', (event) => {
+        const config = configModule.getConfig();
         const cursorScreenPoint = screen.getCursorScreenPoint();
         const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
         const isMouseOut =
@@ -435,6 +424,8 @@ function setTranslateChannel() {
 
 // detect user language
 function detectUserLanguage() {
+    const config = configModule.getConfig();
+
     if (config.system.firstTime) {
         const env = process.env;
         const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
@@ -459,7 +450,7 @@ function setGlobalShortcut() {
         try {
             windowModule.closeWindow('config');
         } catch (error) {
-            createWindow('config');
+            windowModule.createWindow('config');
         }
     });
 
@@ -467,7 +458,7 @@ function setGlobalShortcut() {
         try {
             windowModule.closeWindow('capture');
         } catch (error) {
-            createWindow('capture');
+            windowModule.createWindow('capture');
         }
     });
 
@@ -478,6 +469,8 @@ function setGlobalShortcut() {
 
 // initialize json
 function initializeJSON() {
+    const config = configModule.getConfig();
+
     if (config.system.autoDownloadJson) {
         downloadJSON();
     } else {
@@ -508,107 +501,11 @@ function downloadJSON() {
 
 // load json
 function loadJSON() {
-    let languageTo = config.translation.to;
+    const config = configModule.getConfig();
+    const languageTo = config.translation.to;
+
     loadJSON_EN(languageTo);
     loadJSON_JP(languageTo);
 
     windowModule.sendIndex('show-notification', '對照表讀取完畢');
-}
-
-// create window
-function createWindow(windowName, data = null) {
-    try {
-        // get size
-        const windowSize = windowModule.getWindowSize(windowName, config);
-
-        // create new window
-        const window = new BrowserWindow({
-            x: windowSize.x,
-            y: windowSize.y,
-            width: windowSize.width,
-            height: windowSize.height,
-            show: false,
-            frame: false,
-            transparent: true,
-            fullscreenable: false,
-            webPreferences: {
-                contextIsolation: true,
-                nodeIntegration: false,
-                sandbox: false,
-                preload: fileModule.getPath(__dirname, 'src', `${windowName}.js`),
-            },
-        });
-
-        // set always on top
-        const alwaysOnTop = windowName !== 'edit';
-        window.setAlwaysOnTop(alwaysOnTop, 'screen-saver');
-
-        // set minimizable
-        window.setMinimizable(false);
-
-        // show window
-        window.once('ready-to-show', () => {
-            window.show();
-        });
-
-        // send data
-        if (data) {
-            window.webContents.once('did-finish-load', () => {
-                window.webContents.send('send-data', data);
-            });
-        }
-
-        // save config on closing
-        switch (windowName) {
-            case 'index':
-                // set foucusable
-                window.setFocusable(config.indexWindow.focusable);
-                window.on('restore', () => {
-                    window.setFocusable(config.indexWindow.focusable);
-                });
-                window.on('minimize', () => {
-                    window.setFocusable(true);
-                });
-
-                // save position on close
-                window.once('close', () => {
-                    config.indexWindow.x = window.getPosition()[0];
-                    config.indexWindow.y = window.getPosition()[1];
-
-                    // save size
-                    config.indexWindow.width = window.getSize()[0];
-                    config.indexWindow.height = window.getSize()[1];
-
-                    // save config
-                    saveConfig(config);
-
-                    // save chat code
-                    saveChatCode(chatCode);
-                });
-                break;
-
-            case 'capture':
-                window.once('close', () => {
-                    // save position
-                    config.captureWindow.x = window.getPosition()[0];
-                    config.captureWindow.y = window.getPosition()[1];
-
-                    // save size
-                    config.captureWindow.width = window.getSize()[0];
-                    config.captureWindow.height = window.getSize()[1];
-                });
-                break;
-
-            default:
-                break;
-        }
-
-        // load html
-        window.loadFile(fileModule.getPath(__dirname, 'src', `${windowName}.html`));
-
-        // save window
-        windowModule.setWindow(windowName, window);
-    } catch (error) {
-        console.log(error);
-    }
 }

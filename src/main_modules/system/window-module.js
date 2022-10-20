@@ -4,7 +4,16 @@
 const packageModule = require('../package-module');
 
 // electron modules
-const { screen } = packageModule.electron;
+const { BrowserWindow, screen } = packageModule.electron;
+
+// file module
+const fileModule = packageModule.fileModule;
+
+// config module
+const configModule = packageModule.configModule;
+
+// chat code module
+const chatCodeModule = packageModule.chatCodeModule;
 
 // window list
 let windowList = {
@@ -16,6 +25,107 @@ let windowList = {
     'read-log': null,
     dictionary: null,
 };
+
+// create window
+function createWindow(windowName, data = null) {
+    try {
+        // get config
+        const config = configModule.getConfig();
+
+        // get size
+        const windowSize = getWindowSize(windowName, config);
+
+        // create new window
+        const window = new BrowserWindow({
+            x: windowSize.x,
+            y: windowSize.y,
+            width: windowSize.width,
+            height: windowSize.height,
+            show: false,
+            frame: false,
+            transparent: true,
+            fullscreenable: false,
+            webPreferences: {
+                contextIsolation: true,
+                nodeIntegration: false,
+                sandbox: false,
+                preload: fileModule.getPath(__dirname, 'src', `${windowName}.js`),
+            },
+        });
+
+        // set always on top
+        const alwaysOnTop = windowName !== 'edit';
+        window.setAlwaysOnTop(alwaysOnTop, 'screen-saver');
+
+        // set minimizable
+        window.setMinimizable(false);
+
+        // show window
+        window.once('ready-to-show', () => {
+            window.show();
+        });
+
+        // send data
+        if (data) {
+            window.webContents.once('did-finish-load', () => {
+                window.webContents.send('send-data', data);
+            });
+        }
+
+        // save config on closing
+        switch (windowName) {
+            case 'index':
+                // set foucusable
+                window.setFocusable(config.indexWindow.focusable);
+                window.on('restore', () => {
+                    window.setFocusable(config.indexWindow.focusable);
+                });
+                window.on('minimize', () => {
+                    window.setFocusable(true);
+                });
+
+                // save bounds on close
+                window.once('close', () => {
+                    // set bounds
+                    config.indexWindow.x = window.getPosition()[0];
+                    config.indexWindow.y = window.getPosition()[1];
+                    config.indexWindow.width = window.getSize()[0];
+                    config.indexWindow.height = window.getSize()[1];
+                    configModule.setConfig(config);
+
+                    // save config
+                    configModule.saveConfig();
+
+                    // save chat code
+                    chatCodeModule.saveChatCode();
+                });
+                break;
+
+            case 'capture':
+                // save bounds on close
+                window.once('close', () => {
+                    // set bounds
+                    config.captureWindow.x = window.getPosition()[0];
+                    config.captureWindow.y = window.getPosition()[1];
+                    config.captureWindow.width = window.getSize()[0];
+                    config.captureWindow.height = window.getSize()[1];
+                    configModule.setConfig(config);
+                });
+                break;
+
+            default:
+                break;
+        }
+
+        // load html
+        window.loadFile(fileModule.getPath(__dirname, 'src', `${windowName}.html`));
+
+        // save window
+        setWindow(windowName, window);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // get window size
 function getWindowSize(windowName, config) {
@@ -189,6 +299,7 @@ function openDevTools() {
 
 // module exports
 module.exports = {
+    createWindow,
     getWindowSize,
     setWindow,
     getWindow,

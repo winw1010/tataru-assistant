@@ -1,3 +1,3 @@
 'use strict';
-const target = require('../main_modules/engine-module');
+const target = require('../main_modules/system/engine-module');
 module.exports = target;

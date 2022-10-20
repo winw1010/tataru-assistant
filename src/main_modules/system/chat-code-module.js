@@ -223,48 +223,53 @@ const defaultChatCode = [
     },
 ];
 
+// current chat code
+let currentChatCode = defaultChatCode;
+
 // load chat code
 function loadChatCode() {
     try {
-        const chatCode = fileModule.jsonReader(chatCodeLocation, false);
+        currentChatCode = fileModule.jsonReader(chatCodeLocation, false);
 
-        if (defaultChatCode.length !== chatCode.length) {
+        if (defaultChatCode.length !== currentChatCode.length) {
             throw null;
         }
-
-        return chatCode;
     } catch (error) {
-        saveDefaultChatCode();
-        return defaultChatCode;
+        console.log(error);
     }
+
+    return currentChatCode;
 }
 
 // save chat code
-function saveChatCode(chatCode) {
+function saveChatCode() {
     try {
-        fileModule.jsonWriter(chatCodeLocation, chatCode);
+        fileModule.jsonWriter(chatCodeLocation, currentChatCode);
     } catch (error) {
         console.log(error);
     }
 }
 
-// get default chat code
-function getDefaultChatCode() {
-    return defaultChatCode;
+// get chat code
+function getChatCode() {
+    return currentChatCode;
 }
 
-// save default chat code
-function saveDefaultChatCode() {
-    try {
-        fileModule.jsonWriter(chatCodeLocation, defaultChatCode);
-    } catch (error) {
-        console.log(error);
-    }
+// set chat code
+function setChatCode(newChatCode) {
+    currentChatCode = newChatCode;
+}
+
+// set default chat code
+function setDefaultChatCode() {
+    currentChatCode = defaultChatCode;
 }
 
 // module exports
 module.exports = {
     loadChatCode,
     saveChatCode,
-    getDefaultChatCode,
+    getChatCode,
+    setChatCode,
+    setDefaultChatCode,
 };

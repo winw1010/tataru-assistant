@@ -1,55 +1,42 @@
 'use strict';
 
 const myPackages = {
-    // system
+    // core
     childProcess: require('child_process'),
+    fileSystem: require('fs'),
     electron: require('electron'),
 
-    // main
-    configModule: require('./config-module'),
-    chatCodeModule: require('./chat-code-module'),
-    fileModule: require('./file-module'),
-    windowModule: require('./window-module'),
+    // system
+    chatCodeModule: require('./system/chat-code-module'),
+    configModule: require('./system/config-module'),
+    engineModule: require('./system/engine-module'),
+    fileModule: require('./system/file-module'),
+    requestModule: require('./system/request-module'),
+    translateModule: require('./system/translate-module'),
+    windowModule: require('./system/window-module'),
 
-    // translate
-    engineModule: require('./engine-module'),
-    downloadModule: require('./download-module'),
-    correctionFunctionEn: require('./correction-function-en'),
-    correctionFunctionJp: require('./correction-function-jp'),
-    correctionFunction: require('./correction-function'),
-    correctionModuleEn: require('./correction-module-en'),
-    correctionModuleJp: require('./correction-module-jp'),
-    correctionModule: require('./correction-module'),
-    translateModule: require('./translate-module'),
+    // correction
+    correctionFunctionEn: require('./correction/correction-function-en'),
+    correctionFunctionJp: require('./correction/correction-function-jp'),
+    correctionFunction: require('./correction/correction-function'),
+    correctionModuleEn: require('./correction/correction-module-en'),
+    correctionModuleJp: require('./correction/correction-module-jp'),
+    correctionModule: require('./correction/correction-module'),
+    downloadModule: require('./correction/download-module'),
 
-    // youdao
-    youdao: require('./translator/youdao'),
-
-    // baidu
-    baidu: require('./translator/baidu'),
+    // translator
     baiduEncoder: require('./translator/baidu-encoder'),
-
-    // caiyun
+    baidu: require('./translator/baidu'),
     caiyun: require('./translator/caiyun'),
-
-    // papago
-    papago: require('./translator/papago'),
-
-    // deepl
-    deepl: require('./translator/deepl'),
     deeplRequest: require('./translator/deepl-request'),
-
-    // google
-    google: require('./translator/google'),
+    deepl: require('./translator/deepl'),
     googleEncoder: require('./translator/google-encoder'),
     googleTTS: require('./translator/google-tts'),
-
-    // zh convert
-    zhConvert: require('./translator/zh-convert'),
+    google: require('./translator/google'),
+    papago: require('./translator/papago'),
+    youdao: require('./translator/youdao'),
     zhConvertList: require('./translator/zh-convert-list'),
-
-    // request module
-    requestModule: require('./translator/request-module'),
+    zhConvert: require('./translator/zh-convert'),
 };
 
 module.exports = myPackages;

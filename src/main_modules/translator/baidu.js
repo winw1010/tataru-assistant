@@ -1,7 +1,7 @@
 'use strict';
 
 // request module
-const { makeRequest, requestCookie } = require('./request-module');
+const { makeRequest, requestCookie } = require('../system/request-module');
 
 // baidu encoder
 const { signEncoder } = require('./baidu-encoder');

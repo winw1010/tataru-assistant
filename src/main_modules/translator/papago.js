@@ -7,7 +7,7 @@
 const CryptoJS = require('crypto-js');
 
 // request module
-const { makeRequest, requestCookie } = require('./request-module');
+const { makeRequest, requestCookie } = require('../system/request-module');
 
 // user agent
 const userAgent =

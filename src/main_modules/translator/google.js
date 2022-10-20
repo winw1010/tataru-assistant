@@ -1,7 +1,7 @@
 'use strict';
 
 // request module
-const { makeRequest } = require('./request-module');
+const { makeRequest } = require('../system/request-module');
 
 // google encoder
 const { tokenEncoder } = require('./google-encoder');

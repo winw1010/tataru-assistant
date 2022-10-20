@@ -1,17 +1,20 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // language table
-const { languageEnum, languageIndex } = require('./engine-module');
+const { languageEnum, languageIndex } = packageModule.engineModule;
 
 // correction function
-const cfjp = require('./correction-function-jp');
-const cf = require('./correction-function');
+const cfjp = packageModule.correctionFunctionJp;
+const cf = packageModule.correctionFunction;
 
 // translator module
-const tm = require('./translate-module');
+const tm = packageModule.translateModule;
 
 // main window module
-const windowModule = require('./window-module');
+const windowModule = packageModule.windowModule;
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];

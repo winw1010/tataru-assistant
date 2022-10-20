@@ -7,6 +7,7 @@ const myPackages = {
     path: require('path'),
     electron: require('electron'),
     cryptoJS: require('crypto-js'),
+    download: require('download'),
 
     // system
     chatCodeModule: require('./system/chat-code-module'),

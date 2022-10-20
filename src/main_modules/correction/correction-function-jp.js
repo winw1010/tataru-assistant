@@ -1,7 +1,10 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // correction function
-const cf = require('./correction-function');
+const cf = packageModule.correctionFunction;
 
 // female words
 const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];

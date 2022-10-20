@@ -1,11 +1,14 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // language table
-const { languageEnum } = require('./engine-module');
+const { languageEnum } = packageModule.engineModule;
 
 // correction module
-const { addToCorrectionQueue_JP } = require('./correction-module-jp');
-const { addToCorrectionQueue_EN } = require('./correction-module-en');
+const { addToCorrectionQueue_JP } = packageModule.correctionModuleJp;
+const { addToCorrectionQueue_EN } = packageModule.correctionModuleEn;
 
 // player channel
 const playerChannel = [

@@ -21,17 +21,22 @@ const { loadConfig, saveConfig, getDefaultConfig } = packageModule.configModule;
 // chat code module
 const { loadChatCode, saveChatCode, getDefaultChatCode } = packageModule.chatCodeModule;
 
-// request
-const { makeRequest } = packageModule.requestModule;
-const { getTranslation } = packageModule.translateModule;
-
-// window module
-const windowModule = packageModule.windowModule;
-
 // correction-module
 const { correctionEntry } = packageModule.correctionModule;
 const { loadJSON_EN } = packageModule.correctionModuleEn;
 const { loadJSON_JP } = packageModule.correctionModuleJp;
+
+// request module
+const { makeRequest } = packageModule.requestModule;
+
+// translate module
+const { getTranslation, zhConvert } = packageModule.translateModule;
+
+// google tts
+const { getAudioUrl } = packageModule.googleTTS;
+
+// window module
+const windowModule = packageModule.windowModule;
 
 // app version
 const appVersion = app.getVersion();
@@ -88,8 +93,9 @@ function setIPC() {
     setSystemChannel();
     setWindowChannel();
     setCaptureChannel();
-    setTranslationChannel();
+    setJsonChannel();
     setRequestChannel();
+    setTranslateChannel();
 }
 
 // set system channel
@@ -315,29 +321,6 @@ function setCaptureChannel() {
     });
 }
 
-// set translation channel
-function setTranslationChannel() {
-    // initialize json
-    ipcMain.on('initialize-json', () => {
-        initializeJSON();
-    });
-
-    // download json
-    ipcMain.on('download-json', () => {
-        downloadJSON();
-    });
-
-    // load json
-    ipcMain.on('load-json', () => {
-        loadJSON();
-    });
-
-    // start translation
-    ipcMain.on('start-translation', (event, ...args) => {
-        correctionEntry(...args);
-    });
-}
-
 // set request channel
 function setRequestChannel() {
     // request latest verssion
@@ -379,20 +362,6 @@ function setRequestChannel() {
             });
     });
 
-    // get translation
-    ipcMain.on('get-translation', (event, engine, option) => {
-        getTranslation(engine, option).then((translatedText) => {
-            event.returnValue = translatedText;
-        });
-    });
-
-    // get translation dictionary
-    ipcMain.on('get-translation-dictionary', (event, engine, option) => {
-        getTranslation(engine, option).then((translatedText) => {
-            event.sender.send('send-data', translatedText);
-        });
-    });
-
     // post form
     ipcMain.on('post-form', (event, path) => {
         const callback = function (response) {
@@ -410,6 +379,56 @@ function setRequestChannel() {
             },
             callback: callback,
         });
+    });
+}
+
+// set json channel
+function setJsonChannel() {
+    // initialize json
+    ipcMain.on('initialize-json', () => {
+        initializeJSON();
+    });
+
+    // download json
+    ipcMain.on('download-json', () => {
+        downloadJSON();
+    });
+
+    // load json
+    ipcMain.on('load-json', () => {
+        loadJSON();
+    });
+}
+
+// set translate channel
+function setTranslateChannel() {
+    // start translation
+    ipcMain.on('start-translation', (event, ...args) => {
+        correctionEntry(...args);
+    });
+
+    // get translation
+    ipcMain.on('get-translation', (event, engine, option) => {
+        getTranslation(engine, option).then((translatedText) => {
+            event.returnValue = translatedText;
+        });
+    });
+
+    // get translation dictionary
+    ipcMain.on('get-translation-dictionary', (event, engine, option) => {
+        getTranslation(engine, option).then((translatedText) => {
+            event.sender.send('send-data', translatedText);
+        });
+    });
+
+    // zh convert
+    ipcMain.on('zh-convert', (event, text, languageTo) => {
+        event.returnValue = zhConvert(text, languageTo);
+    });
+
+    // google tts
+    ipcMain.on('google-tts', (event, option) => {
+        event.returnValue = getAudioUrl(option);
     });
 }
 

@@ -1,7 +1,10 @@
 'use strict';
 
+// package module
+const packageModule = require('../package-module');
+
 // request module
-const { makeRequest } = require('../system/request-module');
+const { makeRequest } = packageModule.requestModule;
 
 // translate
 async function exec(option) {

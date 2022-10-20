@@ -3,11 +3,14 @@
 // https://papago.naver.com/main.326c5bbc1f1b8e106d89.chunk.js
 // return{Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.6.9_0f9c783dcc").toString(p.a.enc.Base64),Timestamp:n}
 
+// package module
+const packageModule = require('../package-module');
+
 // CryptoJS
-const CryptoJS = require('crypto-js');
+const CryptoJS = packageModule.cryptoJS;
 
 // request module
-const { makeRequest, requestCookie } = require('../system/request-module');
+const { makeRequest, requestCookie } = packageModule.requestModule;
 
 // user agent
 const userAgent =

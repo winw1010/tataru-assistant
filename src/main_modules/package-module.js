@@ -1,10 +1,11 @@
 'use strict';
 
 const myPackages = {
-    // core
+    // main
     childProcess: require('child_process'),
     fileSystem: require('fs'),
     electron: require('electron'),
+    cryptoJS: require('crypto-js'),
 
     // system
     chatCodeModule: require('./system/chat-code-module'),
@@ -35,7 +36,7 @@ const myPackages = {
     google: require('./translator/google'),
     papago: require('./translator/papago'),
     youdao: require('./translator/youdao'),
-    zhConvertList: require('./translator/zh-convert-list'),
+    zhConvertTable: require('./translator/zh-convert-table'),
     zhConvert: require('./translator/zh-convert'),
 };
 

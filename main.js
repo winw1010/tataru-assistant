@@ -3,14 +3,14 @@
 // electron
 const { app, BrowserWindow } = require('electron');
 
+// app module
+const appModule = require('./src/main_modules/system/app-module');
+
 // window module
 const windowModule = require('./src/main_modules/system/window-module');
 
 // when ready
 app.whenReady().then(() => {
-    // app module
-    const appModule = require('./src/main_modules/system/app-module');
-
     // start app
     appModule.startApp();
 

@@ -397,14 +397,20 @@ function saveDefaultConfig() {
     // load json
     ipcRenderer.send('load-json');
 
-    // reset config
-    showConfig();
+    // restart server
+    ipcRenderer.send('start-server');
 
     // reset view
     ipcRenderer.send('send-index', 'reset-view', config);
 
     // change UI text
     ipcRenderer.send('change-ui-text');
+
+    // notification
+    ipcRenderer.send('send-index', 'show-notification', '已套用預設值');
+
+    // reset config
+    showConfig();
 }
 
 // load channel

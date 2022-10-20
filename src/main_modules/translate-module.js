@@ -27,11 +27,13 @@ async function translate(text, translation, table = []) {
         let missingCodes = [];
 
         do {
+            /*
             // sleep
             if (tryCount > 0) {
                 console.log('Missing Codes:', missingCodes);
                 await sleep();
             }
+            */
 
             // fix code
             option.text = fixCode(option.text, missingCodes);
@@ -166,9 +168,11 @@ function fixCode(text, missingCodes) {
     return text;
 }
 
+/*
 function sleep(ms = 1000) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+*/
 
 // module exports
 module.exports = {

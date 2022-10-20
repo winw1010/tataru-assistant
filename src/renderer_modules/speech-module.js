@@ -12,8 +12,8 @@ let playlist = [];
 let nowPlaying = null;
 let playInterval = null;
 
-// add text
-function addText(text, translation) {
+// add to play list
+function addToPlaylist(text, translation) {
     playlist.push({ text, translation });
 }
 
@@ -39,6 +39,21 @@ function stopPlaying() {
     nowPlaying = null;
     playlist = [];
 }
+
+// play next audio
+function playNext() {
+    try {
+        if (!nowPlaying) {
+            const element = playlist.shift();
+        }
+    } catch (error) {
+        console.log(error);
+        nowPlaying = null;
+    }
+}
+
+// create audio
+function createAudio(params) {}
 
 // get google speech url
 function getGoogleSpeechUrl(option = { text: '', language: 'en' }) {

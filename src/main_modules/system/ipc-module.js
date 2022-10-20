@@ -152,8 +152,7 @@ function setWindowChannel() {
     // always on top
     ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
         try {
-            const indexWindow = BrowserWindow.fromWebContents(event.sender);
-            indexWindow.setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
+            BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
         } catch (error) {
             console.log(error);
         }

@@ -1,28 +1,25 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // child process
-const { exec } = packageModule.childProcess;
+const { exec } = require('child_process');
 
 // electron
-const { app, globalShortcut } = packageModule.electron;
+const { app, globalShortcut } = require('electron');
 
 // file module
-const fileModule = packageModule.fileModule;
+const fileModule = require('./file-module');
 
 // config module
-const configModule = packageModule.configModule;
+const configModule = require('./config-module');
 
 // chat code module
-const chatCodeModule = packageModule.chatCodeModule;
+const chatCodeModule = require('./chat-code-module');
 
 // window module
-const windowModule = packageModule.windowModule;
+const windowModule = require('./window-module');
 
 // ipc module
-const ipcModule = packageModule.ipcModule;
+const ipcModule = require('./ipc-module');
 
 // start app
 function startApp() {

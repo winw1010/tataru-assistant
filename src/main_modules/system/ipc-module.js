@@ -1,42 +1,39 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // child process
-const { exec } = packageModule.childProcess;
+const { exec } = require('child_process');
 
 // electron
-const { app, ipcMain, screen, BrowserWindow } = packageModule.electron;
+const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
 // config module
-const configModule = packageModule.configModule;
+const configModule = require('./config-module');
 
 // chat code module
-const chatCodeModule = packageModule.chatCodeModule;
-
-// download git repo
-const downloadGitRepo = packageModule.downloadModule;
+const chatCodeModule = require('./chat-code-module');
 
 // engine module
-const { getLanguageCode } = packageModule.engineModule;
-
-// correction-module
-const { correctionEntry } = packageModule.correctionModule;
-const { loadJSON_EN } = packageModule.correctionModuleEn;
-const { loadJSON_JP } = packageModule.correctionModuleJp;
+const { getLanguageCode } = require('./engine-module');
 
 // request module
-const { makeRequest } = packageModule.requestModule;
+const { makeRequest } = require('./request-module');
 
 // translate module
-const { getTranslation, zhConvert } = packageModule.translateModule;
-
-// google tts
-const googleTTS = packageModule.googleTTS;
+const { getTranslation, zhConvert } = require('./translate-module');
 
 // window module
-const windowModule = packageModule.windowModule;
+const windowModule = require('./window-module');
+
+// download git repo
+const downloadGitRepo = require('../correction/download-module');
+
+// correction-module
+const { correctionEntry } = require('../correction/correction-module');
+const { loadJSON_EN } = require('../correction/correction-module-en');
+const { loadJSON_JP } = require('../correction/correction-module-jp');
+
+// google tts
+const googleTTS = require('../translator/google-tts');
 
 // app version
 const appVersion = app.getVersion();

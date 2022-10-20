@@ -1,10 +1,7 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // zh tables
-const zhTables = packageModule.zhConvertTable;
+const zhTables = require('./zh-convert-table');
 
 // exec
 function exec(option = { text: '', tableName: 'zh2Hant' }) {

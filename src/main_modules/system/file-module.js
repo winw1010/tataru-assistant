@@ -1,13 +1,10 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // fs
-const fs = packageModule.fileSystem;
+const fs = require('fs');
 
 // path
-const path = packageModule.path;
+const path = require('path');
 
 // root path
 const rootPath = process.cwd();

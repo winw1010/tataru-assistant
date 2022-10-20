@@ -1,13 +1,10 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // fs
-const { readdirSync } = packageModule.fileSystem;
+const { readdirSync } = require('fs');
 
 // file module
-const fileModule = packageModule.fileModule;
+const fileModule = require('../system/file-module');
 
 // skip check
 function skipCheck(code, name, text, ignoreArray) {

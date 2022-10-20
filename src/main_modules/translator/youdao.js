@@ -1,13 +1,10 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // CryptoJS
-const CryptoJS = packageModule.cryptoJS;
+const CryptoJS = require('crypto-js');
 
 // request module
-const { makeRequest, requestCookie } = packageModule.requestModule;
+const { makeRequest, requestCookie } = require('../system/request-module');
 
 // user agent
 const userAgent =

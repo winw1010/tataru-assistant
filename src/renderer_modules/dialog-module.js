@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // file module
-const fileModule = require('../main_modules/file-module');
+const fileModule = require('../main_modules/system/file-module');
 
 // audio module
 const { addToPlaylist } = require('./audio-module');

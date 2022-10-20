@@ -1,19 +1,16 @@
 'use strict';
 
-// package module
-const packageModule = require('./src/main_modules/package-module');
-
 // electron
-const { app, BrowserWindow } = packageModule.electron;
-
-// app module
-const appModule = packageModule.appModule;
+const { app, BrowserWindow } = require('electron');
 
 // window module
-const windowModule = packageModule.windowModule;
+const windowModule = require('./src/main_modules/system/window-module');
 
 // when ready
 app.whenReady().then(() => {
+    // app module
+    const appModule = require('./src/main_modules/system/app-module');
+
     // start app
     appModule.startApp();
 

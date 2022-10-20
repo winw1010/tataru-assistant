@@ -1,19 +1,16 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // electron modules
-const { BrowserWindow, screen } = packageModule.electron;
+const { BrowserWindow, screen } = require('electron');
 
 // file module
-const fileModule = packageModule.fileModule;
+const fileModule = require('./file-module');
 
 // config module
-const configModule = packageModule.configModule;
+const configModule = require('./config-module');
 
 // chat code module
-const chatCodeModule = packageModule.chatCodeModule;
+const chatCodeModule = require('./chat-code-module');
 
 // window list
 let windowList = {
@@ -49,7 +46,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: false,
-                preload: fileModule.getPath(__dirname, 'src', `${windowName}.js`),
+                preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
             },
         });
 
@@ -116,7 +113,7 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(fileModule.getPath(__dirname, 'src', `${windowName}.html`));
+        window.loadFile(fileModule.getPath(__dirname, '..', '..', `${windowName}.html`));
 
         // save window
         setWindow(windowName, window);

@@ -4,13 +4,13 @@
 const { ipcRenderer } = require('electron');
 
 // correction function
-const { sameAsArrayItem } = require('./main_modules/correction-function');
+const { sameAsArrayItem } = require('./main_modules/correction/correction-function');
 
 // file module
-const fileModule = require('./main_modules/file-module');
+const fileModule = require('./main_modules/system/file-module');
 
 // language table
-const { getLanguageCode } = require('./main_modules/engine-module');
+const { getLanguageCode } = require('./main_modules/system/engine-module');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');

@@ -1,10 +1,7 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // download
-const downloadUrl = packageModule.download;
+const downloadUrl = require('download');
 
 /**
  * Download `repo` to `dest` and callback `fn(err)`.

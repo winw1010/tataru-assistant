@@ -7,7 +7,7 @@ const vision = require('@google-cloud/vision');
 const { unlinkSync } = require('fs');
 
 // file module
-const fileModule = require('../main_modules/file-module');
+const fileModule = require('../main_modules/system/file-module');
 
 // sharp
 const sharp = require('sharp');

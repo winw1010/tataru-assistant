@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // engine module
-const { getOption, getLanguageCode } = require('./main_modules/engine-module');
+const { getOption, getLanguageCode } = require('./main_modules/system/engine-module');
 
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');

@@ -1,19 +1,16 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // engine module
-const { languageEnum, engineList, getOption } = packageModule.engineModule;
+const { languageEnum, engineList, getOption } = require('./engine-module');
 
 // translator
-const baidu = packageModule.baidu;
-const youdao = packageModule.youdao;
-const caiyun = packageModule.caiyun;
-const papago = packageModule.papago;
-const deepl = packageModule.deepl;
-const google = packageModule.google;
-const zhConverter = packageModule.zhConvert;
+const baidu = require('../translator/baidu');
+const youdao = require('../translator/youdao');
+const caiyun = require('../translator/caiyun');
+const papago = require('../translator/papago');
+const deepl = require('../translator/deepl');
+const google = require('../translator/google');
+const zhConverter = require('../translator/zh-convert');
 
 // translate
 async function translate(text, translation, table = []) {

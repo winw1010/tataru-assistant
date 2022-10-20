@@ -1,10 +1,7 @@
 'use strict';
 
-// package module
-const packageModule = require('../package-module');
-
 // correction function
-const cf = packageModule.correctionFunction;
+const cf = require('./correction-function');
 
 // female words
 const femaleWords = [

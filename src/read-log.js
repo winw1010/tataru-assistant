@@ -3,11 +3,11 @@
 // fs
 const { readdirSync } = require('fs');
 
-// file module
-const fileModule = require('./main_modules/file-module');
-
 // communicate with main process
 const { ipcRenderer } = require('electron');
+
+// file module
+const fileModule = require('./main_modules/system/file-module');
 
 // drag module
 const { setDragElement } = require('./renderer_modules/drag-module');

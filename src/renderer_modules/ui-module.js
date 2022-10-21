@@ -1,11 +1,5 @@
 'use strict';
 
-// electron
-const { ipcRenderer } = require('electron');
-ipcRenderer.on('change-ui-text', () => {
-    changeUIText();
-});
-
 // element text list
 const elementTextList = {
     img: {
@@ -203,9 +197,9 @@ const elementNameList = [
 ];
 
 // change UI text
-function changeUIText() {
+document.addEventListener('change-ui-text', () => {
     try {
-        const config = ipcRenderer.sendSync('get-config');
+        const config = getAPI('getConfig')();
         const textIndex = getTextIndex(config.translation.to);
 
         for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
@@ -224,7 +218,7 @@ function changeUIText() {
     } catch (error) {
         console.log(error);
     }
-}
+});
 
 // get text index
 function getTextIndex(translateTo) {
@@ -239,8 +233,3 @@ function getTextIndex(translateTo) {
             return 0;
     }
 }
-
-// module exports
-module.exports = {
-    changeUIText,
-};

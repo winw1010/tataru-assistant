@@ -9,9 +9,6 @@ const { getOption, getLanguageCode } = require('./main_modules/system/engine-mod
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -28,11 +25,19 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
-function setIPC() {}
+function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+}
 
 // set view
 function setView() {
@@ -44,7 +49,7 @@ function setView() {
     document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
         ? 'Chinese'
         : config.translation.from;
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set enevt

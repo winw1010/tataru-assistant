@@ -3,9 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -22,11 +19,19 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
-function setIPC() {}
+function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+}
 
 // set view
 function setView() {
@@ -36,7 +41,7 @@ function setView() {
     document.getElementById('select_type').value = config.captureWindow.type;
     setBackground(config);
     setCanvasSize();
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

@@ -3,9 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // audio module
 const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
 
@@ -40,11 +37,19 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
 function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
     // hide update button
     ipcRenderer.on('hide-update-button', (event, ishidden) => {
         document.getElementById('img_button_update').hidden = ishidden;
@@ -126,7 +131,7 @@ function setView() {
     }
 
     // change UI text
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 
     // first time check
     if (config.system.firstTime) {

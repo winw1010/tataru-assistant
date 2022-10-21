@@ -9,9 +9,6 @@ const fileModule = require('./main_modules/system/file-module');
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // temp image path
 const tempImagePath = fileModule.getRootPath('src', 'trained_data');
 
@@ -31,11 +28,20 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
 function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // send data
     ipcRenderer.on('send-data', (event, stringArray) => {
         let text = '';
 
@@ -52,7 +58,7 @@ function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('img_result').setAttribute('src', getPath('crop.jpeg'));
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

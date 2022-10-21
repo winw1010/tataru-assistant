@@ -6,9 +6,6 @@ const { contextBridge, ipcRenderer } = require('electron');
 // file module
 const fileModule = require('./main_modules/system/file-module');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -25,11 +22,20 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
 function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // send data
     ipcRenderer.on('send-data', (event, elements) => {
         document.getElementById(elements[0]).checked = true;
 
@@ -43,7 +49,7 @@ function setIPC() {
 // set view
 function setView() {
     showConfig();
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

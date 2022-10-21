@@ -12,9 +12,6 @@ const fileModule = require('./main_modules/system/file-module');
 // language table
 const { getLanguageCode } = require('./main_modules/system/engine-module');
 
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
 // create log name
 const { createLogName } = require('./renderer_modules/dialog-module');
 
@@ -56,11 +53,20 @@ function setContextBridge() {
         dragWindow: (...args) => {
             ipcRenderer.send('drag-window', ...args);
         },
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
+        },
     });
 }
 
 // set IPC
 function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // send data
     ipcRenderer.on('send-data', (event, id) => {
         try {
             const milliseconds = parseInt(id.slice(2));
@@ -110,7 +116,7 @@ function setView() {
     document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
-    changeUIText();
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

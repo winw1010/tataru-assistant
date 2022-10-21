@@ -187,7 +187,7 @@ function setWindowChannel() {
     });
 
     // mouse out check
-    ipcMain.on('mouse-out-check', (event) => {
+    ipcMain.handle('mouse-out-check', (event) => {
         const config = configModule.getConfig();
         const cursorScreenPoint = screen.getCursorScreenPoint();
         const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
@@ -197,7 +197,7 @@ function setWindowChannel() {
             cursorScreenPoint.y < windowBounds.y ||
             cursorScreenPoint.y > windowBounds.y + windowBounds.height;
 
-        event.sender.send('hide-button', isMouseOut, config.indexWindow.hideButton);
+        return { isMouseOut, hideButton: config.indexWindow.hideButton };
     });
 
     // mute window
@@ -271,15 +271,15 @@ function setCaptureChannel() {
 
 // set request channel
 function setRequestChannel() {
-    // request latest verssion
-    ipcMain.on('version-check', () => {
+    // get latest verssion
+    ipcMain.handle('version-check', () => {
         const callback = function (response, chunk) {
             if (response.statusCode === 200) {
                 return JSON.parse(chunk.toString()).number;
             }
         };
 
-        makeRequest({
+        return makeRequest({
             options: {
                 method: 'GET',
                 protocol: 'https:',
@@ -287,27 +287,7 @@ function setRequestChannel() {
                 path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
             },
             callback: callback,
-        })
-            .then((latestVersion) => {
-                if (appVersion === latestVersion) {
-                    windowModule.sendIndex('hide-update-button', true);
-                    windowModule.sendIndex('show-notification', '已安裝最新版本');
-                } else {
-                    let latest = '';
-                    if (latestVersion?.length > 0) {
-                        latest += `(Ver.${latestVersion})`;
-                    }
-
-                    windowModule.sendIndex('hide-update-button', false);
-                    windowModule.sendIndex(
-                        'show-notification',
-                        `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`
-                    );
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        });
     });
 
     // post form

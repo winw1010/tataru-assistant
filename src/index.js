@@ -50,29 +50,6 @@ function setIPC() {
         document.dispatchEvent(new CustomEvent('change-ui-text'));
     });
 
-    // hide update button
-    ipcRenderer.on('hide-update-button', (event, ishidden) => {
-        document.getElementById('img_button_update').hidden = ishidden;
-    });
-
-    // hide button
-    ipcRenderer.on('hide-button', (event, isMouseOut, hideButton) => {
-        if (isMouseOut) {
-            // hide button
-            document.querySelectorAll('.auto_hidden').forEach((value) => {
-                document.getElementById(value.id).hidden = hideButton;
-            });
-        } else {
-            // show button
-            document.querySelectorAll('.auto_hidden').forEach((value) => {
-                document.getElementById(value.id).hidden = false;
-            });
-
-            // show dialog
-            dialogModule.showDialog();
-        }
-    });
-
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
         document.getElementById('div_dialog').innerHTML = '';
@@ -269,7 +246,30 @@ function setButton() {
 function startApp() {
     ipcRenderer.send('start-server');
     ipcRenderer.send('initialize-json');
-    ipcRenderer.send('version-check');
+    ipcRenderer
+        .invoke('version-check')
+        .then((latestVersion) => {
+            const appVersion = ipcRenderer.sendSync('get-app-version');
+
+            if (appVersion === latestVersion) {
+                document.getElementById('img_button_update').hidden = true;
+                dialogModule.appendNotification('已安裝最新版本');
+            } else {
+                let latest = '';
+
+                if (latestVersion?.length > 0) {
+                    latest += `(Ver.${latestVersion})`;
+                }
+
+                document.getElementById('img_button_update').hidden = false;
+                dialogModule.appendNotification(
+                    `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`
+                );
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 // reset view
@@ -304,6 +304,29 @@ function resetView(config) {
     // start/restart mouse out check interval
     clearInterval(mouseOutCheckInterval);
     mouseOutCheckInterval = setInterval(() => {
-        ipcRenderer.send('mouse-out-check');
+        ipcRenderer
+            .invoke('mouse-out-check')
+            .then((value) => {
+                hideButton(value.isMouseOut, value.hideButton);
+            })
+            .catch(console.log);
     }, 100);
+}
+
+// hide button
+function hideButton(isMouseOut, hideButton) {
+    if (isMouseOut) {
+        // hide
+        document.querySelectorAll('.auto_hidden').forEach((value) => {
+            document.getElementById(value.id).hidden = hideButton;
+        });
+    } else {
+        // show
+        document.querySelectorAll('.auto_hidden').forEach((value) => {
+            document.getElementById(value.id).hidden = false;
+        });
+
+        // show dialog
+        dialogModule.showDialog();
+    }
 }

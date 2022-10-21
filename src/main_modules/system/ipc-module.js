@@ -410,6 +410,11 @@ function setFileChannel() {
         event.returnValue = fileModule.fileChecker(filePath);
     });
 
+    // file deleter
+    ipcMain.on('file-deleter', (event, filePath) => {
+        event.returnValue = fileModule.fileDeleter(filePath);
+    });
+
     // get path
     ipcMain.on('get-path', (event, ...args) => {
         event.returnValue = fileModule.getPath(...args);

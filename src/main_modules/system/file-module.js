@@ -77,6 +77,11 @@ function fileChecker(filePath = './') {
     return fs.existsSync(filePath);
 }
 
+// file deleter
+function fileDeleter(filePath = './') {
+    return fs.unlinkSync(filePath);
+}
+
 // get path
 function getPath(...args) {
     return path.join(...args);
@@ -106,6 +111,7 @@ module.exports = {
     imageWriter,
     fileWriter,
     fileChecker,
+    fileDeleter,
     getPath,
     getRootPath,
     getUserPath,

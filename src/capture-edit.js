@@ -1,16 +1,10 @@
 'use strict';
 
-// fs
-const { unlinkSync } = require('fs');
-
-// file module
-const fileModule = require('./main_modules/system/file-module');
-
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
 // temp image path
-const tempImagePath = fileModule.getRootPath('src', 'trained_data');
+const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -134,7 +128,7 @@ function translate(text) {
 
 // get path
 function getPath(fileName) {
-    return fileModule.getPath(tempImagePath, fileName);
+    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
 }
 
 // delete images
@@ -143,7 +137,7 @@ function deleteImages() {
 
     images.forEach((value) => {
         try {
-            unlinkSync(getPath(value));
+            ipcRenderer.send('file-deleter', getPath(value));
         } catch (error) {
             console.log(error);
         }

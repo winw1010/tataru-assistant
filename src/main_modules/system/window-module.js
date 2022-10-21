@@ -69,7 +69,6 @@ function createWindow(windowName, data = null) {
             });
         }
 
-        // save config on closing
         switch (windowName) {
             case 'index':
                 // set foucusable
@@ -82,6 +81,9 @@ function createWindow(windowName, data = null) {
                 });
 
                 window.once('close', () => {
+                    // get config
+                    const config = configModule.getConfig();
+
                     // set bounds
                     config.indexWindow.x = window.getPosition()[0];
                     config.indexWindow.y = window.getPosition()[1];
@@ -99,6 +101,9 @@ function createWindow(windowName, data = null) {
 
             case 'capture':
                 window.once('close', () => {
+                    // get config
+                    const config = configModule.getConfig();
+
                     // set bounds
                     config.captureWindow.x = window.getPosition()[0];
                     config.captureWindow.y = window.getPosition()[1];

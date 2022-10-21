@@ -218,7 +218,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         array = sortArray(array);
 
         // log array
-        console.log(`Read ${finalPath}. (length: ${array.length})`);
+        // console.log(`Read ${finalPath}. (length: ${array.length})`);
 
         return array;
     } catch (error) {

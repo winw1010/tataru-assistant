@@ -6,6 +6,9 @@ const { exec } = require('child_process');
 // electron
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
+// file module
+const fileModule = require('./file-module');
+
 // config module
 const configModule = require('./config-module');
 
@@ -47,6 +50,7 @@ function setIPC() {
     setJsonChannel();
     setRequestChannel();
     setTranslateChannel();
+    setFileChannel();
 }
 
 // set system channel
@@ -353,6 +357,39 @@ function setTranslateChannel() {
     // google tts
     ipcMain.on('google-tts', (event, option) => {
         event.returnValue = googleTTS.getAudioUrl(option);
+    });
+}
+
+// set file channel
+function setFileChannel() {
+    // get path
+    ipcMain.on('get-path', (event, ...args) => {
+        event.returnValue = fileModule.getPath(...args);
+    });
+
+    // get root path
+    ipcMain.on('get-root-path', (event, ...args) => {
+        event.returnValue = fileModule.getRootPath(...args);
+    });
+
+    // get user data path
+    ipcMain.on('get-user-data-path', (event, ...args) => {
+        event.returnValue = fileModule.getUserDataPath(...args);
+    });
+
+    // json reader
+    ipcMain.on('json-reader', (event, filePath, returnArray) => {
+        try {
+            event.returnValue = fileModule.jsonReader(filePath, returnArray);
+        } catch (error) {
+            console.log(error);
+            event.returnValue = null;
+        }
+    });
+
+    // json writer
+    ipcMain.on('json-writer', (event, filePath, data) => {
+        fileModule.jsonWriter(filePath, data);
     });
 }
 

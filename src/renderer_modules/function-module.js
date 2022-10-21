@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable */
 
 // get API
 function getAPI(name) {
@@ -7,9 +8,9 @@ function getAPI(name) {
 
 // on document ready
 function onDocumentReady(callback = () => {}) {
-    document.onreadystatechange = () => {
+    document.addEventListener('readystatechange', () => {
         if (document.readyState === 'complete') {
             callback();
         }
-    };
+    });
 }

@@ -3,12 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// audio module
-const { stopPlaying, startPlaying } = require('./renderer_modules/audio-module');
-
-// dialog module
-const dialogModule = require('./renderer_modules/dialog-module');
-
 // image processing module
 const { takeScreenshot } = require('./renderer_modules/image-module');
 
@@ -40,6 +34,36 @@ function setContextBridge() {
         getConfig: () => {
             return ipcRenderer.sendSync('get-config');
         },
+        getChatCode: () => {
+            return ipcRenderer.sendSync('get-chat-code');
+        },
+
+        restartWindow: (windowName, data) => {
+            ipcRenderer.send('restart-window', windowName, data);
+        },
+
+        getLanguageCode: (language, engine) => {
+            return ipcRenderer.sendSync('get-language-code', language, engine);
+        },
+        zhConvert: (text, languageTo) => {
+            return ipcRenderer.sendSync('zh-convert', text, languageTo);
+        },
+        googleTTS: (option) => {
+            return ipcRenderer.sendSync('google-tts', option);
+        },
+
+        getPath: (...args) => {
+            return ipcRenderer.sendSync('get-path', ...args);
+        },
+        getUserDataPath: (...args) => {
+            return ipcRenderer.sendSync('get-user-data-path', ...args);
+        },
+        jsonReader: (filePath, returnArray) => {
+            return ipcRenderer.sendSync('json-reader', filePath, returnArray);
+        },
+        jsonWriter: (filePath, data) => {
+            return ipcRenderer.send('json-writer', filePath, data);
+        },
     });
 }
 
@@ -56,24 +80,28 @@ function setIPC() {
     });
 
     // append blank dialog
-    ipcRenderer.on('append-blank-dialog', (event, ...args) => {
-        dialogModule.appendBlankDialog(...args);
+    ipcRenderer.on('append-blank-dialog', (event, id, code) => {
+        document.dispatchEvent(new CustomEvent('append-blank-dialog', { detail: { id, code } }));
     });
 
     // update dialog
-    ipcRenderer.on('update-dialog', (event, ...args) => {
-        dialogModule.updateDialog(...args);
+    ipcRenderer.on('update-dialog', (event, id, name, text, dialogData, translation) => {
+        document.dispatchEvent(
+            new CustomEvent('update-dialog', { detail: { id, name, text, dialogData, translation } })
+        );
     });
 
     // append dialog
     ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
-        dialogModule.appendBlankDialog(id, code);
-        dialogModule.updateDialog(id, name, text);
+        document.dispatchEvent(new CustomEvent('append-blank-dialog', { detail: { id, code } }));
+        document.dispatchEvent(
+            new CustomEvent('update-dialog', { detail: { id, name, text, dialogData: null, translation: null } })
+        );
     });
 
     // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
-        dialogModule.moveToBottom();
+        document.dispatchEvent(new CustomEvent('move-to-bottom'));
     });
 
     // reset view
@@ -88,7 +116,7 @@ function setIPC() {
 
     // show notification
     ipcRenderer.on('show-notification', (event, text) => {
-        dialogModule.appendNotification(text);
+        document.dispatchEvent(new CustomEvent('show-notification', { detail: { text } }));
     });
 }
 
@@ -102,7 +130,7 @@ function setView() {
     // auto play
     if (config.translation.autoPlay) {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-        startPlaying();
+        document.dispatchEvent(new CustomEvent('start-playing'));
     } else {
         document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     }
@@ -210,10 +238,10 @@ function setButton() {
 
         if (config.translation.autoPlay) {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-            startPlaying();
+            document.dispatchEvent(new CustomEvent('start-playing'));
         } else {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-            stopPlaying();
+            document.dispatchEvent(new CustomEvent('stop-playing'));
         }
     };
 
@@ -249,11 +277,11 @@ function startApp() {
     ipcRenderer
         .invoke('version-check')
         .then((latestVersion) => {
-            const appVersion = ipcRenderer.sendSync('get-app-version');
+            const appVersion = ipcRenderer.sendSync('get-version');
 
             if (appVersion === latestVersion) {
                 document.getElementById('img_button_update').hidden = true;
-                dialogModule.appendNotification('已安裝最新版本');
+                document.dispatchEvent(new CustomEvent('show-notification', { detail: { text: '已安裝最新版本' } }));
             } else {
                 let latest = '';
 
@@ -262,8 +290,12 @@ function startApp() {
                 }
 
                 document.getElementById('img_button_update').hidden = false;
-                dialogModule.appendNotification(
-                    `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`
+                document.dispatchEvent(
+                    new CustomEvent('show-notification', {
+                        detail: {
+                            text: `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`,
+                        },
+                    })
                 );
             }
         })
@@ -285,18 +317,11 @@ function resetView(config) {
         document.getElementById(value.id).hidden = config.indexWindow.hideButton;
     });
 
-    // set dialog
-    const dialogs = document.querySelectorAll('#div_dialog div');
-    if (dialogs.length > 0) {
-        dialogs.forEach((value) => {
-            dialogModule.setStyle(document.getElementById(value.id));
-        });
-
-        document.getElementById(dialogs[0].id).style.marginTop = '0';
-    }
+    // reset dialog style
+    document.dispatchEvent(new CustomEvent('reset-dialog-style'));
 
     // show dialog
-    dialogModule.showDialog();
+    document.dispatchEvent(new CustomEvent('show-dialog'));
 
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
@@ -327,6 +352,6 @@ function hideButton(isMouseOut, hideButton) {
         });
 
         // show dialog
-        dialogModule.showDialog();
+        document.dispatchEvent(new CustomEvent('show-dialog'));
     }
 }

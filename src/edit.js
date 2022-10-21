@@ -12,9 +12,6 @@ const fileModule = require('./main_modules/system/file-module');
 // language table
 const { getLanguageCode } = require('./main_modules/system/engine-module');
 
-// create log name
-const { createLogName } = require('./renderer_modules/dialog-module');
-
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
 
@@ -342,4 +339,20 @@ function postForm() {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);
     }
+}
+
+// create log name
+function createLogName(milliseconds = null) {
+    const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
+    let dateString = date.toLocaleDateString().split('/');
+
+    if (dateString[1].length < 2) {
+        dateString[1] = '0' + dateString[1];
+    }
+
+    if (dateString[2].length < 2) {
+        dateString[2] = '0' + dateString[2];
+    }
+
+    return dateString.join('-') + '.json';
 }

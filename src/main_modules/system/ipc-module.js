@@ -33,6 +33,9 @@ const windowModule = require('./window-module');
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
 
+// correction-function
+const { sameAsArrayItem } = require('../correction/correction-function');
+
 // json module
 const jsonModule = require('../correction/json-module');
 
@@ -334,6 +337,11 @@ function setJsonChannel() {
 
 // set translate channel
 function setTranslateChannel() {
+    // same as array item
+    ipcMain.on('same-as-array-item', (event, text, array, searchIndex) => {
+        event.returnValue = sameAsArrayItem(text, array, searchIndex);
+    });
+
     // get language code
     ipcMain.on('get-language-code', (event, language, engine) => {
         event.returnValue = getLanguageCode(language, engine);

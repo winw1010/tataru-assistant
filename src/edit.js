@@ -3,20 +3,24 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// correction function
-const { sameAsArrayItem } = require('./main_modules/correction/correction-function');
-
-// file module
-const fileModule = require('./main_modules/system/file-module');
-
-// language table
-const { getLanguageCode } = require('./main_modules/system/engine-module');
-
-// google tts
-const { getAudioUrl } = require('./main_modules/translator/google-tts');
-
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+
+// file module
+const fileModule = {
+    getPath: (...args) => {
+        return ipcRenderer.sendSync('get-path', ...args);
+    },
+    getUserDataPath: (...args) => {
+        return ipcRenderer.sendSync('get-user-data-path', ...args);
+    },
+    jsonReader: (filePath, returnArray) => {
+        return ipcRenderer.sendSync('json-reader', filePath, returnArray);
+    },
+    jsonWriter: (filePath, data) => {
+        return ipcRenderer.send('json-writer', filePath, data);
+    },
+};
 
 // log location
 const logPath = fileModule.getUserDataPath('log');
@@ -248,8 +252,8 @@ function showAudio() {
 
     if (text !== '') {
         try {
-            const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
-            const urls = getAudioUrl({ text: text, language: languageCode });
+            const languageCode = ipcRenderer.sendSync('get-language-code', targetLog.translation.from, 'Google');
+            const urls = ipcRenderer.sendSync('google-tts', { text: text, language: languageCode });
             console.log('TTS url:', urls);
 
             let innerHTML = '';
@@ -288,7 +292,7 @@ function addTemp(textBefore, textAfter, type, array) {
         textBefore = textBefore + '#';
     }
 
-    const target = sameAsArrayItem(textBefore, array);
+    const target = ipcRenderer.sendSync('same-as-array-item', textBefore, array);
     if (target) {
         array[target[1]] = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {

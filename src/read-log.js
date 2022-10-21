@@ -1,16 +1,10 @@
 'use strict';
 
-// fs
-const { readdirSync } = require('fs');
-
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// file module
-const fileModule = require('./main_modules/system/file-module');
-
 // log location
-const logPath = fileModule.getUserDataPath('log');
+const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -76,7 +70,7 @@ function setButton() {
 
 function readLogList() {
     try {
-        const logs = readdirSync(logPath);
+        const logs = ipcRenderer.sendSync('directory-reader', logPath);
 
         if (logs.length > 0) {
             const select = document.getElementById('select_log');
@@ -102,8 +96,8 @@ function readLog(fileName) {
     }
 
     try {
-        const fileLocation = fileModule.getPath(logPath, fileName);
-        const log = fileModule.jsonReader(fileLocation, false);
+        const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
+        const log = ipcRenderer.sendSync('json-reader', fileLocation, false);
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

@@ -105,8 +105,8 @@ function setIPC() {
     });
 
     // reset view
-    ipcRenderer.on('reset-view', (event, ...args) => {
-        resetView(...args);
+    ipcRenderer.on('reset-view', (event, config) => {
+        resetView(config);
     });
 
     // show notification

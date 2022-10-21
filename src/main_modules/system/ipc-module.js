@@ -248,7 +248,7 @@ function setCaptureChannel() {
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
         // image processing
-        windowModule.sendIndex('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+        event.reply('start-screen-translation', rectangleSize, display.bounds, displayIndex);
     });
 
     // get position

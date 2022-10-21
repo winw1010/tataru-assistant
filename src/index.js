@@ -3,9 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// image processing module
-const { takeScreenshot } = require('./renderer_modules/image-module');
-
 // click through temp
 let isClickThrough = false;
 let isClickThroughTemp = false;
@@ -110,11 +107,6 @@ function setIPC() {
     // reset view
     ipcRenderer.on('reset-view', (event, ...args) => {
         resetView(...args);
-    });
-
-    // start screen translation
-    ipcRenderer.on('start-screen-translation', (event, ...args) => {
-        takeScreenshot(...args);
     });
 
     // show notification

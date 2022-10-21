@@ -3,6 +3,9 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
+// image processing module
+const { takeScreenshot } = require('./renderer_modules/image-module');
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -30,6 +33,11 @@ function setIPC() {
     // change UI text
     ipcRenderer.on('change-ui-text', () => {
         document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // start screen translation
+    ipcRenderer.on('start-screen-translation', (event, ...args) => {
+        takeScreenshot(...args);
     });
 }
 

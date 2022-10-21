@@ -45,7 +45,7 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                sandbox: false,
+                sandbox: windowName !== 'capture',
                 preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
             },
         });

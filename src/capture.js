@@ -1,20 +1,32 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {}
 
 // set view
 function setView() {
@@ -62,9 +74,6 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // screenshot
     document.getElementById('button_screenshot').onclick = () => {
         // minimize all windows

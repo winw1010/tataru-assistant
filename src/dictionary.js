@@ -1,7 +1,7 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // engine module
 const { getOption, getLanguageCode } = require('./main_modules/system/engine-module');
@@ -9,30 +9,26 @@ const { getOption, getLanguageCode } = require('./main_modules/system/engine-mod
 // google tts
 const { getAudioUrl } = require('./main_modules/translator/google-tts');
 
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
-
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    setView();
+    setContextBridge();
     setIPC();
+
+    setView();
+    setEvent();
     setButton();
 });
 
-// set view
-function setView() {
-    const config = ipcRenderer.sendSync('get-config');
-    document.getElementById('select_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = /chinese/i.test(config.translation.to)
-        ? 'Chinese'
-        : config.translation.to;
-    document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
-        ? 'Chinese'
-        : config.translation.from;
-    changeUIText();
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
 }
 
 // set IPC
@@ -52,11 +48,24 @@ function setIPC() {
     });
 }
 
+// set view
+function setView() {
+    const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('select_engine').value = config.translation.engine;
+    document.getElementById('select_from').value = /chinese/i.test(config.translation.to)
+        ? 'Chinese'
+        : config.translation.to;
+    document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
+        ? 'Chinese'
+        : config.translation.from;
+    changeUIText();
+}
+
+// set enevt
+function setEvent() {}
+
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // close
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');

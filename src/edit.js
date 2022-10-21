@@ -1,7 +1,7 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // correction function
 const { sameAsArrayItem } = require('./main_modules/correction/correction-function');
@@ -11,9 +11,6 @@ const fileModule = require('./main_modules/system/file-module');
 
 // language table
 const { getLanguageCode } = require('./main_modules/system/engine-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
@@ -45,28 +42,21 @@ const entry4 = 'entry.654133178';
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
 
-// set view
-function setView() {
-    const config = ipcRenderer.sendSync('get-config');
-    document.getElementById('select_restart_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = config.translation.from;
-    document.getElementById('checkbox_replace').checked = config.translation.replace;
-    changeUIText();
-}
-
-// set event
-function setEvent() {
-    document.getElementById('checkbox_replace').oninput = () => {
-        let config = ipcRenderer.sendSync('get-config');
-        config.translation.replace = document.getElementById('checkbox_replace').checked;
-        ipcRenderer.send('set-config', config);
-    };
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
 }
 
 // set IPC
@@ -114,11 +104,26 @@ function setIPC() {
     });
 }
 
+// set view
+function setView() {
+    const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('select_restart_engine').value = config.translation.engine;
+    document.getElementById('select_from').value = config.translation.from;
+    document.getElementById('checkbox_replace').checked = config.translation.replace;
+    changeUIText();
+}
+
+// set event
+function setEvent() {
+    document.getElementById('checkbox_replace').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.translation.replace = document.getElementById('checkbox_replace').checked;
+        ipcRenderer.send('set-config', config);
+    };
+}
+
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // restart
     document.getElementById('button_restart_translate').onclick = () => {
         const config = ipcRenderer.sendSync('get-config');

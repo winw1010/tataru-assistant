@@ -3,14 +3,11 @@
 // fs
 const { readdirSync } = require('fs');
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // file module
 const fileModule = require('./main_modules/system/file-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
@@ -20,9 +17,25 @@ const logPath = fileModule.getUserDataPath('log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
+    setEvent();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {}
 
 // set view
 function setView() {
@@ -30,11 +43,11 @@ function setView() {
     changeUIText();
 }
 
+// set enevt
+function setEvent() {}
+
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // read
     document.getElementById('button_read_log').onclick = () => {
         const file = document.getElementById('select_log').value;

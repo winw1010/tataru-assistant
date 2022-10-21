@@ -1,24 +1,44 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // file module
 const fileModule = require('./main_modules/system/file-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {
+    ipcRenderer.on('send-data', (event, elements) => {
+        document.getElementById(elements[0]).checked = true;
+
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            document.getElementById(value.id).hidden = true;
+        });
+        document.getElementById(elements[1]).hidden = false;
+    });
+}
 
 // set view
 function setView() {
@@ -59,23 +79,8 @@ function setEvent() {
     };
 }
 
-// set IPC
-function setIPC() {
-    ipcRenderer.on('send-data', (event, elements) => {
-        document.getElementById(elements[0]).checked = true;
-
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById(elements[1]).hidden = false;
-    });
-}
-
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // page
     document.getElementById('button_radio_window').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {

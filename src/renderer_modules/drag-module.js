@@ -1,11 +1,8 @@
 'use strict';
 
-// electron
-const { ipcRenderer } = require('electron');
-
-// set drag element
-function setDragElement(element) {
-    element.onmousedown = (ev) => {
+onDocumentReady(() => {
+    // set drag element
+    document.getElementById('img_button_drag').onmousedown = (ev) => {
         ev = ev || window.event;
         ev.preventDefault();
 
@@ -15,7 +12,7 @@ function setDragElement(element) {
         let windowHeight = window.innerHeight;
 
         document.onmousemove = () => {
-            ipcRenderer.send('drag-window', clientX, clientY, windowWidth, windowHeight);
+            getAPI('dragWindow')(clientX, clientY, windowWidth, windowHeight);
         };
 
         document.onmouseup = () => {
@@ -23,9 +20,4 @@ function setDragElement(element) {
             document.onmousemove = null;
         };
     };
-}
-
-// module exports
-module.exports = {
-    setDragElement,
-};
+});

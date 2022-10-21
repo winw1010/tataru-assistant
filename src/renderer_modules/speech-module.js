@@ -12,6 +12,11 @@ let playlist = [];
 let nowPlaying = null;
 let playInterval = null;
 
+// get API
+function getAPI(name) {
+    return window?.myAPI?.[name];
+}
+
 // add to play list
 function addToPlaylist(text, translation) {
     playlist.push({ text, translation });
@@ -44,7 +49,14 @@ function stopPlaying() {
 function playNext() {
     try {
         if (!nowPlaying) {
-            const element = playlist.shift();
+            const params = playlist.shift();
+
+            if (params) {
+                const audio = createAudio(playlist.shift());
+                nowPlaying = audio;
+                audio.currentTime = 0;
+                audio.play();
+            }
         }
     } catch (error) {
         console.log(error);
@@ -53,7 +65,46 @@ function playNext() {
 }
 
 // create audio
-function createAudio(params) {}
+function createAudio(params) {
+    if (!params || params?.length != 2) {
+        return;
+    }
+
+    const text = params[0];
+    const translation = params[1];
+
+    if (!translation.autoPlay || text === '') {
+        return;
+    }
+
+    try {
+        const languageCode = translation.fromCode;
+        const urls = getGoogleSpeechUrl({ text: text, language: languageCode });
+
+        for (let index = 0; index < urls.length; index++) {
+            const url = urls[index];
+            const audio = new Audio(url);
+
+            // set audio event
+            audio.onpause = () => {
+                nowPlaying = null;
+            };
+
+            audio.onended = () => {
+                nowPlaying = null;
+            };
+
+            audio.onerror = () => {
+                nowPlaying = null;
+            };
+
+            // add to playlist
+            return audio;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // get google speech url
 function getGoogleSpeechUrl(option = { text: '', language: 'en' }) {

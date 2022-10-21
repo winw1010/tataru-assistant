@@ -6,11 +6,8 @@ const { unlinkSync } = require('fs');
 // file module
 const fileModule = require('./main_modules/system/file-module');
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
@@ -20,11 +17,35 @@ const tempImagePath = fileModule.getRootPath('src', 'trained_data');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {
+    ipcRenderer.on('send-data', (event, stringArray) => {
+        let text = '';
+
+        for (let index = 0; index < stringArray.length; index++) {
+            text += stringArray[index] + '\n';
+        }
+
+        document.getElementById('textarea_screen_text').value = text;
+    });
+}
 
 // set view
 function setView() {
@@ -44,24 +65,8 @@ function setEvent() {
     };
 }
 
-// set IPC
-function setIPC() {
-    ipcRenderer.on('send-data', (event, stringArray) => {
-        let text = '';
-
-        for (let index = 0; index < stringArray.length; index++) {
-            text += stringArray[index] + '\n';
-        }
-
-        document.getElementById('textarea_screen_text').value = text;
-    });
-}
-
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // page
     document.getElementById('button_radio_captured_text').onclick = () => {
         document.querySelectorAll('.div_page').forEach((value) => {

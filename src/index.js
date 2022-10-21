@@ -1,10 +1,7 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // ui module
 const { changeUIText } = require('./renderer_modules/ui-module');
@@ -27,69 +24,23 @@ let mouseOutCheckInterval = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
+
     startApp();
 });
 
-// set view
-function setView() {
-    const config = ipcRenderer.sendSync('get-config');
-
-    // reset view
-    resetView(config);
-
-    // auto play
-    if (config.translation.autoPlay) {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-        startPlaying();
-    } else {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-    }
-
-    // change UI text
-    changeUIText();
-
-    // first time check
-    if (config.system.firstTime) {
-        ipcRenderer.send('create-window', 'config', ['button_radio_translation', 'div_translation']);
-    }
-}
-
-// set event
-function setEvent() {
-    // document click through
-    document.addEventListener('mouseenter', () => {
-        if (isClickThrough) {
-            ipcRenderer.send('set-click-through', true);
-        } else {
-            ipcRenderer.send('set-click-through', false);
-        }
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        dragWindow: (...args) => {
+            ipcRenderer.send('drag-window', ...args);
+        },
     });
-
-    document.addEventListener('mouseleave', () => {
-        ipcRenderer.send('set-click-through', false);
-    });
-
-    // button click through
-    const buttonArray = document.getElementsByClassName('img_button');
-    for (let index = 0; index < buttonArray.length; index++) {
-        const element = buttonArray[index];
-
-        element.addEventListener('mouseenter', () => {
-            ipcRenderer.send('set-click-through', false);
-        });
-
-        element.addEventListener('mouseleave', () => {
-            if (isClickThrough) {
-                ipcRenderer.send('set-click-through', true);
-            } else {
-                ipcRenderer.send('set-click-through', false);
-            }
-        });
-    }
 }
 
 // set IPC
@@ -159,11 +110,33 @@ function setIPC() {
     });
 }
 
-// set button
-function setButton() {
-    // upper buttons
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
+// set view
+function setView() {
+    const config = ipcRenderer.sendSync('get-config');
+
+    // reset view
+    resetView(config);
+
+    // auto play
+    if (config.translation.autoPlay) {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+        startPlaying();
+    } else {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    }
+
+    // change UI text
+    changeUIText();
+
+    // first time check
+    if (config.system.firstTime) {
+        ipcRenderer.send('create-window', 'config', ['button_radio_translation', 'div_translation']);
+    }
+}
+
+// set event
+function setEvent() {
+    // drag click through
     document.getElementById('img_button_drag').addEventListener('mousedown', () => {
         isClickThroughTemp = isClickThrough;
         isClickThrough = false;
@@ -172,11 +145,41 @@ function setButton() {
         isClickThrough = isClickThroughTemp;
     });
 
-    // update
-    document.getElementById('img_button_update').onclick = () => {
-        ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
-    };
+    // document click through
+    document.addEventListener('mouseenter', () => {
+        if (isClickThrough) {
+            ipcRenderer.send('set-click-through', true);
+        } else {
+            ipcRenderer.send('set-click-through', false);
+        }
+    });
 
+    document.addEventListener('mouseleave', () => {
+        ipcRenderer.send('set-click-through', false);
+    });
+
+    // button click through
+    const buttonArray = document.getElementsByClassName('img_button');
+    for (let index = 0; index < buttonArray.length; index++) {
+        const element = buttonArray[index];
+
+        element.addEventListener('mouseenter', () => {
+            ipcRenderer.send('set-click-through', false);
+        });
+
+        element.addEventListener('mouseleave', () => {
+            if (isClickThrough) {
+                ipcRenderer.send('set-click-through', true);
+            } else {
+                ipcRenderer.send('set-click-through', false);
+            }
+        });
+    }
+}
+
+// set button
+function setButton() {
+    // upper buttons
     // config
     document.getElementById('img_button_config').onclick = () => {
         ipcRenderer.send('create-window', 'config');
@@ -198,6 +201,11 @@ function setButton() {
                 .getElementById('img_button_through')
                 .setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
         }
+    };
+
+    // update
+    document.getElementById('img_button_update').onclick = () => {
+        ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
     };
 
     // minimize

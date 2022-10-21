@@ -16,7 +16,7 @@ const configModule = require('./config-module');
 const chatCodeModule = require('./chat-code-module');
 
 // engine module
-const { getLanguageCode } = require('./engine-module');
+const { getOption, getLanguageCode } = require('./engine-module');
 
 // request module
 const { makeRequest } = require('./request-module');
@@ -340,6 +340,11 @@ function setTranslateChannel() {
     // same as array item
     ipcMain.on('same-as-array-item', (event, text, array, searchIndex) => {
         event.returnValue = sameAsArrayItem(text, array, searchIndex);
+    });
+
+    // get option
+    ipcMain.on('get-option', (event, engine, from, to, text) => {
+        event.returnValue = getOption(engine, from, to, text);
     });
 
     // get language code

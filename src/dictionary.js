@@ -3,12 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// engine module
-const { getOption, getLanguageCode } = require('./main_modules/system/engine-module');
-
-// google tts
-const { getAudioUrl } = require('./main_modules/translator/google-tts');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -79,14 +73,15 @@ function setButton() {
             const engine = document.getElementById('select_engine').value;
 
             // set option
-            const option = getOption(
+            const option = ipcRenderer.sendSync(
+                'get-option',
                 engine,
                 document.getElementById('select_from').value,
                 document.getElementById('select_to').value,
                 document.getElementById('textarea_original_text').value
             );
 
-            // translate text
+            // translate
             ipcRenderer
                 .invoke('get-translation', engine, option)
                 .then((translatedText) => {
@@ -114,8 +109,8 @@ function setButton() {
 function getAudioHtml(text, language) {
     if (text !== '') {
         try {
-            const languageCode = getLanguageCode(language, 'Google');
-            const urls = getAudioUrl({ text: text, language: languageCode });
+            const languageCode = ipcRenderer.sendSync('get-language-code', language, 'Google');
+            const urls = ipcRenderer.sendSync('google-tts', { text: text, language: languageCode });
             console.log('TTS url:', urls);
 
             let innerHTML = '';

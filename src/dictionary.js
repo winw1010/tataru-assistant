@@ -32,21 +32,7 @@ function setContextBridge() {
 }
 
 // set IPC
-function setIPC() {
-    ipcRenderer.on('send-data', (event, translatedText) => {
-        // show translated text
-        if (translatedText !== '') {
-            document.getElementById('span_translated_text').innerText = translatedText;
-            document.getElementById('div_audio').innerHTML = getAudioHtml(
-                translatedText,
-                document.getElementById('select_to').value
-            );
-        } else {
-            document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
-            document.getElementById('div_audio').innerHTML = '';
-        }
-    });
-}
+function setIPC() {}
 
 // set view
 function setView() {
@@ -96,7 +82,22 @@ function setButton() {
             );
 
             // translate text
-            ipcRenderer.send('get-translation', engine, option);
+            ipcRenderer
+                .invoke('get-translation', engine, option)
+                .then((translatedText) => {
+                    // show translated text
+                    if (translatedText !== '') {
+                        document.getElementById('span_translated_text').innerText = translatedText;
+                        document.getElementById('div_audio').innerHTML = getAudioHtml(
+                            translatedText,
+                            document.getElementById('select_to').value
+                        );
+                    } else {
+                        document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
+                        document.getElementById('div_audio').innerHTML = '';
+                    }
+                })
+                .catch(console.log);
         } else {
             document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
             document.getElementById('div_audio').innerHTML = '';

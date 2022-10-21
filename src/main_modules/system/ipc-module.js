@@ -361,10 +361,8 @@ function setTranslateChannel() {
     });
 
     // get translation
-    ipcMain.on('get-translation', (event, engine, option) => {
-        getTranslation(engine, option).then((translatedText) => {
-            event.reply('send-data', translatedText);
-        });
+    ipcMain.handle('get-translation', (event, engine, option) => {
+        return getTranslation(engine, option);
     });
 
     // zh convert

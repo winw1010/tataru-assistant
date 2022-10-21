@@ -391,6 +391,11 @@ function setFileChannel() {
     ipcMain.on('json-writer', (event, filePath, data) => {
         fileModule.jsonWriter(filePath, data);
     });
+
+    // file writer
+    ipcMain.on('file-writer', (event, filePath, data) => {
+        fileModule.fileWriter(filePath, data);
+    });
 }
 
 // module exports

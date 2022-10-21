@@ -3,9 +3,6 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// file module
-const fileModule = require('./main_modules/system/file-module');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     setContextBridge();
@@ -149,10 +146,8 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        ipcRenderer.send(
-            'execute-command',
-            `explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'sub-google-api.html')}"`
-        );
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'sub-google-api.html');
+        ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 
     // set google credential
@@ -160,7 +155,8 @@ function setButton() {
         const googleCredential = document.getElementById('input_password_google_credential').value;
 
         if (googleCredential.length > 0) {
-            fileModule.fileWriter(fileModule.getUserDataPath('setting', 'google-credential.json'), googleCredential);
+            const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
+            ipcRenderer.send('file-writer', path, googleCredential);
             ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
         } else {
             ipcRenderer.send('send-index', 'show-notification', 'Google憑證不可為空白');
@@ -169,10 +165,8 @@ function setButton() {
 
     // readme
     document.getElementById('a_readme').onclick = () => {
-        ipcRenderer.send(
-            'execute-command',
-            `explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`
-        );
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'index.html');
+        ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 
     // bug report

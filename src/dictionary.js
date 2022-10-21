@@ -43,7 +43,6 @@ function setView() {
     document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
         ? 'Chinese'
         : config.translation.from;
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set enevt

@@ -49,7 +49,6 @@ function setView() {
     document.getElementById('select_type').value = config.captureWindow.type;
     setBackground(config);
     setCanvasSize();
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

@@ -52,7 +52,6 @@ function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('img_result').setAttribute('src', getPath('crop.jpeg'));
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

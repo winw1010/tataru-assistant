@@ -46,7 +46,6 @@ function setIPC() {
 // set view
 function setView() {
     showConfig();
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

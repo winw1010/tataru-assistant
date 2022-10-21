@@ -235,4 +235,7 @@ onDocumentReady(() => {
                 return 0;
         }
     }
+
+    // auto run
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
 });

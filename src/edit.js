@@ -117,7 +117,6 @@ function setView() {
     document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set event

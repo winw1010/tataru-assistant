@@ -122,17 +122,6 @@ function setView() {
     // reset view
     resetView(config);
 
-    // auto play
-    if (config.translation.autoPlay) {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-        document.dispatchEvent(new CustomEvent('start-playing'));
-    } else {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-    }
-
-    // change UI text
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
-
     // first time check
     if (config.system.firstTime) {
         ipcRenderer.send('create-window', 'config', ['button_radio_translation', 'div_translation']);

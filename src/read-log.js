@@ -39,7 +39,6 @@ function setIPC() {
 // set view
 function setView() {
     readLogList();
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }
 
 // set enevt

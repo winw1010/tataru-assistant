@@ -32,6 +32,11 @@ function directoryCheck() {
     });
 }
 
+// directoryReader
+function directoryReader(path) {
+    return fs.readdirSync(path);
+}
+
 // json reader
 function jsonReader(filePath = './', returnArray = true) {
     try {
@@ -95,6 +100,7 @@ function getUserDataPath(...args) {
 // module exports
 module.exports = {
     directoryCheck,
+    directoryReader,
     jsonReader,
     jsonWriter,
     imageWriter,

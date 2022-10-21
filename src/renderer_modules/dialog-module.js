@@ -192,19 +192,20 @@ onDocumentReady(() => {
         };
 
         const filePath = getAPI('getPath')(logLocation, createLogName(item.timestamp));
-        let log = null;
+        let log = {};
 
         // read/create log file
         try {
-            log = getAPI('jsonReader')(filePath, false);
+            if (getAPI('fileChecker')(filePath)) {
+                log = getAPI('jsonReader')(filePath, false);
 
-            // fix old bug
-            if (Array.isArray(log)) {
-                throw null;
+                // fix old bug
+                if (Array.isArray(log)) {
+                    log = {};
+                }
             }
         } catch (error) {
             console.log(error);
-            log = {};
         }
 
         // play audio at first time

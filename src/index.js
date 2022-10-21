@@ -64,6 +64,9 @@ function setContextBridge() {
         jsonWriter: (filePath, data) => {
             return ipcRenderer.send('json-writer', filePath, data);
         },
+        fileChecker: (filePath) => {
+            return ipcRenderer.sendSync('file-checker', filePath);
+        },
     });
 }
 

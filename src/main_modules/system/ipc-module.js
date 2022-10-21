@@ -362,19 +362,14 @@ function setTranslateChannel() {
 
 // set file channel
 function setFileChannel() {
-    // get path
-    ipcMain.on('get-path', (event, ...args) => {
-        event.returnValue = fileModule.getPath(...args);
-    });
-
-    // get root path
-    ipcMain.on('get-root-path', (event, ...args) => {
-        event.returnValue = fileModule.getRootPath(...args);
-    });
-
-    // get user data path
-    ipcMain.on('get-user-data-path', (event, ...args) => {
-        event.returnValue = fileModule.getUserDataPath(...args);
+    // directory reader
+    ipcMain.on('directory-reader', (event, path) => {
+        try {
+            event.returnValue = fileModule.directoryReader(path);
+        } catch (error) {
+            console.log(error);
+            event.returnValue = [];
+        }
     });
 
     // json reader
@@ -395,6 +390,26 @@ function setFileChannel() {
     // file writer
     ipcMain.on('file-writer', (event, filePath, data) => {
         fileModule.fileWriter(filePath, data);
+    });
+
+    // file checker
+    ipcMain.on('file-checker', (event, filePath) => {
+        event.returnValue = fileModule.fileChecker(filePath);
+    });
+
+    // get path
+    ipcMain.on('get-path', (event, ...args) => {
+        event.returnValue = fileModule.getPath(...args);
+    });
+
+    // get root path
+    ipcMain.on('get-root-path', (event, ...args) => {
+        event.returnValue = fileModule.getRootPath(...args);
+    });
+
+    // get user data path
+    ipcMain.on('get-user-data-path', (event, ...args) => {
+        event.returnValue = fileModule.getUserDataPath(...args);
     });
 }
 

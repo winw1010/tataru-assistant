@@ -21,6 +21,7 @@ let windowList = {
     'capture-edit': null,
     'read-log': null,
     dictionary: null,
+    screenshot: null,
 };
 
 // create window
@@ -45,7 +46,7 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                sandbox: windowName !== 'capture',
+                sandbox: windowName !== 'screenshot',
                 preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
             },
         });
@@ -58,9 +59,11 @@ function createWindow(windowName, data = null) {
         window.setMinimizable(false);
 
         // show window
-        window.once('ready-to-show', () => {
-            window.show();
-        });
+        if (windowName !== 'screenshot') {
+            window.once('ready-to-show', () => {
+                window.show();
+            });
+        }
 
         // send data
         if (data) {
@@ -111,6 +114,10 @@ function createWindow(windowName, data = null) {
                     config.captureWindow.height = window.getSize()[1];
                     configModule.setConfig(config);
                 });
+                break;
+
+            case 'screenshot':
+                window.setFocusable(false);
                 break;
 
             default:
@@ -225,6 +232,14 @@ function getWindowSize(windowName, config) {
             height = parseInt(displayBounds.height * 0.6);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
+            break;
+        }
+
+        case 'screenshot': {
+            width = 0;
+            height = 0;
+            x = 0;
+            y = 0;
             break;
         }
 

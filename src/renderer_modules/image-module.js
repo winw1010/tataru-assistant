@@ -1,26 +1,26 @@
 'use strict';
 
-// google vision
-const vision = require('@google-cloud/vision');
-
 // fs
 const { unlinkSync } = require('fs');
 
-// file module
-const fileModule = require('../main_modules/system/file-module');
-
-// sharp
-const sharp = require('sharp');
-sharp.cache(false);
-
-// communicate with main
+// electron
 const { ipcRenderer } = require('electron');
 
 // take desktop screenshot
 const screenshot = require('screenshot-desktop');
 
+// sharp
+const sharp = require('sharp');
+sharp.cache(false);
+
 // tesseract
 const { createWorker } = require('tesseract.js');
+
+// google vision
+const vision = require('@google-cloud/vision');
+
+// file module
+const fileModule = require('../main_modules/system/file-module');
 
 // language table
 const { languageEnum } = require('./engine-module');

@@ -45,6 +45,9 @@ const googleTTS = require('../translator/google-tts');
 // app version
 const appVersion = app.getVersion();
 
+// can screenshot
+let canScreenshot = false;
+
 // set ipc
 function setIPC() {
     setSystemChannel();
@@ -248,7 +251,28 @@ function setCaptureChannel() {
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
         // image processing
-        event.reply('start-screen-translation', rectangleSize, display.bounds, displayIndex);
+        if (canScreenshot) {
+            windowModule.sendWindow(
+                'screenshot',
+                'start-screen-translation',
+                rectangleSize,
+                display.bounds,
+                displayIndex
+            );
+        } else {
+            let interval = setInterval(() => {
+                if (canScreenshot) {
+                    clearInterval(interval);
+                    windowModule.sendWindow(
+                        'screenshot',
+                        'start-screen-translation',
+                        rectangleSize,
+                        display.bounds,
+                        displayIndex
+                    );
+                }
+            }, 100);
+        }
     });
 
     // get position
@@ -273,6 +297,11 @@ function setCaptureChannel() {
         windowModule.forEachWindow((myWindow) => {
             myWindow.restore();
         });
+    });
+
+    // screenshot ready
+    ipcMain.on('screenshot-ready', () => {
+        canScreenshot = true;
     });
 }
 

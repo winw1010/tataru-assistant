@@ -1,8 +1,5 @@
 'use strict';
 
-// fs
-const { unlinkSync } = require('fs');
-
 // electron
 const { ipcRenderer } = require('electron');
 
@@ -19,14 +16,11 @@ const { createWorker } = require('tesseract.js');
 // google vision
 const vision = require('@google-cloud/vision');
 
-// file module
-const fileModule = require('../main_modules/system/file-module');
-
-// language table
-const { languageEnum } = require('./engine-module');
-
 // temp image path
-const tempImagePath = fileModule.getRootPath('src', 'trained_data');
+const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
+
+// language enum
+const languageEnum = ipcRenderer.sendSync('get-language-enum');
 
 // contrast values
 const contrastThreshold = 160; //128
@@ -94,7 +88,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop
-        fileModule.imageWriter(getPath('crop.jpeg'), imageBuffer);
+        ipcRenderer.send('image-writer', getPath('crop.jpeg'), imageBuffer);
 
         // start reconize
         ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
@@ -114,12 +108,13 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
 // google vision
 async function googleVision(imagePath) {
     try {
-        if (!fileModule.fileChecker(fileModule.getUserDataPath('setting', 'google-credential.json'))) {
+        const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
+        if (!ipcRenderer.sendSync('file-checker', path)) {
             throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
         }
 
         const client = new vision.ImageAnnotatorClient({
-            keyFilename: fileModule.getUserDataPath('setting', 'google-credential.json'),
+            keyFilename: ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json'),
         });
         const [result] = await client.textDetection(imagePath);
         const detections = result.textAnnotations[0];
@@ -171,7 +166,7 @@ async function fixImage(imageBuffer) {
         }
 
         // save result
-        fileModule.imageWriter(getPath('result.jpeg'), resultImageBuffer);
+        ipcRenderer.send('image-writer', getPath('result.jpeg'), resultImageBuffer);
 
         // recognize image
         recognizeImage(resultImageBuffer);
@@ -289,7 +284,7 @@ function translate(text) {
 
 // get path
 function getPath(fileName) {
-    return fileModule.getPath(tempImagePath, fileName);
+    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
 }
 
 // delete images
@@ -298,7 +293,7 @@ function deleteImages() {
 
     images.forEach((value) => {
         try {
-            unlinkSync(getPath(value));
+            ipcRenderer.send('file-deleter', getPath(value));
         } catch (error) {
             console.log(error);
         }

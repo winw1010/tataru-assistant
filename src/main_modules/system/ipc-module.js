@@ -16,7 +16,7 @@ const configModule = require('./config-module');
 const chatCodeModule = require('./chat-code-module');
 
 // engine module
-const { getOption, getLanguageCode } = require('./engine-module');
+const { languageEnum, getOption, getLanguageCode } = require('./engine-module');
 
 // request module
 const { makeRequest } = require('./request-module');
@@ -371,6 +371,11 @@ function setTranslateChannel() {
         event.returnValue = sameAsArrayItem(text, array, searchIndex);
     });
 
+    // get language enum
+    ipcMain.on('get-language-enum', (event) => {
+        event.returnValue = languageEnum;
+    });
+
     // get option
     ipcMain.on('get-option', (event, engine, from, to, text) => {
         event.returnValue = getOption(engine, from, to, text);
@@ -427,6 +432,11 @@ function setFileChannel() {
     // json writer
     ipcMain.on('json-writer', (event, filePath, data) => {
         fileModule.jsonWriter(filePath, data);
+    });
+
+    // image writer
+    ipcMain.on('image-writer', (event, filePath, imageBuffer) => {
+        fileModule.imageWriter(filePath, imageBuffer);
     });
 
     // file writer

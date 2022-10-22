@@ -34,7 +34,15 @@ function directoryCheck() {
 
 // directoryReader
 function directoryReader(path) {
-    return fs.readdirSync(path);
+    let result = [];
+
+    try {
+        result = fs.readdirSync(path);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return result;
 }
 
 // json reader
@@ -64,12 +72,20 @@ function jsonWriter(filePath = './', data = []) {
 
 // image writer
 function imageWriter(filePath = './', imageBuffer = Buffer.from('')) {
-    fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
+    try {
+        fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // file writer
 function fileWriter(filePath = './', data) {
-    fs.writeFileSync(filePath, data);
+    try {
+        fs.writeFileSync(filePath, data);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // file checker
@@ -79,7 +95,11 @@ function fileChecker(filePath = './') {
 
 // file deleter
 function fileDeleter(filePath = './') {
-    return fs.unlinkSync(filePath);
+    try {
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // get path

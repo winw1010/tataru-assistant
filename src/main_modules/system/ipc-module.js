@@ -411,12 +411,7 @@ function setTranslateChannel() {
 function setFileChannel() {
     // directory reader
     ipcMain.on('directory-reader', (event, path) => {
-        try {
-            event.returnValue = fileModule.directoryReader(path);
-        } catch (error) {
-            console.log(error);
-            event.returnValue = [];
-        }
+        event.returnValue = fileModule.directoryReader(path);
     });
 
     // json reader
@@ -451,7 +446,7 @@ function setFileChannel() {
 
     // file deleter
     ipcMain.on('file-deleter', (event, filePath) => {
-        event.returnValue = fileModule.fileDeleter(filePath);
+        fileModule.fileDeleter(filePath);
     });
 
     // get path

@@ -3,8 +3,8 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// take desktop screenshot
-const screenshot = require('screenshot-desktop');
+// screenshot desktop
+const screenshotDesktop = require('screenshot-desktop');
 
 // sharp
 const sharp = require('sharp');
@@ -34,20 +34,20 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 
     try {
         // get displays
-        const displays = await screenshot.listDisplays();
+        const displays = await screenshotDesktop.listDisplays();
 
         // declare image path
         let imagePath = '';
 
         // take screenshot
         try {
-            imagePath = await screenshot({
+            imagePath = await screenshotDesktop({
                 screen: displays[displayIndex].id,
                 filename: getPath('screenshot.png'),
                 format: 'png',
             });
         } catch (error) {
-            imagePath = await screenshot({ filename: getPath('screenshot.png'), format: 'png' });
+            imagePath = await screenshotDesktop({ filename: getPath('screenshot.png'), format: 'png' });
         }
 
         // crop image
@@ -168,8 +168,8 @@ async function fixImage(imageBuffer) {
         // save result
         ipcRenderer.send('image-writer', getPath('result.jpeg'), resultImageBuffer);
 
-        // recognize image
-        recognizeImage(resultImageBuffer);
+        // recognize image text
+        recognizeImageText(resultImageBuffer);
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
@@ -186,7 +186,7 @@ function hsp(dominant) {
 }
 
 // recognize image text
-async function recognizeImage(imageBuffer) {
+async function recognizeImageText(imageBuffer) {
     try {
         const config = ipcRenderer.sendSync('get-config');
 

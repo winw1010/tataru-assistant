@@ -236,8 +236,8 @@ function getWindowSize(windowName, config) {
         }
 
         case 'screenshot': {
-            width = 0;
-            height = 0;
+            width = 1;
+            height = 1;
             x = 0;
             y = 0;
             break;

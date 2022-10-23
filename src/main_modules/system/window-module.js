@@ -299,10 +299,12 @@ function sendIndex(channel, ...args) {
 function forEachWindow(callback = () => {}) {
     const windowNames = Object.getOwnPropertyNames(windowList);
     windowNames.forEach((windowName) => {
-        try {
-            callback(windowList[windowName]);
-        } catch (error) {
-            //console.log(windowName, error);
+        if (windowName !== 'screenshot') {
+            try {
+                callback(windowList[windowName]);
+            } catch (error) {
+                //console.log(windowName, error);
+            }
         }
     });
 }

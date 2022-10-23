@@ -33,6 +33,9 @@ function createWindow(windowName, data = null) {
         // get size
         const windowSize = getWindowSize(windowName, config);
 
+        // window type
+        const isRegularWindow = windowName !== 'screenshot';
+
         // create new window
         const window = new BrowserWindow({
             x: windowSize.x,
@@ -46,7 +49,7 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                sandbox: windowName !== 'screenshot',
+                sandbox: isRegularWindow,
                 preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
             },
         });
@@ -59,7 +62,7 @@ function createWindow(windowName, data = null) {
         window.setMinimizable(false);
 
         // show window
-        if (windowName !== 'screenshot') {
+        if (isRegularWindow) {
             window.once('ready-to-show', () => {
                 window.show();
             });
@@ -118,6 +121,7 @@ function createWindow(windowName, data = null) {
 
             case 'screenshot':
                 window.setFocusable(false);
+                window.setIgnoreMouseEvents(true);
                 break;
 
             default:
@@ -236,10 +240,10 @@ function getWindowSize(windowName, config) {
         }
 
         case 'screenshot': {
-            width = 1;
-            height = 1;
-            x = displayBounds.x + displayBounds.width - 1;
-            y = displayBounds.y + displayBounds.height - 1;
+            width = 0;
+            height = 0;
+            x = 0;
+            y = 0;
             break;
         }
 

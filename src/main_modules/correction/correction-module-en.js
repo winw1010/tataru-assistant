@@ -249,9 +249,6 @@ async function textCorrection(name, text, translation) {
             text = await tm.translate(text, translation, codeResult.table);
         }
 
-        // value fix after
-        text = cf.valueFixAfter(text, valueResult.table);
-
         // clear code
         text = cf.clearCode(text, codeResult.table);
 
@@ -263,6 +260,9 @@ async function textCorrection(name, text, translation) {
 
         // mark fix
         text = cf.markFix(text, true);
+
+        // value fix after
+        text = cf.valueFixAfter(text, valueResult.table);
 
         // table
         text = cf.replaceText(text, codeResult.table);

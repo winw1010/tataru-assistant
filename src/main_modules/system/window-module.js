@@ -238,8 +238,8 @@ function getWindowSize(windowName, config) {
         case 'screenshot': {
             width = 1;
             height = 1;
-            x = 0;
-            y = 0;
+            x = displayBounds.x + displayBounds.width - 1;
+            y = displayBounds.y + displayBounds.height - 1;
             break;
         }
 

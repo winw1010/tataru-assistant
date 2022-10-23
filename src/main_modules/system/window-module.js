@@ -13,16 +13,7 @@ const configModule = require('./config-module');
 const chatCodeModule = require('./chat-code-module');
 
 // window list
-let windowList = {
-    index: null,
-    edit: null,
-    config: null,
-    capture: null,
-    'capture-edit': null,
-    'read-log': null,
-    dictionary: null,
-    screenshot: null,
-};
+let windowList = {};
 
 // create window
 function createWindow(windowName, data = null) {

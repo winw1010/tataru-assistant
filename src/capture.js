@@ -39,7 +39,7 @@ function setView() {
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
     document.getElementById('select_type').value = config.captureWindow.type;
-    //setBackground(config);
+    showScreenshotButton(config);
     setCanvasSize();
 }
 
@@ -69,7 +69,7 @@ function setEvent() {
         config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('set-config', config);
 
-        //setBackground(config);
+        showScreenshotButton(config);
     };
 
     // canvas event
@@ -102,18 +102,10 @@ function setButton() {
     };
 }
 
-/*
-// set background color
-function setBackground(config) {
-    if (config.captureWindow.type === 'google') {
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000000';
-        document.getElementById('button_screenshot').hidden = false;
-    } else {
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000022';
-        document.getElementById('button_screenshot').hidden = true;
-    }
+// show screenshot button
+function showScreenshotButton(config) {
+    document.getElementById('button_screenshot').hidden = config.captureWindow.type !== 'google';
 }
-*/
 
 // set canvas size
 function setCanvasSize() {

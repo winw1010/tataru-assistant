@@ -56,21 +56,12 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
         const config = ipcRenderer.sendSync('get-config');
-        const scaleRate = 1;
-        /*
-        (() => {
-            if (config.captureWindow.type === 'google') {
-                return 1;
-            } else {
-                return 650 / rectangleSize.width;
-            }
-        })();
-        */
+        const scaleRate = 1920 / displayBounds.width;
 
         let imageBuffer = await sharp(imagePath)
             .resize({
-                width: parseInt(displayBounds.width * scaleRate),
-                height: parseInt(displayBounds.height * scaleRate),
+                width: 1920,
+                height: 1080,
             })
             .extract({
                 left: parseInt(rectangleSize.x * scaleRate),

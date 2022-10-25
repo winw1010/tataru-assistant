@@ -20,11 +20,11 @@
         "eslint": "^8.26.0"
     },
     "dependencies": {
-        "@google-cloud/vision": "^3.0.0",
+        "@google-cloud/vision": "^3.0.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
         "screenshot-desktop": "^1.12.7",
-        "sharp": "^0.30.6",
+        "sharp": "^0.31.1",
         "tesseract.js": "^3.0.3"
     },
     "build": {

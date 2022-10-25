@@ -57,7 +57,7 @@ async function tesseractOCR(imageBuffer) {
         // set worker
         const worker = createWorker({
             langPath: getPath('tesseract'),
-            cacheMethod: 'readOnly',
+            cacheMethod: 'none',
             gzip: false,
         });
 

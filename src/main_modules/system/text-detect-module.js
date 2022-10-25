@@ -106,10 +106,7 @@ function fixImageText(text) {
         text = text
             .replaceAll('\n\n', '\n')
             .replaceAll('`', '「')
-            .replaceAll('間の使徒', '闇の使徒')
-            .replaceAll('間の戦士', '闇の戦士')
-            .replaceAll('間の巫女', '闇の巫女')
-            .replaceAll('間の世界', '闇の世界')
+            .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
             .replaceAll(/(?<=機工|飛空|整備|道|闘|兵)填/gi, '士');
     }
 

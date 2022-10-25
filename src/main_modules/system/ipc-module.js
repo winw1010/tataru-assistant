@@ -24,6 +24,9 @@ const { makeRequest } = require('./request-module');
 // server module
 const serverModule = require('./server-module');
 
+// text detect module
+const textDetectModule = require('./text-detect-module');
+
 // translate module
 const { getTranslation, zhConvert } = require('./translate-module');
 
@@ -124,12 +127,7 @@ function setWindowChannel() {
 
     // restart window
     ipcMain.on('restart-window', (event, windowName, data = null) => {
-        try {
-            windowModule.closeWindow(windowName);
-            throw null;
-        } catch (error) {
-            windowModule.createWindow(windowName, data);
-        }
+        windowModule.restartWindow(windowName, data);
     });
 
     // drag window
@@ -235,8 +233,8 @@ function setWindowChannel() {
 
 // set capture channel
 function setCaptureChannel() {
-    // start screen translation
-    ipcMain.on('start-screen-translation', (event, rectangleSize) => {
+    // get image text
+    ipcMain.on('get-image-text', (event, rectangleSize) => {
         // get display matching the rectangle
         const display = screen.getDisplayMatching(rectangleSize);
 
@@ -252,20 +250,14 @@ function setCaptureChannel() {
 
         // image processing
         if (canScreenshot) {
-            windowModule.sendWindow(
-                'screenshot',
-                'start-screen-translation',
-                rectangleSize,
-                display.bounds,
-                displayIndex
-            );
+            windowModule.sendWindow('screenshot', 'get-image-text', rectangleSize, display.bounds, displayIndex);
         } else {
             let interval = setInterval(() => {
                 if (canScreenshot) {
                     clearInterval(interval);
                     windowModule.sendWindow(
                         'screenshot',
-                        'start-screen-translation',
+                        'get-image-text',
                         rectangleSize,
                         display.bounds,
                         displayIndex
@@ -302,6 +294,21 @@ function setCaptureChannel() {
     // screenshot ready
     ipcMain.on('screenshot-ready', () => {
         canScreenshot = true;
+    });
+
+    // google vision
+    ipcMain.on('google-vision', (event, imagePath) => {
+        textDetectModule.googleVision(imagePath);
+    });
+
+    // tesseract ocr
+    ipcMain.on('tesseract-ocr', (event, imageBuffer) => {
+        textDetectModule.tesseractOCR(imageBuffer);
+    });
+
+    // translate image text
+    ipcMain.on('translate-image-text', (event, text) => {
+        textDetectModule.translateImageText(text);
     });
 }
 

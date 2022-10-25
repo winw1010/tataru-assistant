@@ -39,7 +39,7 @@ function setView() {
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
     document.getElementById('select_type').value = config.captureWindow.type;
-    setBackground(config);
+    //setBackground(config);
     setCanvasSize();
 }
 
@@ -69,7 +69,7 @@ function setEvent() {
         config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('set-config', config);
 
-        setBackground(config);
+        //setBackground(config);
     };
 
     // canvas event
@@ -86,7 +86,7 @@ function setButton() {
         // start screen translation
         const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
         ipcRenderer.send(
-            'start-screen-translation',
+            'get-image-text',
             getRectangleSize(
                 displayBounds.x,
                 displayBounds.y,
@@ -102,6 +102,7 @@ function setButton() {
     };
 }
 
+/*
 // set background color
 function setBackground(config) {
     if (config.captureWindow.type === 'google') {
@@ -112,6 +113,7 @@ function setBackground(config) {
         document.getElementById('button_screenshot').hidden = true;
     }
 }
+*/
 
 // set canvas size
 function setCanvasSize() {
@@ -182,7 +184,7 @@ function setCanvasEvent() {
 
             // start screen translation
             if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-                ipcRenderer.send('start-screen-translation', rectangleSize);
+                ipcRenderer.send('get-image-text', rectangleSize);
             }
         };
     };

@@ -36,13 +36,7 @@ function setIPC() {
     });
 
     // send data
-    ipcRenderer.on('send-data', (event, stringArray) => {
-        let text = '';
-
-        for (let index = 0; index < stringArray.length; index++) {
-            text += stringArray[index] + '\n';
-        }
-
+    ipcRenderer.on('send-data', (event, text) => {
         document.getElementById('textarea_screen_text').value = text;
     });
 }
@@ -83,7 +77,7 @@ function setButton() {
 
     // translate
     document.getElementById('button_translate').onclick = () => {
-        translate(document.getElementById('textarea_screen_text').value);
+        ipcRenderer.send('translate-image-text', document.getElementById('textarea_screen_text').value);
     };
 
     // close
@@ -92,53 +86,7 @@ function setButton() {
     };
 }
 
-function translate(text) {
-    const config = ipcRenderer.sendSync('get-config');
-
-    // set string array
-    let stringArray = [];
-    if (config.captureWindow.split) {
-        stringArray = text.split('\n');
-    } else {
-        stringArray = [text.replaceAll('\n', '')];
-    }
-
-    // delete images
-    deleteImages();
-
-    // start translate
-    const timestamp = new Date().getTime();
-    for (let index = 0; index < stringArray.length; index++) {
-        const element = stringArray[index];
-        if (element !== '') {
-            const dialogData = {
-                id: 'id' + (timestamp + index),
-                code: '003D',
-                playerName: '',
-                name: '',
-                text: element,
-                timestamp: timestamp + index,
-            };
-
-            ipcRenderer.send('start-translation', dialogData, config.translation);
-        }
-    }
-}
-
 // get path
 function getPath(fileName) {
     return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
-}
-
-// delete images
-function deleteImages() {
-    const images = ['screenshot.png', 'crop.jpeg', 'result.jpeg'];
-
-    images.forEach((value) => {
-        try {
-            ipcRenderer.send('file-deleter', getPath(value));
-        } catch (error) {
-            console.log(error);
-        }
-    });
 }

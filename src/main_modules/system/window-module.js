@@ -260,14 +260,24 @@ function getWindowSize(windowName, config) {
     }
 }
 
-// set window
-function setWindow(windowName, myWindow) {
-    windowList[windowName] = myWindow;
+// restart window
+function restartWindow(windowName, data) {
+    try {
+        closeWindow(windowName);
+        throw null;
+    } catch (error) {
+        createWindow(windowName, data);
+    }
 }
 
 // get window
 function getWindow(windowName) {
     return windowList[windowName];
+}
+
+// set window
+function setWindow(windowName, myWindow) {
+    windowList[windowName] = myWindow;
 }
 
 // close window
@@ -313,6 +323,7 @@ function openDevTools() {
 module.exports = {
     createWindow,
     getWindowSize,
+    restartWindow,
     setWindow,
     getWindow,
     closeWindow,

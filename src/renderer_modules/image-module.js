@@ -10,22 +10,13 @@ const screenshotDesktop = require('screenshot-desktop');
 const sharp = require('sharp');
 sharp.cache(false);
 
-// tesseract
-const { createWorker } = require('tesseract.js');
-
-// google vision
-const vision = require('@google-cloud/vision');
-
 // temp image path
 const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
 
-// language enum
-const languageEnum = ipcRenderer.sendSync('get-language-enum');
-
 // contrast values
-const contrastThreshold = 160; //128
-const contrast = 100; //76.5
-const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
+//const contrastThreshold = 160; //128
+//const contrast = 100; //76.5
+//const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
 
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
@@ -65,13 +56,16 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
         const config = ipcRenderer.sendSync('get-config');
-        const scaleRate = (() => {
+        const scaleRate = 1;
+        /*
+        (() => {
             if (config.captureWindow.type === 'google') {
                 return 1;
             } else {
                 return 650 / rectangleSize.width;
             }
         })();
+        */
 
         let imageBuffer = await sharp(imagePath)
             .resize({
@@ -94,10 +88,13 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            googleVision(getPath('crop.jpeg'));
+            ipcRenderer.send('google-vision', getPath('crop.jpeg'));
         } else {
             // fix image
-            fixImage(imageBuffer);
+            //fixImage(imageBuffer);
+
+            // tesseract ocr
+            ipcRenderer.send('tesseract-ocr', imageBuffer);
         }
     } catch (error) {
         console.log(error);
@@ -105,30 +102,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
     }
 }
 
-// google vision
-async function googleVision(imagePath) {
-    try {
-        const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
-        if (!ipcRenderer.sendSync('file-checker', path)) {
-            throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
-        }
-
-        const client = new vision.ImageAnnotatorClient({
-            keyFilename: ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json'),
-        });
-        const [result] = await client.textDetection(imagePath);
-        const detections = result.textAnnotations[0];
-
-        if (detections?.description) {
-            translate(detections.description);
-        } else {
-            throw result.error;
-        }
-    } catch (error) {
-        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字: ' + error);
-    }
-}
-
+/*
 // fix image
 async function fixImage(imageBuffer) {
     try {
@@ -152,7 +126,7 @@ async function fixImage(imageBuffer) {
             console.log('light color background');
 
             // set result image buffer
-            resultImageBuffer = await image /*.threshold(parseInt(dominant.r / 2))*/
+            resultImageBuffer = await image //.threshold(parseInt(dominant.r / 2))
                 .toBuffer();
         } else {
             // dark color background
@@ -168,8 +142,8 @@ async function fixImage(imageBuffer) {
         // save result
         ipcRenderer.send('image-writer', getPath('result.jpeg'), resultImageBuffer);
 
-        // recognize image text
-        recognizeImageText(resultImageBuffer);
+        // tesseract ocr
+        ipcRenderer.send('tesseract-ocr', resultImageBuffer);
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
@@ -184,120 +158,11 @@ function hsp(dominant) {
 
     return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
-
-// recognize image text
-async function recognizeImageText(imageBuffer) {
-    try {
-        const config = ipcRenderer.sendSync('get-config');
-
-        // set worker
-        const worker = createWorker({
-            langPath: getPath(config.captureWindow.type),
-            cacheMethod: 'none',
-            gzip: false,
-        });
-
-        // load worker
-        await worker.load();
-
-        // load language
-        if (config.translation.from === languageEnum.ja) {
-            await worker.loadLanguage('jpn');
-            await worker.initialize('jpn');
-        } else if (config.translation.from === languageEnum.en) {
-            await worker.loadLanguage('eng');
-            await worker.initialize('eng');
-        }
-
-        // recognize text
-        const {
-            data: { text },
-        } = await worker.recognize(imageBuffer);
-
-        // terminate worker
-        await worker.terminate();
-
-        // try again or transtale
-        if (text.trim().length !== 0) {
-            translate(text);
-        } else {
-            throw 'Text is empty.';
-        }
-    } catch (error) {
-        console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法辨識圖片文字: ' + error);
-    }
-}
-
-function translate(text) {
-    const config = ipcRenderer.sendSync('get-config');
-
-    // fix
-    if (config.captureWindow.type !== 'google') {
-        if (config.translation.from === languageEnum.ja) {
-            text = text.replaceAll(' ', '');
-        }
-
-        text = text.replaceAll('\n\n', '\n');
-        text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
-    }
-
-    // set string array
-    let stringArray = [];
-    if (config.captureWindow.split) {
-        stringArray = text.split('\n');
-    } else {
-        if (config.translation.from === languageEnum.ja) {
-            stringArray = [text.replaceAll('\n', '')];
-        } else {
-            stringArray = [text.replaceAll('\n', ' ')];
-        }
-    }
-
-    // return if need to edit
-    if (config.captureWindow.edit) {
-        ipcRenderer.send('restart-window', 'capture-edit', stringArray);
-        return;
-    }
-
-    // delete images
-    deleteImages();
-
-    // start translate
-    const timestamp = new Date().getTime();
-    for (let index = 0; index < stringArray.length; index++) {
-        const element = stringArray[index];
-        if (element !== '') {
-            const dialogData = {
-                id: 'id' + (timestamp + index),
-                code: '003D',
-                playerName: '',
-                name: '',
-                text: element,
-                timestamp: timestamp + index,
-            };
-
-            ipcRenderer.send('start-translation', dialogData, config.translation);
-        }
-    }
-}
+*/
 
 // get path
 function getPath(fileName) {
     return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
-}
-
-// delete images
-function deleteImages() {
-    const images = ['screenshot.png', 'crop.jpeg', 'result.jpeg'];
-
-    images.forEach((value) => {
-        try {
-            ipcRenderer.send('file-deleter', getPath(value));
-        } catch (error) {
-            console.log(error);
-        }
-    });
 }
 
 // module exports

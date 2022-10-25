@@ -9,7 +9,7 @@ const { takeScreenshot } = require('./renderer_modules/image-module');
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
     // start screen translation
-    ipcRenderer.on('start-screen-translation', (event, ...args) => {
+    ipcRenderer.on('get-image-text', (event, ...args) => {
         takeScreenshot(...args);
     });
 

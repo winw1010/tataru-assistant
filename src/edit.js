@@ -18,7 +18,7 @@ const fileModule = {
         return ipcRenderer.sendSync('json-reader', filePath, returnArray);
     },
     jsonWriter: (filePath, data) => {
-        return ipcRenderer.send('json-writer', filePath, data);
+        ipcRenderer.send('json-writer', filePath, data);
     },
 };
 

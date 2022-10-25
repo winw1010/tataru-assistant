@@ -416,12 +416,7 @@ function setFileChannel() {
 
     // json reader
     ipcMain.on('json-reader', (event, filePath, returnArray) => {
-        try {
-            event.returnValue = fileModule.jsonReader(filePath, returnArray);
-        } catch (error) {
-            console.log(error);
-            event.returnValue = null;
-        }
+        event.returnValue = fileModule.jsonReader(filePath, returnArray);
     });
 
     // json writer

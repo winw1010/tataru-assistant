@@ -225,14 +225,10 @@ let currentChatCode = defaultChatCode;
 
 // load chat code
 function loadChatCode() {
-    try {
-        currentChatCode = fileModule.jsonReader(chatCodeLocation, false);
+    currentChatCode = fileModule.jsonReader(chatCodeLocation);
 
-        if (defaultChatCode.length !== currentChatCode.length) {
-            throw null;
-        }
-    } catch (error) {
-        console.log(error);
+    if (defaultChatCode.length !== currentChatCode.length) {
+        currentChatCode = defaultChatCode;
     }
 
     return currentChatCode;

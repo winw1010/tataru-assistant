@@ -120,6 +120,7 @@ function loadConfig() {
         currentConfig.system.firstTime = false;
     } catch (error) {
         console.log(error);
+        currentConfig = defaultConfig;
     }
 
     return currentConfig;

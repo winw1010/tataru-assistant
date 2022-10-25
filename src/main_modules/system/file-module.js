@@ -56,7 +56,7 @@ function jsonReader(filePath = './', returnArray = true) {
         if (returnArray) {
             return [];
         } else {
-            throw error;
+            return {};
         }
     }
 }
@@ -90,7 +90,12 @@ function fileWriter(filePath = './', data) {
 
 // file checker
 function fileChecker(filePath = './') {
-    return fs.existsSync(filePath);
+    try {
+        return fs.existsSync(filePath);
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
 }
 
 // file deleter

@@ -195,17 +195,13 @@ onDocumentReady(() => {
         let log = {};
 
         // read/create log file
-        try {
-            if (getAPI('fileChecker')(filePath)) {
-                log = getAPI('jsonReader')(filePath, false);
+        if (getAPI('fileChecker')(filePath)) {
+            log = getAPI('jsonReader')(filePath, false);
 
-                // fix old bug
-                if (Array.isArray(log)) {
-                    log = {};
-                }
+            // fix old bug
+            if (Array.isArray(log)) {
+                log = {};
             }
-        } catch (error) {
-            console.log(error);
         }
 
         // play audio at first time

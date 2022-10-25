@@ -117,6 +117,10 @@ function loadConfig() {
             currentConfig.translation.engine = 'Youdao';
         }
 
+        if (currentConfig.captureWindow.type !== 'google') {
+            currentConfig.captureWindow.type = 'tesseract';
+        }
+
         currentConfig.system.firstTime = false;
     } catch (error) {
         console.log(error);

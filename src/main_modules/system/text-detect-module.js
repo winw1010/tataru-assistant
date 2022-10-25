@@ -55,7 +55,7 @@ async function tesseractOCR(imageBuffer) {
 
         // set worker
         const worker = createWorker({
-            langPath: getPath(config.captureWindow.type),
+            langPath: getPath('tesseract'),
             cacheMethod: 'readOnly',
             gzip: false,
         });
@@ -119,16 +119,6 @@ function fixImageText(text) {
 // translate image text
 function translateImageText(text) {
     const config = configModule.getConfig();
-
-    // fix
-    if (config.captureWindow.type !== 'google') {
-        if (config.translation.from === languageEnum.ja) {
-            text = text.replaceAll(' ', '');
-        }
-
-        text = text.replaceAll('\n\n', '\n');
-        text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
-    }
 
     // set string array
     let stringArray = [];

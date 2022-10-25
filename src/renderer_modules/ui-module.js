@@ -124,11 +124,6 @@ onDocumentReady(() => {
             'Traditional-Chinese': ['繁體中文', '繁体中文'],
             'Simplified-Chinese': ['簡體中文', '简体中文'],
 
-            // capture
-            fast: ['模式: 快速', '模式: 快速'],
-            standard: ['模式: 標準', '模式: 标准'],
-            best: ['模式: 最佳', '模式: 最佳'],
-
             // edit
             player: ['玩家名稱 (原文 --> 中文)', '玩家名称 (原文 --> 中文)'],
             retainer: ['雇員名稱 (原文 --> 中文)', '雇员名称 (原文 --> 中文)'],

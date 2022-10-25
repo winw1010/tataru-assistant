@@ -44,6 +44,7 @@ async function googleVision(imagePath) {
             throw result.error;
         }
     } catch (error) {
+        console.log(error);
         windowModule.sendIndex('show-notification', '無法辨識圖片文字: ' + error);
     }
 }

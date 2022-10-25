@@ -103,8 +103,13 @@ function fixImageText(text) {
             text = text.replaceAll(' ', '');
         }
 
-        text = text.replaceAll('\n\n', '\n');
-        text = text.replaceAll('`', '「').replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
+        text = text
+            .replaceAll('\n\n', '\n')
+            .replaceAll('`', '「')
+            .replaceAll('間の使徒', '闇の使徒')
+            .replaceAll('間の戦士', '闇の戦士')
+            .replaceAll('間の巫女', '闇の巫女')
+            .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
     }
 
     // return if need to edit

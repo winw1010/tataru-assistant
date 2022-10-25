@@ -109,10 +109,10 @@ function fixImageText(text) {
             .replaceAll('間の使徒', '闇の使徒')
             .replaceAll('間の戦士', '闇の戦士')
             .replaceAll('間の巫女', '闇の巫女')
-            .replaceAll(/(?<=機工|飛空|整備|道|兵)填/gi, '士');
+            .replaceAll(/(?<=機工|飛空|整備|道|闘|兵)填/gi, '士');
     }
 
-    // return if need to edit
+    // return if edit is true
     if (config.captureWindow.edit) {
         windowModule.restartWindow('capture-edit', text);
         return;

@@ -177,7 +177,6 @@ function setWindowChannel() {
         try {
             const indexWindow = BrowserWindow.fromWebContents(event.sender);
             indexWindow.setFocusable(isFocusable);
-            indexWindow.setAlwaysOnTop(true, 'screen-saver');
         } catch (error) {
             console.log(error);
         }

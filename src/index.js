@@ -44,6 +44,11 @@ function setIPC() {
         document.dispatchEvent(new CustomEvent('change-ui-text'));
     });
 
+    // version check
+    ipcRenderer.on('version-check', () => {
+        versionCheck();
+    });
+
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
         document.getElementById('div_dialog').innerHTML = '';
@@ -289,7 +294,7 @@ async function versionCheck() {
     let notificationText = '';
 
     try {
-        const latestVersion = await ipcRenderer.invoke('version-check');
+        const latestVersion = await ipcRenderer.invoke('get-latest-version');
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (appVersion === latestVersion) {

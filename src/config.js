@@ -143,7 +143,7 @@ function setButton() {
 
     // version check
     document.getElementById('button_version_check').onclick = () => {
-        ipcRenderer.send('version-check');
+        ipcRenderer.send('send-index', 'version-check');
     };
 
     // get google credential

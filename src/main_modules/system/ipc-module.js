@@ -315,7 +315,7 @@ function setCaptureChannel() {
 // set request channel
 function setRequestChannel() {
     // get latest verssion
-    ipcMain.handle('version-check', () => {
+    ipcMain.handle('get-latest-version', () => {
         const callback = function (response, chunk) {
             if (response.statusCode === 200) {
                 return JSON.parse(chunk.toString()).number;

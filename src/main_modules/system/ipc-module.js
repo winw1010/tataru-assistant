@@ -154,6 +154,15 @@ function setWindowChannel() {
         }
     });
 
+    // restore window
+    ipcMain.on('restore-window', (event) => {
+        try {
+            BrowserWindow.fromWebContents(event.sender).restore();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
     // close window
     ipcMain.on('close-window', (event) => {
         try {

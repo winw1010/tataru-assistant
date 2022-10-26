@@ -247,6 +247,9 @@ function startApp() {
 
 // reset view
 function resetView(config) {
+    // restore window
+    ipcRenderer.send('restore-window');
+
     // set always on top
     ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
 

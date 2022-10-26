@@ -285,33 +285,29 @@ function hideButton(isMouseOut, hideButton) {
 }
 
 // version check
-function versionCheck() {
-    ipcRenderer
-        .invoke('version-check')
-        .then((latestVersion) => {
-            const appVersion = ipcRenderer.sendSync('get-version');
+async function versionCheck() {
+    let notificationText = '';
 
-            if (appVersion === latestVersion) {
-                document.getElementById('img_button_update').hidden = true;
-                document.dispatchEvent(new CustomEvent('show-notification', { detail: { text: '已安裝最新版本' } }));
-            } else {
-                let latest = '';
+    try {
+        const latestVersion = await ipcRenderer.invoke('version-check');
+        const appVersion = ipcRenderer.sendSync('get-version');
 
-                if (latestVersion?.length > 0) {
-                    latest += `(Ver.${latestVersion})`;
-                }
-
-                document.getElementById('img_button_update').hidden = false;
-                document.dispatchEvent(
-                    new CustomEvent('show-notification', {
-                        detail: {
-                            text: `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`,
-                        },
-                    })
-                );
+        if (appVersion === latestVersion) {
+            document.getElementById('img_button_update').hidden = true;
+            notificationText = '已安裝最新版本';
+        } else {
+            let latest = '';
+            if (latestVersion?.length > 0) {
+                latest += `(v${latestVersion})`;
             }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+
+            document.getElementById('img_button_update').hidden = false;
+            notificationText = `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`;
+        }
+    } catch (error) {
+        console.log(error);
+        notificationText = error;
+    }
+
+    document.dispatchEvent(new CustomEvent('show-notification', { detail: { text: notificationText } }));
 }

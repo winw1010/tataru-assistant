@@ -6,7 +6,7 @@ onDocumentReady(() => {
     const npcChannel = ['003D', '0044', '2AB9'];
 
     // log location
-    const logLocation = getAPI('getUserDataPath')('log');
+    const logLocation = ipcRendererSendSync('get-user-data-path', 'log');
 
     // dialog timeout
     let hideDialogTimeout = null;
@@ -43,8 +43,8 @@ onDocumentReady(() => {
     function updateDialog(id, name, text, dialogData = null, translation = null) {
         // zh convert
         if (translation) {
-            name = getAPI('zhConvert')(name, translation.to);
-            text = getAPI('zhConvert')(text, translation.to);
+            name = ipcRendererSendSync('zh-convert', name, translation.to);
+            text = ipcRendererSendSync('zh-convert', text, translation.to);
         }
 
         // set dialog
@@ -55,7 +55,7 @@ onDocumentReady(() => {
         if (dialog.className !== 'FFFF') {
             dialog.style.cursor = 'pointer';
             dialog.onclick = () => {
-                getAPI('restartWindow')('edit', id);
+                ipcRendererSend('restart-window', 'edit', id);
             };
         }
 
@@ -87,13 +87,13 @@ onDocumentReady(() => {
     });
 
     function appendNotification(text) {
-        const config = getAPI('getConfig')();
+        const config = ipcRendererSendSync('get-config');
         const timestamp = new Date().getTime();
         const id = 'id' + timestamp;
         const code = 'FFFF';
 
         // zh convert
-        text = getAPI('zhConvert')(text, config.translation.to);
+        text = ipcRendererSendSync('zh-convert', text, config.translation.to);
 
         appendBlankDialog(id, code);
         updateDialog(id, '', text);
@@ -117,7 +117,7 @@ onDocumentReady(() => {
         clearTimeout(hideDialogTimeout);
         hideDialogTimeout = null;
 
-        const config = getAPI('getConfig')();
+        const config = ipcRendererSendSync('get-config');
         const dialog = document.getElementById('div_dialog');
         dialog.hidden = false;
 
@@ -146,7 +146,7 @@ onDocumentReady(() => {
 
     // set style
     function setStyle(dialog) {
-        const config = getAPI('getConfig')();
+        const config = ipcRendererSendSync('get-config');
 
         dialog.style.fontWeight = config.dialog.weight;
         dialog.style.color = config.channel[dialog.className]
@@ -191,12 +191,12 @@ onDocumentReady(() => {
             translation: translation,
         };
 
-        const filePath = getAPI('getPath')(logLocation, createLogName(item.timestamp));
+        const filePath = ipcRendererSendSync('get-path', logLocation, createLogName(item.timestamp));
         let log = {};
 
         // read/create log file
-        if (getAPI('fileChecker')(filePath)) {
-            log = getAPI('jsonReader')(filePath, false);
+        if (ipcRendererSendSync('file-checker', filePath)) {
+            log = ipcRendererSendSync('json-reader', filePath, false);
 
             // fix old bug
             if (Array.isArray(log)) {
@@ -218,7 +218,7 @@ onDocumentReady(() => {
 
         // write log file
         try {
-            getAPI('jsonWriter')(filePath, log);
+            ipcRendererSendSync('json-writer', filePath, log);
         } catch (error) {
             console.error(error);
         }

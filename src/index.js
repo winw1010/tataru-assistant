@@ -25,44 +25,14 @@ window.addEventListener('DOMContentLoaded', () => {
 // set context bridge
 function setContextBridge() {
     contextBridge.exposeInMainWorld('myAPI', {
-        dragWindow: (...args) => {
-            ipcRenderer.send('drag-window', ...args);
+        ipcRendererSend: (channel, ...args) => {
+            ipcRenderer.send(channel, ...args);
         },
-        getConfig: () => {
-            return ipcRenderer.sendSync('get-config');
+        ipcRendererSendSync: (channel, ...args) => {
+            return ipcRenderer.sendSync(channel, ...args);
         },
-        getChatCode: () => {
-            return ipcRenderer.sendSync('get-chat-code');
-        },
-
-        restartWindow: (windowName, data) => {
-            ipcRenderer.send('restart-window', windowName, data);
-        },
-
-        getLanguageCode: (language, engine) => {
-            return ipcRenderer.sendSync('get-language-code', language, engine);
-        },
-        zhConvert: (text, languageTo) => {
-            return ipcRenderer.sendSync('zh-convert', text, languageTo);
-        },
-        googleTTS: (option) => {
-            return ipcRenderer.sendSync('google-tts', option);
-        },
-
-        getPath: (...args) => {
-            return ipcRenderer.sendSync('get-path', ...args);
-        },
-        getUserDataPath: (...args) => {
-            return ipcRenderer.sendSync('get-user-data-path', ...args);
-        },
-        jsonReader: (filePath, returnArray) => {
-            return ipcRenderer.sendSync('json-reader', filePath, returnArray);
-        },
-        jsonWriter: (filePath, data) => {
-            ipcRenderer.send('json-writer', filePath, data);
-        },
-        fileChecker: (filePath) => {
-            return ipcRenderer.sendSync('file-checker', filePath);
+        ipcRendererInvoke: (channel, ...args) => {
+            return ipcRenderer.invoke(channel, ...args);
         },
     });
 }

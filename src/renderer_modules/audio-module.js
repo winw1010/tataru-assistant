@@ -3,7 +3,7 @@
 
 onDocumentReady(() => {
     // get config
-    const config = getAPI('getConfig')();
+    const config = ipcRendererSendSync('get-config');
 
     // play list
     let playlist = [];
@@ -17,8 +17,8 @@ onDocumentReady(() => {
 
         if (translation.autoPlay && text !== '') {
             try {
-                const languageCode = getAPI('getLanguageCode')(translation.from, 'Google');
-                const urls = getAPI('googleTTS')({ text: text, language: languageCode });
+                const languageCode = ipcRendererSendSync('get-language-code', translation.from, 'Google');
+                const urls = ipcRendererSendSync('google-tts', { text: text, language: languageCode });
 
                 for (let index = 0; index < urls.length; index++) {
                     const url = urls[index];

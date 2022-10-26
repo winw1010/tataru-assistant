@@ -56,18 +56,18 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
         const config = ipcRenderer.sendSync('get-config');
-        const scaleRate = 1920 / displayBounds.width;
+        const newSize = getNewSize(displayBounds);
 
         let imageBuffer = await sharp(imagePath)
             .resize({
-                width: 1920,
-                height: 1080,
+                width: newSize.width,
+                height: newSize.height,
             })
             .extract({
-                left: parseInt(rectangleSize.x * scaleRate),
-                top: parseInt(rectangleSize.y * scaleRate),
-                width: parseInt(rectangleSize.width * scaleRate),
-                height: parseInt(rectangleSize.height * scaleRate),
+                left: parseInt(rectangleSize.x * newSize.scaleRate),
+                top: parseInt(rectangleSize.y * newSize.scaleRate),
+                width: parseInt(rectangleSize.width * newSize.scaleRate),
+                height: parseInt(rectangleSize.height * newSize.scaleRate),
             })
             .jpeg({ quality: 100 })
             .toBuffer();
@@ -90,6 +90,25 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
     } catch (error) {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
+    }
+}
+
+// get new size
+function getNewSize(displayBounds) {
+    if (displayBounds.width > 1920) {
+        const scaleRate = 1920 / displayBounds.width;
+
+        return {
+            width: 1920,
+            height: parseInt(displayBounds.height * scaleRate),
+            scaleRate: scaleRate,
+        };
+    } else {
+        return {
+            width: displayBounds.width,
+            height: displayBounds.height,
+            scaleRate: 1,
+        };
     }
 }
 

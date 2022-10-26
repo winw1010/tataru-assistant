@@ -95,6 +95,7 @@ async function tesseractOCR(imageBuffer) {
 
 // fix image text
 function fixImageText(text) {
+    windowModule.sendIndex('show-notification', '辨識完成');
     const config = configModule.getConfig();
 
     // fix
@@ -165,7 +166,7 @@ function getPath(fileName) {
 
 // delete images
 function deleteImages() {
-    const images = ['screenshot.png', 'crop.jpeg'];
+    const images = ['screenshot.png', 'crop.png'];
 
     images.forEach((value) => {
         try {

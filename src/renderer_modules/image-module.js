@@ -69,23 +69,20 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
                 width: parseInt(rectangleSize.width * newSize.scaleRate),
                 height: parseInt(rectangleSize.height * newSize.scaleRate),
             })
-            .jpeg({ quality: 100 })
+            .png({ quality: 100 })
             .toBuffer();
 
         // save crop
-        ipcRenderer.send('image-writer', getPath('crop.jpeg'), imageBuffer);
+        ipcRenderer.send('image-writer', getPath('crop.png'), imageBuffer);
 
         // start reconize
         ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            ipcRenderer.send('google-vision', getPath('crop.jpeg'));
+            ipcRenderer.send('google-vision', getPath('crop.png'));
         } else {
-            // fix image
-            //fixImage(imageBuffer);
-
             // tesseract ocr
-            ipcRenderer.send('tesseract-ocr', imageBuffer);
+            ipcRenderer.send('tesseract-ocr', await fixImage(imageBuffer));
         }
     } catch (error) {
         console.log(error);
@@ -111,6 +108,54 @@ function getNewSize(displayBounds) {
         };
     }
 }
+
+// fix image
+async function fixImage(imageBuffer) {
+    try {
+        // greyscale image
+        let image = sharp(imageBuffer).greyscale();
+
+        // determind background color is light or dark
+        const { dominant } = await image.stats();
+
+        if (hsp(dominant) >= 16256.25) {
+            // light color background
+            console.log('light color background');
+
+            // set result image buffer
+            return await image.toBuffer();
+        } else {
+            // dark color background
+            console.log('dark color background');
+
+            // set result image buffer
+            return await image.negate({ alpha: false }).toBuffer();
+        }
+    } catch (error) {
+        console.log(error);
+        ipcRenderer.send('send-index', 'show-notification', '圖片處理發生錯誤: ' + error);
+        return imageBuffer;
+    }
+}
+
+// hsp
+function hsp(dominant) {
+    const red = dominant.r;
+    const green = dominant.g;
+    const blue = dominant.b;
+
+    return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
+}
+
+// get path
+function getPath(fileName) {
+    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
+}
+
+// module exports
+module.exports = {
+    takeScreenshot,
+};
 
 /*
 // fix image
@@ -159,23 +204,4 @@ async function fixImage(imageBuffer) {
         ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
-
-// hsp
-function hsp(dominant) {
-    const red = dominant.r;
-    const green = dominant.g;
-    const blue = dominant.b;
-
-    return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
-}
 */
-
-// get path
-function getPath(fileName) {
-    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
-}
-
-// module exports
-module.exports = {
-    takeScreenshot,
-};

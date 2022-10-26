@@ -13,11 +13,6 @@ sharp.cache(false);
 // temp image path
 const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
 
-// contrast values
-//const contrastThreshold = 160; //128
-//const contrast = 100; //76.5
-//const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
-
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
     ipcRenderer.send('send-index', 'show-notification', '正在擷取螢幕畫面');
@@ -158,6 +153,11 @@ module.exports = {
 };
 
 /*
+// contrast values
+const contrastThreshold = 160; //128
+const contrast = 100; //76.5
+const fator = ((255 + contrast) * 350) / (255 * (350 - contrast));
+
 // fix image
 async function fixImage(imageBuffer) {
     try {

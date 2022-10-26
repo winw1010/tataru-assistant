@@ -107,7 +107,7 @@ function fixImageText(text) {
             .replaceAll('\n\n', '\n')
             .replaceAll('`', '「')
             .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
-            .replaceAll(/(?<=機工|飛空|整備|道|闘|兵)填/gi, '士');
+            .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)填/gi, '士');
     }
 
     // return if edit is true

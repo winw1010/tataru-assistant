@@ -404,8 +404,8 @@ function setTranslateChannel() {
     });
 
     // zh convert
-    ipcMain.on('zh-convert', (event, text, languageTo) => {
-        event.returnValue = zhConvert(text, languageTo);
+    ipcMain.handle('zh-convert', (event, text, languageTo) => {
+        return zhConvert(text, languageTo);
     });
 
     // google tts

@@ -40,11 +40,11 @@ onDocumentReady(() => {
         updateDialog(ev.detail.id, ev.detail.name, ev.detail.text, ev.detail.dialogData, ev.detail.translation);
     });
 
-    function updateDialog(id, name, text, dialogData = null, translation = null) {
+    async function updateDialog(id, name, text, dialogData = null, translation = null) {
         // zh convert
         if (translation) {
-            name = ipcRendererSendSync('zh-convert', name, translation.to);
-            text = ipcRendererSendSync('zh-convert', text, translation.to);
+            name = await ipcRendererInvoke('zh-convert', name, translation.to);
+            text = await ipcRendererInvoke('zh-convert', text, translation.to);
         }
 
         // set dialog
@@ -86,26 +86,26 @@ onDocumentReady(() => {
         appendNotification(ev.detail.text);
     });
 
-    function appendNotification(text) {
+    async function appendNotification(text) {
         const config = ipcRendererSendSync('get-config');
         const timestamp = new Date().getTime();
         const id = 'id' + timestamp;
         const code = 'FFFF';
 
         // zh convert
-        text = ipcRendererSendSync('zh-convert', text, config.translation.to);
+        text = await ipcRendererInvoke('zh-convert', text, config.translation.to);
 
         appendBlankDialog(id, code);
-        updateDialog(id, '', text);
-
-        // set timeout
-        setTimeout(() => {
-            try {
-                document.getElementById(id).remove();
-            } catch (error) {
-                console.log(error);
-            }
-        }, 5000 + Math.floor(text.length / 20));
+        updateDialog(id, '', text).then(() => {
+            // set timeout
+            setTimeout(() => {
+                try {
+                    document.getElementById(id).remove();
+                } catch (error) {
+                    console.log(error);
+                }
+            }, 5000 + Math.floor(text.length / 20));
+        });
     }
 
     // show dialog

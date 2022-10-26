@@ -107,6 +107,7 @@ function fixImageText(text) {
         text = text
             .replaceAll('\n\n', '\n')
             .replaceAll('`', '「')
+            .replaceAll('ガンプレイカー', 'ガンブレイカー')
             .replaceAll('ガンプブレイカー', 'ガンブレイカー')
             .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
             .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士');

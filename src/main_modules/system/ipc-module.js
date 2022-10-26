@@ -175,8 +175,7 @@ function setWindowChannel() {
     // set focusable
     ipcMain.on('set-focusable', (event, isFocusable) => {
         try {
-            const indexWindow = BrowserWindow.fromWebContents(event.sender);
-            indexWindow.setFocusable(isFocusable);
+            BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
         } catch (error) {
             console.log(error);
         }

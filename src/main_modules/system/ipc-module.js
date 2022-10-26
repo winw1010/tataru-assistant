@@ -383,7 +383,7 @@ function setTranslateChannel() {
         event.returnValue = engineModule.languageEnum;
     });
 
-    // get option
+    // get translate option
     ipcMain.on('get-translate-option', (event, engine, from, to, text) => {
         event.returnValue = engineModule.getTranslateOption(engine, from, to, text);
     });

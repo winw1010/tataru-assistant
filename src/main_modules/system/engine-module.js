@@ -77,7 +77,7 @@ const engineTable = {
     },
 };
 
-function getOption(engine, from, to, text) {
+function getTranslateOption(engine, from, to, text) {
     const table = engineTable[engine];
 
     return {
@@ -115,6 +115,6 @@ module.exports = {
     languageEnum,
     languageIndex,
     engineList,
-    getOption,
+    getTranslateOption,
     getLanguageCode,
 };

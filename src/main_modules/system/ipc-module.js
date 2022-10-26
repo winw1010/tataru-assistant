@@ -16,7 +16,7 @@ const configModule = require('./config-module');
 const chatCodeModule = require('./chat-code-module');
 
 // engine module
-const { languageEnum, getOption, getLanguageCode } = require('./engine-module');
+const engineModule = require('./engine-module');
 
 // request module
 const { makeRequest } = require('./request-module');
@@ -380,17 +380,17 @@ function setTranslateChannel() {
 
     // get language enum
     ipcMain.on('get-language-enum', (event) => {
-        event.returnValue = languageEnum;
+        event.returnValue = engineModule.languageEnum;
     });
 
     // get option
-    ipcMain.on('get-option', (event, engine, from, to, text) => {
-        event.returnValue = getOption(engine, from, to, text);
+    ipcMain.on('get-translate-option', (event, engine, from, to, text) => {
+        event.returnValue = engineModule.getTranslateOption(engine, from, to, text);
     });
 
     // get language code
     ipcMain.on('get-language-code', (event, language, engine) => {
-        event.returnValue = getLanguageCode(language, engine);
+        event.returnValue = engineModule.getLanguageCode(language, engine);
     });
 
     // start translation

@@ -76,7 +76,7 @@ function setButton() {
 
             // set option
             const option = ipcRenderer.sendSync(
-                'get-option',
+                'get-translate-option',
                 engine,
                 document.getElementById('select_from').value,
                 document.getElementById('select_to').value,

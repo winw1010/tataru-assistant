@@ -1,7 +1,7 @@
 'use strict';
 
 // engine module
-const { languageEnum, engineList, getOption } = require('./engine-module');
+const engineModule = require('./engine-module');
 
 // translator
 const baidu = require('../translator/baidu');
@@ -22,8 +22,8 @@ async function translate(text, translation, table = []) {
         // initialize
         const autoChange = translation.autoChange;
         let engine = translation.engine;
-        let option = getOption(engine, translation.from, translation.to, text);
-        let engines = engineList;
+        let option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
+        let engines = engineModule.engineList;
         let translatedText = '';
         let previousTranslatedText = '';
         let tryCount = 0;
@@ -56,7 +56,7 @@ async function translate(text, translation, table = []) {
                     engine = newEngine;
 
                     // set new option
-                    option = getOption(engine, translation.from, translation.to, option.text);
+                    option = engineModule.getTranslateOption(engine, translation.from, translation.to, option.text);
 
                     // try new engine
                     translatedText = await getTranslation(engine, option);
@@ -136,9 +136,9 @@ async function getTranslation(engine, option) {
 
 // zh convert
 function zhConvert(text, languageTo) {
-    if (languageTo === languageEnum.zht) {
+    if (languageTo === engineModule.languageEnum.zht) {
         return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
-    } else if (languageTo === languageEnum.zhs) {
+    } else if (languageTo === engineModule.languageEnum.zhs) {
         return zhConverter.exec({ text: text, tableName: 'zh2Hans' });
     } else {
         return text;

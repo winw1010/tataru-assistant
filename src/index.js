@@ -179,7 +179,15 @@ function setButton() {
 
     // minimize
     document.getElementById('img_button_minimize').onclick = () => {
-        ipcRenderer.send('minimize-window');
+        let config = ipcRenderer.sendSync('get-config');
+
+        if (config.indexWindow.focusable) {
+            ipcRenderer.send('minimize-window');
+        } else {
+            document.dispatchEvent(
+                new CustomEvent('show-notification', { detail: { text: '在不可選取的狀態下無法縮小視窗' } })
+            );
+        }
     };
 
     // close

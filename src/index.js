@@ -306,7 +306,7 @@ async function versionCheck() {
         }
     } catch (error) {
         console.log(error);
-        notificationText = error;
+        notificationText = '版本檢查失敗: ' + error;
     }
 
     document.dispatchEvent(new CustomEvent('show-notification', { detail: { text: notificationText } }));

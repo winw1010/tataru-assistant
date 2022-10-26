@@ -218,7 +218,7 @@ onDocumentReady(() => {
 
         // write log file
         try {
-            ipcRendererSendSync('json-writer', filePath, log);
+            ipcRendererSend('json-writer', filePath, log);
         } catch (error) {
             console.error(error);
         }

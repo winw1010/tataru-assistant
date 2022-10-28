@@ -2,7 +2,7 @@
 
 ## Tataru Helper Node 原始碼專案建置步驟
 
--   可使用[Visual Studio Code](https://code.visualstudio.com/)編輯與建置
+-   建議使用[Visual Studio Code](https://code.visualstudio.com/)編輯與建置
 -   使用專案前必須先安裝[Git](https://git-scm.com)和[Node.js(長期維護版)](https://nodejs.org/zh-tw/)
 
 ```bash

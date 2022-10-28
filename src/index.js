@@ -41,7 +41,7 @@ function setContextBridge() {
 function setIPC() {
     // change UI text
     ipcRenderer.on('change-ui-text', () => {
-        document.dispatchEvent(new CustomEvent('change-ui-text'));
+        dispatchCustomEvent('change-ui-text');
     });
 
     // version check
@@ -56,27 +56,23 @@ function setIPC() {
 
     // append blank dialog
     ipcRenderer.on('append-blank-dialog', (event, id, code) => {
-        document.dispatchEvent(new CustomEvent('append-blank-dialog', { detail: { id, code } }));
+        dispatchCustomEvent('append-blank-dialog', { id, code });
     });
 
     // update dialog
     ipcRenderer.on('update-dialog', (event, id, name, text, dialogData, translation) => {
-        document.dispatchEvent(
-            new CustomEvent('update-dialog', { detail: { id, name, text, dialogData, translation } })
-        );
+        dispatchCustomEvent('update-dialog', { id, name, text, dialogData, translation });
     });
 
     // append dialog
     ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
-        document.dispatchEvent(new CustomEvent('append-blank-dialog', { detail: { id, code } }));
-        document.dispatchEvent(
-            new CustomEvent('update-dialog', { detail: { id, name, text, dialogData: null, translation: null } })
-        );
+        dispatchCustomEvent('append-blank-dialog', { id, code });
+        dispatchCustomEvent('update-dialog', { id, name, text, dialogData: null, translation: null });
     });
 
     // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
-        document.dispatchEvent(new CustomEvent('move-to-bottom'));
+        dispatchCustomEvent('move-to-bottom');
     });
 
     // reset view
@@ -86,7 +82,7 @@ function setIPC() {
 
     // show notification
     ipcRenderer.on('show-notification', (event, text) => {
-        document.dispatchEvent(new CustomEvent('show-notification', { detail: { text } }));
+        dispatchCustomEvent('show-notification', { text });
     });
 }
 
@@ -184,9 +180,7 @@ function setButton() {
         if (config.indexWindow.focusable) {
             ipcRenderer.send('minimize-window');
         } else {
-            document.dispatchEvent(
-                new CustomEvent('show-notification', { detail: { text: '在不可選取的狀態下無法縮小視窗' } })
-            );
+            dispatchCustomEvent('show-notification', { text: '在不可選取的狀態下無法縮小視窗' });
         }
     };
 
@@ -205,10 +199,10 @@ function setButton() {
 
         if (config.translation.autoPlay) {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-            document.dispatchEvent(new CustomEvent('start-playing'));
+            dispatchCustomEvent('start-playing');
         } else {
             document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-            document.dispatchEvent(new CustomEvent('stop-playing'));
+            dispatchCustomEvent('stop-playing');
         }
     };
 
@@ -262,10 +256,10 @@ function resetView(config) {
     });
 
     // reset dialog style
-    document.dispatchEvent(new CustomEvent('reset-dialog-style'));
+    dispatchCustomEvent('reset-dialog-style');
 
     // show dialog
-    document.dispatchEvent(new CustomEvent('show-dialog'));
+    dispatchCustomEvent('show-dialog');
 
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
@@ -296,7 +290,7 @@ function hideButton(isMouseOut, hideButton) {
         });
 
         // show dialog
-        document.dispatchEvent(new CustomEvent('show-dialog'));
+        dispatchCustomEvent('show-dialog');
     }
 }
 
@@ -325,5 +319,10 @@ async function versionCheck() {
         notificationText = '版本檢查失敗: ' + error;
     }
 
-    document.dispatchEvent(new CustomEvent('show-notification', { detail: { text: notificationText } }));
+    dispatchCustomEvent('show-notification', { text: notificationText });
+}
+
+// dispatch custom event
+function dispatchCustomEvent(type, detail) {
+    document.dispatchEvent(new CustomEvent(type, { detail }));
 }

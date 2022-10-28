@@ -35,11 +35,11 @@ function startApp() {
     // load chat code
     chatCodeModule.loadChatCode();
 
-    // detect user language
-    detectUserLanguage();
-
     // set ipc
     ipcModule.setIPC();
+
+    // detect user language
+    detectUserLanguage();
 
     // set shortcut
     setGlobalShortcut();

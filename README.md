@@ -2,18 +2,18 @@
 
 ## Tataru Helper Node 原始碼專案建置步驟
 
--   可使用[Visual Studio Code](https://code.visualstudio.com/)建置與編輯
-
--   To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+-   可使用[Visual Studio Code](https://code.visualstudio.com/)編輯與建置
+-   使用專案前必須先安裝[Git](https://git-scm.com)和[Node.js(長期維護版)](https://nodejs.org/zh-tw/)
 
 ```bash
-# Clone this repository
+# 於Visual Studio Code對著想存放專案的資料夾右鍵，然後點選【Open in Intergrated Terminal】
+# 複製專案
 git clone https://github.com/winw1010/tataru-helper-node-v2
-# Go into the repository
+# 進入專案資料夾
 cd tataru-helper-node-v2
-# Install dependencies
+# 安裝套件
 npm install
-# Run the app
+# 啟動APP
 npm start
 ```
 

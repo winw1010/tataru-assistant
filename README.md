@@ -29,6 +29,9 @@ npm start
 -   建立安裝檔之前請先啟動專案(npm start)並使用一次螢幕擷取功能(隨便找個文字圈選一次)，否則打包的安裝檔無法使用螢幕擷取功能
 
 ```bash
+# 啟動Visual Studio Code，對著Tataru Helper Node的專案資料夾按下滑鼠右鍵，然後點選【Open in Intergrated Terminal】
+# 在Visual Studio Code下方輸入以下指令
+
 # 建立安裝檔
 npm run dist
 ```

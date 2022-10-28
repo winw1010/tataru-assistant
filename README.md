@@ -7,6 +7,7 @@
 
 ```bash
 # 於Visual Studio Code對著想存放專案的資料夾右鍵，然後點選【Open in Intergrated Terminal】
+# 於Visual Studio Code下方輸入以下指令
 # 複製專案
 git clone https://github.com/winw1010/tataru-helper-node-v2
 # 進入專案資料夾

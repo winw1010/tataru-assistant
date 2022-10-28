@@ -1,20 +1,40 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
-
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        ipcRendererSend: (channel, ...args) => {
+            ipcRenderer.send(channel, ...args);
+        },
+        ipcRendererSendSync: (channel, ...args) => {
+            return ipcRenderer.sendSync(channel, ...args);
+        },
+        ipcRendererInvoke: (channel, ...args) => {
+            return ipcRenderer.invoke(channel, ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+}
 
 // set view
 function setView() {
@@ -22,9 +42,8 @@ function setView() {
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
     document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
     document.getElementById('select_type').value = config.captureWindow.type;
-    setBackground(config);
+    showScreenshotButton(config);
     setCanvasSize();
-    changeUIText();
 }
 
 // set event
@@ -53,7 +72,7 @@ function setEvent() {
         config.captureWindow.type = document.getElementById('select_type').value;
         ipcRenderer.send('set-config', config);
 
-        setBackground(config);
+        showScreenshotButton(config);
     };
 
     // canvas event
@@ -62,9 +81,6 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // screenshot
     document.getElementById('button_screenshot').onclick = () => {
         // minimize all windows
@@ -73,7 +89,7 @@ function setButton() {
         // start screen translation
         const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
         ipcRenderer.send(
-            'start-screen-translation',
+            'get-image-text',
             getRectangleSize(
                 displayBounds.x,
                 displayBounds.y,
@@ -89,15 +105,9 @@ function setButton() {
     };
 }
 
-// set background color
-function setBackground(config) {
-    if (config.captureWindow.type === 'google') {
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000000';
-        document.getElementById('button_screenshot').hidden = false;
-    } else {
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#00000022';
-        document.getElementById('button_screenshot').hidden = true;
-    }
+// show screenshot button
+function showScreenshotButton(config) {
+    document.getElementById('button_screenshot').hidden = config.captureWindow.type !== 'google';
 }
 
 // set canvas size
@@ -169,7 +179,7 @@ function setCanvasEvent() {
 
             // start screen translation
             if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-                ipcRenderer.send('start-screen-translation', rectangleSize);
+                ipcRenderer.send('get-image-text', rectangleSize);
             }
         };
     };

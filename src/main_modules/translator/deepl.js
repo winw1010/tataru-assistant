@@ -4,11 +4,11 @@
 // Split Text: https://www2.deepl.com/jsonrpc?method=LMT_split_text
 // Translate: https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
 
-// request module
-const { makeRequest, requestCookie } = require('./request-module');
-
 // deepl request
 const deeplRequest = require('./deepl-request');
+
+// request module
+const { makeRequest, requestCookie } = require('../system/request-module');
 
 // user agent
 const userAgent =

@@ -1,29 +1,54 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// file module
-const fileModule = require('./main_modules/file-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
-
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
+
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        ipcRendererSend: (channel, ...args) => {
+            ipcRenderer.send(channel, ...args);
+        },
+        ipcRendererSendSync: (channel, ...args) => {
+            return ipcRenderer.sendSync(channel, ...args);
+        },
+        ipcRendererInvoke: (channel, ...args) => {
+            return ipcRenderer.invoke(channel, ...args);
+        },
+    });
+}
+
+// set IPC
+function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // send data
+    ipcRenderer.on('send-data', (event, elements) => {
+        document.getElementById(elements[0]).checked = true;
+
+        document.querySelectorAll('.setting_page').forEach((value) => {
+            document.getElementById(value.id).hidden = true;
+        });
+        document.getElementById(elements[1]).hidden = false;
+    });
+}
 
 // set view
 function setView() {
     showConfig();
-    changeUIText();
 }
 
 // set event
@@ -59,23 +84,8 @@ function setEvent() {
     };
 }
 
-// set IPC
-function setIPC() {
-    ipcRenderer.on('send-data', (event, elements) => {
-        document.getElementById(elements[0]).checked = true;
-
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById(elements[1]).hidden = false;
-    });
-}
-
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // page
     document.getElementById('button_radio_window').onclick = () => {
         document.querySelectorAll('.setting_page').forEach((value) => {
@@ -133,15 +143,13 @@ function setButton() {
 
     // version check
     document.getElementById('button_version_check').onclick = () => {
-        ipcRenderer.send('version-check');
+        ipcRenderer.send('send-index', 'version-check');
     };
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        ipcRenderer.send(
-            'execute-command',
-            `explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'sub-google-api.html')}"`
-        );
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'sub-google-api.html');
+        ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 
     // set google credential
@@ -149,7 +157,8 @@ function setButton() {
         const googleCredential = document.getElementById('input_password_google_credential').value;
 
         if (googleCredential.length > 0) {
-            fileModule.fileWriter(fileModule.getUserDataPath('setting', 'google-credential.json'), googleCredential);
+            const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
+            ipcRenderer.send('file-writer', path, googleCredential);
             ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
         } else {
             ipcRenderer.send('send-index', 'show-notification', 'Google憑證不可為空白');
@@ -158,10 +167,8 @@ function setButton() {
 
     // readme
     document.getElementById('a_readme').onclick = () => {
-        ipcRenderer.send(
-            'execute-command',
-            `explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`
-        );
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'index.html');
+        ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 
     // bug report
@@ -374,7 +381,7 @@ function saveConfig() {
     ipcRenderer.send('load-json');
 
     // restart server
-    ipcRenderer.send('send-index', 'start-server');
+    ipcRenderer.send('start-server');
 
     // reset view
     ipcRenderer.send('send-index', 'reset-view', config);
@@ -397,14 +404,20 @@ function saveDefaultConfig() {
     // load json
     ipcRenderer.send('load-json');
 
-    // reset config
-    showConfig();
+    // restart server
+    ipcRenderer.send('start-server');
 
     // reset view
     ipcRenderer.send('send-index', 'reset-view', config);
 
     // change UI text
     ipcRenderer.send('change-ui-text');
+
+    // notification
+    ipcRenderer.send('send-index', 'show-notification', '已套用預設值');
+
+    // reset config
+    showConfig();
 }
 
 // load channel

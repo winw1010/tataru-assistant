@@ -1,11 +1,12 @@
 body {
-    background-color: #00000022;
+    /*background-color: #00000022;*/
+    background-color: #00000000;
     color: #ffffff;
     border: 0.1rem #808080 solid;
 }
 
 input[type='checkbox'] {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 select {

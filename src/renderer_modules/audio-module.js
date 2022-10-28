@@ -1,93 +1,97 @@
 'use strict';
+/* eslint-disable */
 
-// language table
-const { getLanguageCode } = require('./engine-module');
+onDocumentReady(() => {
+    // get config
+    const config = ipcRendererSendSync('get-config');
 
-// google tts
-const { getAudioUrl } = require('../main_modules/translator/google-tts');
+    // play list
+    let playlist = [];
+    let nowPlaying = null;
+    let playInterval = null;
 
-// play list
-let playlist = [];
-let nowPlaying = null;
-let playInterval = null;
+    // add audio
+    document.addEventListener('add-to-playlist', (ev) => {
+        const text = ev.detail.text;
+        const translation = ev.detail.translation;
 
-// add audio
-function addToPlaylist(text, translation) {
-    if (translation.autoPlay && text !== '') {
-        try {
-            const languageCode = getLanguageCode(translation.from, 'Google');
-            const urls = getAudioUrl({ text: text, language: languageCode });
+        if (translation.autoPlay && text !== '') {
+            try {
+                const languageCode = ipcRendererSendSync('get-language-code', translation.from, 'Google');
+                const urls = ipcRendererSendSync('google-tts', { text: text, language: languageCode });
 
-            for (let index = 0; index < urls.length; index++) {
-                const url = urls[index];
-                const audio = new Audio(url);
+                for (let index = 0; index < urls.length; index++) {
+                    const url = urls[index];
+                    const audio = new Audio(url);
 
-                // set audio event
-                audio.onpause = () => {
-                    nowPlaying = null;
-                };
+                    // set audio event
+                    audio.onpause = () => {
+                        nowPlaying = null;
+                    };
 
-                audio.onended = () => {
-                    nowPlaying = null;
-                };
+                    audio.onended = () => {
+                        nowPlaying = null;
+                    };
 
-                audio.onerror = () => {
-                    nowPlaying = null;
-                };
+                    audio.onerror = () => {
+                        nowPlaying = null;
+                    };
 
-                // add to playlist
-                playlist.push(audio);
+                    // add to playlist
+                    playlist.push(audio);
+                }
+            } catch (error) {
+                console.log(error);
             }
+        }
+    });
+
+    // start playing
+    document.addEventListener('start-playing', () => {
+        clearInterval(playInterval);
+
+        playInterval = setInterval(() => {
+            playNext();
+        }, 1000);
+    });
+
+    // stop playing
+    document.addEventListener('stop-playing', () => {
+        clearInterval(playInterval);
+
+        try {
+            nowPlaying.pause();
         } catch (error) {
             console.log(error);
         }
-    }
-}
 
-// start playing
-function startPlaying() {
-    clearInterval(playInterval);
-
-    playInterval = setInterval(() => {
-        playNext();
-    }, 1000);
-}
-
-// stop playing
-function stopPlaying() {
-    clearInterval(playInterval);
-
-    try {
-        nowPlaying.pause();
-    } catch (error) {
-        console.log(error);
-    }
-
-    nowPlaying = null;
-    playlist = [];
-}
-
-// play next audio
-function playNext() {
-    try {
-        if (!nowPlaying) {
-            const audio = playlist.shift();
-
-            if (audio) {
-                nowPlaying = audio;
-                audio.currentTime = 0;
-                audio.play();
-            }
-        }
-    } catch (error) {
-        console.log(error);
         nowPlaying = null;
-    }
-}
+        playlist = [];
+    });
 
-// module exports
-module.exports = {
-    addToPlaylist,
-    startPlaying,
-    stopPlaying,
-};
+    // play next audio
+    function playNext() {
+        try {
+            if (!nowPlaying) {
+                const audio = playlist.shift();
+
+                if (audio) {
+                    nowPlaying = audio;
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            nowPlaying = null;
+        }
+    }
+
+    // auto run
+    if (config?.translation?.autoPlay) {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+        document.dispatchEvent(new CustomEvent('start-playing'));
+    } else {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    }
+});

@@ -9,6 +9,7 @@ body {
     padding: 0 0.7rem;
     padding-top: 4rem;
     padding-bottom: 4rem;
+    width: 100vw;
     height: 100vh;
 }
 

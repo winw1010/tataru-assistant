@@ -1,10 +1,10 @@
 'use strict';
 
-// request module
-const { makeRequest } = require('./request-module');
-
 // google encoder
 const { tokenEncoder } = require('./google-encoder');
+
+// request module
+const { makeRequest } = require('../system/request-module');
 
 // user agent
 const userAgent =

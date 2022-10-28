@@ -1,10 +1,10 @@
 'use strict';
 
-// request module
-const { makeRequest, requestCookie } = require('./request-module');
-
 // baidu encoder
 const { signEncoder } = require('./baidu-encoder');
+
+// request module
+const { makeRequest, requestCookie } = require('../system/request-module');
 
 // user agent
 const userAgent =

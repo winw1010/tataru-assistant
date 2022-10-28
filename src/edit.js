@@ -1,31 +1,26 @@
 'use strict';
 
-// communicate with main process
-const { ipcRenderer } = require('electron');
-
-// correction function
-const { sameAsArrayItem } = require('./main_modules/correction-function');
-
-// file module
-const fileModule = require('./main_modules/file-module');
-
-// language table
-const { getLanguageCode } = require('./main_modules/engine-module');
-
-// drag module
-const { setDragElement } = require('./renderer_modules/drag-module');
-
-// ui module
-const { changeUIText } = require('./renderer_modules/ui-module');
-
-// create log name
-const { createLogName } = require('./renderer_modules/dialog-module');
-
-// google tts
-const { getAudioUrl } = require('./main_modules/translator/google-tts');
+// electron
+const { contextBridge, ipcRenderer } = require('electron');
 
 // Japanese character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+
+// file module
+const fileModule = {
+    getPath: (...args) => {
+        return ipcRenderer.sendSync('get-path', ...args);
+    },
+    getUserDataPath: (...args) => {
+        return ipcRenderer.sendSync('get-user-data-path', ...args);
+    },
+    jsonReader: (filePath, returnArray) => {
+        return ipcRenderer.sendSync('json-reader', filePath, returnArray);
+    },
+    jsonWriter: (filePath, data) => {
+        ipcRenderer.send('json-writer', filePath, data);
+    },
+};
 
 // log location
 const logPath = fileModule.getUserDataPath('log');
@@ -45,32 +40,37 @@ const entry4 = 'entry.654133178';
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
+    setContextBridge();
+    setIPC();
+
     setView();
     setEvent();
-    setIPC();
     setButton();
 });
 
-// set view
-function setView() {
-    const config = ipcRenderer.sendSync('get-config');
-    document.getElementById('select_restart_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = config.translation.from;
-    document.getElementById('checkbox_replace').checked = config.translation.replace;
-    changeUIText();
-}
-
-// set event
-function setEvent() {
-    document.getElementById('checkbox_replace').oninput = () => {
-        let config = ipcRenderer.sendSync('get-config');
-        config.translation.replace = document.getElementById('checkbox_replace').checked;
-        ipcRenderer.send('set-config', config);
-    };
+// set context bridge
+function setContextBridge() {
+    contextBridge.exposeInMainWorld('myAPI', {
+        ipcRendererSend: (channel, ...args) => {
+            ipcRenderer.send(channel, ...args);
+        },
+        ipcRendererSendSync: (channel, ...args) => {
+            return ipcRenderer.sendSync(channel, ...args);
+        },
+        ipcRendererInvoke: (channel, ...args) => {
+            return ipcRenderer.invoke(channel, ...args);
+        },
+    });
 }
 
 // set IPC
 function setIPC() {
+    // change UI text
+    ipcRenderer.on('change-ui-text', () => {
+        document.dispatchEvent(new CustomEvent('change-ui-text'));
+    });
+
+    // send data
     ipcRenderer.on('send-data', (event, id) => {
         try {
             const milliseconds = parseInt(id.slice(2));
@@ -114,11 +114,25 @@ function setIPC() {
     });
 }
 
+// set view
+function setView() {
+    const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('select_restart_engine').value = config.translation.engine;
+    document.getElementById('select_from').value = config.translation.from;
+    document.getElementById('checkbox_replace').checked = config.translation.replace;
+}
+
+// set event
+function setEvent() {
+    document.getElementById('checkbox_replace').oninput = () => {
+        let config = ipcRenderer.sendSync('get-config');
+        config.translation.replace = document.getElementById('checkbox_replace').checked;
+        ipcRenderer.send('set-config', config);
+    };
+}
+
 // set button
 function setButton() {
-    // drag
-    setDragElement(document.getElementById('img_button_drag'));
-
     // restart
     document.getElementById('button_restart_translate').onclick = () => {
         const config = ipcRenderer.sendSync('get-config');
@@ -240,8 +254,8 @@ function showAudio() {
 
     if (text !== '') {
         try {
-            const languageCode = getLanguageCode(targetLog.translation.from, 'Google');
-            const urls = getAudioUrl({ text: text, language: languageCode });
+            const languageCode = ipcRenderer.sendSync('get-language-code', targetLog.translation.from, 'Google');
+            const urls = ipcRenderer.sendSync('google-tts', { text: text, language: languageCode });
             console.log('TTS url:', urls);
 
             let innerHTML = '';
@@ -280,7 +294,7 @@ function addTemp(textBefore, textAfter, type, array) {
         textBefore = textBefore + '#';
     }
 
-    const target = sameAsArrayItem(textBefore, array);
+    const target = ipcRenderer.sendSync('same-as-array-item', textBefore, array);
     if (target) {
         array[target[1]] = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
     } else {
@@ -331,4 +345,20 @@ function postForm() {
         console.log(error);
         ipcRenderer.send('send-index', 'show-notification', error);
     }
+}
+
+// create log name
+function createLogName(milliseconds = null) {
+    const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
+    let dateString = date.toLocaleDateString().split('/');
+
+    if (dateString[1].length < 2) {
+        dateString[1] = '0' + dateString[1];
+    }
+
+    if (dateString[2].length < 2) {
+        dateString[2] = '0' + dateString[2];
+    }
+
+    return dateString.join('-') + '.json';
 }

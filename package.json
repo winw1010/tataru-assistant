@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.1.12",
+    "version": "2.2.0",
     "description": "tataru-helper-node",
     "main": "main.js",
     "scripts": {
@@ -15,17 +15,17 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^20.3.0",
-        "electron-builder": "^23.3.3",
-        "eslint": "^8.24.0"
+        "electron": "^20.3.3",
+        "electron-builder": "^23.6.0",
+        "eslint": "^8.26.0"
     },
     "dependencies": {
-        "@google-cloud/vision": "^3.0.0",
+        "@google-cloud/vision": "^3.0.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
         "screenshot-desktop": "^1.12.7",
-        "sharp": "^0.30.6",
-        "tesseract.js": "^2.1.5"
+        "sharp": "^0.31.1",
+        "tesseract.js": "^3.0.3"
     },
     "build": {
         "appId": "com.app.tataru.helper.node",

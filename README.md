@@ -29,7 +29,7 @@ npm start
 -   建立安裝檔之前請先啟動專案(npm start)並使用一次螢幕擷取功能(隨便找個文字圈選起來翻譯一次)，否則打包的安裝檔無法使用螢幕擷取功能
 
 ```bash
-# Distribute the app
+# 建立安裝檔
 npm run dist
 ```
 

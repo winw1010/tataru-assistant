@@ -8,12 +8,16 @@
 ```bash
 # 啟動Visual Studio Code，對著想存放專案的資料夾按下滑鼠右鍵，然後點選【Open in Intergrated Terminal】
 # 在Visual Studio Code下方輸入以下指令
+
 # 複製專案
 git clone https://github.com/winw1010/tataru-helper-node-v2
+
 # 進入專案資料夾
 cd tataru-helper-node-v2
+
 # 安裝套件
 npm install
+
 # 啟動APP
 npm start
 ```

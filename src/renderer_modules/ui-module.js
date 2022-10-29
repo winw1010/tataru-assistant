@@ -72,6 +72,7 @@ onDocumentReady(() => {
 
             checkbox_top: ['顯示在最上層', '显示在最上层'],
             checkbox_focusable: ['可被選取', '可被选取'],
+            checkbox_shortcut: ['啟用快捷鍵', '启用快捷键'],
             checkbox_hide_button: ['隱藏按鈕', '隐藏按钮'],
             checkbox_hide_dialog: ['秒後隱藏對話', '秒后隐藏对话'],
             color_background_color: ['背景顏色', '背景颜色'],

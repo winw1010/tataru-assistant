@@ -22,7 +22,7 @@ const { languageEnum } = require('./engine-module');
 const { correctionEntry } = require('../correction/correction-module');
 
 // temp image path
-const tempImagePath = fileModule.getRootPath('src', 'trained_data');
+const tempImagePath = fileModule.getUserDataPath('image');
 
 // google vision
 async function googleVision(imagePath) {

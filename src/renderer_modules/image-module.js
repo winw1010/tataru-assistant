@@ -11,7 +11,7 @@ const sharp = require('sharp');
 sharp.cache(false);
 
 // temp image path
-const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
+const tempImagePath = ipcRenderer.sendSync('get-user-data-path', 'image');
 
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {

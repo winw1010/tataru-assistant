@@ -18,7 +18,7 @@ const appName = 'Tataru Helper Node';
 // directory check
 function directoryCheck() {
     const documentPath = getUserPath('Documents');
-    const subPath = ['', appName, appName + '\\log', appName + '\\setting', appName + '\\temp'];
+    const subPath = ['', appName, appName + '\\image', appName + '\\log', appName + '\\setting', appName + '\\temp'];
 
     subPath.forEach((value) => {
         try {

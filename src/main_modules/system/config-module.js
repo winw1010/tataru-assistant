@@ -19,6 +19,7 @@ const defaultConfig = {
         height: null,
         alwaysOnTop: true,
         focusable: true,
+        shortcut: true,
         hideButton: true,
         hideDialog: true,
         hideDialogTimeout: 30,

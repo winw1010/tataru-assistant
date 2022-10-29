@@ -66,10 +66,18 @@ function detectUserLanguage() {
 // set global shortcut
 function setGlobalShortcut() {
     globalShortcut.register('CommandOrControl+F9', () => {
+        if (!configModule.getConfig().indexWindow.shortcut) {
+            return;
+        }
+
         exec(`explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
     });
 
     globalShortcut.register('CommandOrControl+F10', () => {
+        if (!configModule.getConfig().indexWindow.shortcut) {
+            return;
+        }
+
         try {
             windowModule.closeWindow('config');
         } catch (error) {
@@ -78,6 +86,10 @@ function setGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F11', () => {
+        if (!configModule.getConfig().indexWindow.shortcut) {
+            return;
+        }
+
         try {
             windowModule.closeWindow('capture');
         } catch (error) {
@@ -86,6 +98,10 @@ function setGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F12', () => {
+        if (!configModule.getConfig().indexWindow.shortcut) {
+            return;
+        }
+
         windowModule.openDevTools();
     });
 }

@@ -48,7 +48,9 @@ function setIPC() {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
-    document.getElementById('img_captured').setAttribute('src', getPath('crop.png'));
+    document
+        .getElementById('img_captured')
+        .setAttribute('src', ipcRenderer.sendSync('get-path', tempImagePath, 'crop.png'));
 }
 
 // set event
@@ -87,9 +89,4 @@ function setButton() {
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
     };
-}
-
-// get path
-function getPath(fileName) {
-    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
 }

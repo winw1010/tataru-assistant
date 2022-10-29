@@ -4,7 +4,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 // temp image path
-const tempImagePath = ipcRenderer.sendSync('get-root-path', 'src', 'trained_data');
+const tempImagePath = ipcRenderer.sendSync('get-user-data-path', 'image');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {

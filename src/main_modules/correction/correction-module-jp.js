@@ -425,6 +425,8 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 
 // special text fix
 function specialTextFix(name, text) {
+    let loopCount = 0;
+
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
@@ -471,11 +473,19 @@ function specialTextFix(name, text) {
     }
 
     // あ…… or あ… or あ、
-    while (/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text)) {
+    loopCount = 0;
+    while (
+        /^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) &&
+        loopCount++ < 10
+    ) {
         text = text.replace(/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$2');
     }
 
-    while (/([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text)) {
+    loopCount = 0;
+    while (
+        /([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) &&
+        loopCount++ < 10
+    ) {
         text = text.replace(
             /([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi,
             '$1$3'
@@ -484,13 +494,15 @@ function specialTextFix(name, text) {
 
     /*
     // あ…… or あ… or あ、
-    while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text)) {
+    loopCount = 0;
+    while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text) && loopCount++ < 10) {
         text = text.replace(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
     }
     */
 
     // あアあ => あああ
-    while (/([^ァ-ヺ・ー＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ・ー＝]|$)/gi.test(text)) {
+    loopCount = 0;
+    while (/([^ァ-ヺ・ー＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ・ー＝]|$)/gi.test(text) && loopCount++ < 10) {
         let t1 = /([^ァ-ヺ・ー＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ・ー＝]|$)/gi.exec(text);
 
         if (!t1?.length > 0) {

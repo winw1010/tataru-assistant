@@ -4,7 +4,7 @@
 const { exec } = require('child_process');
 
 // electron
-const { app, globalShortcut } = require('electron');
+const { app, globalShortcut, ipcMain } = require('electron');
 
 // file module
 const fileModule = require('./file-module');
@@ -35,14 +35,19 @@ function startApp() {
     // load chat code
     chatCodeModule.loadChatCode();
 
-    // set ipc
+    // set IPC
     ipcModule.setIPC();
 
     // detect user language
     detectUserLanguage();
 
-    // set shortcut
+    // set global shortcut
     setGlobalShortcut();
+
+    // set shortcut IPC
+    ipcMain.on('set-global-shortcut', () => {
+        setGlobalShortcut();
+    });
 }
 
 // detect user language
@@ -65,19 +70,22 @@ function detectUserLanguage() {
 
 // set global shortcut
 function setGlobalShortcut() {
-    globalShortcut.register('CommandOrControl+F9', () => {
-        if (!configModule.getConfig().indexWindow.shortcut) {
-            return;
-        }
+    if (configModule.getConfig().indexWindow.shortcut) {
+        registerGlobalShortcut();
+    } else {
+        unregisterGlobalShortcut();
+    }
+}
 
+// register global shortcut
+function registerGlobalShortcut() {
+    globalShortcut.unregisterAll();
+
+    globalShortcut.register('CommandOrControl+F9', () => {
         exec(`explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
     });
 
     globalShortcut.register('CommandOrControl+F10', () => {
-        if (!configModule.getConfig().indexWindow.shortcut) {
-            return;
-        }
-
         try {
             windowModule.closeWindow('config');
         } catch (error) {
@@ -86,10 +94,6 @@ function setGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F11', () => {
-        if (!configModule.getConfig().indexWindow.shortcut) {
-            return;
-        }
-
         try {
             windowModule.closeWindow('capture');
         } catch (error) {
@@ -98,12 +102,13 @@ function setGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F12', () => {
-        if (!configModule.getConfig().indexWindow.shortcut) {
-            return;
-        }
-
         windowModule.openDevTools();
     });
+}
+
+// unregister global shortcut
+function unregisterGlobalShortcut() {
+    globalShortcut.unregisterAll();
 }
 
 // module exports

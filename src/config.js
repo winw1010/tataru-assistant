@@ -381,17 +381,8 @@ function saveConfig() {
     // set chat code
     ipcRenderer.sendSync('set-chat-code', chatCode);
 
-    // load json
-    ipcRenderer.send('load-json');
-
-    // restart server
-    ipcRenderer.send('start-server');
-
-    // reset view
-    ipcRenderer.send('send-index', 'reset-view', config);
-
-    // change UI text
-    ipcRenderer.send('change-ui-text');
+    // reset app
+    resetApp(config);
 
     // notification
     ipcRenderer.send('send-index', 'show-notification', '設定已儲存');
@@ -405,17 +396,8 @@ function saveDefaultConfig() {
     // set default chat code
     ipcRenderer.sendSync('set-default-chat-code');
 
-    // load json
-    ipcRenderer.send('load-json');
-
-    // restart server
-    ipcRenderer.send('start-server');
-
-    // reset view
-    ipcRenderer.send('send-index', 'reset-view', config);
-
-    // change UI text
-    ipcRenderer.send('change-ui-text');
+    // reset app
+    resetApp(config);
 
     // notification
     ipcRenderer.send('send-index', 'show-notification', '已套用預設值');
@@ -481,4 +463,22 @@ function loadChannel(config, chatCode) {
             channelSpan.innerText = channelColor.value.toString().toUpperCase();
         };
     }
+}
+
+// reset app
+function resetApp(config) {
+    // load json
+    ipcRenderer.send('load-json');
+
+    // restart server
+    ipcRenderer.send('start-server');
+
+    // reset view
+    ipcRenderer.send('send-index', 'reset-view', config);
+
+    // change UI text
+    ipcRenderer.send('change-ui-text');
+
+    // set global shortcut
+    ipcRenderer.send('set-global-shortcut');
 }

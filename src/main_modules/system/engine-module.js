@@ -1,5 +1,6 @@
 'use strict';
 
+// language enum
 const languageEnum = {
     auto: 'Auto',
     ja: 'Japanese',
@@ -8,7 +9,8 @@ const languageEnum = {
     zhs: 'Simplified-Chinese',
 };
 
-// for main.json
+// text/main
+// language index
 const languageIndex = {
     Japanese: 0,
     English: 1,
@@ -16,8 +18,10 @@ const languageIndex = {
     'Simplified-Chinese': 3,
 };
 
+// engine list
 const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL' /*, 'Google'*/];
 
+// engine table
 const engineTable = {
     Baidu: {
         Auto: 'auto',
@@ -77,6 +81,7 @@ const engineTable = {
     },
 };
 
+// get translate option
 function getTranslateOption(engine, from, to, text) {
     const table = engineTable[engine];
 
@@ -87,9 +92,15 @@ function getTranslateOption(engine, from, to, text) {
     };
 }
 
+// get language code
 function getLanguageCode(language, engine) {
     const table = engineTable[engine];
     return table[language];
+}
+
+// sleep
+function sleep(ms = 1000) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /*
@@ -117,4 +128,5 @@ module.exports = {
     engineList,
     getTranslateOption,
     getLanguageCode,
+    sleep,
 };

@@ -15,9 +15,6 @@ const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '
 // text history
 let textHistory = {};
 
-// last id
-let lastTimestamp = 0;
-
 // create server
 const server = http.createServer(function (request, response) {
     if (request.method === 'POST') {
@@ -60,6 +57,10 @@ function dataProcess(data) {
         let dialogData = JSON.parse(data.toString());
 
         if (dataCheck(dialogData)) {
+            // clear id and timestamp
+            dialogData.id = null;
+            dialogData.timestamp = null;
+
             // check code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
                 // history check
@@ -68,17 +69,6 @@ function dataProcess(data) {
                 } else {
                     textHistory[dialogData.text] = new Date().getTime();
                 }
-
-                // set id and timestamp
-                const timestamp = new Date().getTime();
-                if (timestamp === lastTimestamp) {
-                    dialogData.id = 'id' + (timestamp + 1);
-                    dialogData.timestamp = timestamp + 1;
-                } else {
-                    dialogData.id = 'id' + timestamp;
-                    dialogData.timestamp = timestamp;
-                }
-                lastTimestamp = dialogData.timestamp;
 
                 // name check
                 if (dialogData.name === '...') {
@@ -112,10 +102,7 @@ function dataProcess(data) {
 // dialog data check
 function dataCheck(dialogData) {
     const names = Object.getOwnPropertyNames(dialogData);
-
-    return (
-        names.includes('code') /*&& names.includes('playerName')*/ && names.includes('name') && names.includes('text')
-    );
+    return names.includes('code') && names.includes('name') && names.includes('text');
 }
 
 // channel check

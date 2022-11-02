@@ -33,7 +33,7 @@ async function translate(text, translation, table = []) {
             // sleep
             if (tryCount > 0) {
                 console.log('Missing Codes:', missingCodes);
-                await sleep();
+                await engineModule.sleep();
             }
 
             // fix code
@@ -171,11 +171,6 @@ function fixCode(text, missingCodes) {
     }
 
     return text;
-}
-
-// sleep
-function sleep(ms = 1000) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // module exports

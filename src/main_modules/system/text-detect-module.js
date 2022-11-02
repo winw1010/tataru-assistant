@@ -15,8 +15,8 @@ const fileModule = require('./file-module');
 // window module
 const windowModule = require('./window-module');
 
-// language enum
-const { languageEnum } = require('./engine-module');
+// engine module
+const engineModule = require('./engine-module');
 
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
@@ -68,10 +68,10 @@ async function tesseractOCR(imageBuffer) {
         await worker.load();
 
         // load language
-        if (config.translation.from === languageEnum.ja) {
+        if (config.translation.from === engineModule.languageEnum.ja) {
             await worker.loadLanguage('jpn');
             await worker.initialize('jpn');
-        } else if (config.translation.from === languageEnum.en) {
+        } else if (config.translation.from === engineModule.languageEnum.en) {
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
         }
@@ -103,7 +103,7 @@ function fixImageText(text) {
 
     // fix
     if (config.captureWindow.type !== 'google') {
-        if (config.translation.from === languageEnum.ja) {
+        if (config.translation.from === engineModule.languageEnum.ja) {
             text = text.replaceAll(' ', '');
         }
 
@@ -127,7 +127,7 @@ function fixImageText(text) {
 }
 
 // translate image text
-function translateImageText(text) {
+async function translateImageText(text) {
     const config = configModule.getConfig();
 
     // set string array
@@ -135,7 +135,7 @@ function translateImageText(text) {
     if (config.captureWindow.split) {
         stringArray = text.split('\n');
     } else {
-        if (config.translation.from === languageEnum.ja) {
+        if (config.translation.from === engineModule.languageEnum.ja) {
             stringArray = [text.replaceAll('\n', '')];
         } else {
             stringArray = [text.replaceAll('\n', ' ')];
@@ -146,19 +146,16 @@ function translateImageText(text) {
     deleteImages();
 
     // start translate
-    const timestamp = new Date().getTime();
     for (let index = 0; index < stringArray.length; index++) {
         const element = stringArray[index];
         if (element !== '') {
             const dialogData = {
-                id: 'id' + (timestamp + index),
                 code: '003D',
-                playerName: '',
                 name: '',
                 text: element,
-                timestamp: timestamp + index,
             };
 
+            await engineModule.sleep(100);
             correctionEntry(dialogData, config.translation);
         }
     }

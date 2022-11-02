@@ -106,6 +106,13 @@ async function startCorrection(dialogData, translation) {
             return;
         }
 
+        // set id and timestamp
+        if (!dialogData.id) {
+            const timestamp = new Date().getTime();
+            dialogData.id = 'id' + timestamp;
+            dialogData.timestamp = timestamp;
+        }
+
         // append blank dialog
         windowModule.sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
 

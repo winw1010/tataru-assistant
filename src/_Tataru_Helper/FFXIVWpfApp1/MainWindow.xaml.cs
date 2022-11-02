@@ -633,29 +633,11 @@ namespace FFXIVTataruHelper
         // text arrived event
         private Task TextArrivedForNode(ChatMessageArrivedEventArgs ea)
         {
-            long timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             string code = ea.ChatMessage.Code;
             string text = ea.ChatMessage.Text;
-            string playerName = "";
-
-            // get playerName
-            try
-            {
-                playerName = Reader.GetCurrentPlayer().CurrentPlayer.Name;
-
-                if (playerName == null)
-                {
-                    playerName = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog(ex);
-                playerName = "";
-            }
 
             // create json string
-            string dataString = CreateDataString(code, playerName, text, timestamp);
+            string dataString = CreateDataString(code, text);
 
             // post
             return Task.Factory.StartNew(() => {
@@ -664,11 +646,10 @@ namespace FFXIVTataruHelper
         }
 
         // create data string
-        private string CreateDataString(string code, string playerName, string text, long timestamp)
+        private string CreateDataString(string code, string text)
         {
-            // npc name
+            // get npc name
             string name = "";
-
             if (text.IndexOf(':') >= 0)
             {
                 try
@@ -685,12 +666,9 @@ namespace FFXIVTataruHelper
             // serialize object
             string dataString = JsonConvert.SerializeObject(new
             {
-                id = "id" + timestamp,
                 code = code.Trim(),
-                playerName = playerName.Trim(),
                 name = name.Trim(),
-                text = text.Trim(),
-                timestamp
+                text = text.Trim()
             });
 
             return dataString;

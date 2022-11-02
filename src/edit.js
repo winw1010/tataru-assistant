@@ -147,9 +147,9 @@ function setButton() {
         };
 
         if (!config.translation.replace) {
-            const timestamp = new Date().getTime();
-            dialogData.id = 'id' + timestamp;
-            dialogData.timestamp = timestamp;
+            // clear id and timestamp
+            dialogData.id = null;
+            dialogData.timestamp = null;
         }
 
         let translation = config.translation;
@@ -157,7 +157,6 @@ function setButton() {
         translation.fromPlayer = document.getElementById('select_from').value;
         translation.engine = document.getElementById('select_restart_engine').value;
 
-        ipcRenderer.send('send-index', 'append-blank-dialog', dialogData.id, dialogData.code);
         ipcRenderer.send('start-translation', dialogData, translation);
     };
 

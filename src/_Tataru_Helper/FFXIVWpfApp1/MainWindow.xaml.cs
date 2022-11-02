@@ -640,7 +640,8 @@ namespace FFXIVTataruHelper
             string dataString = CreateDataString(code, text);
 
             // post
-            return Task.Factory.StartNew(() => {
+            return Task.Factory.StartNew(() =>
+            {
                 PostToNodeServer(dataString);
             });
         }

@@ -25,8 +25,7 @@ npm start
 ## Tataru Helper Node 安裝檔建立步驟
 
 -   安裝檔會建立在 build 資料夾裡
--   安裝檔設定在 package.json 裡的 build 物件，打包工具為 electron-builder
--   建立安裝檔之前請先啟動專案(npm start)並使用一次螢幕擷取功能(隨便找個文字圈選一次)，否則打包的安裝檔無法使用螢幕擷取功能
+-   安裝檔的設定位於 package.json 裡的 build 物件中，打包工具為 electron-builder
 
 ```bash
 # 啟動Visual Studio Code，對著Tataru Helper Node的專案資料夾按下滑鼠右鍵，然後點選【Open in Intergrated Terminal】

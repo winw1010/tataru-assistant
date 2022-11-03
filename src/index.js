@@ -233,7 +233,6 @@ function setButton() {
 
 // start app
 function startApp() {
-    ipcRenderer.send('create-window', 'screenshot');
     ipcRenderer.send('start-server');
     ipcRenderer.send('initialize-json');
     versionCheck();

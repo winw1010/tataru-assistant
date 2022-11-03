@@ -1,36 +1,48 @@
 'use strict';
 
-// electron
-const { ipcRenderer } = require('electron');
-
 // sharp
 const sharp = require('sharp');
 sharp.cache(false);
 
+// config module
+const configModule = require('./config-module');
+
+// file module
+const fileModule = require('./file-module');
+
+// screenshot module
+const screenshotModule = require('./screenshot-module');
+
+// text detect module
+const textDetectModule = require('./text-detect-module');
+
+// window module
+const windowModule = require('./window-module');
+
 // temp image path
-const tempImagePath = ipcRenderer.sendSync('get-user-data-path', 'image');
+const tempImagePath = fileModule.getUserDataPath('image');
 
 // take screenshot
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
-    ipcRenderer.send('send-index', 'show-notification', '正在擷取螢幕畫面');
+    windowModule.sendIndex('show-notification', '正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
     try {
         // get displays
-        const displays = await ipcRenderer.invoke('list-displays');
+        const displays = await screenshotModule.listDisplays();
 
         // declare image path
         let imagePath = '';
 
         // take screenshot
         try {
-            imagePath = await ipcRenderer.invoke('screenshot-desktop', {
+            imagePath = await screenshotModule({
                 screen: displays[displayIndex].id,
                 filename: getPath('screenshot.png'),
                 format: 'png',
             });
         } catch (error) {
-            imagePath = await ipcRenderer.invoke('screenshot-desktop', {
+            imagePath = await screenshotModule({
                 filename: getPath('screenshot.png'),
                 format: 'png',
             });
@@ -40,17 +52,19 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         cropImage(rectangleSize, displayBounds, imagePath);
 
         // restore all windows
-        ipcRenderer.send('restore-all-windows');
+        windowModule.forEachWindow((myWindow) => {
+            myWindow.restore();
+        });
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
+        windowModule.sendIndex('show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
 
 // crop image
 async function cropImage(rectangleSize, displayBounds, imagePath) {
     try {
-        const config = ipcRenderer.sendSync('get-config');
+        const config = configModule.getConfig();
         const newSize = getNewSize(displayBounds);
 
         let imageBuffer = await sharp(imagePath)
@@ -68,20 +82,20 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop
-        ipcRenderer.send('image-writer', getPath('crop.png'), imageBuffer);
+        fileModule.imageWriter(getPath('crop.png'), imageBuffer);
 
         // start reconize
-        ipcRenderer.send('send-index', 'show-notification', '正在辨識圖片文字');
+        windowModule.sendIndex('show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            ipcRenderer.send('google-vision', getPath('crop.png'));
+            textDetectModule.googleVision(getPath('crop.png'));
         } else {
             // tesseract ocr
-            ipcRenderer.send('tesseract-ocr', await fixImage(imageBuffer));
+            textDetectModule.tesseractOCR(await fixImage(imageBuffer));
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
+        windowModule.sendIndex('show-notification', '無法擷取螢幕畫面: ' + error);
     }
 }
 
@@ -128,7 +142,7 @@ async function fixImage(imageBuffer) {
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '圖片處理發生錯誤: ' + error);
+        windowModule.sendIndex('show-notification', '圖片處理發生錯誤: ' + error);
         return imageBuffer;
     }
 }
@@ -144,7 +158,7 @@ function hsp(dominant) {
 
 // get path
 function getPath(fileName) {
-    return ipcRenderer.sendSync('get-path', tempImagePath, fileName);
+    return fileModule.getPath(tempImagePath, fileName);
 }
 
 // module exports

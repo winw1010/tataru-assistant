@@ -110,11 +110,6 @@ function createWindow(windowName, data = null) {
                 });
                 break;
 
-            case 'screenshot':
-                window.setFocusable(false);
-                window.setIgnoreMouseEvents(true);
-                break;
-
             default:
                 break;
         }
@@ -227,14 +222,6 @@ function getWindowSize(windowName, config) {
             height = parseInt(displayBounds.height * 0.6);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
-            break;
-        }
-
-        case 'screenshot': {
-            width = 0;
-            height = 0;
-            x = 0;
-            y = 0;
             break;
         }
 

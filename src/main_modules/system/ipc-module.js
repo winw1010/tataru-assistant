@@ -9,6 +9,9 @@ const { app, ipcMain, screen, BrowserWindow } = require('electron');
 // file module
 const fileModule = require('./file-module');
 
+// image module
+const imageModule = require('./image-module');
+
 // config module
 const configModule = require('./config-module');
 
@@ -20,9 +23,6 @@ const engineModule = require('./engine-module');
 
 // request module
 const { makeRequest } = require('./request-module');
-
-// screenshot module
-const screenshotModule = require('./screenshot-module');
 
 // server module
 const serverModule = require('./server-module');
@@ -50,9 +50,6 @@ const googleTTS = require('../translator/google-tts');
 
 // app version
 const appVersion = app.getVersion();
-
-// can screenshot
-let canScreenshot = false;
 
 // set ipc
 function setIPC() {
@@ -259,32 +256,7 @@ function setCaptureChannel() {
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
         // image processing
-        if (canScreenshot) {
-            windowModule.sendWindow('screenshot', 'get-image-text', rectangleSize, display.bounds, displayIndex);
-        } else {
-            let interval = setInterval(() => {
-                if (canScreenshot) {
-                    clearInterval(interval);
-                    windowModule.sendWindow(
-                        'screenshot',
-                        'get-image-text',
-                        rectangleSize,
-                        display.bounds,
-                        displayIndex
-                    );
-                }
-            }, 100);
-        }
-    });
-
-    // list displays
-    ipcMain.handle('list-displays', () => {
-        return screenshotModule.listDisplays();
-    });
-
-    // screenshot desktop
-    ipcMain.handle('screenshot-desktop', (event, ...args) => {
-        return screenshotModule(...args);
+        imageModule.takeScreenshot(rectangleSize, display.bounds, displayIndex);
     });
 
     // get position
@@ -302,28 +274,6 @@ function setCaptureChannel() {
         windowModule.forEachWindow((myWindow) => {
             myWindow.minimize();
         });
-    });
-
-    // restore all windows
-    ipcMain.on('restore-all-windows', () => {
-        windowModule.forEachWindow((myWindow) => {
-            myWindow.restore();
-        });
-    });
-
-    // screenshot ready
-    ipcMain.on('screenshot-ready', () => {
-        canScreenshot = true;
-    });
-
-    // google vision
-    ipcMain.on('google-vision', (event, imagePath) => {
-        textDetectModule.googleVision(imagePath);
-    });
-
-    // tesseract ocr
-    ipcMain.on('tesseract-ocr', (event, imageBuffer) => {
-        textDetectModule.tesseractOCR(imageBuffer);
     });
 
     // translate image text
@@ -449,11 +399,6 @@ function setFileChannel() {
     // json writer
     ipcMain.on('json-writer', (event, filePath, data) => {
         fileModule.jsonWriter(filePath, data);
-    });
-
-    // image writer
-    ipcMain.on('image-writer', (event, filePath, imageBuffer) => {
-        fileModule.imageWriter(filePath, imageBuffer);
     });
 
     // file writer

@@ -3,7 +3,7 @@
 'use strict';
 
 //const Promise = require('pinkie-promise');
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 const temp = require('temp');
 const path = require('path');
 const { readAndUnlinkP, defaultAll } = require('./screenshot-utils');

@@ -24,9 +24,6 @@ function createWindow(windowName, data = null) {
         // get size
         const windowSize = getWindowSize(windowName, config);
 
-        // window type
-        const isRegularWindow = windowName !== 'screenshot';
-
         // create new window
         const window = new BrowserWindow({
             x: windowSize.x,
@@ -40,7 +37,7 @@ function createWindow(windowName, data = null) {
             webPreferences: {
                 contextIsolation: true,
                 nodeIntegration: false,
-                sandbox: isRegularWindow,
+                sandbox: true,
                 preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
             },
         });
@@ -53,11 +50,9 @@ function createWindow(windowName, data = null) {
         window.setMinimizable(false);
 
         // show window
-        if (isRegularWindow) {
-            window.once('ready-to-show', () => {
-                window.show();
-            });
-        }
+        window.once('ready-to-show', () => {
+            window.show();
+        });
 
         // send data
         if (data) {
@@ -287,12 +282,10 @@ function sendIndex(channel, ...args) {
 function forEachWindow(callback = () => {}) {
     const windowNames = Object.getOwnPropertyNames(windowList);
     windowNames.forEach((windowName) => {
-        if (windowName !== 'screenshot') {
-            try {
-                callback(windowList[windowName]);
-            } catch (error) {
-                //console.log(windowName, error);
-            }
+        try {
+            callback(windowList[windowName]);
+        } catch (error) {
+            //console.log(windowName, error);
         }
     });
 }

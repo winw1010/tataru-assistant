@@ -24,8 +24,8 @@ const { correctionEntry } = require('../correction/correction-module');
 // temp image path
 const tempImagePath = fileModule.getUserDataPath('image');
 
-// temp trained data path
-const tempTrainedDataPath = fileModule.getRootPath('src', 'trained_data');
+// data path
+const dataPath = fileModule.getRootPath('src', 'data');
 
 // google vision
 async function googleVision(imagePath) {
@@ -59,7 +59,7 @@ async function tesseractOCR(imageBuffer) {
 
         // set worker
         const worker = createWorker({
-            langPath: getTrainedDataPath('tesseract'),
+            langPath: getDataPath('tesseract'),
             cacheMethod: 'none',
             gzip: false,
         });
@@ -167,8 +167,8 @@ function getPath(fileName) {
 }
 
 // get path
-function getTrainedDataPath(fileName) {
-    return fileModule.getPath(tempTrainedDataPath, fileName);
+function getDataPath(fileName) {
+    return fileModule.getPath(dataPath, fileName);
 }
 
 // delete images

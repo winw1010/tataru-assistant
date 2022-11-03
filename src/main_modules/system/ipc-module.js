@@ -6,20 +6,20 @@ const { exec } = require('child_process');
 // electron
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
+// chat code module
+const chatCodeModule = require('./chat-code-module');
+
+// config module
+const configModule = require('./config-module');
+
+// engine module
+const engineModule = require('./engine-module');
+
 // file module
 const fileModule = require('./file-module');
 
 // image module
 const imageModule = require('./image-module');
-
-// config module
-const configModule = require('./config-module');
-
-// chat code module
-const chatCodeModule = require('./chat-code-module');
-
-// engine module
-const engineModule = require('./engine-module');
 
 // request module
 const { makeRequest } = require('./request-module');
@@ -36,11 +36,11 @@ const { getTranslation, zhConvert } = require('./translate-module');
 // window module
 const windowModule = require('./window-module');
 
-// correction-module
-const { correctionEntry } = require('../correction/correction-module');
-
 // correction-function
 const { sameAsArrayItem } = require('../correction/correction-function');
+
+// correction-module
+const { correctionEntry } = require('../correction/correction-module');
 
 // json module
 const jsonModule = require('../correction/json-module');

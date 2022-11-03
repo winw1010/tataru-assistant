@@ -4,7 +4,7 @@
 const { ipcRenderer } = require('electron');
 
 // screenshot desktop
-const screenshotDesktop = require('screenshot-desktop');
+const screenshotDesktop = require('../main_modules/system/screenshot-index');
 
 // sharp
 const sharp = require('sharp');

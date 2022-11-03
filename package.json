@@ -15,7 +15,7 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^20.3.3",
+        "electron": "^20.3.4",
         "electron-builder": "^23.6.0",
         "eslint": "^8.26.0"
     },
@@ -23,7 +23,6 @@
         "@google-cloud/vision": "^3.0.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
-        "screenshot-desktop": "^1.12.7",
         "sharp": "^0.31.1",
         "tesseract.js": "^3.0.3"
     },

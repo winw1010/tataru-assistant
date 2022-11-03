@@ -86,10 +86,10 @@ function setButton() {
         // minimize all windows
         ipcRenderer.send('minimize-all-windows');
 
-        // start screen translation
+        // start full screen recognize
         const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
         ipcRenderer.send(
-            'get-image-text',
+            'start-recognize',
             getRectangleSize(
                 displayBounds.x,
                 displayBounds.y,
@@ -177,9 +177,9 @@ function setCanvasEvent() {
                 mouseupScreenPosition.y
             );
 
-            // start screen translation
+            // start recognize
             if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-                ipcRenderer.send('get-image-text', rectangleSize);
+                ipcRenderer.send('start-recognize', rectangleSize);
             }
         };
     };

@@ -240,8 +240,8 @@ function setWindowChannel() {
 
 // set capture channel
 function setCaptureChannel() {
-    // get image text
-    ipcMain.on('get-image-text', (event, rectangleSize) => {
+    // start recognize
+    ipcMain.on('start-recognize', (event, rectangleSize) => {
         // get display matching the rectangle
         const display = screen.getDisplayMatching(rectangleSize);
 

@@ -1,6 +1,5 @@
 'use strict';
 
-//const Promise = require('pinkie-promise');
 const fs = require('fs');
 
 function unlinkP(path) {

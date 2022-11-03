@@ -1,8 +1,8 @@
 // source: screenshot-desktop
 // https://www.npmjs.com/package/screenshot-desktop
+
 'use strict';
 
-//const Promise = require('pinkie-promise');
 const { exec } = require('child_process');
 const temp = require('temp');
 const path = require('path');

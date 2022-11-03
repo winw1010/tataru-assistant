@@ -1,4 +1,5 @@
 // source: screenshot-desktop
+// https://www.npmjs.com/package/screenshot-desktop
 'use strict';
 
 //const Promise = require('pinkie-promise');

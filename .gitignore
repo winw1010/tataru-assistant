@@ -1,5 +1,3 @@
 build
 node_modules
 src/json/text
-src/trained_data/*.jpeg
-src/trained_data/*.png

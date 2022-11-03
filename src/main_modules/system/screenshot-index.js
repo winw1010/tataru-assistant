@@ -7,6 +7,9 @@ const { exec } = require('child_process');
 const temp = require('temp');
 const path = require('path');
 const { readAndUnlinkP, defaultAll } = require('./screenshot-utils');
+const fileModule = require('./file-module');
+const batFilePath = fileModule.getRootPath('src', 'trained_data', 'screenCapture_1.3.2.bat');
+const batRootPath = fileModule.getRootPath('src', 'trained_data');
 
 function windowsSnapshot(options = {}) {
     return new Promise((resolve, reject) => {
@@ -20,14 +23,9 @@ function windowsSnapshot(options = {}) {
         const displayChoice = displayName ? ` /d "${displayName}"` : '';
 
         exec(
-            '"' +
-                path.join(__dirname.replace('app.asar', 'app.asar.unpacked'), 'screenCapture_1.3.2.bat') +
-                '" "' +
-                imgPath +
-                '" ' +
-                displayChoice,
+            '"' + batFilePath + '" "' + imgPath + '" ' + displayChoice,
             {
-                cwd: __dirname.replace('app.asar', 'app.asar.unpacked'),
+                cwd: batRootPath,
                 windowsHide: true,
             },
             (err) => {
@@ -77,9 +75,9 @@ function parseDisplaysOutput(output) {
 function listDisplays() {
     return new Promise((resolve, reject) => {
         exec(
-            '"' + path.join(__dirname.replace('app.asar', 'app.asar.unpacked'), 'screenCapture_1.3.2.bat') + '" /list',
+            '"' + batFilePath + '" /list',
             {
-                cwd: __dirname.replace('app.asar', 'app.asar.unpacked'),
+                cwd: batRootPath,
             },
             (err, stdout) => {
                 if (err) {

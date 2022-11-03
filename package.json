@@ -35,9 +35,7 @@
         },
         "extraFiles": [
             "src/json",
-            "src/json",
-            "src/main_modules/system/screenCapture_1.3.2.bat",
-            "src/main_modules/system/screenCapture_1.3.2.exe",
+            "src/trained_data",
             "!src/_Tataru_Helper",
             "!src/trained_data/*.Jpeg",
             "!src/trained_data/*.png"

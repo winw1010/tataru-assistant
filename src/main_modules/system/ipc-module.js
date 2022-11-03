@@ -21,6 +21,9 @@ const engineModule = require('./engine-module');
 // request module
 const { makeRequest } = require('./request-module');
 
+// screenshot module
+const screenshotModule = require('./screenshot-module');
+
 // server module
 const serverModule = require('./server-module');
 
@@ -272,6 +275,16 @@ function setCaptureChannel() {
                 }
             }, 100);
         }
+    });
+
+    // list displays
+    ipcMain.handle('list-displays', () => {
+        return screenshotModule.listDisplays();
+    });
+
+    // screenshot desktop
+    ipcMain.handle('screenshot-desktop', (event, ...args) => {
+        return screenshotModule(...args);
     });
 
     // get position

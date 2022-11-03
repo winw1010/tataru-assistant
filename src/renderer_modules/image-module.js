@@ -3,9 +3,6 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// screenshot desktop
-const screenshotDesktop = require('../main_modules/system/screenshot-index');
-
 // sharp
 const sharp = require('sharp');
 sharp.cache(false);
@@ -20,20 +17,23 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 
     try {
         // get displays
-        const displays = await screenshotDesktop.listDisplays();
+        const displays = await ipcRenderer.invoke('list-displays');
 
         // declare image path
         let imagePath = '';
 
         // take screenshot
         try {
-            imagePath = await screenshotDesktop({
+            imagePath = await ipcRenderer.invoke('screenshot-desktop', {
                 screen: displays[displayIndex].id,
                 filename: getPath('screenshot.png'),
                 format: 'png',
             });
         } catch (error) {
-            imagePath = await screenshotDesktop({ filename: getPath('screenshot.png'), format: 'png' });
+            imagePath = await ipcRenderer.invoke('screenshot-desktop', {
+                filename: getPath('screenshot.png'),
+                format: 'png',
+            });
         }
 
         // crop image

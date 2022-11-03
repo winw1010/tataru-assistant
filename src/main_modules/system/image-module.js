@@ -22,8 +22,8 @@ const windowModule = require('./window-module');
 // temp image path
 const tempImagePath = fileModule.getUserDataPath('image');
 
-// take screenshot
-async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+// start recognize
+async function startRecognize(rectangleSize, displayBounds, displayIndex) {
     windowModule.sendIndex('show-notification', '正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
@@ -163,7 +163,7 @@ function getPath(fileName) {
 
 // module exports
 module.exports = {
-    takeScreenshot,
+    startRecognize,
 };
 
 /*

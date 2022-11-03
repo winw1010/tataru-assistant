@@ -255,8 +255,8 @@ function setCaptureChannel() {
         // fix y
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
-        // image processing
-        imageModule.takeScreenshot(rectangleSize, display.bounds, displayIndex);
+        // start recognize
+        imageModule.startRecognize(rectangleSize, display.bounds, displayIndex);
     });
 
     // get position

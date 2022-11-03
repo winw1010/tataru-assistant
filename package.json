@@ -23,8 +23,8 @@
         "@google-cloud/vision": "^3.0.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
-        "screenshot-desktop": "^1.12.7",
         "sharp": "^0.31.1",
+        "temp": "^0.9.4",
         "tesseract.js": "^3.0.3"
     },
     "build": {

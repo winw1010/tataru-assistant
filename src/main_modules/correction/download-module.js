@@ -1,5 +1,6 @@
 // source: download-git-repo
 // https://www.npmjs.com/package/download-git-repo
+// https://gitlab.com/flippidippi/download-git-repo
 
 'use strict';
 

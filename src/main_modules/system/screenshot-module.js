@@ -1,5 +1,6 @@
 // source: screenshot-desktop
 // https://www.npmjs.com/package/screenshot-desktop
+// https://github.com/bencevans/screenshot-desktop
 
 'use strict';
 

@@ -17,7 +17,7 @@
     "devDependencies": {
         "electron": "^20.3.4",
         "electron-builder": "^23.6.0",
-        "eslint": "^8.26.0"
+        "eslint": "^8.27.0"
     },
     "dependencies": {
         "@google-cloud/vision": "^3.0.1",

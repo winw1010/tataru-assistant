@@ -27,6 +27,9 @@ const tempImagePath = fileModule.getUserDataPath('image');
 // data path
 const dataPath = fileModule.getRootPath('src', 'data');
 
+// current worker
+let currentWoker = null;
+
 // google vision
 async function googleVision(imagePath) {
     try {
@@ -57,42 +60,42 @@ async function tesseractOCR(imageBuffer) {
     try {
         const config = configModule.getConfig();
 
-        // set worker
-        const worker = createWorker({
-            langPath: getDataPath('tesseract'),
-            cacheMethod: 'none',
-            gzip: false,
-        });
+        if (!currentWoker) {
+            // set worker
+            currentWoker = createWorker({
+                langPath: getDataPath('tesseract'),
+                cacheMethod: 'none',
+                gzip: false,
+            });
 
-        // load worker
-        await worker.load();
+            // load worker
+            await currentWoker.load();
+        }
 
         // load language
         if (config.translation.from === engineModule.languageEnum.ja) {
-            await worker.loadLanguage('jpn');
-            await worker.initialize('jpn');
+            await currentWoker.loadLanguage('jpn');
+            await currentWoker.initialize('jpn');
         } else if (config.translation.from === engineModule.languageEnum.en) {
-            await worker.loadLanguage('eng');
-            await worker.initialize('eng');
+            await currentWoker.loadLanguage('eng');
+            await currentWoker.initialize('eng');
         }
 
         // recognize text
         const {
             data: { text },
-        } = await worker.recognize(imageBuffer);
-
-        // terminate worker
-        await worker.terminate();
+        } = await currentWoker.recognize(imageBuffer);
 
         // fix or error
         if (text.trim().length !== 0) {
             fixImageText(text);
         } else {
-            throw '擷取文字為空白，請更換辨識模式';
+            windowModule.sendIndex('show-notification', '擷取文字為空白，請更換辨識模式');
         }
     } catch (error) {
         console.log(error);
         windowModule.sendIndex('show-notification', '無法辨識圖片文字: ' + error);
+        currentWoker = null;
     }
 }
 

@@ -2,6 +2,7 @@
 
 // electron
 const { app, BrowserWindow } = require('electron');
+app.disableHardwareAcceleration();
 
 // app module
 const appModule = require('./src/main_modules/system/app-module');

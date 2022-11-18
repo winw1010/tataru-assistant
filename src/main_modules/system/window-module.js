@@ -299,6 +299,11 @@ function openDevTools() {
     }
 }
 
+// console log
+function consoleLog(text) {
+    sendIndex('console-log', text);
+}
+
 // module exports
 module.exports = {
     createWindow,
@@ -311,4 +316,5 @@ module.exports = {
     sendIndex,
     forEachWindow,
     openDevTools,
+    consoleLog,
 };

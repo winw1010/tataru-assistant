@@ -84,6 +84,11 @@ function setIPC() {
     ipcRenderer.on('show-notification', (event, text) => {
         dispatchCustomEvent('show-notification', { text });
     });
+
+    // console log
+    ipcRenderer.on('console-log', (event, text) => {
+        console.log(text);
+    });
 }
 
 // set view

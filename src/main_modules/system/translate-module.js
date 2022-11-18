@@ -86,7 +86,9 @@ async function translate(text, translation, table = []) {
             tryCount++;
         } while (missingCodes.length > 0 && tryCount < 3);
 
-        return zhConvert(translatedText, translation.to);
+        translatedText = zhConvert(translatedText, translation.to);
+
+        return translatedText;
     } catch (error) {
         return zhConvert('翻譯失敗: ' + error, translation.to);
     }
@@ -136,6 +138,10 @@ async function getTranslation(engine, option) {
 
 // zh convert
 function zhConvert(text, languageTo) {
+    if (text === '') {
+        return text;
+    }
+
     if (languageTo === engineModule.languageEnum.zht) {
         return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
     } else if (languageTo === engineModule.languageEnum.zhs) {

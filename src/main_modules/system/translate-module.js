@@ -5,7 +5,7 @@ const engineModule = require('./engine-module');
 
 // translator
 const baidu = require('../translator/baidu');
-const youdao = require('../translator/youdao');
+//const youdao = require('../translator/youdao');
 const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
@@ -105,7 +105,8 @@ async function getTranslation(engine, option) {
                 break;
 
             case 'Youdao':
-                result = await youdao.exec(option);
+                // result = await youdao.exec(option); // fixing
+                result = await baidu.exec(option);
                 break;
 
             case 'Caiyun':

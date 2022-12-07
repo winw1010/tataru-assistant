@@ -45,6 +45,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 
                         if (callback) {
                             const result = callback(response, chunk);
+                            console.log(result);
 
                             if (result) {
                                 resolve(result);

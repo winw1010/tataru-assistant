@@ -11,7 +11,13 @@ const userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 
 // RegExp
-const JSESSIONIDRegExp = /(?<target>JSESSIONID=.*?)(?=;|$)/i;
+const JSESSIONIDRegExp = /(?<target>JSESSIONID=.+?)(?=;|$)/is;
+const mainJsRegExp = /src="\/(?<target>main\..+?\.js)"/is;
+const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(p\.a\.enc\.Base64\)/is;
+
+// https://papago.naver.com/
+// https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
+// Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
 
 // expire date
 let expireDate = 0;
@@ -67,12 +73,61 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
-    // https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
-    // Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
-    authentication = {
-        deviceId: generateDeviceId(),
-        papagoVersion: 'v1.7.2_9d7a38d925',
+    const callback1 = function (response, chunk) {
+        if (response.statusCode === 200) {
+            const data = mainJsRegExp.exec(chunk.toString())?.groups?.target;
+
+            if (data) {
+                return data;
+            }
+        }
     };
+
+    const response1 = await makeRequest({
+        options: {
+            method: 'GET',
+            protocol: 'https:',
+            hostname: 'papago.naver.com',
+            path: '/',
+        },
+        callback: callback1,
+    });
+
+    if (response1) {
+        const callback2 = function (response, chunk) {
+            if (response.statusCode === 200) {
+                const data = versionRegExp.exec(chunk.toString())?.groups?.target;
+
+                if (data) {
+                    return data;
+                }
+            }
+        };
+
+        const response2 = await makeRequest({
+            options: {
+                method: 'GET',
+                protocol: 'https:',
+                hostname: 'papago.naver.com',
+                path: '/' + response1,
+            },
+            callback: callback2,
+        });
+
+        if (response2) {
+            authentication = {
+                deviceId: generateDeviceId(),
+                papagoVersion: response2,
+            };
+        }
+    }
+
+    if (!authentication) {
+        authentication = {
+            deviceId: generateDeviceId(),
+            papagoVersion: 'v1.7.2_9d7a38d925',
+        };
+    }
 }
 
 // translate

@@ -11,10 +11,10 @@ const userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 
 // RegExp
-const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/i;
-const tokenRegExp = /token:\s*?'(?<target>.*?)'/i;
-const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/i;
-const appVersionRegExp = /"appVersion":"(?<target>.*?)"/i;
+const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/is;
+const tokenRegExp = /token:\s*?'(?<target>.*?)'/is;
+const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/is;
+const appVersionRegExp = /"appVersion":"(?<target>.*?)"/is;
 
 // expire date
 let expireDate = 0;
@@ -79,11 +79,11 @@ async function setAuthentication() {
     const callback = function (response, chunk) {
         const chunkString = chunk.toString();
         if (response.statusCode === 200 && tokenRegExp.test(chunkString) && gtkRegExp.test(chunkString)) {
-            let token = tokenRegExp.exec(chunkString)?.groups?.target || '';
-            let gtk = gtkRegExp.exec(chunkString)?.groups?.target || '320305.131321201';
-            let appVersion = appVersionRegExp.exec(chunkString)?.groups?.target || '';
+            let token = tokenRegExp.exec(chunkString)?.groups?.target;
+            let gtk = gtkRegExp.exec(chunkString)?.groups?.target;
+            let appVersion = appVersionRegExp.exec(chunkString)?.groups?.target;
 
-            if (appVersion !== '') {
+            if (appVersion) {
                 cookie +=
                     `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
                     '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
@@ -96,7 +96,7 @@ async function setAuthentication() {
         }
     };
 
-    authentication = (await makeRequest({
+    authentication = await makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -104,10 +104,15 @@ async function setAuthentication() {
         },
         headers: [['Cookie', cookie]],
         callback: callback,
-    })) || {
-        token: '',
-        gtk: '320305.131321201',
-    };
+    });
+
+    if (!authentication.token) {
+        authentication.token = 'e68bdf2b89ca33231ed5182fa9fc1564';
+    }
+
+    if (!authentication.gtk) {
+        authentication.gtk = '320305.131321201';
+    }
 }
 
 // translate

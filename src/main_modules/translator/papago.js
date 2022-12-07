@@ -1,8 +1,5 @@
 'use strict';
 
-// https://papago.naver.com/main.326c5bbc1f1b8e106d89.chunk.js
-// return{Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.6.9_0f9c783dcc").toString(p.a.enc.Base64),Timestamp:n}
-
 // CryptoJS
 const CryptoJS = require('crypto-js');
 
@@ -11,11 +8,10 @@ const { makeRequest, requestCookie } = require('../system/request-module');
 
 // user agent
 const userAgent =
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36';
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.*?)(?=;|$)/i;
-// const papagoVersionRegExp = /"(?<target>v\d+?\.\d+?\.\d+?_.+?)"/i;
 
 // expire date
 let expireDate = 0;
@@ -71,42 +67,11 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
-    /*
-    const callback = function (response, chunk) {
-        const chunkString = chunk.toString();
-
-        if (response.statusCode === 200 && papagoVersionRegExp.test(chunkString)) {
-            return {
-                deviceId: generateDeviceId(),
-                papagoVersion: papagoVersionRegExp.exec(chunkString)?.groups?.target || 'v1.6.9_0f9c783dcc',
-            };
-        }
-    };
-
-    authentication = (await makeRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'papago.naver.com',
-            path: '/main.326c5bbc1f1b8e106d89.chunk.js',
-        },
-        headers: [
-            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
-            ['sec-ch-ua-mobile', '?0'],
-            ['sec-ch-ua-platform', '"Windows"'],
-            ['Upgrade-Insecure-Requests', '1'],
-            ['user-agent', userAgent],
-        ],
-        callback: callback,
-    })) || {
-        deviceId: generateDeviceId(),
-        papagoVersion: 'v1.6.9_0f9c783dcc',
-    };
-    */
-
+    // https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
+    // Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
     authentication = {
         deviceId: generateDeviceId(),
-        papagoVersion: 'v1.6.9_0f9c783dcc',
+        papagoVersion: 'v1.7.2_9d7a38d925',
     };
 }
 

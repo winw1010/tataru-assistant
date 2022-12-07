@@ -1,5 +1,10 @@
 'use strict';
 
+// https://shared.ydstatic.com/api/fanyi-web-v1.3/assets/index.min.js
+// https://shared.ydstatic.com/js/rlog/v1.js
+// https://fanyi.youdao.com/js/chunk-vendors.4ea1c345.js
+// https://fanyi.youdao.com/js/app.afd40d32.js
+
 // CryptoJS
 const CryptoJS = require('crypto-js');
 
@@ -12,8 +17,7 @@ const userAgent =
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/i;
-// const fanyideskwebRegExp = /\("fanyideskweb".*?"(?<target>.*?)"\)/i; // sign: n.md5("fanyideskweb" + e + i + "Ygy_4c=r#e#4EX^NUGUc5")
-// const ncooRegExp = /(?<target>\d+) \* Math\.random\(\)/i;
+// const ncoo = 2147483647 * Math.random();
 
 // expire date
 let expireDate = 0;
@@ -73,59 +77,44 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
-    /*
-    const callback = function (response, chunk) {
-        const chunkString = chunk.toString();
-        if (response.statusCode === 200 && fanyideskwebRegExp.test(chunkString)) {
-            let fanyideskweb = fanyideskwebRegExp.exec(chunkString)?.groups?.target || 'Ygy_4c=r#e#4EX^NUGUc5';
-
-            return {
-                fanyideskweb,
-            };
-        }
-    };
-
-    authentication = (await makeRequest({
-        options: {
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'shared.ydstatic.com',
-            path: '/fanyi/newweb/v1.1.10/scripts/newweb/fanyi.min.js',
-        },
-        callback: callback,
-    })) || {
-        fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
-    };
-    */
-
     authentication = {
         fanyideskweb: 'Ygy_4c=r#e#4EX^NUGUc5',
     };
 }
 
+//const CryptoJS = require('crypto-js');
+function getSign(currentTime) {
+    return CryptoJS.MD5(
+        `client=${'fanyideskweb'}&mysticTime=${currentTime}&product=${'webfanyi'}&key=${'fsdsogkndfokasodnaso'}`
+    ).toString();
+}
+
 // translate
 async function translate(cookie, authentication, option) {
     const currentTime = new Date().getTime();
-    const currentTime2 = currentTime + 1;
-    const salt = currentTime2.toString() + parseInt(10 * Math.random(), 10).toString();
 
     const postData =
         `i=${option.text}` +
         `&from=${option.from}` +
         `&to=${option.to}` +
-        '&smartresult=dict' +
+        '&domain=0' +
+        '&dictResult=true' +
+        `&keyid=webfanyi` +
+        `&sign=${getSign(currentTime)}` +
         '&client=fanyideskweb' +
-        `&salt=${salt}` +
-        `&sign=${CryptoJS.MD5('fanyideskweb' + option.text + salt + authentication.fanyideskweb).toString()}` +
-        `&lts=${currentTime2}` +
-        '&bv=f0819a82107e6150005e75ef5fddcc3b' + //CryptoJS.MD5(ua.replace('Mozilla/', '')).toString()
-        '&doctype=json' +
-        '&version=2.1' +
-        '&keyfrom=fanyi.web' +
-        '&action=FY_BY_REALTlME'; //FY_BY_CLICKBUTTION
+        `&product=webfanyi` +
+        '&appVersion=1.0.0' +
+        '&vendor=web' +
+        '&pointParam=client,mysticTime,product' +
+        `&mysticTime=${currentTime}` +
+        '&keyfrom=fanyi.web';
+
+    console.log(encodeURI(postData));
 
     const callback = function (response, chunk) {
         if (response.statusCode === 200) {
+            console.log('chunk:', chunk.toString());
+            /*
             const data = JSON.parse(chunk.toString());
 
             if (data.translateResult) {
@@ -139,6 +128,7 @@ async function translate(cookie, authentication, option) {
 
                 return result;
             }
+            */
         }
     };
 
@@ -146,26 +136,25 @@ async function translate(cookie, authentication, option) {
         options: {
             method: 'POST',
             protocol: 'https:',
-            hostname: 'fanyi.youdao.com',
-            path: '/translate_o?smartresult=dict&smartresult=rule',
+            hostname: 'dict.youdao.com',
+            path: '/webtranslate',
         },
         headers: [
-            ['Accept', 'application/json, text/javascript, */*; q=0.01'],
+            ['Accept', 'application/json, text/plain, */*'],
             ['Accept-Encoding', 'gzip, deflate, br'],
             ['Accept-Language', 'zh-CN,zh;q=0.9'],
             ['Connection', 'keep-alive'],
-            ['Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'],
-            ['Cookie', cookie + `; ___rl__test__cookies=${currentTime}`],
+            ['Content-Type', 'application/x-www-form-urlencoded'],
+            ['Cookie', 'UTFOX_SEARCH_USER_ID=391438737@10.108.162.138; OUTFOX_SEARCH_USER_ID_NCOO=1358857606.231445'],
             ['Origin', 'https://fanyi.youdao.com'],
             ['Referer', 'http://fanyi.youdao.com/'],
-            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
+            ['sec-ch-ua', '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"'],
             ['sec-ch-ua-mobile', '?0'],
             ['sec-ch-ua-platform', '"Windows"'],
             ['Sec-Fetch-Dest', 'empty'],
             ['Sec-Fetch-Mode', 'cors'],
-            ['Sec-Fetch-Site', 'same-origin'],
+            ['Sec-Fetch-Site', 'same-site'],
             ['User-Agent', userAgent],
-            ['X-Requested-With', 'XMLHttpRequest'],
         ],
         data: encodeURI(postData),
         callback: callback,

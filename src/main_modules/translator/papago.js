@@ -13,7 +13,7 @@ const userAgent =
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.+?)(?=;|$)/is;
 const mainJsRegExp = /src="\/(?<target>main\..+?\.js)"/is;
-const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(p\.a\.enc\.Base64\)/is;
+const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
 
 // https://papago.naver.com/
 // https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js

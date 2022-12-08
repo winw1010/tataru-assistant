@@ -59,7 +59,7 @@ async function initialize() {
 // set cookie
 async function setCookie() {
     const currentTime = Math.floor(new Date().getTime() / 1000);
-    const response = await requestModule.requestCookie(
+    const response = await requestModule.getCookie(
         'fanyi.baidu.com',
         '/',
         baiduIdRegExp,
@@ -161,7 +161,7 @@ async function translate(cookie, authentication, option) {
             ['Sec-Fetch-Dest', 'empty'],
             ['Sec-Fetch-Mode', 'cors'],
             ['Sec-Fetch-Site', 'same-origin'],
-            ['User-Agent', requestModule.userAgent],
+            ['User-Agent', requestModule.getUserAgent()],
             ['X-Requested-With', 'XMLHttpRequest'],
         ],
         data: encodeURI(postData),

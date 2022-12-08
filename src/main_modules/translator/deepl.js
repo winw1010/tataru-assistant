@@ -62,7 +62,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestModule.requestCookie('www.deepl.com', '/translator', dapUidRegExp, '');
+    const response = await requestModule.getCookie('www.deepl.com', '/translator', dapUidRegExp, '');
 
     expireDate = response.expireDate;
     cookie = response.cookie;
@@ -113,7 +113,7 @@ async function splitText(text) {
             ['sec-fetch-dest', 'empty'],
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-site'],
-            ['user-agent', requestModule.userAgent],
+            ['user-agent', requestModule.getUserAgent()],
         ],
         data: postDataString,
         callback: callback,
@@ -169,7 +169,7 @@ async function translate(cookie, authentication, option, chunks) {
             ['sec-fetch-dest', 'empty'],
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-site'],
-            ['user-agent', requestModule.userAgent],
+            ['user-agent', requestModule.getUserAgent()],
         ],
         data: postDataString,
         callback: callback,

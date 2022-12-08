@@ -61,7 +61,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestModule.requestCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
+    const response = await requestModule.getCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
 
     expireDate = response.expireDate;
     cookie = response.cookie;
@@ -176,7 +176,7 @@ async function translate(cookie, authentication, option) {
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-origin'],
             ['timestamp', currentTime],
-            ['user-agent', requestModule.userAgent],
+            ['user-agent', requestModule.getUserAgent()],
             ['x-apigw-partnerid', 'papago'],
         ],
         data: encodeURI(postData),

@@ -97,8 +97,8 @@ async function makeRequest({ options, headers = [], data = null, callback = null
     }
 }
 
-// request cookie
-async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
+// get cookie
+async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
     let cookie = '';
     let expireDate = new Date().getTime() + 21600000;
 
@@ -132,9 +132,14 @@ async function requestCookie(hostname = '', path = '/', targetRegExp = /(?<targe
     return { cookie, expireDate };
 }
 
+// get user agent
+function getUserAgent() {
+    return userAgent;
+}
+
 // module exports
 module.exports = {
-    userAgent,
     makeRequest,
-    requestCookie,
+    getCookie,
+    getUserAgent,
 };

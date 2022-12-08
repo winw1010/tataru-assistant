@@ -61,7 +61,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestModule.requestCookie(
+    const response = await requestModule.getCookie(
         'fanyi.youdao.com',
         '/',
         userIdRegExp,
@@ -150,7 +150,7 @@ async function translate(cookie, authentication, option) {
             ['Sec-Fetch-Dest', 'empty'],
             ['Sec-Fetch-Mode', 'cors'],
             ['Sec-Fetch-Site', 'same-site'],
-            ['User-Agent', requestModule.userAgent],
+            ['User-Agent', requestModule.getUserAgent()],
         ],
         data: encodeURI(postData),
         callback: callback,

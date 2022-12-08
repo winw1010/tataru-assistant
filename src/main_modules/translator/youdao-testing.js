@@ -4,6 +4,7 @@
 // https://shared.ydstatic.com/js/rlog/v1.js
 // https://fanyi.youdao.com/js/chunk-vendors.4ea1c345.js
 // https://fanyi.youdao.com/js/app.afd40d32.js
+// https://fanyi.youdao.com/js/textTranslate.2d9cf34b.js
 
 // CryptoJS
 const CryptoJS = require('crypto-js');

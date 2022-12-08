@@ -8,7 +8,7 @@ const requestModule = require('../system/request-module');
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.+?)(?=;|$)/is;
-const mainJsRegExp = /src="\/(?<target>main\..+?\.js)"/is;
+const mainJsRegExp = /src="\/(?<target>main\..+?\.chunk\.js)"/is;
 const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
 
 // https://papago.naver.com/

@@ -4,11 +4,7 @@
 const CryptoJS = require('crypto-js');
 
 // request module
-const { makeRequest, requestCookie } = require('../system/request-module');
-
-// user agent
-const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+const requestModule = require('../system/request-module');
 
 // RegExp
 const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/is;
@@ -61,7 +57,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestCookie(
+    const response = await requestModule.requestCookie(
         'fanyi.youdao.com',
         '/',
         userIdRegExp,
@@ -142,7 +138,7 @@ async function translate(cookie, authentication, option) {
         }
     };
 
-    return await makeRequest({
+    return await requestModule.makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
@@ -164,7 +160,7 @@ async function translate(cookie, authentication, option) {
             ['Sec-Fetch-Dest', 'empty'],
             ['Sec-Fetch-Mode', 'cors'],
             ['Sec-Fetch-Site', 'same-origin'],
-            ['User-Agent', userAgent],
+            ['User-Agent', requestModule.userAgent],
             ['X-Requested-With', 'XMLHttpRequest'],
         ],
         data: encodeURI(postData),

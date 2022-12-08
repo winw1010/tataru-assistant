@@ -4,11 +4,7 @@
 const CryptoJS = require('crypto-js');
 
 // request module
-const { makeRequest, requestCookie } = require('../system/request-module');
-
-// user agent
-const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+const requestModule = require('../system/request-module');
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.+?)(?=;|$)/is;
@@ -65,7 +61,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
+    const response = await requestModule.requestCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
 
     expireDate = response.expireDate;
     cookie = response.cookie;
@@ -83,7 +79,7 @@ async function setAuthentication() {
         }
     };
 
-    const response1 = await makeRequest({
+    const response1 = await requestModule.makeRequest({
         options: {
             method: 'GET',
             protocol: 'https:',
@@ -104,7 +100,7 @@ async function setAuthentication() {
             }
         };
 
-        const response2 = await makeRequest({
+        const response2 = await requestModule.makeRequest({
             options: {
                 method: 'GET',
                 protocol: 'https:',
@@ -157,7 +153,7 @@ async function translate(cookie, authentication, option) {
         }
     };
 
-    return await makeRequest({
+    return await requestModule.makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
@@ -180,7 +176,7 @@ async function translate(cookie, authentication, option) {
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-origin'],
             ['timestamp', currentTime],
-            ['user-agent', userAgent],
+            ['user-agent', requestModule.userAgent],
             ['x-apigw-partnerid', 'papago'],
         ],
         data: encodeURI(postData),

@@ -8,11 +8,7 @@
 const deeplRequest = require('./deepl-request');
 
 // request module
-const { makeRequest, requestCookie } = require('../system/request-module');
-
-// user agent
-const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+const requestModule = require('../system/request-module');
 
 // RegExp
 const dapUidRegExp = /(?<target>dapUid=.*?)(?=;|$)/is;
@@ -66,7 +62,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = await requestCookie('www.deepl.com', '/translator', dapUidRegExp, '');
+    const response = await requestModule.requestCookie('www.deepl.com', '/translator', dapUidRegExp, '');
 
     expireDate = response.expireDate;
     cookie = response.cookie;
@@ -97,7 +93,7 @@ async function splitText(text) {
 
     const postDataString = fixMethod(postData.id, JSON.stringify(postData));
 
-    return await makeRequest({
+    return await requestModule.makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
@@ -117,7 +113,7 @@ async function splitText(text) {
             ['sec-fetch-dest', 'empty'],
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-site'],
-            ['user-agent', userAgent],
+            ['user-agent', requestModule.userAgent],
         ],
         data: postDataString,
         callback: callback,
@@ -152,7 +148,7 @@ async function translate(cookie, authentication, option, chunks) {
 
     const postDataString = fixMethod(postData.id, JSON.stringify(postData));
 
-    return await makeRequest({
+    return await requestModule.makeRequest({
         options: {
             method: 'POST',
             protocol: 'https:',
@@ -173,7 +169,7 @@ async function translate(cookie, authentication, option, chunks) {
             ['sec-fetch-dest', 'empty'],
             ['sec-fetch-mode', 'cors'],
             ['sec-fetch-site', 'same-site'],
-            ['user-agent', userAgent],
+            ['user-agent', requestModule.userAgent],
         ],
         data: postDataString,
         callback: callback,

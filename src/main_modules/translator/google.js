@@ -4,11 +4,7 @@
 const { tokenEncoder } = require('./google-encoder');
 
 // request module
-const { makeRequest } = require('../system/request-module');
-
-// user agent
-const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+const requestModule = require('../system/request-module');
 
 // translate
 async function exec(option) {
@@ -34,7 +30,7 @@ async function exec(option) {
             }
         };
 
-        result = await makeRequest({
+        result = await requestModule.makeRequest({
             options: {
                 method: 'GET',
                 protocol: 'https:',
@@ -56,7 +52,7 @@ async function exec(option) {
                 ['sec-fetch-site', 'none'],
                 ['sec-fetch-user', '?1'],
                 ['upgrade-insecure-requests', '1'],
-                ['user-agent', userAgent],
+                ['user-agent', requestModule.userAgent],
             ],
             callback: callback,
         });

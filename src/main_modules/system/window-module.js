@@ -66,6 +66,7 @@ function createWindow(windowName, data = null) {
                 // set foucusable
                 window.setFocusable(config.indexWindow.focusable);
                 window.on('restore', () => {
+                    const config = configModule.getConfig();
                     window.setFocusable(config.indexWindow.focusable);
                 });
                 window.on('minimize', () => {

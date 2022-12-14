@@ -245,7 +245,7 @@ function saveChatCode() {
 
 // get chat code
 function getChatCode() {
-    return currentChatCode;
+    return JSON.parse(JSON.stringify(currentChatCode));
 }
 
 // set chat code

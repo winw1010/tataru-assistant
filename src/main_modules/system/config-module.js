@@ -142,7 +142,7 @@ function saveConfig() {
 
 // get config
 function getConfig() {
-    return currentConfig;
+    return JSON.parse(JSON.stringify(currentConfig));
 }
 
 // set config

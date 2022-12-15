@@ -114,11 +114,11 @@ function loadConfig() {
         });
 
         // adjust property
-        if (currentConfig.translation.engine === 'Google') {
+        if (/Google/i.test(currentConfig.translation.engine)) {
             currentConfig.translation.engine = 'Youdao';
         }
 
-        if (currentConfig.captureWindow.type !== 'google') {
+        if (!/Google/i.test(currentConfig.captureWindow.type)) {
             currentConfig.captureWindow.type = 'tesseract';
         }
 

@@ -6,6 +6,10 @@
 // https://fanyi.youdao.com/js/app.afd40d32.js
 // https://fanyi.youdao.com/js/textTranslate.2d9cf34b.js
 
+// https://fanyi.youdao.com/js/app.cf97ea76.js
+// https://fanyi.youdao.com/js/documentUpload~textTranslate.4ccd67a0.js
+// https://fanyi.youdao.com/js/textTranslate.5c5dad57.js
+
 // CryptoJS
 const CryptoJS = require('crypto-js');
 

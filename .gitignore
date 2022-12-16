@@ -1,3 +1,5 @@
 build
 node_modules
 src/json/text
+src/main_modules/translator/yd-temp.js
+src/main_modules/translator/yd-test.js

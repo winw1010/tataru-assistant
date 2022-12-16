@@ -46,17 +46,16 @@ const engineTable = {
         Chinese: 'zh',
         'Traditional-Chinese': 'zh',
         'Simplified-Chinese': 'zh',
-    },
-    /*
-    Youdao: {
+
+        /*
         Auto: 'auto',
         Japanese: 'ja',
         English: 'en',
         Chinese: 'zh-CHS',
         'Traditional-Chinese': 'zh-CHS',
         'Simplified-Chinese': 'zh-CHS',
+        */
     },
-    */
     Tencent: {
         Auto: 'auto',
         Japanese: 'jp',

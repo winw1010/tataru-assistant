@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@google-cloud/vision": "^3.0.1",
+        "axios": "^1.2.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
         "sharp": "^0.31.1",

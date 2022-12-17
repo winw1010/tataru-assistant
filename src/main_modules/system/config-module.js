@@ -37,7 +37,7 @@ const defaultConfig = {
         y: null,
         width: null,
         height: null,
-        type: 'standard',
+        type: 'tesseract',
         split: true,
         edit: false,
     },

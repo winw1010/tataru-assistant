@@ -62,7 +62,7 @@ async function setCookie() {
         cookie = response;
         expiryDate = axiosModule.getExpiryDate();
     } else {
-        throw null;
+        throw 'ERROR: setCookie';
     }
 }
 
@@ -80,10 +80,10 @@ async function setAuthentication() {
                 papagoVersion: response2,
             };
         } else {
-            throw null;
+            throw 'ERROR: setAuthentication';
         }
     } else {
-        throw null;
+        throw 'ERROR: setAuthentication';
     }
 }
 
@@ -131,7 +131,7 @@ async function translate(cookie, authentication, option) {
     if (response) {
         return response;
     } else {
-        throw null;
+        throw 'ERROR: translate';
     }
 }
 

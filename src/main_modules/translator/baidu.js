@@ -62,7 +62,7 @@ async function setCookie() {
             `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}`;
         expiryDate = axiosModule.getExpiryDate();
     } else {
-        throw null;
+        throw 'ERROR: setCookie';
     }
 }
 
@@ -83,7 +83,7 @@ async function setAuthentication() {
                 '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
         }
     } else {
-        throw null;
+        throw 'ERROR: setAuthentication';
     }
 }
 
@@ -131,7 +131,7 @@ async function translate(cookie, authentication, option) {
 
         return finalResponse;
     } else {
-        throw null;
+        throw 'ERROR: translate';
     }
 }
 

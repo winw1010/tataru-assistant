@@ -1,13 +1,11 @@
 'use strict';
 
-// request module
-const { makeRequest } = require('../system/request-module');
+// axios module
+const axiosModule = require('../system/axios-module');
 
 // translate
 async function exec(option) {
     try {
-        let result = '';
-
         const postData = {
             source: option.text,
             trans_type: `${option.from}2${option.to}`,
@@ -17,31 +15,20 @@ async function exec(option) {
             request_id: '5a096eec830f7876a48aac47',
         };
 
-        const callback = function (response, chunk) {
-            if (response.statusCode === 200) {
-                const data = JSON.parse(chunk.toString());
-                if (data.target) {
-                    return data.target;
-                }
-            }
-        };
+        const response = (
+            await axiosModule.post('https://api.interpreter.caiyunai.com/v1/translator', postData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-authorization': 'token lqkr1tfixq1wa9kmj9po',
+                },
+            })
+        )?.target;
 
-        result = await makeRequest({
-            options: {
-                method: 'POST',
-                protocol: 'https:',
-                hostname: 'api.interpreter.caiyunai.com',
-                path: '/v1/translator',
-            },
-            headers: [
-                ['Content-Type', 'application/json'],
-                ['x-authorization', 'token lqkr1tfixq1wa9kmj9po'],
-            ],
-            data: JSON.stringify(postData),
-            callback: callback,
-        });
-
-        return result;
+        if (response) {
+            return response;
+        } else {
+            throw null;
+        }
     } catch (error) {
         console.log(error);
         return '';

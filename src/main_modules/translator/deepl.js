@@ -63,7 +63,7 @@ async function setCookie() {
         cookie = response;
         expiryDate = axiosModule.getExpiryDate();
     } else {
-        throw 'ERROR: setCookie';
+        throw null;
     }
 }
 
@@ -105,7 +105,7 @@ async function splitText(text) {
     if (response) {
         return response;
     } else {
-        throw 'ERROR: splitText';
+        throw null;
     }
 }
 
@@ -150,7 +150,7 @@ async function translate(cookie, authentication, option, chunks) {
 
         return result;
     } else {
-        throw 'ERROR: translate';
+        throw null;
     }
 }
 

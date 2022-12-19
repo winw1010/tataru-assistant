@@ -43,7 +43,7 @@ async function exec(option) {
 
             return result;
         } else {
-            throw 'ERROR: exec';
+            throw null;
         }
     } catch (error) {
         console.log(error);

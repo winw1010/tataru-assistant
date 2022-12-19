@@ -27,7 +27,7 @@ async function exec(option) {
         if (response) {
             return response;
         } else {
-            throw 'ERROR: exec';
+            throw null;
         }
     } catch (error) {
         console.log(error);

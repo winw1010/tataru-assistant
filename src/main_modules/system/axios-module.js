@@ -23,6 +23,7 @@ function post(url, data, config = {}) {
         axios
             .post(url, data, config)
             .then((response) => {
+                console.log('POST response:', response.data);
                 resolve(response.data);
             })
             .catch((error) => {
@@ -37,6 +38,7 @@ function getCookie(url, config = {}) {
         axios
             .get(url, config)
             .then((response) => {
+                console.log('set-cookie', response.headers?.['set-cookie']);
                 resolve(response.headers?.['set-cookie']);
             })
             .catch((error) => {

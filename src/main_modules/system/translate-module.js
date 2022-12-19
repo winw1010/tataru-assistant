@@ -4,8 +4,8 @@
 const engineModule = require('./engine-module');
 
 // translator
-//const youdao = require('../translator/youdao');
 const baidu = require('../translator/baidu');
+//const youdao = require('../translator/youdao');
 const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');

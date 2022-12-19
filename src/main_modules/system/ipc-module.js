@@ -6,9 +6,6 @@ const { exec } = require('child_process');
 // electron
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
 
-// axios module
-const axiosModule = require('./axios-module');
-
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
@@ -23,6 +20,9 @@ const fileModule = require('./file-module');
 
 // image module
 const imageModule = require('./image-module');
+
+// request module
+const { makeRequest } = require('./request-module');
 
 // server module
 const serverModule = require('./server-module');
@@ -286,14 +286,40 @@ function setCaptureChannel() {
 function setRequestChannel() {
     // get latest verssion
     ipcMain.handle('get-latest-version', () => {
-        return axiosModule.get(
-            'https://raw.githubusercontent.com/winw1010/tataru-helper-node-text-v2/main/version.json'
-        );
+        const callback = function (response, chunk) {
+            if (response.statusCode === 200) {
+                return JSON.parse(chunk.toString()).number;
+            }
+        };
+
+        return makeRequest({
+            options: {
+                method: 'GET',
+                protocol: 'https:',
+                hostname: 'raw.githubusercontent.com',
+                path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
+            },
+            callback: callback,
+        });
     });
 
     // post form
     ipcMain.on('post-form', (event, path) => {
-        axiosModule.post('https://docs.google.com/' + path);
+        const callback = function (response) {
+            if (response.statusCode === 200) {
+                return 'OK';
+            }
+        };
+
+        makeRequest({
+            options: {
+                method: 'POST',
+                protocol: 'https:',
+                hostname: 'docs.google.com',
+                path: path,
+            },
+            callback: callback,
+        });
     });
 }
 

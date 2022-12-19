@@ -3,8 +3,8 @@
 // CryptoJS
 const CryptoJS = require('crypto-js');
 
-// axios module
-const axiosModule = require('../system/axios-module');
+// request module
+const requestModule = require('../system/request-module');
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=.+?)(?=;|$)/is;
@@ -16,13 +16,13 @@ const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64
 // Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
 
 // expire date
-let expiryDate = 0;
+let expireDate = 0;
 
 // cookie
-let cookie = '';
+let cookie = null;
 
 // authentication
-let authentication = {};
+let authentication = null;
 
 // exec
 async function exec(option) {
@@ -30,17 +30,22 @@ async function exec(option) {
         let result = '';
 
         // check expire date
-        if (new Date().getTime() >= expiryDate) {
+        if (new Date().getTime() >= expireDate || !cookie || !authentication) {
             await initialize();
         }
 
         // get result
         result = await translate(cookie, authentication, option);
 
+        // if result is blank => reset expire date
+        if (!result) {
+            throw 'No Response';
+        }
+
         return result;
     } catch (error) {
         console.log(error);
-        expiryDate = 0;
+        expireDate = 0;
         return '';
     }
 }
@@ -56,83 +61,127 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-    const response = JSESSIONIDRegExp.exec(await axiosModule.getCookie('https://papago.naver.com'))?.groups?.target;
+    const response = await requestModule.getCookie('papago.naver.com', '/', JSESSIONIDRegExp, '');
 
-    if (response) {
-        cookie = response;
-        expiryDate = axiosModule.getExpiryDate();
-    } else {
-        throw null;
-    }
+    expireDate = response.expireDate;
+    cookie = response.cookie;
 }
 
 // set authentication
 async function setAuthentication() {
-    const response1 = mainJsRegExp.exec(await axiosModule.get('https://papago.naver.com'))?.groups?.target;
+    const callback1 = function (response, chunk) {
+        if (response.statusCode === 200) {
+            const data = mainJsRegExp.exec(chunk.toString())?.groups?.target;
+
+            if (data) {
+                return data;
+            }
+        }
+    };
+
+    const response1 = await requestModule.makeRequest({
+        options: {
+            method: 'GET',
+            protocol: 'https:',
+            hostname: 'papago.naver.com',
+            path: '/',
+        },
+        callback: callback1,
+    });
 
     if (response1) {
-        const response2 = versionRegExp.exec(await axiosModule.get('https://papago.naver.com/' + response1))?.groups
-            ?.target;
+        const callback2 = function (response, chunk) {
+            if (response.statusCode === 200) {
+                const data = versionRegExp.exec(chunk.toString())?.groups?.target;
+
+                if (data) {
+                    return data;
+                }
+            }
+        };
+
+        const response2 = await requestModule.makeRequest({
+            options: {
+                method: 'GET',
+                protocol: 'https:',
+                hostname: 'papago.naver.com',
+                path: '/' + response1,
+            },
+            callback: callback2,
+        });
 
         if (response2) {
             authentication = {
                 deviceId: generateDeviceId(),
                 papagoVersion: response2,
             };
-        } else {
-            throw null;
         }
-    } else {
-        throw null;
+    }
+
+    if (!authentication) {
+        authentication = {
+            deviceId: generateDeviceId(),
+            papagoVersion: 'v1.7.2_9d7a38d925',
+        };
     }
 }
 
 // translate
 async function translate(cookie, authentication, option) {
     const currentTime = new Date().getTime();
-    const authorization = `PPG ${authentication.deviceId}:${createSignature(authentication.deviceId, currentTime)}`;
-    const postData = {
-        deviceId: authentication.deviceId,
-        locale: 'en-US',
-        dict: 'true',
-        dictDisplay: '30',
-        honorific: 'false',
-        instant: 'false',
-        paging: 'false',
-        source: option.from,
-        target: option.to,
-        text: option.text,
+    const authorization = `PPG ${authentication.deviceId}:${generateSignature(authentication.deviceId, currentTime)}`;
+
+    const postData =
+        `deviceId=${authentication.deviceId}` +
+        '&locale=en-US' +
+        '&dict=true' +
+        '&dictDisplay=30' +
+        '&honorific=false' +
+        '&instant=false' +
+        '&paging=false' +
+        `&source=${option.from}` +
+        `&target=${option.to}` +
+        `&text=${option.text}`;
+
+    const callback = function (response, chunk) {
+        if (response.statusCode === 200) {
+            const data = JSON.parse(chunk.toString());
+
+            if (data.translatedText) {
+                return data.translatedText;
+            }
+        }
     };
 
-    const response = (
-        await axiosModule.post('https://papago.naver.com/apis/n2mt/translate', postData, {
-            headers: {
-                accept: 'application/json',
-                'accept-encoding': 'gzip, deflate, br',
-                'accept-language': 'en-US',
-                authorization: authorization,
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                cookie: cookie,
-                origin: 'https://papago.naver.com',
-                referer: 'https://papago.naver.com/',
-                'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-platform': '"Windows"',
-                'sec-fetch-dest': 'empty',
-                'sec-fetch-mode': 'cors',
-                'sec-fetch-site': 'same-origin',
-                timestamp: currentTime,
-                'user-agent': axiosModule.getUserAgent(),
-                'x-apigw-partnerid': 'papago',
-            },
-        })
-    )?.translatedText;
-
-    if (response) {
-        return response;
-    } else {
-        throw null;
-    }
+    return await requestModule.makeRequest({
+        options: {
+            method: 'POST',
+            protocol: 'https:',
+            hostname: 'papago.naver.com',
+            path: '/apis/n2mt/translate',
+        },
+        headers: [
+            ['accept', 'application/json'],
+            ['accept-encoding', 'gzip, deflate, br'],
+            ['accept-language', 'en-US'],
+            ['authorization', authorization],
+            ['content-type', 'application/x-www-form-urlencoded; charset=UTF-8'],
+            ['cookie', cookie],
+            ['origin', 'https://papago.naver.com'],
+            ['referer', 'https://papago.naver.com/'],
+            ['sec-ch-ua', '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"'],
+            ['sec-ch-ua-mobile', '?0'],
+            ['sec-ch-ua-platform', '"Windows"'],
+            ['sec-fetch-dest', 'empty'],
+            ['sec-fetch-mode', 'cors'],
+            ['sec-fetch-site', 'same-origin'],
+            ['timestamp', currentTime],
+            ['user-agent', requestModule.getUserAgent()],
+            ['x-apigw-partnerid', 'papago'],
+        ],
+        data: encodeURI(postData),
+        callback: callback,
+    });
 }
 
 // get device id
@@ -145,7 +194,7 @@ function generateDeviceId() {
 }
 
 // get hash
-function createSignature(deviceId, timestamp) {
+function generateSignature(deviceId, timestamp) {
     return CryptoJS.HmacMD5(
         `${deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`,
         authentication.papagoVersion

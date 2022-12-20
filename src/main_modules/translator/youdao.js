@@ -138,23 +138,30 @@ async function translate(cookie, authentication, option) {
     );
 
     if (response) {
-        const data = JSON.parse(
-            decodeData(
-                response,
-                'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl',
-                'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4'
-            )
+        const jsonString = decodeData(
+            response,
+            'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl',
+            'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4'
         );
 
+        console.log(jsonString);
+
+        const data = JSON.parse(jsonString);
+
         if (data?.translateResult?.[0]) {
+            const resultArray = data.translateResult[0];
             let result = '';
-            let resultArray = data.translateResult[0];
 
             for (let index = 0; index < resultArray.length; index++) {
                 result += resultArray?.[index]?.tgt || '';
             }
 
             return result;
+        } else {
+            console.log('cookie:', cookie);
+            console.log('authentication:', authentication);
+            console.log('option:', option);
+            throw 'ERROR: translate';
         }
     } else {
         console.log('cookie:', cookie);

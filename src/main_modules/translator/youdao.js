@@ -7,7 +7,7 @@ const crypto = require('node:crypto');
 const requestModule = require('../system/request-module');
 
 // RegExp
-//const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/is;
+// const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/is;
 
 // expire date
 let expireDate = 0;
@@ -62,6 +62,7 @@ async function setCookie() {
     cookie =
         `OUTFOX_SEARCH_USER_ID=${(2147483647 * Math.random()).toFixed(0)}@10.108.162.139; ` +
         `OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+    expireDate = requestModule.getExpiryDate();
 }
 
 // set authentication
@@ -149,6 +150,8 @@ async function translate(cookie, authentication, option) {
         const data = JSON.parse(jsonString);
 
         if (data?.translateResult?.[0]) {
+            //getKeyword(option);
+
             const resultArray = data.translateResult[0];
             let result = '';
 
@@ -169,6 +172,41 @@ async function translate(cookie, authentication, option) {
         console.log('option:', option);
         throw 'ERROR: translate';
     }
+}
+
+// get keyword
+function getKeyword(option) {
+    requestModule.post(
+        {
+            protocol: 'https:',
+            hostname: 'dict.youdao.com',
+            path: '/keyword/key',
+        },
+        encodeURI(
+            requestModule.toParameters({
+                text: option.text,
+                lang: option.from === 'zh-CHS' ? 'zh' : option.from,
+                to: option.to === 'zh-CHS' ? 'zh' : option.to,
+            })
+        ),
+        {
+            Accept: 'application/json, text/plain, */*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept-Language': 'zh-TW,zh;q=0.9',
+            Connection: 'keep-alive',
+            'Content-Type': 'multipart/form-data',
+            Cookie: cookie,
+            Origin: 'https://fanyi.youdao.com',
+            Referer: 'https://fanyi.youdao.com/',
+            'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'User-Agent': requestModule.getUserAgent(),
+        }
+    );
 }
 
 // to MD5 string

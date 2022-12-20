@@ -50,6 +50,11 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
                 // set chunk string
                 const chunkString = Buffer.concat(chunkArray).toString();
 
+                // show chunk string
+                if (method === 'POST') {
+                    console.log('chunk string:', chunkString);
+                }
+
                 // resolve
                 if (returnType === 'data') {
                     try {
@@ -220,7 +225,7 @@ async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.*
 async function getCookie2(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
-            console.log(response?.headers?.['set-cookie']);
+            console.log('set-cookie', response?.headers?.['set-cookie']);
             resolve(targetRegExp.exec(response?.headers?.['set-cookie']?.join('; '))?.groups?.target);
         });
     });

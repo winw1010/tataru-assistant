@@ -241,6 +241,19 @@ function getUserAgent() {
     return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 }
 
+// to parameters
+function toParameters(data = {}) {
+    const dataNames = Object.getOwnPropertyNames(data);
+    let parameters = [];
+
+    for (let index = 0; index < dataNames.length; index++) {
+        const dataName = dataNames[index];
+        parameters.push(`${dataName}=${data[dataName]}`);
+    }
+
+    return parameters.join('&');
+}
+
 // module exports
 module.exports = {
     get,
@@ -250,4 +263,5 @@ module.exports = {
     getCookie2,
     getExpiryDate,
     getUserAgent,
+    toParameters,
 };

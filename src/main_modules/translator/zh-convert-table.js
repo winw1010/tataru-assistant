@@ -1,3 +1,4 @@
+// https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/languages/data/ZhConversion.php
 // module exports
 module.exports = {
     zh2Hant: [

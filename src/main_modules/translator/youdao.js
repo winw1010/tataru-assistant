@@ -144,7 +144,7 @@ async function translate(cookie, authentication, option) {
             'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4'
         );
 
-        console.log(jsonString);
+        console.log('json string:', jsonString);
 
         const data = JSON.parse(jsonString);
 

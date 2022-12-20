@@ -44,9 +44,19 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
 
             // on response end
             response.on('end', () => {
+                // abort request
                 request.abort();
+
+                // set chunk string
+                const chunkString = Buffer.concat(chunkArray).toString();
+
+                // resolve
                 if (returnType === 'data') {
-                    resolve(Buffer.concat(chunkArray).toString());
+                    try {
+                        resolve(JSON.parse(chunkString));
+                    } catch (error) {
+                        resolve(chunkString);
+                    }
                 } else {
                     resolve(response);
                 }

@@ -173,7 +173,7 @@ async function makeRequest({ options, headers = [], data = null, callback = null
 }
 
 // get cookie
-async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)/, addon = '') {
+async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.*)/, addon = '') {
     let cookie = '';
     let expireDate = new Date().getTime() + 21600000;
 
@@ -207,11 +207,11 @@ async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)
     return { cookie, expireDate };
 }
 
-async function getCookie2(options, headers = {}, timeout = 15000) {
+async function getCookie2(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
             console.log(response?.headers?.['set-cookie']);
-            resolve(response?.headers?.['set-cookie']?.join('; '));
+            resolve(targetRegExp.exec(response?.headers?.['set-cookie']?.join('; '))?.groups?.target);
         });
     });
 }

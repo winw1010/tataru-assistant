@@ -145,10 +145,17 @@ async function translate(cookie, authentication, option) {
                 'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4'
             )
         );
+
         console.log('data:', data);
 
-        if (data?.translateResult?.[0]?.[0]?.tgt) {
-            return data.translateResult[0][0].tgt;
+        if (data?.translateResult?.[0]) {
+            let result = '';
+            let resultArray = data.translateResult[0];
+            for (let index = 0; index < resultArray.length; index++) {
+                result += resultArray[index]?.tgt || '';
+            }
+
+            return result;
         }
     } else {
         console.log('cookie:', cookie);

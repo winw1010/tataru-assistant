@@ -3,73 +3,20 @@
 // net
 const { net } = require('electron');
 
-// user agent
-const userAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
-
 // get
 function get(options, headers = {}, timeout = 15000) {
-    // set request
-    options.method = 'GET';
-    const request = net.request(options);
-
-    // set headers
-    const headersNames = Object.getOwnPropertyNames(headers);
-    for (let index = 0; index < headersNames.length; index++) {
-        const headersName = headersNames[index];
-        request.setHeader(headersName, headers[headersName]);
-    }
-
-    // return promise
-    return new Promise((resolve) => {
-        // set timeout
-        const requestTimeout = setTimeout(() => {
-            console.log('Request timeout');
-            return null;
-        }, timeout);
-
-        request.on('response', (response) => {
-            // clear timeout
-            clearTimeout(requestTimeout);
-
-            // chunk array
-            let chunkArray = [];
-
-            // on response end
-            response.on('end', () => {
-                request.abort();
-                resolve(Buffer.concat(chunkArray));
-            });
-
-            // on response data
-            response.on('data', (chunk) => {
-                if (response.statusCode === 200) {
-                    chunkArray.push(chunk);
-                }
-            });
-
-            // on response error
-            response.on('error', () => {
-                console.log(response.statusCode + ': ' + response.statusMessage);
-                resolve(null);
-            });
-        });
-
-        // on request error
-        request.on('error', (error) => {
-            console.log(error);
-            resolve(null);
-        });
-
-        // end request
-        request.end();
-    });
+    return netRequest('GET', options, null, headers, timeout);
 }
 
 // post
-function post(options, data = '', headers = {}, timeout = 15000) {
+function post(options, data = null, headers = {}, timeout = 15000) {
+    return netRequest('POST', options, data, headers, timeout);
+}
+
+// net request
+function netRequest(method, options, data, headers, timeout) {
     // set request
-    options.method = 'POST';
+    options.method = method;
     const request = net.request(options);
 
     // set headers
@@ -87,17 +34,18 @@ function post(options, data = '', headers = {}, timeout = 15000) {
             return null;
         }, timeout);
 
+        // on response
         request.on('response', (response) => {
             // clear timeout
             clearTimeout(requestTimeout);
 
-            // chunk array
+            // set chunk array
             let chunkArray = [];
 
             // on response end
             response.on('end', () => {
                 request.abort();
-                resolve(Buffer.concat(chunkArray));
+                resolve(Buffer.concat(chunkArray).toString());
             });
 
             // on response data
@@ -255,9 +203,14 @@ async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)
     return { cookie, expireDate };
 }
 
+// get expiry date
+function getExpiryDate() {
+    return new Date().getTime() + 21600000;
+}
+
 // get user agent
 function getUserAgent() {
-    return userAgent;
+    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 }
 
 // module exports
@@ -266,5 +219,6 @@ module.exports = {
     post,
     makeRequest,
     getCookie,
+    getExpiryDate,
     getUserAgent,
 };

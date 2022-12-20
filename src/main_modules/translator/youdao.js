@@ -151,8 +151,9 @@ async function translate(cookie, authentication, option) {
         if (data?.translateResult?.[0]) {
             let result = '';
             let resultArray = data.translateResult[0];
+
             for (let index = 0; index < resultArray.length; index++) {
-                result += resultArray[index]?.tgt || '';
+                result += resultArray?.[index]?.tgt || '';
             }
 
             return result;

@@ -303,7 +303,7 @@ async function versionCheck() {
     let notificationText = '';
 
     try {
-        const latestVersion = JSON.parse(await ipcRenderer.invoke('get-latest-version'))?.number;
+        const latestVersion = (await ipcRenderer.invoke('get-latest-version'))?.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
         if (appVersion === latestVersion) {

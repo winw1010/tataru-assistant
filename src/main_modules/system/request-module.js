@@ -5,16 +5,16 @@ const { net } = require('electron');
 
 // get
 function get(options, headers = {}, timeout = 15000) {
-    return netRequest('GET', options, null, headers, timeout);
+    return netRequest('GET', options, null, headers, timeout, 'data');
 }
 
 // post
 function post(options, data = null, headers = {}, timeout = 15000) {
-    return netRequest('POST', options, data, headers, timeout);
+    return netRequest('POST', options, data, headers, timeout, 'data');
 }
 
 // net request
-function netRequest(method, options, data, headers, timeout) {
+function netRequest(method, options, data, headers, timeout, returnType = 'data') {
     // set request
     options.method = method;
     const request = net.request(options);
@@ -45,7 +45,11 @@ function netRequest(method, options, data, headers, timeout) {
             // on response end
             response.on('end', () => {
                 request.abort();
-                resolve(Buffer.concat(chunkArray).toString());
+                if (returnType === 'data') {
+                    resolve(Buffer.concat(chunkArray).toString());
+                } else {
+                    resolve(response);
+                }
             });
 
             // on response data
@@ -203,6 +207,14 @@ async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)
     return { cookie, expireDate };
 }
 
+async function getCookie2(options, headers = {}, timeout = 15000) {
+    return new Promise((resolve) => {
+        netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
+            resolve(response?.headers?.['set-cookie']?.join('; '));
+        });
+    });
+}
+
 // get expiry date
 function getExpiryDate() {
     return new Date().getTime() + 21600000;
@@ -219,6 +231,7 @@ module.exports = {
     post,
     makeRequest,
     getCookie,
+    getCookie2,
     getExpiryDate,
     getUserAgent,
 };

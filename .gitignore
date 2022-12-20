@@ -3,4 +3,4 @@ node_modules
 src/json/text
 src/main_modules/translator/yd-temp.js
 src/main_modules/translator/yd-test.js
-src/main_modules/translator/yd-final.js
+src/main_modules/translator/youdao-old.js

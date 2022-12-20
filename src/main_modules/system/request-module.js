@@ -210,6 +210,7 @@ async function getCookie(hostname = '', path = '/', targetRegExp = /(?<target>.)
 async function getCookie2(options, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
+            console.log(response?.headers?.['set-cookie']);
             resolve(response?.headers?.['set-cookie']?.join('; '));
         });
     });

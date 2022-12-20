@@ -146,8 +146,6 @@ async function translate(cookie, authentication, option) {
             )
         );
 
-        console.log('data:', data);
-
         if (data?.translateResult?.[0]) {
             let result = '';
             let resultArray = data.translateResult[0];

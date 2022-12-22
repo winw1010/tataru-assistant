@@ -113,6 +113,11 @@ function getExpiryDate() {
     return new Date().getTime() + 21600000;
 }
 
+// get sec-ch-ua
+function getSCU() {
+    return '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"';
+}
+
 // get user agent
 function getUserAgent() {
     return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
@@ -137,6 +142,7 @@ module.exports = {
     post,
     getCookie,
     getExpiryDate,
+    getSCU,
     getUserAgent,
     toParameters,
 };

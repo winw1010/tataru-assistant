@@ -139,7 +139,7 @@ async function translate(cookie, authentication, option) {
             cookie: cookie,
             origin: 'https://papago.naver.com',
             referer: 'https://papago.naver.com/',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'sec-ch-ua': requestModule.getSCU(),
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',

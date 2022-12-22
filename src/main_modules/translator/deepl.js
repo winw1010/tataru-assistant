@@ -101,7 +101,7 @@ async function splitText(text) {
             'content-type': 'application/json',
             origin: 'https://www.deepl.com',
             referer: 'https://www.deepl.com/',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'sec-ch-ua': requestModule.getSCU(),
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',

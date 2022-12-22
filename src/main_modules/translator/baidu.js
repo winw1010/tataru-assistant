@@ -129,7 +129,7 @@ async function translate(cookie, authentication, option) {
             Cookie: cookie,
             Origin: 'https://fanyi.baidu.com',
             Referer: 'https://fanyi.baidu.com/',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'sec-ch-ua': requestModule.getSCU(),
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'Sec-Fetch-Dest': 'empty',

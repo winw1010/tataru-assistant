@@ -150,7 +150,7 @@ async function translate(cookie, authentication, option) {
         const data = JSON.parse(jsonString);
 
         if (data?.translateResult?.[0]) {
-            //getKeyword(option);
+            // getKeyword(option);
 
             const resultArray = data.translateResult[0];
             let result = '';
@@ -176,37 +176,38 @@ async function translate(cookie, authentication, option) {
 
 // get keyword
 // function getKeyword(option) {
-//     requestModule.post(
-//         {
-//             protocol: 'https:',
-//             hostname: 'dict.youdao.com',
-//             path: '/keyword/key',
-//         },
-//         encodeURI(
-//             requestModule.toParameters({
+//     requestModule
+//         .post(
+//             {
+//                 protocol: 'https:',
+//                 hostname: 'dict.youdao.com',
+//                 path: '/keyword/key',
+//             },
+//             JSON.stringify({
 //                 text: option.text,
-//                 lang: option.from === 'zh-CHS' ? 'zh' : option.from,
-//                 to: option.to === 'zh-CHS' ? 'zh' : option.to,
-//             })
-//         ),
-//         {
-//             Accept: 'application/json, text/plain, */*',
-//             'Accept-Encoding': 'gzip, deflate, br',
-//             'Accept-Language': 'zh-TW,zh;q=0.9',
-//             Connection: 'keep-alive',
-//             'Content-Type': 'multipart/form-data',
-//             Cookie: cookie,
-//             Origin: 'https://fanyi.youdao.com',
-//             Referer: 'https://fanyi.youdao.com/',
-//             'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-//             'sec-ch-ua-mobile': '?0',
-//             'sec-ch-ua-platform': '"Windows"',
-//             'Sec-Fetch-Dest': 'empty',
-//             'Sec-Fetch-Mode': 'cors',
-//             'Sec-Fetch-Site': 'same-site',
-//             'User-Agent': requestModule.getUserAgent(),
-//         }
-//     );
+//                 lang: option.from.includes('zh') ? 'zh' : option.from,
+//                 to: option.to.includes('zh') ? 'zh' : option.to,
+//             }),
+//             {
+//                 Accept: 'application/json, text/plain, */*',
+//                 'Accept-Encoding': 'gzip, deflate, br',
+//                 'Accept-Language': 'zh-TW,zh;q=0.9',
+//                 Connection: 'keep-alive',
+//                 'Content-Type': 'multipart/form-data',
+//                 Cookie: cookie,
+//                 Origin: 'https://fanyi.youdao.com',
+//                 Referer: 'https://fanyi.youdao.com/',
+//                 'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+//                 'sec-ch-ua-mobile': '?0',
+//                 'sec-ch-ua-platform': '"Windows"',
+//                 'Sec-Fetch-Dest': 'empty',
+//                 'Sec-Fetch-Mode': 'cors',
+//                 'Sec-Fetch-Site': 'same-site',
+//                 'User-Agent': requestModule.getUserAgent(),
+//             }
+//         )
+//         .then(console.log)
+//         .catch(console.log);
 // }
 
 // to MD5 string

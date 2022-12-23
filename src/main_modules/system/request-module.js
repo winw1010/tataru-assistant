@@ -3,6 +3,18 @@
 // net
 const { net } = require('electron');
 
+// restricted headers
+const restrictedHeaders = [
+    'Content-Length',
+    'Host',
+    'Trailer',
+    'Te',
+    'Upgrade',
+    'Cookie2',
+    'Keep-Alive',
+    'Transfer-Encoding',
+];
+
 // get
 function get(options, headers = {}, timeout = 15000) {
     return netRequest('GET', options, null, headers, timeout, 'data');
@@ -20,10 +32,17 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
     const request = net.request(options);
 
     // set headers
-    const headersNames = Object.getOwnPropertyNames(headers);
-    for (let index = 0; index < headersNames.length; index++) {
-        const headersName = headersNames[index];
-        request.setHeader(headersName, headers[headersName]);
+    const headersName = Object.getOwnPropertyNames(headers);
+    for (let index = 0; index < headersName.length; index++) {
+        const headerName = headersName[index];
+
+        if (!restrictedHeaders.includes(headerName)) {
+            if (headerName === 'Connection' && headers[headerName] === 'upgrade') {
+                continue;
+            } else {
+                request.setHeader(headerName, headers[headerName]);
+            }
+        }
     }
 
     // return promise

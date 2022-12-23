@@ -26,6 +26,10 @@ const r = 'fanyideskweb',
     d = 'web',
     u = 'fanyi.web';
 
+// decode
+const decodeKey = 'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl';
+const decodeIv = 'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4';
+
 // exec
 async function exec(option) {
     try {
@@ -139,15 +143,10 @@ async function translate(cookie, authentication, option) {
     );
 
     if (response) {
-        const jsonString = decodeData(
-            response,
-            'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl',
-            'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4'
-        );
+        const jsonString = decodeData(response);
+        const data = JSON.parse(jsonString);
 
         console.log('json string:', jsonString);
-
-        const data = JSON.parse(jsonString);
 
         if (data?.translateResult?.[0]) {
             // getKeyword(option);
@@ -241,7 +240,7 @@ function createParams(key) {
 }
 
 // decode data
-function decodeData(responseString, decodeKey, decodeIv) {
+function decodeData(responseString) {
     if (!responseString) return null;
     const a = Buffer.alloc(16, toMD5Buffer(decodeKey)), // decodeKey of app.********.js
         r = Buffer.alloc(16, toMD5Buffer(decodeIv)), // decodeIv of app.********.js

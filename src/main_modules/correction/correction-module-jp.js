@@ -395,6 +395,7 @@ function createName(katakanaName) {
     let tempName = cf.replaceText(katakanaName, chArray.combine);
     tempName = tempName.replace(/^ルル/, '路路');
     tempName = tempName.replace(/^ル/, '路');
+    tempName = tempName.replace(/^ア/, '阿');
 
     return cf.replaceText(tempName, chArray.chName);
 }

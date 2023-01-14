@@ -187,9 +187,12 @@ async function nameCorrection(name, translation) {
     }
 
     // same check
-    const target = cf.sameAsArrayItem(name, chArray.combine);
-    if (target) {
-        return target[0][1];
+    const target1 = cf.sameAsArrayItem(name, chArray.combine);
+    const target2 = cf.sameAsArrayItem(name + '#', chArray.combine);
+    if (target1) {
+        return target1[0][1];
+    } else if (target2) {
+        return target2[0][1].replaceAll('#', '');
     } else {
         // code
         const codeResult = cfen.replaceTextByCode(name, chArray.combine);

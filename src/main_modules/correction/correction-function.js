@@ -442,6 +442,9 @@ function combineArrayWithTemp(temp, ...args) {
             const element = tempIgnoreIndex[index];
             temp.splice(element, 1);
         }
+
+        // write temp
+        fileModule.jsonWriter(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp);
     }
 
     // clear combine array

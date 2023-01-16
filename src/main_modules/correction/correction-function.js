@@ -415,12 +415,22 @@ function combineArrayWithTemp(temp, ...args) {
     // search same element
     const combine0 = combine.map((x) => x[0]);
     temp.forEach((tempElement, tempIndex) => {
-        const targetIndex = combine0.indexOf(tempElement[0]);
-        if (targetIndex >= 0) {
+        const targetIndex1 = combine0.indexOf(tempElement[0]);
+        const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
+
+        if (targetIndex1 >= 0) {
             if (tempElement[2] === 'temp') {
                 tempIgnoreIndex.push(tempIndex);
             } else {
-                combineIgnoreIndex.push(targetIndex);
+                combineIgnoreIndex.push(targetIndex1);
+            }
+        }
+
+        if (targetIndex2 >= 0) {
+            if (tempElement[2] === 'temp') {
+                tempIgnoreIndex.push(tempIndex);
+            } else {
+                combineIgnoreIndex.push(targetIndex2);
             }
         }
     });

@@ -58,9 +58,9 @@ function detectUserLanguage() {
         const env = process.env;
         const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
 
-        if (/zh_TW|zh_HK|zh_MO|zh_CHT|zh_Hant/i.test(envLanguage)) {
+        if (/zh_(TW|HK|MO|CHT|Hant)/i.test(envLanguage)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh_CN|zh_SG|zh_CHS|zh_Hans/i.test(envLanguage)) {
+        } else if (/zh_(CN|SG|CHS|Hans)/i.test(envLanguage)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';

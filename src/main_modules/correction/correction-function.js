@@ -443,7 +443,7 @@ function combineArrayWithTemp(temp, ...args) {
             temp.splice(element, 1);
         }
 
-        // write temp
+        // update temp
         fileModule.jsonWriter(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp);
     }
 

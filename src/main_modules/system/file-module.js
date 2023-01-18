@@ -64,7 +64,10 @@ function jsonReader(filePath = './', returnArray = true) {
 // json writer
 function jsonWriter(filePath = './', data = []) {
     try {
-        fs.writeFileSync(filePath, JSON.stringify(data, null, '\t'));
+        fs.writeFileSync(
+            filePath,
+            JSON.stringify(data).replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]')
+        );
     } catch (error) {
         console.log(error);
     }

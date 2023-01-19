@@ -50,3 +50,16 @@ npm run dist
 3. 進入安裝目錄下的 app-0.9.106 資料夾，將裡面的 TataruHelper.exe 取代為 Tataru Helper Node 專案裡的 src/\_Tataru_Helper/Release 裡的 TataruHelper.exe 即可和 Tataru Helper Node 連動
 
 註：在第 3 步驟中你也可以使用 Tararu Helper 原始碼專案產生的 TataruHelper.exe 來覆蓋原始檔案
+
+## License
+[MIT](https://github.com/winw1010/tataru-helper-node-v2/blob/main/LICENSE)
+
+## Credits
+[NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
+[Electron](https://www.electronjs.org/)
+[@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
+[crypto-js](https://github.com/brix/crypto-js)
+[download](https://github.com/kevva/download)
+[sharp](https://github.com/lovell/sharp)
+[temp](https://github.com/bruce/node-temp)
+[tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)

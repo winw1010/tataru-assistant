@@ -62,11 +62,15 @@ function jsonReader(filePath = './', returnArray = true) {
 }
 
 // json writer
-function jsonWriter(filePath = './', data = []) {
+function jsonWriter(filePath = './', data = null) {
     try {
+        let dataString = JSON.stringify(data);
+
         fs.writeFileSync(
             filePath,
-            JSON.stringify(data).replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]')
+            dataString.includes('{')
+                ? JSON.stringify(data, null, '\t')
+                : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]')
         );
     } catch (error) {
         console.log(error);

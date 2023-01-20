@@ -71,6 +71,8 @@ function setButton() {
         document.getElementById('div_audio').innerHTML = '';
 
         if (document.getElementById('textarea_original_text').value.trim() !== '') {
+            //startNodeTranslation(document.getElementById('textarea_original_text').value); // node translation
+
             // set engine
             const engine = document.getElementById('select_engine').value;
 
@@ -106,6 +108,29 @@ function setButton() {
         }
     };
 }
+
+/*
+function startNodeTranslation(text) {
+    const config = ipcRenderer.sendSync('get-config');
+
+    let dialogData = {
+        id: null,
+        playerName: '',
+        code: '003D',
+        name: '',
+        text: text,
+        timestamp: null,
+    };
+
+    let translation = config.translation;
+    translation.from = document.getElementById('select_from').value;
+    translation.fromPlayer = document.getElementById('select_from').value;
+    translation.to = document.getElementById('select_to').value;
+    translation.engine = document.getElementById('select_engine').value;
+
+    ipcRenderer.send('start-translation', dialogData, translation);
+}
+*/
 
 // get audio html
 function getAudioHtml(text, language) {

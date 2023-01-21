@@ -15,3 +15,7 @@ body {
     word-wrap: break-word;
     font-size: large;
 }
+
+#checkbox_text_fix {
+    margin-left: 0.7rem;
+}

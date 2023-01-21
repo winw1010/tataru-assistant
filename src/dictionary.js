@@ -71,37 +71,40 @@ function setButton() {
         document.getElementById('div_audio').innerHTML = '';
 
         if (document.getElementById('textarea_original_text').value.trim() !== '') {
-            //startNodeTranslation(document.getElementById('textarea_original_text').value); // node translation
+            if (document.getElementById('checkbox_text_fix').checked) {
+                // node translation
+                startNodeTranslation(document.getElementById('textarea_original_text').value);
+            } else {
+                // set engine
+                const engine = document.getElementById('select_engine').value;
 
-            // set engine
-            const engine = document.getElementById('select_engine').value;
+                // set option
+                const option = ipcRenderer.sendSync(
+                    'get-translate-option',
+                    engine,
+                    document.getElementById('select_from').value,
+                    document.getElementById('select_to').value,
+                    document.getElementById('textarea_original_text').value
+                );
 
-            // set option
-            const option = ipcRenderer.sendSync(
-                'get-translate-option',
-                engine,
-                document.getElementById('select_from').value,
-                document.getElementById('select_to').value,
-                document.getElementById('textarea_original_text').value
-            );
-
-            // translate
-            ipcRenderer
-                .invoke('get-translation', engine, option)
-                .then((translatedText) => {
-                    // show translated text
-                    if (translatedText !== '') {
-                        document.getElementById('span_translated_text').innerText = translatedText;
-                        document.getElementById('div_audio').innerHTML = getAudioHtml(
-                            translatedText,
-                            document.getElementById('select_to').value
-                        );
-                    } else {
-                        document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
-                        document.getElementById('div_audio').innerHTML = '';
-                    }
-                })
-                .catch(console.log);
+                // translate
+                ipcRenderer
+                    .invoke('get-translation', engine, option)
+                    .then((translatedText) => {
+                        // show translated text
+                        if (translatedText !== '') {
+                            document.getElementById('span_translated_text').innerText = translatedText;
+                            document.getElementById('div_audio').innerHTML = getAudioHtml(
+                                translatedText,
+                                document.getElementById('select_to').value
+                            );
+                        } else {
+                            document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
+                            document.getElementById('div_audio').innerHTML = '';
+                        }
+                    })
+                    .catch(console.log);
+            }
         } else {
             document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
             document.getElementById('div_audio').innerHTML = '';
@@ -109,7 +112,6 @@ function setButton() {
     };
 }
 
-/*
 function startNodeTranslation(text) {
     const config = ipcRenderer.sendSync('get-config');
 
@@ -130,7 +132,6 @@ function startNodeTranslation(text) {
 
     ipcRenderer.send('start-translation', dialogData, translation);
 }
-*/
 
 // get audio html
 function getAudioHtml(text, language) {

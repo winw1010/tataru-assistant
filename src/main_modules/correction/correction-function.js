@@ -215,7 +215,9 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         array = clearArray(array);
 
         // sort
-        array = sortArray(array);
+        if (name != 'chTemp.json') {
+            array = sortArray(array);
+        }
 
         // log array
         // console.log(`Read ${finalPath}. (length: ${array.length})`);
@@ -400,16 +402,16 @@ function sortArray(array) {
 
 // combine array
 function combineArray(...args) {
-    return [].concat(...args);
+    return sortArray([].concat(...args));
 }
 
 // combine array with temp
 function combineArrayWithTemp(temp, ...args) {
-    // remove index
+    // ignore index
     let tempIgnoreIndex = [];
     let combineIgnoreIndex = [];
 
-    // combine without temp
+    // combine array
     let combine = combineArray(...args);
 
     // search same element
@@ -456,11 +458,10 @@ function combineArrayWithTemp(temp, ...args) {
         }
     }
 
-    // combine temp
+    // sub temp
     temp = temp.map((x) => [x[0], x[1]]);
-    combine = combineArray(temp, combine);
 
-    return sortArray(combine);
+    return combineArray(temp, combine);
 }
 
 // module exports

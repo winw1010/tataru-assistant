@@ -167,8 +167,8 @@ async function translateImageText(text) {
     }
 }
 
-// get path
-function getPath(fileName) {
+// get image path
+function getImagePath(fileName) {
     return fileModule.getPath(tempImagePath, fileName);
 }
 
@@ -183,7 +183,7 @@ function deleteImages() {
 
     images.forEach((value) => {
         try {
-            fileModule.fileDeleter(getPath(value));
+            fileModule.fileDeleter(getImagePath(value));
         } catch (error) {
             console.log(error);
         }

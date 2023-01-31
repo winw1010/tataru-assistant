@@ -21,9 +21,6 @@ const engineModule = require('./engine-module');
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
 
-// temp image path
-const tempImagePath = fileModule.getUserDataPath('image');
-
 // data path
 const dataPath = fileModule.getRootPath('src', 'data');
 
@@ -167,12 +164,7 @@ async function translateImageText(text) {
     }
 }
 
-// get image path
-function getImagePath(fileName) {
-    return fileModule.getPath(tempImagePath, fileName);
-}
-
-// get path
+// get data path
 function getDataPath(fileName) {
     return fileModule.getPath(dataPath, fileName);
 }
@@ -183,7 +175,7 @@ function deleteImages() {
 
     images.forEach((value) => {
         try {
-            fileModule.fileDeleter(getImagePath(value));
+            fileModule.fileDeleter(getDataPath(value));
         } catch (error) {
             console.log(error);
         }

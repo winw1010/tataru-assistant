@@ -19,8 +19,8 @@ const textDetectModule = require('./text-detect-module');
 // window module
 const windowModule = require('./window-module');
 
-// temp image path
-const tempImagePath = fileModule.getUserDataPath('image');
+// data path
+const dataPath = fileModule.getRootPath('src', 'data');
 
 // start recognize
 async function startRecognize(rectangleSize, displayBounds, displayIndex) {
@@ -38,12 +38,12 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex) {
         try {
             imagePath = await screenshotModule({
                 screen: displays[displayIndex].id,
-                filename: getPath('screenshot.png'),
+                filename: getDataPath('screenshot.png'),
                 format: 'png',
             });
         } catch (error) {
             imagePath = await screenshotModule({
-                filename: getPath('screenshot.png'),
+                filename: getDataPath('screenshot.png'),
                 format: 'png',
             });
         }
@@ -82,13 +82,13 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop
-        fileModule.imageWriter(getPath('crop.png'), imageBuffer);
+        fileModule.imageWriter(getDataPath('crop.png'), imageBuffer);
 
         // start reconize
         windowModule.sendIndex('show-notification', '正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            textDetectModule.googleVision(getPath('crop.png'));
+            textDetectModule.googleVision(getDataPath('crop.png'));
         } else {
             // tesseract ocr
             textDetectModule.tesseractOCR(await fixImage(imageBuffer));
@@ -156,9 +156,9 @@ function hsp(dominant) {
     return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
 
-// get path
-function getPath(fileName) {
-    return fileModule.getPath(tempImagePath, fileName);
+// get data path
+function getDataPath(fileName) {
+    return fileModule.getPath(dataPath, fileName);
 }
 
 // module exports

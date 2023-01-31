@@ -45,13 +45,8 @@
             ]
         },
         "nsis": {
-            "oneClick": false,
-            "perMachine": false,
-            "allowElevation": false,
-            "packElevateHelper": false,
             "createStartMenuShortcut": true,
-            "createDesktopShortcut": "always",
-            "allowToChangeInstallationDirectory": true
+            "createDesktopShortcut": "always"
         }
     }
 }

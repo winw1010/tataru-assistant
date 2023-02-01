@@ -134,12 +134,12 @@ function getExpiryDate() {
 
 // get sec-ch-ua
 function getSCU() {
-    return '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"';
+    return '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"';
 }
 
 // get user agent
 function getUserAgent() {
-    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36';
 }
 
 // to parameters

@@ -70,7 +70,11 @@ function jsonWriter(filePath = './', data = null) {
             filePath,
             dataString.includes('{')
                 ? JSON.stringify(data, null, '\t')
-                : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]')
+                : dataString
+                      .replaceAll('[[', '[\r\n\t[')
+                      .replaceAll('],', '],\r\n\t')
+                      .replaceAll(']]', ']\r\n]')
+                      .replaceAll('","', '", "')
         );
     } catch (error) {
         console.log(error);

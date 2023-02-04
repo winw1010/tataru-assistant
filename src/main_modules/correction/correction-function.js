@@ -414,7 +414,7 @@ function combineArrayWithTemp(temp, ...args) {
     // combine array
     let combine = combineArray(...args);
 
-    // search same element
+    // search same name and delete it
     const combine0 = combine.map((x) => x[0]);
     temp.forEach((tempElement, tempIndex) => {
         const targetIndex1 = combine0.indexOf(tempElement[0]);
@@ -448,7 +448,7 @@ function combineArrayWithTemp(temp, ...args) {
         }
     });
 
-    // clear temp array
+    // delete name from temp
     if (tempIgnoreIndex.length > 0) {
         tempIgnoreIndex.sort((a, b) => b - a);
         for (let index = 0; index < tempIgnoreIndex.length; index++) {
@@ -460,7 +460,7 @@ function combineArrayWithTemp(temp, ...args) {
         fileModule.jsonWriter(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp);
     }
 
-    // clear combine array
+    // delete name from combine
     if (combineIgnoreIndex.length > 0) {
         combineIgnoreIndex.sort((a, b) => b - a);
         for (let index = 0; index < combineIgnoreIndex.length; index++) {

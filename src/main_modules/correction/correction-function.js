@@ -423,8 +423,10 @@ function combineArrayWithTemp(temp, ...args) {
         // delete name
         if (targetIndex1 >= 0) {
             if (tempElement[2] === 'temp') {
+                // from temp
                 if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
             } else {
+                // from combine
                 if (!combineIgnoreIndex.includes(targetIndex1)) combineIgnoreIndex.push(targetIndex1);
             }
         }
@@ -432,13 +434,15 @@ function combineArrayWithTemp(temp, ...args) {
         // delete name#
         if (targetIndex2 >= 0) {
             if (tempElement[2] === 'temp') {
+                // from temp
                 if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
             } else {
+                // from combine
                 if (!combineIgnoreIndex.includes(targetIndex2)) combineIgnoreIndex.push(targetIndex2);
             }
         }
 
-        // delete name which length < 3
+        // delete name from temp which length < 3
         if (tempElement[0].length < 3) {
             if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
         }

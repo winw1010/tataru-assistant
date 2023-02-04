@@ -420,20 +420,27 @@ function combineArrayWithTemp(temp, ...args) {
         const targetIndex1 = combine0.indexOf(tempElement[0]);
         const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
 
+        // delete name
         if (targetIndex1 >= 0) {
             if (tempElement[2] === 'temp') {
-                tempIgnoreIndex.push(tempIndex);
+                if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
             } else {
-                combineIgnoreIndex.push(targetIndex1);
+                if (!combineIgnoreIndex.includes(targetIndex1)) combineIgnoreIndex.push(targetIndex1);
             }
         }
 
+        // delete name#
         if (targetIndex2 >= 0) {
             if (tempElement[2] === 'temp') {
-                tempIgnoreIndex.push(tempIndex);
+                if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
             } else {
-                combineIgnoreIndex.push(targetIndex2);
+                if (!combineIgnoreIndex.includes(targetIndex2)) combineIgnoreIndex.push(targetIndex2);
             }
+        }
+
+        // delete name which length < 3
+        if (tempElement[0].length < 3) {
+            if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
         }
     });
 

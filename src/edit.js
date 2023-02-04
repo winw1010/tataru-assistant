@@ -289,7 +289,7 @@ function showText() {
 
 function addTemp(textBefore, textAfter, type, array) {
     const list = ['jp', 'overwrite', 'player', 'retainer'];
-    if (textBefore.length < 3 && !list.includes(type) && allKana.test(textBefore)) {
+    if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 
@@ -307,7 +307,7 @@ function deleteTemp(textBefore, type, array) {
     const list = ['jp', 'overwrite', 'player', 'retainer'];
     let count = 0;
 
-    if (textBefore.length < 3 && !list.includes(type) && allKana.test(textBefore)) {
+    if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 

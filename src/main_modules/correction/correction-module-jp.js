@@ -138,9 +138,6 @@ async function startCorrection(dialogData, translation) {
         // append blank dialog
         windowModule.sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
 
-        // save player name
-        //savePlayerName(dialogData.playerName);
-
         // name translation
         let translatedName = '';
         if (cfjp.isChinese(dialogData.name, translation)) {
@@ -187,29 +184,6 @@ async function startCorrection(dialogData, translation) {
         windowModule.sendIndex('update-dialog', dialogData.id, 'Error', error, dialogData, translation);
     }
 }
-
-/*
-function savePlayerName(playerName) {
-    if (playerName !== '' && playerName.includes(' ')) {
-        if (!chArray.player.length > 0 || chArray.player[0][0] !== playerName) {
-            const firstName = playerName.split(' ')[0];
-            const lastName = playerName.split(' ')[1];
-
-            chArray.player = [
-                [playerName, playerName],
-                [firstName, firstName],
-                [lastName, lastName],
-            ];
-
-            // set combine
-            chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-            // write
-            cf.writeJSON(tempLocation, 'player.json', chArray.player);
-        }
-    }
-}
-*/
 
 async function nameCorrection(name, translation) {
     if (name === '') {

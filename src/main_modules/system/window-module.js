@@ -188,7 +188,16 @@ function getWindowSize(windowName, config) {
         case 'config': {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.22);
-            height = parseInt(displayBounds.height * 0.65);
+            height = parseInt(displayBounds.height * 0.7);
+            x = getNearX(indexBounds, width);
+            y = getNearY(indexBounds, height);
+            break;
+        }
+
+        case 'dictionary': {
+            const indexBounds = windowList['index'].getBounds();
+            width = parseInt(displayBounds.width * 0.3);
+            height = parseInt(displayBounds.height * 0.6);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
             break;
@@ -203,19 +212,19 @@ function getWindowSize(windowName, config) {
             break;
         }
 
-        case 'read-log': {
+        case 'player-edit': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.2);
-            height = parseInt(displayBounds.height * 0.22);
+            width = parseInt(displayBounds.width * 0.3);
+            height = parseInt(displayBounds.height * 0.55);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
             break;
         }
 
-        case 'dictionary': {
+        case 'read-log': {
             const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.3);
-            height = parseInt(displayBounds.height * 0.6);
+            width = parseInt(displayBounds.width * 0.2);
+            height = parseInt(displayBounds.height * 0.22);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
             break;

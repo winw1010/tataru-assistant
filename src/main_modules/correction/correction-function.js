@@ -6,6 +6,9 @@ const { readdirSync } = require('fs');
 // file module
 const fileModule = require('../system/file-module');
 
+// kana character
+const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+
 // skip check
 function skipCheck(code, name, text, ignoreArray) {
     return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
@@ -372,7 +375,7 @@ function clearArray(array) {
         // not 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element.includes('//comment')) {
+            if (element.includes('//comment') || element === '' || element === 'N/A') {
                 array.splice(index, 1);
             }
         }
@@ -443,7 +446,7 @@ function combineArrayWithTemp(temp, ...args) {
         }
 
         // delete name from temp which length < 3
-        if (tempElement[0].length < 3) {
+        if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allKana.test(tempElement[0]))) {
             if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
         }
     });

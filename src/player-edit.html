@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tataru Node UI</title>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
+        /> -->
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+
+        <!-- main Style -->
+        <link rel="stylesheet" href="css/main.css" />
+
+        <!-- config Style -->
+        <link rel="stylesheet" href="css/player-edit.css" />
+
+        <!-- script -->
+        <script src="./renderer_modules/function-module.js"></script>
+        <script src="./renderer_modules/drag-module.js"></script>
+        <script src="./renderer_modules/ui-module.js"></script>
+    </head>
+
+    <body>
+        <!-- image button -->
+        <div id="div_upper_button">
+            <img
+                id="img_button_drag"
+                class="img_button auto_hidden"
+                title="拖曳視窗"
+                src="./img/ui/open_with_white_24dp.svg"
+            />
+
+            <span id="span_player_edit">編輯玩家名稱</span>
+
+            <img
+                id="img_button_close"
+                class="img_button float_right"
+                title="關閉"
+                src="./img/ui/close_white_24dp.svg"
+            />
+        </div>
+
+        <div id="div_center">
+            <div>
+                <span id="span_player_edit_info1">空白 = 無 & 刪除</span>
+            </div>
+
+            <br />
+
+            <div>
+                <span id="span_player_edit_info2">
+                    FFXIV語言為「英文」時的注意事項:<br />
+                    填入的名字將成為保留字不會被翻譯機翻譯，為確保翻譯機不出錯，若您的角色和雇員名字並非英語人名，請維持空白不要填寫
+                </span>
+            </div>
+
+            <br />
+
+            <table>
+                <tr>
+                    <td><span id="span_player_name">玩家名稱:</span></td>
+                    <td><input type="text" name="" id="input_text_player_first_name" /></td>
+                    <td><input type="text" name="" id="input_text_player_last_name" /></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name0">雇員1:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name0" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name1">雇員2:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name1" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name2">雇員3</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name2" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name3">雇員4:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name3" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name4">雇員5:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name4" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name5">雇員6:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name5" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name6">雇員7:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name6" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name7">雇員8:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name7" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name8">雇員9:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name8" /></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><span id="span_retainer_name9">雇員10:</span></td>
+                    <td><input type="text" name="" id="input_text_retainer_name9" /></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <div id="div_lower_button">
+                <button id="button_save_player" class="btn btn-primary float_right">儲存設定</button>
+            </div>
+        </div>
+    </body>
+</html>

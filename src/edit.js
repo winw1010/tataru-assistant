@@ -3,7 +3,7 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Japanese character
+// kana character
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // file module

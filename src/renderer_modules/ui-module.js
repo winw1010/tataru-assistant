@@ -90,7 +90,7 @@ onDocumentReady(() => {
             checkbox_skip_system: ['忽略常見系統訊息', '忽略常见系统讯息'],
             checkbox_skip_chinese: ['忽略漢化字幕', '忽略汉化字幕'],
             select_engine: ['翻譯引擎', '翻译引擎'],
-            select_from: ['遊戲語言', '游戏语言'],
+            select_from: ['FFXIV語言', 'FFXIV语言'],
             select_from_player: ['玩家頻道語言', '玩家频道语言'],
             select_to: ['翻譯語言', '翻译语言'],
 
@@ -143,10 +143,11 @@ onDocumentReady(() => {
         },
         span: {
             // window title
-            span_config: ['設定', '设定'],
             span_capture_edit: ['編輯擷取文字', '编辑撷取文字'],
+            span_config: ['設定', '设定'],
             span_dictionary: ['翻譯查詢', '翻译查询'],
             span_edit: ['重新翻譯 & 自訂翻譯', '重新翻译 & 自订翻译'],
+            span_player_edit: ['編輯玩家名稱', '编辑玩家名称'],
             span_read_log: ['讀取對話紀錄', '读取对话纪录'],
 
             // config
@@ -155,6 +156,24 @@ onDocumentReady(() => {
                 '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',
             ],
             span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
+
+            // player-edit
+            span_player_edit_info1: ['空白 = 無 & 刪除', '空白 = 无 & 删除'],
+            span_player_edit_info2: [
+                'FFXIV語言為「英文」時的注意事項:<br />填入的名字將成為保留字不會被翻譯機翻譯，為確保翻譯機不出錯，若您的角色和雇員名字並非英語人名，請維持空白不要填寫',
+                'FFXIV语言为「英文」时的注意事项:<br />填入的名字将成为保留字不会被翻译机翻译，为确保翻译机不出错，若您的角色和雇员名字并非英语人名，请维持空白不要填写',
+            ],
+            span_player_name: ['玩家名稱:', '玩家名称:'],
+            span_retainer_name0: ['雇員1:', '雇员1:'],
+            span_retainer_name1: ['雇員2:', '雇员2:'],
+            span_retainer_name2: ['雇員3:', '雇员3:'],
+            span_retainer_name3: ['雇員4:', '雇员4:'],
+            span_retainer_name4: ['雇員5:', '雇员5:'],
+            span_retainer_name5: ['雇員6:', '雇员6:'],
+            span_retainer_name6: ['雇員7:', '雇员7:'],
+            span_retainer_name7: ['雇員8:', '雇员8:'],
+            span_retainer_name8: ['雇員9:', '雇员9:'],
+            span_retainer_name9: ['雇員10:', '雇员10:'],
         },
         input: {
             // config

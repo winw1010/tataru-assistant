@@ -188,7 +188,7 @@ function getWindowSize(windowName, config) {
         case 'config': {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.22);
-            height = parseInt(displayBounds.height * 0.7);
+            height = parseInt(displayBounds.height * 0.65);
             x = getNearX(indexBounds, width);
             y = getNearY(indexBounds, height);
             break;

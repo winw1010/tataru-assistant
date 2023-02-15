@@ -463,6 +463,10 @@ function specialTextFix(name, text) {
         text = text.replace(/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$2');
     }
 
+    if (loopCount > 1) {
+        text = '……' + text;
+    }
+
     loopCount = 0;
     while (
         /([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) &&

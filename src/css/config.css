@@ -22,3 +22,7 @@ input[type='number'] {
     padding-bottom: 4rem;
     height: 75vh;
 }
+
+#div_channel_list td {
+    padding: 0.2rem;
+}

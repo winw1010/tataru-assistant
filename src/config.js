@@ -389,6 +389,9 @@ function saveConfig() {
     // reset app
     resetApp(config);
 
+    // reset config
+    showConfig();
+
     // notification
     ipcRenderer.send('send-index', 'show-notification', '設定已儲存');
 }
@@ -404,17 +407,17 @@ function saveDefaultConfig() {
     // reset app
     resetApp(config);
 
-    // notification
-    ipcRenderer.send('send-index', 'show-notification', '已套用預設值');
-
     // reset config
     showConfig();
+
+    // notification
+    ipcRenderer.send('send-index', 'show-notification', '已恢復預設值');
 }
 
 // load channel
 function loadChannel(config, chatCode) {
-    const channel = document.getElementById('div_channel');
-    let newInnerHTML = '';
+    const channel = document.getElementById('div_channel_list');
+    let newInnerHTML = '<hr />';
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
@@ -447,7 +450,7 @@ function loadChannel(config, chatCode) {
                         <td></td>
                         <td>
                             <input type="color" value="${color}" id="${colorId}" />
-                            <span id="${spanId}">${color}</span>
+                            <span id="${spanId}" style="color:${color};">${color}</span>
                         </td>
                     </tr>
                 </table>
@@ -465,6 +468,7 @@ function loadChannel(config, chatCode) {
         const channelSpan = document.getElementById(`span_${element.ChatCode}_color`);
 
         channelColor.oninput = () => {
+            channelSpan.style.color = channelColor.value.toString();
             channelSpan.innerText = channelColor.value.toString().toUpperCase();
         };
     }

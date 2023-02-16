@@ -14,6 +14,10 @@ a:hover {
     text-decoration: underline;
 }
 
+table td {
+    padding: 0.5rem;
+}
+
 select {
     padding: 0.2rem;
 }

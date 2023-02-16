@@ -22,7 +22,7 @@ onDocumentReady(() => {
         },
         button: {
             // config
-            button_save_config: ['儲存變更', '储存变更'],
+            button_save_config: ['儲存設定', '储存设定'],
             button_save_default_config: ['恢復預設值', '恢复预设值'],
 
             button_download_json: ['下載翻譯對照表', '下载翻译对照表'],
@@ -73,8 +73,8 @@ onDocumentReady(() => {
             checkbox_top: ['顯示在最上層', '显示在最上层'],
             checkbox_focusable: ['可被選取', '可被选取'],
             checkbox_shortcut: ['啟用快捷鍵', '启用快捷键'],
-            checkbox_hide_button: ['隱藏按鈕', '隐藏按钮'],
-            checkbox_hide_dialog: ['秒後隱藏對話', '秒后隐藏对话'],
+            checkbox_hide_button: ['自動隱藏按鈕', '自动隐藏按钮'],
+            checkbox_hide_dialog: ['秒後隱藏視窗', '秒后隐藏视窗'],
             color_background_color: ['背景顏色', '背景颜色'],
             range_background_transparency: ['背景透明度', '背景透明度'],
 
@@ -151,6 +151,7 @@ onDocumentReady(() => {
             span_read_log: ['讀取對話紀錄', '读取对话纪录'],
 
             // config
+            span_channel_comment: ['使用滑鼠滾輪檢視頻道清單', '使用鼠标滚轮检视频道清单'],
             span_about: [
                 '感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能',
                 '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',

@@ -110,7 +110,7 @@
                     <!-- hide dialog -->
                     <input type="checkbox" value="" id="checkbox_hide_dialog" />
                     <input type="number" id="input_hide_dialog" min="1" step="1" value="20" />
-                    <label for="checkbox_hide_dialog">秒後隱藏對話</label>
+                    <label for="checkbox_hide_dialog">秒後隱藏視窗</label>
                 </div>
 
                 <br />
@@ -192,7 +192,10 @@
             </div>
 
             <!-- channel page -->
-            <div id="div_channel" class="setting_page" hidden></div>
+            <div id="div_channel" class="setting_page" hidden>
+                <div><span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span></div>
+                <div id="div_channel_list"></div>
+            </div>
 
             <!-- translation page -->
             <div id="div_translation" class="setting_page" hidden>
@@ -235,49 +238,63 @@
                 <br />
 
                 <div>
-                    <!-- select translator -->
-                    <label for="select_engine">翻譯引擎</label><br />
-                    <select id="select_engine">
-                        <option value="Youdao" selected>有道翻譯</option>
-                        <option value="Baidu">百度翻譯</option>
-                        <option value="Caiyun">彩雲小譯</option>
-                        <option value="Papago">Papago</option>
-                        <option value="DeepL">DeepL</option>
-                        <!-- <option value="Google">Google</option> -->
-                    </select>
-                </div>
+                    <table>
+                        <!-- select translator -->
+                        <tr>
+                            <td>
+                                <label for="select_engine">翻譯引擎</label>
+                            </td>
+                            <td>
+                                <select id="select_engine">
+                                    <option value="Youdao" selected>有道翻譯</option>
+                                    <option value="Baidu">百度翻譯</option>
+                                    <option value="Caiyun">彩雲小譯</option>
+                                    <option value="Papago">Papago</option>
+                                    <option value="DeepL">DeepL</option>
+                                    <!-- <option value="Google">Google</option> -->
+                                </select>
+                            </td>
+                        </tr>
 
-                <br />
+                        <!-- select from -->
+                        <tr>
+                            <td>
+                                <label for="select_from">FFXIV語言</label>
+                            </td>
+                            <td>
+                                <select id="select_from">
+                                    <option value="Japanese" selected>日文</option>
+                                    <option value="English">英文</option>
+                                </select>
+                            </td>
+                        </tr>
 
-                <div>
-                    <!-- select from -->
-                    <label for="select_from">FFXIV語言</label><br />
-                    <select id="select_from">
-                        <option value="Japanese" selected>日文</option>
-                        <option value="English">英文</option>
-                    </select>
-                </div>
+                        <!-- select from player -->
+                        <tr>
+                            <td>
+                                <label for="select_from_player">玩家頻道語言</label>
+                            </td>
+                            <td>
+                                <select id="select_from_player">
+                                    <option value="Japanese" selected>日文</option>
+                                    <option value="English">英文</option>
+                                </select>
+                            </td>
+                        </tr>
 
-                <br />
-
-                <div>
-                    <!-- select from player -->
-                    <label for="select_from_player">玩家頻道語言</label><br />
-                    <select id="select_from_player">
-                        <option value="Japanese" selected>日文</option>
-                        <option value="English">英文</option>
-                    </select>
-                </div>
-
-                <br />
-
-                <div>
-                    <!-- select to -->
-                    <label for="select_to">翻譯語言</label><br />
-                    <select id="select_to">
-                        <option value="Traditional-Chinese" selected>繁體中文</option>
-                        <option value="Simplified-Chinese">簡體中文</option>
-                    </select>
+                        <!-- select to -->
+                        <tr>
+                            <td>
+                                <label for="select_to">翻譯語言</label>
+                            </td>
+                            <td>
+                                <select id="select_to">
+                                    <option value="Traditional-Chinese" selected>繁體中文</option>
+                                    <option value="Simplified-Chinese">簡體中文</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -329,11 +346,11 @@
                     <p><label for="input_text_hsot">Tataru Helper Node伺服器設定</label></p>
                     <table>
                         <tr>
-                            <td>Host:</td>
+                            <td>Host</td>
                             <td><input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" /></td>
                         </tr>
                         <tr>
-                            <td>Port:</td>
+                            <td>Port</td>
                             <td>
                                 <input
                                     type="number"
@@ -372,7 +389,7 @@
         </div>
 
         <div id="div_lower_button">
-            <button id="button_save_config" class="btn btn-primary float_right">儲存變更</button>
+            <button id="button_save_config" class="btn btn-primary float_right">儲存設定</button>
             <button id="button_save_default_config" class="btn btn-secondary float_right">恢復預設值</button>
         </div>
     </body>

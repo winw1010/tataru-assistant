@@ -59,7 +59,7 @@ async function tesseractOCR(imageBuffer) {
 
         if (!currentWoker) {
             // set worker
-            currentWoker = createWorker({
+            currentWoker = await createWorker({
                 langPath: getDataPath('tesseract'),
                 cacheMethod: 'none',
                 gzip: false,

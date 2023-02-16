@@ -193,14 +193,16 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
             }
 
             if (element[search].length > 2) {
-                if (text.includes('「' + convertKana(element[search], 'hira') + '」')) {
-                    text = text.replaceAll('「' + convertKana(element[search], 'hira') + '」', codeString[codeIndex]);
+                const hiraElement = convertKana(element[search], 'hira');
+
+                if (text.includes('「' + hiraElement + '」')) {
+                    text = text.replaceAll('「' + hiraElement + '」', codeString[codeIndex]);
                     table.push([codeString[codeIndex], '「' + element[replacement] + '」']);
                     codeIndex++;
                 }
 
-                if (text.includes('『' + convertKana(element[search], 'hira') + '』')) {
-                    text = text.replaceAll('『' + convertKana(element[search], 'hira') + '』', codeString[codeIndex]);
+                if (text.includes('『' + hiraElement + '』')) {
+                    text = text.replaceAll('『' + hiraElement + '』', codeString[codeIndex]);
                     table.push([codeString[codeIndex], '『' + element[replacement] + '』']);
                     codeIndex++;
                 }

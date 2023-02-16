@@ -99,7 +99,7 @@ onDocumentReady(() => {
             input_text_hsot: ['Tataru Helper Node伺服器設定', 'Tataru Helper Node服务器设定'],
 
             // capture
-            checkbox_split: ['換行分割', '换行分割'],
+            checkbox_split: ['換行切割', '换行切割'],
             checkbox_edit: ['編輯擷取文字', '编辑撷取文字'],
 
             // edit

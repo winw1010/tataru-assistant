@@ -284,6 +284,14 @@ function setCaptureChannel() {
 
 // set request channel
 function setRequestChannel() {
+    // set request config
+    ipcMain.on('set-request-config', (event, data) => {
+        let config = configModule.getConfig();
+        config.system.scu = data.scu;
+        config.system.userAgent = data.userAgent;
+        configModule.setConfig(config);
+    });
+
     // get latest verssion
     ipcMain.handle('get-latest-version', () => {
         return requestModule.get({

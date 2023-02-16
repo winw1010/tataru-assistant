@@ -3,6 +3,9 @@
 // net
 const { net } = require('electron');
 
+// config module
+const configModule = require('./config-module');
+
 // restricted headers
 const restrictedHeaders = [
     'Content-Length',
@@ -134,12 +137,16 @@ function getExpiryDate() {
 
 // get sec-ch-ua
 function getSCU() {
-    return '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"';
+    const scu = configModule.getConfig()?.system?.scu;
+    return scu ? scu : '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"';
 }
 
 // get user agent
 function getUserAgent() {
-    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36';
+    const userAgent = configModule.getConfig()?.system?.userAgent;
+    return userAgent
+        ? userAgent
+        : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
 }
 
 // to parameters

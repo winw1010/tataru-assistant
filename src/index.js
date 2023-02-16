@@ -303,9 +303,15 @@ async function versionCheck() {
     let notificationText = '';
 
     try {
-        const latestVersion = (await ipcRenderer.invoke('get-latest-version'))?.number;
+        // get version data
+        const data = await ipcRenderer.invoke('get-latest-version');
+        const latestVersion = data?.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
+        // set request config
+        ipcRenderer.send('set-request-config', data);
+
+        // compare app version
         if (appVersion === latestVersion) {
             document.getElementById('img_button_update').hidden = true;
             notificationText = '已安裝最新版本';

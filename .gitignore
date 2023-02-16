@@ -1,3 +1,4 @@
 build
 node_modules
+src/data/*.png
 src/json/text

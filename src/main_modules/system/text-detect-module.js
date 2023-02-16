@@ -102,7 +102,7 @@ function fixImageText(text) {
     const config = configModule.getConfig();
 
     // fix
-    if (config.translation.from !== 'Japanese') {
+    if (config.translation.from === engineModule.languageEnum.ja) {
         text = text.replaceAll('...', '…').replaceAll('・・・', '…').replaceAll('=', '＝');
     }
 

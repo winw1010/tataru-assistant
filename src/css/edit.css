@@ -12,6 +12,11 @@ body {
     width: 45vw;
 }
 
+.flex_right {
+    padding: 0.7rem;
+    border: 0.1rem white solid;
+}
+
 #div_center {
     padding: 0 0.7rem;
     padding-top: 4rem;

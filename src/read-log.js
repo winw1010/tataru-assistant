@@ -80,7 +80,7 @@ function readLogList() {
             let innerHTML = '';
             for (let index = 0; index < logs.length; index++) {
                 const log = logs[index];
-                innerHTML += `<option value="${log}">${log}</option>`;
+                innerHTML += `<option value="${log}">${log?.replace('.json', '')}</option>`;
             }
 
             select.innerHTML = innerHTML;

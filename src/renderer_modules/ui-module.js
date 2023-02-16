@@ -43,13 +43,13 @@ onDocumentReady(() => {
             button_read_json: ['重新讀取對照表', '重新读取对照表'],
             button_report_translation: ['回報翻譯錯誤', '回报翻译错误'],
 
-            button_save_temp: ['儲存自訂翻譯', '储存自订翻译'],
-            button_delete_temp: ['刪除自訂翻譯', '删除自订翻译'],
-            button_view_temp: ['檢視自訂翻譯', '检视自订翻译'],
+            button_save_temp: ['儲存', '储存'],
+            button_delete_temp: ['刪除', '删除'],
+            button_view_temp: ['檢視自訂翻譯檔案', '检视自订翻译档案'],
 
             // read log
             button_read_log: ['讀取', '读取'],
-            button_view_log: ['檢視對話紀錄', '检视对话纪录'],
+            button_view_log: ['檢視對話紀錄檔案', '检视对话纪录档案'],
         },
         a: {
             // config
@@ -146,7 +146,7 @@ onDocumentReady(() => {
             span_capture_edit: ['編輯擷取文字', '编辑撷取文字'],
             span_config: ['設定', '设定'],
             span_dictionary: ['翻譯查詢', '翻译查询'],
-            span_edit: ['重新翻譯 & 自訂翻譯', '重新翻译 & 自订翻译'],
+            span_edit: ['重新翻譯', '重新翻译'],
             span_player_edit: ['編輯玩家名稱', '编辑玩家名称'],
             span_read_log: ['讀取對話紀錄', '读取对话纪录'],
 
@@ -156,6 +156,9 @@ onDocumentReady(() => {
                 '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',
             ],
             span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
+
+            // edit
+            span_flex_right_title: ['新增自訂翻譯', '新增自订翻译'],
 
             // player-edit
             span_player_edit_info1: ['空白 = 無 & 刪除', '空白 = 无 & 删除'],

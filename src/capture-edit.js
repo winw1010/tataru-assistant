@@ -3,8 +3,8 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// temp image path
-const tempImagePath = ipcRenderer.sendSync('get-user-data-path', 'image');
+// data path
+const dataPath = ipcRenderer.sendSync('get-root-path', 'src', 'data');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -48,9 +48,7 @@ function setIPC() {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('checkbox_split').checked = config.captureWindow.split;
-    document
-        .getElementById('img_captured')
-        .setAttribute('src', ipcRenderer.sendSync('get-path', tempImagePath, 'crop.png'));
+    document.getElementById('img_captured').setAttribute('src', ipcRenderer.sendSync('get-path', dataPath, 'crop.png'));
 }
 
 // set event

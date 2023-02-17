@@ -24,9 +24,6 @@ const { correctionEntry } = require('../correction/correction-module');
 // data path
 const dataPath = fileModule.getRootPath('src', 'data');
 
-// current worker
-let currentWoker = null;
-
 // google vision
 async function googleVision(imagePath) {
     try {
@@ -56,63 +53,74 @@ async function googleVision(imagePath) {
 async function tesseractOCR(imageBuffer) {
     try {
         const config = configModule.getConfig();
-
-        if (!currentWoker) {
-            // set worker
-            currentWoker = await createWorker({
-                langPath: getDataPath('tesseract'),
-                cacheMethod: 'none',
-                gzip: false,
-            });
-
-            // load worker
-            await currentWoker.load();
-        }
+        const worker = await createWorker({
+            langPath: getDataPath('tesseract'),
+            cacheMethod: 'none',
+            gzip: false,
+        });
 
         // load language
         if (config.translation.from === engineModule.languageEnum.ja) {
-            await currentWoker.loadLanguage('jpn');
-            await currentWoker.initialize('jpn');
+            await worker.loadLanguage('jpn');
+            await worker.initialize('jpn');
         } else if (config.translation.from === engineModule.languageEnum.en) {
-            await currentWoker.loadLanguage('eng');
-            await currentWoker.initialize('eng');
+            await worker.loadLanguage('eng');
+            await worker.initialize('eng');
         }
 
         // recognize text
         const {
             data: { text },
-        } = await currentWoker.recognize(imageBuffer);
+        } = await worker.recognize(imageBuffer);
 
         // fix or error
-        if (text.trim().length !== 0) {
+        if (text.trim().length > 0) {
             fixImageText(text);
         } else {
-            windowModule.sendIndex('show-notification', '擷取文字為空白，請更換辨識模式');
+            windowModule.sendIndex('show-notification', '無法擷取文字，請重新擷取或更換辨識模式');
         }
+
+        // terminate worker
+        await worker.terminate();
     } catch (error) {
         console.log(error);
         windowModule.sendIndex('show-notification', '無法辨識圖片文字: ' + error);
-        currentWoker = null;
     }
 }
 
 // fix image text
 function fixImageText(text) {
+    console.log(text);
+
     // get config
     const config = configModule.getConfig();
 
-    // fix
+    // fix new line
+    text = text.replaceAll('\n\n', '\n');
+
+    // fix jp
     if (config.translation.from === engineModule.languageEnum.ja) {
-        text = text.replaceAll('...', '…').replaceAll('・・・', '…').replaceAll('=', '＝');
+        text = text
+            .replaceAll(' ', '')
+            .replaceAll('...', '…')
+            .replaceAll('..', '…')
+            .replaceAll('･･･', '…')
+            .replaceAll('･･', '…')
+            .replaceAll('・・・', '…')
+            .replaceAll('・・', '…')
+            .replaceAll('､', '、')
+            .replaceAll('?', '？')
+            .replaceAll('!', '！')
+            .replaceAll('~', '～')
+            .replaceAll(':', '：')
+            .replaceAll('=', '＝')
+            .replaceAll('『', '「')
+            .replaceAll('』', '」');
     }
 
+    // fix tesseract
     if (config.captureWindow.type !== 'google') {
-        if (config.translation.from === engineModule.languageEnum.ja) {
-            text = text.replaceAll(' ', '');
-        }
-
         text = text
-            .replaceAll('\n\n', '\n')
             .replaceAll('`', '「')
             .replaceAll('ガンプレイカー', 'ガンブレイカー')
             .replaceAll('ガンプブレイカー', 'ガンブレイカー')
@@ -145,7 +153,7 @@ async function translateImageText(text) {
         if (config.translation.from === engineModule.languageEnum.ja) {
             stringArray = [text.replaceAll('\n', '')];
         } else {
-            stringArray = [text.replaceAll('\n', ' ')];
+            stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
         }
     }
 

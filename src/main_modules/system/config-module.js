@@ -116,12 +116,14 @@ function loadConfig() {
             }
         });
 
-        // adjust property
-        if (/Google/i.test(currentConfig.translation.engine)) {
+        // fix property
+        // translator
+        if (!['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(currentConfig.translation.engine)) {
             currentConfig.translation.engine = 'Youdao';
         }
 
-        if (!/Google/i.test(currentConfig.captureWindow.type)) {
+        // text detect
+        if (!['tesseract', 'google'].includes(currentConfig.captureWindow.type)) {
             currentConfig.captureWindow.type = 'tesseract';
         }
 

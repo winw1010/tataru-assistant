@@ -71,7 +71,7 @@ const defaultConfig = {
 };
 
 // current config
-let currentConfig = defaultConfig;
+let currentConfig = getDefaultConfig();
 
 // load config
 function loadConfig() {
@@ -130,7 +130,7 @@ function loadConfig() {
         currentConfig.system.firstTime = false;
     } catch (error) {
         console.log(error);
-        currentConfig = defaultConfig;
+        currentConfig = getDefaultConfig();
     }
 
     return currentConfig;
@@ -155,9 +155,14 @@ function setConfig(newConfig) {
     currentConfig = newConfig;
 }
 
+// get default config
+function getDefaultConfig() {
+    return JSON.parse(JSON.stringify(defaultConfig));
+}
+
 // set default config
 function setDefaultConfig() {
-    currentConfig = defaultConfig;
+    currentConfig = getDefaultConfig();
 }
 
 // module exports
@@ -166,5 +171,6 @@ module.exports = {
     saveConfig,
     getConfig,
     setConfig,
+    getDefaultConfig,
     setDefaultConfig,
 };

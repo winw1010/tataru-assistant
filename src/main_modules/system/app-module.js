@@ -55,12 +55,11 @@ function detectUserLanguage() {
     const config = configModule.getConfig();
 
     if (config.system.firstTime) {
-        const env = process.env;
-        const envLanguage = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES || 'zh_TW';
+        const systemLocale = app.getSystemLocale();
 
-        if (/zh_(TW|HK|MO|CHT|Hant)/i.test(envLanguage)) {
+        if (/zh-(TW|HK|MO|CHT|Hant)/i.test(systemLocale)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh_(CN|SG|CHS|Hans)/i.test(envLanguage)) {
+        } else if (/zh-(CN|SG|CHS|Hans)/i.test(systemLocale)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';

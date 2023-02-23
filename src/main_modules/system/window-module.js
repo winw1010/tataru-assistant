@@ -212,15 +212,6 @@ function getWindowSize(windowName, config) {
             break;
         }
 
-        case 'player-edit': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.3);
-            height = parseInt(displayBounds.height * 0.55);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
-            break;
-        }
-
         case 'read-log': {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.2);

@@ -136,11 +136,6 @@ function setButton() {
     };
 
     // content
-    // player edit window
-    document.getElementById('button_player_edit').onclick = () => {
-        ipcRenderer.send('create-window', 'player-edit');
-    };
-
     // download json
     document.getElementById('button_download_json').onclick = () => {
         ipcRenderer.send('download-json');

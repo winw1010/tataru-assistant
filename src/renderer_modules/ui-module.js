@@ -135,6 +135,7 @@ onDocumentReady(() => {
             things: ['事物 (原文 --> 中文)', '事物 (原文 --> 中文)'],
             skill: ['技能 (原文 --> 中文)', '技能 (原文 --> 中文)'],
             map: ['地區 (原文 --> 中文)', '地区 (原文 --> 中文)'],
+            other: ['其他 (原文 --> 中文)', '其他 (原文 --> 中文)'],
             overwrite: ['整句替換 (整句原文 --> 整句中文)', '整句替换 (整句原文 --> 整句中文)'],
             jp: ['日文替換 (日文 --> 日文)', '日文替换 (日文 --> 日文)'],
 
@@ -147,7 +148,6 @@ onDocumentReady(() => {
             span_config: ['設定', '设定'],
             span_dictionary: ['翻譯查詢', '翻译查询'],
             span_edit: ['重新翻譯', '重新翻译'],
-            span_player_edit: ['編輯玩家名稱', '编辑玩家名称'],
             span_read_log: ['讀取對話紀錄', '读取对话纪录'],
 
             // config
@@ -160,24 +160,6 @@ onDocumentReady(() => {
 
             // edit
             span_flex_right_title: ['新增自訂翻譯', '新增自订翻译'],
-
-            // player-edit
-            span_player_edit_info1: ['空白 = 無 & 刪除', '空白 = 无 & 删除'],
-            span_player_edit_info2: [
-                'FFXIV語言為「英文」時的注意事項:\n填入的名字將成為保留字不被翻譯機翻譯，若您的角色和雇員名字並非人名，請維持空白不要填寫，否則可能會導致翻譯錯誤',
-                'FFXIV语言为「英文」时的注意事项:\n填入的名字将成为保留字不被翻译机翻译，若您的角色和雇员名字并非人名，请维持空白不要填写，否则可能会导致翻译错误',
-            ],
-            span_player_name: ['玩家名稱:', '玩家名称:'],
-            span_retainer_name0: ['雇員1:', '雇员1:'],
-            span_retainer_name1: ['雇員2:', '雇员2:'],
-            span_retainer_name2: ['雇員3:', '雇员3:'],
-            span_retainer_name3: ['雇員4:', '雇员4:'],
-            span_retainer_name4: ['雇員5:', '雇员5:'],
-            span_retainer_name5: ['雇員6:', '雇员6:'],
-            span_retainer_name6: ['雇員7:', '雇员7:'],
-            span_retainer_name7: ['雇員8:', '雇员8:'],
-            span_retainer_name8: ['雇員9:', '雇员9:'],
-            span_retainer_name9: ['雇員10:', '雇员10:'],
         },
         input: {
             // config

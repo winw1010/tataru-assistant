@@ -103,8 +103,13 @@ function setIPC() {
                     showText();
 
                     // show restart
-                    if (targetLog.code !== 'FFFF') {
+                    if (targetLog?.code !== 'FFFF') {
                         document.getElementById('div_restart').hidden = false;
+                    }
+
+                    // set select_from
+                    if (targetLog?.translation?.from) {
+                        document.getElementById('select_from').value = targetLog.translation.from;
                     }
                 }
             }
@@ -118,7 +123,6 @@ function setIPC() {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('select_restart_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
 

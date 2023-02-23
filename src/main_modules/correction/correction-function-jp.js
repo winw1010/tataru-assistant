@@ -1,8 +1,5 @@
 'use strict';
 
-// correction function
-//const cf = require('./correction-function');
-
 // female words
 const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];
 
@@ -22,9 +19,10 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         };
     }
 
-    // set code
+    // set parameters
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
+    let table = [];
 
     // clear code
     const characters = text.match(/[a-z]/gi);
@@ -34,11 +32,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
         }
     }
 
-    // set table
-    //const target = cf.includesArrayItem(text, array, search);
-    let table = [];
-
-    //if (array) {
+    // search and replace
     for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
         const element = array[index];
 
@@ -214,7 +208,6 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
             codeIndex++;
         }
     }
-    //}
 
     const result = {
         text: text,

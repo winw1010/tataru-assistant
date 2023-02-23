@@ -1,5 +1,8 @@
 'use strict';
 
+// correction function
+const cf = require('./correction-function');
+
 // female words
 const femaleWords = [
     'Girl',
@@ -31,6 +34,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     }
 
     // set parameters
+    const target = cf.includesArrayItem(text, array, search);
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let table = [];
@@ -44,15 +48,17 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     }
 
     // search and replace
-    for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
-        const element = array[index];
-        const searchElement = element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const searchReg = new RegExp(`\\b(The |A |)${searchElement}(es|an|s|n|)\\b`, 'gi');
+    if (target) {
+        for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
+            const element = array[index];
+            const searchElement = element[search].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const searchReg = new RegExp(`\\b(The |A |)${searchElement}(es|an|s|n|)\\b`, 'gi');
 
-        if (searchReg.test(text)) {
-            text = text.replaceAll(searchReg, codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
+            if (searchReg.test(text)) {
+                text = text.replaceAll(searchReg, codeString[codeIndex]);
+                table.push([codeString[codeIndex], element[replacement]]);
+                codeIndex++;
+            }
         }
     }
 

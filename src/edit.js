@@ -107,14 +107,14 @@ function setIPC() {
                         document.getElementById('div_restart').hidden = false;
                     }
 
+                    // set select_engine
+                    if (targetLog?.translation?.engine) {
+                        document.getElementById('select_engine').value = targetLog.translation.engine;
+                    }
+
                     // set select_from
                     if (targetLog?.translation?.from) {
                         document.getElementById('select_from').value = targetLog.translation.from;
-                    }
-
-                    // set select_restart_engine
-                    if (targetLog?.translation?.engine) {
-                        document.getElementById('select_restart_engine').value = targetLog.translation.engine;
                     }
                 }
             }
@@ -163,7 +163,7 @@ function setButton() {
         let translation = config.translation;
         translation.from = document.getElementById('select_from').value;
         translation.fromPlayer = document.getElementById('select_from').value;
-        translation.engine = document.getElementById('select_restart_engine').value;
+        translation.engine = document.getElementById('select_engine').value;
 
         ipcRenderer.send('start-translation', dialogData, translation);
     };

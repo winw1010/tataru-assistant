@@ -337,18 +337,23 @@
 
                 <div id="div_server" title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
                     <!-- set server -->
-                    <p><label for="input_text_hsot">Tataru Helper Node伺服器設定</label></p>
+                    <div>
+                        <span id="span_tataru_server_settings">Tataru Helper Node伺服器設定</span>
+                    </div>
+
+                    <br />
+
                     <table>
                         <tr>
-                            <td>Host</td>
-                            <td><input type="text" name="input_text_hsot" id="input_text_hsot" value="localhost" /></td>
+                            <td><label for="input_text_hsot">Host</label></td>
+                            <td><input type="text" name="" id="input_text_hsot" value="localhost" /></td>
                         </tr>
                         <tr>
-                            <td>Port</td>
+                            <td><label for="input_number_port">Port</label></td>
                             <td>
                                 <input
                                     type="number"
-                                    name="input_number_port"
+                                    name=""
                                     id="input_number_port"
                                     min="5000"
                                     max="65535"

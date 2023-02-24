@@ -96,7 +96,6 @@ onDocumentReady(() => {
 
             checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表'],
             input_password_google_credential: ['Google憑證設定', 'Google凭证设定'],
-            input_text_hsot: ['Tataru Helper Node伺服器設定', 'Tataru Helper Node服务器设定'],
 
             // capture
             checkbox_split: ['換行切割', '换行切割'],
@@ -152,6 +151,7 @@ onDocumentReady(() => {
 
             // config
             span_channel_comment: ['使用滑鼠滾輪檢視頻道清單', '使用鼠标滚轮检视频道清单'],
+            span_tataru_server_settings: ['Tataru Helper Node伺服器設定', 'Tataru Helper Node服务器设定'],
             span_about: [
                 '感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能',
                 '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',

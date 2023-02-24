@@ -109,12 +109,16 @@ function setIPC() {
 
                     // set select_engine
                     if (targetLog?.translation?.engine) {
-                        document.getElementById('select_engine').value = targetLog.translation.engine;
+                        if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(targetLog.translation.engine)) {
+                            document.getElementById('select_engine').value = targetLog.translation.engine;
+                        }
                     }
 
                     // set select_from
                     if (targetLog?.translation?.from) {
-                        document.getElementById('select_from').value = targetLog.translation.from;
+                        if (['Japanese', 'English'].includes(targetLog.translation.from)) {
+                            document.getElementById('select_from').value = targetLog.translation.from;
+                        }
                     }
                 }
             }
@@ -127,6 +131,8 @@ function setIPC() {
 // set view
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
+    document.getElementById('select_engine').value = config.translation.engine;
+    document.getElementById('select_from').value = config.translation.from;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
 

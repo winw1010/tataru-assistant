@@ -114,7 +114,7 @@ function setIPC() {
 
                     // set select_restart_engine
                     if (targetLog?.translation?.engine) {
-                        document.getElementById('select_restart_engine').value = targetLog?.translation?.engine;
+                        document.getElementById('select_restart_engine').value = targetLog.translation.engine;
                     }
                 }
             }

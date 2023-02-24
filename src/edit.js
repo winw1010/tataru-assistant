@@ -111,6 +111,11 @@ function setIPC() {
                     if (targetLog?.translation?.from) {
                         document.getElementById('select_from').value = targetLog.translation.from;
                     }
+
+                    // set select_restart_engine
+                    if (targetLog?.translation?.engine) {
+                        document.getElementById('select_restart_engine').value = targetLog?.translation?.engine;
+                    }
                 }
             }
         } catch (error) {
@@ -122,7 +127,6 @@ function setIPC() {
 // set view
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
-    document.getElementById('select_restart_engine').value = config.translation.engine;
     document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
 

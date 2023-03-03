@@ -447,7 +447,8 @@ function specialTextFix(name, text) {
     */
 
     // 召喚士
-    if (/ヤ・ミトラ|プリンキピア|ラムブルース|クリスピン|ジャジャサム|デニース/gi.test(name)) {
+    // ラムブルース？
+    if (/ヤ・ミトラ|プリンキピア|クリスピン|ジャジャサム|デニース/gi.test(name)) {
         text = text.replaceAll('サリ', 'サリ#');
     }
 

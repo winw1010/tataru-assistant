@@ -67,13 +67,15 @@ function setButton() {
 
     // translate
     document.getElementById('button_translate').onclick = () => {
+        const inputText = document.getElementById('textarea_original_text').value.trim();
+
         document.getElementById('span_translated_text').innerText = '...';
         document.getElementById('div_audio').innerHTML = '';
 
-        if (document.getElementById('textarea_original_text').value.trim() !== '') {
+        if (inputText !== '') {
             if (document.getElementById('checkbox_text_fix').checked) {
                 // node translation
-                startNodeTranslation(document.getElementById('textarea_original_text').value);
+                startNodeTranslation(inputText);
             } else {
                 // set engine
                 const engine = document.getElementById('select_engine').value;
@@ -84,7 +86,7 @@ function setButton() {
                     engine,
                     document.getElementById('select_from').value,
                     document.getElementById('select_to').value,
-                    document.getElementById('textarea_original_text').value
+                    inputText
                 );
 
                 // translate

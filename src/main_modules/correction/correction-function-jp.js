@@ -42,6 +42,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
             codeIndex++;
         }
 
+        if (text.includes(element[search] + 'さーん')) {
+            text = text.replaceAll(element[search] + 'さーん', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement]]);
+            codeIndex++;
+        }
+
         if (text.includes(element[search] + 'くん')) {
             text = text.replaceAll(element[search] + 'くん', codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement]]);

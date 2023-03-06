@@ -67,7 +67,7 @@ function setButton() {
 
     // translate
     document.getElementById('button_translate').onclick = () => {
-        const inputText = document.getElementById('textarea_original_text').value.trim();
+        const inputText = document.getElementById('textarea_original_text').value?.trim()?.replaceAll('\n', ' ');
 
         document.getElementById('span_translated_text').innerText = '...';
         document.getElementById('div_audio').innerHTML = '';

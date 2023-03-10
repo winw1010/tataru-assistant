@@ -47,8 +47,8 @@ async function translate(text, translation, table = []) {
                 // reset engine list
                 engineList = engineModule.engineList;
 
-                // remove engine
-                engineList.splice(engineList.indexOf(translation.engine), 1);
+                // remove current engine
+                engineList.splice(engineList.indexOf(engine), 1);
 
                 // change engine
                 for (let index = 0; index < engineList.length; index++) {

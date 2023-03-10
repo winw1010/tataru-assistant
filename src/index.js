@@ -305,6 +305,7 @@ async function versionCheck() {
     try {
         // get version data
         const data = await ipcRenderer.invoke('get-latest-version');
+        const currentVersion = ipcRenderer.sendSync('get-version');
         const latestVersion = data?.number;
         const appVersion = ipcRenderer.sendSync('get-version');
 
@@ -316,20 +317,20 @@ async function versionCheck() {
             document.getElementById('img_button_update').hidden = true;
             notificationText = '已安裝最新版本';
         } else {
-            let latest = '';
-            if (latestVersion?.length > 0) {
-                latest += `(v${latestVersion})`;
-            }
-
             document.getElementById('img_button_update').hidden = false;
-            notificationText = `已有可用的更新${latest}，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`;
+            notificationText = `已有可用的更新(目前版本: v${currentVersion}，最新版本: v${latestVersion})`;
         }
     } catch (error) {
         console.log(error);
+        document.getElementById('img_button_update').hidden = false;
         notificationText = '版本檢查失敗: ' + error;
     }
 
     dispatchCustomEvent('show-notification', { text: notificationText });
+    dispatchCustomEvent('show-notification', {
+        text:
+            '請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本',
+    });
 }
 
 // dispatch custom event

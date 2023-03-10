@@ -26,10 +26,10 @@ function getAudioUrl(option = { text: '', language: 'en' }) {
         const text = textArray[index];
 
         if (text.length > 0) {
-            const path =
-                `/translate_tts?ie=UTF-8&q=${text}&tl=${option.language}&total=1&idx=0` +
+            const params =
+                `ie=UTF-8&q=${text}&tl=${option.language}&total=1&idx=0` +
                 `&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=1`;
-            urlArray.push(`https://translate.google.com` + encodeURI(path));
+            urlArray.push(`https://translate.google.com/translate_tts?${encodeURI(params)}`);
         }
     }
 

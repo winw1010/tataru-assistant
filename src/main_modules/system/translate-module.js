@@ -95,24 +95,6 @@ async function translate(text, translation, table = []) {
     }
 }
 
-function translate2(text, translation, table = []) {
-    if (text === '') {
-        return '……';
-    }
-
-    const autoChange = translation.autoChange;
-    const languageFrom = translation.from;
-    const languageTo = translation.to;
-    const enginList = engineModule.engineList;
-    let currentEngine = translation.engine;
-    let currentOption = engineModule.getTranslateOption(currentEngine, languageFrom, languageTo, text);
-    let translatedText = '';
-    let previousTranslatedText = '';
-    let tryCount = 0;
-    let codes = table.map((x) => x[0]);
-    let missingCodes = [];
-}
-
 // get translation
 async function getTranslation(engine, option) {
     try {

@@ -45,6 +45,7 @@ async function translate(text, translation, table = []) {
             // retry
             if (translatedText === '' && autoChange) {
                 // remove current engine
+                engine = translation.engine;
                 engines.splice(engines.indexOf(engine), 1);
 
                 // change engine

@@ -120,12 +120,6 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
             codeIndex++;
         }
 
-        if (text.includes(element[search] + 'さま')) {
-            text = text.replaceAll(element[search] + 'さま', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '大人']);
-            codeIndex++;
-        }
-
         if (text.includes(element[search] + '様式')) {
             text = text.replaceAll(element[search] + '様式', codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement] + '樣式']);
@@ -134,6 +128,12 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
         if (text.includes(element[search] + '様')) {
             text = text.replaceAll(element[search] + '様', codeString[codeIndex]);
+            table.push([codeString[codeIndex], element[replacement] + '大人']);
+            codeIndex++;
+        }
+
+        if (text.includes(element[search] + 'さま')) {
+            text = text.replaceAll(element[search] + 'さま', codeString[codeIndex]);
             table.push([codeString[codeIndex], element[replacement] + '大人']);
             codeIndex++;
         }

@@ -81,6 +81,11 @@ const engineTable = {
     },
 };
 
+// get engine list
+function getEngineList() {
+    return JSON.parse(JSON.stringify(engineList));
+}
+
 // get translate option
 function getTranslateOption(engine, from, to, text) {
     const table = engineTable[engine];
@@ -125,7 +130,7 @@ function fixLanguageCode(code) {
 module.exports = {
     languageEnum,
     languageIndex,
-    engineList,
+    getEngineList,
     getTranslateOption,
     getLanguageCode,
     sleep,

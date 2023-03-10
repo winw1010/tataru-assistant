@@ -23,7 +23,6 @@ async function translate(text, translation, table = []) {
         const autoChange = translation.autoChange;
         let engine = translation.engine;
         let option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
-        let engineList = engineModule.engineList;
         let translatedText = '';
         let previousTranslatedText = '';
         let tryCount = 0;
@@ -44,8 +43,8 @@ async function translate(text, translation, table = []) {
 
             // retry
             if (translatedText === '' && autoChange) {
-                // reset engine list
-                engineList = engineModule.engineList;
+                // get engine list
+                const engineList = engineModule.getEngineList();
 
                 // remove current engine
                 engineList.splice(engineList.indexOf(engine), 1);

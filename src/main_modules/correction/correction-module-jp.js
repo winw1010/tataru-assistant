@@ -327,9 +327,6 @@ async function translateName(name, katakanaName, translation) {
         // translated name
         let translatedName = '';
 
-        // mark fix
-        translatedName = cf.markFix(translatedName);
-
         // code
         const codeResult =
             katakanaName !== ''

@@ -44,7 +44,7 @@ async function translate(text, translation, table = []) {
             // retry
             if (translatedText === '' && autoChange) {
                 // get engine list
-                const engineList = engineModule.getEngineList();
+                let engineList = engineModule.getEngineList();
 
                 // remove current engine
                 engineList.splice(engineList.indexOf(engine), 1);
@@ -95,6 +95,17 @@ async function translate(text, translation, table = []) {
         return zhConvert('翻譯失敗: ' + error, translation.to);
     }
 }
+
+/*
+// translate 2
+async function translate2(engine, option, translation) {
+    const autoChange = translation.autoChange;
+    const engineList = engineModule.getEngineList();
+    let translatedText = '';
+
+    do {} while (translatedText === '' && autoChange);
+}
+*/
 
 // get translation
 async function getTranslation(engine, option) {

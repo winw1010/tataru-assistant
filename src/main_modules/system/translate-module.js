@@ -20,92 +20,64 @@ async function translate(text, translation, table = []) {
 
     try {
         // initialize
-        const autoChange = translation.autoChange;
-        let engine = translation.engine;
-        let option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
         let translatedText = '';
         let previousTranslatedText = '';
+        let missingCode = [];
         let tryCount = 0;
-        let missingCodes = [];
 
         do {
             // sleep
             if (tryCount > 0) {
-                console.log('Missing Codes:', missingCodes);
+                console.log('Missing Code:', missingCode);
                 await engineModule.sleep();
             }
 
             // fix code
-            option.text = fixCode(option.text, missingCodes);
+            text = fixCode(text, missingCode);
 
             // translate
-            translatedText = await getTranslation(engine, option);
+            translatedText = await translate2(text, translation);
 
-            // retry
-            if (translatedText === '' && autoChange) {
-                // get engine list
-                let engineList = engineModule.getEngineList();
-
-                // remove current engine
-                engineList.splice(engineList.indexOf(engine), 1);
-
-                // change engine
-                for (let index = 0; index < engineList.length; index++) {
-                    const newEngine = engineList[index];
-                    console.log(`Try ${newEngine}`);
-
-                    // set new engine
-                    engine = newEngine;
-
-                    // set new option
-                    option = engineModule.getTranslateOption(engine, translation.from, translation.to, option.text);
-
-                    // try new engine
-                    translatedText = await getTranslation(engine, option);
-
-                    if (translatedText !== '') {
-                        break;
-                    }
-                }
-            }
-
-            // check response
+            // check translated text
             if (translatedText === '') {
                 if (previousTranslatedText === '') {
-                    throw '無法取得翻譯文字，請更換翻譯引擎';
+                    throw '無法取得翻譯文字';
                 } else {
                     translatedText = previousTranslatedText;
                     break;
                 }
-            } else {
-                previousTranslatedText = translatedText;
             }
 
-            // missing code check
-            missingCodes = missingCodeCheck(translatedText, table);
+            // check code
+            missingCode = checkCode(translatedText, table);
+
+            // set previous translated text
+            previousTranslatedText = translatedText;
 
             // add count
             tryCount++;
-        } while (missingCodes.length > 0 && tryCount < 3);
+        } while (missingCode.length > 0 && tryCount < 3);
 
-        translatedText = zhConvert(translatedText, translation.to);
-
-        return translatedText;
+        return zhConvert(translatedText, translation.to);
     } catch (error) {
         return zhConvert('翻譯失敗: ' + error, translation.to);
     }
 }
 
-/*
 // translate 2
-async function translate2(engine, option, translation) {
+async function translate2(text, translation) {
     const autoChange = translation.autoChange;
-    const engineList = engineModule.getEngineList();
+    let engineList = engineModule.getEngineList(translation.engine);
     let translatedText = '';
 
-    do {} while (translatedText === '' && autoChange);
+    do {
+        const engine = engineList.shift();
+        const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
+        translatedText = await getTranslation(engine, option);
+    } while (translatedText === '' && autoChange && engineList.length > 0);
+
+    return translatedText;
 }
-*/
 
 // get translation
 async function getTranslation(engine, option) {
@@ -164,8 +136,8 @@ function zhConvert(text, languageTo) {
     }
 }
 
-// missing code check
-function missingCodeCheck(text, table) {
+// check code
+function checkCode(text, table) {
     let missingCodes = [];
 
     for (let index = 0; index < table.length; index++) {

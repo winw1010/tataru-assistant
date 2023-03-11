@@ -82,8 +82,13 @@ const engineTable = {
 };
 
 // get engine list
-function getEngineList() {
-    return JSON.parse(JSON.stringify(engineList));
+function getEngineList(engine = 'Youdao') {
+    const engineIndex = engineList.indexOf(engine);
+
+    let newEngineList = JSON.parse(JSON.stringify(engineList));
+    newEngineList.splice(engineIndex, 1);
+
+    return [engine].concat(newEngineList);
 }
 
 // get translate option

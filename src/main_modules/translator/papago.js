@@ -1,7 +1,7 @@
 'use strict';
 
-// CryptoJS
-const CryptoJS = require('crypto-js');
+// papago function
+const papagoFunction = require('./papago-function');
 
 // request module
 const requestModule = require('../system/request-module');
@@ -94,7 +94,7 @@ async function setAuthentication() {
 
         if (data2) {
             authentication = {
-                deviceId: generateDeviceId(),
+                deviceId: papagoFunction.generateDeviceId(),
                 papagoVersion: data2,
             };
         } else {
@@ -108,7 +108,10 @@ async function setAuthentication() {
 // translate
 async function translate(cookie, authentication, option) {
     const currentTime = new Date().getTime();
-    const authorization = `PPG ${authentication.deviceId}:${generateSignature(authentication.deviceId, currentTime)}`;
+    const authorization = `PPG ${authentication.deviceId}:${papagoFunction.generateSignature(
+        authentication,
+        currentTime
+    )}`;
 
     const response = await requestModule.post(
         {
@@ -159,23 +162,6 @@ async function translate(cookie, authentication, option) {
         console.log('option:', option);
         throw 'ERROR: translate';
     }
-}
-
-// get device id
-function generateDeviceId() {
-    var a = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (e) {
-        var t = (a + 16 * Math.random()) % 16 | 0;
-        return (a = Math.floor(a / 16)), ('x' === e ? t : (3 & t) | 8).toString(16);
-    });
-}
-
-// get hash
-function generateSignature(deviceId, timestamp) {
-    return CryptoJS.HmacMD5(
-        `${deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`,
-        authentication.papagoVersion
-    ).toString(CryptoJS.enc.Base64);
 }
 
 // module exports

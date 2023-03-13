@@ -35,9 +35,9 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
     const request = net.request(options);
 
     // set headers
-    const headersName = Object.getOwnPropertyNames(headers);
-    for (let index = 0; index < headersName.length; index++) {
-        const headerName = headersName[index];
+    const headerNameList = Object.getOwnPropertyNames(headers);
+    for (let index = 0; index < headerNameList.length; index++) {
+        const headerName = headerNameList[index];
 
         if (!restrictedHeaders.includes(headerName)) {
             if (headerName === 'Connection' && headers[headerName] === 'upgrade') {

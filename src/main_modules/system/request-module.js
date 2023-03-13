@@ -53,6 +53,7 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
         // set timeout
         const requestTimeout = setTimeout(() => {
             console.log('Request timeout');
+            request.abort();
             resolve(null);
         }, timeout);
 

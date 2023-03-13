@@ -5,7 +5,7 @@
 // Translate: https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs
 
 // deepl request
-const deeplRequest = require('./deepl-request');
+const deeplFunction = require('./deepl-function');
 
 // request module
 const requestModule = require('../system/request-module');
@@ -83,7 +83,7 @@ function setAuthentication() {
 
 // split text
 async function splitText(text) {
-    let postData = deeplRequest.splitText;
+    let postData = deeplFunction.getSplitText();
     postData.id = authentication.id++;
     postData.params.texts = [text];
 
@@ -93,7 +93,7 @@ async function splitText(text) {
             hostname: 'www2.deepl.com',
             path: '/jsonrpc?method=LMT_split_text',
         },
-        fixMethod(postData.id, JSON.stringify(postData)),
+        deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
         {
             accept: '*/*',
             'accept-encoding': 'gzip, deflate, br',
@@ -122,12 +122,12 @@ async function splitText(text) {
 
 // translate
 async function translate(cookie, authentication, option, chunks) {
-    let postData = deeplRequest.handleJobs;
+    let postData = deeplFunction.getHandleJobs();
     postData.id = authentication.id++;
-    postData.params.jobs = generateJobs(chunks);
+    postData.params.jobs = deeplFunction.generateJobs(chunks);
     postData.params.lang.source_lang_computed = option.from;
     postData.params.lang.target_lang = option.to;
-    postData.params.timestamp = generateTimestamp(postData.params.jobs);
+    postData.params.timestamp = deeplFunction.generateTimestamp(postData.params.jobs);
 
     const response = await requestModule.post(
         {
@@ -135,7 +135,7 @@ async function translate(cookie, authentication, option, chunks) {
             hostname: 'www2.deepl.com',
             path: '/jsonrpc?method=LMT_handle_jobs',
         },
-        fixMethod(postData.id, JSON.stringify(postData)),
+        deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
         {
             accept: '*/*',
             'accept-encoding': 'gzip, deflate, br',
@@ -170,54 +170,6 @@ async function translate(cookie, authentication, option, chunks) {
         console.log('chunks:', chunks);
         throw 'ERROR: translate';
     }
-}
-
-// generate jobs
-function generateJobs(chunks) {
-    let newChunks = chunks.map((x) => x.sentences[0]);
-    let jobs = [];
-
-    for (let index = 0; index < newChunks.length; index++) {
-        jobs.push({
-            kind: 'default',
-            sentences: [
-                {
-                    text: newChunks[index].text,
-                    id: index,
-                    prefix: newChunks[index].prefix,
-                },
-            ],
-            raw_en_context_before: newChunks[index - 1] ? [newChunks[index - 1].text] : [],
-            raw_en_context_after: newChunks[index + 1] ? [newChunks[index + 1].text] : [],
-            preferred_num_beams: 1,
-        });
-    }
-
-    return jobs;
-}
-
-// generate timestamp
-function generateTimestamp(jobs) {
-    let iCount = 1;
-    let currentTime = new Date().getTime();
-
-    for (let index = 0; index < jobs.length; index++) {
-        const sentence = jobs[index]?.sentences[0]?.text || '';
-        iCount += sentence.split('i').length - 1;
-    }
-
-    return currentTime - (currentTime % iCount) + iCount;
-}
-
-// fix method
-function fixMethod(id = 0, text = '') {
-    if ((id + 3) % 13 === 0 || (id + 5) % 29 === 0) {
-        text = text.replace(`"method":"`, `"method" : "`);
-    } else {
-        text = text.replace(`"method":"`, `"method": "`);
-    }
-
-    return text;
 }
 
 // module exports

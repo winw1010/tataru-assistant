@@ -1,6 +1,6 @@
 'use strict';
 
-// google encoder
+// google function
 const { getToken } = require('./google-function');
 
 // request module

@@ -1,6 +1,6 @@
 'use strict';
 
-// baidu encoder
+// baidu function
 const { getSign } = require('./baidu-function');
 
 // request module

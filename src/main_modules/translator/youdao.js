@@ -1,5 +1,6 @@
 'use strict';
 
+// youdao function
 const youdaoFunction = require('./youdao-function');
 
 // request module

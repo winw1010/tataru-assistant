@@ -1,7 +1,7 @@
 'use strict';
 
 // google encoder
-const { tokenEncoder } = require('./google-encoder');
+const { getToken } = require('./google-function');
 
 // request module
 const requestModule = require('../system/request-module');
@@ -12,7 +12,7 @@ async function exec(option) {
         const parameters =
             `client=webapp&sl=${option.from}&tl=${option.to}&hl=${option.to}` +
             `&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=sos&dt=ss&dt=t&otf=2&ssel=0&tsel=0&kc=3` +
-            `&tk=${tokenEncoder(option.text)}&q=${option.text}`;
+            `&tk=${getToken(option.text)}&q=${option.text}`;
 
         const response = await requestModule.get(
             {

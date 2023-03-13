@@ -36,4 +36,4 @@ var nu = function (a, b) {
     };
 
 // module exports
-module.exports = { tokenEncoder: pu };
+module.exports = { getToken: pu };

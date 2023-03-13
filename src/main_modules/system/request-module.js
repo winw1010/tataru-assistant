@@ -53,7 +53,7 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
         // set timeout
         const requestTimeout = setTimeout(() => {
             console.log('Request timeout');
-            return null;
+            resolve(null);
         }, timeout);
 
         // on response
@@ -66,9 +66,6 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
 
             // on response end
             response.on('end', () => {
-                // abort request
-                request.abort();
-
                 // set chunk string
                 const chunkString = Buffer.concat(chunkArray).toString();
 

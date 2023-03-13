@@ -30,6 +30,9 @@ async function exec(option) {
         // get result
         result = await translate(cookie, authentication, option);
 
+        // get keyword
+        youdaoFunction.getKeyword(option);
+
         return result;
     } catch (error) {
         console.log(error);
@@ -159,42 +162,6 @@ async function translate(cookie, authentication, option) {
         throw 'ERROR: translate';
     }
 }
-
-// get keyword
-// function getKeyword(option) {
-//     requestModule
-//         .post(
-//             {
-//                 protocol: 'https:',
-//                 hostname: 'dict.youdao.com',
-//                 path: '/keyword/key',
-//             },
-//             JSON.stringify({
-//                 text: option.text,
-//                 lang: option.from.includes('zh') ? 'zh' : option.from,
-//                 to: option.to.includes('zh') ? 'zh' : option.to,
-//             }),
-//             {
-//                 Accept: 'application/json, text/plain, */*',
-//                 'Accept-Encoding': 'gzip, deflate, br',
-//                 'Accept-Language': 'zh-TW,zh;q=0.9',
-//                 Connection: 'keep-alive',
-//                 'Content-Type': 'multipart/form-data',
-//                 Cookie: cookie,
-//                 Origin: 'https://fanyi.youdao.com',
-//                 Referer: 'https://fanyi.youdao.com/',
-//                 'sec-ch-ua': requestModule.getSCU(),
-//                 'sec-ch-ua-mobile': '?0',
-//                 'sec-ch-ua-platform': '"Windows"',
-//                 'Sec-Fetch-Dest': 'empty',
-//                 'Sec-Fetch-Mode': 'cors',
-//                 'Sec-Fetch-Site': 'same-site',
-//                 'User-Agent': requestModule.getUserAgent(),
-//             }
-//         )
-//         .then(console.log)
-//         .catch(console.log);
-// }
 
 // module exports
 module.exports = { exec };

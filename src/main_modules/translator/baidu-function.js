@@ -16,7 +16,7 @@ function n(t, e) {
 
 //var r = null;
 
-function signEncoder(t, r) {
+function getSign(t, r) {
     r = r || '320305.131321201';
     var o,
         i = t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
@@ -113,4 +113,4 @@ function signEncoder(t, r) {
 }
 
 // module exports
-module.exports = { signEncoder };
+module.exports = { getSign };

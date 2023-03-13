@@ -1,7 +1,7 @@
 'use strict';
 
 // baidu encoder
-const { signEncoder } = require('./baidu-encoder');
+const { getSign } = require('./baidu-function');
 
 // request module
 const requestModule = require('../system/request-module');
@@ -117,7 +117,7 @@ async function translate(cookie, authentication, option) {
                 query: option.text,
                 transtype: 'realtime',
                 simple_means_flag: 3,
-                sign: signEncoder(option.text, authentication.gtk),
+                sign: getSign(option.text, authentication.gtk),
                 token: authentication.token,
             })
         ),

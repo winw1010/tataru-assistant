@@ -128,50 +128,44 @@ function getWindowSize(windowName, config) {
     let width = 0;
     let height = 0;
 
-    // get current display bounds
+    // get display bounds nearest cursor
     const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
     switch (windowName) {
         case 'index': {
+            const bounds = config.indexWindow;
+
             // first time
-            if (
-                config.indexWindow.x === null ||
-                config.indexWindow.y === null ||
-                config.indexWindow.width === null ||
-                config.indexWindow.height === null
-            ) {
+            if (bounds.x === null || bounds.y === null || bounds.width === null || bounds.height === null) {
                 x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                 y = displayBounds.y + parseInt(displayBounds.height * 0.2);
                 width = parseInt(displayBounds.width * 0.2);
                 height = parseInt(displayBounds.height * 0.6);
                 break;
             } else {
-                x = config.indexWindow.x;
-                y = config.indexWindow.y;
-                width = config.indexWindow.width;
-                height = config.indexWindow.height;
+                x = bounds.x;
+                y = bounds.y;
+                width = bounds.width;
+                height = bounds.height;
                 break;
             }
         }
 
         case 'capture': {
+            const bounds = config.captureWindow;
+
             // first time
-            if (
-                config.captureWindow.x === null ||
-                config.captureWindow.y === null ||
-                config.captureWindow.width === null ||
-                config.captureWindow.height === null
-            ) {
+            if (bounds.x === null || bounds.y === null || bounds.width === null || bounds.height === null) {
                 x = displayBounds.x + parseInt(displayBounds.width * 0.33);
                 y = displayBounds.y + parseInt(displayBounds.height * 0.63);
                 width = parseInt(displayBounds.width * 0.33);
                 height = parseInt(displayBounds.height * 0.36);
                 break;
             } else {
-                x = config.captureWindow.x;
-                y = config.captureWindow.y;
-                width = config.captureWindow.width;
-                height = config.captureWindow.height;
+                x = bounds.x;
+                y = bounds.y;
+                width = bounds.width;
+                height = bounds.height;
                 break;
             }
         }
@@ -180,8 +174,8 @@ function getWindowSize(windowName, config) {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.27);
             height = parseInt(displayBounds.height * 0.42);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
+            x = getNearX(displayBounds, indexBounds, width);
+            y = getNearY(displayBounds, indexBounds, height);
             break;
         }
 
@@ -189,8 +183,8 @@ function getWindowSize(windowName, config) {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.22);
             height = parseInt(displayBounds.height * 0.65);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
+            x = getNearX(displayBounds, indexBounds, width);
+            y = getNearY(displayBounds, indexBounds, height);
             break;
         }
 
@@ -198,8 +192,8 @@ function getWindowSize(windowName, config) {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.3);
             height = parseInt(displayBounds.height * 0.6);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
+            x = getNearX(displayBounds, indexBounds, width);
+            y = getNearY(displayBounds, indexBounds, height);
             break;
         }
 
@@ -207,8 +201,8 @@ function getWindowSize(windowName, config) {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.5);
             height = parseInt(displayBounds.height * 0.65);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
+            x = getNearX(displayBounds, indexBounds, width);
+            y = getNearY(displayBounds, indexBounds, height);
             break;
         }
 
@@ -216,8 +210,8 @@ function getWindowSize(windowName, config) {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.2);
             height = parseInt(displayBounds.height * 0.22);
-            x = getNearX(indexBounds, width);
-            y = getNearY(indexBounds, height);
+            x = getNearX(displayBounds, indexBounds, width);
+            y = getNearY(displayBounds, indexBounds, height);
             break;
         }
 
@@ -225,22 +219,38 @@ function getWindowSize(windowName, config) {
             break;
     }
 
-    return {
-        x: x >= displayBounds.x && x < displayBounds.x + displayBounds.width ? x : displayBounds.x,
-        y: y >= displayBounds.y && y < displayBounds.y + displayBounds.height ? y : displayBounds.y,
-        width: width,
-        height: height,
-    };
+    return boundsCheck({ x, y, width, height });
+}
 
-    function getNearX(indexBounds, width) {
-        return indexBounds.x - width > displayBounds.x ? indexBounds.x - width : indexBounds.x + indexBounds.width;
+// get near x
+function getNearX(displayBounds, indexBounds, width) {
+    return indexBounds.x - width > displayBounds.x ? indexBounds.x - width : indexBounds.x + indexBounds.width;
+}
+
+// get near y
+function getNearY(displayBounds, indexBounds, height) {
+    return indexBounds.y + height > displayBounds.y + displayBounds.height
+        ? displayBounds.y + displayBounds.height - height
+        : indexBounds.y;
+}
+
+// bounds check
+function boundsCheck(bounds) {
+    const nearestBounds = screen.getDisplayMatching(bounds).bounds;
+
+    if (bounds.x < nearestBounds.x) {
+        bounds.x = nearestBounds.x;
+    } else if (bounds.x > nearestBounds.x + nearestBounds.width - bounds.width) {
+        bounds.x = nearestBounds.x + nearestBounds.width - bounds.width;
     }
 
-    function getNearY(indexBounds, height) {
-        return indexBounds.y + height > displayBounds.y + displayBounds.height
-            ? displayBounds.y + displayBounds.height - height
-            : indexBounds.y;
+    if (bounds.y < nearestBounds.y) {
+        bounds.y = nearestBounds.y;
+    } else if (bounds.y > nearestBounds.y + nearestBounds.height - bounds.height) {
+        bounds.y = nearestBounds.y + nearestBounds.height - bounds.height;
     }
+
+    return bounds;
 }
 
 // restart window

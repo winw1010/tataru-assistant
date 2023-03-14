@@ -62,8 +62,14 @@ function decodeData(responseString) {
 // get keyword
 function getKeyword(option) {
     const data = { text: option.text, lang: option.from, to: option.to };
+    const formData = new FormData();
+
+    Object.keys(data).forEach((value) => {
+        formData.append(value, data[value]);
+    });
+
     axios
-        .post('https://dict.youdao.com/keyword/key', data)
+        .post('https://dict.youdao.com/keyword/key', formData)
         .then((response) => {
             console.log(response.config.data);
         })

@@ -238,6 +238,14 @@ function getNearY(displayBounds, indexBounds, height) {
 function boundsCheck(bounds) {
     const nearestBounds = screen.getDisplayMatching(bounds).bounds;
 
+    if (bounds.width > nearestBounds.width) {
+        bounds.width = nearestBounds.width;
+    }
+
+    if (bounds.height > nearestBounds.height) {
+        bounds.height = nearestBounds.height;
+    }
+
     if (bounds.x < nearestBounds.x) {
         bounds.x = nearestBounds.x;
     } else if (bounds.x > nearestBounds.x + nearestBounds.width - bounds.width) {

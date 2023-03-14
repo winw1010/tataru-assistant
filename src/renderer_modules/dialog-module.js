@@ -104,7 +104,7 @@ onDocumentReady(() => {
                 } catch (error) {
                     console.log(error);
                 }
-            }, 5000 + text.length * 20);
+            }, 5000 + Math.min(text.length * 20, 5000));
         });
     }
 

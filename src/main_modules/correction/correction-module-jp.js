@@ -230,11 +230,11 @@ async function textCorrection(name, text, translation) {
             isAllKata = allKataCheck(name, text);
         }
 
-        // mark fix
-        text = cf.markFix(text);
-
         // special fix
         text = specialTextFix(name, text);
+
+        // mark fix
+        text = cf.markFix(text);
 
         // jp1
         text = cf.replaceText(text, jpArray.jp1);
@@ -502,6 +502,11 @@ function specialTextFix(name, text) {
 
     // デス => です
     text = text.replaceAll(/([^ァ-ヺ・ー＝])デス([^ァ-ヺ・ー＝])/gi, '$1です$2');
+
+    // 魔器装備（武器・盾） => 魔器装備「武器・盾」
+    text = text
+        .replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」')
+        .replaceAll('魔器装備（防具）', '魔器装備「防具」');
 
     return text;
 }

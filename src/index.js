@@ -318,7 +318,7 @@ async function versionCheck() {
             notificationText = '已安裝最新版本';
         } else {
             document.getElementById('img_button_update').hidden = false;
-            notificationText = `已有可用的更新(目前版本: v${currentVersion}，最新版本: v${latestVersion})，請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本`;
+            notificationText = `已有可用的更新<br />請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本<br />(目前版本: v${currentVersion}，最新版本: v${latestVersion})`;
         }
     } catch (error) {
         console.log(error);

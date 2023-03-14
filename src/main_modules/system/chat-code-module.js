@@ -221,14 +221,14 @@ const defaultChatCode = [
 ];
 
 // current chat code
-let currentChatCode = defaultChatCode;
+let currentChatCode = getDefaultChatCode();
 
 // load chat code
 function loadChatCode() {
     currentChatCode = fileModule.jsonReader(chatCodeLocation);
 
     if (defaultChatCode.length !== currentChatCode.length) {
-        currentChatCode = defaultChatCode;
+        currentChatCode = getDefaultChatCode();
     }
 
     return currentChatCode;
@@ -253,9 +253,14 @@ function setChatCode(newChatCode) {
     currentChatCode = newChatCode;
 }
 
+// get default chat code
+function getDefaultChatCode() {
+    return JSON.parse(JSON.stringify(defaultChatCode));
+}
+
 // set default chat code
 function setDefaultChatCode() {
-    currentChatCode = defaultChatCode;
+    currentChatCode = getDefaultChatCode();
 }
 
 // module exports
@@ -264,5 +269,6 @@ module.exports = {
     saveChatCode,
     getChatCode,
     setChatCode,
+    getDefaultChatCode,
     setDefaultChatCode,
 };

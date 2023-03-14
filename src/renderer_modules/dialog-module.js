@@ -104,7 +104,7 @@ onDocumentReady(() => {
                 } catch (error) {
                     console.log(error);
                 }
-            }, 5000 + Math.floor(text.length / 20));
+            }, 5000 + parseInt(text.length / 30) * 1000);
         });
     }
 

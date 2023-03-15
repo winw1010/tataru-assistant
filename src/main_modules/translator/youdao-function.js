@@ -64,8 +64,8 @@ function getKeyword(option) {
     const data = { text: option.text, lang: option.from, to: option.to };
     const formData = new FormData();
 
-    Object.keys(data).forEach((value) => {
-        formData.append(value, data[value]);
+    Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
     });
 
     axios

@@ -32,7 +32,7 @@ async function exec(option) {
         result = await translate(cookie, authentication, option);
 
         // get keyword
-        // youdaoFunction.getKeyword(option);
+        youdaoFunction.getKeyword(option);
 
         return result;
     } catch (error) {

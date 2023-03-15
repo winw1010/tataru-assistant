@@ -71,7 +71,7 @@ function getKeyword(option) {
     axios
         .post('https://dict.youdao.com/keyword/key', formData)
         .then((response) => {
-            console.log(response.config.data);
+            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);

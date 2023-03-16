@@ -209,10 +209,10 @@ function setButton() {
                 fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
-            ipcRenderer.send('send-index', 'show-notification', '已儲存自訂翻譯');
+            ipcRenderer.send('show-notification', '已儲存自訂翻譯');
             ipcRenderer.send('load-json');
         } else {
-            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
+            ipcRenderer.send('show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
         }
     };
 
@@ -240,10 +240,10 @@ function setButton() {
                 fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
             }
 
-            ipcRenderer.send('send-index', 'show-notification', '已刪除自訂翻譯');
+            ipcRenderer.send('show-notification', '已刪除自訂翻譯');
             ipcRenderer.send('load-json');
         } else {
-            ipcRenderer.send('send-index', 'show-notification', '「替換前(原文)」不可為空白');
+            ipcRenderer.send('show-notification', '「替換前(原文)」不可為空白');
         }
     };
 
@@ -334,7 +334,7 @@ function deleteTemp(textBefore, type, array) {
         }
     }
 
-    ipcRenderer.send('send-index', 'show-notification', `共找到${count}個`);
+    ipcRenderer.send('show-notification', `共找到${count}個`);
 
     return array;
 }
@@ -353,25 +353,14 @@ function postForm() {
             `&${entry4}=${text2}`;
 
         ipcRenderer.send('post-form', encodeURI(path));
-        ipcRenderer.send('send-index', 'show-notification', '回報完成');
+        ipcRenderer.send('show-notification', '回報完成');
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', error);
+        ipcRenderer.send('show-notification', error);
     }
 }
 
 // create log name
 function createLogName(milliseconds = null) {
-    const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
-    let dateString = date.toLocaleDateString().split('/');
-
-    if (dateString[1].length < 2) {
-        dateString[1] = '0' + dateString[1];
-    }
-
-    if (dateString[2].length < 2) {
-        dateString[2] = '0' + dateString[2];
-    }
-
-    return dateString.join('-') + '.json';
+    return ipcRenderer.sendSync('create-log-name', milliseconds);
 }

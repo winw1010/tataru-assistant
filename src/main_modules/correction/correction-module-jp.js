@@ -10,8 +10,8 @@ const cf = require('./correction-function');
 // translator module
 const tm = require('../system/translate-module');
 
-// window module
-const windowModule = require('../system/window-module');
+// dialog module
+const dialogModule = require('../system/dialog-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -135,8 +135,8 @@ async function startCorrection(dialogData, translation) {
             dialogData.timestamp = timestamp;
         }
 
-        // append blank dialog
-        windowModule.sendIndex('append-blank-dialog', dialogData.id, dialogData.code);
+        // add dialog
+        dialogModule.addDialog(dialogData.id, dialogData.code);
 
         // name translation
         let translatedName = '';
@@ -178,10 +178,10 @@ async function startCorrection(dialogData, translation) {
         }
 
         // update dialog
-        windowModule.sendIndex('update-dialog', dialogData.id, translatedName, translatedText, dialogData, translation);
+        dialogModule.updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('update-dialog', dialogData.id, 'Error', error, dialogData, translation);
+        dialogModule.updateDialog(dialogData.id, 'Error', error, dialogData, translation);
     }
 }
 

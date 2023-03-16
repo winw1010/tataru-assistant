@@ -24,20 +24,14 @@ const logLocation = fileModule.getUserDataPath('log');
 // dialog timeout
 let hideDialogTimeout = null;
 
-// append blank dialog
-function appendBlankDialog(id, code) {
-    if (document.getElementById(id)) {
-        const dialog = document.getElementById(id);
-        dialog.innerHTML = '<span>......</span>';
-        return;
-    }
-
-    const dialog = document.createElement('div');
-    dialog.setAttribute('id', id);
-    dialog.setAttribute('class', code);
-    dialog.style.display = 'none';
-    setStyle(dialog);
-    document.getElementById('div_dialog').append(dialog);
+// add dialog
+function addDialog(id, code) {
+    windowModule.sendIndex('add-dialog', {
+        id,
+        code,
+        innerHTML: '<span>......</span>',
+        style: { display: 'none', ...getStyle(code) },
+    });
 }
 
 // update dialog
@@ -48,42 +42,29 @@ async function updateDialog(id, name, text, dialogData = null, translation = nul
         text = await translateModule.zhConvert(text, translation.to);
     }
 
-    // set dialog
-    const dialog = document.getElementById(id);
-    dialog.innerHTML = '';
-    dialog.style.display = 'block';
-
-    if (dialog.className !== 'FFFF') {
-        dialog.style.cursor = 'pointer';
-        dialog.onclick = () => {
-            windowModule.restartWindow('edit', id);
-        };
+    // name check
+    if (name !== '') {
+        name = name + '：<br />';
     }
 
-    // set content
-    const spanName = document.createElement('span');
-    spanName.innerHTML = name + '：<br>';
-
-    const spanText = document.createElement('span');
-    spanText.innerHTML = text;
-
-    name !== '' ? dialog.append(spanName) : null;
-    dialog.append(spanText);
+    // add dialog
+    windowModule.sendIndex('add-dialog', {
+        id,
+        innerHTML: `<span>${name + text}</span>`,
+        style: { display: 'block' },
+    });
 
     // show dialog
     showDialog();
 
+    // save dialog
     if (dialogData && translation) {
-        // save dialog
         saveLog(id, name, text, dialogData, translation);
     }
-
-    // move to dialog
-    location.href = '#' + id;
 }
 
 // show notification
-async function appendNotification(text) {
+async function showNotification(text) {
     const config = configModule.getConfig();
     const timestamp = new Date().getTime();
     const id = 'id' + timestamp;
@@ -92,15 +73,11 @@ async function appendNotification(text) {
     // zh convert
     text = await translateModule.zhConvert(text, config.translation.to);
 
-    appendBlankDialog(id, code);
+    addDialog(id, code);
     updateDialog(id, '', text).then(() => {
         // set timeout
         setTimeout(() => {
-            try {
-                document.getElementById(id).remove();
-            } catch (error) {
-                console.log(error);
-            }
+            windowModule.sendIndex('remove-dialog', id);
         }, 5000 + Math.min(text.length * 20, 5000));
     });
 }
@@ -111,40 +88,13 @@ function showDialog() {
     hideDialogTimeout = null;
 
     const config = configModule.getConfig();
-    const dialog = document.getElementById('div_dialog');
-    dialog.hidden = false;
+    windowModule.sendIndex('hide-dialog', false);
 
     if (config.indexWindow.hideDialog) {
         hideDialogTimeout = setTimeout(() => {
-            dialog.hidden = true;
+            windowModule.sendIndex('hide-dialog', true);
         }, config.indexWindow.hideDialogTimeout * 1000);
     }
-}
-
-// reset dialog style
-function resetDialogStyle() {
-    const dialogs = document.querySelectorAll('#div_dialog div');
-    if (dialogs.length > 0) {
-        dialogs.forEach((value) => {
-            setStyle(document.getElementById(value.id));
-        });
-
-        document.getElementById(dialogs[0].id).style.marginTop = '0';
-    }
-}
-
-// set style
-function setStyle(dialog) {
-    const config = configModule.getConfig();
-
-    dialog.style.fontWeight = config.dialog.weight;
-    dialog.style.color = config.channel[dialog.className]
-        ? config.channel[dialog.className]
-        : getColor(dialog.className);
-    dialog.style.fontSize = config.dialog.fontSize + 'rem';
-    dialog.style.marginTop = config.dialog.spacing + 'rem';
-    dialog.style.borderRadius = config.dialog.radius + 'rem';
-    dialog.style.backgroundColor = config.dialog.backgroundColor;
 }
 
 // get style
@@ -209,9 +159,7 @@ function saveLog(id, name, text, dialogData, translation) {
     // play audio at first time
     if (!log[item.id]) {
         if (npcChannel.includes(dialogData.code)) {
-            document.dispatchEvent(
-                new CustomEvent('add-to-playlist', { detail: { text: dialogData.audioText, translation } })
-            );
+            windowModule.sendIndex(('add-audio', { text: dialogData.audioText, translation }));
         }
     }
 
@@ -242,34 +190,12 @@ function createLogName(milliseconds = null) {
     return dateString.join('-') + '.json';
 }
 
-// move to bottom
-function moveToBottom() {
-    clearSelection();
-
-    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
-    div.scrollTop = div.scrollHeight;
-}
-
-// clear selection
-function clearSelection() {
-    if (window.getSelection) {
-        window.getSelection().removeAllRanges();
-    } else if (document.selection) {
-        document.selection.empty();
-    }
-}
-
 // module exports
 module.exports = {
-    appendBlankDialog,
+    addDialog,
     updateDialog,
-    appendNotification,
+    showNotification,
     showDialog,
-    resetDialogStyle,
-    setStyle,
-    getColor,
-    saveLog,
+    getStyle,
     createLogName,
-    moveToBottom,
-    clearSelection,
 };

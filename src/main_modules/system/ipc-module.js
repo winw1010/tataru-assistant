@@ -12,6 +12,9 @@ const chatCodeModule = require('./chat-code-module');
 // config module
 const configModule = require('./config-module');
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // engine module
 const engineModule = require('./engine-module');
 
@@ -55,6 +58,7 @@ const appVersion = app.getVersion();
 function setIPC() {
     setSystemChannel();
     setWindowChannel();
+    setDialogChannel();
     setCaptureChannel();
     setJsonChannel();
     setRequestChannel();
@@ -238,6 +242,30 @@ function setWindowChannel() {
     });
 }
 
+// set dialog module
+function setDialogChannel() {
+    ipcMain.on('add-log', (event, id, code, name, text) => {
+        dialogModule.addDialog(id, code);
+        dialogModule.updateDialog(id, name, text, null, null);
+    });
+
+    ipcMain.on('show-notification', (event, text) => {
+        dialogModule.showNotification(text);
+    });
+
+    ipcMain.on('get-style', (event) => {
+        event.returnValue = dialogModule.getStyle();
+    });
+
+    ipcMain.on('show-dialog', () => {
+        dialogModule.showDialog();
+    });
+
+    ipcMain.on('create-log-name', (event, milliseconds) => {
+        event.returnValue = dialogModule.createLogName(milliseconds);
+    });
+}
+
 // set capture channel
 function setCaptureChannel() {
     // start recognize
@@ -284,21 +312,41 @@ function setCaptureChannel() {
 
 // set request channel
 function setRequestChannel() {
-    // set request config
-    ipcMain.on('set-request-config', (event, data) => {
-        let config = configModule.getConfig();
-        config.system.scu = data.scu;
-        config.system.userAgent = data.userAgent;
-        configModule.setConfig(config);
-    });
+    // version check
+    ipcMain.on('version-check', () => {
+        let notificationText = '';
 
-    // get latest verssion
-    ipcMain.handle('get-latest-version', () => {
-        return requestModule.get({
-            protocol: 'https:',
-            hostname: 'raw.githubusercontent.com',
-            path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
-        });
+        requestModule
+            .get({
+                protocol: 'https:',
+                hostname: 'raw.githubusercontent.com',
+                path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
+            })
+            .then((data) => {
+                // set request config
+                let config = configModule.getConfig();
+                config.system.scu = data.scu;
+                config.system.userAgent = data.userAgent;
+                configModule.setConfig(config);
+
+                // compare app version
+                const latestVersion = data?.number;
+                if (appVersion === latestVersion) {
+                    windowModule.sendIndex('hide-update-button', true);
+                    notificationText = '已安裝最新版本';
+                } else {
+                    windowModule.sendIndex('hide-update-button', false);
+                    notificationText = `已有可用的更新<br />請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                windowModule.sendIndex('hide-update-button', false);
+                notificationText = '版本檢查失敗: ' + error;
+            })
+            .finally(() => {
+                dialogModule.showNotification(notificationText);
+            });
     });
 
     // post form

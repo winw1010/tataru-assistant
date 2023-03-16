@@ -93,7 +93,7 @@ function readLogList() {
 
 function readLog(fileName) {
     if (fileName === 'none') {
-        ipcRenderer.send('send-index', 'show-notification', '檔案不存在');
+        ipcRenderer.send('show-notification', '檔案不存在');
         return;
     }
 
@@ -110,8 +110,7 @@ function readLog(fileName) {
 
                 if (logElement.code !== 'FFFF') {
                     ipcRenderer.send(
-                        'send-index',
-                        'append-dialog',
+                        'add-log',
                         logElement.id,
                         logElement.code,
                         logElement.translated_name,
@@ -124,6 +123,6 @@ function readLog(fileName) {
         }
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法讀取檔案');
+        ipcRenderer.send('show-notification', '無法讀取檔案');
     }
 }

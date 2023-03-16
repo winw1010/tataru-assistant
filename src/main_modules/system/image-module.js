@@ -7,6 +7,9 @@ sharp.cache(false);
 // config module
 const configModule = require('./config-module');
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // file module
 const fileModule = require('./file-module');
 
@@ -24,7 +27,7 @@ const dataPath = fileModule.getRootPath('src', 'data');
 
 // start recognize
 async function startRecognize(rectangleSize, displayBounds, displayIndex) {
-    windowModule.sendIndex('show-notification', '正在擷取螢幕畫面');
+    dialogModule.showNotification('正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
     try {
@@ -57,7 +60,7 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex) {
         });
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('show-notification', '無法擷取螢幕畫面: ' + error);
+        dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
     }
 }
 
@@ -85,7 +88,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         fileModule.imageWriter(getDataPath('crop.png'), imageBuffer);
 
         // start reconize
-        windowModule.sendIndex('show-notification', '正在辨識圖片文字');
+        dialogModule.showNotification('正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
             textDetectModule.googleVision(getDataPath('crop.png'));
@@ -95,7 +98,7 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
         }
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('show-notification', '無法擷取螢幕畫面: ' + error);
+        dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
     }
 }
 
@@ -142,7 +145,7 @@ async function fixImage(imageBuffer) {
         }
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('show-notification', '圖片處理發生錯誤: ' + error);
+        dialogModule.showNotification('圖片處理發生錯誤: ' + error);
         return imageBuffer;
     }
 }
@@ -215,7 +218,7 @@ async function fixImage(imageBuffer) {
         ipcRenderer.send('tesseract-ocr', resultImageBuffer);
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('send-index', 'show-notification', '無法擷取螢幕畫面: ' + error);
+        dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
     }
 }
 */

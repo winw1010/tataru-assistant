@@ -9,6 +9,9 @@ const vision = require('@google-cloud/vision');
 // config module
 const configModule = require('./config-module');
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // file module
 const fileModule = require('./file-module');
 
@@ -45,7 +48,7 @@ async function googleVision(imagePath) {
         }
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('show-notification', '無法辨識圖片文字: ' + error);
+        dialogModule.showNotification('無法辨識圖片文字: ' + error);
     }
 }
 
@@ -77,14 +80,14 @@ async function tesseractOCR(imageBuffer) {
         if (text.trim().length > 0) {
             fixImageText(text);
         } else {
-            windowModule.sendIndex('show-notification', '無法擷取文字，請重新擷取或更換辨識模式');
+            dialogModule.showNotification('無法擷取文字，請重新擷取或更換辨識模式');
         }
 
         // terminate worker
         await worker.terminate();
     } catch (error) {
         console.log(error);
-        windowModule.sendIndex('show-notification', '無法辨識圖片文字: ' + error);
+        dialogModule.showNotification('無法辨識圖片文字: ' + error);
     }
 }
 
@@ -129,7 +132,7 @@ function fixImageText(text) {
     }
 
     // show notification
-    windowModule.sendIndex('show-notification', '辨識完成');
+    dialogModule.showNotification('辨識完成');
 
     // return if edit is true
     if (config.captureWindow.edit) {

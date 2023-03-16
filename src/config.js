@@ -143,7 +143,7 @@ function setButton() {
 
     // version check
     document.getElementById('button_version_check').onclick = () => {
-        ipcRenderer.send('send-index', 'version-check');
+        ipcRenderer.send('version-check');
     };
 
     // get google credential
@@ -159,9 +159,9 @@ function setButton() {
         if (googleCredential.length > 0) {
             const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
             ipcRenderer.send('file-writer', path, googleCredential);
-            ipcRenderer.send('send-index', 'show-notification', '已儲存Google憑證');
+            ipcRenderer.send('show-notification', '已儲存Google憑證');
         } else {
-            ipcRenderer.send('send-index', 'show-notification', 'Google憑證不可為空白');
+            ipcRenderer.send('show-notification', 'Google憑證不可為空白');
         }
     };
 
@@ -387,8 +387,8 @@ function saveConfig() {
     // reset config
     showConfig();
 
-    // notification
-    ipcRenderer.send('send-index', 'show-notification', '設定已儲存');
+    // show notification
+    ipcRenderer.send('show-notification', '設定已儲存');
 }
 
 // save default config
@@ -405,8 +405,8 @@ function saveDefaultConfig() {
     // reset config
     showConfig();
 
-    // notification
-    ipcRenderer.send('send-index', 'show-notification', '已恢復預設值');
+    // show notification
+    ipcRenderer.send('show-notification', '已恢復預設值');
 }
 
 // load channel

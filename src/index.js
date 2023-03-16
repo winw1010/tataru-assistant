@@ -44,35 +44,14 @@ function setIPC() {
         dispatchCustomEvent('change-ui-text');
     });
 
-    // version check
-    ipcRenderer.on('version-check', () => {
-        versionCheck();
-    });
-
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
         document.getElementById('div_dialog').innerHTML = '';
     });
 
-    // append blank dialog
-    ipcRenderer.on('append-blank-dialog', (event, id, code) => {
-        dispatchCustomEvent('append-blank-dialog', { id, code });
-    });
-
-    // update dialog
-    ipcRenderer.on('update-dialog', (event, id, name, text, dialogData, translation) => {
-        dispatchCustomEvent('update-dialog', { id, name, text, dialogData, translation });
-    });
-
-    // append dialog
-    ipcRenderer.on('append-dialog', (event, id, code, name, text) => {
-        dispatchCustomEvent('append-blank-dialog', { id, code });
-        dispatchCustomEvent('update-dialog', { id, name, text, dialogData: null, translation: null });
-    });
-
     // move to bottom
     ipcRenderer.on('move-to-bottom', () => {
-        dispatchCustomEvent('move-to-bottom');
+        moveToBottom();
     });
 
     // reset view
@@ -80,14 +59,70 @@ function setIPC() {
         resetView(config);
     });
 
-    // show notification
-    ipcRenderer.on('show-notification', (event, text) => {
-        dispatchCustomEvent('show-notification', { text });
-    });
-
     // console log
     ipcRenderer.on('console-log', (event, text) => {
         console.log(text);
+    });
+
+    // add dialog
+    ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {} }) => {
+        // dialog
+        let dialog = document.getElementById(id);
+
+        // dialog list
+        let dialogList = document.querySelectorAll('#div_dialog div');
+
+        // check the dialog
+        if (!dialog) {
+            dialog = document.createElement('div');
+            document.getElementById('div_dialog').append(dialog);
+            dialog.id = id;
+            dialog.className = code;
+        }
+
+        // set the dialog
+        dialog.innerHTML = innerHTML;
+        setStyle(dialog, style);
+
+        // set the first dialog
+        if (dialogList.length > 0) {
+            document.getElementById(dialogList[0].id).style.marginTop = '0';
+        }
+
+        // add click listener
+        if (dialog.className !== 'FFFF') {
+            dialog.style.cursor = 'pointer';
+            dialog.onclick = () => {
+                ipcRenderer.send('restart-window', 'edit', id);
+            };
+        }
+
+        // navigate to the dialog
+        location.href = '#' + id;
+    });
+
+    // remove dialog
+    ipcRenderer.on('remove-dialog', (event, id) => {
+        try {
+            document.getElementById(id).remove();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    // hide dialog
+    ipcRenderer.on('hide-dialog', (event, isHidden) => {
+        document.getElementById('div_dialog').hidden = isHidden;
+    });
+
+    // hide update button
+    ipcRenderer.on('hide-update-button', (event, isHidden) => {
+        document.getElementById('img_button_update').hidden = isHidden;
+    });
+
+    // add audio
+    ipcRenderer.on('add-audio', (event, detail) => {
+        dispatchCustomEvent('add-to-playlist', detail);
     });
 }
 
@@ -185,7 +220,7 @@ function setButton() {
         if (config.indexWindow.focusable) {
             ipcRenderer.send('minimize-window');
         } else {
-            dispatchCustomEvent('show-notification', { text: '在不可選取的狀態下無法縮小視窗' });
+            ipcRenderer.send('show-notification', '在不可選取的狀態下無法縮小視窗');
         }
     };
 
@@ -240,7 +275,7 @@ function setButton() {
 function startApp() {
     ipcRenderer.send('start-server');
     ipcRenderer.send('initialize-json');
-    versionCheck();
+    ipcRenderer.send('version-check');
 }
 
 // reset view
@@ -260,10 +295,10 @@ function resetView(config) {
     });
 
     // reset dialog style
-    dispatchCustomEvent('reset-dialog-style');
+    resetDialogStyle();
 
     // show dialog
-    dispatchCustomEvent('show-dialog');
+    ipcRenderer.send('show-dialog');
 
     // set background color
     document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
@@ -280,6 +315,43 @@ function resetView(config) {
     }, 100);
 }
 
+// set style
+function setStyle(element, style = {}) {
+    Object.keys(style).forEach((key) => {
+        element.style[key] = style[key];
+    });
+}
+
+// reset dialog style
+function resetDialogStyle() {
+    const dialogList = document.querySelectorAll('#div_dialog div');
+    if (dialogList.length > 0) {
+        dialogList.forEach((dialog) => {
+            const style = ipcRenderer.sendSync('get-style', dialog.className);
+            setStyle(document.getElementById(dialog.id), style);
+        });
+
+        document.getElementById(dialogList[0].id).style.marginTop = '0';
+    }
+}
+
+// move to bottom
+function moveToBottom() {
+    clearSelection();
+
+    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
+    div.scrollTop = div.scrollHeight;
+}
+
+// clear selection
+function clearSelection() {
+    if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+        document.selection.empty();
+    }
+}
+
 // hide button
 function hideButton(isMouseOut, hideButton) {
     if (isMouseOut) {
@@ -294,39 +366,8 @@ function hideButton(isMouseOut, hideButton) {
         });
 
         // show dialog
-        dispatchCustomEvent('show-dialog');
+        ipcRenderer.send('show-dialog');
     }
-}
-
-// version check
-async function versionCheck() {
-    let notificationText = '';
-
-    try {
-        // get version data
-        const data = await ipcRenderer.invoke('get-latest-version');
-        const currentVersion = ipcRenderer.sendSync('get-version');
-        const latestVersion = data?.number;
-        const appVersion = ipcRenderer.sendSync('get-version');
-
-        // set request config
-        ipcRenderer.send('set-request-config', data);
-
-        // compare app version
-        if (appVersion === latestVersion) {
-            document.getElementById('img_button_update').hidden = true;
-            notificationText = '已安裝最新版本';
-        } else {
-            document.getElementById('img_button_update').hidden = false;
-            notificationText = `已有可用的更新<br />請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本<br />(目前版本: v${currentVersion}，最新版本: v${latestVersion})`;
-        }
-    } catch (error) {
-        console.log(error);
-        document.getElementById('img_button_update').hidden = false;
-        notificationText = '版本檢查失敗: ' + error;
-    }
-
-    dispatchCustomEvent('show-notification', { text: notificationText });
 }
 
 // dispatch custom event

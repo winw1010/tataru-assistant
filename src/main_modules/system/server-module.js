@@ -6,8 +6,8 @@ const http = require('http');
 // config module
 const configModule = require('./config-module');
 
-// window module
-const windowModule = require('./window-module');
+// dialog module
+const dialogModule = require('./dialog-module');
 
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
@@ -41,7 +41,7 @@ server.on('listening', () => {
 
 server.on('error', (error) => {
     server.close();
-    windowModule.sendIndex('show-notification', '伺服器發生錯誤: ' + error);
+    dialogModule.showNotification('伺服器發生錯誤: ' + error);
 });
 
 // start server

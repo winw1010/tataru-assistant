@@ -3,6 +3,9 @@
 // child process
 const { exec } = require('child_process');
 
+// dialog module
+const dialogModule = require('../system/dialog-module');
+
 // download git repo
 const downloadGitRepo = require('./download-module');
 
@@ -12,9 +15,6 @@ const { loadJSON_JP } = require('./correction-module-jp');
 
 // config module
 const configModule = require('../system/config-module');
-
-// window module
-const windowModule = require('../system/window-module');
 
 // initialize json
 function initializeJSON() {
@@ -36,9 +36,9 @@ function downloadJSON() {
             downloadGitRepo('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
                 if (error) {
                     console.log(error);
-                    windowModule.sendIndex('show-notification', '對照表下載失敗：' + error);
+                    dialogModule.showNotification('對照表下載失敗：' + error);
                 } else {
-                    windowModule.sendIndex('show-notification', '對照表下載完畢');
+                    dialogModule.showNotification('對照表下載完畢');
                     loadJSON();
                 }
             });
@@ -56,7 +56,7 @@ function loadJSON() {
     loadJSON_EN(languageTo);
     loadJSON_JP(languageTo);
 
-    windowModule.sendIndex('show-notification', '對照表讀取完畢');
+    dialogModule.showNotification('對照表讀取完畢');
 }
 
 // module exports

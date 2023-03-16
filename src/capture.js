@@ -139,19 +139,19 @@ function setCanvasEvent() {
     let mousedownClientPosition = { x: 0, y: 0 };
 
     // on mouse down
-    canvas.onmousedown = (ev) => {
+    canvas.onmousedown = (event) => {
         // get mousedown screen position
         mousedownScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
         // get mousedown client position
         mousedownClientPosition = {
-            x: ev.clientX,
-            y: ev.clientY,
+            x: event.clientX,
+            y: event.clientY,
         };
 
         // on mouse move
-        canvas.onmousemove = (ev) => {
-            drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, ev.clientX, ev.clientY);
+        canvas.onmousemove = (event) => {
+            drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
         };
 
         // on mouse up

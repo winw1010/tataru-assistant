@@ -242,7 +242,7 @@ function setWindowChannel() {
     });
 }
 
-// set dialog module
+// set dialog channel
 function setDialogChannel() {
     ipcMain.on('add-log', (event, id, code, name, text) => {
         dialogModule.addDialog(id, code);

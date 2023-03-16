@@ -102,7 +102,7 @@ function getStyle(code = '0039') {
     const config = configModule.getConfig();
     return {
         fontWeight: config.dialog.weight,
-        color: config.channel[code] ? config.channel[code] : getColor(code),
+        color: config.channel[code] || getColor(code),
         fontSize: config.dialog.fontSize + 'rem',
         marginTop: config.dialog.spacing + 'rem',
         borderRadius: config.dialog.radius + 'rem',

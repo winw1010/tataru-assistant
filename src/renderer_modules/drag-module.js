@@ -3,12 +3,12 @@
 
 onDocumentReady(() => {
     // set drag element
-    document.getElementById('img_button_drag').onmousedown = (ev) => {
-        ev = ev || window.event;
-        ev.preventDefault();
+    document.getElementById('img_button_drag').onmousedown = (event) => {
+        event = event || window.event;
+        event.preventDefault();
 
-        let clientX = ev.clientX;
-        let clientY = ev.clientY;
+        let clientX = event.clientX;
+        let clientY = event.clientY;
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
 

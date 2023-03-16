@@ -11,9 +11,9 @@ onDocumentReady(() => {
     let playInterval = null;
 
     // add audio
-    document.addEventListener('add-to-playlist', (ev) => {
-        const text = ev.detail.text;
-        const translation = ev.detail.translation;
+    document.addEventListener('add-to-playlist', (event) => {
+        const text = event.detail.text;
+        const translation = event.detail.translation;
 
         if (translation.autoPlay && text !== '') {
             try {

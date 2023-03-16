@@ -42,15 +42,10 @@ async function updateDialog(id, name, text, dialogData = null, translation = nul
         text = await translateModule.zhConvert(text, translation.to);
     }
 
-    // name check
-    if (name !== '') {
-        name = name + '：<br />';
-    }
-
     // add dialog
     windowModule.sendIndex('add-dialog', {
         id,
-        innerHTML: `<span>${name + text}</span>`,
+        innerHTML: `<span>${name + (name !== '' ? '：<br />' : '') + text}</span>`,
         style: { display: 'block' },
     });
 
@@ -159,7 +154,7 @@ function saveLog(id, name, text, dialogData, translation) {
     // play audio at first time
     if (!log[item.id]) {
         if (npcChannel.includes(dialogData.code)) {
-            windowModule.sendIndex(('add-audio', { text: dialogData.audioText, translation }));
+            windowModule.sendIndex('add-audio', { text: dialogData.audioText, translation });
         }
     }
 

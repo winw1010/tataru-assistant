@@ -253,8 +253,8 @@ function setDialogChannel() {
         dialogModule.showNotification(text);
     });
 
-    ipcMain.on('get-style', (event) => {
-        event.returnValue = dialogModule.getStyle();
+    ipcMain.on('get-style', (event, code) => {
+        event.returnValue = dialogModule.getStyle(code);
     });
 
     ipcMain.on('show-dialog', () => {

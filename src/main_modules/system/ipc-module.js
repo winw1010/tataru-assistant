@@ -244,23 +244,28 @@ function setWindowChannel() {
 
 // set dialog channel
 function setDialogChannel() {
+    // add log
     ipcMain.on('add-log', (event, id, code, name, text) => {
         dialogModule.addDialog(id, code);
         dialogModule.updateDialog(id, name, text, null, null);
     });
 
+    // show notification
     ipcMain.on('show-notification', (event, text) => {
         dialogModule.showNotification(text);
     });
 
+    // get style
     ipcMain.on('get-style', (event, code) => {
         event.returnValue = dialogModule.getStyle(code);
     });
 
+    // show dialog
     ipcMain.on('show-dialog', () => {
         dialogModule.showDialog();
     });
 
+    // create log name
     ipcMain.on('create-log-name', (event, milliseconds) => {
         event.returnValue = dialogModule.createLogName(milliseconds);
     });

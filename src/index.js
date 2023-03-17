@@ -123,8 +123,8 @@ function setIPC() {
     });
 
     // add audio
-    ipcRenderer.on('add-audio', (event, url) => {
-        dispatchCustomEvent('add-to-playlist', { url });
+    ipcRenderer.on('add-audio', (event, urls) => {
+        dispatchCustomEvent('add-to-playlist', { urls });
     });
 }
 

@@ -13,7 +13,7 @@ onDocumentReady(() => {
     // add audio
     document.addEventListener('add-to-playlist', (event) => {
         try {
-            const urls = event.detail.url;
+            const urls = event.detail.urls;
 
             for (let index = 0; index < urls.length; index++) {
                 const url = urls[index];

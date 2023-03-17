@@ -12,37 +12,31 @@ onDocumentReady(() => {
 
     // add audio
     document.addEventListener('add-to-playlist', (event) => {
-        const text = event.detail.text;
-        const translation = event.detail.translation;
+        try {
+            const urls = event.detail.url;
 
-        if (translation.autoPlay && text !== '') {
-            try {
-                const languageCode = ipcRendererSendSync('get-language-code', translation.from, 'Google');
-                const urls = ipcRendererSendSync('google-tts', { text: text, language: languageCode });
+            for (let index = 0; index < urls.length; index++) {
+                const url = urls[index];
+                const audio = new Audio(url);
 
-                for (let index = 0; index < urls.length; index++) {
-                    const url = urls[index];
-                    const audio = new Audio(url);
+                // set audio event
+                audio.onpause = () => {
+                    nowPlaying = null;
+                };
 
-                    // set audio event
-                    audio.onpause = () => {
-                        nowPlaying = null;
-                    };
+                audio.onended = () => {
+                    nowPlaying = null;
+                };
 
-                    audio.onended = () => {
-                        nowPlaying = null;
-                    };
+                audio.onerror = () => {
+                    nowPlaying = null;
+                };
 
-                    audio.onerror = () => {
-                        nowPlaying = null;
-                    };
-
-                    // add to playlist
-                    playlist.push(audio);
-                }
-            } catch (error) {
-                console.log(error);
+                // add to playlist
+                playlist.push(audio);
             }
+        } catch (error) {
+            console.log(error);
         }
     });
 

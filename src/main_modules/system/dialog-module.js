@@ -6,8 +6,14 @@ const chatCodeModule = require('./chat-code-module');
 // config module
 const configModule = require('./config-module');
 
+// engine module
+const engineModule = require('./engine-module');
+
 // file module
 const fileModule = require('./file-module');
+
+// google tts
+const googleTTS = require('../translator/google-tts');
 
 // translate module
 const translateModule = require('./translate-module');
@@ -152,9 +158,12 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     // play audio at first time
-    if (!log[item.id]) {
+    if (!log[item.id] && dialogData?.text !== '' && translation?.autoplay) {
         if (npcChannel.includes(dialogData.code)) {
-            windowModule.sendIndex('add-audio', { text: dialogData.audioText, translation });
+            windowModule.sendIndex(
+                'add-audio',
+                googleTTS.getAudioUrl(dialogData.text, engineModule.getLanguageCode(translation.from, 'Google'))
+            );
         }
     }
 

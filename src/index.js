@@ -98,7 +98,9 @@ function setIPC() {
         }
 
         // navigate to the dialog
-        location.href = '#' + id;
+        if (style?.display === 'block') {
+            location.href = '#' + id;
+        }
     });
 
     // remove dialog
@@ -121,8 +123,8 @@ function setIPC() {
     });
 
     // add audio
-    ipcRenderer.on('add-audio', (event, detail) => {
-        dispatchCustomEvent('add-to-playlist', detail);
+    ipcRenderer.on('add-audio', (event, url) => {
+        dispatchCustomEvent('add-to-playlist', { url });
     });
 }
 

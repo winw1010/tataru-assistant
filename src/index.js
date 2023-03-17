@@ -82,9 +82,7 @@ function setIPC() {
         setStyle(dialog, style);
 
         // set the first dialog
-        if (dialogList.length > 0) {
-            document.getElementById(dialogList[0].id).style.marginTop = '0';
-        }
+        document.getElementById(dialogList[0].id).style.marginTop = '0';
 
         // add click listener
         if (dialog.className !== 'FFFF') {
@@ -96,7 +94,7 @@ function setIPC() {
 
         // navigate to the dialog
         if (style?.display === 'block') {
-            if (id === dialogList[dialogList.length - 1]?.id) {
+            if (id === dialogList[dialogList.length - 1].id) {
                 moveToBottom();
             } else {
                 location.href = '#' + id;

@@ -96,7 +96,11 @@ function setIPC() {
 
         // navigate to the dialog
         if (style?.display === 'block') {
-            location.href = '#' + id;
+            if (id === dialogList[dialogList.length - 1]?.id) {
+                moveToBottom();
+            } else {
+                location.href = '#' + id;
+            }
         }
     });
 

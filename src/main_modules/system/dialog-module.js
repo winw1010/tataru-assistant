@@ -6,9 +6,6 @@ const chatCodeModule = require('./chat-code-module');
 // config module
 const configModule = require('./config-module');
 
-// engine module
-const engineModule = require('./engine-module');
-
 // file module
 const fileModule = require('./file-module');
 
@@ -159,10 +156,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // play audio at first time
     if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData?.text !== '' && translation?.autoPlay) {
-        const urlList = googleTTS.getAudioUrl({
-            text: dialogData.text,
-            language: engineModule.getLanguageCode(translation.from, 'Google'),
-        });
+        const urlList = googleTTS.getAudioUrl(dialogData.text, translation.from);
 
         windowModule.sendIndex('add-audio', urlList);
     }

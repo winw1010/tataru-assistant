@@ -420,8 +420,8 @@ function setTranslateChannel() {
     });
 
     // google tts
-    ipcMain.on('google-tts', (event, option) => {
-        event.returnValue = googleTTS.getAudioUrl(option);
+    ipcMain.on('google-tts', (event, text, from) => {
+        event.returnValue = googleTTS.getAudioUrl(text, from);
     });
 }
 

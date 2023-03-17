@@ -263,17 +263,16 @@ function setButton() {
 }
 
 function showAudio() {
-    const text = targetLog.audio_text ? targetLog.audio_text : targetLog.text;
+    const text = targetLog.text; //targetLog.audio_text ? targetLog.audio_text : targetLog.text;
 
     if (text !== '') {
         try {
-            const languageCode = ipcRenderer.sendSync('get-language-code', targetLog.translation.from, 'Google');
-            const urls = ipcRenderer.sendSync('google-tts', { text: text, language: languageCode });
-            console.log('TTS url:', urls);
+            const urlList = ipcRenderer.sendSync('google-tts', text, targetLog.translation.from);
+            console.log('TTS url:', urlList);
 
             let innerHTML = '';
-            for (let index = 0; index < urls.length; index++) {
-                const url = urls[index];
+            for (let index = 0; index < urlList.length; index++) {
+                const url = urlList[index];
 
                 innerHTML += `
                     <audio controls preload="metadata">

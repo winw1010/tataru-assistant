@@ -136,16 +136,15 @@ function startNodeTranslation(text) {
 }
 
 // get audio html
-function getAudioHtml(text, language) {
-    if (text !== '') {
+function getAudioHtml(translatedText, languageTo) {
+    if (translatedText !== '') {
         try {
-            const languageCode = ipcRenderer.sendSync('get-language-code', language, 'Google');
-            const urls = ipcRenderer.sendSync('google-tts', { text: text, language: languageCode });
-            console.log('TTS url:', urls);
+            const urlList = ipcRenderer.sendSync('google-tts', translatedText, languageTo);
+            console.log('TTS url:', urlList);
 
             let innerHTML = '';
-            for (let index = 0; index < urls.length; index++) {
-                const url = urls[index];
+            for (let index = 0; index < urlList.length; index++) {
+                const url = urlList[index];
 
                 innerHTML += `
                     <audio controls preload="metadata">

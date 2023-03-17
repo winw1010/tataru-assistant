@@ -1,12 +1,7 @@
 'use strict';
 
-// language code
-const languageCode = {
-    Japanese: 'ja',
-    English: 'en',
-    'Traditional-Chinese': 'zh-TW',
-    'Simplified-Chinese': 'zh-CN',
-};
+// engine module
+const engineModule = require('../system/engine-module');
 
 // punctuations
 const punctuations = {
@@ -25,7 +20,7 @@ function getAudioUrl(text = '', from = 'Japanese') {
 
         if (text.length > 0) {
             const params =
-                `ie=UTF-8&q=${text}&tl=${languageCode[from]}&total=1&idx=0` +
+                `ie=UTF-8&q=${text}&tl=${engineModule.getLanguageCode(from, 'Google')}&total=1&idx=0` +
                 `&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=1`;
             urlArray.push(`https://translate.google.com/translate_tts?${encodeURI(params)}`);
         }

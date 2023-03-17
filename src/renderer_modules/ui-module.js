@@ -202,7 +202,7 @@ onDocumentReady(() => {
     // change UI text
     document.addEventListener('change-ui-text', () => {
         try {
-            const config = ipcRendererSendSync('get-config');
+            const config = getConfig();
             const textIndex = getTextIndex(config.translation.to);
 
             for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {

@@ -16,14 +16,11 @@ window.addEventListener('DOMContentLoaded', () => {
 // set context bridge
 function setContextBridge() {
     contextBridge.exposeInMainWorld('myAPI', {
-        ipcRendererSend: (channel, ...args) => {
-            ipcRenderer.send(channel, ...args);
+        getConfig: () => {
+            return ipcRenderer.sendSync('get-config');
         },
-        ipcRendererSendSync: (channel, ...args) => {
-            return ipcRenderer.sendSync(channel, ...args);
-        },
-        ipcRendererInvoke: (channel, ...args) => {
-            return ipcRenderer.invoke(channel, ...args);
+        dragWindow: (clientX, clientY, windowWidth, windowHeight) => {
+            return ipcRenderer.send('drag-window', clientX, clientY, windowWidth, windowHeight);
         },
     });
 }

@@ -3,7 +3,7 @@
 
 onDocumentReady(() => {
     // get config
-    const config = ipcRendererSendSync('get-config');
+    const config = getConfig();
 
     // play list
     let playlist = [];

@@ -1,19 +1,14 @@
 'use strict';
 /* eslint-disable */
 
-// ipcRenderer.send
-function ipcRendererSend(channel, ...args) {
-    window?.myAPI?.ipcRendererSend(channel, ...args);
+// get config
+function getConfig() {
+    return window?.myAPI?.getConfig();
 }
 
-// ipcRenderer.sendSync
-function ipcRendererSendSync(channel, ...args) {
-    return window?.myAPI?.ipcRendererSendSync(channel, ...args);
-}
-
-// ipcRenderer.invoke
-function ipcRendererInvoke(channel, ...args) {
-    return window?.myAPI?.ipcRendererInvoke(channel, ...args);
+// drag window
+function dragWindow(clientX, clientY, windowWidth, windowHeight) {
+    window?.myAPI?.dragWindow(clientX, clientY, windowWidth, windowHeight);
 }
 
 // on document ready

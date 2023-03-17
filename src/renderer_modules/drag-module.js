@@ -13,7 +13,7 @@ onDocumentReady(() => {
         let windowHeight = window.innerHeight;
 
         document.onmousemove = () => {
-            ipcRendererSend('drag-window', clientX, clientY, windowWidth, windowHeight);
+            dragWindow(clientX, clientY, windowWidth, windowHeight);
         };
 
         document.onmouseup = () => {

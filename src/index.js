@@ -63,16 +63,16 @@ function setIPC() {
 
     // add dialog
     ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {} }) => {
+        // div
+        const div = document.getElementById('div_dialog');
+
         // dialog
         let dialog = document.getElementById(id);
-
-        // dialog list
-        let dialogList = document.querySelectorAll('#div_dialog div');
 
         // check the dialog
         if (!dialog) {
             dialog = document.createElement('div');
-            document.getElementById('div_dialog').append(dialog);
+            div.append(dialog);
             dialog.id = id;
             dialog.className = code;
         }
@@ -82,7 +82,9 @@ function setIPC() {
         setStyle(dialog, style);
 
         // set the first dialog
-        document.getElementById(dialogList[0].id).style.marginTop = '0';
+        if (div.firstElementChild) {
+            document.getElementById(div.firstElementChild.id).style.marginTop = '0';
+        }
 
         // add click listener
         if (dialog.className !== 'FFFF') {
@@ -94,7 +96,7 @@ function setIPC() {
 
         // navigate to the dialog
         if (style?.display === 'block') {
-            if (id === dialogList[dialogList.length - 1].id) {
+            if (div.lastElementChild && id === div.lastElementChild.id) {
                 moveToBottom();
             } else {
                 location.href = '#' + id;
@@ -325,14 +327,16 @@ function setStyle(element, style = {}) {
 
 // reset dialog style
 function resetDialogStyle() {
-    const dialogList = document.querySelectorAll('#div_dialog div');
-    if (dialogList.length > 0) {
-        dialogList.forEach((dialog) => {
-            const style = ipcRenderer.sendSync('get-style', dialog.className);
-            setStyle(document.getElementById(dialog.id), style);
-        });
+    const dialogCollection = document.getElementById('div_dialog').children;
 
-        document.getElementById(dialogList[0].id).style.marginTop = '0';
+    for (let index = 0; index < dialogCollection.length; index++) {
+        const dialog = document.getElementById(dialogCollection[index].id);
+        const style = ipcRenderer.sendSync('get-style', dialog.className);
+        setStyle(dialog, style);
+
+        if (index === 0) {
+            dialog.style.marginTop = '0';
+        }
     }
 }
 

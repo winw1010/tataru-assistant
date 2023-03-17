@@ -158,13 +158,13 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     // play audio at first time
-    if (!log[item.id] && dialogData?.text !== '' && translation?.autoplay) {
-        if (npcChannel.includes(dialogData.code)) {
-            windowModule.sendIndex(
-                'add-audio',
-                googleTTS.getAudioUrl(dialogData.text, engineModule.getLanguageCode(translation.from, 'Google'))
-            );
-        }
+    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData?.text !== '' && translation?.autoPlay) {
+        const urlList = googleTTS.getAudioUrl({
+            text: dialogData.text,
+            language: engineModule.getLanguageCode(translation.from, 'Google'),
+        });
+
+        windowModule.sendIndex('add-audio', urlList);
     }
 
     // add/replcae log

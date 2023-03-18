@@ -48,7 +48,7 @@ async function updateDialog(id, name, text, dialogData = null, translation = nul
     // add dialog
     windowModule.sendIndex('add-dialog', {
         id,
-        innerHTML: `<span>${name + (name !== '' ? '：<br />' : '') + text}</span>`,
+        innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
         style: { display: 'block' },
     });
 

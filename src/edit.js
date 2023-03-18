@@ -260,7 +260,7 @@ function setButton() {
 }
 
 function showAudio() {
-    const text = targetLog.text; //targetLog.audio_text ? targetLog.audio_text : targetLog.text;
+    const text = targetLog.audio_text || targetLog.text;
 
     if (text !== '') {
         try {

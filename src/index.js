@@ -98,6 +98,8 @@ function setIPC() {
         if (style?.display === 'block') {
             location.href = '#' + id;
         }
+
+        return;
     });
 
     // remove dialog

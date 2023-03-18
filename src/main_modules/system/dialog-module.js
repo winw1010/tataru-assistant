@@ -155,8 +155,8 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     // play audio at first time
-    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData?.text !== '' && translation?.autoPlay) {
-        const urlList = googleTTS.getAudioUrl(dialogData.text, translation.from);
+    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData.audioText !== '' && translation.autoPlay) {
+        const urlList = googleTTS.getAudioUrl(dialogData.audioText, translation.from);
         windowModule.sendIndex('add-audio', urlList);
     }
 

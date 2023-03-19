@@ -96,10 +96,10 @@ function setIPC() {
 
         // navigate to the dialog
         if (style?.display === 'block') {
-            location.href = '#' + id;
+            setTimeout(() => {
+                location.href = '#' + id;
+            }, 200);
         }
-
-        return;
     });
 
     // remove dialog

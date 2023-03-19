@@ -340,10 +340,12 @@ function resetDialogStyle() {
 
 // move to bottom
 function moveToBottom() {
-    clearSelection();
+    setTimeout(() => {
+        clearSelection();
 
-    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
-    div.scrollTop = div.scrollHeight;
+        let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
+        div.scrollTop = div.scrollHeight;
+    }, 300);
 }
 
 // clear selection

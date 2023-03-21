@@ -62,7 +62,7 @@ function setIPC() {
     });
 
     // add dialog
-    ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {} }) => {
+    ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = false }) => {
         // div
         const div = document.getElementById('div_dialog');
 
@@ -75,6 +75,7 @@ function setIPC() {
             div.append(dialog);
             dialog.id = id;
             dialog.className = code;
+            dialog.style.display = 'none';
         }
 
         // set the dialog
@@ -95,10 +96,10 @@ function setIPC() {
         }
 
         // navigate to the dialog
-        if (style?.display === 'block') {
+        if (scroll) {
             setTimeout(() => {
                 location.href = '#' + id;
-            }, 200);
+            }, 100);
         }
     });
 
@@ -345,7 +346,7 @@ function moveToBottom() {
 
         let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
         div.scrollTop = div.scrollHeight;
-    }, 300);
+    }, 200);
 }
 
 // clear selection

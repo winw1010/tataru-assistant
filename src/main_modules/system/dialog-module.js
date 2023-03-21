@@ -33,7 +33,7 @@ function addDialog(id, code) {
         id,
         code,
         innerHTML: '<span>......</span>',
-        style: { display: 'none', ...getStyle(code) },
+        style: getStyle(code),
     });
 }
 
@@ -50,6 +50,7 @@ async function updateDialog(id, name, text, dialogData = null, translation = nul
         id,
         innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
         style: { display: 'block' },
+        scroll: true,
     });
 
     // show dialog

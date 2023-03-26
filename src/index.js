@@ -99,7 +99,7 @@ function setIPC() {
         if (scroll) {
             setTimeout(() => {
                 location.href = '#' + id;
-            }, 100);
+            }, 200);
         }
     });
 
@@ -346,7 +346,7 @@ function moveToBottom() {
 
         let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
         div.scrollTop = div.scrollHeight;
-    }, 200);
+    }, 300);
 }
 
 // clear selection

@@ -138,6 +138,22 @@ function getUserDataPath(...args) {
     return path.join(userPath, 'Documents', appName, ...args);
 }
 
+// delete images
+function deleteImages() {
+    const imagePath = getRootPath('src', 'data', 'image');
+    const images = fs.readdirSync(imagePath);
+
+    images.forEach((fileName) => {
+        if (fileName.includes('png')) {
+            try {
+                fileDeleter(getPath(imagePath, fileName));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    });
+}
+
 // module exports
 module.exports = {
     directoryCheck,
@@ -152,4 +168,5 @@ module.exports = {
     getRootPath,
     getUserPath,
     getUserDataPath,
+    deleteImages,
 };

@@ -24,11 +24,11 @@ const engineModule = require('./engine-module');
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
 
-// data path
-const dataPath = fileModule.getRootPath('src', 'data');
+// tesseract path
+const tesseractPath = fileModule.getRootPath('src', 'data', 'tesseract');
 
 // google vision
-async function googleVision(imagePath) {
+async function googleVision(imagePath, skipEdit) {
     try {
         const path = fileModule.getUserDataPath('setting', 'google-credential.json');
         if (!fileModule.fileChecker(path)) {
@@ -42,7 +42,7 @@ async function googleVision(imagePath) {
         const detections = result.textAnnotations[0];
 
         if (detections?.description) {
-            fixImageText(detections.description);
+            fixImageText(detections.description, skipEdit);
         } else {
             throw result.error;
         }
@@ -53,11 +53,11 @@ async function googleVision(imagePath) {
 }
 
 // tesseract ocr
-async function tesseractOCR(imageBuffer) {
+async function tesseractOCR(imageBuffer, skipEdit) {
     try {
         const config = configModule.getConfig();
         const worker = await createWorker({
-            langPath: getDataPath('tesseract'),
+            langPath: tesseractPath,
             cacheMethod: 'none',
             gzip: false,
         });
@@ -78,7 +78,7 @@ async function tesseractOCR(imageBuffer) {
 
         // fix or error
         if (text.trim().length > 0) {
-            fixImageText(text);
+            fixImageText(text, skipEdit);
         } else {
             dialogModule.showNotification('無法擷取文字，請重新擷取或更換辨識模式');
         }
@@ -92,7 +92,7 @@ async function tesseractOCR(imageBuffer) {
 }
 
 // fix image text
-function fixImageText(text) {
+function fixImageText(text, skipEdit) {
     console.log(text);
 
     // get config
@@ -135,33 +135,33 @@ function fixImageText(text) {
     dialogModule.showNotification('辨識完成');
 
     // return if edit is true
-    if (config.captureWindow.edit) {
+    if (config.captureWindow.edit && !skipEdit) {
         windowModule.restartWindow('capture-edit', text);
         return;
     }
 
     // translate image text
-    translateImageText(text);
+    translateImageText(text, skipEdit);
 }
 
 // translate image text
-async function translateImageText(text) {
+async function translateImageText(text, skipEdit) {
     const config = configModule.getConfig();
 
     // set string array
     let stringArray = [];
-    if (config.captureWindow.split) {
+    if (config.captureWindow.split && !skipEdit) {
         stringArray = text.split('\n');
     } else {
         if (config.translation.from === engineModule.languageEnum.ja) {
-            stringArray = [text.replaceAll('\n', '')];
+            stringArray = [text.replaceAll('\n', skipEdit ? '、' : '')];
         } else {
             stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
         }
     }
 
     // delete images
-    deleteImages();
+    fileModule.deleteImages();
 
     // start translate
     for (let index = 0; index < stringArray.length; index++) {
@@ -177,24 +177,6 @@ async function translateImageText(text) {
             correctionEntry(dialogData, config.translation);
         }
     }
-}
-
-// get data path
-function getDataPath(fileName) {
-    return fileModule.getPath(dataPath, fileName);
-}
-
-// delete images
-function deleteImages() {
-    const images = ['screenshot.png', 'crop.png'];
-
-    images.forEach((value) => {
-        try {
-            fileModule.fileDeleter(getDataPath(value));
-        } catch (error) {
-            console.log(error);
-        }
-    });
 }
 
 module.exports = {

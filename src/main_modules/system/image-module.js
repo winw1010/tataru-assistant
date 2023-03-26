@@ -22,42 +22,45 @@ const textDetectModule = require('./text-detect-module');
 // window module
 const windowModule = require('./window-module');
 
-// data path
-const dataPath = fileModule.getRootPath('src', 'data');
+// image path
+const imagePath = fileModule.getRootPath('src', 'data', 'image');
 
 // start recognize
-async function startRecognize(rectangleSize, displayBounds, displayIndex) {
+async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEdit) {
     dialogModule.showNotification('正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
     try {
+        // time
+        const time = new Date().getTime();
+
+        // screenshot path
+        const screenshotPath = getImagePath('screenshot_' + time + '.png');
+
         // get displays
         const displays = await screenshotModule.listDisplays();
 
-        // declare image path
-        let imagePath = '';
-
         // take screenshot
         try {
-            imagePath = await screenshotModule({
+            await screenshotModule({
                 screen: displays[displayIndex].id,
-                filename: getDataPath('screenshot.png'),
+                filename: screenshotPath,
                 format: 'png',
             });
         } catch (error) {
-            imagePath = await screenshotModule({
-                filename: getDataPath('screenshot.png'),
+            await screenshotModule({
+                filename: screenshotPath,
                 format: 'png',
             });
         }
-
-        // crop image
-        cropImage(rectangleSize, displayBounds, imagePath);
 
         // restore all windows
         windowModule.forEachWindow((myWindow) => {
             myWindow.restore();
         });
+
+        // crop image
+        cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit);
     } catch (error) {
         console.log(error);
         dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
@@ -65,12 +68,14 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex) {
 }
 
 // crop image
-async function cropImage(rectangleSize, displayBounds, imagePath) {
+async function cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit) {
     try {
+        const time = new Date().getTime();
+        const cropPath = getImagePath('crop_' + time + '.png');
         const config = configModule.getConfig();
         const newSize = getNewSize(displayBounds);
 
-        let imageBuffer = await sharp(imagePath)
+        let imageBuffer = await sharp(screenshotPath)
             .resize({
                 width: newSize.width,
                 height: newSize.height,
@@ -85,16 +90,16 @@ async function cropImage(rectangleSize, displayBounds, imagePath) {
             .toBuffer();
 
         // save crop
-        fileModule.imageWriter(getDataPath('crop.png'), imageBuffer);
+        fileModule.imageWriter(cropPath, imageBuffer);
 
         // start reconize
         dialogModule.showNotification('正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            textDetectModule.googleVision(getDataPath('crop.png'));
+            textDetectModule.googleVision(cropPath, skipEdit);
         } else {
             // tesseract ocr
-            textDetectModule.tesseractOCR(await fixImage(imageBuffer));
+            textDetectModule.tesseractOCR(await fixImage(imageBuffer), skipEdit);
         }
     } catch (error) {
         console.log(error);
@@ -159,9 +164,9 @@ function hsp(dominant) {
     return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
 
-// get data path
-function getDataPath(fileName) {
-    return fileModule.getPath(dataPath, fileName);
+// get image path
+function getImagePath(fileName) {
+    return fileModule.getPath(imagePath, fileName);
 }
 
 // module exports

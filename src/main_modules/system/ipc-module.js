@@ -274,7 +274,7 @@ function setDialogChannel() {
 // set capture channel
 function setCaptureChannel() {
     // start recognize
-    ipcMain.on('start-recognize', (event, rectangleSize) => {
+    ipcMain.on('start-recognize', (event, rectangleSize, skipEdit = false) => {
         // get display matching the rectangle
         const display = screen.getDisplayMatching(rectangleSize);
 
@@ -289,7 +289,7 @@ function setCaptureChannel() {
         rectangleSize.y = rectangleSize.y - display.bounds.y;
 
         // start recognize
-        imageModule.startRecognize(rectangleSize, display.bounds, displayIndex);
+        imageModule.startRecognize(rectangleSize, display.bounds, displayIndex, skipEdit);
     });
 
     // get position

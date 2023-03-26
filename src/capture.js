@@ -92,7 +92,26 @@ function setButton() {
                 displayBounds.y,
                 displayBounds.x + displayBounds.width,
                 displayBounds.y + displayBounds.height
-            )
+            ),
+            true
+        );
+    };
+    // screenshot
+    document.getElementById('button_bottom_screenshot').onclick = () => {
+        // minimize all windows
+        ipcRenderer.send('minimize-all-windows');
+
+        // start full screen recognize
+        const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
+        ipcRenderer.send(
+            'start-recognize',
+            getRectangleSize(
+                displayBounds.x,
+                displayBounds.y + parseInt((displayBounds.height * 2) / 3),
+                displayBounds.x + displayBounds.width,
+                displayBounds.y + displayBounds.height
+            ),
+            true
         );
     };
 
@@ -105,6 +124,7 @@ function setButton() {
 // show screenshot button
 function showScreenshotButton(config) {
     document.getElementById('button_screenshot').hidden = config.captureWindow.type !== 'google';
+    document.getElementById('button_bottom_screenshot').hidden = config.captureWindow.type !== 'google';
 }
 
 // set canvas size

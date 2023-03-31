@@ -16,7 +16,10 @@ const { correctionEntry } = require('../correction/correction-module');
 const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
 // text history
-let textHistory = {};
+// let textHistory = {};
+
+// last text
+let lastText = '';
 
 // create server
 const server = http.createServer(function (request, response) {
@@ -67,16 +70,34 @@ function dataProcess(data) {
 
             // check code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
+                /*
                 // history check
                 if (textHistory[dialogData.text] && new Date().getTime() - textHistory[dialogData.text] < 5000) {
                     return;
                 } else {
                     textHistory[dialogData.text] = new Date().getTime();
                 }
+                */
+
+                // last text check
+                if (dialogData.text.replaceAll('\r', '') !== lastText) {
+                    lastText = dialogData.text.replaceAll('\r', '');
+                } else {
+                    return;
+                }
 
                 // name check
                 if (dialogData.name === '...') {
                     dialogData.name = '';
+                }
+
+                // cutscene text fix
+                if (dialogData.type === 'CUTSCENE') {
+                    if (config.translation.from === 'Japanese') {
+                        dialogData.text = dialogData.text.replaceAll('\r', '、');
+                    } else {
+                        dialogData.text = dialogData.text.replaceAll('\r', ' ');
+                    }
                 }
 
                 // system message fix
@@ -88,7 +109,9 @@ function dataProcess(data) {
                 }
 
                 // start correction
-                correctionEntry(dialogData, config.translation);
+                if (dialogData.type !== 'CUTSCENE' || config.translation.getCutsceneText) {
+                    correctionEntry(dialogData, config.translation);
+                }
 
                 // show data
                 console.log('data:', dialogData);

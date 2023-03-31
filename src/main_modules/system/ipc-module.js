@@ -423,6 +423,14 @@ function setTranslateChannel() {
     ipcMain.on('google-tts', (event, text, from) => {
         event.returnValue = googleTTS.getAudioUrl(text, from);
     });
+
+    // record
+    ipcMain.on('change-reccord-icon', (event) => {
+        let config = configModule.getConfig();
+        config.translation.getCutsceneText = !config.translation.getCutsceneText;
+        configModule.setConfig(config);
+        event.sender.send('change-reccord-icon', config.translation.getCutsceneText);
+    });
 }
 
 // set file channel

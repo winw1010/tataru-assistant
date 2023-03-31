@@ -56,6 +56,7 @@ const defaultConfig = {
         skip: true,
         skipChinese: false,
         replace: true,
+        getCutsceneText: false,
         engine: 'Youdao',
         from: 'Japanese',
         fromPlayer: 'Japanese',

@@ -91,7 +91,7 @@ function dataProcess(data) {
                     dialogData.name = '';
                 }
 
-                // cutscene text fix
+                // new line fix
                 if (config.translation.from === 'Japanese') {
                     if (dialogData.type === 'CUTSCENE') {
                         dialogData.text = dialogData.text.replaceAll('\r', '、');

@@ -92,12 +92,14 @@ function dataProcess(data) {
                 }
 
                 // cutscene text fix
-                if (dialogData.type === 'CUTSCENE') {
-                    if (config.translation.from === 'Japanese') {
+                if (config.translation.from === 'Japanese') {
+                    if (dialogData.type === 'CUTSCENE') {
                         dialogData.text = dialogData.text.replaceAll('\r', '、');
                     } else {
-                        dialogData.text = dialogData.text.replaceAll('\r', ' ');
+                        dialogData.text = dialogData.text.replaceAll('\r', '');
                     }
+                } else {
+                    dialogData.text = dialogData.text.replaceAll('\r', ' ');
                 }
 
                 // system message fix

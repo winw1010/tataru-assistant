@@ -9,6 +9,9 @@ const configModule = require('./config-module');
 // dialog module
 const dialogModule = require('./dialog-module');
 
+// engine module
+const engineModule = require('./engine-module');
+
 // correction-module
 const { correctionEntry } = require('../correction/correction-module');
 
@@ -92,7 +95,7 @@ function dataProcess(data) {
                 }
 
                 // new line fix
-                if (config.translation.from === 'Japanese') {
+                if (config.translation.from === engineModule.languageEnum.ja) {
                     if (dialogData.type === 'CUTSCENE') {
                         dialogData.text = dialogData.text.replaceAll('\r', '、');
                     } else {

@@ -35,9 +35,14 @@ const server = http.createServer(function (request, response) {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end('POST complete.');
         });
-    } else if (request.method === 'GET') {
-        response.writeHead(200, { 'Content-Type': 'text/html' });
-        response.end('GET is not in service.');
+    } else {
+        if (request?.url === '/config') {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.end(JSON.stringify(configModule.getConfig()));
+        } else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end('');
+        }
     }
 });
 

@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 const fileModule = require('./file-module');
 
 // bat path
-const batPath = fileModule.getRootPath('src', 'data', 'start-sharlayan-test.bat');
+const batPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'start-sharlayan-test.bat');
 
 // sharlayan path
 const sharlayanPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'sharlayan-test.exe');

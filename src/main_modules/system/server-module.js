@@ -113,7 +113,7 @@ function dataProcess(data) {
                 // system message fix
                 if (isSystemMessage(dialogData.code)) {
                     if (dialogData.name !== '') {
-                        dialogData.text = dialogData.name + ': ' + dialogData.text;
+                        dialogData.text = dialogData.name + ':' + dialogData.text;
                         dialogData.name = '';
                     }
                 }

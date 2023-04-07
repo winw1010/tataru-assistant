@@ -15,6 +15,9 @@ const configModule = require('./config-module');
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
+// memory module
+const memoryModule = require('./memory-module');
+
 // window module
 const windowModule = require('./window-module');
 
@@ -23,6 +26,9 @@ const ipcModule = require('./ipc-module');
 
 // start app
 function startApp() {
+    // start sharlayan test
+    memoryModule.start();
+
     // disable http cache
     app.commandLine.appendSwitch('disable-http-cache');
 

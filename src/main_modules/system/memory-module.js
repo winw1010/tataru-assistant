@@ -1,7 +1,7 @@
 'use strict';
 
 // child process
-const { execFile } = require('child_process');
+const childProcess = require('child_process');
 
 // file module
 const fileModule = require('./file-module');
@@ -18,11 +18,12 @@ const batString = `@echo off
 ver|find "5.">nul&&goto :Admin
 mshta vbscript:createobject("shell.application").shellexecute("%~s0","goto :Admin","","runas",1)(window.close)&goto :eof
 :Admin
-"${sharlayanPath}"`;
+"${sharlayanPath}"
+exit`;
 
 function start() {
     fileModule.fileWriter(batPath, batString);
-    execFile(batPath);
+    childProcess.execFile(batPath);
 }
 
 module.exports = {

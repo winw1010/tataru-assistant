@@ -26,9 +26,6 @@ const ipcModule = require('./ipc-module');
 
 // start app
 function startApp() {
-    // start sharlayan test
-    memoryModule.start();
-
     // disable http cache
     app.commandLine.appendSwitch('disable-http-cache');
 
@@ -40,6 +37,9 @@ function startApp() {
 
     // load chat code
     chatCodeModule.loadChatCode();
+
+    // start sharlayan test
+    memoryModule.start();
 
     // set IPC
     ipcModule.setIPC();

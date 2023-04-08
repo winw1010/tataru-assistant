@@ -132,6 +132,7 @@ function loadConfig() {
     } catch (error) {
         console.log(error);
         currentConfig = getDefaultConfig();
+        saveConfig();
     }
 
     return currentConfig;

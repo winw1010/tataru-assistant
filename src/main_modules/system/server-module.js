@@ -119,9 +119,12 @@ function dataProcess(data) {
                 }
 
                 // start correction
+                correctionEntry(dialogData, config.translation);
+                /*
                 if (dialogData.type !== 'CUTSCENE' || config.translation.getCutsceneText) {
                     correctionEntry(dialogData, config.translation);
                 }
+                */
 
                 // show data
                 console.log('data:', dialogData);

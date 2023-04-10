@@ -1,5 +1,10 @@
 build
 node_modules
 src/data/image/*.png
+src/data/sharlayan-test/actions-latest.json
+src/data/sharlayan-test/signatures-global-latest.json
 src/data/sharlayan-test/start-sharlayan-test.bat
+src/data/sharlayan-test/statuses-latest.json
+src/data/sharlayan-test/structures-global-latest.json
+src/data/sharlayan-test/zones-latest.json
 src/json/text

@@ -6,11 +6,11 @@ const childProcess = require('child_process');
 // file module
 const fileModule = require('./file-module');
 
-// bat path
-const batPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'start-sharlayan-test.bat');
-
 // sharlayan path
 const sharlayanPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'sharlayan-test.exe');
+
+// bat path
+const batPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'start-sharlayan-test.bat');
 
 // bat string
 const batString = `@echo off

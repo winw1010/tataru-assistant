@@ -54,6 +54,7 @@ function createBatString() {
     exit`;
 }
 
+// module exports
 module.exports = {
     start,
 };

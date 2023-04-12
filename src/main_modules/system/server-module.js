@@ -99,6 +99,14 @@ function dataProcess(data) {
                     dialogData.name = '';
                 }
 
+                // system message fix
+                if (isSystemMessage(dialogData.code)) {
+                    if (dialogData.name !== '') {
+                        dialogData.text = dialogData.name + ':' + dialogData.text;
+                        dialogData.name = '';
+                    }
+                }
+
                 // new line fix
                 if (config.translation.from === engineModule.languageEnum.ja) {
                     if (dialogData.type === 'CUTSCENE') {
@@ -110,21 +118,8 @@ function dataProcess(data) {
                     dialogData.text = dialogData.text.replaceAll('\r', ' ');
                 }
 
-                // system message fix
-                if (isSystemMessage(dialogData.code)) {
-                    if (dialogData.name !== '') {
-                        dialogData.text = dialogData.name + ':' + dialogData.text;
-                        dialogData.name = '';
-                    }
-                }
-
                 // start correction
                 correctionEntry(dialogData, config.translation);
-                /*
-                if (dialogData.type !== 'CUTSCENE' || config.translation.getCutsceneText) {
-                    correctionEntry(dialogData, config.translation);
-                }
-                */
 
                 // show data
                 console.log('data:', dialogData);

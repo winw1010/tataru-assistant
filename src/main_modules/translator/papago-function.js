@@ -14,10 +14,7 @@ function generateDeviceId() {
 
 // get hash
 function generateSignature(authentication, timestamp) {
-    return CryptoJS.HmacMD5(
-        `${authentication.deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`,
-        authentication.papagoVersion
-    ).toString(CryptoJS.enc.Base64);
+    return CryptoJS.HmacMD5(`${authentication.deviceId}\n${'https://papago.naver.com/apis/n2mt/translate'}\n${timestamp}`, authentication.papagoVersion).toString(CryptoJS.enc.Base64);
 }
 
 // module exports

@@ -175,14 +175,8 @@ onDocumentReady(() => {
         },
         div: {
             // config
-            div_google_credential: [
-                '設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填',
-                '设定Google凭证，如不使用Google Vision图形文字辨识功能则不用填',
-            ],
-            div_server: [
-                '更改Tataru Heler的伺服器設定，如非必要請維持預設',
-                '更改Tataru Heler的服务器设定，如非必要请维持预设',
-            ],
+            div_google_credential: ['設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填', '设定Google凭证，如不使用Google Vision图形文字辨识功能则不用填'],
+            div_server: ['更改Tataru Heler的伺服器設定，如非必要請維持預設', '更改Tataru Heler的服务器设定，如非必要请维持预设'],
         },
     };
 

@@ -195,9 +195,7 @@ function valueFixAfter(text, valueTable) {
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     try {
         // get path
-        const finalPath = path.includes(':')
-            ? fileModule.getPath(path, name)
-            : fileModule.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
 
         // read
         let array = fileModule.jsonReader(finalPath);
@@ -303,9 +301,7 @@ function readJSONSubtitle() {
 function readJSONPure(path = '', name = '') {
     try {
         // get path
-        const finalPath = path.includes(':')
-            ? fileModule.getPath(path, name)
-            : fileModule.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
 
         // read
         let array = fileModule.jsonReader(finalPath);
@@ -324,9 +320,7 @@ function readJSONPure(path = '', name = '') {
 function writeJSON(path = '', name = '', array = []) {
     try {
         // get path
-        const finalPath = path.includes(':')
-            ? fileModule.getPath(path, name)
-            : fileModule.getRootPath('src', 'json', path, name);
+        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
 
         // write array
         fileModule.jsonWriter(finalPath, array);

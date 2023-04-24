@@ -64,10 +64,7 @@ function loadJSON(languageTo) {
     const englishDirectory = 'text/en';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(
-        cf.readJSON(tempLocation, 'overwriteTemp.json'),
-        cf.readJSONOverwrite(chineseDirectory, 'overwriteEN')
-    );
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);

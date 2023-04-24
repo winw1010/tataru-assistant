@@ -66,8 +66,7 @@ const defaultConfig = {
         autoDownloadJson: true,
         firstTime: true,
         scu: '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
-        userAgent:
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
     },
 };
 
@@ -104,10 +103,7 @@ function loadConfig() {
                 const subNames2 = Object.getOwnPropertyNames(currentConfig[mainName]);
                 if (subNames.length !== subNames2.length) {
                     subNames2.forEach((subName) => {
-                        if (
-                            defaultConfig[mainName][subName] === null ||
-                            defaultConfig[mainName][subName] === undefined
-                        ) {
+                        if (defaultConfig[mainName][subName] === null || defaultConfig[mainName][subName] === undefined) {
                             delete currentConfig[mainName][subName];
                         }
                     });

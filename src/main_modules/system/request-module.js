@@ -7,16 +7,7 @@ const { net } = require('electron');
 const configModule = require('./config-module');
 
 // restricted headers
-const restrictedHeaders = [
-    'Content-Length',
-    'Host',
-    'Trailer',
-    'Te',
-    'Upgrade',
-    'Cookie2',
-    'Keep-Alive',
-    'Transfer-Encoding',
-];
+const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
 
 // get
 function get(options, headers = {}, timeout = 15000) {
@@ -142,9 +133,7 @@ function getSCU() {
 // get user agent
 function getUserAgent() {
     const userAgent = configModule.getConfig()?.system?.userAgent;
-    return userAgent
-        ? userAgent
-        : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
+    return userAgent ? userAgent : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
 }
 
 // to parameters

@@ -37,12 +37,8 @@ function setIPC() {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('select_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = /chinese/i.test(config.translation.to)
-        ? 'Chinese'
-        : config.translation.to;
-    document.getElementById('select_to').value = /chinese/i.test(config.translation.from)
-        ? 'Chinese'
-        : config.translation.from;
+    document.getElementById('select_from').value = /chinese/i.test(config.translation.to) ? 'Chinese' : config.translation.to;
+    document.getElementById('select_to').value = /chinese/i.test(config.translation.from) ? 'Chinese' : config.translation.from;
 }
 
 // set enevt
@@ -78,13 +74,7 @@ function setButton() {
                 const engine = document.getElementById('select_engine').value;
 
                 // set option
-                const option = ipcRenderer.sendSync(
-                    'get-translate-option',
-                    engine,
-                    document.getElementById('select_from').value,
-                    document.getElementById('select_to').value,
-                    inputText
-                );
+                const option = ipcRenderer.sendSync('get-translate-option', engine, document.getElementById('select_from').value, document.getElementById('select_to').value, inputText);
 
                 // translate
                 ipcRenderer
@@ -93,10 +83,7 @@ function setButton() {
                         // show translated text
                         if (translatedText !== '') {
                             document.getElementById('span_translated_text').innerText = translatedText;
-                            document.getElementById('div_audio').innerHTML = getAudioHtml(
-                                translatedText,
-                                document.getElementById('select_to').value
-                            );
+                            document.getElementById('div_audio').innerHTML = getAudioHtml(translatedText, document.getElementById('select_to').value);
                         } else {
                             document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
                             document.getElementById('div_audio').innerHTML = '';

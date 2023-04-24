@@ -64,9 +64,7 @@ async function setCookie() {
     );
 
     if (response) {
-        cookie =
-            response +
-            `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}`;
+        cookie = response + `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}`;
         expireDate = requestModule.getExpiryDate();
     } else {
         throw 'ERROR: setCookie';
@@ -93,9 +91,7 @@ async function setAuthentication() {
         authentication.gtk = gtk;
 
         if (appVersion) {
-            cookie +=
-                `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` +
-                '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
+            cookie += `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` + '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
         }
     } else {
         throw 'ERROR: setAuthentication';

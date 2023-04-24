@@ -52,32 +52,22 @@ function setView() {
 function setEvent() {
     // background color
     document.getElementById('color_background_color').oninput = () => {
-        document.getElementById('span_background_color').innerText = document
-            .getElementById('color_background_color')
-            .value.toString()
-            .toUpperCase();
+        document.getElementById('span_background_color').innerText = document.getElementById('color_background_color').value.toString().toUpperCase();
     };
 
     // background transparency
     document.getElementById('range_background_transparency').oninput = () => {
-        document.getElementById('span_background_transparency').innerText = document.getElementById(
-            'range_background_transparency'
-        ).value;
+        document.getElementById('span_background_transparency').innerText = document.getElementById('range_background_transparency').value;
     };
 
     // dialog color
     document.getElementById('color_dialog_color').oninput = () => {
-        document.getElementById('span_dialog_color').innerText = document
-            .getElementById('color_dialog_color')
-            .value.toString()
-            .toUpperCase();
+        document.getElementById('span_dialog_color').innerText = document.getElementById('color_dialog_color').value.toString().toUpperCase();
     };
 
     // dialog transparency
     document.getElementById('range_dialog_transparency').oninput = () => {
-        document.getElementById('span_dialog_transparency').innerText = document.getElementById(
-            'range_dialog_transparency'
-        ).value;
+        document.getElementById('span_dialog_transparency').innerText = document.getElementById('range_dialog_transparency').value;
     };
 }
 
@@ -175,10 +165,7 @@ function setButton() {
 
     // translation report
     document.getElementById('a_translation_report').onclick = () => {
-        ipcRenderer.send(
-            'execute-command',
-            'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
-        );
+        ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"');
     };
 
     // github
@@ -231,14 +218,8 @@ function showConfig() {
     document.getElementById('span_background_color').innerText = config.indexWindow.backgroundColor.slice(0, 7);
     document.getElementById('color_background_color').value = config.indexWindow.backgroundColor.slice(0, 7);
 
-    document.getElementById('span_background_transparency').innerText = parseInt(
-        config.indexWindow.backgroundColor.slice(7),
-        16
-    );
-    document.getElementById('range_background_transparency').value = parseInt(
-        config.indexWindow.backgroundColor.slice(7),
-        16
-    );
+    document.getElementById('span_background_transparency').innerText = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
+    document.getElementById('range_background_transparency').value = parseInt(config.indexWindow.backgroundColor.slice(7), 16);
 
     // font
     document.getElementById('select_font_weight').value = config.dialog.weight;
@@ -252,10 +233,7 @@ function showConfig() {
     document.getElementById('span_dialog_color').innerText = config.dialog.backgroundColor.slice(0, 7);
     document.getElementById('color_dialog_color').value = config.dialog.backgroundColor.slice(0, 7);
 
-    document.getElementById('span_dialog_transparency').innerText = parseInt(
-        config.dialog.backgroundColor.slice(7),
-        16
-    );
+    document.getElementById('span_dialog_transparency').innerText = parseInt(config.dialog.backgroundColor.slice(7), 16);
     document.getElementById('range_dialog_transparency').value = parseInt(config.dialog.backgroundColor.slice(7), 16);
 
     // channel
@@ -306,10 +284,7 @@ function saveConfig() {
     config.indexWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
     config.indexWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
 
-    config.indexWindow.backgroundColor = document
-        .getElementById('color_background_color')
-        .value.toString()
-        .toUpperCase();
+    config.indexWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 
     let pt = parseInt(document.getElementById('range_background_transparency').value).toString(16).toUpperCase();
     config.indexWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;

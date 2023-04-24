@@ -232,9 +232,7 @@ function getNearX(displayBounds, indexBounds, width) {
 
 // get near y
 function getNearY(displayBounds, indexBounds, height) {
-    return indexBounds.y + height > displayBounds.y + displayBounds.height
-        ? displayBounds.y + displayBounds.height - height
-        : indexBounds.y;
+    return indexBounds.y + height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - height : indexBounds.y;
 }
 
 // bounds check

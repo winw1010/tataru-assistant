@@ -79,10 +79,7 @@ function loadJSON(languageTo) {
     const japaneseDirectory = 'text/jp';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(
-        cf.readJSON(tempLocation, 'overwriteTemp.json'),
-        cf.readJSONOverwrite(chineseDirectory, 'overwriteJP')
-    );
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
     chArray.chName = cf.readJSON(chineseDirectory, 'chName.json');
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
@@ -307,11 +304,7 @@ async function translateName(name, katakanaName, translation) {
     const sameKatakanaName2 = cf.sameAsArrayItem(katakanaName + '#', chArray.combine);
 
     // translate katakana name
-    const translatedKatakanaName = sameKatakanaName1
-        ? sameKatakanaName1[0][1]
-        : sameKatakanaName2
-        ? sameKatakanaName2[0][1]
-        : createName(katakanaName);
+    const translatedKatakanaName = sameKatakanaName1 ? sameKatakanaName1[0][1] : sameKatakanaName2 ? sameKatakanaName2[0][1] : createName(katakanaName);
 
     if (name === katakanaName) {
         // all katakana => use translatedKatakanaName
@@ -329,12 +322,7 @@ async function translateName(name, katakanaName, translation) {
 
         // code
         const codeResult =
-            katakanaName !== ''
-                ? cfjp.replaceTextByCode(
-                      name,
-                      cf.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]])
-                  )
-                : cfjp.replaceTextByCode(name, chArray.combine);
+            katakanaName !== '' ? cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]])) : cfjp.replaceTextByCode(name, chArray.combine);
 
         // translate name
         translatedName = codeResult.text;
@@ -430,10 +418,7 @@ function specialTextFix(name, text) {
 
     // 水晶公判斷
     if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
-        text = text.replaceAll(
-            /(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi,
-            '水晶公'
-        );
+        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
 
     // 若判斷
@@ -456,10 +441,7 @@ function specialTextFix(name, text) {
 
     // あ…… or あ… or あ、
     loopCount = 0;
-    while (
-        /^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) &&
-        loopCount++ < 10
-    ) {
+    while (/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount++ < 10) {
         text = text.replace(/^([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$2');
     }
 
@@ -468,14 +450,8 @@ function specialTextFix(name, text) {
     }
 
     loopCount = 0;
-    while (
-        /([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) &&
-        loopCount++ < 10
-    ) {
-        text = text.replace(
-            /([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi,
-            '$1$3'
-        );
+    while (/([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount++ < 10) {
+        text = text.replace(/([、。！？])([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
     }
 
     /*
@@ -504,9 +480,7 @@ function specialTextFix(name, text) {
     text = text.replaceAll(/([^ァ-ヺ・ー＝])デス([^ァ-ヺ・ー＝])/gi, '$1です$2');
 
     // 魔器装備（武器・盾） => 魔器装備「武器・盾」
-    text = text
-        .replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」')
-        .replaceAll('魔器装備（防具）', '魔器装備「防具」');
+    text = text.replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」').replaceAll('魔器装備（防具）', '魔器装備「防具」');
 
     return text;
 }

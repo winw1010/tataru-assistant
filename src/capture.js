@@ -85,16 +85,7 @@ function setButton() {
 
         // start full screen recognize
         const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
-        ipcRenderer.send(
-            'start-recognize',
-            getRectangleSize(
-                displayBounds.x,
-                displayBounds.y,
-                displayBounds.x + displayBounds.width,
-                displayBounds.y + displayBounds.height
-            ),
-            true
-        );
+        ipcRenderer.send('start-recognize', getRectangleSize(displayBounds.x, displayBounds.y, displayBounds.x + displayBounds.width, displayBounds.y + displayBounds.height), true);
     };
 
     // close
@@ -168,12 +159,7 @@ function setCanvasEvent() {
             mouseupScreenPosition = ipcRenderer.sendSync('get-screen-position');
 
             // get rectangle size
-            let rectangleSize = getRectangleSize(
-                mousedownScreenPosition.x,
-                mousedownScreenPosition.y,
-                mouseupScreenPosition.x,
-                mouseupScreenPosition.y
-            );
+            let rectangleSize = getRectangleSize(mousedownScreenPosition.x, mousedownScreenPosition.y, mouseupScreenPosition.x, mouseupScreenPosition.y);
 
             // start recognize
             if (rectangleSize.width > 0 && rectangleSize.height > 0) {

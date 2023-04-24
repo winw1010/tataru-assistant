@@ -43,14 +43,7 @@ function setIPC() {
 
     // change reccord icon
     ipcRenderer.on('change-reccord-icon', (event, isRecording) => {
-        document
-            .getElementById('img_button_record_icon')
-            .setAttribute(
-                'src',
-                isRecording
-                    ? './img/ui/radio_button_checked_white_24dp.svg'
-                    : './img/ui/radio_button_unchecked_white_24dp.svg'
-            );
+        document.getElementById('img_button_record_icon').setAttribute('src', isRecording ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
     });
 
     // clear dialog
@@ -155,12 +148,7 @@ function setView() {
     // change reccord icon
     document
         .getElementById('img_button_record_icon')
-        .setAttribute(
-            'src',
-            config.translation.getCutsceneText
-                ? './img/ui/radio_button_checked_white_24dp.svg'
-                : './img/ui/radio_button_unchecked_white_24dp.svg'
-        );
+        .setAttribute('src', config.translation.getCutsceneText ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
 }
 
 // set event
@@ -226,9 +214,7 @@ function setButton() {
         if (isClickThrough) {
             document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
         } else {
-            document
-                .getElementById('img_button_through')
-                .setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
         }
     };
 

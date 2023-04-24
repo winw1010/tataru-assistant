@@ -4,25 +4,7 @@
 const cf = require('./correction-function');
 
 // female words
-const femaleWords = [
-    'Girl',
-    'She',
-    'Her',
-    'Women',
-    'Female',
-    'Lady',
-    'Grandmother',
-    'Grandma',
-    'Mother',
-    'Mom',
-    'Granddaughter',
-    'Daughter',
-    'Aunt',
-    'Niece',
-    'Waitress',
-    'Actress',
-    'Heroine',
-];
+const femaleWords = ['Girl', 'She', 'Her', 'Women', 'Female', 'Lady', 'Grandmother', 'Grandma', 'Mother', 'Mom', 'Granddaughter', 'Daughter', 'Aunt', 'Niece', 'Waitress', 'Actress', 'Heroine'];
 
 // en text function
 function replaceTextByCode(text, array, search = 0, replacement = 1) {

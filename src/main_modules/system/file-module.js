@@ -68,13 +68,7 @@ function jsonWriter(filePath = './', data = null) {
 
         fs.writeFileSync(
             filePath,
-            dataString.includes('{')
-                ? JSON.stringify(data, null, '\t')
-                : dataString
-                      .replaceAll('[[', '[\r\n\t[')
-                      .replaceAll('],', '],\r\n\t')
-                      .replaceAll(']]', ']\r\n]')
-                      .replaceAll('","', '", "')
+            dataString.includes('{') ? JSON.stringify(data, null, '\t') : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]').replaceAll('","', '", "')
         );
     } catch (error) {
         console.log(error);

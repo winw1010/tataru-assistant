@@ -71,11 +71,7 @@ function setIPC() {
     ipcRenderer.on('send-data', (event, id) => {
         try {
             const milliseconds = parseInt(id.slice(2));
-            const logFileList = [
-                createLogName(milliseconds),
-                createLogName(milliseconds + 86400000),
-                createLogName(milliseconds - 86400000),
-            ];
+            const logFileList = [createLogName(milliseconds), createLogName(milliseconds + 86400000), createLogName(milliseconds - 86400000)];
 
             if (logFileList.length > 0) {
                 for (let index = 0; index < logFileList.length; index++) {
@@ -292,9 +288,7 @@ function showText() {
     const text2 = document.getElementById('div_text2');
 
     text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
-    text2.innerHTML =
-        `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
-        `${targetLog.translated_text}</span>`;
+    text2.innerHTML = `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` + `${targetLog.translated_text}</span>`;
 }
 
 function addTemp(textBefore, textAfter, type, array) {
@@ -339,14 +333,8 @@ function deleteTemp(textBefore, type, array) {
 function postForm() {
     try {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
-        const text2 =
-            (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
-        const path =
-            `/forms/d/e/${formId}/formResponse?` +
-            `${entry1}=待處理` +
-            `&${entry2}=${targetLog.translation.engine}` +
-            `&${entry3}=${text1}` +
-            `&${entry4}=${text2}`;
+        const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
+        const path = `/forms/d/e/${formId}/formResponse?` + `${entry1}=待處理` + `&${entry2}=${targetLog.translation.engine}` + `&${entry3}=${text1}` + `&${entry4}=${text2}`;
 
         ipcRenderer.send('post-form', encodeURI(path));
         ipcRenderer.send('show-notification', '回報完成');

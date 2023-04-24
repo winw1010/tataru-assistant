@@ -54,9 +54,7 @@ async function initialize() {
 // set cookie
 async function setCookie() {
     //cookie = 'OUTFOX_SEARCH_USER_ID=-1846428029@10.108.162.139; OUTFOX_SEARCH_USER_ID_NCOO=1596094722.4516084';
-    cookie =
-        `OUTFOX_SEARCH_USER_ID=${(2147483647 * Math.random()).toFixed(0)}@10.108.162.139; ` +
-        `OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+    cookie = `OUTFOX_SEARCH_USER_ID=${(2147483647 * Math.random()).toFixed(0)}@10.108.162.139; ` + `OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
     expireDate = requestModule.getExpiryDate();
 }
 

@@ -1,25 +1,25 @@
 body {
     height: 100vh;
-    background-color: #000000bb;
+    background-color: #000000aa;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-a {
-    color: skyblue;
-    text-decoration: none;
+header,
+footer {
+    -webkit-user-select: none;
+    user-select: none;
+    position: absolute;
+    z-index: 10;
 }
 
-a:hover {
-    color: skyblue;
-    text-decoration: underline;
+header {
+    top: 0;
+    left: 0;
 }
 
-table td {
-    padding: 0.5rem;
-}
-
-select {
-    padding: 0.2rem;
+footer {
+    bottom: 0;
+    left: 0;
 }
 
 ::-webkit-scrollbar {
@@ -37,46 +37,19 @@ select {
     cursor: pointer;
     margin: 0 0.1rem;
     padding: 0.2rem;
-    opacity: 0.5;
+    opacity: 0.7;
     width: 2rem;
     height: 2rem;
 }
 
 .img_button:hover {
-    padding: 0;
+    padding: 0.1rem;
     opacity: 1;
     background-color: #0074d9;
-}
-
-.float_right {
-    margin: 0 0.2rem;
-    float: right;
 }
 
 #img_button_close:hover,
 #img_button_backspace:hover,
 #img_button_clear:hover {
     background-color: #d9534f;
-}
-
-header,
-footer {
-    -webkit-user-select: none;
-    user-select: none;
-    position: fixed;
-    z-index: 10;
-    padding: 0 0.7rem;
-    padding-top: 1rem;
-    width: 100vw;
-    height: 4rem;
-}
-
-header {
-    top: 0;
-    left: 0;
-}
-
-footer {
-    bottom: 0;
-    left: 0;
 }

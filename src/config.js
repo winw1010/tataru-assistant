@@ -384,7 +384,7 @@ function saveDefaultConfig() {
 // load channel
 function loadChannel(config, chatCode) {
     const channel = document.getElementById('div_channel_list');
-    let newInnerHTML = '<hr />';
+    let newInnerHTML = '';
 
     for (let index = 0; index < chatCode.length; index++) {
         const element = chatCode[index];
@@ -402,28 +402,21 @@ function loadChannel(config, chatCode) {
         }
 
         newInnerHTML += `
-            <div>
-                <table>
-                    <tr>
-                        <td>
-                            <input type="checkbox" value="" id="${checkboxId}" ${checked} />
-                        </td>
-                        <td>
-                            <label for="${checkboxId}">${element.Name}</label>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="color" value="${color}" id="${colorId}" />
-                            <span id="${spanId}" style="color:${color};">${color}</span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
             <hr />
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input" role="switch" value="" id="${checkboxId}" ${checked} />
+                        <label class="form-check-label" for="${checkboxId}">${element.Name}</label>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <input type="color" class="form-control form-control-color" value="${color}" id="${colorId}" />
+                </div>
+                <div class="col-auto">
+                    <span id="${spanId}" style="color:${color};">${color}</span>
+                </div>
+            </div>
         `;
     }
 

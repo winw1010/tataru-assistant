@@ -74,7 +74,8 @@ onDocumentReady(() => {
             checkbox_focusable: ['可被選取', '可被选取'],
             checkbox_shortcut: ['啟用快捷鍵', '启用快捷键'],
             checkbox_hide_button: ['自動隱藏按鈕', '自动隐藏按钮'],
-            checkbox_hide_dialog: ['秒後隱藏視窗', '秒后隐藏视窗'],
+            checkbox_hide_dialog: ['自動隱藏視窗', '自动隐藏视窗'],
+            input_hide_dialog: ['秒後隱藏視窗', '秒后隐藏视窗'],
             color_background_color: ['背景顏色', '背景颜色'],
             range_background_transparency: ['背景透明度', '背景透明度'],
 
@@ -86,12 +87,12 @@ onDocumentReady(() => {
             range_dialog_transparency: ['對話框透明度', '对话框透明度'],
 
             checkbox_auto_change: ['翻譯失敗時切換翻譯引擎', '翻译失败时切换翻译引擎'],
-            checkbox_text_fix: ['FFXIV詞彙校正', 'FFXIV词汇校正'],
+            checkbox_text_fix: ['詞彙校正', '词汇校正'],
             checkbox_skip_system: ['忽略常見系統訊息', '忽略常见系统讯息'],
             checkbox_skip_chinese: ['忽略漢化字幕', '忽略汉化字幕'],
             select_engine: ['翻譯引擎', '翻译引擎'],
-            select_from: ['FFXIV語言', 'FFXIV语言'],
-            select_from_player: ['玩家頻道語言', '玩家频道语言'],
+            select_from: ['遊戲語言', '游戏语言'],
+            select_from_player: ['玩家頻道', '玩家频道'],
             select_to: ['翻譯語言', '翻译语言'],
 
             checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表'],
@@ -163,7 +164,7 @@ onDocumentReady(() => {
         },
         input: {
             // config
-            input_password_google_credential: ['請輸入Google憑證', '请输入Google凭证'],
+            input_password_google_credential: ['輸入Google憑證', '输入Google凭证'],
         },
         textarea: {
             // dictionary

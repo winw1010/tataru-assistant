@@ -39,7 +39,7 @@ function startApp() {
     chatCodeModule.loadChatCode();
 
     // start sharlayan test
-    memoryModule.start();
+    //memoryModule.start();
 
     // set IPC
     ipcModule.setIPC();

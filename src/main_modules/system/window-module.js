@@ -212,7 +212,7 @@ function getWindowSize(windowName, config) {
         case 'read-log': {
             const indexBounds = windowList['index'].getBounds();
             width = parseInt(displayBounds.width * 0.2);
-            height = parseInt(displayBounds.height * 0.22);
+            height = parseInt(displayBounds.height * 0.2);
             x = getNearX(displayBounds, indexBounds, width);
             y = getNearY(displayBounds, indexBounds, height);
             break;

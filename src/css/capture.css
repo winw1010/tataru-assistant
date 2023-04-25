@@ -5,14 +5,6 @@ body {
     border: 0.1rem #808080 solid;
 }
 
-input[type='checkbox'] {
-    margin-left: 0.5rem;
-}
-
-select {
-    margin-left: 0.5rem;
-}
-
 header {
     background-color: #000000bb;
     border: 0.1rem #808080 solid;

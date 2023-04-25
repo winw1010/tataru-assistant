@@ -6,23 +6,9 @@ body {
 }
 
 main {
+    scroll-behavior: smooth;
     overflow: scroll;
-    padding: 0 0.7rem;
-    padding-bottom: 4rem;
-    height: 75vh;
-}
-
-input[type='number'] {
-    width: 5rem;
-}
-
-#div_page_button {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 4rem;
-    padding: 0 0.7rem;
-}
-
-#div_channel_list td {
-    padding: 0.2rem;
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+    height: 100vh;
 }

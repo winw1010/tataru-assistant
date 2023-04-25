@@ -28,18 +28,25 @@
     </head>
 
     <body>
-        <header>
-            <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
-
-            <span id="span_dictionary">翻譯查詢</span>
-
-            <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+        <header class="container-fluid p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+                </div>
+                <div class="col-auto">
+                    <span id="span_dictionary">翻譯查詢</span>
+                </div>
+                <div class="col"></div>
+                <div class="col-auto">
+                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+                </div>
+            </div>
         </header>
 
-        <main>
-            <div>
-                <div>
-                    <select id="select_engine">
+        <main class="container-fluid p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <select class="form-select" id="select_engine">
                         <option value="Youdao" selected>有道翻譯</option>
                         <option value="Baidu">百度翻譯</option>
                         <option value="Caiyun">彩雲小譯</option>
@@ -47,47 +54,66 @@
                         <option value="DeepL">DeepL</option>
                         <!-- <option value="Google">Google</option> -->
                     </select>
+                </div>
 
-                    <span>:&nbsp;</span>
-
-                    <select id="select_from">
+                <div class="col-auto">
+                    <select class="form-select" id="select_from">
                         <option value="Japanese">日文</option>
                         <option value="English">英文</option>
                         <option value="Chinese" selected>中文</option>
                     </select>
-
+                </div>
+                <div class="col-auto">
                     <span>&nbsp;->&nbsp;</span>
-
-                    <select id="select_to">
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" id="select_to">
                         <option value="Japanese" selected>日文</option>
                         <option value="English">英文</option>
                         <option value="Chinese">中文</option>
                     </select>
-
+                </div>
+                <div class="col-auto">
                     <button id="button_exchange" class="btn btn-secondary">語言互換</button>
                 </div>
+            </div>
 
-                <br />
+            <br />
 
-                <div>
-                    <textarea id="textarea_original_text" rows="5" cols="60" placeholder="請輸入你要翻譯的文字"></textarea>
+            <div class="row align-items-center">
+                <div class="col">
+                    <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="請輸入你要翻譯的文字"></textarea>
                 </div>
+            </div>
 
-                <br />
+            <br />
 
-                <button id="button_translate" class="btn btn-primary">翻譯</button>
-                <input type="checkbox" name="" id="checkbox_text_fix" />
-                <label for="checkbox_text_fix" style="user-select: none;">使用FFXIV詞彙校正</label>
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <button id="button_translate" class="btn btn-primary">翻譯</button>
+                </div>
+                <div class="col-auto">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_text_fix" />
+                        <label class="form-check-label" for="checkbox_text_fix" style="user-select: none;">詞彙校正</label>
+                    </div>
+                </div>
             </div>
 
             <hr />
 
-            <div>
-                <div><span id="span_translated_text"></span></div>
+            <div class="row align-items-center">
+                <div class="col">
+                    <div><span id="span_translated_text"></span></div>
+                </div>
+            </div>
 
-                <br />
+            <br />
 
-                <div id="div_audio"></div>
+            <div class="row align-items-center">
+                <div class="col">
+                    <div id="div_audio"></div>
+                </div>
             </div>
         </main>
     </body>

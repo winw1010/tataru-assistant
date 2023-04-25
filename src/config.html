@@ -28,343 +28,504 @@
     </head>
 
     <body>
-        <header>
-            <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+        <header class="container-fluid p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+                </div>
+                <div class="col-auto">
+                    <span id="span_config">設定</span>
+                </div>
+                <div class="col"></div>
+                <div class="col-auto">
+                    <img id="img_button_close" class="img_button" title="關閉" src="./img/ui/close_white_24dp.svg" />
+                </div>
+            </div>
 
-            <span id="span_config">設定</span>
+            <div class="row my-2">
+                <!-- page button -->
+                <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_window" autocomplete="off" checked />
+                    <label class="btn btn-outline-primary" for="button_radio_window">視窗</label>
 
-            <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_font" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="button_radio_font">文字</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_channel" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="button_radio_channel">頻道</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_translation" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="button_radio_translation">翻譯</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_system" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="button_radio_system">系統</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_about" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="button_radio_about">關於</label>
+                </div>
+            </div>
         </header>
 
-        <!-- page button -->
-        <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_window" autocomplete="off" checked />
-            <label class="btn btn-outline-primary" for="button_radio_window">視窗</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_font" autocomplete="off" />
-            <label class="btn btn-outline-primary" for="button_radio_font">文字</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_channel" autocomplete="off" />
-            <label class="btn btn-outline-primary" for="button_radio_channel">頻道</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_translation" autocomplete="off" />
-            <label class="btn btn-outline-primary" for="button_radio_translation">翻譯</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_system" autocomplete="off" />
-            <label class="btn btn-outline-primary" for="button_radio_system">系統</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="button_radio_about" autocomplete="off" />
-            <label class="btn btn-outline-primary" for="button_radio_about">關於</label>
-        </div>
-
-        <main>
-            <br />
-
-            <!-- window page -->
-            <div id="div_window" class="setting_page">
-                <div>
+        <main class="container-fluid px-2">
+            <div class="row align-items-center">
+                <!-- window page -->
+                <div id="div_window" class="setting_page col">
                     <!-- always on top -->
-                    <input type="checkbox" value="" id="checkbox_top" />
-                    <label for="checkbox_top">顯示在最上層</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_top" />
+                                <label class="form-check-label" for="checkbox_top">顯示在最上層</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- focusable -->
-                    <input type="checkbox" value="" id="checkbox_focusable" />
-                    <label for="checkbox_focusable">可被選取</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_focusable" />
+                                <label class="form-check-label" for="checkbox_focusable">可被選取</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- shortcut -->
-                    <input type="checkbox" value="" id="checkbox_shortcut" />
-                    <label for="checkbox_shortcut">啟用快捷鍵</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_shortcut" />
+                                <label class="form-check-label" for="checkbox_shortcut">啟用快捷鍵</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- hide button -->
-                    <input type="checkbox" value="" id="checkbox_hide_button" />
-                    <label for="checkbox_hide_button">隱藏按鈕</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_button" />
+                                <label class="form-check-label" for="checkbox_hide_button">隱藏按鈕</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- hide dialog -->
-                    <input type="checkbox" value="" id="checkbox_hide_dialog" />
-                    <input type="number" id="input_hide_dialog" min="1" step="1" value="20" />
-                    <label for="checkbox_hide_dialog">秒後隱藏視窗</label>
-                </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_dialog" />
+                                <label class="form-check-label" for="checkbox_hide_dialog">自動隱藏視窗</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
+                    <!-- hide dialog timeout -->
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <input class="form-control" type="number" id="input_hide_dialog" min="1" step="1" value="20" />
+                        </div>
+                        <div class="col-auto"><label for="input_hide_dialog">秒後隱藏視窗</label></div>
+                    </div>
+
+                    <br />
+
                     <!-- background color -->
-                    <label for="color_background_color">背景顏色</label>
-                    (<span id="span_background_color"></span>)
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="color_background_color">背景顏色</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="color" class="form-control form-control-color" id="color_background_color" />
+                        </div>
+                        <div class="col-auto">
+                            <span id="span_background_color"></span>
+                        </div>
+                    </div>
+
                     <br />
-                    <input type="color" id="color_background_color" />
-                </div>
 
-                <br />
-
-                <div>
                     <!-- background transparency -->
-                    <label for="range_background_transparency">背景透明度</label>
-                    (<span id="span_background_transparency"></span>)
-                    <input type="range" min="0" max="255" class="form-range" id="range_background_transparency" />
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="range_background_transparency">背景透明度</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="range" class="form-range" min="0" max="255" id="range_background_transparency" />
+                        </div>
+                        <div class="col-auto"><span id="span_background_transparency"></span></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- font page -->
-            <div id="div_font" class="setting_page" hidden>
-                <div>
+                <!-- font page -->
+                <div id="div_font" class="setting_page col" hidden>
                     <!-- select font weight -->
-                    <label for="select_font_weight">文字粗細</label>
-                    <select id="select_font_weight">
-                        <option value="normal" selected>細</option>
-                        <option value="bold">粗</option>
-                    </select>
-                </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="select_font_weight">文字粗細</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" id="select_font_weight">
+                                <option value="normal" selected>細</option>
+                                <option value="bold">粗</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- font size -->
-                    <label for="input_font_size">文字大小</label>
-                    <input type="number" min="0" value="1" step="0.1" id="input_font_size" />
-                    <span>rem</span>
-                </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="input_font_size">文字大小</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_font_size" />
+                        </div>
+                        <div class="col-auto">
+                            <span>rem</span>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- dialog space -->
-                    <label for="input_dialog_spacing">對話框間隔</label>
-                    <input type="number" min="0" value="1" step="0.1" id="input_dialog_spacing" />
-                    <span>rem</span>
-                </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="input_dialog_spacing">對話框間隔</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_dialog_spacing" />
+                        </div>
+                        <div class="col-auto">
+                            <span>rem</span>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- dialog radius -->
-                    <label for="input_dialog_radius">對話框圓角</label>
-                    <input type="number" min="0" value="0" step="0.1" id="input_dialog_radius" />
-                    <span>rem</span>
-                </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="input_dialog_radius">對話框圓角</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" class="form-control" min="0" value="0" step="0.1" id="input_dialog_radius" />
+                        </div>
+                        <div class="col-auto">
+                            <span>rem</span>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- dialog color -->
-                    <label for="color_dialog_color">對話框顏色</label>
-                    (<span id="span_dialog_color"></span>)
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="color_dialog_color">對話框顏色</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="color" class="form-control form-control-color" id="color_dialog_color" />
+                        </div>
+                        <div class="col-auto">
+                            <span id="span_dialog_color"></span>
+                        </div>
+                    </div>
+
                     <br />
-                    <input type="color" id="color_dialog_color" />
-                </div>
 
-                <br />
-
-                <div>
                     <!-- dialog transparency -->
-                    <label for="range_dialog_transparency">對話框透明度</label>
-                    (<span id="span_dialog_transparency"></span>)
-                    <input type="range" min="0" max="255" class="form-range" id="range_dialog_transparency" />
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="range_dialog_transparency">對話框透明度</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="range" class="form-range" min="0" max="255" id="range_dialog_transparency" />
+                        </div>
+                        <div class="col-auto">
+                            <span id="span_dialog_transparency"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- channel page -->
-            <div id="div_channel" class="setting_page" hidden>
-                <div><span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span></div>
-                <div id="div_channel_list"></div>
-            </div>
+                <!-- channel page -->
+                <div id="div_channel" class="setting_page col" hidden>
+                    <div><span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span></div>
+                    <div id="div_channel_list"></div>
+                </div>
 
-            <!-- translation page -->
-            <div id="div_translation" class="setting_page" hidden>
-                <div>
+                <!-- translation page -->
+                <div id="div_translation" class="setting_page col" hidden>
                     <!-- auto change -->
-                    <input type="checkbox" value="" id="checkbox_auto_change" />
-                    <label for="checkbox_auto_change">翻譯失敗時切換翻譯引擎</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_change" />
+                                <label class="form-check-label" for="checkbox_auto_change">翻譯失敗時切換翻譯引擎</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- text fix -->
-                    <input type="checkbox" value="" id="checkbox_text_fix" />
-                    <label for="checkbox_text_fix">FFXIV詞彙校正</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_text_fix" />
+                                <label class="form-check-label" for="checkbox_text_fix">詞彙校正</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- skip system message -->
-                    <input type="checkbox" value="" id="checkbox_skip_system" />
-                    <label for="checkbox_skip_system">忽略常見系統訊息</label>
-                </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_system" />
+                                <label class="form-check-label" for="checkbox_skip_system">忽略常見系統訊息</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div>
                     <!-- skip chinese message -->
-                    <input type="checkbox" value="" id="checkbox_skip_chinese" />
-                    <label for="checkbox_skip_chinese">忽略漢化字幕</label>
-                </div>
-
-                <br />
-
-                <div>
-                    <table>
-                        <!-- select translator -->
-                        <tr>
-                            <td>
-                                <label for="select_engine">翻譯引擎</label>
-                            </td>
-                            <td>
-                                <select id="select_engine">
-                                    <option value="Youdao" selected>有道翻譯</option>
-                                    <option value="Baidu">百度翻譯</option>
-                                    <option value="Caiyun">彩雲小譯</option>
-                                    <option value="Papago">Papago</option>
-                                    <option value="DeepL">DeepL</option>
-                                    <!-- <option value="Google">Google</option> -->
-                                </select>
-                            </td>
-                        </tr>
-
-                        <!-- select from -->
-                        <tr>
-                            <td>
-                                <label for="select_from">FFXIV語言</label>
-                            </td>
-                            <td>
-                                <select id="select_from">
-                                    <option value="Japanese" selected>日文</option>
-                                    <option value="English">英文</option>
-                                </select>
-                            </td>
-                        </tr>
-
-                        <!-- select from player -->
-                        <tr>
-                            <td>
-                                <label for="select_from_player">玩家頻道語言</label>
-                            </td>
-                            <td>
-                                <select id="select_from_player">
-                                    <option value="Japanese" selected>日文</option>
-                                    <option value="English">英文</option>
-                                </select>
-                            </td>
-                        </tr>
-
-                        <!-- select to -->
-                        <tr>
-                            <td>
-                                <label for="select_to">翻譯語言</label>
-                            </td>
-                            <td>
-                                <select id="select_to">
-                                    <option value="Traditional-Chinese" selected>繁體中文</option>
-                                    <option value="Simplified-Chinese">簡體中文</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- system page -->
-            <div id="div_system" class="setting_page" hidden>
-                <div>
-                    <div>
-                        <!-- auto download json -->
-                        <input type="checkbox" value="" id="checkbox_auto_download_json" />
-                        <label for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_chinese" />
+                                <label class="form-check-label" for="checkbox_skip_chinese">忽略漢化字幕</label>
+                            </div>
+                        </div>
                     </div>
 
                     <br />
 
-                    <div>
-                        <!-- download json -->
-                        <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button>
+                    <!-- select translator -->
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="select_engine">翻譯引擎</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" id="select_engine">
+                                <option value="Youdao" selected>有道翻譯</option>
+                                <option value="Baidu">百度翻譯</option>
+                                <option value="Caiyun">彩雲小譯</option>
+                                <option value="Papago">Papago</option>
+                                <option value="DeepL">DeepL</option>
+                                <!-- <option value="Google">Google</option> -->
+                            </select>
+                        </div>
                     </div>
 
                     <br />
 
-                    <div>
-                        <!-- version check -->
-                        <button id="button_version_check" class="btn btn-primary">檢查更新</button>
+                    <!-- select from -->
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="select_from">遊戲語言</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" id="select_from">
+                                <option value="Japanese" selected>日文</option>
+                                <option value="English">英文</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <!-- select from player -->
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="select_from_player">玩家頻道</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" id="select_from_player">
+                                <option value="Japanese" selected>日文</option>
+                                <option value="English">英文</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <!-- select to -->
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <label for="select_to">翻譯語言</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" id="select_to">
+                                <option value="Traditional-Chinese" selected>繁體中文</option>
+                                <option value="Simplified-Chinese">簡體中文</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <hr />
+                <!-- system page -->
+                <div id="div_system" class="setting_page col" hidden>
+                    <!-- auto download json -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_download_json" />
+                                <label class="form-check-label" for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <div id="div_google_credential" title="設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填">
+                    <br />
+
+                    <!-- download json -->
+                    <div class="row">
+                        <div class="col">
+                            <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <!-- version check -->
+                    <div class="row">
+                        <div class="col">
+                            <button id="button_version_check" class="btn btn-primary">檢查更新</button>
+                        </div>
+                    </div>
+
+                    <hr />
+
                     <!-- set google credential -->
-                    <p>
-                        <label for="input_password_google_credential">Google憑證設定</label>
-                        (<a href="#" id="a_get_credential">取得憑證</a>)
-                    </p>
-                    <input type="password" name="" id="input_password_google_credential" placeholder="請輸入Google憑證" />
-                    <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
-                </div>
-
-                <hr />
-
-                <div id="div_server" title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
-                    <!-- set server -->
-                    <div>
-                        <span id="span_tataru_server_settings">Tataru Helper Node伺服器設定</span>
+                    <div class="row align-items-center" title="設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填">
+                        <div class="col-auto">
+                            <label for="input_password_google_credential">Google憑證設定</label>
+                        </div>
+                        <div class="col-auto">(<a href="#" id="a_get_credential">取得憑證</a>)</div>
                     </div>
 
                     <br />
 
-                    <table>
-                        <tr>
-                            <td><label for="input_text_hsot">Host</label></td>
-                            <td><input type="text" name="" id="input_text_hsot" value="localhost" /></td>
-                        </tr>
-                        <tr>
-                            <td><label for="input_number_port">Port</label></td>
-                            <td>
-                                <input type="number" name="" id="input_number_port" min="5000" max="65535" step="1" value="8899" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <input type="password" name="" id="input_password_google_credential" placeholder="輸入Google憑證" />
+                        </div>
+                        <div class="col-auto">
+                            <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
+                        </div>
+                    </div>
 
-            <!-- about page -->
-            <div id="div_about" class="setting_page" hidden>
-                <p>
-                    <span id="span_about">
-                        感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能
-                    </span>
-                </p>
-                <hr />
-                <p>版本: ver.<span id="span_version"></span></p>
-                <p><span id="span_author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span></p>
-                <hr />
-                <p><a href="#" id="a_readme">使用說明書</a></p>
-                <p><a href="#" id="a_bug_report">問題回報</a></p>
-                <p><a href="#" id="a_translation_report">回報翻譯錯誤</a></p>
-                <hr />
-                <p><a href="#" id="a_github">GitHub原始碼</a></p>
-                <p><a href="#" id="a_bahamut">訪問作者</a></p>
-                <!-- <p><a href="#" id="a_donate">贊助作者</a></p> -->
+                    <hr />
+
+                    <!-- set server -->
+                    <div class="row align-items-center" title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
+                        <div class="col">
+                            <span id="span_tataru_server_settings">Tataru Helper Node伺服器設定</span>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <label for="input_text_hsot">Host</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" name="" id="input_text_hsot" value="localhost" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <label for="input_number_port">Port</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" name="" id="input_number_port" min="5000" max="65535" step="1" value="8899" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- about page -->
+                <div id="div_about" class="setting_page col" hidden>
+                    <!-- 
+                    <div class="row">
+                        <div class="col">
+                            <span id="span_about">
+                                感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr />
+                    -->
+
+                    <div class="row">
+                        <div class="col">
+                            <span>版本: ver.</span>
+                            <span id="span_version"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <span id="span_author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_readme">使用說明書</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_bug_report">問題回報</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_translation_report">回報翻譯錯誤</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_github">GitHub原始碼</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_bahamut">訪問作者</a>
+                                </li>
+                                <!-- 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="a_donate">贊助作者</a>
+                                </li>
+                                 -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
-        <footer>
-            <button id="button_save_config" class="btn btn-primary float_right">儲存設定</button>
-            <button id="button_save_default_config" class="btn btn-secondary float_right">恢復預設值</button>
+        <footer class="container-fluid p-2">
+            <div class="row align-items-center text-end">
+                <div class="col">
+                    <button id="button_save_config" class="btn btn-primary">儲存設定</button>
+                    <button id="button_save_default_config" class="btn btn-secondary">恢復預設值</button>
+                </div>
+            </div>
         </footer>
     </body>
 </html>

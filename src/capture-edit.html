@@ -28,8 +28,7 @@
     </head>
 
     <body>
-        <!-- image button -->
-        <div id="div_upper_button">
+        <header>
             <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
 
             <span id="span_capture_edit">編輯擷取文字</span>
@@ -38,9 +37,9 @@
             <label for="checkbox_split">換行切割</label>
 
             <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
-        </div>
+        </header>
 
-        <div id="div_center">
+        <main>
             <!-- page button -->
             <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="button_radio_captured_text" autocomplete="off" checked />
@@ -62,6 +61,6 @@
             <div id="div_captured_image" class="div_page" hidden>
                 <img id="img_captured" src="" alt="" />
             </div>
-        </div>
+        </main>
     </body>
 </html>

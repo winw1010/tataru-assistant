@@ -13,7 +13,7 @@ select {
     margin-left: 0.5rem;
 }
 
-#div_upper_button {
+header {
     background-color: #000000bb;
     border: 0.1rem #808080 solid;
 }

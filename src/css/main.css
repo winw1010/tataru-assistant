@@ -59,8 +59,8 @@ select {
     background-color: #d9534f;
 }
 
-#div_upper_button,
-#div_lower_button {
+header,
+footer {
     -webkit-user-select: none;
     user-select: none;
     position: fixed;
@@ -71,12 +71,12 @@ select {
     height: 4rem;
 }
 
-#div_upper_button {
+header {
     top: 0;
     left: 0;
 }
 
-#div_lower_button {
+footer {
     bottom: 0;
     left: 0;
 }

@@ -2,6 +2,19 @@ body {
     color: #ffffff;
 }
 
+main {
+    padding: 0 0.7rem;
+    padding-top: 4rem;
+}
+
+select {
+    margin-right: 0.5rem;
+}
+
+textarea {
+    width: 40vw;
+}
+
 .flex_wrapper {
     display: flex;
     justify-content: space-evenly;
@@ -17,21 +30,8 @@ body {
     border: 0.1rem white solid;
 }
 
-#div_center {
-    padding: 0 0.7rem;
-    padding-top: 4rem;
-}
-
 #div_text1,
 #div_text2 {
     word-wrap: break-word;
     font-size: large;
-}
-
-select {
-    margin-right: 0.5rem;
-}
-
-textarea {
-    width: 40vw;
 }

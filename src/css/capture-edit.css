@@ -2,19 +2,6 @@ body {
     color: #ffffff;
 }
 
-input[type='checkbox'] {
-    margin-left: 1rem;
-}
-
 main {
-    padding: 0 0.7rem;
     padding-top: 4rem;
-}
-
-img {
-    width: 80vw;
-}
-
-textarea {
-    width: 90vw;
 }

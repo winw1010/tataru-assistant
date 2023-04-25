@@ -28,38 +28,62 @@
     </head>
 
     <body>
-        <header>
-            <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
-
-            <span id="span_capture_edit">編輯擷取文字</span>
-
-            <input type="checkbox" value="" id="checkbox_split" />
-            <label for="checkbox_split">換行切割</label>
-
-            <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+        <header class="container-fluid p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+                </div>
+                <div class="col">
+                    <span id="span_capture_edit">編輯擷取文字</span>
+                </div>
+                <div class="col-auto">
+                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+                </div>
+            </div>
         </header>
 
-        <main>
+        <main class="container-fluid px-2">
             <!-- page button -->
-            <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="button_radio_captured_text" autocomplete="off" checked />
-                <label class="btn btn-outline-primary" for="button_radio_captured_text">擷取文字</label>
+            <div class="row">
+                <div class="col">
+                    <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="button_radio_captured_text" autocomplete="off" checked />
+                        <label class="btn btn-outline-primary" for="button_radio_captured_text">擷取文字</label>
 
-                <input type="radio" class="btn-check" name="btnradio" id="button_radio_captured_image" autocomplete="off" />
-                <label class="btn btn-outline-primary" for="button_radio_captured_image">擷取圖片</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="button_radio_captured_image" autocomplete="off" />
+                        <label class="btn btn-outline-primary" for="button_radio_captured_image">擷取圖片</label>
+                    </div>
+                </div>
             </div>
 
-            <br />
             <br />
 
             <div id="div_captured_text" class="div_page">
-                <textarea id="textarea_screen_text" rows="10"></textarea>
+                <div class="row">
+                    <div class="col">
+                        <textarea class="form-control" id="textarea_screen_text" rows="7"></textarea>
+                    </div>
+                </div>
+
                 <br />
-                <button id="button_translate" class="btn btn-primary">翻譯</button>
+
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <button id="button_translate" class="btn btn-primary">翻譯</button>
+                    </div>
+                    <div class="col-auto">
+                        <input type="checkbox" value="" id="checkbox_split" />
+                        <label for="checkbox_split">換行切割</label>
+                    </div>
+                </div>
             </div>
 
             <div id="div_captured_image" class="div_page" hidden>
-                <img id="img_captured" src="" alt="" />
+                <div class="row">
+                    <div class="col">
+                        <img class="img-fluid" id="img_captured" src="" alt="" />
+                    </div>
+                </div>
             </div>
         </main>
     </body>

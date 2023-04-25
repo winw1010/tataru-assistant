@@ -95,10 +95,12 @@ function setIPC() {
                     // show text
                     showText();
 
+                    /*
                     // show restart
                     if (targetLog?.code !== 'FFFF') {
                         document.getElementById('div_restart').hidden = false;
                     }
+                    */
 
                     // set select_engine
                     if (targetLog?.translation?.engine) {

@@ -31,11 +31,8 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEd
     console.log('rectangle size:', rectangleSize);
 
     try {
-        // time
-        const time = new Date().getTime();
-
         // screenshot path
-        const screenshotPath = getImagePath('screenshot_' + time + '.png');
+        const screenshotPath = getImagePath('screenshot.png');
 
         // get displays
         const displays = await screenshotModule.listDisplays();
@@ -70,8 +67,7 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEd
 // crop image
 async function cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit) {
     try {
-        const time = new Date().getTime();
-        const cropPath = getImagePath('crop_' + time + '.png');
+        const cropPath = getImagePath('crop.png');
         const config = configModule.getConfig();
         const newSize = getNewSize(displayBounds);
 

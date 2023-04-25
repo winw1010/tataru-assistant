@@ -3,35 +3,14 @@ body {
 }
 
 main {
-    padding: 0 0.7rem;
     padding-top: 4rem;
 }
 
-select {
-    margin-right: 0.5rem;
-}
-
-textarea {
-    width: 40vw;
-}
-
-.flex_wrapper {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.flex_left,
-.flex_right {
-    width: 45vw;
-}
-
-.flex_right {
-    padding: 0.7rem;
-    border: 0.1rem white solid;
+.form-floating {
+    color: #000000;
 }
 
 #div_text1,
 #div_text2 {
     word-wrap: break-word;
-    font-size: large;
 }

@@ -127,13 +127,13 @@ function getExpiryDate() {
 // get sec-ch-ua
 function getSCU() {
     const scu = configModule.getConfig()?.system?.scu;
-    return scu ? scu : '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"';
+    return scu ? scu : '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"';
 }
 
 // get user agent
 function getUserAgent() {
     const userAgent = configModule.getConfig()?.system?.userAgent;
-    return userAgent ? userAgent : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
+    return userAgent ? userAgent : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36';
 }
 
 // to parameters

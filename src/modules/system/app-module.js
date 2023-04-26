@@ -15,8 +15,8 @@ const configModule = require('./config-module');
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
-// memory module
-const memoryModule = require('./memory-module');
+// sharlayan module
+const sharlayanModule = require('./sharlayan-module');
 
 // window module
 const windowModule = require('./window-module');
@@ -38,8 +38,8 @@ function startApp() {
     // load chat code
     chatCodeModule.loadChatCode();
 
-    // start sharlayan test
-    //memoryModule.start();
+    // start sharlayan reader
+    sharlayanModule.start();
 
     // set IPC
     ipcModule.setIPC();

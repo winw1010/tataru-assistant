@@ -33,6 +33,9 @@ const requestModule = require('./request-module');
 // server module
 const serverModule = require('./server-module');
 
+// sharlayan module
+const sharlayanModule = require('./sharlayan-module');
+
 // text detect module
 const textDetectModule = require('./text-detect-module');
 
@@ -118,6 +121,11 @@ function setSystemChannel() {
     // start server
     ipcMain.on('start-server', () => {
         serverModule.startServer();
+    });
+
+    // start sharlayan reader
+    ipcMain.on('start-sharlayan-reader', () => {
+        sharlayanModule.start();
     });
 }
 

@@ -97,6 +97,11 @@ function setButton() {
         ipcRenderer.send('version-check');
     };
 
+    // start sharlayan reader
+    document.getElementById('button_start_sharlayan_reader').onclick = () => {
+        ipcRenderer.send('start-sharlayan-reader');
+    };
+
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
         const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'sub-google-api.html');

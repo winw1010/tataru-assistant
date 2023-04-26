@@ -38,7 +38,7 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: true,
-                preload: fileModule.getPath(__dirname, '..', '..', `${windowName}.js`),
+                preload: fileModule.getPath(__dirname, '..', '..', 'html', 'preload', `${windowName}.js`),
             },
         });
 
@@ -114,7 +114,10 @@ function createWindow(windowName, data = null) {
         }
 
         // load html
-        window.loadFile(fileModule.getPath(__dirname, '..', '..', `${windowName}.html`));
+        window.loadFile(fileModule.getPath(__dirname, '..', '..', 'html', `${windowName}.html`));
+
+        // devtools
+        //window.webContents.openDevTools({ mode: 'detach' });
 
         // save window
         setWindow(windowName, window);

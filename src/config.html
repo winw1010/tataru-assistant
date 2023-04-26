@@ -44,23 +44,23 @@
             <div class="row my-2">
                 <!-- page button -->
                 <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_window" autocomplete="off" checked />
-                    <label class="btn btn-outline-primary" for="button_radio_window">視窗</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="div_window" autocomplete="off" checked />
+                    <label class="btn btn-outline-primary" for="btnradio1">視窗</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_font" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="button_radio_font">文字</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="div_font" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="btnradio2">文字</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_channel" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="button_radio_channel">頻道</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="div_channel" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="btnradio3">頻道</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_translation" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="button_radio_translation">翻譯</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="div_translation" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="btnradio4">翻譯</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_system" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="button_radio_system">系統</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="div_system" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="btnradio5">系統</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="button_radio_about" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="button_radio_about">關於</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="div_about" autocomplete="off" />
+                    <label class="btn btn-outline-primary" for="btnradio6">關於</label>
                 </div>
             </div>
         </header>
@@ -406,31 +406,20 @@
                         </div>
                     </div>
 
-                    <hr />
-
-                    <!-- set google credential -->
-                    <div class="row align-items-center" title="設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填">
-                        <div class="col-auto">
-                            <label for="input_password_google_credential">Google憑證設定</label>
-                        </div>
-                        <div class="col-auto">(<a href="#" id="a_get_credential">取得憑證</a>)</div>
-                    </div>
-
                     <br />
 
+                    <!-- set google credential -->
                     <div class="row align-items-center">
-                        <div class="col-auto">
-                            <input type="password" name="" id="input_password_google_credential" placeholder="輸入Google憑證" />
+                        <div class="col-auto" id="div_google_credential" title="設定Google憑證，不使用Google Vision辨識功能則無需設定">
+                            <button id="button_google_credential" class="btn btn-primary">設定Google憑證</button>
                         </div>
-                        <div class="col-auto">
-                            <button id="button_google_credential" class="btn btn-primary">儲存Google憑證</button>
-                        </div>
+                        <div class="col-auto"><a href="#" id="a_get_credential">憑證取得教學</a></div>
                     </div>
 
                     <hr />
 
                     <!-- set server -->
-                    <div class="row align-items-center" title="更改Tataru Heler的伺服器設定，如非必要請維持預設">
+                    <div class="row align-items-center" title="更改Tataru Heler的伺服器設定，一般情況下維持預設即可">
                         <div class="col">
                             <span id="span_tataru_server_settings">Tataru Helper Node伺服器設定</span>
                         </div>
@@ -443,7 +432,7 @@
                             <label for="input_text_hsot">Host</label>
                         </div>
                         <div class="col-auto">
-                            <input type="text" name="" id="input_text_hsot" value="localhost" />
+                            <input type="text" class="form-control" name="" id="input_text_hsot" value="localhost" />
                         </div>
                     </div>
 
@@ -454,7 +443,7 @@
                             <label for="input_number_port">Port</label>
                         </div>
                         <div class="col-auto">
-                            <input type="number" name="" id="input_number_port" min="5000" max="65535" step="1" value="8899" />
+                            <input type="number" class="form-control" name="" id="input_number_port" min="5000" max="65535" step="1" value="8899" />
                         </div>
                     </div>
                 </div>
@@ -501,7 +490,7 @@
                                     <a class="nav-link" href="#" id="a_translation_report">回報翻譯錯誤</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" id="a_github">GitHub原始碼</a>
+                                    <a class="nav-link" href="#" id="a_github">GitHub</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" id="a_bahamut">訪問作者</a>
@@ -521,8 +510,8 @@
         <footer class="container-fluid p-2">
             <div class="row align-items-center text-end">
                 <div class="col">
-                    <button id="button_save_config" class="btn btn-primary">儲存設定</button>
                     <button id="button_save_default_config" class="btn btn-secondary">恢復預設值</button>
+                    <button id="button_save_config" class="btn btn-primary">儲存設定</button>
                 </div>
             </div>
         </footer>

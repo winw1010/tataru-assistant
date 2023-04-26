@@ -27,7 +27,7 @@ onDocumentReady(() => {
 
             button_download_json: ['下載翻譯對照表', '下载翻译对照表'],
             button_version_check: ['檢查更新', '检查更新'],
-            button_google_credential: ['儲存Google憑證', '储存Google凭证'],
+            button_google_credential: ['設定Google憑證', '设定Google凭证'],
 
             // capture
             button_screenshot: ['全螢幕擷取', '全萤幕撷取'],
@@ -53,11 +53,11 @@ onDocumentReady(() => {
         },
         a: {
             // config
-            a_get_credential: ['取得憑證', '取得凭证'],
+            a_get_credential: ['憑證取得教學', '凭证取得教程'],
             a_readme: ['使用說明書', '使用说明书'],
             a_bug_report: ['問題回報', '问题回报'],
             a_translation_report: ['回報翻譯錯誤', '回报翻译错误'],
-            a_github: ['GitHub原始碼', 'GitHub原始码'],
+            a_github: ['GitHub', 'GitHub'],
             a_bahamut: ['訪問作者', '访问作者'],
             a_donate: ['贊助作者', '赞助作者'],
         },
@@ -96,7 +96,6 @@ onDocumentReady(() => {
             select_to: ['翻譯語言', '翻译语言'],
 
             checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表'],
-            input_password_google_credential: ['Google憑證設定', 'Google凭证设定'],
 
             // capture
             checkbox_split: ['換行切割', '换行切割'],
@@ -162,10 +161,6 @@ onDocumentReady(() => {
             // edit
             span_flex_right_title: ['新增自訂翻譯', '新增自订翻译'],
         },
-        input: {
-            // config
-            input_password_google_credential: ['輸入Google憑證', '输入Google凭证'],
-        },
         textarea: {
             // dictionary
             textarea_original_text: ['請輸入你要翻譯的文字', '请输入你要翻译的文字'],
@@ -176,22 +171,22 @@ onDocumentReady(() => {
         },
         div: {
             // config
-            div_google_credential: ['設定Google憑證，如不使用Google Vision圖形文字辨識功能則不用填', '设定Google凭证，如不使用Google Vision图形文字辨识功能则不用填'],
-            div_server: ['更改Tataru Heler的伺服器設定，如非必要請維持預設', '更改Tataru Heler的服务器设定，如非必要请维持预设'],
+            div_google_credential: ['設定Google憑證，不使用Google Vision辨識功能則無需設定', '设定Google凭证，不使用Google Vision辨识功能则无需设定'],
+            div_server: ['更改Tataru Heler的伺服器設定，一般情況下維持預設即可', '更改Tataru Heler的服务器设定，一般情况下维持预设即可'],
         },
     };
 
     // element name list
     const elementNameList = [
-        ['img', 'img', 'id', 'title'],
-        ['button', 'button', 'id', 'innerText'],
-        ['a', 'a', 'id', 'innerText'],
-        ['label', 'label', 'for', 'innerText'],
-        ['option', 'option', 'value', 'innerText'],
-        ['span', 'span', 'id', 'innerText'],
-        ['input', 'input', 'id', 'placeholder'],
-        ['textarea', 'textarea', 'id', 'placeholder'],
-        ['div', 'div', 'id', 'title'],
+        ['img', 'id', 'title'],
+        ['button', 'id', 'innerText'],
+        ['a', 'id', 'innerText'],
+        ['label', 'for', 'innerText'],
+        ['option', 'value', 'innerText'],
+        ['span', 'id', 'innerText'],
+        ['input', 'id', 'placeholder'],
+        ['textarea', 'id', 'placeholder'],
+        ['div', 'id', 'title'],
     ];
 
     // change UI text
@@ -201,15 +196,15 @@ onDocumentReady(() => {
             const textIndex = getTextIndex(config.translation.to);
 
             for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
-                const nameList = elementNameList[nameIndex];
+                const nameList = elementNameList?.[nameIndex];
                 const elementList = document.getElementsByTagName(nameList[0]);
 
                 for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
-                    const element = elementList[elementIndex];
-                    const elementText = elementTextList[nameList[1]][element.getAttribute(nameList[2])];
+                    const element = elementList.item(elementIndex);
+                    const elementText = elementTextList?.[nameList[0]]?.[element.getAttribute(nameList[1])];
 
                     if (elementText?.length > 0) {
-                        element[nameList[3]] = elementText[textIndex];
+                        element[nameList[2]] = elementText[textIndex];
                     }
                 }
             }

@@ -60,28 +60,23 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // page
-    document.getElementById('button_radio_captured_text').onclick = () => {
-        document.querySelectorAll('.div_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_captured_text').hidden = false;
+    // close
+    document.getElementById('img_button_close').onclick = () => {
+        ipcRenderer.send('close-window');
     };
 
-    document.getElementById('button_radio_captured_image').onclick = () => {
-        document.querySelectorAll('.div_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_captured_image').hidden = false;
-    };
+    // page
+    document.getElementsByName('btnradio').forEach((btnradio) => {
+        btnradio.onclick = () => {
+            document.querySelectorAll('.div_page').forEach((page) => {
+                document.getElementById(page.id).hidden = true;
+            });
+            document.getElementById(btnradio.value).hidden = false;
+        };
+    });
 
     // translate
     document.getElementById('button_translate').onclick = () => {
         ipcRenderer.send('translate-image-text', document.getElementById('textarea_screen_text').value);
-    };
-
-    // close
-    document.getElementById('img_button_close').onclick = () => {
-        ipcRenderer.send('close-window');
     };
 }

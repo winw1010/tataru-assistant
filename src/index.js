@@ -142,7 +142,7 @@ function setView() {
 
     // first time check
     if (config.system.firstTime) {
-        ipcRenderer.send('create-window', 'config', ['button_radio_translation', 'div_translation']);
+        ipcRenderer.send('create-window', 'config', ['btnradio4', 'div_translation']);
     }
 
     // change reccord icon
@@ -196,7 +196,6 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // upper buttons
     // config
     document.getElementById('img_button_config').onclick = () => {
         ipcRenderer.send('create-window', 'config');
@@ -239,7 +238,6 @@ function setButton() {
         ipcRenderer.send('close-app');
     };
 
-    // lower buttons
     // record
     document.getElementById('img_button_record_icon').onclick = () => {
         ipcRenderer.send('change-reccord-icon');

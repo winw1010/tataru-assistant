@@ -33,13 +33,12 @@ function setIPC() {
     });
 
     // send data
-    ipcRenderer.on('send-data', (event, elements) => {
-        document.getElementById(elements[0]).checked = true;
-
+    ipcRenderer.on('send-data', (event, idList) => {
+        document.getElementById(idList[0]).checked = true;
         document.querySelectorAll('.setting_page').forEach((value) => {
             document.getElementById(value.id).hidden = true;
         });
-        document.getElementById(elements[1]).hidden = false;
+        document.getElementById(idList[1]).hidden = false;
     });
 }
 
@@ -73,56 +72,21 @@ function setEvent() {
 
 // set button
 function setButton() {
-    // page
-    document.getElementById('button_radio_window').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_window').hidden = false;
-    };
-
-    document.getElementById('button_radio_font').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_font').hidden = false;
-    };
-
-    document.getElementById('button_radio_channel').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_channel').hidden = false;
-    };
-
-    document.getElementById('button_radio_translation').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_translation').hidden = false;
-    };
-
-    document.getElementById('button_radio_system').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_system').hidden = false;
-    };
-
-    document.getElementById('button_radio_about').onclick = () => {
-        document.querySelectorAll('.setting_page').forEach((value) => {
-            document.getElementById(value.id).hidden = true;
-        });
-        document.getElementById('div_about').hidden = false;
-    };
-
-    // upper
     // close
     document.getElementById('img_button_close').onclick = () => {
         ipcRenderer.send('close-window');
     };
 
-    // content
+    // page
+    document.getElementsByName('btnradio').forEach((btnradio) => {
+        btnradio.onclick = () => {
+            document.querySelectorAll('.setting_page').forEach((page) => {
+                document.getElementById(page.id).hidden = true;
+            });
+            document.getElementById(btnradio.value).hidden = false;
+        };
+    });
+
     // download json
     document.getElementById('button_download_json').onclick = () => {
         ipcRenderer.send('download-json');
@@ -141,15 +105,7 @@ function setButton() {
 
     // set google credential
     document.getElementById('button_google_credential').onclick = () => {
-        const googleCredential = document.getElementById('input_password_google_credential').value;
-
-        if (googleCredential.length > 0) {
-            const path = ipcRenderer.sendSync('get-user-data-path', 'setting', 'google-credential.json');
-            ipcRenderer.send('file-writer', path, googleCredential);
-            ipcRenderer.send('show-notification', '已儲存Google憑證');
-        } else {
-            ipcRenderer.send('show-notification', 'Google憑證不可為空白');
-        }
+        ipcRenderer.send('set-google-credential');
     };
 
     // readme
@@ -185,7 +141,6 @@ function setButton() {
     };
     */
 
-    // lower
     // default
     document.getElementById('button_save_default_config').onclick = () => {
         saveDefaultConfig();

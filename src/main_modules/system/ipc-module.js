@@ -1,5 +1,8 @@
 'use strict';
 
+// electron
+const { dialog } = require('electron');
+
 // child process
 const { exec } = require('child_process');
 
@@ -312,6 +315,19 @@ function setCaptureChannel() {
     // translate image text
     ipcMain.on('translate-image-text', (event, text) => {
         textDetectModule.translateImageText(text);
+    });
+
+    // set google credential
+    ipcMain.on('set-google-credential', () => {
+        dialog
+            .showOpenDialog({ filters: [{ name: 'JSON', extensions: ['json'] }] })
+            .then((value) => {
+                if (!value.canceled && value.filePaths.length > 0 && value.filePaths[0].length > 0) {
+                    fileModule.jsonWriter(fileModule.getUserDataPath('setting', 'google-credential.json'), fileModule.jsonReader(value.filePaths[0], false));
+                    dialogModule.showNotification('已儲存Google憑證');
+                }
+            })
+            .catch(console.log);
     });
 }
 

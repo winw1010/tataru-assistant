@@ -30,8 +30,11 @@
     <body>
         <header class="container-fluid p-2">
             <div class="row align-items-center">
-                <div class="col">
+                <div class="col-auto">
                     <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/open_with_white_24dp.svg" />
+                </div>
+                <div class="col">
+                    <span id="span_edit">重新翻譯</span>
                 </div>
                 <div class="col-auto">
                     <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
@@ -42,14 +45,6 @@
         <main class="container-fluid px-2">
             <div class="row">
                 <div class="col">
-                    <div class="row">
-                        <div class="col-auto">
-                            <span id="span_edit">重新翻譯</span>
-                        </div>
-                    </div>
-
-                    <br />
-
                     <div class="row">
                         <div class="col">
                             <div id="div_text1"></div>
@@ -110,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="col-auto" style="border-left: white 1px solid;"></div>
+                <div class="col-auto" style="border-left: white 1px dotted;"></div>
 
                 <div class="col">
                     <div class="row">

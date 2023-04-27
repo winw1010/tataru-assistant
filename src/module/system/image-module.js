@@ -23,7 +23,7 @@ const textDetectModule = require('./text-detect-module');
 const windowModule = require('./window-module');
 
 // image path
-const imagePath = fileModule.getRootPath('src', 'data', 'image');
+const imagePath = fileModule.getRootPath('src', 'data', 'img');
 
 // start recognize
 async function startRecognize(rectangleSize, displayBounds, displayIndex) {

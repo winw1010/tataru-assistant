@@ -27,6 +27,9 @@ const { correctionEntry } = require('../correction/correction-module');
 // tesseract path
 const tesseractPath = fileModule.getRootPath('src', 'data', 'tesseract');
 
+// image path
+const imagePath = fileModule.getRootPath('src', 'data', 'img');
+
 // google vision
 async function googleVision(imagePath) {
     try {
@@ -161,7 +164,7 @@ async function translateImageText(text) {
     }
 
     // delete images
-    fileModule.deleteImages();
+    deleteImages();
 
     // start translate
     for (let index = 0; index < stringArray.length; index++) {
@@ -177,6 +180,15 @@ async function translateImageText(text) {
             correctionEntry(dialogData, config.translation);
         }
     }
+}
+
+// delete images
+function deleteImages() {
+    fileModule.readdir(imagePath).forEach((fileName) => {
+        if (fileName.includes('png')) {
+            fileModule.unlink(fileModule.getPath(imagePath, fileName));
+        }
+    });
 }
 
 module.exports = {

@@ -89,18 +89,16 @@ function read(filePath = './', type = '') {
 }
 
 // write
-function write(filePath = './', data = null, type = '') {
+function write(filePath = './', data = '', type = '') {
     try {
         switch (type) {
             case 'json':
                 {
                     let dataString = JSON.stringify(data);
-                    fs.writeFileSync(
-                        filePath,
-                        dataString.includes('{')
-                            ? JSON.stringify(data, null, '\t')
-                            : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]').replaceAll('","', '", "')
-                    );
+                    dataString = dataString.includes('{')
+                        ? JSON.stringify(data, null, '\t')
+                        : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]').replaceAll('","', '", "');
+                    fs.writeFileSync(filePath, dataString);
                 }
                 break;
 
@@ -117,86 +115,6 @@ function write(filePath = './', data = null, type = '') {
     }
 }
 
-// directoryReader
-function directoryReader(path) {
-    let result = [];
-
-    try {
-        result = fs.readdirSync(path);
-    } catch (error) {
-        console.log(error);
-    }
-
-    return result;
-}
-
-// json reader
-function jsonReader(filePath = './', returnArray = true) {
-    try {
-        const data = JSON.parse(fs.readFileSync(filePath));
-        return data;
-    } catch (error) {
-        console.log(error);
-
-        if (returnArray) {
-            return [];
-        } else {
-            return {};
-        }
-    }
-}
-
-// json writer
-function jsonWriter(filePath = './', data = null) {
-    try {
-        let dataString = JSON.stringify(data);
-
-        fs.writeFileSync(
-            filePath,
-            dataString.includes('{') ? JSON.stringify(data, null, '\t') : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]').replaceAll('","', '", "')
-        );
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// image writer
-function imageWriter(filePath = './', imageBuffer = Buffer.from('')) {
-    try {
-        fs.writeFileSync(filePath, Buffer.from(imageBuffer, 'base64'));
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// file writer
-function fileWriter(filePath = './', data) {
-    try {
-        fs.writeFileSync(filePath, data);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// file checker
-function fileChecker(filePath = './') {
-    try {
-        return fs.existsSync(filePath);
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
-
-// file deleter
-function fileDeleter(filePath = './') {
-    try {
-        fs.unlinkSync(filePath);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 // get path
 function getPath(...args) {
     return path.join(...args);
@@ -205,6 +123,11 @@ function getPath(...args) {
 // get root path
 function getRootPath(...args) {
     return path.join(rootPath, ...args);
+}
+
+// get root data path
+function getRootDataPath(...args) {
+    return path.join(rootPath, 'src', 'data', ...args);
 }
 
 // get user path
@@ -229,17 +152,12 @@ module.exports = {
     write,
 
     // old functions
-    directoryReader,
-    jsonReader,
-    jsonWriter,
-    imageWriter,
-    fileWriter,
-    fileChecker,
-    fileDeleter,
+    // directoryReader|jsonReader|jsonWriter|imageWriter|fileWriter|fileChecker|fileDeleter
 
     // preserve
     getPath,
     getRootPath,
+    getRootDataPath,
     getUserPath,
     getUserDataPath,
 };

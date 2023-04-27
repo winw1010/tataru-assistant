@@ -13,11 +13,14 @@ const tm = require('../system/translate-module');
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
+// file module
+const fileModule = require('../system/file-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
-// temp location
-const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+// temp path
+const tempPath = fileModule.getUserDataPath('temp');
 
 // correction queue
 let correctionQueueItems = [];
@@ -79,20 +82,20 @@ function loadJSON(languageTo) {
     const japaneseDirectory = 'text/jp';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempPath, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
     chArray.chName = cf.readJSON(chineseDirectory, 'chName.json');
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
-    chArray.player = cf.readJSON(tempLocation, 'player.json');
-    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
+    chArray.player = cf.readJSON(tempPath, 'player.json');
+    chArray.chTemp = cf.readJSON(tempPath, 'chTemp.json');
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // jp array
     jpArray.ignore = cf.readJSON(japaneseDirectory, 'ignore.json');
-    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'jpTemp.json'), cf.readJSONSubtitle());
+    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON(tempPath, 'jpTemp.json'), cf.readJSONSubtitle());
     jpArray.jp1 = cf.readJSON(japaneseDirectory, 'jp1.json');
     jpArray.jp2 = cf.readJSON(japaneseDirectory, 'jp2.json');
 
@@ -368,7 +371,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
         return;
     }
 
-    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+    chArray.chTemp = fileModule.read(tempPath, 'chTemp.json', 'json') || [];
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
@@ -386,8 +389,9 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 
     console.log(chArray.chTemp);
 
+    // write
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-    cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
+    fileModule.write(fileModule.getPath(tempPath, 'chTemp.json'), chArray.chTemp, 'json');
 }
 
 // special text fix

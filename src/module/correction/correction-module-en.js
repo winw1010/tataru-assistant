@@ -13,11 +13,14 @@ const tm = require('../system/translate-module');
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
+// file module
+const fileModule = require('../system/file-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
-// temp location
-const tempLocation = process.env.USERPROFILE + '\\Documents\\Tataru Helper Node\\temp';
+// temp path
+const tempPath = fileModule.getUserDataPath('temp');
 
 // correction queue
 let correctionQueueItems = [];
@@ -64,12 +67,12 @@ function loadJSON(languageTo) {
     const englishDirectory = 'text/en';
 
     // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempLocation, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
+    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempPath, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteEN'));
     chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
 
     chArray.main = cf.readJSONMain(sub0, sub1);
-    chArray.player = cf.readJSON(tempLocation, 'player.json');
-    chArray.chTemp = cf.readJSON(tempLocation, 'chTemp.json');
+    chArray.player = cf.readJSON(tempPath, 'player.json');
+    chArray.chTemp = cf.readJSON(tempPath, 'chTemp.json');
 
     // combine
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
@@ -257,7 +260,7 @@ function saveName(name = '', translatedName = '') {
         return;
     }
 
-    chArray.chTemp = cf.readJSONPure(tempLocation, 'chTemp.json');
+    chArray.chTemp = fileModule.read(tempPath, 'chTemp.json', 'json') || [];
 
     if (name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
@@ -269,7 +272,7 @@ function saveName(name = '', translatedName = '') {
     chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // write
-    cf.writeJSON(tempLocation, 'chTemp.json', chArray.chTemp);
+    fileModule.write(fileModule.getPath(tempPath, 'chTemp.json'), chArray.chTemp, 'json');
 }
 
 // module exports

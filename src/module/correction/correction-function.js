@@ -193,18 +193,16 @@ function valueFixAfter(text, valueTable) {
 
 // read json
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
-    try {
-        // get path
-        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
+    // get path
+    const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
 
+    try {
         // read
-        let array = fileModule.jsonReader(finalPath);
+        let array = fileModule.read(finalPath, 'json');
 
         // type check
         if (!Array.isArray(array)) {
-            console.log(`${path}/${name} is not an array.`);
-            writeJSON(path, name, []);
-            return [];
+            throw `${path}/${name} is not an array.`;
         }
 
         // sub array
@@ -226,7 +224,7 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         return array;
     } catch (error) {
         console.log(error);
-        writeJSON(path, name, []);
+        fileModule.write(finalPath, [], 'json');
         return [];
     }
 }
@@ -294,38 +292,6 @@ function readJSONSubtitle() {
     } catch (error) {
         console.log(error);
         return [];
-    }
-}
-
-// read json pure
-function readJSONPure(path = '', name = '') {
-    try {
-        // get path
-        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
-
-        // read
-        let array = fileModule.jsonReader(finalPath);
-
-        // log array
-        console.log(`Read ${finalPath}. (length: ${array.length})`);
-
-        return array;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
-}
-
-// write json
-function writeJSON(path = '', name = '', array = []) {
-    try {
-        // get path
-        const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
-
-        // write array
-        fileModule.jsonWriter(finalPath, array);
-    } catch (error) {
-        console.log(error);
     }
 }
 
@@ -454,7 +420,7 @@ function combineArrayWithTemp(temp, ...args) {
         }
 
         // update temp
-        fileModule.jsonWriter(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp);
+        fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp, 'json');
     }
 
     // delete name from combine
@@ -487,8 +453,6 @@ module.exports = {
     readJSONMain,
     readJSONOverwrite,
     readJSONSubtitle,
-    readJSONPure,
-    writeJSON,
     combineArray,
     combineArrayWithTemp,
 };

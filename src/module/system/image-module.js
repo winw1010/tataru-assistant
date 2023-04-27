@@ -86,7 +86,7 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
             .toBuffer();
 
         // save crop
-        fileModule.imageWriter(cropPath, imageBuffer);
+        fileModule.write(cropPath, imageBuffer, 'image');
 
         // start reconize
         dialogModule.showNotification('正在辨識圖片文字');

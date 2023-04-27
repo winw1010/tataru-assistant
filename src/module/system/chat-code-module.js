@@ -225,7 +225,7 @@ let currentChatCode = getDefaultChatCode();
 
 // load chat code
 function loadChatCode() {
-    currentChatCode = fileModule.jsonReader(chatCodeLocation);
+    currentChatCode = fileModule.read(chatCodeLocation, 'json') || [];
 
     if (defaultChatCode.length !== currentChatCode.length) {
         currentChatCode = getDefaultChatCode();
@@ -238,7 +238,7 @@ function loadChatCode() {
 // save chat code
 function saveChatCode() {
     try {
-        fileModule.jsonWriter(chatCodeLocation, currentChatCode);
+        fileModule.write(chatCodeLocation, currentChatCode, 'json');
     } catch (error) {
         console.log(error);
     }

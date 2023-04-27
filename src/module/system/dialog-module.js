@@ -146,8 +146,8 @@ function saveLog(id, name, text, dialogData, translation) {
     let log = {};
 
     // read/create log file
-    if (fileModule.fileChecker(filePath)) {
-        log = fileModule.jsonReader(filePath, false);
+    if (fileModule.exists(filePath)) {
+        log = fileModule.read(filePath, false, 'json') || {};
 
         // fix old bug
         if (Array.isArray(log)) {
@@ -166,7 +166,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // write log file
     try {
-        fileModule.jsonWriter(filePath, log);
+        fileModule.write(filePath, log, 'json');
     } catch (error) {
         console.error(error);
     }

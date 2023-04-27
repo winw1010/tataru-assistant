@@ -76,7 +76,7 @@ let currentConfig = getDefaultConfig();
 // load config
 function loadConfig() {
     try {
-        currentConfig = fileModule.jsonReader(configLocation, false);
+        currentConfig = fileModule.read(configLocation, 'json') || {};
 
         // fix old bug
         if (Array.isArray(currentConfig) || Object.getOwnPropertyNames(currentConfig).length === 0) {
@@ -137,7 +137,7 @@ function loadConfig() {
 // save config
 function saveConfig() {
     try {
-        fileModule.jsonWriter(configLocation, currentConfig);
+        fileModule.write(configLocation, currentConfig, 'json');
     } catch (error) {
         console.log(error);
     }

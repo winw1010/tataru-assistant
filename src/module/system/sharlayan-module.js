@@ -14,7 +14,7 @@ const batPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'start-s
 
 // start
 async function start() {
-    fileModule.fileWriter(batPath, createBatString());
+    fileModule.write(batPath, createBatString());
     childProcess.execFile(batPath);
 }
 

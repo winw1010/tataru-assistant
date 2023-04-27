@@ -331,8 +331,14 @@ function setCaptureChannel() {
             .showOpenDialog({ filters: [{ name: 'JSON', extensions: ['json'] }] })
             .then((value) => {
                 if (!value.canceled && value.filePaths.length > 0 && value.filePaths[0].length > 0) {
-                    fileModule.jsonWriter(fileModule.getUserDataPath('setting', 'google-credential.json'), fileModule.jsonReader(value.filePaths[0], false));
-                    dialogModule.showNotification('已儲存Google憑證');
+                    let data = fileModule.read(value.filePaths[0], 'json');
+
+                    if (data) {
+                        fileModule.write(fileModule.getUserDataPath('setting', 'google-credential.json'), data, 'json');
+                        dialogModule.showNotification('已儲存Google憑證');
+                    } else {
+                        dialogModule.showNotification('檔案格式不正確');
+                    }
                 }
             })
             .catch(console.log);
@@ -461,32 +467,32 @@ function setTranslateChannel() {
 function setFileChannel() {
     // directory reader
     ipcMain.on('directory-reader', (event, path) => {
-        event.returnValue = fileModule.directoryReader(path);
+        event.returnValue = fileModule.readdir(path);
     });
 
     // json reader
     ipcMain.on('json-reader', (event, filePath, returnArray) => {
-        event.returnValue = fileModule.jsonReader(filePath, returnArray);
+        event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
     });
 
     // json writer
     ipcMain.on('json-writer', (event, filePath, data) => {
-        fileModule.jsonWriter(filePath, data);
+        fileModule.write(filePath, data, 'json');
     });
 
     // file writer
     ipcMain.on('file-writer', (event, filePath, data) => {
-        fileModule.fileWriter(filePath, data);
+        fileModule.write(filePath, data);
     });
 
     // file checker
     ipcMain.on('file-checker', (event, filePath) => {
-        event.returnValue = fileModule.fileChecker(filePath);
+        event.returnValue = fileModule.exists(filePath);
     });
 
     // file deleter
     ipcMain.on('file-deleter', (event, filePath) => {
-        fileModule.fileDeleter(filePath);
+        fileModule.unlink(filePath);
     });
 
     // get path

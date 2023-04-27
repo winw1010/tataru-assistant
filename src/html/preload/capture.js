@@ -85,7 +85,7 @@ function setButton() {
 
         // start full screen recognize
         const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
-        ipcRenderer.send('start-recognize', getRectangleSize(displayBounds.x, displayBounds.y, displayBounds.x + displayBounds.width, displayBounds.y + displayBounds.height), true);
+        ipcRenderer.send('start-recognize', getRectangleSize(displayBounds.x, displayBounds.y, displayBounds.x + displayBounds.width, displayBounds.y + displayBounds.height));
     };
 
     // close

@@ -26,7 +26,7 @@ const windowModule = require('./window-module');
 const imagePath = fileModule.getRootPath('src', 'data', 'image');
 
 // start recognize
-async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEdit) {
+async function startRecognize(rectangleSize, displayBounds, displayIndex) {
     dialogModule.showNotification('正在擷取螢幕畫面');
     console.log('rectangle size:', rectangleSize);
 
@@ -57,7 +57,7 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEd
         });
 
         // crop image
-        cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit);
+        cropImage(rectangleSize, displayBounds, screenshotPath);
     } catch (error) {
         console.log(error);
         dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
@@ -65,7 +65,7 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex, skipEd
 }
 
 // crop image
-async function cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit) {
+async function cropImage(rectangleSize, displayBounds, screenshotPath) {
     try {
         const cropPath = getImagePath('crop.png');
         const config = configModule.getConfig();
@@ -92,10 +92,10 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath, skipEdit)
         dialogModule.showNotification('正在辨識圖片文字');
         if (config.captureWindow.type === 'google') {
             // google vision
-            textDetectModule.googleVision(cropPath, skipEdit);
+            textDetectModule.googleVision(cropPath);
         } else {
             // tesseract ocr
-            textDetectModule.tesseractOCR(await fixImage(imageBuffer), skipEdit);
+            textDetectModule.tesseractOCR(await fixImage(imageBuffer));
         }
     } catch (error) {
         console.log(error);

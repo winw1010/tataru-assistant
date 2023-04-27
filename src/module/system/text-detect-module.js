@@ -28,7 +28,7 @@ const { correctionEntry } = require('../correction/correction-module');
 const tesseractPath = fileModule.getRootPath('src', 'data', 'tesseract');
 
 // google vision
-async function googleVision(imagePath, skipEdit) {
+async function googleVision(imagePath) {
     try {
         const path = fileModule.getUserDataPath('setting', 'google-credential.json');
         if (!fileModule.fileChecker(path)) {
@@ -42,7 +42,7 @@ async function googleVision(imagePath, skipEdit) {
         const detections = result.textAnnotations[0];
 
         if (detections?.description) {
-            fixImageText(detections.description, skipEdit);
+            fixImageText(detections.description);
         } else {
             throw result.error;
         }
@@ -53,7 +53,7 @@ async function googleVision(imagePath, skipEdit) {
 }
 
 // tesseract ocr
-async function tesseractOCR(imageBuffer, skipEdit) {
+async function tesseractOCR(imageBuffer) {
     try {
         const config = configModule.getConfig();
         const worker = await createWorker({
@@ -78,7 +78,7 @@ async function tesseractOCR(imageBuffer, skipEdit) {
 
         // fix or error
         if (text.trim().length > 0) {
-            fixImageText(text, skipEdit);
+            fixImageText(text);
         } else {
             dialogModule.showNotification('無法擷取文字，請重新擷取或更換辨識模式');
         }
@@ -92,7 +92,7 @@ async function tesseractOCR(imageBuffer, skipEdit) {
 }
 
 // fix image text
-function fixImageText(text, skipEdit) {
+function fixImageText(text) {
     console.log(text);
 
     // get config
@@ -135,26 +135,26 @@ function fixImageText(text, skipEdit) {
     dialogModule.showNotification('辨識完成');
 
     // return if edit is true
-    if (config.captureWindow.edit && !skipEdit) {
+    if (config.captureWindow.edit) {
         windowModule.restartWindow('capture-edit', text);
         return;
     }
 
     // translate image text
-    translateImageText(text, skipEdit);
+    translateImageText(text);
 }
 
 // translate image text
-async function translateImageText(text, skipEdit) {
+async function translateImageText(text) {
     const config = configModule.getConfig();
 
     // set string array
     let stringArray = [];
-    if (config.captureWindow.split && !skipEdit) {
+    if (config.captureWindow.split) {
         stringArray = text.split('\n');
     } else {
         if (config.translation.from === engineModule.languageEnum.ja) {
-            stringArray = [text.replaceAll('\n', skipEdit ? '、' : '')];
+            stringArray = [text.replaceAll('\n', '')];
         } else {
             stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
         }

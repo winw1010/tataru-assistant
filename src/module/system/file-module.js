@@ -32,6 +32,91 @@ function directoryCheck() {
     });
 }
 
+// readdir
+function readdir(path) {
+    let result = [];
+
+    try {
+        result = fs.readdirSync(path);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return result;
+}
+
+// exists
+function exists(filePath = './') {
+    let result = false;
+
+    try {
+        result = fs.existsSync(filePath);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return result;
+}
+
+// unlink
+function unlink(filePath = './') {
+    try {
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// read
+function read(filePath = './', type = '') {
+    let data = null;
+
+    try {
+        switch (type) {
+            case 'json':
+                data = JSON.parse(fs.readFileSync(filePath));
+                break;
+
+            default:
+                data = fs.readFileSync(filePath);
+                break;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    return data;
+}
+
+// write
+function write(filePath = './', data = null, type = '') {
+    try {
+        switch (type) {
+            case 'json':
+                {
+                    let dataString = JSON.stringify(data);
+                    fs.writeFileSync(
+                        filePath,
+                        dataString.includes('{')
+                            ? JSON.stringify(data, null, '\t')
+                            : dataString.replaceAll('[[', '[\r\n\t[').replaceAll('],', '],\r\n\t').replaceAll(']]', ']\r\n]').replaceAll('","', '", "')
+                    );
+                }
+                break;
+
+            case 'image':
+                fs.writeFileSync(filePath, Buffer.from(data, 'base64'));
+                break;
+
+            default:
+                fs.writeFileSync(filePath, data);
+                break;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // directoryReader
 function directoryReader(path) {
     let result = [];
@@ -151,6 +236,15 @@ function deleteImages() {
 // module exports
 module.exports = {
     directoryCheck,
+
+    // new functions
+    readdir,
+    exists,
+    unlink,
+    read,
+    write,
+
+    // old functions
     directoryReader,
     jsonReader,
     jsonWriter,
@@ -158,6 +252,8 @@ module.exports = {
     fileWriter,
     fileChecker,
     fileDeleter,
+
+    // preserve
     getPath,
     getRootPath,
     getUserPath,

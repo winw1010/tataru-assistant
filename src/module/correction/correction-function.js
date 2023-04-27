@@ -194,11 +194,11 @@ function valueFixAfter(text, valueTable) {
 // read json
 function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
     // get path
-    const finalPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
+    const jsonPath = path.includes(':') ? fileModule.getPath(path, name) : fileModule.getRootPath('src', 'json', path, name);
 
     try {
         // read
-        let array = fileModule.read(finalPath, 'json');
+        let array = fileModule.read(jsonPath, 'json');
 
         // type check
         if (!Array.isArray(array)) {
@@ -219,12 +219,12 @@ function readJSON(path = '', name = '', needSub = false, sub0 = 0, sub1 = 1) {
         }
 
         // log array
-        // console.log(`Read ${finalPath}. (length: ${array.length})`);
+        // console.log(`Read ${jsonPath}. (length: ${array.length})`);
 
         return array;
     } catch (error) {
         console.log(error);
-        fileModule.write(finalPath, [], 'json');
+        fileModule.write(jsonPath, [], 'json');
         return [];
     }
 }

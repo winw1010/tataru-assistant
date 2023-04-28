@@ -255,6 +255,7 @@ function getNearPosition(displayBounds, indexBounds, bounds) {
     return bounds;
 }
 
+// bounds size check
 function boundsSizeCheck(bounds) {
     if (bounds.width < bounds.minWidth) bounds.width = bounds.minWidth;
     if (bounds.height < bounds.minHeight) bounds.height = bounds.minHeight;

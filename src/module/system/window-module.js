@@ -147,8 +147,8 @@ function getWindowSize(windowName, config) {
                 if (boundsValidCheck(indexBounds)) {
                     bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                     bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-                    bounds.width = parseInt(displayBounds.width * 0.2);
-                    bounds.height = parseInt(displayBounds.height * 0.6);
+                    bounds.width = parseInt(displayBounds.width * 0.21);
+                    bounds.height = parseInt(displayBounds.width * 0.32);
                 } else {
                     bounds.x = indexBounds.x;
                     bounds.y = indexBounds.y;
@@ -170,8 +170,8 @@ function getWindowSize(windowName, config) {
                 if (boundsValidCheck(captureBounds)) {
                     bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
                     bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
-                    bounds.width = parseInt(displayBounds.width * 0.33);
-                    bounds.height = parseInt(displayBounds.height * 0.36);
+                    bounds.width = parseInt(displayBounds.width * 0.32);
+                    bounds.height = parseInt(displayBounds.width * 0.19);
                 } else {
                     bounds.x = captureBounds.x;
                     bounds.y = captureBounds.y;
@@ -188,8 +188,8 @@ function getWindowSize(windowName, config) {
         case 'capture-edit':
             {
                 const indexBounds = windowList['index'].getBounds();
-                bounds.width = parseInt(displayBounds.width * 0.27);
-                bounds.height = parseInt(displayBounds.height * 0.42);
+                bounds.width = parseInt(displayBounds.width * 0.21);
+                bounds.height = parseInt(displayBounds.width * 0.21);
                 bounds.minWidth = 400;
                 bounds.minHeight = 400;
                 bounds = getNearPosition(displayBounds, indexBounds, bounds);
@@ -199,8 +199,8 @@ function getWindowSize(windowName, config) {
         case 'config':
             {
                 const indexBounds = windowList['index'].getBounds();
-                bounds.width = parseInt(displayBounds.width * 0.22);
-                bounds.height = parseInt(displayBounds.height * 0.65);
+                bounds.width = parseInt(displayBounds.width * 0.21);
+                bounds.height = parseInt(displayBounds.width * 0.32);
                 bounds.minWidth = 400;
                 bounds.minHeight = 600;
                 bounds = getNearPosition(displayBounds, indexBounds, bounds);
@@ -210,8 +210,8 @@ function getWindowSize(windowName, config) {
         case 'dictionary':
             {
                 const indexBounds = windowList['index'].getBounds();
-                bounds.width = parseInt(displayBounds.width * 0.3);
-                bounds.height = parseInt(displayBounds.height * 0.6);
+                bounds.width = parseInt(displayBounds.width * 0.27);
+                bounds.height = parseInt(displayBounds.width * 0.32);
                 bounds.minWidth = 500;
                 bounds.minHeight = 600;
                 bounds = getNearPosition(displayBounds, indexBounds, bounds);
@@ -221,8 +221,8 @@ function getWindowSize(windowName, config) {
         case 'edit':
             {
                 const indexBounds = windowList['index'].getBounds();
-                bounds.width = parseInt(displayBounds.width * 0.5);
-                bounds.height = parseInt(displayBounds.height * 0.65);
+                bounds.width = parseInt(displayBounds.width * 0.42);
+                bounds.height = parseInt(displayBounds.width * 0.32);
                 bounds.minWidth = 800;
                 bounds.minHeight = 600;
                 bounds = getNearPosition(displayBounds, indexBounds, bounds);
@@ -232,8 +232,8 @@ function getWindowSize(windowName, config) {
         case 'read-log':
             {
                 const indexBounds = windowList['index'].getBounds();
-                bounds.width = parseInt(displayBounds.width * 0.2);
-                bounds.height = parseInt(displayBounds.height * 0.2);
+                bounds.width = parseInt(displayBounds.width * 0.16);
+                bounds.height = parseInt(displayBounds.width * 0.11);
                 bounds.minWidth = 300;
                 bounds.minHeight = 200;
                 bounds = getNearPosition(displayBounds, indexBounds, bounds);

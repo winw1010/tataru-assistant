@@ -26,10 +26,7 @@ function createWindow(windowName, data = null) {
 
         // create new window
         const window = new BrowserWindow({
-            x: windowSize.x,
-            y: windowSize.y,
-            width: windowSize.width,
-            height: windowSize.height,
+            ...windowSize,
             show: false,
             frame: false,
             transparent: true,
@@ -128,118 +125,149 @@ function createWindow(windowName, data = null) {
 
 // get window size
 function getWindowSize(windowName, config) {
-    // set default value
-    let x = 0;
-    let y = 0;
-    let width = 0;
-    let height = 0;
+    // default value
+    let bounds = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        minWidth: 400,
+        minHeight: 300,
+    };
 
     // get display bounds nearest cursor
     const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
     switch (windowName) {
-        case 'index': {
-            const bounds = config.indexWindow;
+        case 'index':
+            {
+                const indexBounds = config.indexWindow;
 
-            // first time
-            if (bounds.x === null || bounds.y === null || bounds.width === null || bounds.height === null) {
-                x = displayBounds.x + parseInt(displayBounds.width * 0.7);
-                y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-                width = parseInt(displayBounds.width * 0.2);
-                height = parseInt(displayBounds.height * 0.6);
-                break;
-            } else {
-                x = bounds.x;
-                y = bounds.y;
-                width = bounds.width;
-                height = bounds.height;
-                break;
+                // first time
+                if (boundsValidCheck(indexBounds)) {
+                    bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
+                    bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
+                    bounds.width = parseInt(displayBounds.width * 0.2);
+                    bounds.height = parseInt(displayBounds.height * 0.6);
+                } else {
+                    bounds.x = indexBounds.x;
+                    bounds.y = indexBounds.y;
+                    bounds.width = indexBounds.width;
+                    bounds.height = indexBounds.height;
+                }
+
+                bounds.minWidth = 400;
+                bounds.minHeight = 600;
+                bounds = boundsSizeCheck(bounds);
             }
-        }
+            break;
 
-        case 'capture': {
-            const bounds = config.captureWindow;
+        case 'capture':
+            {
+                const captureBounds = config.captureWindow;
 
-            // first time
-            if (bounds.x === null || bounds.y === null || bounds.width === null || bounds.height === null) {
-                x = displayBounds.x + parseInt(displayBounds.width * 0.33);
-                y = displayBounds.y + parseInt(displayBounds.height * 0.63);
-                width = parseInt(displayBounds.width * 0.33);
-                height = parseInt(displayBounds.height * 0.36);
-                break;
-            } else {
-                x = bounds.x;
-                y = bounds.y;
-                width = bounds.width;
-                height = bounds.height;
-                break;
+                // first time
+                if (boundsValidCheck(captureBounds)) {
+                    bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
+                    bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
+                    bounds.width = parseInt(displayBounds.width * 0.33);
+                    bounds.height = parseInt(displayBounds.height * 0.36);
+                } else {
+                    bounds.x = captureBounds.x;
+                    bounds.y = captureBounds.y;
+                    bounds.width = captureBounds.width;
+                    bounds.height = captureBounds.height;
+                }
+
+                bounds.minWidth = 600;
+                bounds.minHeight = 350;
+                bounds = boundsSizeCheck(bounds);
             }
-        }
-
-        case 'capture-edit': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.27);
-            height = parseInt(displayBounds.height * 0.42);
-            x = getNearX(displayBounds, indexBounds, width);
-            y = getNearY(displayBounds, indexBounds, height);
             break;
-        }
 
-        case 'config': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.22);
-            height = parseInt(displayBounds.height * 0.65);
-            x = getNearX(displayBounds, indexBounds, width);
-            y = getNearY(displayBounds, indexBounds, height);
+        case 'capture-edit':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                bounds.width = parseInt(displayBounds.width * 0.27);
+                bounds.height = parseInt(displayBounds.height * 0.42);
+                bounds.minWidth = 400;
+                bounds.minHeight = 400;
+                bounds = getNearPosition(displayBounds, indexBounds, bounds);
+            }
             break;
-        }
 
-        case 'dictionary': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.3);
-            height = parseInt(displayBounds.height * 0.6);
-            x = getNearX(displayBounds, indexBounds, width);
-            y = getNearY(displayBounds, indexBounds, height);
+        case 'config':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                bounds.width = parseInt(displayBounds.width * 0.22);
+                bounds.height = parseInt(displayBounds.height * 0.65);
+                bounds.minWidth = 400;
+                bounds.minHeight = 600;
+                bounds = getNearPosition(displayBounds, indexBounds, bounds);
+            }
             break;
-        }
 
-        case 'edit': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.5);
-            height = parseInt(displayBounds.height * 0.65);
-            x = getNearX(displayBounds, indexBounds, width);
-            y = getNearY(displayBounds, indexBounds, height);
+        case 'dictionary':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                bounds.width = parseInt(displayBounds.width * 0.3);
+                bounds.height = parseInt(displayBounds.height * 0.6);
+                bounds.minWidth = 500;
+                bounds.minHeight = 600;
+                bounds = getNearPosition(displayBounds, indexBounds, bounds);
+            }
             break;
-        }
 
-        case 'read-log': {
-            const indexBounds = windowList['index'].getBounds();
-            width = parseInt(displayBounds.width * 0.2);
-            height = parseInt(displayBounds.height * 0.2);
-            x = getNearX(displayBounds, indexBounds, width);
-            y = getNearY(displayBounds, indexBounds, height);
+        case 'edit':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                bounds.width = parseInt(displayBounds.width * 0.5);
+                bounds.height = parseInt(displayBounds.height * 0.65);
+                bounds.minWidth = 800;
+                bounds.minHeight = 600;
+                bounds = getNearPosition(displayBounds, indexBounds, bounds);
+            }
             break;
-        }
+
+        case 'read-log':
+            {
+                const indexBounds = windowList['index'].getBounds();
+                bounds.width = parseInt(displayBounds.width * 0.2);
+                bounds.height = parseInt(displayBounds.height * 0.2);
+                bounds.minWidth = 300;
+                bounds.minHeight = 200;
+                bounds = getNearPosition(displayBounds, indexBounds, bounds);
+            }
+            break;
 
         default:
             break;
     }
 
-    return boundsCheck({ x, y, width, height });
+    return boundsPositionCheck(bounds);
 }
 
-// get near x
-function getNearX(displayBounds, indexBounds, width) {
-    return indexBounds.x - width > displayBounds.x ? indexBounds.x - width : indexBounds.x + indexBounds.width;
+// get near position
+function getNearPosition(displayBounds, indexBounds, bounds) {
+    bounds = boundsSizeCheck(bounds);
+    bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
+    bounds.y = indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
+    return bounds;
 }
 
-// get near y
-function getNearY(displayBounds, indexBounds, height) {
-    return indexBounds.y + height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - height : indexBounds.y;
+function boundsSizeCheck(bounds) {
+    if (bounds.width < bounds.minWidth) bounds.width = bounds.minWidth;
+    if (bounds.height < bounds.minHeight) bounds.height = bounds.minHeight;
+    return bounds;
 }
 
-// bounds check
-function boundsCheck(bounds) {
+// bounds valid check
+function boundsValidCheck(bounds) {
+    return bounds.x === null || bounds.y === null || bounds.width === null || bounds.height === null || bounds.width <= 0 || bounds.height <= 0;
+}
+
+// bounds position check
+function boundsPositionCheck(bounds) {
     const point = { x: bounds.x + parseInt(bounds.width / 2), y: bounds.y + parseInt(bounds.height / 2) };
     const nearestBounds = screen.getDisplayNearestPoint(point).bounds;
 

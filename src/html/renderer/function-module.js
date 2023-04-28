@@ -13,9 +13,7 @@ function dragWindow(clientX, clientY, windowWidth, windowHeight) {
 
 // on document ready
 function onDocumentReady(callback = () => {}) {
-    document.addEventListener('readystatechange', () => {
-        if (document.readyState === 'complete') {
-            callback();
-        }
+    window.addEventListener('DOMContentLoaded', () => {
+        callback();
     });
 }

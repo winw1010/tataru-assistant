@@ -73,6 +73,7 @@ onDocumentReady(() => {
             checkbox_top: ['顯示在最上層', '显示在最上层'],
             checkbox_focusable: ['可被選取', '可被选取'],
             checkbox_shortcut: ['啟用快捷鍵', '启用快捷键'],
+            checkbox_min_size: ['最小尺寸限制', '最小尺寸限制'],
             checkbox_hide_button: ['自動隱藏按鈕', '自动隐藏按钮'],
             checkbox_hide_dialog: ['自動隱藏視窗', '自动隐藏视窗'],
             input_hide_dialog: ['秒後隱藏視窗', '秒后隐藏视窗'],

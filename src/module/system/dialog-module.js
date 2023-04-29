@@ -147,7 +147,7 @@ function saveLog(id, name, text, dialogData, translation) {
 
     // read/create log file
     if (fileModule.exists(filePath)) {
-        log = fileModule.read(filePath, false, 'json') || {};
+        log = fileModule.read(filePath, 'json') || {};
 
         // fix old bug
         if (Array.isArray(log)) {

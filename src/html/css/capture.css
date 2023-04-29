@@ -11,8 +11,15 @@ header {
 }
 
 #canvas_select {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 5;
+}
+
+#button_screenshot {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 10;
 }

@@ -260,7 +260,7 @@ function saveName(name = '', translatedName = '') {
         return;
     }
 
-    chArray.chTemp = fileModule.read(tempPath, 'chTemp.json', 'json') || [];
+    chArray.chTemp = fileModule.read(fileModule.getPath(tempPath, 'chTemp.json'), 'json') || [];
 
     if (name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);

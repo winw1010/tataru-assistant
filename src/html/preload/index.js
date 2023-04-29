@@ -326,6 +326,8 @@ function resetView(config) {
             })
             .catch(console.log);
     }, 100);
+
+    ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 }
 
 // set style

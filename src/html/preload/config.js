@@ -170,6 +170,8 @@ function showConfig() {
 
     document.getElementById('checkbox_shortcut').checked = config.indexWindow.shortcut;
 
+    document.getElementById('checkbox_min_size').checked = config.indexWindow.minSize;
+
     document.getElementById('checkbox_hide_button').checked = config.indexWindow.hideButton;
 
     document.getElementById('checkbox_hide_dialog').checked = config.indexWindow.hideDialog;
@@ -238,6 +240,8 @@ function saveConfig() {
     config.indexWindow.focusable = document.getElementById('checkbox_focusable').checked;
 
     config.indexWindow.shortcut = document.getElementById('checkbox_shortcut').checked;
+
+    config.indexWindow.minSize = document.getElementById('checkbox_min_size').checked;
 
     config.indexWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 

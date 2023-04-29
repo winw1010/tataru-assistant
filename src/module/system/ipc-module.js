@@ -205,6 +205,15 @@ function setWindowChannel() {
         }
     });
 
+    // set min size
+    ipcMain.on('set-min-size', (event, minSize) => {
+        if (minSize) {
+            BrowserWindow.fromWebContents(event.sender).setMinimumSize(300, 300);
+        } else {
+            BrowserWindow.fromWebContents(event.sender).setMinimumSize(1, 1);
+        }
+    });
+
     // set click through
     ipcMain.on('set-click-through', (event, ignore) => {
         try {

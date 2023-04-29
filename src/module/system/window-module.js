@@ -131,8 +131,8 @@ function getWindowSize(windowName, config) {
         y: 0,
         width: 0,
         height: 0,
-        minWidth: 400,
-        minHeight: 300,
+        minWidth: 1,
+        minHeight: 1,
     };
 
     // get display bounds nearest cursor
@@ -147,8 +147,8 @@ function getWindowSize(windowName, config) {
                 if (boundsValidCheck(indexBounds)) {
                     bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                     bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-                    bounds.width = parseInt(displayBounds.width * 0.19);
-                    bounds.height = parseInt(displayBounds.width * 0.27);
+                    bounds.width = parseInt(displayBounds.width * 0.16);
+                    bounds.height = parseInt(displayBounds.width * 0.16);
                 } else {
                     bounds.x = indexBounds.x;
                     bounds.y = indexBounds.y;
@@ -156,8 +156,11 @@ function getWindowSize(windowName, config) {
                     bounds.height = indexBounds.height;
                 }
 
-                bounds.minWidth = 350;
-                bounds.minHeight = 500;
+                if (configModule.getConfig().indexWindow.minSize) {
+                    bounds.minWidth = 300;
+                    bounds.minHeight = 300;
+                }
+
                 bounds = boundsSizeCheck(bounds);
             }
             break;

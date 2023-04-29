@@ -22,6 +22,7 @@ const defaultConfig = {
         shortcut: true,
         hideButton: true,
         hideDialog: true,
+        minSize: true,
         hideDialogTimeout: 30,
         backgroundColor: '#00000034',
     },

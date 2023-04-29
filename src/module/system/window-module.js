@@ -147,8 +147,8 @@ function getWindowSize(windowName, config) {
                 if (boundsValidCheck(indexBounds)) {
                     bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                     bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-                    bounds.width = parseInt(displayBounds.width * 0.21);
-                    bounds.height = parseInt(displayBounds.width * 0.32);
+                    bounds.width = parseInt(displayBounds.width * 0.19);
+                    bounds.height = parseInt(displayBounds.width * 0.27);
                 } else {
                     bounds.x = indexBounds.x;
                     bounds.y = indexBounds.y;
@@ -156,8 +156,8 @@ function getWindowSize(windowName, config) {
                     bounds.height = indexBounds.height;
                 }
 
-                bounds.minWidth = 400;
-                bounds.minHeight = 600;
+                bounds.minWidth = 350;
+                bounds.minHeight = 500;
                 bounds = boundsSizeCheck(bounds);
             }
             break;

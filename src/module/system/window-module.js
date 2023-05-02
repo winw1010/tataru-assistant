@@ -86,9 +86,6 @@ function createWindow(windowName, data = null) {
 
                     // save chat code
                     chatCodeModule.saveChatCode();
-
-                    // delete images
-                    fileModule.deleteImages();
                 });
                 break;
 

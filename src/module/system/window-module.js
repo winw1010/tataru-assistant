@@ -39,9 +39,11 @@ function createWindow(windowName, data = null) {
             },
         });
 
+        // load html
+        window.loadFile(fileModule.getPath(__dirname, '..', '..', 'html', `${windowName}.html`));
+
         // set always on top
-        const alwaysOnTop = windowName !== 'edit';
-        window.setAlwaysOnTop(alwaysOnTop, 'screen-saver');
+        window.setAlwaysOnTop(windowName !== 'edit', 'screen-saver');
 
         // set minimizable
         window.setMinimizable(false);
@@ -58,6 +60,7 @@ function createWindow(windowName, data = null) {
             });
         }
 
+        // set event
         switch (windowName) {
             case 'index':
                 // set foucusable
@@ -70,11 +73,10 @@ function createWindow(windowName, data = null) {
                     window.setFocusable(true);
                 });
 
+                // set close event
                 window.once('close', () => {
-                    // get config
+                    // save position
                     const config = configModule.getConfig();
-
-                    // set bounds
                     config.indexWindow.x = window.getPosition()[0];
                     config.indexWindow.y = window.getPosition()[1];
                     config.indexWindow.width = window.getSize()[0];
@@ -90,11 +92,10 @@ function createWindow(windowName, data = null) {
                 break;
 
             case 'capture':
+                // set close event
                 window.once('close', () => {
-                    // get config
+                    // save position
                     const config = configModule.getConfig();
-
-                    // set bounds
                     config.captureWindow.x = window.getPosition()[0];
                     config.captureWindow.y = window.getPosition()[1];
                     config.captureWindow.width = window.getSize()[0];
@@ -106,9 +107,6 @@ function createWindow(windowName, data = null) {
             default:
                 break;
         }
-
-        // load html
-        window.loadFile(fileModule.getPath(__dirname, '..', '..', 'html', `${windowName}.html`));
 
         // devtools
         //window.webContents.openDevTools({ mode: 'detach' });

@@ -61,15 +61,15 @@ function detectUserLanguage() {
     const config = configModule.getConfig();
 
     if (config.system.firstTime) {
-        const systemLocale = app.getSystemLocale();
-
-        if (/zh-(TW|HK|MO|CHT|Hant)/i.test(systemLocale)) {
+        const locale = Intl.DateTimeFormat().resolvedOptions().locale; //app.getSystemLocale();
+        if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
             config.translation.to = 'Traditional-Chinese';
-        } else if (/zh-(CN|SG|CHS|Hans)/i.test(systemLocale)) {
+        } else if (/zh-(CN|SG|CHS|Hans)/i.test(locale)) {
             config.translation.to = 'Simplified-Chinese';
         } else {
             config.translation.to = 'Traditional-Chinese';
         }
+        configModule.setConfig(config);
     }
 }
 

@@ -2,7 +2,7 @@
     "name": "tataru-helper-node",
     "version": "2.2.31",
     "description": "tataru-helper-node",
-    "main": "main.js",
+    "main": "src/main.js",
     "scripts": {
         "start": "electron .",
         "pack": "electron-builder --dir",

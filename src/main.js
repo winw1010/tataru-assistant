@@ -4,10 +4,10 @@
 const { app, BrowserWindow } = require('electron');
 
 // app module
-const appModule = require('./src/module/system/app-module');
+const appModule = require('./module/system/app-module');
 
 // window module
-const windowModule = require('./src/module/system/window-module');
+const windowModule = require('./module/system/window-module');
 
 // when ready
 app.whenReady().then(() => {

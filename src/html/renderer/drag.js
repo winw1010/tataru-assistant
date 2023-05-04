@@ -1,7 +1,7 @@
 'use strict';
 /* eslint-disable */
 
-onDocumentReady(() => {
+{
     // set drag element
     document.getElementById('img_button_drag').onmousedown = (event) => {
         event = event || window.event;
@@ -21,4 +21,4 @@ onDocumentReady(() => {
             document.onmousemove = null;
         };
     };
-});
+}

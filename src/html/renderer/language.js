@@ -1,7 +1,7 @@
 'use strict';
 /* eslint-disable */
 
-onDocumentReady(() => {
+{
     // element text list
     const elementTextList = {
         img: {
@@ -230,4 +230,4 @@ onDocumentReady(() => {
 
     // auto run
     document.dispatchEvent(new CustomEvent('change-ui-text'));
-});
+}

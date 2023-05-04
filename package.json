@@ -42,7 +42,7 @@
             "!src/_Tataru_Helper"
         ],
         "win": {
-            "icon": "./src/html/img/icon/tataru.ico",
+            "icon": "src/html/img/icon/tataru.ico",
             "target": [
                 "nsis"
             ]

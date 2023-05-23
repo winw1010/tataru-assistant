@@ -99,6 +99,9 @@ function dataProcess(data) {
                     dialogData.name = '';
                 }
 
+                // text fix
+                dialogData.text = dialogData.text.replaceAll('%&', '');
+
                 // system message fix
                 if (isSystemMessage(dialogData.code)) {
                     if (dialogData.name !== '') {

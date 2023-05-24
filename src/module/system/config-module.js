@@ -9,7 +9,7 @@ const configLocation = fileModule.getUserDataPath('setting', 'config.json');
 // default config
 const defaultConfig = {
     server: {
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 8898,
     },
     indexWindow: {
@@ -115,6 +115,11 @@ function loadConfig() {
         });
 
         // fix property
+        // host
+        if (currentConfig.server.host === 'localhost') {
+            currentConfig.server.host = '127.0.0.1';
+        }
+
         // translator
         if (!['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(currentConfig.translation.engine)) {
             currentConfig.translation.engine = 'Youdao';
@@ -129,9 +134,9 @@ function loadConfig() {
     } catch (error) {
         console.log(error);
         currentConfig = getDefaultConfig();
-        saveConfig();
     }
 
+    saveConfig();
     return currentConfig;
 }
 
@@ -152,6 +157,7 @@ function getConfig() {
 // set config
 function setConfig(newConfig) {
     currentConfig = newConfig;
+    saveConfig();
 }
 
 // get default config

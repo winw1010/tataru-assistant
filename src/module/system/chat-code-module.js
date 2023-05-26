@@ -229,9 +229,9 @@ function loadChatCode() {
 
     if (defaultChatCode.length !== currentChatCode.length) {
         currentChatCode = getDefaultChatCode();
-        saveChatCode();
     }
 
+    saveChatCode();
     return currentChatCode;
 }
 
@@ -252,6 +252,7 @@ function getChatCode() {
 // set chat code
 function setChatCode(newChatCode) {
     currentChatCode = newChatCode;
+    saveChatCode();
 }
 
 // get default chat code

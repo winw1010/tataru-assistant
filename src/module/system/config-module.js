@@ -55,7 +55,7 @@ const defaultConfig = {
         autoPlay: false,
         fix: true,
         skip: true,
-        skipChinese: false,
+        skipChinese: true,
         replace: true,
         getCutsceneText: false,
         engine: 'Youdao',

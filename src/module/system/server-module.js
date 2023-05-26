@@ -36,13 +36,8 @@ const server = http.createServer(function (request, response) {
             response.end('POST complete.');
         });
     } else {
-        if (request?.url === '/config') {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.end(JSON.stringify(configModule.getConfig()));
-        } else {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end('');
-        }
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end('');
     }
 });
 

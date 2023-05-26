@@ -42,6 +42,7 @@
             "!src/_Tataru_Helper"
         ],
         "win": {
+            "requestedExecutionLevel": "requireAdministrator",
             "icon": "src/html/img/icon/tataru.ico",
             "target": [
                 "nsis"

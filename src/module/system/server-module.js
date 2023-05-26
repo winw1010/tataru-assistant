@@ -52,12 +52,14 @@ server.on('error', (error) => {
 
 // start server
 function startServer() {
+    /*
     const config = configModule.getConfig();
     const host = config.server.host;
     const port = config.server.port;
 
     server.close();
     server.listen(port, host);
+    */
 }
 
 // data process
@@ -124,7 +126,7 @@ function dataProcess(data) {
             } else {
                 // show data
                 console.log('data:', dialogData);
-                console.log('Chat code is not in list.');
+                console.log('Code is not in list.');
             }
         }
     } catch (error) {
@@ -146,4 +148,5 @@ function isSystemMessage(code) {
 // module exports
 module.exports = {
     startServer,
+    dataProcess,
 };

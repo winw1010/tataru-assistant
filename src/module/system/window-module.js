@@ -3,14 +3,14 @@
 // electron modules
 const { BrowserWindow, screen } = require('electron');
 
-// file module
-const fileModule = require('./file-module');
-
 // config module
 const configModule = require('./config-module');
 
 // chat code module
 const chatCodeModule = require('./chat-code-module');
+
+// file module
+const fileModule = require('./file-module');
 
 // window list
 let windowList = {};

@@ -192,7 +192,7 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
 
         if (text.includes(element[search] + 'め') && !text.includes(element[search] + 'めっちゃ')) {
             text = text.replaceAll(element[search] + 'め', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '那傢伙']);
+            table.push([codeString[codeIndex], '可惡的' + element[replacement]]);
             codeIndex++;
         }
 

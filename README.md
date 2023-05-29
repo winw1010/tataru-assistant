@@ -35,31 +35,17 @@ npm start
 npm run dist
 ```
 
-## Tararu Helper 原始碼專案修改步驟
-
-1. 至 Tararu Helper 原作者的 GitHub([NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper))，按下 Code > Download ZIP 下載 Tataru Helper 的原始碼
-2. 解壓縮後將 src/\_Tataru_Helper 裡的 FFXIVWpfApp1 資料夾與 Updater 資料夾複製到專案裡並取代
-3. 使用 Visual Studio 開啟專案(.sln 檔)
-4. 將 Debug 改為 Release，然後按下開始即可編譯專案
-5. 編譯好的.exe 檔會建立在專案裡的 FFXIVWpfApp1/bin/Release 裡，你也可以拿這裡的 TataruHelper.exe 取代原版 Tataru Helper 的 TataruHelper.exe(詳見 Tararu Helper 程式修改步驟)
-
-## Tararu Helper 程式修改步驟
-
-1. 下載[Tataru Helper](https://github.com/NightlyRevenger/TataruHelper/releases)
-2. 安裝後至 Tataru Helper 安裝目錄刪除 TataruHelper.exe 和 Update.exe
-3. 進入安裝目錄下的 app-0.9.106 資料夾，將裡面的 TataruHelper.exe 取代為 Tataru Helper Node 專案裡的 src/\_Tataru_Helper/Release 裡的 TataruHelper.exe 即可和 Tataru Helper Node 連動
-
-註：在第 3 步驟中你也可以使用 Tararu Helper 原始碼專案產生的 TataruHelper.exe 來覆蓋原始檔案
-
 ## License
+
 [MIT](https://github.com/winw1010/tataru-helper-node-v2/blob/main/LICENSE)
 
 ## Credits
-* [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
-* [Electron](https://www.electronjs.org/)
-* [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
-* [crypto-js](https://github.com/brix/crypto-js)
-* [download](https://github.com/kevva/download)
-* [sharp](https://github.com/lovell/sharp)
-* [temp](https://github.com/bruce/node-temp)
-* [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
+
+-   [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
+-   [Electron](https://www.electronjs.org/)
+-   [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
+-   [crypto-js](https://github.com/brix/crypto-js)
+-   [download](https://github.com/kevva/download)
+-   [sharp](https://github.com/lovell/sharp)
+-   [temp](https://github.com/bruce/node-temp)
+-   [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)

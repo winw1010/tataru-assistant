@@ -24,6 +24,7 @@ async function start() {
     }
 
     child = childProcess.spawn(sharlayanPath);
+
     child.stdout.on('data', (data) => {
         if (Buffer.isBuffer(data)) {
             let dataArray = data.toString('utf8').split('\r\n');
@@ -32,6 +33,10 @@ async function start() {
                 if (element.length > 0) serverModule.dataProcess(element);
             }
         }
+    });
+
+    child.on('error', (err) => {
+        console.log(err);
     });
 }
 

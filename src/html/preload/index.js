@@ -113,7 +113,7 @@ function setIPC() {
         try {
             document.getElementById(id).remove();
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     });
 

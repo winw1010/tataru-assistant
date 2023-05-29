@@ -38,7 +38,6 @@
             "src/json",
             "src/data",
             "!src/data/*.png",
-            "!src/data/sharlayan-test/start-sharlayan-test.bat",
             "!src/_Tataru_Helper"
         ],
         "win": {

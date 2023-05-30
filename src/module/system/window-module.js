@@ -177,8 +177,11 @@ function getWindowSize(windowName, config) {
                     bounds.height = captureBounds.height;
                 }
 
-                bounds.minWidth = 600;
-                bounds.minHeight = 350;
+                if (configModule.getConfig().indexWindow.minSize) {
+                    bounds.minWidth = 600;
+                    bounds.minHeight = 350;
+                }
+
                 bounds = boundsSizeCheck(bounds);
             }
             break;

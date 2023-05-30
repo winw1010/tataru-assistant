@@ -16,7 +16,7 @@ const sharlayanPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 's
 let child = null;
 
 // start
-async function start() {
+function start() {
     try {
         child.kill('SIGINT');
     } catch (error) {

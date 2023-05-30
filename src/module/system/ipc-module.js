@@ -78,6 +78,7 @@ function setSystemChannel() {
 
     // close app
     ipcMain.on('close-app', () => {
+        sharlayanModule.stop();
         app.quit();
     });
 

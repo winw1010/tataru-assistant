@@ -40,9 +40,18 @@ async function start() {
     });
 }
 
+function stop() {
+    try {
+        child.kill('SIGINT');
+    } catch (error) {
+        //console.log(error);
+    }
+}
+
 // module exports
 module.exports = {
     start,
+    stop,
 };
 
 /*

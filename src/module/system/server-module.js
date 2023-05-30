@@ -1,13 +1,7 @@
 'use strict';
 
-// http
-//const http = require('http');
-
 // config module
 const configModule = require('./config-module');
-
-// dialog module
-//const dialogModule = require('./dialog-module');
 
 // engine module
 const engineModule = require('./engine-module');
@@ -23,46 +17,6 @@ const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '
 
 // last text
 let lastText = '';
-
-/*
-// create server
-const server = http.createServer(function (request, response) {
-    if (request.method === 'POST') {
-        request.on('data', function (data) {
-            dataProcess(data);
-        });
-
-        request.on('end', function () {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end('POST complete.');
-        });
-    } else {
-        response.writeHead(200, { 'Content-Type': 'text/html' });
-        response.end('');
-    }
-});
-
-server.on('listening', () => {
-    console.log('Opened server on', server.address());
-});
-
-server.on('error', (error) => {
-    server.close();
-    dialogModule.showNotification('伺服器發生錯誤: ' + error);
-});
-*/
-
-// start server
-function startServer() {
-    /*
-    const config = configModule.getConfig();
-    const host = config.server.host;
-    const port = config.server.port;
-
-    server.close();
-    server.listen(port, host);
-    */
-}
 
 // data process
 function dataProcess(data) {
@@ -149,6 +103,5 @@ function isSystemMessage(code) {
 
 // module exports
 module.exports = {
-    startServer,
     dataProcess,
 };

@@ -30,9 +30,6 @@ const imageModule = require('./image-module');
 // request module
 const requestModule = require('./request-module');
 
-// server module
-const serverModule = require('./server-module');
-
 // sharlayan module
 const sharlayanModule = require('./sharlayan-module');
 
@@ -116,11 +113,6 @@ function setSystemChannel() {
     ipcMain.on('set-default-chat-code', (event) => {
         chatCodeModule.setDefaultChatCode();
         event.returnValue = chatCodeModule.getChatCode();
-    });
-
-    // start server
-    ipcMain.on('start-server', () => {
-        serverModule.startServer();
     });
 
     // start sharlayan reader

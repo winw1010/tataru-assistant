@@ -219,10 +219,6 @@ function showConfig() {
     document.getElementById('select_to').value = config.translation.to;
 
     // system
-    document.getElementById('input_text_hsot').value = config.server.host;
-
-    document.getElementById('input_number_port').value = config.server.port;
-
     document.getElementById('checkbox_auto_download_json').checked = config.system.autoDownloadJson;
 
     // about
@@ -305,10 +301,6 @@ function saveConfig() {
     config.translation.to = document.getElementById('select_to').value;
 
     // system
-    config.server.host = document.getElementById('input_text_hsot').value;
-
-    config.server.port = document.getElementById('input_number_port').value;
-
     config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
     // set config
@@ -402,9 +394,6 @@ function loadChannel(config, chatCode) {
 function resetApp(config) {
     // load json
     ipcRenderer.send('load-json');
-
-    // restart server
-    ipcRenderer.send('start-server');
 
     // reset view
     ipcRenderer.send('send-index', 'reset-view', config);

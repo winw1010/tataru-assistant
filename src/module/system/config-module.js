@@ -8,10 +8,6 @@ const configLocation = fileModule.getUserDataPath('setting', 'config.json');
 
 // default config
 const defaultConfig = {
-    server: {
-        host: '127.0.0.1',
-        port: 8898,
-    },
     indexWindow: {
         x: null,
         y: null,
@@ -113,12 +109,6 @@ function loadConfig() {
                 currentConfig[mainName] = defaultConfig[mainName];
             }
         });
-
-        // fix property
-        // host
-        if (currentConfig.server.host === 'localhost') {
-            currentConfig.server.host = '127.0.0.1';
-        }
 
         // translator
         if (!['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(currentConfig.translation.engine)) {

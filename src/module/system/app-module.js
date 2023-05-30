@@ -4,7 +4,7 @@
 const { exec } = require('child_process');
 
 // electron
-const { app, globalShortcut, ipcMain } = require('electron');
+const { globalShortcut, ipcMain } = require('electron');
 
 // file module
 const fileModule = require('./file-module');
@@ -26,9 +26,6 @@ const ipcModule = require('./ipc-module');
 
 // start app
 function startApp() {
-    // disable http cache
-    app.commandLine.appendSwitch('disable-http-cache');
-
     // directory check
     fileModule.directoryCheck();
 
@@ -38,14 +35,11 @@ function startApp() {
     // load chat code
     chatCodeModule.loadChatCode();
 
-    // start sharlayan reader
-    sharlayanModule.start();
+    // detect user language
+    detectUserLanguage();
 
     // set IPC
     ipcModule.setIPC();
-
-    // detect user language
-    detectUserLanguage();
 
     // set global shortcut
     setGlobalShortcut();
@@ -54,6 +48,9 @@ function startApp() {
     ipcMain.on('set-global-shortcut', () => {
         setGlobalShortcut();
     });
+
+    // start sharlayan reader
+    sharlayanModule.start();
 }
 
 // detect user language

@@ -152,11 +152,6 @@
 
             // config
             span_channel_comment: ['使用滑鼠滾輪檢視頻道清單', '使用鼠标滚轮检视频道清单'],
-            span_tataru_server_settings: ['Tataru Helper Node伺服器設定', 'Tataru Helper Node服务器设定'],
-            span_about: [
-                '感謝您使用Tataru Helper Node，請注意本程式需與壓縮檔裡的Tataru Helper一起使用才有自動翻譯功能',
-                '感谢您使用Tataru Helper Node，请注意本程序需与压缩档里的Tataru Helper一起使用才有自动翻译功能',
-            ],
             span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
 
             // edit
@@ -173,7 +168,6 @@
         div: {
             // config
             div_google_credential: ['設定Google憑證，不使用Google Vision辨識功能則無需設定', '设定Google凭证，不使用Google Vision辨识功能则无需设定'],
-            div_server: ['更改Tataru Heler的伺服器設定，一般情況下維持預設即可', '更改Tataru Heler的服务器设定，一般情况下维持预设即可'],
         },
     };
 
@@ -194,18 +188,21 @@
     document.addEventListener('change-ui-text', () => {
         try {
             const config = getConfig();
-            const textIndex = getTextIndex(config?.translation?.to);
+            const textIndex = config ? getTextIndex(config.translation.to) : getTextIndex(navigator.language);
 
             for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
-                const nameList = elementNameList?.[nameIndex];
+                const nameList = elementNameList[nameIndex];
                 const elementList = document.getElementsByTagName(nameList[0]);
 
-                for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
-                    const element = elementList.item(elementIndex);
-                    const elementText = elementTextList?.[nameList[0]]?.[element.getAttribute(nameList[1])];
-
-                    if (elementText?.length > 0) {
-                        element[nameList[2]] = elementText[textIndex];
+                if (elementList.length > 0) {
+                    for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
+                        try {
+                            const element = elementList.item(elementIndex);
+                            const elementText = elementTextList[nameList[0]][element.getAttribute(nameList[1])];
+                            if (elementText.length > 0) {
+                                element[nameList[2]] = elementText[textIndex];
+                            }
+                        } catch (error) {}
                     }
                 }
             }
@@ -215,12 +212,21 @@
     });
 
     // get text index
-    function getTextIndex(translateTo) {
-        switch (translateTo) {
+    function getTextIndex(language) {
+        switch (language) {
             case 'Traditional-Chinese':
+            case 'zh-TW':
+            case 'zh-HK':
+            case 'zh-MO':
+            case 'zh-CHT':
+            case 'zh-Hant':
                 return 0;
 
             case 'Simplified-Chinese':
+            case 'zh-CN':
+            case 'zh-SG':
+            case 'zh-CHS':
+            case 'zh-Hans':
                 return 1;
 
             default:

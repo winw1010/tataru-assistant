@@ -17,11 +17,7 @@ let child = null;
 
 // start
 function start() {
-    try {
-        child.kill('SIGINT');
-    } catch (error) {
-        //console.log(error);
-    }
+    stop();
 
     child = childProcess.spawn(sharlayanPath);
 

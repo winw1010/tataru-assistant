@@ -96,7 +96,22 @@ function setSystemChannel() {
     // set default config
     ipcMain.on('set-default-config', (event) => {
         configModule.setDefaultConfig();
-        event.returnValue = configModule.getConfig();
+        const defaultConfig = configModule.getConfig();
+
+        // set return value
+        event.returnValue = defaultConfig;
+
+        try {
+            // reset index bounds
+            const defaultIndexBounds = windowModule.getWindowSize('index', defaultConfig);
+            windowModule.getWindow('index').setBounds(defaultIndexBounds);
+
+            // reset config bounds
+            const defaultConfigBounds = windowModule.getWindowSize('config', defaultConfig);
+            windowModule.getWindow('config').setBounds(defaultConfigBounds);
+        } catch (error) {
+            //console.log();
+        }
     });
 
     // get chat code

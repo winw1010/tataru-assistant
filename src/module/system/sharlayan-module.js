@@ -40,6 +40,7 @@ function start() {
     });
 }
 
+// stop
 function stop() {
     try {
         child.kill('SIGINT');

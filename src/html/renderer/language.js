@@ -17,7 +17,7 @@
             img_button_auto_play: ['文字語音', '文字语音'],
             img_button_dictionary: ['翻譯查詢', '翻译查询'],
             img_button_read_log: ['讀取對話紀錄', '读取对话纪录'],
-            img_button_clear: ['刪除全部文字', '删除全部文字'],
+            img_button_clear: ['刪除全部對話', '删除全部对话'],
             img_button_backspace: ['刪除最後一句', '删除最后一句'],
         },
         button: {

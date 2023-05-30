@@ -143,7 +143,7 @@ function getWindowSize(windowName, config) {
                     bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
                     bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
                     bounds.width = parseInt(displayBounds.width * 0.16);
-                    bounds.height = parseInt(displayBounds.width * 0.16);
+                    bounds.height = parseInt(displayBounds.width * 0.32);
                 } else {
                     bounds.x = indexBounds.x;
                     bounds.y = indexBounds.y;

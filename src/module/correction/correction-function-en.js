@@ -4,7 +4,7 @@
 const cf = require('./correction-function');
 
 // female words
-const femaleWords = ['Girl', 'She', 'Her', 'Women', 'Female', 'Lady', 'Grandmother', 'Grandma', 'Mother', 'Mom', 'Granddaughter', 'Daughter', 'Aunt', 'Niece', 'Waitress', 'Actress', 'Heroine'];
+//const femaleWords = ['Girl', 'She', 'Her', 'Women', 'Female', 'Lady', 'Grandmother', 'Grandma', 'Mother', 'Mom', 'Granddaughter', 'Daughter', 'Aunt', 'Niece', 'Waitress', 'Actress', 'Heroine'];
 
 // en text function
 function replaceTextByCode(text, array, search = 0, replacement = 1) {
@@ -67,6 +67,7 @@ function canSkipTranslation(text, table) {
     return text === '';
 }
 
+/*
 function genderFix(originalText, translatedText) {
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
@@ -76,6 +77,7 @@ function genderFix(originalText, translatedText) {
 
     return translatedText;
 }
+*/
 
 function isChinese(text, translation) {
     //return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
@@ -86,6 +88,5 @@ function isChinese(text, translation) {
 module.exports = {
     replaceTextByCode,
     canSkipTranslation,
-    genderFix,
     isChinese,
 };

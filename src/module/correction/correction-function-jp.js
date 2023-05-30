@@ -1,7 +1,7 @@
 'use strict';
 
 // female words
-const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];
+//const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];
 
 // kana
 const hiragana = 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
@@ -277,6 +277,7 @@ function canSkipTranslation(text) {
     return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
+/*
 function genderFix(originalText, translatedText) {
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
@@ -290,6 +291,7 @@ function genderFix(originalText, translatedText) {
 
     return translatedText;
 }
+*/
 
 function isChinese(text, translation) {
     return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
@@ -301,6 +303,5 @@ module.exports = {
     convertKana,
     reverseKana,
     canSkipTranslation,
-    genderFix,
     isChinese,
 };

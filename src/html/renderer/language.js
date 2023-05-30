@@ -186,47 +186,44 @@
 
     // change UI text
     document.addEventListener('change-ui-text', () => {
-        try {
-            const config = getConfig();
-            const textIndex = config ? getTextIndex(config.translation.to) : getTextIndex(navigator.language);
+        let uiInterval = setInterval(() => {
+            try {
+                const config = getConfig();
+                if (config?.translation?.to) {
+                    clearInterval(uiInterval);
+                    setLanguageText(config.translation.to);
+                }
+            } catch (error) {}
+        }, 10);
+    });
 
-            for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
-                const nameList = elementNameList[nameIndex];
-                const elementList = document.getElementsByTagName(nameList[0]);
+    function setLanguageText(language) {
+        const textIndex = getTextIndex(language);
+        for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
+            const nameList = elementNameList[nameIndex];
+            const elementList = document.getElementsByTagName(nameList[0]);
 
-                if (elementList.length > 0) {
-                    for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
-                        try {
-                            const element = elementList.item(elementIndex);
-                            const elementText = elementTextList[nameList[0]][element.getAttribute(nameList[1])];
-                            if (elementText.length > 0) {
-                                element[nameList[2]] = elementText[textIndex];
-                            }
-                        } catch (error) {}
-                    }
+            if (elementList.length > 0) {
+                for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
+                    try {
+                        const element = elementList.item(elementIndex);
+                        const elementText = elementTextList[nameList[0]][element.getAttribute(nameList[1])];
+                        if (elementText.length > 0) {
+                            element[nameList[2]] = elementText[textIndex];
+                        }
+                    } catch (error) {}
                 }
             }
-        } catch (error) {
-            console.log(error);
         }
-    });
+    }
 
     // get text index
     function getTextIndex(language) {
         switch (language) {
             case 'Traditional-Chinese':
-            case 'zh-TW':
-            case 'zh-HK':
-            case 'zh-MO':
-            case 'zh-CHT':
-            case 'zh-Hant':
                 return 0;
 
             case 'Simplified-Chinese':
-            case 'zh-CN':
-            case 'zh-SG':
-            case 'zh-CHS':
-            case 'zh-Hans':
                 return 1;
 
             default:

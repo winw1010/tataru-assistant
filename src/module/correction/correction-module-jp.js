@@ -208,6 +208,8 @@ async function textCorrection(name, text, translation) {
         return;
     }
 
+    let originalText = text;
+
     // force overwrite
     const target = cf.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
@@ -260,6 +262,9 @@ async function textCorrection(name, text, translation) {
 
         // clear code
         text = cf.clearCode(text, codeResult.table);
+
+        // gender fix
+        text = cfjp.genderFix(originalText, text);
 
         // after translation
         text = cf.replaceText(text, chArray.afterTranslation);

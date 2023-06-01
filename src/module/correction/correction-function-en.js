@@ -19,7 +19,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let tempText = text;
-    let tempTable = cf.includesArrayItem(text, array, srcIndex) || [];
+    let tempTable = cf.includesArrayItem(text, array, srcIndex, true) || [];
     let table = [];
 
     // sort temp table

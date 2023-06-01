@@ -90,23 +90,27 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
         const element = tempTable[eleIndex];
 
         for (let fixIndex = 0; fixIndex < nameFixArray.length; fixIndex++) {
-            const nameFix = nameFixArray[fixIndex];
-            const sorceName = nameFix[0][1] === 0 ? nameFix[0][0] + element[srcIndex] : element[srcIndex] + nameFix[0][0];
-            const replaceName = nameFix[1][1] === 0 ? nameFix[1][0] + element[rplIndex] : element[rplIndex] + nameFix[1][0];
+            try {
+                const nameFix = nameFixArray[fixIndex];
+                const sorceName = nameFix[0][1] === 0 ? nameFix[0][0] + element[srcIndex] : element[srcIndex] + nameFix[0][0];
+                const replaceName = nameFix[1][1] === 0 ? nameFix[1][0] + element[rplIndex] : element[rplIndex] + nameFix[1][0];
 
-            if (nameFix[2]) {
-                const exceptionName = nameFix[2][1] === 0 ? nameFix[2][0] + element[srcIndex] : element[srcIndex] + nameFix[2][0];
-                if (text.includes(sorceName) && !text.includes(exceptionName)) {
-                    text = text.replaceAll(sorceName, codeString[codeIndex]);
-                    table.push([codeString[codeIndex], replaceName]);
-                    codeIndex++;
+                if (nameFix[2]) {
+                    const exceptionName = nameFix[2][1] === 0 ? nameFix[2][0] + element[srcIndex] : element[srcIndex] + nameFix[2][0];
+                    if (text.includes(sorceName) && !text.includes(exceptionName)) {
+                        text = text.replaceAll(sorceName, codeString[codeIndex]);
+                        table.push([codeString[codeIndex], replaceName]);
+                        codeIndex++;
+                    }
+                } else {
+                    if (text.includes(sorceName)) {
+                        text = text.replaceAll(sorceName, codeString[codeIndex]);
+                        table.push([codeString[codeIndex], replaceName]);
+                        codeIndex++;
+                    }
                 }
-            } else {
-                if (text.includes(sorceName)) {
-                    text = text.replaceAll(sorceName, codeString[codeIndex]);
-                    table.push([codeString[codeIndex], replaceName]);
-                    codeIndex++;
-                }
+            } catch (error) {
+                console.log(error);
             }
         }
     }

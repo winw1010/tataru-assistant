@@ -20,7 +20,7 @@ function replaceText(text, array, search = 0, replacement = 1) {
         return text;
     }
 
-    const target = includesArrayItem(text, array, search);
+    const target = includesArrayItem(text, array, search, true);
 
     if (target) {
         for (let index = 0; index < target.length; index++) {

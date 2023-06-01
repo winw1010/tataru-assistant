@@ -49,7 +49,7 @@ function canIgnore(text, ignoreArray) {
 }
 
 // includes array item
-function includesArrayItem(text, array, searchIndex = 0) {
+function includesArrayItem(text, array, searchIndex = 0, useRegex = false) {
     // search array
     let searchArray = array;
 
@@ -67,12 +67,22 @@ function includesArrayItem(text, array, searchIndex = 0) {
 
     // match
     let temp = [];
-    for (let index = 0; index < searchArray.length; index++) {
-        const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        if (new RegExp(element, 'gi').test(text)) {
-            text = text.replaceAll(element, '');
-            temp.push(array[index]);
+    if (useRegex) {
+        for (let index = 0; index < searchArray.length; index++) {
+            const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            if (new RegExp(element, 'gi').test(text)) {
+                text = text.replaceAll(element, '');
+                temp.push(array[index]);
+            }
+        }
+    } else {
+        for (let index = 0; index < searchArray.length; index++) {
+            const element = searchArray[index];
+            if (text.includes(element)) {
+                text = text.replaceAll(element, '');
+                temp.push(array[index]);
+            }
         }
     }
 
@@ -140,7 +150,7 @@ function markFix(text, isTranslated = false) {
         text = text.replaceAll(/([^·0-9])·([^·0-9])/gi, '$1・$2');
 
         // fix 0
-        text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w%]|$)/gi, '$1零$2');
+        text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w/%]|$)/gi, '$1零$2');
         text = text.replaceAll(/zero/gi, '零');
     }
 

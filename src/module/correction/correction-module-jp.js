@@ -494,7 +494,8 @@ function allKataCheck(name, text) {
         return true;
     }
 
-    return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
+    //return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
+    return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[\u3400-\u9FFF]/gi)?.length > 0;
 }
 
 // module exports

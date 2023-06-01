@@ -1,15 +1,17 @@
 'use strict';
 
+// name fix array
+const nameFixArray = getNameFixArray();
+
 // female words
-//const femaleWords = ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア'];
+//const femaleWords = getFemaleWords();
 
 // kana
-const hiragana = 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
-const katakana = 'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ';
+const hiragana = getHiraganaString();
+const katakana = getKatakanaString();
 
 // jp text function
-
-function replaceTextByCode(text, array, search = 0, replacement = 1) {
+function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -20,10 +22,63 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     // set parameters
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
+    let tempText = text;
+    let tempTable = [];
     let table = [];
 
+    // create temp table
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+
+        // hira name
+        if (element[srcIndex].length > 2) {
+            const hiraElement = convertKana(element[srcIndex], 'hira');
+
+            if (tempText.includes('「' + hiraElement + '」')) {
+                tempTable.push(['「' + hiraElement + '」', '「' + element[rplIndex] + '」']);
+                tempText = tempText.replaceAll('「' + hiraElement + '」', '');
+            }
+
+            if (tempText.includes('『' + hiraElement + '』')) {
+                tempTable.push(['『' + hiraElement + '』', '『' + element[rplIndex] + '』']);
+                tempText = tempText.replaceAll('『' + hiraElement + '』', '');
+            }
+        }
+
+        // brackets
+        if (tempText.includes('「' + element[srcIndex] + '」')) {
+            tempTable.push(['「' + element[srcIndex] + '」', '「' + element[rplIndex] + '」']);
+            tempText = tempText.replaceAll('「' + element[srcIndex] + '」', '');
+        }
+
+        if (tempText.includes('『' + element[srcIndex] + '』')) {
+            tempTable.push(['『' + element[srcIndex] + '』', '『' + element[rplIndex] + '』']);
+            tempText = tempText.replaceAll('『' + element[srcIndex] + '』', '');
+        }
+
+        // normal
+        if (tempText.includes(element[srcIndex])) {
+            tempTable.push([element[srcIndex], element[rplIndex]]);
+            tempText = tempText.replaceAll(element[srcIndex], '');
+        }
+    }
+
+    // sort temp table
+    tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
+
+    // reset srcIndex and rplIndex
+    srcIndex = 0;
+    rplIndex = 1;
+
+    // reset temp text
+    tempText = text;
+    for (let index = 0; index < tempTable.length; index++) {
+        const element = tempTable[index];
+        tempText += element[1];
+    }
+
     // clear code
-    const characters = text.match(/[a-z]/gi);
+    const characters = tempText.match(/[a-z]/gi);
     if (characters) {
         for (let index = 0; index < characters.length; index++) {
             codeString = codeString.replaceAll(characters[index].toUpperCase(), '');
@@ -31,197 +86,28 @@ function replaceTextByCode(text, array, search = 0, replacement = 1) {
     }
 
     // search and replace
-    for (let index = 0; index < array.length && codeIndex < codeString.length; index++) {
-        const element = array[index];
+    for (let eleIndex = 0; eleIndex < tempTable.length && codeIndex < codeString.length; eleIndex++) {
+        const element = tempTable[eleIndex];
 
-        if (text.includes(element[search] + 'さん')) {
-            text = text.replaceAll(element[search] + 'さん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
+        for (let fixIndex = 0; fixIndex < nameFixArray.length; fixIndex++) {
+            const nameFix = nameFixArray[fixIndex];
+            const sorceName = nameFix[0][1] === 0 ? nameFix[0][0] + element[srcIndex] : element[srcIndex] + nameFix[0][0];
+            const replaceName = nameFix[1][1] === 0 ? nameFix[1][0] + element[rplIndex] : element[rplIndex] + nameFix[1][0];
 
-        if (text.includes(element[search] + 'さーん')) {
-            text = text.replaceAll(element[search] + 'さーん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'さ～ん')) {
-            text = text.replaceAll(element[search] + 'さ～ん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'くん')) {
-            text = text.replaceAll(element[search] + 'くん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '君')) {
-            text = text.replaceAll(element[search] + '君', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '氏')) {
-            text = text.replaceAll(element[search] + '氏', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '老')) {
-            text = text.replaceAll(element[search] + '老', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'ちゃん')) {
-            text = text.replaceAll(element[search] + 'ちゃん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'たち')) {
-            text = text.replaceAll(element[search] + 'たち', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '們']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'お嬢ちゃん')) {
-            text = text.replaceAll(element[search] + 'お嬢ちゃん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '小姐']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'お嬢さん')) {
-            text = text.replaceAll(element[search] + 'お嬢さん', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '小姐']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'お嬢様')) {
-            text = text.replaceAll(element[search] + 'お嬢様', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '小姐']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '先輩')) {
-            text = text.replaceAll(element[search] + '先輩', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '前輩']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '先生')) {
-            text = text.replaceAll(element[search] + '先生', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '老師']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '様式')) {
-            text = text.replaceAll(element[search] + '様式', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '樣式']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'さま')) {
-            text = text.replaceAll(element[search] + 'さま', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '大人']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '様')) {
-            text = text.replaceAll(element[search] + '様', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '大人']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '提督')) {
-            text = text.replaceAll(element[search] + '提督', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '提督']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '総長')) {
-            text = text.replaceAll(element[search] + '総長', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '總長']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '伯爵')) {
-            text = text.replaceAll(element[search] + '伯爵', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '伯爵']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '卿')) {
-            text = text.replaceAll(element[search] + '卿', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '閣下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '陛下')) {
-            text = text.replaceAll(element[search] + '陛下', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '陛下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '猊下')) {
-            text = text.replaceAll(element[search] + '猊下', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '陛下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '殿下')) {
-            text = text.replaceAll(element[search] + '殿下', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '殿下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '殿様')) {
-            text = text.replaceAll(element[search] + '殿様', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '殿下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + '殿')) {
-            text = text.replaceAll(element[search] + '殿', codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement] + '閣下']);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'め') && !text.includes(element[search] + 'めっちゃ')) {
-            text = text.replaceAll(element[search] + 'め', codeString[codeIndex]);
-            table.push([codeString[codeIndex], '可惡的' + element[replacement]]);
-            codeIndex++;
-        }
-
-        if (text.includes(element[search] + 'どもめ')) {
-            text = text.replaceAll(element[search] + 'どもめ', codeString[codeIndex]);
-            table.push([codeString[codeIndex], '可惡的' + element[replacement]]);
-            codeIndex++;
-        }
-
-        if (element[search].length > 2) {
-            const hiraElement = convertKana(element[search], 'hira');
-
-            if (text.includes('「' + hiraElement + '」')) {
-                text = text.replaceAll('「' + hiraElement + '」', codeString[codeIndex]);
-                table.push([codeString[codeIndex], '「' + element[replacement] + '」']);
-                codeIndex++;
+            if (nameFix[2]) {
+                const exceptionName = nameFix[2][1] === 0 ? nameFix[2][0] + element[srcIndex] : element[srcIndex] + nameFix[2][0];
+                if (text.includes(sorceName) && !text.includes(exceptionName)) {
+                    text = text.replaceAll(sorceName, codeString[codeIndex]);
+                    table.push([codeString[codeIndex], replaceName]);
+                    codeIndex++;
+                }
+            } else {
+                if (text.includes(sorceName)) {
+                    text = text.replaceAll(sorceName, codeString[codeIndex]);
+                    table.push([codeString[codeIndex], replaceName]);
+                    codeIndex++;
+                }
             }
-
-            if (text.includes('『' + hiraElement + '』')) {
-                text = text.replaceAll('『' + hiraElement + '』', codeString[codeIndex]);
-                table.push([codeString[codeIndex], '『' + element[replacement] + '』']);
-                codeIndex++;
-            }
-        }
-
-        if (text.includes(element[search])) {
-            text = text.replaceAll(element[search], codeString[codeIndex]);
-            table.push([codeString[codeIndex], element[replacement]]);
-            codeIndex++;
         }
     }
 
@@ -277,13 +163,14 @@ function canSkipTranslation(text) {
     return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
-/*
 function genderFix(originalText, translatedText) {
+    /*
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
     if (!isFemale) {
         translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
     }
+    */
 
     if (!originalText.includes('娘')) {
         translatedText = translatedText.replaceAll('女兒', '女孩');
@@ -291,10 +178,155 @@ function genderFix(originalText, translatedText) {
 
     return translatedText;
 }
-*/
 
 function isChinese(text, translation) {
     return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
+}
+
+/*
+function getFemaleWords() {
+    return ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア', 'クイーン'];
+}
+*/
+
+function getHiraganaString() {
+    return 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';
+}
+
+function getKatakanaString() {
+    return 'ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ';
+}
+
+function getNameFixArray() {
+    // first: source, second: replacement, third: exception
+    // 0: front, 1: back
+    return [
+        [
+            ['さん', 1],
+            ['', 0],
+        ],
+        [
+            ['さーん', 1],
+            ['', 0],
+        ],
+        [
+            ['さ～ん', 1],
+            ['', 0],
+        ],
+        [
+            ['くん', 1],
+            ['', 0],
+        ],
+        [
+            ['君', 1],
+            ['', 0],
+        ],
+        [
+            ['氏', 1],
+            ['', 0],
+        ],
+        [
+            ['老', 1],
+            ['', 0],
+        ],
+        [
+            ['ちゃん', 1],
+            ['', 0],
+        ],
+        [
+            ['たち', 1],
+            ['們', 1],
+        ],
+        [
+            ['女史', 1],
+            ['女士', 1],
+        ],
+        [
+            ['お嬢ちゃん', 1],
+            ['小姐', 1],
+        ],
+        [
+            ['お嬢さん', 1],
+            ['小姐', 1],
+        ],
+        [
+            ['お嬢様', 1],
+            ['大小姐', 1],
+        ],
+        [
+            ['先輩', 1],
+            ['前輩', 1],
+        ],
+        [
+            ['先生', 1],
+            ['老師', 1],
+        ],
+        [
+            ['大先生', 1],
+            ['老師', 1],
+        ],
+        [
+            ['様式', 1],
+            ['樣式', 1],
+        ],
+        [
+            ['さま', 1],
+            ['大人', 1],
+        ],
+        [
+            ['様', 1],
+            ['大人', 1],
+        ],
+        [
+            ['提督', 1],
+            ['提督', 1],
+        ],
+        [
+            ['総長', 1],
+            ['總長', 1],
+        ],
+        [
+            ['伯爵', 1],
+            ['伯爵', 1],
+        ],
+        [
+            ['卿', 1],
+            ['閣下', 1],
+        ],
+        [
+            ['陛下', 1],
+            ['陛下', 1],
+        ],
+        [
+            ['猊下', 1],
+            ['陛下', 1],
+        ],
+        [
+            ['殿下', 1],
+            ['殿下', 1],
+        ],
+        [
+            ['殿様', 1],
+            ['殿下', 1],
+        ],
+        [
+            ['殿', 1],
+            ['閣下', 1],
+        ],
+        [
+            ['どもめ', 1],
+            ['可惡的', 0],
+        ],
+        [
+            ['め', 1],
+            ['可惡的', 0],
+            ['めっちゃ', 1],
+        ],
+        [
+            ['', 0],
+            ['', 0],
+        ],
+    ];
 }
 
 // module exports
@@ -303,5 +335,11 @@ module.exports = {
     convertKana,
     reverseKana,
     canSkipTranslation,
+    genderFix,
     isChinese,
 };
+
+// for testing
+//replaceTextByCode('「タタル」。『タタル』。「たたる」。『たたる』。タタル。', [['タタル', '塔塔露']]);
+//replaceTextByCode('「タタル」さん。『タタル』さん。「たたる」さん。『たたる』さん。タタルさん。', [['タタル', '塔塔露']]);
+//replaceTextByCode('「タタル」お嬢さん。『タタル』お嬢さん。「たたる」お嬢さん。『たたる』お嬢さん。タタルお嬢さん。', [['タタル', '塔塔露']]);

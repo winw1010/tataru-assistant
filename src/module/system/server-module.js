@@ -23,16 +23,14 @@ function dataProcess(data) {
     try {
         const config = configModule.getConfig();
         let dialogData = JSON.parse(data.toString());
+        console.log('Dialog Data:', dialogData);
 
+        // check dialog data
         if (dataCheck(dialogData)) {
-            // clear id and timestamp
-            dialogData.id = null;
-            dialogData.timestamp = null;
-
-            // check code
+            // check dialog code
             if (dialogData.text !== '' && config.channel[dialogData.code]) {
                 /*
-                // history check
+                // check history
                 if (textHistory[dialogData.text] && new Date().getTime() - textHistory[dialogData.text] < 5000) {
                     return;
                 } else {
@@ -40,12 +38,16 @@ function dataProcess(data) {
                 }
                 */
 
-                // last text check
+                // check repetition
                 if (dialogData.text.replaceAll('\r', '') !== lastText) {
                     lastText = dialogData.text.replaceAll('\r', '');
                 } else {
                     return;
                 }
+
+                // clear id and timestamp
+                dialogData.id = null;
+                dialogData.timestamp = null;
 
                 // name check
                 if (dialogData.name === '...') {
@@ -56,7 +58,7 @@ function dataProcess(data) {
                 dialogData.text = dialogData.text.replaceAll('%&', '');
 
                 // system message fix
-                if (isSystemMessage(dialogData.code)) {
+                if (systemChannel.includes(dialogData.code)) {
                     if (dialogData.name !== '') {
                         dialogData.text = dialogData.name + ':' + dialogData.text;
                         dialogData.name = '';
@@ -74,15 +76,14 @@ function dataProcess(data) {
                     dialogData.text = dialogData.text.replaceAll('\r', ' ');
                 }
 
-                // start correction
-                correctionEntry(dialogData, config.translation);
+                // set translation
+                dialogData.translation = config.translation;
 
-                // show data
-                console.log('data:', dialogData);
+                // start translation
+                console.log('Start translation');
+                correctionEntry(dialogData, config.translation);
             } else {
-                // show data
-                console.log('data:', dialogData);
-                console.log('Code is not in list.');
+                console.log('Skip translation');
             }
         }
     } catch (error) {
@@ -90,15 +91,10 @@ function dataProcess(data) {
     }
 }
 
-// dialog data check
+// data check
 function dataCheck(dialogData) {
     const names = Object.getOwnPropertyNames(dialogData);
     return names.includes('code') && names.includes('name') && names.includes('text');
-}
-
-// channel check
-function isSystemMessage(code) {
-    return systemChannel.includes(code);
 }
 
 // module exports

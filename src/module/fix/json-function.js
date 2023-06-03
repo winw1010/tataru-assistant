@@ -6,24 +6,31 @@ const fileModule = require('../system/file-module');
 // all kana
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
-// text path
-const textPath = {
-    chs: 'src/json/text/chs',
-    cht: 'src/json/text/cht',
+// path list
+const pathList = {
+    ch: 'src/json/text/ch',
     en: 'src/json/text/en',
     jp: 'src/json/text/jp',
     main: 'src/json/text/main',
 };
 
-// read text
-function readText(dir, name, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
-    const filePath = fileModule.getRootPath(textPath[dir], name);
+// get text path
+function getTextPath(dir, ...args) {
+    return fileModule.getRootPath(pathList[dir], ...args);
+}
 
+// get temp text path
+function getTempTextPath(...args) {
+    return fileModule.getUserDataPath('temp', ...args);
+}
+
+// read text
+function readText(path, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
     try {
-        let array = fileModule.read(filePath, 'json');
+        let array = fileModule.read(path, 'json');
 
         if (!checkArray(array)) {
-            throw filePath + ' is not an array.';
+            throw path + ' is not an array.';
         }
 
         // map array
@@ -40,19 +47,57 @@ function readText(dir, name, sort = true, map = false, srcIndex = 0, rplIndex = 
         }
     } catch (error) {
         console.log(error);
-        fileModule.write(filePath, [], 'json');
+        fileModule.write(path, [], 'json');
         return [];
     }
 }
 
-// read overwrite
-function readOverwrite() {}
+// read overwrite EN
+function readOverwriteEN(rplIndex) {
+    return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-en'), 0, rplIndex);
+}
 
-// read subtitle
-function readSubtitle() {}
+// read overwrite JP
+function readOverwriteJP(rplIndex) {
+    return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-jp'), 0, rplIndex);
+}
+
+// read subtitle EN
+function readSubtitleEN() {
+    return [];
+}
+
+// read subtitle JP
+function readSubtitleJP() {
+    return readMultiText(fileModule.getRootPath(pathList.jp, 'subtitle'), 0, 1);
+}
 
 // read main
-function readMain(srcIndex, rplIndex) {}
+function readMain(srcIndex, rplIndex) {
+    return readMultiText(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+}
+
+// read multi texts
+function readMultiText(filePath, srcIndex, rplIndex) {
+    try {
+        const fileList = fileModule.readdir(filePath);
+        let array = [];
+
+        if (fileList.length > 0) {
+            fileList.forEach((value) => {
+                if (value !== 'hidden.json') {
+                    array = array.concat(readText(fileModule.getPath(filePath, value), false, true, srcIndex, rplIndex));
+                }
+            });
+        }
+
+        array = sortArray(array);
+        return array;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
 
 // map array
 function mapArray(array, index0, index1) {
@@ -78,7 +123,7 @@ function clearArray(array) {
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
 
-            if (element[0].includes('//comment') || element[0] === '' || element[0] === 'N/A' || element[1] === 'N/A') {
+            if (element[0].includes('//comment') || element[0] === 'N/A' || element[0] === '' || element[1].includes('//comment') || element[1] === 'N/A') {
                 array.splice(index, 1);
             }
         }
@@ -86,7 +131,7 @@ function clearArray(array) {
         // not 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element.includes('//comment') || element === '' || element === 'N/A') {
+            if (element.includes('//comment') || element === 'N/A' || element === '') {
                 array.splice(index, 1);
             }
         }
@@ -192,9 +237,13 @@ function checkArray(array) {
 
 // module exports
 module.exports = {
+    getTextPath,
+    getTempTextPath,
     readText,
-    readOverwrite,
-    readSubtitle,
+    readOverwriteEN,
+    readOverwriteJP,
+    readSubtitleEN,
+    readSubtitleJP,
     readMain,
     combineArrayWithTemp,
 };

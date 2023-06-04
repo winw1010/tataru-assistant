@@ -7,10 +7,10 @@ const jsonFunction = require('./json-function');
 const { languageEnum, languageIndex } = require('../system/engine-module');
 
 // ch array
-let chArray = getChArray();
+let chArray = [];
 
 // jp array
-let jpArray = getJpArray();
+let jpArray = [];
 
 // load
 function load(targetLanguage) {
@@ -51,56 +51,17 @@ function load(targetLanguage) {
 
 // get ch array
 function getChArray() {
-    return {
-        // force replace
-        overwriteTemp: [],
-        overwrite: [],
-
-        // kana name
-        chName: [],
-
-        // after
-        afterTranslation: [],
-
-        // replace
-        main: [],
-
-        // player
-        player: [],
-
-        // temp
-        chTemp: [],
-
-        // combine
-        combine: [],
-    };
+    return chArray;
 }
 
 // get jp array
 function getJpArray() {
-    return {
-        // ignore
-        ignore: [],
-
-        // jp => jp
-        subtitle: [],
-        jp1: [],
-        jp2: [],
-
-        // temp
-        jpTemp: [],
-
-        // jp char
-        kana: [],
-
-        // jp list
-        listHira: [],
-        listReverse: [],
-        listCrystalium: [],
-    };
+    return jpArray;
 }
 
 // module exports
 module.exports = {
     load,
+    getChArray,
+    getJpArray,
 };

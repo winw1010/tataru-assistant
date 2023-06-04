@@ -7,14 +7,14 @@ const fixFunction = require('./fix-function');
 // jp json
 const jpJson = require('./jp-json');
 
+// json function
+const jsonFunction = require('./json-function');
+
 // translate module
 const translateModule = require('../system/translate-module');
 
 // dialog module
 const dialogModule = require('../system/dialog-module');
-
-// file module
-const fileModule = require('../system/file-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -22,9 +22,6 @@ const npcChannel = ['003D', '0044', '2AB9'];
 // array
 let jpArray = jpJson.getJpArray();
 let chArray = jpJson.getChArray();
-
-// temp path
-const tempPath = fileModule.getUserDataPath('temp');
 
 async function startFix(dialogData, translation) {
     try {
@@ -277,7 +274,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
         return;
     }
 
-    chArray.chTemp = fileModule.read(fileModule.getPath(tempPath, 'chTemp.json'), 'json') || [];
+    chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
@@ -297,7 +294,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 
     // write
     chArray.combine = fixFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-    fileModule.write(fileModule.getPath(tempPath, 'chTemp.json'), chArray.chTemp, 'json');
+    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
 // special text fix

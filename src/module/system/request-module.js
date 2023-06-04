@@ -63,7 +63,7 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
 
                 // show chunk string
                 if (method === 'POST') {
-                    console.log('chunk string:', chunkString);
+                    console.log('chunk string:', chunkString + '\r\n');
                 }
 
                 // resolve

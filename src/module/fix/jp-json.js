@@ -19,10 +19,10 @@ function load(targetLanguage) {
     const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
     // temp
-    chArray.chTemp = jsonFunction.readText(jsonFunction.getTempTextPath('chTemp.json'), false);
-    chArray.jpTemp = jsonFunction.readText(jsonFunction.getTempTextPath('jpTemp.json'), false);
-    chArray.overwriteTemp = jsonFunction.readText(jsonFunction.getTempTextPath('overwriteTemp.json'), false);
-    chArray.player = jsonFunction.readText(jsonFunction.getTempTextPath('player.json'));
+    chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
+    chArray.jpTemp = jsonFunction.readTemp('jpTemp.json', false);
+    chArray.overwriteTemp = jsonFunction.readTemp('overwriteTemp.json', false);
+    chArray.player = jsonFunction.readTemp('player.json');
 
     // ch
     chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex);

@@ -88,7 +88,7 @@ function readMultiText(filePath, srcIndex, rplIndex) {
         if (fileList.length > 0) {
             fileList.forEach((value) => {
                 if (value !== 'hidden.json') {
-                    array = array.concat(readText(fileModule.getPath(filePath, value), false, true, srcIndex, rplIndex));
+                    array = array.concat(readText(fileModule.getPath(filePath, value), true, true, srcIndex, rplIndex));
                 }
             });
         }
@@ -99,6 +99,16 @@ function readMultiText(filePath, srcIndex, rplIndex) {
         console.log(error);
         return [];
     }
+}
+
+// read temp
+function readTemp(name, sort = true) {
+    return readText(getTempTextPath(name), sort);
+}
+
+// write temp
+function writeTemp(name, data) {
+    fileModule.write(getTempTextPath(name), data, 'json');
 }
 
 // map array
@@ -247,5 +257,7 @@ module.exports = {
     readSubtitleEN,
     readSubtitleJP,
     readMain,
+    readTemp,
+    writeTemp,
     combineArrayWithTemp,
 };

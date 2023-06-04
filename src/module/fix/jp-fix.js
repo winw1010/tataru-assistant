@@ -1,153 +1,42 @@
 'use strict';
 
-// language table
-const { languageEnum, languageIndex } = require('../system/engine-module');
+// function
+const jpFunction = require('./jp-function');
+const fixFunction = require('./fix-function');
 
-// correction function
-const cfjp = require('./correction-function-jp');
-const cf = require('./correction-function');
+// jp json
+const jpJson = require('./jp-json');
 
-// translator module
-const tm = require('../system/translate-module');
+// json function
+const jsonFunction = require('./json-function');
 
-// dialog module
-const dialogModule = require('../system/dialog-module');
-
-// file module
-const fileModule = require('../system/file-module');
+// translate module
+const translateModule = require('../system/translate-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
-// temp path
-const tempPath = fileModule.getUserDataPath('temp');
+// array
+let jpArray = jpJson.getJpArray();
+let chArray = jpJson.getChArray();
 
-// correction queue
-let correctionQueueItems = [];
-let correctionQueueInterval = null;
-
-// document
-let chArray = {
-    // force replace
-    overwrite: [],
-
-    // kana name
-    chName: [],
-
-    // after
-    afterTranslation: [],
-
-    // replace
-    main: [],
-
-    // player
-    player: [],
-
-    // temp
-    chTemp: [],
-
-    // combine
-    combine: [],
-};
-
-let jpArray = {
-    // ignore
-    ignore: [],
-
-    // jp => jp
-    subtitle: [],
-    jp1: [],
-    jp2: [],
-
-    // temp
-    jpTemp: [],
-
-    // jp char
-    kana: [],
-
-    // jp list
-    listHira: [],
-    listReverse: [],
-    listCrystalium: [],
-};
-
-function loadJSON(languageTo) {
-    // clear queue interval
-    clearInterval(correctionQueueInterval);
-    correctionQueueInterval = null;
-
-    const sub0 = languageIndex[languageEnum.ja];
-    const sub1 = languageIndex[languageTo];
-    const chineseDirectory = sub1 === languageIndex[languageEnum.zht] ? 'text/cht' : 'text/chs';
-    const japaneseDirectory = 'text/jp';
-
-    // ch array
-    chArray.overwrite = cf.combineArrayWithTemp(cf.readJSON(tempPath, 'overwriteTemp.json'), cf.readJSONOverwrite(chineseDirectory, 'overwriteJP'));
-    chArray.chName = cf.readJSON(chineseDirectory, 'chName.json');
-    chArray.afterTranslation = cf.readJSON(chineseDirectory, 'afterTranslation.json');
-
-    chArray.main = cf.readJSONMain(sub0, sub1);
-    chArray.player = cf.readJSON(tempPath, 'player.json');
-    chArray.chTemp = cf.readJSON(tempPath, 'chTemp.json');
-
-    // combine
-    chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-    // jp array
-    jpArray.ignore = cf.readJSON(japaneseDirectory, 'ignore.json');
-    jpArray.subtitle = cf.combineArrayWithTemp(cf.readJSON(tempPath, 'jpTemp.json'), cf.readJSONSubtitle());
-    jpArray.jp1 = cf.readJSON(japaneseDirectory, 'jp1.json');
-    jpArray.jp2 = cf.readJSON(japaneseDirectory, 'jp2.json');
-
-    jpArray.kana = cf.readJSON(japaneseDirectory, 'kana.json');
-    jpArray.listHira = cf.readJSON(japaneseDirectory, 'listHira.json');
-    jpArray.listReverse = cf.readJSON(japaneseDirectory, 'listReverse.json');
-    jpArray.listCrystalium = cf.readJSON(japaneseDirectory, 'listCrystalium.json');
-
-    // start/restart queue interval
-    correctionQueueInterval = setInterval(() => {
-        const item = correctionQueueItems.shift();
-
-        if (item) {
-            startCorrection(item.dialogData, item.translation);
-        }
-    }, 1000);
-}
-
-function addToCorrectionQueue(dialogData, translation) {
-    correctionQueueItems.push({
-        dialogData: dialogData,
-        translation: translation,
-    });
-}
-
-async function startCorrection(dialogData, translation) {
+async function startFix(dialogData, translation) {
     try {
         // skip check
-        if (translation.skip && cf.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
-            return;
+        if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
+            throw '';
         }
-
-        // set id and timestamp
-        if (!dialogData.id) {
-            const timestamp = new Date().getTime();
-            dialogData.id = 'id' + timestamp;
-            dialogData.timestamp = timestamp;
-        }
-
-        // add dialog
-        dialogModule.addDialog(dialogData.id, dialogData.code);
 
         // name translation
         let translatedName = '';
-        if (cfjp.isChinese(dialogData.name, translation)) {
-            translatedName = cf.replaceText(dialogData.name, chArray.combine);
+        if (jpFunction.isChinese(dialogData.name, translation)) {
+            translatedName = fixFunction.replaceText(dialogData.name, chArray.combine);
         } else {
             if (npcChannel.includes(dialogData.code)) {
                 if (translation.fix) {
-                    translatedName = await nameCorrection(dialogData.name, translation);
+                    translatedName = await nameFix(dialogData.name, translation);
                 } else {
-                    translatedName = await tm.translate(dialogData.name, translation);
+                    translatedName = await translateModule.translate(dialogData.name, translation);
                 }
             } else {
                 translatedName = dialogData.name;
@@ -156,43 +45,47 @@ async function startCorrection(dialogData, translation) {
 
         // text translation
         let translatedText = '';
-        if (cfjp.isChinese(dialogData.text, translation)) {
-            translatedText = cf.replaceText(dialogData.text, chArray.combine);
+        if (jpFunction.isChinese(dialogData.text, translation)) {
+            translatedText = fixFunction.replaceText(dialogData.text, chArray.combine);
         } else {
             if (translation.fix) {
-                translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+                translatedText = await textFix(dialogData.name, dialogData.text, translation);
             } else {
-                translatedText = await tm.translate(dialogData.text, translation);
+                translatedText = await translateModule.translate(dialogData.text, translation);
             }
         }
 
         // set audio text
-        if (cf.includesArrayItem(dialogData.name, jpArray.listReverse)) {
+        if (fixFunction.includesArrayItem(dialogData.name, jpArray.listReverse)) {
             // reverse kana
-            dialogData.audioText = cfjp.reverseKana(dialogData.text);
+            dialogData.audioText = jpFunction.reverseKana(dialogData.text);
         } else if (allKataCheck(dialogData.name, dialogData.text)) {
             // convert to hira
-            dialogData.audioText = cfjp.convertKana(dialogData.text, 'hira');
-        } else {
-            dialogData.audioText = dialogData.text;
+            dialogData.audioText = jpFunction.convertKana(dialogData.text, 'hira');
         }
 
-        // update dialog
-        dialogModule.updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
+        // set translated text
+        dialogData.translatedName = translatedName;
+        dialogData.translatedText = translatedText;
     } catch (error) {
         console.log(error);
-        dialogModule.updateDialog(dialogData.id, 'Error', error, dialogData, translation);
+
+        // set translated text
+        dialogData.translatedName = 'Error';
+        dialogData.translatedText = error;
     }
+
+    return dialogData;
 }
 
-async function nameCorrection(name, translation) {
+async function nameFix(name, translation) {
     if (name === '') {
         return '';
     }
 
     // same check
-    const target1 = cf.sameAsArrayItem(name, chArray.combine);
-    const target2 = cf.sameAsArrayItem(name + '#', chArray.combine);
+    const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
+    const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
     if (target1) {
         return target1[0][1];
     } else if (target2) {
@@ -203,7 +96,7 @@ async function nameCorrection(name, translation) {
     }
 }
 
-async function textCorrection(name, text, translation) {
+async function textFix(name, text, translation) {
     if (text === '') {
         return;
     }
@@ -211,19 +104,19 @@ async function textCorrection(name, text, translation) {
     let originalText = text;
 
     // force overwrite
-    const target = cf.sameAsArrayItem(text, chArray.overwrite);
+    const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
-        return cf.replaceText(target[0][1], chArray.combine);
+        return fixFunction.replaceText(target[0][1], chArray.combine);
     } else {
         // subtitle
-        text = cf.replaceText(text, jpArray.subtitle);
+        text = fixFunction.replaceText(text, jpArray.subtitle);
 
         // check kana type
         let isAllKata = false;
-        if (cf.includesArrayItem(name, jpArray.listReverse)) {
+        if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
             // reverse kana
             console.log('reverse');
-            text = cfjp.reverseKana(text);
+            text = jpFunction.reverseKana(text);
         } else {
             // all kata check
             isAllKata = allKataCheck(name, text);
@@ -233,50 +126,50 @@ async function textCorrection(name, text, translation) {
         text = specialTextFix(name, text);
 
         // mark fix
-        text = cf.markFix(text);
+        text = fixFunction.markFix(text);
 
         // jp1
-        text = cf.replaceText(text, jpArray.jp1);
+        text = fixFunction.replaceText(text, jpArray.jp1);
 
         // combine
-        const codeResult = cfjp.replaceTextByCode(text, chArray.combine);
+        const codeResult = jpFunction.replaceTextByCode(text, chArray.combine);
         text = codeResult.text;
 
         // jp2
-        text = cf.replaceText(text, jpArray.jp2);
+        text = fixFunction.replaceText(text, jpArray.jp2);
 
         // convert to hira
         if (isAllKata) {
-            text = cfjp.convertKana(text, 'hira');
+            text = jpFunction.convertKana(text, 'hira');
         }
 
         // value fix before
-        const valueResult = cf.valueFixBefore(text);
+        const valueResult = fixFunction.valueFixBefore(text);
         text = valueResult.text;
 
         // skip check
-        if (!cfjp.canSkipTranslation(text)) {
+        if (!jpFunction.canSkipTranslation(text)) {
             // translate
-            text = await tm.translate(text, translation, codeResult.table);
+            text = await translateModule.translate(text, translation, codeResult.table);
         }
 
         // clear code
-        text = cf.clearCode(text, codeResult.table);
+        text = fixFunction.clearCode(text, codeResult.table);
 
         // gender fix
-        text = cfjp.genderFix(originalText, text);
+        text = jpFunction.genderFix(originalText, text);
 
         // after translation
-        text = cf.replaceText(text, chArray.afterTranslation);
+        text = fixFunction.replaceText(text, chArray.afterTranslation);
 
         // mark fix
-        text = cf.markFix(text, true);
+        text = fixFunction.markFix(text, true);
 
         // value fix after
-        text = cf.valueFixAfter(text, valueResult.table);
+        text = fixFunction.valueFixAfter(text, valueResult.table);
 
         // table
-        text = cf.replaceText(text, codeResult.table);
+        text = fixFunction.replaceText(text, codeResult.table);
 
         return text;
     }
@@ -302,8 +195,8 @@ function getKatakanaName(name = '') {
 // translate name
 async function translateName(name, katakanaName, translation) {
     // same check
-    const sameKatakanaName1 = cf.sameAsArrayItem(katakanaName, chArray.combine);
-    const sameKatakanaName2 = cf.sameAsArrayItem(katakanaName + '#', chArray.combine);
+    const sameKatakanaName1 = fixFunction.sameAsArrayItem(katakanaName, chArray.combine);
+    const sameKatakanaName2 = fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine);
 
     // translate katakana name
     const translatedKatakanaName = sameKatakanaName1 ? sameKatakanaName1[0][1] : sameKatakanaName2 ? sameKatakanaName2[0][1] : createName(katakanaName);
@@ -324,25 +217,27 @@ async function translateName(name, katakanaName, translation) {
 
         // code
         const codeResult =
-            katakanaName !== '' ? cfjp.replaceTextByCode(name, cf.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]])) : cfjp.replaceTextByCode(name, chArray.combine);
+            katakanaName !== ''
+                ? jpFunction.replaceTextByCode(name, fixFunction.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]]))
+                : jpFunction.replaceTextByCode(name, chArray.combine);
 
         // translate name
         translatedName = codeResult.text;
 
         // skip check
-        if (!cfjp.canSkipTranslation(translatedName)) {
+        if (!jpFunction.canSkipTranslation(translatedName)) {
             // translate
-            translatedName = await tm.translate(translatedName, translation, codeResult.table);
+            translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
         }
 
         // clear code
-        translatedName = cf.clearCode(translatedName, codeResult.table);
+        translatedName = fixFunction.clearCode(translatedName, codeResult.table);
 
         // mark fix
-        translatedName = cf.markFix(translatedName, true);
+        translatedName = fixFunction.markFix(translatedName, true);
 
         // table
-        translatedName = cf.replaceText(translatedName, codeResult.table);
+        translatedName = fixFunction.replaceText(translatedName, codeResult.table);
 
         // save name
         saveName(name, translatedName, katakanaName, translatedKatakanaName);
@@ -353,12 +248,12 @@ async function translateName(name, katakanaName, translation) {
 
 // create name
 function createName(katakanaName) {
-    let tempName = cf.replaceText(katakanaName, chArray.combine);
+    let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
     tempName = tempName.replace(/^ルル/, '路路');
     tempName = tempName.replace(/^ル/, '路');
     tempName = tempName.replace(/^ア/, '阿');
 
-    return cf.replaceText(tempName, chArray.chName);
+    return fixFunction.replaceText(tempName, chArray.chName);
 }
 
 // create east name
@@ -370,7 +265,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
         return;
     }
 
-    chArray.chTemp = fileModule.read(fileModule.getPath(tempPath, 'chTemp.json'), 'json') || [];
+    chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
@@ -378,7 +273,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
         chArray.chTemp.push([name, translatedName, 'temp']);
     }
 
-    if (katakanaName.length > 0 && !cf.includesArrayItem(katakanaName, chArray.combine)) {
+    if (katakanaName.length > 0 && !fixFunction.includesArrayItem(katakanaName, chArray.combine)) {
         if (katakanaName.length < 3) {
             chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
         } else {
@@ -389,8 +284,8 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     console.log(chArray.chTemp);
 
     // write
-    chArray.combine = cf.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-    fileModule.write(fileModule.getPath(tempPath, 'chTemp.json'), chArray.chTemp, 'json');
+    chArray.combine = fixFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
 // special text fix
@@ -420,7 +315,7 @@ function specialTextFix(name, text) {
     }
 
     // 水晶公判斷
-    if (text.includes('公') && cf.includesArrayItem(name, jpArray.listCrystalium)) {
+    if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
         text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
 
@@ -475,7 +370,7 @@ function specialTextFix(name, text) {
         }
 
         t1 = t1[0];
-        const t2 = cfjp.convertKana(t1, 'hira');
+        const t2 = jpFunction.convertKana(t1, 'hira');
         text = text.replaceAll(t1, t2);
     }
 
@@ -490,7 +385,7 @@ function specialTextFix(name, text) {
 
 // check katakana
 function allKataCheck(name, text) {
-    if (cf.includesArrayItem(name, jpArray.listHira)) {
+    if (fixFunction.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }
 
@@ -500,6 +395,5 @@ function allKataCheck(name, text) {
 
 // module exports
 module.exports = {
-    loadJSON_JP: loadJSON,
-    addToCorrectionQueue_JP: addToCorrectionQueue,
+    startFix,
 };

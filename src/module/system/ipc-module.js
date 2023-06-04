@@ -42,14 +42,14 @@ const { getTranslation, zhConvert } = require('./translate-module');
 // window module
 const windowModule = require('./window-module');
 
-// correction-function
-const { sameAsArrayItem } = require('../correction/correction-function');
+// fix function
+const { sameAsArrayItem } = require('../fix/fix-function');
 
-// correction-module
-const { correctionEntry } = require('../correction/correction-module');
+// fix entry
+const { addTask } = require('../fix/fix-entry');
 
-// json module
-const jsonModule = require('../correction/json-module');
+// json entry
+const jsonEntry = require('../fix/json-entry');
 
 // google tts
 const googleTTS = require('../translator/google-tts');
@@ -415,17 +415,17 @@ function setRequestChannel() {
 function setJsonChannel() {
     // initialize json
     ipcMain.on('initialize-json', () => {
-        jsonModule.initializeJSON();
+        jsonEntry.initializeJSON();
     });
 
     // download json
     ipcMain.on('download-json', () => {
-        jsonModule.downloadJSON();
+        jsonEntry.downloadJSON();
     });
 
     // load json
     ipcMain.on('load-json', () => {
-        jsonModule.loadJSON();
+        jsonEntry.loadJSON();
     });
 }
 
@@ -452,8 +452,8 @@ function setTranslateChannel() {
     });
 
     // start translation
-    ipcMain.on('start-translation', (event, ...args) => {
-        correctionEntry(...args);
+    ipcMain.on('start-translation', (event, dialogData) => {
+        addTask(dialogData);
     });
 
     // get translation

@@ -1,7 +1,7 @@
 'use strict';
 
-// correction function
-const cf = require('./correction-function');
+// fix function
+const fixFunction = require('./fix-function');
 
 // female words
 //const femaleWords = getFemaleWords();
@@ -19,7 +19,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let tempText = text;
-    let tempTable = cf.includesArrayItem(text, array, srcIndex, true) || [];
+    let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
     let table = [];
 
     // sort temp table

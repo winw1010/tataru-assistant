@@ -153,19 +153,18 @@ function setButton() {
             name: targetLog.name,
             text: targetLog.text,
             timestamp: targetLog.timestamp,
+            translation: config.translation,
         };
 
-        if (!config.translation.replace) {
+        if (!dialogData.translation.replace) {
             // clear id and timestamp
             dialogData.id = null;
             dialogData.timestamp = null;
         }
 
-        let translation = config.translation;
-        translation.from = document.getElementById('select_from').value;
-        translation.fromPlayer = document.getElementById('select_from').value;
-        translation.engine = document.getElementById('select_engine').value;
-        dialogData.translation = translation;
+        dialogData.translation.from = document.getElementById('select_from').value;
+        dialogData.translation.fromPlayer = document.getElementById('select_from').value;
+        dialogData.translation.engine = document.getElementById('select_engine').value;
 
         ipcRenderer.send('start-translation', dialogData);
     };

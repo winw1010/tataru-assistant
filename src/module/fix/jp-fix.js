@@ -13,9 +13,6 @@ const jsonFunction = require('./json-function');
 // translate module
 const translateModule = require('../system/translate-module');
 
-// dialog module
-const dialogModule = require('../system/dialog-module');
-
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
@@ -27,18 +24,8 @@ async function startFix(dialogData, translation) {
     try {
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
-            return;
+            throw '';
         }
-
-        // set id and timestamp
-        if (!dialogData.id) {
-            const timestamp = new Date().getTime();
-            dialogData.id = 'id' + timestamp;
-            dialogData.timestamp = timestamp;
-        }
-
-        // add dialog
-        dialogModule.addDialog(dialogData.id, dialogData.code);
 
         // name translation
         let translatedName = '';
@@ -75,16 +62,20 @@ async function startFix(dialogData, translation) {
         } else if (allKataCheck(dialogData.name, dialogData.text)) {
             // convert to hira
             dialogData.audioText = jpFunction.convertKana(dialogData.text, 'hira');
-        } else {
-            dialogData.audioText = dialogData.text;
         }
 
-        // update dialog
-        dialogModule.updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
+        // set translated text
+        dialogData.translatedName = translatedName;
+        dialogData.translatedText = translatedText;
     } catch (error) {
         console.log(error);
-        dialogModule.updateDialog(dialogData.id, 'Error', error, dialogData, translation);
+
+        // set translated text
+        dialogData.translatedName = 'Error';
+        dialogData.translatedText = error;
     }
+
+    return dialogData;
 }
 
 async function nameFix(name, translation) {

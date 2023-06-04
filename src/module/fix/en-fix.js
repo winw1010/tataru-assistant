@@ -13,9 +13,6 @@ const jsonFunction = require('./json-function');
 // translate module
 const translateModule = require('../system/translate-module');
 
-// dialog module
-const dialogModule = require('../system/dialog-module');
-
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
@@ -27,18 +24,8 @@ async function startFix(dialogData, translation) {
     try {
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, enArray.ignore)) {
-            return;
+            throw '';
         }
-
-        // set id and timestamp
-        if (!dialogData.id) {
-            const timestamp = new Date().getTime();
-            dialogData.id = 'id' + timestamp;
-            dialogData.timestamp = timestamp;
-        }
-
-        // add dialog
-        dialogModule.addDialog(dialogData.id, dialogData.code);
 
         // name translation
         let translatedName = '';
@@ -47,7 +34,7 @@ async function startFix(dialogData, translation) {
         } else {
             if (npcChannel.includes(dialogData.code)) {
                 if (translation.fix) {
-                    translatedName = await nameCorrection(dialogData.name, translation);
+                    translatedName = await nameFix(dialogData.name, translation);
                 } else {
                     translatedName = await translateModule.translate(dialogData.name, translation);
                 }
@@ -62,24 +49,27 @@ async function startFix(dialogData, translation) {
             translatedText = fixFunction.replaceText(dialogData.text, chArray.combine);
         } else {
             if (translation.fix) {
-                translatedText = await textCorrection(dialogData.name, dialogData.text, translation);
+                translatedText = await textFix(dialogData.name, dialogData.text, translation);
             } else {
                 translatedText = await translateModule.translate(dialogData.text, translation);
             }
         }
 
-        // set audio text
-        dialogData.audioText = dialogData.text;
-
-        // update dialog
-        dialogModule.updateDialog(dialogData.id, translatedName, translatedText, dialogData, translation);
+        // set translated text
+        dialogData.translatedName = translatedName;
+        dialogData.translatedText = translatedText;
     } catch (error) {
         console.log(error);
-        dialogModule.updateDialog(dialogData.id, 'Error', error, dialogData, translation);
+
+        // set translated text
+        dialogData.translatedName = 'Error';
+        dialogData.translatedText = error;
     }
+
+    return dialogData;
 }
 
-async function nameCorrection(name, translation) {
+async function nameFix(name, translation) {
     if (name === '') {
         return '';
     }
@@ -121,7 +111,7 @@ async function nameCorrection(name, translation) {
     }
 }
 
-async function textCorrection(name, text, translation) {
+async function textFix(name, text, translation) {
     if (text === '') {
         return;
     }

@@ -1,5 +1,8 @@
 'use strict';
 
+// dialog module
+const dialogModule = require('../system/dialog-module');
+
 // language table
 const { languageEnum } = require('../system/engine-module');
 
@@ -40,8 +43,8 @@ function getEntryInterval() {
 }
 
 // entry
-function entry() {
-    const dialogData = entryIntervalItem.shift();
+async function entry() {
+    let dialogData = entryIntervalItem.shift();
     if (dialogData) {
         // check id and timestamp
         if (!dialogData.id || !dialogData.timestamp) {
@@ -50,14 +53,29 @@ function entry() {
             dialogData.timestamp = timestamp;
         }
 
-        // check language
+        // set audio text
+        dialogData.audioText = dialogData.text;
+
+        // set translated text
+        dialogData.translatedName = '';
+        dialogData.translatedText = '';
+
+        // add dialog
+        dialogModule.addDialog(dialogData.id, dialogData.code);
+
+        // start fix
         const dataLanguage = getLanguage(dialogData);
         if (dataLanguage === languageEnum.ja) {
             dialogData.translation.from = languageEnum.ja;
-            jpFix.startFix(dialogData, dialogData.translation);
+            dialogData = await jpFix.startFix(dialogData, dialogData.translation);
         } else if (dataLanguage === languageEnum.en) {
             dialogData.translation.from = languageEnum.en;
-            enFix.startFix(dialogData, dialogData.translation);
+            dialogData = await enFix.startFix(dialogData, dialogData.translation);
+        }
+
+        // update dialog
+        if (dialogData.translatedText !== '') {
+            dialogModule.updateDialog(dialogData.id, dialogData.translatedName, dialogData.translatedText, dialogData, dialogData.translation);
         }
     }
 }

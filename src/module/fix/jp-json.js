@@ -26,8 +26,8 @@ function load(targetLanguage) {
 
     // ch
     chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex);
-    chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `afterTranslation-${ch}.json`));
-    chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'chName.json'), true, true, srcIndex, rplIndex);
+    chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
+    chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex);
 
     // jp
     jpArray.subtitle = jsonFunction.combineArrayWithTemp(chArray.jpTemp, jsonFunction.readSubtitleJP());

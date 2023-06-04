@@ -115,8 +115,9 @@ function startNodeTranslation(text) {
     translation.fromPlayer = document.getElementById('select_from').value;
     translation.to = document.getElementById('select_to').value;
     translation.engine = document.getElementById('select_engine').value;
+    dialogData.translation = translation;
 
-    ipcRenderer.send('start-translation', dialogData, translation);
+    ipcRenderer.send('start-translation', dialogData);
 }
 
 // get audio html

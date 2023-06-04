@@ -165,8 +165,9 @@ function setButton() {
         translation.from = document.getElementById('select_from').value;
         translation.fromPlayer = document.getElementById('select_from').value;
         translation.engine = document.getElementById('select_engine').value;
+        dialogData.translation = translation;
 
-        ipcRenderer.send('start-translation', dialogData, translation);
+        ipcRenderer.send('start-translation', dialogData);
     };
 
     // load json

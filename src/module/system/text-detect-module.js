@@ -21,8 +21,8 @@ const windowModule = require('./window-module');
 // engine module
 const engineModule = require('./engine-module');
 
-// correction-module
-const { correctionEntry } = require('../correction/correction-module');
+// fix entry
+const { addTask } = require('../fix/fix-entry');
 
 // tesseract path
 const tesseractPath = fileModule.getRootPath('src', 'data', 'tesseract');
@@ -174,10 +174,11 @@ async function translateImageText(text) {
                 code: '003D',
                 name: '',
                 text: element,
+                translation: config.translation,
             };
 
             await engineModule.sleep(100);
-            correctionEntry(dialogData, config.translation);
+            addTask(dialogData);
         }
     }
 }

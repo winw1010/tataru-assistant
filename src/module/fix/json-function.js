@@ -29,7 +29,7 @@ function readText(path, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
     try {
         let array = fileModule.read(path, 'json');
 
-        if (!checkArray(array)) {
+        if (!Array.isArray(array)) {
             throw path + ' is not an array.';
         }
 
@@ -45,6 +45,8 @@ function readText(path, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
         if (sort) {
             array = sortArray(array);
         }
+
+        return array;
     } catch (error) {
         console.log(error);
         fileModule.write(path, [], 'json');
@@ -64,7 +66,7 @@ function readOverwriteJP(rplIndex) {
 
 // read subtitle EN
 function readSubtitleEN() {
-    return [];
+    return readMultiText(fileModule.getRootPath(pathList.en, 'subtitle'), 0, 1);
 }
 
 // read subtitle JP

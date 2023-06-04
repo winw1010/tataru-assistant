@@ -4,13 +4,21 @@
 const { languageEnum } = require('../system/engine-module');
 
 // fix module
+const enFix = require('./en-fix');
+const jpFix = require('./jp-fix');
 
 // player channel
 const playerChannel = getPlayerChannel();
 
 // entry interval
+let running = true;
 let entryIntervalItem = [];
 let entryInterval = getEntryInterval();
+
+// set running
+function setRunning(value) {
+    running = value;
+}
 
 // add task
 function addTask(dialogData) {
@@ -27,7 +35,7 @@ function restartEntryInterval() {
 // get entry interval
 function getEntryInterval() {
     return setInterval(() => {
-        entry();
+        if (running) entry();
     }, 1000);
 }
 
@@ -46,10 +54,10 @@ function entry() {
         const dataLanguage = getLanguage(dialogData);
         if (dataLanguage === languageEnum.ja) {
             dialogData.translation.from = languageEnum.ja;
-            // start jp fix
+            jpFix.startFix(dialogData, dialogData.translation);
         } else if (dataLanguage === languageEnum.en) {
             dialogData.translation.from = languageEnum.en;
-            // start en fix
+            enFix.startFix(dialogData, dialogData.translation);
         }
     }
 }
@@ -115,6 +123,7 @@ function getPlayerChannel() {
 
 // module exports
 module.exports = {
+    setRunning,
     addTask,
     restartEntryInterval,
 };

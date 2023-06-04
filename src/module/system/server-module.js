@@ -6,8 +6,8 @@ const configModule = require('./config-module');
 // engine module
 const engineModule = require('./engine-module');
 
-// correction-module
-const { correctionEntry } = require('../correction/correction-module');
+// fix entry
+const { addTask } = require('../fix/fix-entry');
 
 // system channel
 const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
@@ -81,7 +81,7 @@ function dataProcess(data) {
 
                 // start translation
                 console.log('Start translation');
-                correctionEntry(dialogData, config.translation);
+                addTask(dialogData);
             } else {
                 console.log('Skip translation');
             }

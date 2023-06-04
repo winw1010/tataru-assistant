@@ -12,6 +12,9 @@ const jpJson = require('./jp-json');
 // download git
 const downloadGit = require('./json-download-git');
 
+// fix entry
+const fixEntry = require('./fix-entry');
+
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
@@ -57,11 +60,13 @@ function startDownload() {
 
 // load json
 function loadJSON() {
+    fixEntry.setRunning(false);
     const config = configModule.getConfig();
     const targetLanguage = config.translation.to;
     enJson.load(targetLanguage);
     jpJson.load(targetLanguage);
     dialogModule.showNotification('對照表讀取完畢');
+    fixEntry.setRunning(true);
 }
 
 // module exports

@@ -88,7 +88,7 @@ function readMultiText(filePath, srcIndex, rplIndex) {
         if (fileList.length > 0) {
             fileList.forEach((value) => {
                 if (value !== 'hidden.json') {
-                    array = array.concat(readText(fileModule.getPath(filePath, value), true, true, srcIndex, rplIndex));
+                    array = array.concat(readText(fileModule.getPath(filePath, value), false, true, srcIndex, rplIndex));
                 }
             });
         }

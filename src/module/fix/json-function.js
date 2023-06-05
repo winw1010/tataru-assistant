@@ -93,8 +93,7 @@ function readMultiText(filePath, srcIndex, rplIndex) {
             });
         }
 
-        array = sortArray(array);
-        return array;
+        return sortArray(array);
     } catch (error) {
         console.log(error);
         return [];

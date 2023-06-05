@@ -177,7 +177,7 @@ function saveName(name = '', translatedName = '') {
     }
 
     // set combine
-    chArray.combine = fixFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+    chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // write
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);

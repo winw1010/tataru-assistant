@@ -218,7 +218,7 @@ async function translateName(name, katakanaName, translation) {
         // code
         const codeResult =
             katakanaName !== ''
-                ? jpFunction.replaceTextByCode(name, fixFunction.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]]))
+                ? jpFunction.replaceTextByCode(name, jsonFunction.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]]))
                 : jpFunction.replaceTextByCode(name, chArray.combine);
 
         // translate name
@@ -284,7 +284,7 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     console.log(chArray.chTemp);
 
     // write
-    chArray.combine = fixFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+    chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 

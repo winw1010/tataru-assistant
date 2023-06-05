@@ -14,7 +14,7 @@ const jpFix = require('./jp-fix');
 const playerChannel = getPlayerChannel();
 
 // entry interval
-let running = true;
+let running = false;
 let entryIntervalItem = [];
 let entryInterval = getEntryInterval();
 

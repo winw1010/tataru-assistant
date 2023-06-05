@@ -298,7 +298,7 @@ function specialTextFix(name, text) {
     }
 
     // マムージャ族 & 強化グリーンワート
-    if (/マムージャ|ージャジャ$|男.*ージャ$|強化グリーンワート/gi.test(name)) {
+    if (/マムージャ|[ァ-ヺ]{2}ージャジャ$|[ァ-ヺ]{2}ージャ$|強化グリーンワート/gi.test(name)) {
         text = text.replaceAll('、', '');
     }
 

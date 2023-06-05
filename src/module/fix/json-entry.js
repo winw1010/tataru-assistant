@@ -38,9 +38,9 @@ function downloadJSON() {
     exec('rmdir /Q /S src\\json\\text', (error) => {
         if (error) {
             console.log(error.message);
-        } else {
-            startDownload();
         }
+
+        startDownload();
     });
 }
 

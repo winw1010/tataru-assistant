@@ -332,7 +332,7 @@ function resetView(config) {
 // set style
 function setStyle(element, style = {}) {
     Object.keys(style).forEach((key) => {
-        if (element?.style?.[key]) element.style[key] = style[key];
+        element.style[key] = style[key];
     });
 }
 

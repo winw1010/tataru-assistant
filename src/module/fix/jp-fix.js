@@ -390,7 +390,12 @@ function allKataCheck(name, text) {
     }
 
     //return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
-    return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[\u3400-\u9FFF]/gi)?.length > 0;
+    const kanji = text.match(/[\u3400-\u9FFF]/gi);
+    if (kanji?.length > 0) {
+        return /^[^ぁ-ゖ]+$/gi.test(text);
+    } else {
+        return /^[^ぁ-ゖ]+$/gi.test(text) && text.length > 15;
+    }
 }
 
 // module exports

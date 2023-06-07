@@ -244,11 +244,7 @@ function setButton() {
 
     // view temp
     document.getElementById('button_view_temp').onclick = () => {
-        try {
-            ipcRenderer.send('execute-command', `start "" "${tempPath}"`);
-        } catch (error) {
-            console.log(error);
-        }
+        ipcRenderer.send('execute-command', `start "" "${tempPath}"`);
     };
 
     // close

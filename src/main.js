@@ -3,7 +3,7 @@
 // electron
 const { app, BrowserWindow } = require('electron');
 app.commandLine.appendSwitch('disable-http-cache');
-app.disableHardwareAcceleration();
+//app.disableHardwareAcceleration();
 
 // app module
 const appModule = require('./module/system/app-module');

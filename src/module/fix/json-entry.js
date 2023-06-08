@@ -53,8 +53,9 @@ function startDownload() {
             dialogModule.showNotification('對照表下載失敗：' + error);
         } else {
             dialogModule.showNotification('對照表下載完畢');
-            loadJSON();
         }
+
+        loadJSON();
     });
 }
 

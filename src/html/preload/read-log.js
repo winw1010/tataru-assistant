@@ -54,11 +54,7 @@ function setButton() {
 
     // view
     document.getElementById('button_view_log').onclick = () => {
-        try {
-            ipcRenderer.send('execute-command', `start "" "${logPath}"`);
-        } catch (error) {
-            console.log(error);
-        }
+        ipcRenderer.send('execute-command', `start "" "${logPath}"`);
     };
 
     // close

@@ -1,5 +1,4 @@
 build
 node_modules
 src/data/img/*.png
-src/data/sharlayan-test/start-sharlayan-test.bat
 src/json/text

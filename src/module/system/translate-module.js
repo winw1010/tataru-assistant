@@ -151,10 +151,10 @@ function checkCode(text, table) {
 }
 
 // fix code
-function fixCode(text, missingCodes) {
-    if (missingCodes.length > 0) {
-        for (let index = 0; index < missingCodes.length; index++) {
-            const code = missingCodes[index][0];
+function fixCode(text, missingCode) {
+    if (missingCode.length > 0) {
+        for (let index = 0; index < missingCode.length; index++) {
+            const code = missingCode[index];
             const codeRegExp = new RegExp(`(${code}+)`, 'gi');
 
             text = text.replace(codeRegExp, '$1' + code);

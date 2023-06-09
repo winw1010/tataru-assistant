@@ -37,8 +37,7 @@
         "extraFiles": [
             "src/json",
             "src/data",
-            "!src/data/*.png",
-            "!src/_Tataru_Helper"
+            "!src/data/*.png"
         ],
         "win": {
             "requestedExecutionLevel": "requireAdministrator",

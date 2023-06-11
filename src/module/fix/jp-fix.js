@@ -344,11 +344,9 @@ function specialTextFix(name, text) {
         loopCount++;
     }
 
-    /*
     if (loopCount > 0) {
         text = '……' + text;
     }
-    */
 
     loopCount = 0;
     while (/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {

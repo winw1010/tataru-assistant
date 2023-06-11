@@ -16,7 +16,8 @@ body {
 #div_dialog div {
     margin-bottom: 0.7rem;
     padding: 0.7rem;
-    word-wrap: break-word;
+    /*word-wrap: break-word;*/
+    line-break: loose;
     color: #ffffff;
 }
 

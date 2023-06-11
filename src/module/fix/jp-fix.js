@@ -344,7 +344,7 @@ function specialTextFix(name, text) {
         loopCount++;
     }
 
-    if (loopCount > 0) {
+    if (loopCount > 0 && !/^…+/gi.test(text)) {
         text = '……' + text;
     }
 

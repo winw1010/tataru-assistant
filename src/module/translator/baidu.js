@@ -8,8 +8,9 @@ const requestModule = require('../system/request-module');
 
 // RegExp
 const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/is;
-const tokenRegExp = /token:\s*?'(?<target>.*?)'/is;
-const gtkRegExp = /gtk\s*?=\s*?"(?<target>.*?)"/is;
+const tokenRegExp = /token:\s*'(?<target>.+?)',/is;
+//const systimeRegExp = /systime:\s*?'(?<target>.*?)'/is;
+const gtkRegExp = /window\.gtk\s*=\s*"(?<target>\d+\.\d+)";/is;
 const appVersionRegExp = /"appVersion":"(?<target>.*?)"/is;
 
 // expire date
@@ -115,6 +116,8 @@ async function translate(cookie, authentication, option) {
                 simple_means_flag: 3,
                 sign: getSign(option.text, authentication.gtk),
                 token: authentication.token,
+                domain: 'common',
+                ts: new Date().getTime(),
             })
         ),
         {

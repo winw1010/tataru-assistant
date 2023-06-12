@@ -7,7 +7,7 @@ const youdaoFunction = require('./youdao-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-// const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=.*?)(?=;|$)/is;
+// const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
 
 // expire date
 let expireDate = 0;

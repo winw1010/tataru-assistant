@@ -114,7 +114,7 @@ async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, 
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
             console.log('headers', response?.headers);
             console.log('set-cookie', response?.headers?.['set-cookie']);
-            const cookieString = response?.headers?.['set-cookie']?.join('; ');
+            const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';
 
             if (Array.isArray(targetRegExp)) {
                 const targetArray = [];

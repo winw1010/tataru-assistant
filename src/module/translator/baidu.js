@@ -7,11 +7,11 @@ const { getSign } = require('./baidu-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-const baiduIdRegExp = /(?<target>BAIDUID=.*?)(?=;|$)/is;
-const tokenRegExp = /token:\s*'(?<target>.+?)',/is;
-//const systimeRegExp = /systime:\s*?'(?<target>.*?)'/is;
+const baiduIdRegExp = /(?<target>BAIDUID=[^;]+)/is;
+const tokenRegExp = /token:\s*'(?<target>[^']+)'/is;
+//const systimeRegExp = /systime:\s*'(?<target>\d+)'/is;
 const gtkRegExp = /window\.gtk\s*=\s*"(?<target>\d+\.\d+)";/is;
-const appVersionRegExp = /"appVersion":"(?<target>.*?)"/is;
+const appVersionRegExp = /"appVersion":"(?<target>\d+\.\d+\.\d+)",/is;
 
 // expire date
 let expireDate = 0;

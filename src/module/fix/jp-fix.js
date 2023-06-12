@@ -115,7 +115,6 @@ async function textFix(name, text, translation) {
         let isAllKata = false;
         if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
             // reverse kana
-            console.log('reverse');
             text = jpFunction.reverseKana(text);
         } else {
             // all kata check

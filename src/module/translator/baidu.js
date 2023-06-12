@@ -8,10 +8,11 @@ const requestModule = require('../system/request-module');
 
 // RegExp
 const baiduIdRegExp = /(?<target>BAIDUID=[^;]+)/is;
+const baiduBfessRegExp = /(?<target>BAIDUID_BFESS=[^;]+)/is;
 const tokenRegExp = /token:\s*'(?<target>[^']+)'/is;
 //const systimeRegExp = /systime:\s*'(?<target>\d+)'/is;
 const gtkRegExp = /window\.gtk\s*=\s*"(?<target>\d+\.\d+)";/is;
-const appVersionRegExp = /"appVersion":"(?<target>\d+\.\d+\.\d+)",/is;
+//const appVersionRegExp = /"appVersion":"(?<target>\d+\.\d+\.\d+)",/is;
 
 // expire date
 let expireDate = 0;
@@ -61,11 +62,15 @@ async function setCookie() {
             hostname: 'fanyi.baidu.com',
             path: '/',
         },
-        baiduIdRegExp
+        [baiduIdRegExp, baiduBfessRegExp]
     );
 
     if (response) {
-        cookie = response + `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}`;
+        cookie =
+            response +
+            `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}` +
+            `; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}` +
+            '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1;';
         expireDate = requestModule.getExpiryDate();
     } else {
         throw 'ERROR: setCookie';
@@ -85,15 +90,10 @@ async function setAuthentication() {
 
     const token = tokenRegExp.exec(response)?.groups?.target;
     const gtk = gtkRegExp.exec(response)?.groups?.target;
-    const appVersion = appVersionRegExp.exec(response)?.groups?.target;
 
     if (token && gtk) {
         authentication.token = token;
         authentication.gtk = gtk;
-
-        if (appVersion) {
-            cookie += `; APPGUIDE_${appVersion.replace(/\./g, '_')}=1` + '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1';
-        }
     } else {
         throw 'ERROR: setAuthentication';
     }
@@ -121,6 +121,7 @@ async function translate(cookie, authentication, option) {
             })
         ),
         {
+            Accept: '*/*',
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'zh-CN,zh;q=0.9',
             Connection: 'keep-alive',

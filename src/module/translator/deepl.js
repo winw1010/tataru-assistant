@@ -11,7 +11,7 @@ const deeplFunction = require('./deepl-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-const dapUidRegExp = /(?<target>dapUid=.*?)(?=;|$)/is;
+const dapUidRegExp = /(?<target>dapUid=[^;]+)/is;
 
 // expire date
 let expireDate = 0;

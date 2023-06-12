@@ -16,6 +16,13 @@ const translateModule = require('../system/translate-module');
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
+// text type list
+const textTypeList = {
+    normal: 0,
+    reversed: 1,
+    allKatakana: 2,
+};
+
 // array
 let jpArray = jpJson.getJpArray();
 let chArray = jpJson.getChArray();
@@ -56,10 +63,11 @@ async function startFix(dialogData, translation) {
         }
 
         // set audio text
-        if (fixFunction.includesArrayItem(dialogData.name, jpArray.listReverse)) {
+        const textType = getTextType(dialogData.name, dialogData.text);
+        if (textType === textTypeList.reversed) {
             // reverse kana
             dialogData.audioText = jpFunction.reverseKana(dialogData.text);
-        } else if (allKataCheck(dialogData.name, dialogData.text)) {
+        } else if (textType === textTypeList.allKatakana) {
             // convert to hira
             dialogData.audioText = jpFunction.convertKana(dialogData.text, 'hira');
         }
@@ -108,17 +116,15 @@ async function textFix(name, text, translation) {
     if (target) {
         return fixFunction.replaceText(target[0][1], chArray.combine);
     } else {
+        // get text type
+        const textType = getTextType(name, text);
+
         // subtitle
         text = fixFunction.replaceText(text, jpArray.subtitle);
 
-        // check kana type
-        let isAllKata = false;
-        if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
-            // reverse kana
+        // reverse text
+        if (textType === textTypeList.reversed) {
             text = jpFunction.reverseKana(text);
-        } else {
-            // all kata check
-            isAllKata = allKataCheck(name, text);
         }
 
         // special fix
@@ -138,7 +144,7 @@ async function textFix(name, text, translation) {
         text = fixFunction.replaceText(text, jpArray.jp2);
 
         // convert to hira
-        if (isAllKata) {
+        if (textType === textTypeList.allKatakana) {
             text = jpFunction.convertKana(text, 'hira');
         }
 
@@ -382,6 +388,19 @@ function specialTextFix(name, text) {
     text = text.replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」').replaceAll('魔器装備（防具）', '魔器装備「防具」');
 
     return text;
+}
+
+// get text type
+function getTextType(name, text) {
+    let type = textTypeList.normal;
+
+    if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
+        type = textTypeList.reversed;
+    } else if (allKataCheck(name, text)) {
+        type = textTypeList.allKatakana;
+    }
+
+    return type;
 }
 
 // check katakana

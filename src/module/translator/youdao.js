@@ -108,7 +108,7 @@ async function translate(cookie, authentication, option) {
         },
         encodeURI(
             requestModule.toParameters({
-                ...{ i: option.text, from: option.from, to: option.to, ...{}, dictResult: !0, keyid: 'webfanyi' },
+                ...{ i: option.text, from: option.from, to: option.to, dictResult: 'true', keyid: 'webfanyi' },
                 ...youdaoFunction.createParams(authentication.secretKey),
             })
         ),

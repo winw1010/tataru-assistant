@@ -84,50 +84,40 @@ async function translate2(text, translation) {
 
 // get translation
 async function getTranslation(engine, option) {
-    const maxCount = 3;
-    let count = 0;
     let result = '';
 
-    do {
-        try {
-            if (count > 0) {
-                await engineModule.sleep();
-            }
+    try {
+        switch (engine) {
+            case 'Baidu':
+                result = await baidu.exec(option);
+                break;
 
-            count++;
+            case 'Youdao':
+                result = await youdao.exec(option);
+                break;
 
-            switch (engine) {
-                case 'Baidu':
-                    result = await baidu.exec(option);
-                    break;
+            case 'Caiyun':
+                result = await caiyun.exec(option);
+                break;
 
-                case 'Youdao':
-                    result = await youdao.exec(option);
-                    break;
+            case 'Papago':
+                result = await papago.exec(option);
+                break;
 
-                case 'Caiyun':
-                    result = await caiyun.exec(option);
-                    break;
+            case 'DeepL':
+                result = await deepl.exec(option);
+                break;
 
-                case 'Papago':
-                    result = await papago.exec(option);
-                    break;
+            case 'Google':
+                result = await google.exec(option);
+                break;
 
-                case 'DeepL':
-                    result = await deepl.exec(option);
-                    break;
-
-                case 'Google':
-                    result = await google.exec(option);
-                    break;
-
-                default:
-                    break;
-            }
-        } catch (error) {
-            console.log(error);
+            default:
+                break;
         }
-    } while (result === '' && count < maxCount);
+    } catch (error) {
+        console.log(error);
+    }
 
     return result || '';
 }

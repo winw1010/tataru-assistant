@@ -114,7 +114,21 @@ async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, 
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
             console.log('headers', response?.headers);
             console.log('set-cookie', response?.headers?.['set-cookie']);
-            resolve(targetRegExp.exec(response?.headers?.['set-cookie']?.join('; '))?.groups?.target);
+            const cookieString = response?.headers?.['set-cookie']?.join('; ');
+
+            if (Array.isArray(targetRegExp)) {
+                const targetArray = [];
+                for (let index = 0; index < targetRegExp.length; index++) {
+                    const regex = targetRegExp[index];
+                    const target = regex.exec(cookieString)?.groups?.target;
+                    if (target) {
+                        targetArray.push(target);
+                    }
+                }
+                resolve(targetArray.join('; '));
+            } else {
+                resolve(targetRegExp.exec(cookieString)?.groups?.target);
+            }
         });
     });
 }
@@ -127,13 +141,13 @@ function getExpiryDate() {
 // get sec-ch-ua
 function getSCU() {
     const scu = configModule.getConfig()?.system?.scu;
-    return scu ? scu : '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"';
+    return scu ? scu : '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"';
 }
 
 // get user agent
 function getUserAgent() {
     const userAgent = configModule.getConfig()?.system?.userAgent;
-    return userAgent ? userAgent : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36';
+    return userAgent ? userAgent : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36';
 }
 
 // to parameters

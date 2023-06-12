@@ -19,6 +19,21 @@ const r = 'fanyideskweb',
 const decodeKey = 'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl';
 const decodeIv = 'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4';
 
+// create user id
+function createUserID() {
+    let userID = '';
+
+    for (let index = 0; index < 10; index++) {
+        let number = Math.floor(10 * Math.random());
+        if (index === 0 && number === 0) {
+            number = 1;
+        }
+        userID += number;
+    }
+
+    return userID;
+}
+
 // to MD5 string
 function toMD5String(text) {
     return crypto.createHash('md5').update(text.toString()).digest('hex');
@@ -80,6 +95,7 @@ function getKeyword(option) {
 
 // module exports
 module.exports = {
+    createUserID,
     createParams,
     decodeData,
     getKeyword,

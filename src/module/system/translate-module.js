@@ -18,107 +18,118 @@ async function translate(text, translation, table = []) {
         return '……';
     }
 
-    try {
-        // initialize
-        let translatedText = '';
-        let previousTranslatedText = '';
-        let missingCode = [];
-        let tryCount = 0;
+    // initialize
+    const maxCount = 3;
+    let count = 0;
+    let missingCode = [];
+    let result = '';
+    let previousResult = '';
 
-        do {
+    do {
+        try {
             // sleep
-            if (tryCount > 0) {
+            if (count > 0) {
                 console.log('Missing Code:', missingCode);
                 await engineModule.sleep();
             }
+
+            // add count
+            count++;
 
             // fix code
             text = fixCode(text, missingCode);
 
             // translate
-            translatedText = await translate2(text, translation);
+            result = await translate2(text, translation);
 
             // check translated text
-            if (translatedText === '') {
-                if (previousTranslatedText === '') {
-                    throw '無法取得翻譯文字';
+            if (result === '') {
+                if (previousResult === '') {
+                    result = '無法取得翻譯文字';
                 } else {
-                    translatedText = previousTranslatedText;
-                    break;
+                    result = previousResult;
                 }
+                break;
             }
 
             // check code
-            missingCode = checkCode(translatedText, table);
+            missingCode = checkCode(result, table);
 
             // set previous translated text
-            previousTranslatedText = translatedText;
+            previousResult = result;
+        } catch (error) {
+            console.log(error);
+            result = error;
+            break;
+        }
+    } while (missingCode.length > 0 && count < maxCount);
 
-            // add count
-            tryCount++;
-        } while (missingCode.length > 0 && tryCount < 3);
-
-        return zhConvert(translatedText, translation.to);
-    } catch (error) {
-        return zhConvert('翻譯失敗: ' + error, translation.to);
-    }
+    return zhConvert(result, translation.to);
 }
 
 // translate 2
 async function translate2(text, translation) {
     const autoChange = translation.autoChange;
     let engineList = engineModule.getEngineList(translation.engine);
-    let translatedText = '';
+    let result = '';
 
     do {
         const engine = engineList.shift();
         const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
-        translatedText = await getTranslation(engine, option);
-    } while (translatedText === '' && autoChange && engineList.length > 0);
+        result = await getTranslation(engine, option);
+    } while (result === '' && autoChange && engineList.length > 0);
 
-    return translatedText;
+    return result;
 }
 
 // get translation
 async function getTranslation(engine, option) {
-    try {
-        let result = '';
+    const maxCount = 3;
+    let count = 0;
+    let result = '';
 
-        switch (engine) {
-            case 'Baidu':
-                result = await baidu.exec(option);
-                break;
+    do {
+        try {
+            if (count > 0) {
+                await engineModule.sleep();
+            }
 
-            case 'Youdao':
-                result = await youdao.exec(option);
-                break;
+            count++;
 
-            case 'Caiyun':
-                result = await caiyun.exec(option);
-                break;
+            switch (engine) {
+                case 'Baidu':
+                    result = await baidu.exec(option);
+                    break;
 
-            case 'Papago':
-                result = await papago.exec(option);
-                break;
+                case 'Youdao':
+                    result = await youdao.exec(option);
+                    break;
 
-            case 'DeepL':
-                result = await deepl.exec(option);
-                break;
+                case 'Caiyun':
+                    result = await caiyun.exec(option);
+                    break;
 
-            case 'Google':
-                result = await google.exec(option);
-                break;
+                case 'Papago':
+                    result = await papago.exec(option);
+                    break;
 
-            default:
-                result = '';
-                break;
+                case 'DeepL':
+                    result = await deepl.exec(option);
+                    break;
+
+                case 'Google':
+                    result = await google.exec(option);
+                    break;
+
+                default:
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
         }
+    } while (result === '' && count < maxCount);
 
-        return result || '';
-    } catch (error) {
-        console.log(error);
-        return '';
-    }
+    return result || '';
 }
 
 // zh convert

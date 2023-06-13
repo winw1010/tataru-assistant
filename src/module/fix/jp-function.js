@@ -163,6 +163,12 @@ function reverseKana(text = '') {
     return newString;
 }
 
+function hiraFix(text = '') {
+    text = text.replaceAll(/([あかさたなはまやらわがざだばぱ])ー/gi, '$1あ');
+
+    return text;
+}
+
 function canSkipTranslation(text) {
     return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }

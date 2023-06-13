@@ -33,6 +33,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
         // hira name
         if (element[srcIndex].length > 2) {
             const hiraElement = convertKana(element[srcIndex], 'hira');
+            const hiraElement2 = hiraFix(hiraElement);
 
             if (tempText.includes('「' + hiraElement + '」')) {
                 tempTable.push(['「' + hiraElement + '」', '「' + element[rplIndex] + '」']);
@@ -42,6 +43,16 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
             if (tempText.includes('『' + hiraElement + '』')) {
                 tempTable.push(['『' + hiraElement + '』', '『' + element[rplIndex] + '』']);
                 tempText = tempText.replaceAll('『' + hiraElement + '』', '');
+            }
+
+            if (tempText.includes('「' + hiraElement2 + '」')) {
+                tempTable.push(['「' + hiraElement2 + '」', '「' + element[rplIndex] + '」']);
+                tempText = tempText.replaceAll('「' + hiraElement2 + '」', '');
+            }
+
+            if (tempText.includes('『' + hiraElement2 + '』')) {
+                tempTable.push(['『' + hiraElement2 + '』', '『' + element[rplIndex] + '』']);
+                tempText = tempText.replaceAll('『' + hiraElement2 + '』', '');
             }
         }
 
@@ -164,7 +175,11 @@ function reverseKana(text = '') {
 }
 
 function hiraFix(text = '') {
-    text = text.replaceAll(/([あかさたなはまやらわがざだばぱ])ー/gi, '$1あ');
+    text = text.replaceAll(/([あかさたなはまらがざだばぱやわ])ー/gi, '$1あ');
+    text = text.replaceAll(/([いきしちにひみりぎじぢびぴ])ー/gi, '$1い');
+    text = text.replaceAll(/([うくすつぬふむるぐずづぶぷゆ])ー/gi, '$1う');
+    text = text.replaceAll(/([えけせてねへめれげぜでべぺ])ー/gi, '$1え');
+    text = text.replaceAll(/([おこそとのほもろごぞどぼぽよを])ー/gi, '$1お');
 
     return text;
 }

@@ -25,8 +25,8 @@ async function translate(text, translation, table = []) {
     let result = '';
     let previousResult = '';
 
-    do {
-        try {
+    try {
+        do {
             // sleep
             if (count > 0) {
                 console.log('Missing Code:', missingCode);
@@ -57,12 +57,11 @@ async function translate(text, translation, table = []) {
 
             // set previous translated text
             previousResult = result;
-        } catch (error) {
-            console.log(error);
-            result = error;
-            break;
-        }
-    } while (missingCode.length > 0 && count < maxCount);
+        } while (missingCode.length > 0 && count < maxCount);
+    } catch (error) {
+        console.log(error);
+        result = error;
+    }
 
     return zhConvert(result, translation.to);
 }

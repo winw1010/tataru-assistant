@@ -121,6 +121,9 @@ async function textFix(name, text, translation) {
     if (target) {
         return fixFunction.replaceText(target[0][1], chArray.combine);
     } else {
+        // special fix
+        text = specialTextFix(name, text);
+
         // mark fix
         text = fixFunction.markFix(text);
 
@@ -181,6 +184,13 @@ function saveName(name = '', translatedName = '') {
 
     // write
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+}
+
+function specialTextFix(name, text) {
+    // A-Apple
+    text = text.replaceAll(/(\w{1,2})-\1/gi, '$1');
+
+    return text;
 }
 
 // module exports

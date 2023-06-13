@@ -366,7 +366,7 @@ function getNameFixArray() {
             ['', 0],
             ['', 0],
         ],
-    ];
+    ].sort((a, b) => b[0][0].length - a[0][0].length);
 }
 
 // module exports

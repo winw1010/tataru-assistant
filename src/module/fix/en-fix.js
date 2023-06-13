@@ -188,7 +188,7 @@ function saveName(name = '', translatedName = '') {
 
 function specialTextFix(name, text) {
     // A-Apple
-    text = text.replaceAll(/(\w{1,2})-\1/gi, '$1');
+    text = text.replaceAll(/\b(\w{1,2})-\1/gi, '$1');
 
     return text;
 }

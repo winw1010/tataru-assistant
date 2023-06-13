@@ -45,7 +45,7 @@ async function translate(text, translation, table = []) {
             // check translated text
             if (result === '') {
                 if (previousResult === '') {
-                    result = '無法取得翻譯文字';
+                    result = '無法取得翻譯文字，請確認您的網路連線，或暫時使用其他翻譯引擎';
                 } else {
                     result = previousResult;
                 }

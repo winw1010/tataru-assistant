@@ -57,14 +57,14 @@ function versionFix() {
     // 異邦の詩人 & リセ
     for (let index = jpArray.jp1.length - 1; index >= 0; index--) {
         const element = jpArray.jp1[index][0];
-        if (element.includes('　') || element.includes('リセット')) {
+        if (/\u3000|リセット/gi.test(element)) {
             jpArray.jp1.splice(index, 1);
         }
     }
 
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
-        if (element === 'リセ' || element.includes('リセット')) {
+        if (/^リセ$|リセット/gi.test(element)) {
             chArray.combine.splice(index, 1);
         }
     }

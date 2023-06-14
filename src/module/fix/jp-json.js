@@ -19,8 +19,8 @@ function load(targetLanguage) {
     const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
     // temp
+    jpArray.jpTemp = jsonFunction.readTemp('jpTemp.json', false);
     chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
-    chArray.jpTemp = jsonFunction.readTemp('jpTemp.json', false);
     chArray.overwriteTemp = jsonFunction.readTemp('overwriteTemp.json', false);
     chArray.player = jsonFunction.readTemp('player.json');
 
@@ -30,7 +30,7 @@ function load(targetLanguage) {
     chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex);
 
     // jp
-    jpArray.subtitle = jsonFunction.combineArrayWithTemp(chArray.jpTemp, jsonFunction.readSubtitleJP());
+    jpArray.subtitle = jsonFunction.combineArrayWithTemp(jpArray.jpTemp, jsonFunction.readSubtitleJP());
     jpArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('jp', 'ignore.json'));
     jpArray.jp1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp1.json'));
     jpArray.jp2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp2.json'));

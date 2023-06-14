@@ -319,6 +319,14 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
     }
 
+    // 異邦の詩人
+    if (/異邦の詩人|異世界の詩人/gi.test(name)) {
+        text = text.replaceAll('　', '、');
+    }
+
+    // リセ
+    text = text.replaceAll(/リセ(?!ット)/gi, 'リセ#');
+
     // 水晶公判斷
     if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
         text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');

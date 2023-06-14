@@ -327,17 +327,22 @@ function specialTextFix(name, text) {
     // リセ
     text = text.replaceAll(/リセ(?!ット)/gi, 'リセ#');
 
-    // 水晶公判斷
-    if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
-    }
-
-    // 若判斷
+    // 若
     /*
     if (/ユウギリ|ゴウセツ/gi.test(name)) {
         text = text.replaceAll('若', '坊ちゃん');
     }
     */
+
+    // 水晶公
+    if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
+        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
+    }
+
+    // ライアン
+    if (/ライアン/gi.test(name)) {
+        text = text.replaceAll('あーた', '貴方');
+    }
 
     // 召喚士
     // ラムブルース？

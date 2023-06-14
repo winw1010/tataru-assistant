@@ -48,6 +48,12 @@ function load(targetLanguage) {
     // combine
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
+    // version fix
+    versionFix();
+}
+
+// version fix
+function versionFix() {
     // 異邦の詩人 & リセ
     for (let index = jpArray.jp1.length - 1; index >= 0; index--) {
         const element = jpArray.jp1[index][0];

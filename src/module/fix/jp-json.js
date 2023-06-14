@@ -58,7 +58,7 @@ function load(targetLanguage) {
 
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
-        if (element === 'リセ') {
+        if (element === 'リセ' || element.includes('リセット')) {
             chArray.combine.splice(index, 1);
         }
     }

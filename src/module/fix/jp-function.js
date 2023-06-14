@@ -11,7 +11,7 @@ const hiragana = getHiraganaString();
 const katakana = getKatakanaString();
 
 // jp text function
-function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
+function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -76,6 +76,16 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
 
     // sort temp table
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
+
+    // fix temp table
+    if (textType === 2) {
+        for (let index = tempTable.length - 1; index >= 0; index--) {
+            const element = tempTable[index][0];
+            if (/^[ァ-ヺ]+$/gi.test(element) && element.length < 3) {
+                tempTable.splice(index, 1);
+            }
+        }
+    }
 
     // reset srcIndex and rplIndex
     srcIndex = 0;

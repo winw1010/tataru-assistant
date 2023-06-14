@@ -173,7 +173,7 @@ function saveName(name = '', translatedName = '') {
 
     chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
 
-    if (name.length < 3) {
+    if (name.length < 5) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
     } else {
         chArray.chTemp.push([name, translatedName, 'temp']);

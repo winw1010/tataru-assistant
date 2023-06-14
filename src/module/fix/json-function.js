@@ -134,7 +134,7 @@ function clearArray(array) {
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
 
-            if (element[0].includes('//comment') || element[0] === 'N/A' || element[0] === '' || element[1].includes('//comment') || element[1] === 'N/A') {
+            if (/\/\/comment|^N\/A$|^$/gi.test(element[0]) || /\/\/comment|^N\/A$/gi.test(element[1])) {
                 array.splice(index, 1);
             }
         }
@@ -142,7 +142,7 @@ function clearArray(array) {
         // not 2d
         for (let index = array.length - 1; index >= 0; index--) {
             const element = array[index];
-            if (element.includes('//comment') || element === 'N/A' || element === '') {
+            if (/\/\/comment|^N\/A$|^$/gi.test(element)) {
                 array.splice(index, 1);
             }
         }

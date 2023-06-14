@@ -39,14 +39,6 @@ function load(targetLanguage) {
     jpArray.listHira = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listHira.json'));
     jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
 
-    // 異邦の詩人 & リセ
-    for (let index = jpArray.jp1.length - 1; index >= 0; index--) {
-        const element = jpArray.jp1[index][0];
-        if (element.includes('　') || element.includes('リセット')) {
-            jpArray.jp1.splice(index, 1);
-        }
-    }
-
     // main
     chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
 
@@ -55,6 +47,21 @@ function load(targetLanguage) {
 
     // combine
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+    // 異邦の詩人 & リセ
+    for (let index = jpArray.jp1.length - 1; index >= 0; index--) {
+        const element = jpArray.jp1[index][0];
+        if (element.includes('　') || element.includes('リセット')) {
+            jpArray.jp1.splice(index, 1);
+        }
+    }
+
+    for (let index = chArray.combine.length - 1; index >= 0; index--) {
+        const element = chArray.combine[index][0];
+        if (element === 'リセ') {
+            chArray.combine.splice(index, 1);
+        }
+    }
 }
 
 // get ch array

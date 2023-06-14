@@ -81,7 +81,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
     if (textType === 2) {
         for (let index = tempTable.length - 1; index >= 0; index--) {
             const element = tempTable[index][0];
-            if (/^[ァ-ヺ]+$/gi.test(element) && element.length < 3) {
+            if (/^[ァ-ヺ]{1,2}$/gi.test(element)) {
                 tempTable.splice(index, 1);
             }
         }

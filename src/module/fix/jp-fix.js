@@ -329,7 +329,7 @@ function specialTextFix(name, text) {
 
     // ヒエン
     if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
-        text = text.replaceAll(/若(?!い|し|様)/gi, '若様');
+        text = text.replaceAll(/若(?!若|々|い|し|様)/gi, '若様');
     }
 
     // 水晶公

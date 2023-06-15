@@ -321,7 +321,7 @@ function specialTextFix(name, text) {
 
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
-        text = text.replaceAll('　', '、');
+        text = text.replaceAll(/\u3000/gi, '、');
     }
 
     // リセ

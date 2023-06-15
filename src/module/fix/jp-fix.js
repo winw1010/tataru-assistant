@@ -327,12 +327,12 @@ function specialTextFix(name, text) {
     // リセ
     text = text.replaceAll(/リセ(?!ット)/gi, 'リセ#');
 
-    // 若
-    /*
+    // ヒエン
     if (/ユウギリ|ゴウセツ/gi.test(name)) {
-        text = text.replaceAll('若', '坊ちゃん');
+        text = text.replaceAll(/若(?!い|し|様)/gi, 'ヒエン様');
+    } else if (/ヨツユ/gi.test(name)) {
+        text = text.replaceAll(/若(?!い|し|様)/gi, 'ヒエン');
     }
-    */
 
     // 水晶公
     if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {

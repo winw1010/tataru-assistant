@@ -254,9 +254,9 @@ async function translateName(name, katakanaName, translation) {
 // create name
 function createName(katakanaName) {
     let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
-    tempName = tempName.replace(/^ルル/, '路路');
-    tempName = tempName.replace(/^ル/, '路');
-    tempName = tempName.replace(/^ア/, '阿');
+    tempName = tempName.replaceAll(/^ルル/gi, '路路');
+    tempName = tempName.replaceAll(/^ル/gi, '路');
+    tempName = tempName.replaceAll(/^ア/gi, '阿');
 
     return fixFunction.replaceText(tempName, chArray.chName);
 }
@@ -356,7 +356,7 @@ function specialTextFix(name, text) {
     // あ…… or あ… or あ、
     loopCount = 0;
     while (/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replace(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
+        text = text.replaceAll(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
         loopCount++;
     }
 
@@ -366,7 +366,7 @@ function specialTextFix(name, text) {
 
     loopCount = 0;
     while (/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replace(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
+        text = text.replaceAll(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
         loopCount++;
     }
 
@@ -374,7 +374,7 @@ function specialTextFix(name, text) {
     // あ…… or あ… or あ、
     loopCount = 0;
     while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text) && loopCount++ < 10) {
-        text = text.replace(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
+        text = text.replaceAll(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
     }
     */
 

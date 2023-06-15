@@ -137,7 +137,7 @@ async function textFix(name, text, translation) {
         text = fixFunction.replaceText(text, jpArray.jp1);
 
         // combine
-        const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
+        const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, 0, 1, textType);
         text = codeResult.text;
 
         // jp2

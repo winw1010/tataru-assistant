@@ -156,7 +156,7 @@ function fixCode(text, missingCode) {
         for (let index = 0; index < missingCode.length; index++) {
             const code = missingCode[index][0];
             const codeRegExp = new RegExp(`(${code}+)`, 'gi');
-            text = text.replace(codeRegExp, '$1' + code);
+            text = text.replaceAll(codeRegExp, '$1' + code);
         }
     }
     return text;

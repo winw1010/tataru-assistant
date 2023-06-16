@@ -102,10 +102,10 @@ async function setAuthentication() {
                 papagoVersion: version,
             };
         } else {
-            throw 'ERROR: setAuthentication data2';
+            throw 'ERROR: setAuthentication - version not found';
         }
     } else {
-        throw 'ERROR: setAuthentication data1';
+        throw 'ERROR: setAuthentication - fileName not found';
     }
 }
 

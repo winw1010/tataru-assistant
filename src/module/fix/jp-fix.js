@@ -297,6 +297,11 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 function specialTextFix(name, text) {
     let loopCount = 0;
 
+    // 核修正
+    if (text.includes('核')) {
+        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
+    }
+
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
         text = text.replaceAll('ー', '');
@@ -314,9 +319,9 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
     }
 
-    // 核修正
-    if (text.includes('核')) {
-        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
+    // 自分
+    if (name.length > 2) {
+        text = text.replaceAll(name, '私');
     }
 
     // 異邦の詩人

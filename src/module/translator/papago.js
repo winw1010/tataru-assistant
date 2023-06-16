@@ -1,5 +1,10 @@
 'use strict';
 
+// https://papago.naver.com/
+// https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
+// Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
+// v1.7.5_9b3c4db4fc
+
 // papago function
 const papagoFunction = require('./papago-function');
 
@@ -8,12 +13,10 @@ const requestModule = require('../system/request-module');
 
 // RegExp
 const JSESSIONIDRegExp = /(?<target>JSESSIONID=[^;]+)/is;
-const mainJsRegExp = /src="\/(?<target>main\..+?\.chunk\.js)"/is;
-const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
-
-// https://papago.naver.com/
-// https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
-// Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
+const fileNameRegExp = /src="\/(?<target>main\..+?\.chunk\.js)"/is;
+const ppgRegExp = /(?<target>PPG.+?HmacMD5.+?toString.+?Base64)/is;
+const versionRegExp = /"(?<target>v[^"]+)"/is;
+//const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
 
 // expire date
 let expireDate = 0;
@@ -81,21 +84,22 @@ async function setAuthentication() {
         path: '/',
     });
 
-    const data1 = mainJsRegExp.exec(response1)?.groups?.target;
+    const fileName = fileNameRegExp.exec(response1)?.groups?.target;
 
-    if (data1) {
+    if (fileName) {
         const response2 = await requestModule.get({
             protocol: 'https:',
             hostname: 'papago.naver.com',
-            path: '/' + data1,
+            path: '/' + fileName,
         });
 
-        const data2 = versionRegExp.exec(response2)?.groups?.target;
+        const ppg = ppgRegExp.exec(response2)?.groups?.target;
+        const version = versionRegExp.exec(ppg)?.groups?.target;
 
-        if (data2) {
+        if (version) {
             authentication = {
                 deviceId: papagoFunction.generateDeviceId(),
-                papagoVersion: data2,
+                papagoVersion: version,
             };
         } else {
             throw 'ERROR: setAuthentication data2';

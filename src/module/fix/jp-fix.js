@@ -319,11 +319,6 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
     }
 
-    // 自分
-    if (name.length > 2) {
-        text = text.replaceAll(name, '私');
-    }
-
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
         text = text.replaceAll(/\u3000/gi, '、');

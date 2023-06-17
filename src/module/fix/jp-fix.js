@@ -319,6 +319,9 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
     }
 
+    // 方
+    text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
+
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
         text = text.replaceAll(/\u3000/gi, '、');
@@ -369,6 +372,9 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
         loopCount++;
     }
+
+    //let testReg = /(?<=(^|、|。|！|？)[…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)(?=[…、]+)/gi;
+    //console.log('あ、あ、あ、あ、あああああ'.replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, ''));
 
     /*
     // あ…… or あ… or あ、

@@ -30,10 +30,13 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
         const axiosConfig = {
             method: method.toLowerCase(),
             url: options.protocol + '//' + options.hostname + options.path,
-            data: data || {},
             headers: fixHeaders(headers),
             timeout: timeout,
         };
+
+        if (data) {
+            axiosConfig.data = data;
+        }
 
         const response = await axios(axiosConfig);
 

@@ -395,6 +395,10 @@ function setRequestChannel() {
                 config.system.userAgent = data.userAgent;
                 configModule.setConfig(config);
 
+                // write signatures.json
+                fileModule.write(fileModule.getRootPath('signatures.json'), data.signatures, 'json');
+                sharlayanModule.start();
+
                 // compare app version
                 const latestVersion = data?.number;
                 if (appVersion === latestVersion) {

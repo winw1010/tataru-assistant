@@ -1,12 +1,12 @@
 'use strict';
 
+/*
 // axios
 const axios = require('axios').default;
+*/
 
-/*
 // net
 const { net } = require('electron');
-*/
 
 // config module
 const configModule = require('./config-module');
@@ -26,6 +26,7 @@ function post(options, data = null, headers = {}, timeout = 15000) {
 
 // net request
 async function netRequest(method, options, data, headers, timeout, returnType = 'data') {
+    /*
     try {
         const axiosConfig = {
             method: method.toLowerCase(),
@@ -49,8 +50,8 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
         console.log(error);
         return null;
     }
+    */
 
-    /*
     // set request
     options.method = method;
     const request = net.request(options);
@@ -136,7 +137,6 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
         // end request
         request.end();
     });
-    */
 }
 
 // get cookie
@@ -164,6 +164,7 @@ async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, 
     });
 }
 
+/*
 // fix headers
 function fixHeaders(headers = {}) {
     const headerNameList = Object.getOwnPropertyNames(headers);
@@ -183,6 +184,7 @@ function fixHeaders(headers = {}) {
 
     return fixedHeaders;
 }
+*/
 
 // get expiry date
 function getExpiryDate() {

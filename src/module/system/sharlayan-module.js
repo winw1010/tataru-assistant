@@ -19,6 +19,18 @@ let child = null;
 function start() {
     stop();
 
+    const versionPath = fileModule.getRootPath('src', 'json', 'text', 'version.json');
+    if (fileModule.exists(versionPath)) {
+        try {
+            const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
+            if (signatures) {
+                fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     child = childProcess.spawn(sharlayanPath);
 
     child.stdout.on('data', (data) => {

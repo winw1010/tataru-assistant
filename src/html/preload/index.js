@@ -3,9 +3,8 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// click through temp
-let isClickThrough = false;
-let isClickThroughTemp = false;
+// click through
+let clickThrough = false;
 
 // mouse out check interval
 let mouseOutCheckInterval = null;
@@ -41,10 +40,12 @@ function setIPC() {
         dispatchCustomEvent('change-ui-text');
     });
 
+    /*
     // change reccord icon
     ipcRenderer.on('change-reccord-icon', (event, isRecording) => {
         document.getElementById('img_button_record_icon').setAttribute('src', isRecording ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
     });
+    */
 
     // clear dialog
     ipcRenderer.on('clear-dialog', () => {
@@ -145,26 +146,30 @@ function setView() {
         ipcRenderer.send('create-window', 'config', ['btnradio4', 'div_translation']);
     }
 
+    // set click through
+    setClickThrough(config.indexWindow.clickThrough);
+
+    /*
     // change reccord icon
     document
         .getElementById('img_button_record_icon')
         .setAttribute('src', config.translation.getCutsceneText ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
+    */
 }
 
 // set event
 function setEvent() {
     // drag click through
     document.getElementById('img_button_drag').addEventListener('mousedown', () => {
-        isClickThroughTemp = isClickThrough;
-        isClickThrough = false;
+        clickThrough = false;
     });
     document.getElementById('img_button_drag').addEventListener('mouseup', () => {
-        isClickThrough = isClickThroughTemp;
+        clickThrough = ipcRenderer.sendSync('get-click-through-config');
     });
 
     // document click through
     document.addEventListener('mouseenter', () => {
-        if (isClickThrough) {
+        if (clickThrough) {
             ipcRenderer.send('set-click-through', true);
         } else {
             ipcRenderer.send('set-click-through', false);
@@ -185,7 +190,7 @@ function setEvent() {
         });
 
         element.addEventListener('mouseleave', () => {
-            if (isClickThrough) {
+            if (clickThrough) {
                 ipcRenderer.send('set-click-through', true);
             } else {
                 ipcRenderer.send('set-click-through', false);
@@ -206,15 +211,10 @@ function setButton() {
         ipcRenderer.send('create-window', 'capture');
     };
 
-    // throught
+    // through
     document.getElementById('img_button_through').onclick = () => {
-        isClickThrough = !isClickThrough;
-
-        if (isClickThrough) {
-            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
-        } else {
-            document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
-        }
+        setClickThrough(!clickThrough);
+        ipcRenderer.send('set-click-through-config', clickThrough);
     };
 
     // update
@@ -238,10 +238,12 @@ function setButton() {
         ipcRenderer.send('close-app');
     };
 
+    /*
     // record
     document.getElementById('img_button_record_icon').onclick = () => {
         ipcRenderer.send('change-reccord-icon');
     };
+    */
 
     // auto play
     document.getElementById('img_button_auto_play').onclick = () => {
@@ -385,6 +387,16 @@ function hideButton(isMouseOut, hideButton) {
 
         // show dialog
         ipcRenderer.send('show-dialog');
+    }
+}
+
+// set click through button
+function setClickThrough(value) {
+    clickThrough = value;
+    if (clickThrough) {
+        document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
+    } else {
+        document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
     }
 }
 

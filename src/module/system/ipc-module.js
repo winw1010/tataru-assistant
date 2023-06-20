@@ -233,6 +233,18 @@ function setWindowChannel() {
         }
     });
 
+    // get click through config
+    ipcMain.on('get-click-through-config', (event) => {
+        event.returnValue = configModule.getConfig().indexWindow.clickThrough;
+    });
+
+    // set click through config
+    ipcMain.on('set-click-through-config', (event, value) => {
+        let config = configModule.getConfig();
+        config.indexWindow.clickThrough = value;
+        configModule.setConfig(config);
+    });
+
     // mouse out check
     ipcMain.handle('mouse-out-check', (event) => {
         const config = configModule.getConfig();
@@ -473,6 +485,7 @@ function setTranslateChannel() {
         event.returnValue = googleTTS.getAudioUrl(text, from);
     });
 
+    /*
     // record
     ipcMain.on('change-reccord-icon', (event) => {
         let config = configModule.getConfig();
@@ -480,6 +493,7 @@ function setTranslateChannel() {
         configModule.setConfig(config);
         event.sender.send('change-reccord-icon', config.translation.getCutsceneText);
     });
+    */
 }
 
 // set file channel

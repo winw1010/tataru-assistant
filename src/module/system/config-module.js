@@ -21,6 +21,8 @@ const defaultConfig = {
         minSize: true,
         hideDialogTimeout: 30,
         backgroundColor: '#00000034',
+        clickThrough: false,
+        lock: false,
     },
     dialog: {
         weight: 'normal',
@@ -53,7 +55,6 @@ const defaultConfig = {
         skip: true,
         skipChinese: true,
         replace: true,
-        getCutsceneText: false,
         engine: 'Youdao',
         from: 'Japanese',
         fromPlayer: 'Japanese',

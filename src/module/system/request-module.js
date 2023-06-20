@@ -16,11 +16,11 @@ const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade',
 
 // get
 function get(options, headers = {}, timeout = 15000) {
-    return netRequest('GET', options, {}, headers, timeout, 'data');
+    return netRequest('GET', options, null, headers, timeout, 'data');
 }
 
 // post
-function post(options, data = {}, headers = {}, timeout = 15000) {
+function post(options, data = null, headers = {}, timeout = 15000) {
     return netRequest('POST', options, data, headers, timeout, 'data');
 }
 
@@ -30,7 +30,7 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
         const axiosConfig = {
             method: method.toLowerCase(),
             url: options.protocol + '//' + options.hostname + options.path,
-            data: data,
+            data: data || {},
             headers: fixHeaders(headers),
             timeout: timeout,
         };
@@ -139,7 +139,7 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
 // get cookie
 async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
-        netRequest('GET', options, {}, headers, timeout, 'response').then((response) => {
+        netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
             console.log('headers', response?.headers);
             console.log('set-cookie', response?.headers?.['set-cookie']);
             const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';

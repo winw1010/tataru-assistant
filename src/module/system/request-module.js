@@ -164,7 +164,7 @@ async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, 
     });
 }
 
-// fix header
+// fix headers
 function fixHeaders(headers = {}) {
     const headerNameList = Object.getOwnPropertyNames(headers);
     let fixedHeaders = {};

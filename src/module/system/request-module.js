@@ -1,7 +1,12 @@
 'use strict';
 
+// axios
+const axios = require('axios').default;
+
+/*
 // net
 const { net } = require('electron');
+*/
 
 // config module
 const configModule = require('./config-module');
@@ -11,16 +16,38 @@ const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade',
 
 // get
 function get(options, headers = {}, timeout = 15000) {
-    return netRequest('GET', options, null, headers, timeout, 'data');
+    return netRequest('GET', options, {}, headers, timeout, 'data');
 }
 
 // post
-function post(options, data = null, headers = {}, timeout = 15000) {
+function post(options, data = {}, headers = {}, timeout = 15000) {
     return netRequest('POST', options, data, headers, timeout, 'data');
 }
 
 // net request
-function netRequest(method, options, data, headers, timeout, returnType = 'data') {
+async function netRequest(method, options, data, headers, timeout, returnType = 'data') {
+    try {
+        const axiosConfig = {
+            method: method.toLowerCase(),
+            url: options.protocol + '//' + options.hostname + options.path,
+            data: data,
+            headers: fixHeaders(headers),
+            timeout: timeout,
+        };
+
+        const response = await axios(axiosConfig);
+
+        if (returnType === 'data') {
+            return response.data;
+        } else {
+            return response;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+
+    /*
     // set request
     options.method = method;
     const request = net.request(options);
@@ -106,12 +133,13 @@ function netRequest(method, options, data, headers, timeout, returnType = 'data'
         // end request
         request.end();
     });
+    */
 }
 
 // get cookie
 async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
-        netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
+        netRequest('GET', options, {}, headers, timeout, 'response').then((response) => {
             console.log('headers', response?.headers);
             console.log('set-cookie', response?.headers?.['set-cookie']);
             const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';
@@ -131,6 +159,26 @@ async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, 
             }
         });
     });
+}
+
+// fix header
+function fixHeaders(headers = {}) {
+    const headerNameList = Object.getOwnPropertyNames(headers);
+    let fixedHeaders = {};
+
+    for (let index = 0; index < headerNameList.length; index++) {
+        const headerName = headerNameList[index];
+
+        if (!restrictedHeaders.includes(headerName)) {
+            if (headerName === 'Connection' && headers[headerName] === 'upgrade') {
+                continue;
+            } else {
+                fixedHeaders[headerName] = headers[headerName];
+            }
+        }
+    }
+
+    return fixedHeaders;
 }
 
 // get expiry date

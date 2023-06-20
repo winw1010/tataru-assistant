@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.3.7",
+    "version": "2.3.8",
     "description": "tataru-helper-node",
     "main": "src/main.js",
     "scripts": {
@@ -35,6 +35,12 @@
             "output": "build"
         },
         "extraFiles": [
+            "actions-latest.json",
+            "signatures-global-latest.json",
+            "signatures.json",
+            "statuses-latest.json",
+            "structures-global-latest.json",
+            "zones-latest.json",
             "src/json",
             "src/data",
             "!src/data/*.png"

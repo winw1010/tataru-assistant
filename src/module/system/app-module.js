@@ -15,9 +15,6 @@ const configModule = require('./config-module');
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
-// sharlayan module
-const sharlayanModule = require('./sharlayan-module');
-
 // window module
 const windowModule = require('./window-module');
 
@@ -48,9 +45,6 @@ function startApp() {
     ipcMain.on('set-global-shortcut', () => {
         setGlobalShortcut();
     });
-
-    // start sharlayan reader
-    sharlayanModule.start();
 }
 
 // detect user language

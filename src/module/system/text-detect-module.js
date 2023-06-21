@@ -112,6 +112,7 @@ function fixImageText(text) {
             .replaceAll('..', '…')
             .replaceAll('･･･', '…')
             .replaceAll('･･', '…')
+            .replaceAll('･', '・')
             .replaceAll('・・・', '…')
             .replaceAll('・・', '…')
             .replaceAll('､', '、')

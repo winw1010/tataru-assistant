@@ -24,6 +24,9 @@ const dialogModule = require('../system/dialog-module');
 // sharlayan module
 const sharlayanModule = require('../system/sharlayan-module');
 
+// first time
+let firstTime = true;
+
 // initialize json
 function initializeJSON() {
     const config = configModule.getConfig();
@@ -81,7 +84,10 @@ function loadJSON() {
     fixEntry.setRunning(true);
 
     // start sharlayan reader
-    sharlayanModule.start();
+    if (firstTime) {
+        firstTime = false;
+        sharlayanModule.start();
+    }
 }
 
 // module exports

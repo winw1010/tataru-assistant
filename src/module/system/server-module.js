@@ -39,8 +39,12 @@ function dataProcess(data) {
                 */
 
                 // check repetition
-                if (dialogData.text.replaceAll('\r', '') !== lastText) {
-                    lastText = dialogData.text.replaceAll('\r', '');
+                const currentText = dialogData.text
+                    .replaceAll('\r', '')
+                    .replaceAll(/（.*?）/gi, '')
+                    .replaceAll(/\(.*?\)/gi, '');
+                if (currentText !== lastText) {
+                    lastText = currentText;
                 } else {
                     return;
                 }

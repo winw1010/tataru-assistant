@@ -1,7 +1,7 @@
 'use strict';
 
 // child process
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 // en json
 const enJson = require('./en-json');
@@ -37,29 +37,37 @@ function initializeJSON() {
 
 // download json
 function downloadJSON() {
-    // delete json
-    exec('rmdir /Q /S src\\json\\text', (error) => {
+    deleteText('text2');
+    downloadGit('winw1010/tataru-helper-node-text-v2#main', 'src/json/text2', (error) => {
         if (error) {
-            console.log(error.message);
-        }
-
-        startDownload();
-    });
-}
-
-// start download
-function startDownload() {
-    // download git
-    downloadGit('winw1010/tataru-helper-node-text-v2#main', 'src/json/text', (error) => {
-        if (error) {
-            console.log(error);
             dialogModule.showNotification('對照表下載失敗：' + error);
+            console.log(error);
         } else {
             dialogModule.showNotification('對照表下載完畢');
+            deleteText('text');
+            moveText();
         }
 
         loadJSON();
     });
+}
+
+// delete text
+function deleteText(dir) {
+    try {
+        execSync(`rmdir /Q /S src\\json\\${dir}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// move text
+function moveText() {
+    try {
+        execSync('move src\\json\\text2 src\\json\\text');
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // load json

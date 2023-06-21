@@ -413,9 +413,6 @@ function setRequestChannel() {
             .finally(() => {
                 // show message
                 dialogModule.showNotification(notificationText);
-
-                // start sharlayan reader
-                sharlayanModule.start();
             });
     });
 

@@ -15,11 +15,14 @@ const downloadGit = require('./json-download-git');
 // fix entry
 const fixEntry = require('./fix-entry');
 
+// config module
+const configModule = require('../system/config-module');
+
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
-// config module
-const configModule = require('../system/config-module');
+// sharlayan module
+const sharlayanModule = require('../system/sharlayan-module');
 
 // initialize json
 function initializeJSON() {
@@ -68,6 +71,9 @@ function loadJSON() {
     jpJson.load(targetLanguage);
     dialogModule.showNotification('對照表讀取完畢');
     fixEntry.setRunning(true);
+
+    // start sharlayan reader
+    sharlayanModule.start();
 }
 
 // module exports

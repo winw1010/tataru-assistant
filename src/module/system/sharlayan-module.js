@@ -12,6 +12,9 @@ const serverModule = require('./server-module');
 // sharlayan path
 const sharlayanPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'sharlayan-test.exe');
 
+// version path
+const versionPath = fileModule.getRootPath('src', 'json', 'text', 'version.json');
+
 // child
 let child = null;
 
@@ -19,7 +22,6 @@ let child = null;
 function start() {
     stop();
 
-    const versionPath = fileModule.getRootPath('src', 'json', 'text', 'version.json');
     if (fileModule.exists(versionPath)) {
         try {
             const signatures = JSON.parse(fileModule.read(versionPath)).signatures;

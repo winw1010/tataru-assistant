@@ -1,4 +1,4 @@
 build
 node_modules
 src/data/img/*.png
-src/json/text
+src/json

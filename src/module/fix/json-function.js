@@ -210,7 +210,7 @@ function combineArrayWithTemp(temp, ...args) {
 
         // delete name from temp which length < 3
         if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allKana.test(tempElement[0]))) {
-            if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
+            if (tempElement[2] === 'temp' && !tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
         }
     });
 

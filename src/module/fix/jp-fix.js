@@ -301,9 +301,7 @@ function specialTextFix(name, text) {
     text = text.replaceAll(/ー+/gi, 'ー');
 
     // 核修正
-    if (text.includes('核')) {
-        text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
-    }
+    text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
 
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
@@ -326,7 +324,7 @@ function specialTextFix(name, text) {
     text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
 
     // ヒルディィィィィィブランドゥッ
-    text = text.replaceAll(/ヒルディ+ブランドゥ?ッ?/gi, 'ヒルディブランド');
+    text = text.replaceAll(/ヒルディ+ブランドゥ*ッ*/gi, 'ヒルディブランド');
 
     // マンダヴィィィィィィル
     text = text.replaceAll(/マンダヴィ+ル/gi, 'マンダヴィル');
@@ -345,7 +343,7 @@ function specialTextFix(name, text) {
     }
 
     // 水晶公
-    if (text.includes('公') && fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
+    if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
         text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
 
@@ -381,17 +379,6 @@ function specialTextFix(name, text) {
         text = text.replaceAll(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
         loopCount++;
     }
-
-    //let testReg = /(?<=(^|、|。|！|？)[…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)(?=[…、]+)/gi;
-    //console.log('あ、あ、あ、あ、あああああ'.replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, '').replaceAll(testReg, ''));
-
-    /*
-    // あ…… or あ… or あ、
-    loopCount = 0;
-    while (/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+[^…、]+/gi.test(text) && loopCount++ < 10) {
-        text = text.replaceAll(/^[ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]?[…、]+/gi, '');
-    }
-    */
 
     // あアあ => あああ
     loopCount = 0;

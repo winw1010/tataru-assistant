@@ -135,7 +135,7 @@ function markFix(text, isTranslated = false) {
         //text = text.replaceAll(/"(.+?)"/gi, '「$1」');
 
         // fix .
-        text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');
+        //text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');
 
         // fix ·
         text = text.replaceAll(/([^·0-9])·([^·0-9])/gi, '$1・$2');

@@ -15,8 +15,8 @@ const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '
 // text history
 // let textHistory = {};
 
-// last text
-let lastText = '';
+// last text list
+let lastTextList = {};
 
 // data process
 function dataProcess(data) {
@@ -44,8 +44,8 @@ function dataProcess(data) {
                     .replaceAll('%&', '')
                     .replaceAll(/（.*?）/gi, '')
                     .replaceAll(/\(.*?\)/gi, '');
-                if (currentText !== lastText) {
-                    lastText = currentText;
+                if (currentText !== lastTextList[dialogData.code]) {
+                    lastTextList[dialogData.code] = currentText;
                 } else {
                     return;
                 }

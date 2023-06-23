@@ -41,6 +41,7 @@ function dataProcess(data) {
                 // check repetition
                 const currentText = dialogData.text
                     .replaceAll('\r', '')
+                    .replaceAll('%&', '')
                     .replaceAll(/（.*?）/gi, '')
                     .replaceAll(/\(.*?\)/gi, '');
                 if (currentText !== lastText) {

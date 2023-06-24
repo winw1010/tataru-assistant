@@ -149,6 +149,9 @@ function setView() {
     // set click through
     setClickThrough(config.indexWindow.clickThrough);
 
+    // set auto play
+    setAutoPlay(config.translation.autoPlay);
+
     /*
     // change reccord icon
     document
@@ -251,14 +254,7 @@ function setButton() {
         config.translation.autoPlay = !config.translation.autoPlay;
         ipcRenderer.send('set-config', config);
         ipcRenderer.send('mute-window', config.translation.autoPlay);
-
-        if (config.translation.autoPlay) {
-            document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-            dispatchCustomEvent('start-playing');
-        } else {
-            document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-            dispatchCustomEvent('stop-playing');
-        }
+        setAutoPlay(config.translation.autoPlay);
     };
 
     // read log
@@ -397,6 +393,16 @@ function setClickThrough(value) {
         document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
     } else {
         document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+    }
+}
+
+function setAutoPlay(value) {
+    if (value) {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+        dispatchCustomEvent('start-playing');
+    } else {
+        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+        dispatchCustomEvent('stop-playing');
     }
 }
 

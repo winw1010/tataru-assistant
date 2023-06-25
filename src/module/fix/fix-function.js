@@ -6,17 +6,22 @@ function skipCheck(code, name, text, ignoreArray) {
 }
 
 // replace text
-function replaceText(text, array, srcIndex = 0, rplIndex = 1) {
+function replaceText(text, array, srcIndex = 0, rplIndex = 1, useRegex = false) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return text;
     }
 
-    const target = includesArrayItem(text, array, srcIndex, true);
-
-    if (target) {
-        for (let index = 0; index < target.length; index++) {
-            const element = target[index];
-            text = text.replaceAll(element[srcIndex] + '公司', element[rplIndex]);
+    if (useRegex) {
+        const target = includesArrayItem(text, array, srcIndex, true);
+        if (target) {
+            for (let index = 0; index < target.length; index++) {
+                const element = target[index];
+                text = text.replaceAll(element[srcIndex], element[rplIndex]);
+            }
+        }
+    } else {
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
             text = text.replaceAll(element[srcIndex], element[rplIndex]);
         }
     }

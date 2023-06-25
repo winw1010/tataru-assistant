@@ -298,6 +298,9 @@ function specialTextFix(name, text) {
     // ーーー
     text = text.replaceAll(/ー+/gi, 'ー');
 
+    // ～
+    text = text.replaceAll(/(?<![0-9])～(?![0-9])/gi, '');
+
     // 核修正
     text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
 

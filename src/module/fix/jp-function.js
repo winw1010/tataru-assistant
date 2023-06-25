@@ -19,6 +19,9 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
         };
     }
 
+    // for 2 words name
+    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])[ァ-ヺ]{2}(?![ァ-ヺ・ー＝])/gi, '$&#');
+
     // set parameters
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
@@ -135,6 +138,9 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
             }
         }
     }
+
+    // remove #
+    text = text.replaceAll('#', '');
 
     const result = {
         text: text,

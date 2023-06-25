@@ -301,6 +301,9 @@ function specialTextFix(name, text) {
     // ～
     text = text.replaceAll(/(?<![0-9])～(?![0-9])/gi, '');
 
+    // モン
+    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])モン(?![ァ-ヺ・ー＝])/gi, 'もん');
+
     // 核修正
     text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
 
@@ -353,11 +356,13 @@ function specialTextFix(name, text) {
         text = text.replaceAll('あーた', '貴方');
     }
 
+    /*
     // 召喚士
     // ラムブルース？
     if (/ヤ・ミトラ|プリンキピア|クリスピン|ジャジャサム|デニース|^サリ(|の声)$/gi.test(name)) {
         text = text.replaceAll('サリ', 'サリ#');
     }
+    */
 
     // 暗黒騎士
     if (/フレイ|シドゥルグ|リエル|^ミスト(|の声)$/gi.test(name)) {
@@ -396,7 +401,7 @@ function specialTextFix(name, text) {
     }
 
     // デス => です
-    text = text.replaceAll(/([^ァ-ヺ・ー＝])デス([^ァ-ヺ・ー＝])/gi, '$1です$2');
+    text = text.replaceAll(/(?<![^ァ-ヺ・ー＝])デス(?![^ァ-ヺ・ー＝])/gi, 'です');
 
     // 魔器装備（武器・盾） => 魔器装備「武器・盾」
     text = text.replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」').replaceAll('魔器装備（防具）', '魔器装備「防具」');

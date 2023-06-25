@@ -68,6 +68,14 @@ function versionFix() {
             chArray.combine.splice(index, 1);
         }
     }
+
+    // ～
+    for (let index = jpArray.jp2.length - 1; index >= 0; index--) {
+        const element = jpArray.jp2[index][0];
+        if (/～/gi.test(element)) {
+            jpArray.jp2.splice(index, 1);
+        }
+    }
 }
 
 // get ch array

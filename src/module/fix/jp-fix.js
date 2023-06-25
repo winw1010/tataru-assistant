@@ -286,8 +286,6 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
         }
     }
 
-    console.log(chArray.chTemp);
-
     // write
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
@@ -321,7 +319,7 @@ function specialTextFix(name, text) {
     }
 
     // 方
-    text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
+    //text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
 
     // ヒルディィィィィィブランドゥッ
     text = text.replaceAll(/ヒルディ+ブランドゥ*ッ*/gi, 'ヒルディブランド');

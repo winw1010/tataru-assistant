@@ -325,7 +325,7 @@ function specialTextFix(name, text) {
     }
 
     // 方
-    //text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
+    text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
 
     // ヒルディィィィィィブランドゥッ
     text = text.replaceAll(/ヒルディ+ブランドゥ*ッ*/gi, 'ヒルディブランド');

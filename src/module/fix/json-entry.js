@@ -60,7 +60,7 @@ function deleteText(dir) {
     try {
         execSync(`rmdir /Q /S src\\json\\${dir}`);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
     }
 }
 
@@ -69,7 +69,7 @@ function moveText() {
     try {
         execSync('move src\\json\\text2 src\\json\\text');
     } catch (error) {
-        console.log(error);
+        //console.log(error);
     }
 }
 

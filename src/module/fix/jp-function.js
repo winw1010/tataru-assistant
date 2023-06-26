@@ -20,7 +20,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
     }
 
     // for 2 words name
-    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])[ァ-ヺ]{2}(?![ァ-ヺ・ー＝])/gi, '$&#');
+    if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺ・ー＝])[ァ-ヺ]{2}(?![ァ-ヺ・ー＝])/gi, '$&#');
 
     // set parameters
     let codeIndex = 0;
@@ -80,6 +80,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
     // sort temp table
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
 
+    /*
     // fix temp table
     if (textType === 2) {
         for (let index = tempTable.length - 1; index >= 0; index--) {
@@ -89,6 +90,7 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
             }
         }
     }
+    */
 
     // reset srcIndex and rplIndex
     srcIndex = 0;

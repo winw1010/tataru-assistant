@@ -3,7 +3,7 @@
 // electron
 const { contextBridge, ipcRenderer } = require('electron');
 
-// kana character
+// kana characters
 const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // file module
@@ -176,7 +176,7 @@ function setButton() {
 
     // report translation
     document.getElementById('button_report_translation').onclick = () => {
-        postForm();
+        reportTranslation();
     };
 
     // save custom
@@ -185,29 +185,21 @@ function setButton() {
         const textAfter = document.getElementById('textarea_after').value.replaceAll('\n', '').trim();
         const type = document.getElementById('select_type').value;
 
-        if (textBefore !== '' && textAfter !== '') {
+        if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'jpTemp.json'));
-                jpTemp = addTemp(textBefore, textAfter, type, jpTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                addAndSave('jpTemp.json', textBefore, textAfter, type);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'overwriteTemp.json'));
-                overwriteTemp = addTemp(textBefore, textAfter, type, overwriteTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                addAndSave('overwriteTemp.json', textBefore, textAfter, type);
             } else if (type === 'player' || type === 'retainer') {
-                let playerTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'player.json'));
-                playerTemp = addTemp(textBefore, textAfter, type, playerTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'player.json'), playerTemp);
+                addAndSave('player.json', textBefore, textAfter, type);
             } else {
-                let chTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'chTemp.json'));
-                chTemp = addTemp(textBefore, textAfter, type, chTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
+                addAndSave('chTemp.json', textBefore, textAfter, type);
             }
 
             ipcRenderer.send('show-notification', '已儲存自訂翻譯');
             ipcRenderer.send('load-json');
         } else {
-            ipcRenderer.send('show-notification', '「替換前(原文)」和「替換後(自訂翻譯)」不可為空白');
+            ipcRenderer.send('show-notification', '「替換前(原文)」不可為空白');
         }
     };
 
@@ -218,21 +210,13 @@ function setButton() {
 
         if (textBefore !== '') {
             if (type === 'jp') {
-                let jpTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'jpTemp.json'));
-                jpTemp = deleteTemp(textBefore, type, jpTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'jpTemp.json'), jpTemp);
+                deleteAndSave('jpTemp.json', textBefore);
             } else if (type === 'overwrite') {
-                let overwriteTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'overwriteTemp.json'));
-                overwriteTemp = deleteTemp(textBefore, type, overwriteTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'overwriteTemp.json'), overwriteTemp);
+                deleteAndSave('overwriteTemp.json', textBefore);
             } else if (type === 'player' || type === 'retainer') {
-                let playerTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'player.json'));
-                playerTemp = deleteTemp(textBefore, type, playerTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'player.json'), playerTemp);
+                deleteAndSave('player.json', textBefore);
             } else {
-                let chTemp = fileModule.jsonReader(fileModule.getPath(tempPath, 'chTemp.json'));
-                chTemp = deleteTemp(textBefore, type, chTemp);
-                fileModule.jsonWriter(fileModule.getPath(tempPath, 'chTemp.json'), chTemp);
+                deleteAndSave('chTemp.json', textBefore);
             }
 
             ipcRenderer.send('show-notification', '已刪除自訂翻譯');
@@ -253,6 +237,7 @@ function setButton() {
     };
 }
 
+// show audio
 function showAudio() {
     const text = targetLog.audio_text || targetLog.text;
 
@@ -281,6 +266,7 @@ function showAudio() {
     }
 }
 
+// show text
 function showText() {
     const text1 = document.getElementById('div_text1');
     const text2 = document.getElementById('div_text2');
@@ -289,46 +275,60 @@ function showText() {
     text2.innerHTML = `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` + `${targetLog.translated_text}</span>`;
 }
 
-function addTemp(textBefore, textAfter, type, array) {
-    const list = ['jp', 'overwrite', 'player', 'retainer'];
-    if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
-        textBefore = textBefore + '#';
-    }
-
-    const target = ipcRenderer.sendSync('same-as-array-item', textBefore, array);
-    if (target) {
-        array[target[1]] = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
-    } else {
-        array.push(!list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter]);
-    }
-
-    return array;
+// add and save
+function addAndSave(name, textBefore, textAfter, type) {
+    let temp = fileModule.jsonReader(fileModule.getPath(tempPath, name));
+    temp = addTemp(temp, textBefore, textAfter, type);
+    fileModule.jsonWriter(fileModule.getPath(tempPath, name), temp);
 }
 
-function deleteTemp(textBefore, type, array) {
+// add temp
+function addTemp(temp, textBefore, textAfter, type) {
     const list = ['jp', 'overwrite', 'player', 'retainer'];
-    let count = 0;
+    const array = temp.map((x) => x[0]);
 
     if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
 
-    for (let index = array.length - 1; index >= 0; index--) {
-        const element = array[index];
+    const element = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
 
-        if (element[0] === textBefore) {
-            array.splice(index, 1);
+    if (array.includes(textBefore)) {
+        temp[array.indexOf(textBefore)] = element;
+    } else {
+        temp.push(element);
+    }
+
+    return temp;
+}
+
+// delete and save
+function deleteAndSave(name, textBefore) {
+    let temp = fileModule.jsonReader(fileModule.getPath(tempPath, name));
+    temp = deleteTemp(temp, textBefore);
+    fileModule.jsonWriter(fileModule.getPath(tempPath, name), temp);
+}
+
+// delete temp
+function deleteTemp(temp, textBefore) {
+    let count = 0;
+
+    for (let index = temp.length - 1; index >= 0; index--) {
+        const element = temp[index];
+
+        if (element[0] === textBefore || element[0] === textBefore + '#') {
+            temp.splice(index, 1);
             count++;
         }
     }
 
     ipcRenderer.send('show-notification', `共找到${count}個`);
 
-    return array;
+    return temp;
 }
 
-// post to form
-function postForm() {
+// report translation
+function reportTranslation() {
     try {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
         const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;

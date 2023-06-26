@@ -199,6 +199,12 @@ function hiraFix(text = '') {
     text = text.replaceAll(/([えけせてねへめれげぜでべぺ])ー/gi, '$1え');
     text = text.replaceAll(/([おこそとのほもろごぞどぼぽよを])ー/gi, '$1お');
 
+    text = text.replaceAll('ゔぁ', 'ば');
+    text = text.replaceAll('ゔぃ', 'び');
+    text = text.replaceAll('ゔ', 'ぶ');
+    text = text.replaceAll('ゔぇ', 'べ');
+    text = text.replaceAll('ゔぉ', 'ぼ');
+
     return text;
 }
 

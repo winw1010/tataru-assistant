@@ -238,6 +238,9 @@ async function translateName(name, katakanaName, translation) {
         // clear code
         translatedName = fixFunction.clearCode(translatedName, codeResult.table);
 
+        // after translation
+        translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+
         // mark fix
         translatedName = fixFunction.markFix(translatedName, true);
 

@@ -78,9 +78,9 @@ async function nameFix(name, translation) {
     const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
     const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
     if (target1) {
-        return target1[0][1];
+        return target1[1];
     } else if (target2) {
-        return target2[0][1].replaceAll('#', '');
+        return target2[1].replaceAll('#', '');
     } else {
         // code
         const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
@@ -119,7 +119,7 @@ async function textFix(name, text, translation) {
     // force overwrite
     const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
-        return fixFunction.replaceText(target[0][1], chArray.combine, true);
+        return fixFunction.replaceText(target[1], chArray.combine, true);
     } else {
         // special fix
         text = specialTextFix(name, text);

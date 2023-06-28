@@ -95,9 +95,9 @@ async function nameFix(name, translation) {
     const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
     const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
     if (target1) {
-        return target1[0][1];
+        return target1[1];
     } else if (target2) {
-        return target2[0][1].replaceAll('#', '');
+        return target2[1].replaceAll('#', '');
     } else {
         const translatedName = translateName(name, getKatakanaName(name), translation);
         return translatedName;
@@ -114,7 +114,7 @@ async function textFix(name, text, translation) {
     // force overwrite
     const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
-        return fixFunction.replaceText(target[0][1], chArray.combine);
+        return fixFunction.replaceText(target[1], chArray.combine);
     } else {
         // get text type
         const textType = getTextType(name, text);
@@ -204,7 +204,7 @@ async function translateName(name, katakanaName, translation) {
     const sameKatakanaName2 = fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine);
 
     // translate katakana name
-    const translatedKatakanaName = sameKatakanaName1 ? sameKatakanaName1[0][1] : sameKatakanaName2 ? sameKatakanaName2[0][1] : createName(katakanaName);
+    const translatedKatakanaName = sameKatakanaName1 ? sameKatakanaName1[1] : sameKatakanaName2 ? sameKatakanaName2[1] : createName(katakanaName);
 
     if (name === katakanaName) {
         // all katakana => use translatedKatakanaName

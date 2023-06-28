@@ -112,7 +112,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
         const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
         if (new RegExp('^' + element + '$', 'gi').test(text)) {
-            target = [array[index], index];
+            target = array[index];
             break;
         }
     }

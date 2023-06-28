@@ -42,9 +42,6 @@ const { getTranslation, zhConvert } = require('./translate-module');
 // window module
 const windowModule = require('./window-module');
 
-// fix function
-const { sameAsArrayItem } = require('../fix/fix-function');
-
 // fix entry
 const { addTask } = require('../fix/fix-entry');
 
@@ -446,11 +443,6 @@ function setJsonChannel() {
 
 // set translate channel
 function setTranslateChannel() {
-    // same as array item
-    ipcMain.on('same-as-array-item', (event, text, array, searchIndex) => {
-        event.returnValue = sameAsArrayItem(text, array, searchIndex);
-    });
-
     // get language enum
     ipcMain.on('get-language-enum', (event) => {
         event.returnValue = engineModule.languageEnum;

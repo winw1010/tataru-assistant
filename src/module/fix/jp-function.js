@@ -12,9 +12,6 @@ const katakana = getKatakanaString();
 
 // jp text function
 function replaceTextByCode(text, array, textType = 0) {
-    const srcIndex = 0;
-    const rplIndex = 1;
-
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -26,6 +23,8 @@ function replaceTextByCode(text, array, textType = 0) {
     if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺ・ー＝])[ァ-ヺ]{2}(?![ァ-ヺ・ー＝])/gi, '$&#');
 
     // set parameters
+    const srcIndex = 0;
+    const rplIndex = 1;
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let tempText = text;

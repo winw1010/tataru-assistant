@@ -6,7 +6,10 @@ function skipCheck(code, name, text, ignoreArray) {
 }
 
 // replace text
-function replaceText(text, array, srcIndex = 0, rplIndex = 1, useRegex = false) {
+function replaceText(text, array, useRegex = false) {
+    const srcIndex = 0;
+    const rplIndex = 1;
+
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return text;
     }

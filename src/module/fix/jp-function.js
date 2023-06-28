@@ -11,7 +11,10 @@ const hiragana = getHiraganaString();
 const katakana = getKatakanaString();
 
 // jp text function
-function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0) {
+function replaceTextByCode(text, array, textType = 0) {
+    const srcIndex = 0;
+    const rplIndex = 1;
+
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -91,10 +94,6 @@ function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1, textType = 0
         }
     }
     */
-
-    // reset srcIndex and rplIndex
-    srcIndex = 0;
-    rplIndex = 1;
 
     // reset temp text
     tempText = text;
@@ -474,8 +473,3 @@ module.exports = {
     genderFix,
     isChinese,
 };
-
-// for testing
-//replaceTextByCode('「タタル」。『タタル』。「たたる」。『たたる』。タタル。', [['タタル', '塔塔露']]);
-//replaceTextByCode('「タタル」さん。『タタル』さん。「たたる」さん。『たたる』さん。タタルさん。', [['タタル', '塔塔露']]);
-//replaceTextByCode('「タタル」お嬢さん。『タタル』お嬢さん。「たたる」お嬢さん。『たたる』お嬢さん。タタルお嬢さん。', [['タタル', '塔塔露']]);

@@ -7,7 +7,10 @@ const fixFunction = require('./fix-function');
 //const femaleWords = getFemaleWords();
 
 // en text function
-function replaceTextByCode(text, array, srcIndex = 0, rplIndex = 1) {
+function replaceTextByCode(text, array) {
+    const srcIndex = 0;
+    const rplIndex = 1;
+
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,

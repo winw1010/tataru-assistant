@@ -30,7 +30,7 @@ async function startFix(dialogData, translation) {
         // name translation
         let translatedName = '';
         if (enFunction.isChinese(dialogData.name, translation)) {
-            translatedName = fixFunction.replaceText(dialogData.name, chArray.combine, 0, 1, true);
+            translatedName = fixFunction.replaceText(dialogData.name, chArray.combine, true);
         } else {
             if (npcChannel.includes(dialogData.code)) {
                 if (translation.fix) {
@@ -46,7 +46,7 @@ async function startFix(dialogData, translation) {
         // text translation
         let translatedText = '';
         if (enFunction.isChinese(dialogData.text, translation)) {
-            translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, 0, 1, true);
+            translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
         } else {
             if (translation.fix) {
                 translatedText = await textFix(dialogData.name, dialogData.text, translation);
@@ -119,7 +119,7 @@ async function textFix(name, text, translation) {
     // force overwrite
     const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
-        return fixFunction.replaceText(target[0][1], chArray.combine, 0, 1, true);
+        return fixFunction.replaceText(target[0][1], chArray.combine, true);
     } else {
         // special fix
         text = specialTextFix(name, text);
@@ -128,14 +128,14 @@ async function textFix(name, text, translation) {
         text = fixFunction.markFix(text);
 
         // en1
-        text = fixFunction.replaceText(text, enArray.en1, 0, 1, true);
+        text = fixFunction.replaceText(text, enArray.en1, true);
 
         // combine
         const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
         text = codeResult.text;
 
         // en2
-        text = fixFunction.replaceText(text, enArray.en2, 0, 1, true);
+        text = fixFunction.replaceText(text, enArray.en2, true);
 
         // value fix before
         const valueResult = fixFunction.valueFixBefore(text);

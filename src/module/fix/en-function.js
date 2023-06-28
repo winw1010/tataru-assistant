@@ -8,9 +8,6 @@ const fixFunction = require('./fix-function');
 
 // en text function
 function replaceTextByCode(text, array) {
-    const srcIndex = 0;
-    const rplIndex = 1;
-
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -19,6 +16,8 @@ function replaceTextByCode(text, array) {
     }
 
     // set parameters
+    const srcIndex = 0;
+    const rplIndex = 1;
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let tempText = text;

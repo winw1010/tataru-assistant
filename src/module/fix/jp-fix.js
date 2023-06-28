@@ -106,7 +106,7 @@ async function nameFix(name, translation) {
 
 async function textFix(name, text, translation) {
     if (text === '') {
-        return;
+        return '';
     }
 
     let originalText = text;

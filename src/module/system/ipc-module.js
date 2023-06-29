@@ -387,10 +387,12 @@ function setRequestChannel() {
             })
             .then((data) => {
                 // set request config
-                let config = configModule.getConfig();
-                config.system.scu = data.scu;
-                config.system.userAgent = data.userAgent;
-                configModule.setConfig(config);
+                if (data?.scu && data?.userAgent) {
+                    let config = configModule.getConfig();
+                    config.system.scu = data.scu;
+                    config.system.userAgent = data.userAgent;
+                    configModule.setConfig(config);
+                }
 
                 // compare app version
                 const latestVersion = data?.number;

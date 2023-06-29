@@ -9,8 +9,8 @@ const temp = require('temp');
 const path = require('path');
 const { readAndUnlinkP, defaultAll } = require('./screenshot-utils');
 const fileModule = require('./file-module');
-const batFilePath = fileModule.getRootPath('src', 'data', 'screenCapture_1.3.2.bat');
-const batRootPath = fileModule.getRootPath('src', 'data');
+const batFilePath = fileModule.getRootPath('src', 'data', 'ScreenCapture', 'screenCapture_1.3.2.bat');
+const batRootPath = fileModule.getRootPath('src', 'data', 'ScreenCapture');
 
 function windowsSnapshot(options = {}) {
     return new Promise((resolve, reject) => {

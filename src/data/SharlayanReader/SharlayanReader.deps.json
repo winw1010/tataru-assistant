@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "sharlayan-test/1.0.0": {
+      "SharlayanReader/1.0.0": {
         "dependencies": {
           "Sharlayan": "7.0.1"
         },
         "runtime": {
-          "sharlayan-test.dll": {}
+          "SharlayanReader.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.1": {},
@@ -448,7 +448,7 @@
     }
   },
   "libraries": {
-    "sharlayan-test/1.0.0": {
+    "SharlayanReader/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

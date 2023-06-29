@@ -10,7 +10,7 @@ const fileModule = require('./file-module');
 const serverModule = require('./server-module');
 
 // sharlayan path
-const sharlayanPath = fileModule.getRootPath('src', 'data', 'sharlayan-test', 'sharlayan-test.exe');
+const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', 'SharlayanReader.exe');
 
 // version path
 const versionPath = fileModule.getRootPath('src', 'json', 'text', 'version.json');

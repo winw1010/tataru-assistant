@@ -9,9 +9,7 @@
         "dist": "electron-builder"
     },
     "repository": "https://github.com/winw1010/tataru-helper-node-v2",
-    "keywords": [
-        "Tataru Helper"
-    ],
+    "keywords": [],
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {

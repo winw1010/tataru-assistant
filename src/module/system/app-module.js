@@ -85,7 +85,7 @@ function registerGlobalShortcut() {
     });
 
     globalShortcut.register('CommandOrControl+F9', () => {
-        exec(`explorer "${fileModule.getRootPath('src', 'json', 'text', 'readme', 'index.html')}"`);
+        exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'index.html')}"`);
     });
 
     globalShortcut.register('CommandOrControl+F10', () => {

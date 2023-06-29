@@ -41,9 +41,8 @@
             "statuses-latest.json",
             "structures-global-latest.json",
             "zones-latest.json",
-            "src/json",
             "src/data",
-            "!src/data/*.png"
+            "!src/data/img/*.png"
         ],
         "win": {
             "requestedExecutionLevel": "requireAdministrator",

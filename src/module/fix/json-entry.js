@@ -41,12 +41,12 @@ function initializeJSON() {
 // download json
 function downloadJSON() {
     deleteText('text2');
-    downloadGit('winw1010/tataru-helper-node-text-v2#main', 'src/json/text2', (error) => {
+    downloadGit('winw1010/tataru-helper-node-text-v2#main', 'src/data/text2', (error) => {
         if (error) {
-            dialogModule.showNotification('對照表下載失敗：' + error);
+            dialogModule.showNotification('翻譯對照表下載失敗：' + error);
             console.log(error);
         } else {
-            dialogModule.showNotification('對照表下載完畢');
+            dialogModule.showNotification('翻譯對照表下載完畢');
             deleteText('text');
             moveText();
         }
@@ -58,7 +58,7 @@ function downloadJSON() {
 // delete text
 function deleteText(dir) {
     try {
-        execSync(`rmdir /Q /S src\\json\\${dir}`);
+        execSync(`rmdir /Q /S src\\data\\${dir}`);
     } catch (error) {
         //console.log(error);
     }
@@ -67,7 +67,7 @@ function deleteText(dir) {
 // move text
 function moveText() {
     try {
-        execSync('move src\\json\\text2 src\\json\\text');
+        execSync('move src\\data\\text2 src\\data\\text');
     } catch (error) {
         //console.log(error);
     }

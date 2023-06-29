@@ -8,10 +8,10 @@ const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
 
 // path list
 const pathList = {
-    ch: 'src/json/text/ch',
-    en: 'src/json/text/en',
-    jp: 'src/json/text/jp',
-    main: 'src/json/text/main',
+    ch: 'src/data/text/ch',
+    en: 'src/data/text/en',
+    jp: 'src/data/text/jp',
+    main: 'src/data/text/main',
 };
 
 // get text path

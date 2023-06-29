@@ -13,7 +13,7 @@ const serverModule = require('./server-module');
 const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', 'SharlayanReader.exe');
 
 // version path
-const versionPath = fileModule.getRootPath('src', 'json', 'text', 'version.json');
+const versionPath = fileModule.getRootPath('src', 'data', 'text', 'version.json');
 
 // child
 let child = null;

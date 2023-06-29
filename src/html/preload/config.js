@@ -104,7 +104,7 @@ function setButton() {
 
     // get google credential
     document.getElementById('a_get_credential').onclick = () => {
-        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'sub-google-api.html');
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
         ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 
@@ -115,7 +115,7 @@ function setButton() {
 
     // readme
     document.getElementById('a_readme').onclick = () => {
-        const path = ipcRenderer.sendSync('get-root-path', 'src', 'json', 'text', 'readme', 'index.html');
+        const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
         ipcRenderer.send('execute-command', `explorer "${path}"`);
     };
 

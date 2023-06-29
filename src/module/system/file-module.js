@@ -94,8 +94,7 @@ function write(filePath = './', data = '', type = '') {
         switch (type) {
             case 'json':
                 {
-                    let dataString = JSON.stringify(data);
-                    dataString = dataString.includes('{')
+                    let dataString = JSON.stringify(data).includes('{')
                         ? JSON.stringify(data, null, '\t')
                         : dataString.replaceAll('[[', '[\n\t[').replaceAll('],', '],\n\t').replaceAll(']]', ']\n]').replaceAll('","', '", "');
                     dataString = dataString.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');

@@ -67,14 +67,8 @@ function setButton() {
 
         if (inputText !== '') {
             if (document.getElementById('checkbox_text_fix').checked) {
-                const from = document.getElementById('select_from').value;
-                if (from !== 'Chinese') {
-                    // node translation
-                    startNodeTranslation(inputText);
-                } else {
-                    document.getElementById('span_translated_text').innerText = '使用Node翻譯時原文不可為中文';
-                    document.getElementById('div_audio').innerHTML = '';
-                }
+                // node translation
+                startNodeTranslation(inputText);
             } else {
                 // set engine
                 const engine = document.getElementById('select_engine').value;
@@ -119,6 +113,7 @@ function startNodeTranslation(text) {
 
     dialogData.translation.from = document.getElementById('select_from').value;
     dialogData.translation.fromPlayer = document.getElementById('select_from').value;
+    dialogData.translation.to = document.getElementById('select_to').value === 'Chinese' ? dialogData.translation.to : document.getElementById('select_to').value;
     dialogData.translation.engine = document.getElementById('select_engine').value;
 
     ipcRenderer.send('start-translation', dialogData);

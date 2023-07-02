@@ -6,6 +6,9 @@ const dialogModule = require('../system/dialog-module');
 // language table
 const { languageEnum } = require('../system/engine-module');
 
+// translate module
+const translateModule = require('../system/translate-module');
+
 // fix module
 const enFix = require('./en-fix');
 const jpFix = require('./jp-fix');
@@ -71,6 +74,10 @@ async function entry() {
         } else if (dataLanguage === languageEnum.en) {
             dialogData.translation.from = languageEnum.en;
             dialogData = await enFix.startFix(dialogData, dialogData.translation);
+        } else {
+            dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
+            dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+            dialogData.audioText = dialogData.text;
         }
 
         // update dialog

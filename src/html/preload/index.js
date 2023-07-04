@@ -407,6 +407,6 @@ function setAutoPlay(value) {
 }
 
 // dispatch custom event
-function dispatchCustomEvent(type, detail) {
-    document.dispatchEvent(new CustomEvent(type, { detail }));
+function dispatchCustomEvent(type, value) {
+    document.dispatchEvent(new CustomEvent(type, { detail: value }));
 }

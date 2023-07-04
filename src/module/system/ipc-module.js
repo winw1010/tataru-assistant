@@ -480,7 +480,7 @@ function setFileChannel() {
         event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
     });
 
-    // json writer
+    // write json
     ipcMain.on('write-json', (event, filePath, data) => {
         fileModule.write(filePath, data, 'json');
     });

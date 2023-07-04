@@ -186,15 +186,8 @@
 
     // change UI text
     document.addEventListener('change-ui-text', () => {
-        let uiInterval = setInterval(() => {
-            try {
-                const config = getConfig();
-                if (config?.translation?.to) {
-                    clearInterval(uiInterval);
-                    setLanguageText(config.translation.to);
-                }
-            } catch (error) {}
-        }, 10);
+        const config = getConfig();
+        setLanguageText(config.translation.to);
     });
 
     function setLanguageText(language) {
@@ -230,7 +223,4 @@
                 return 0;
         }
     }
-
-    // auto run
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
 }

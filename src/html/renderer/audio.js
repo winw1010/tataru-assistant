@@ -6,9 +6,12 @@
     let playlist = [];
     let nowPlaying = null;
     let playInterval = null;
+    let isPlaying = false;
 
     // add audio
     document.addEventListener('add-to-playlist', (event) => {
+        if (!isPlaying) return;
+
         try {
             const urlList = event.detail.urlList;
 
@@ -44,6 +47,8 @@
         playInterval = setInterval(() => {
             playNext();
         }, 1000);
+
+        isPlaying = true;
     });
 
     // stop playing
@@ -56,6 +61,7 @@
             console.log(error);
         }
 
+        isPlaying = false;
         nowPlaying = null;
         playlist = [];
     });

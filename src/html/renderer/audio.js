@@ -2,9 +2,6 @@
 /* eslint-disable */
 
 {
-    // get config
-    const config = getConfig();
-
     // play list
     let playlist = [];
     let nowPlaying = null;
@@ -79,13 +76,5 @@
             console.log(error);
             nowPlaying = null;
         }
-    }
-
-    // auto run
-    if (config?.translation?.autoPlay) {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-        document.dispatchEvent(new CustomEvent('start-playing'));
-    } else {
-        document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     }
 }

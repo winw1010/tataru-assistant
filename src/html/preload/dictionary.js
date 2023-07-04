@@ -37,8 +37,8 @@ function setIPC() {
 function setView() {
     const config = ipcRenderer.sendSync('get-config');
     document.getElementById('select_engine').value = config.translation.engine;
-    document.getElementById('select_from').value = /chinese/i.test(config.translation.from) ? 'Chinese' : config.translation.from;
-    document.getElementById('select_to').value = /chinese/i.test(config.translation.to) ? 'Chinese' : config.translation.to;
+    document.getElementById('select_from').value = config.translation.from;
+    document.getElementById('select_to').value = config.translation.to;
 }
 
 // set enevt
@@ -61,24 +61,18 @@ function setButton() {
     // translate
     document.getElementById('button_translate').onclick = () => {
         const inputText = document.getElementById('textarea_original_text').value?.trim()?.replaceAll('\n', ' ');
+        const dialogData = createDialogData(inputText);
 
         document.getElementById('span_translated_text').innerText = '...';
         document.getElementById('div_audio').innerHTML = '';
 
         if (inputText !== '') {
             if (document.getElementById('checkbox_text_fix').checked) {
-                // node translation
-                startNodeTranslation(inputText);
+                ipcRenderer.send('add-task', dialogData);
             } else {
-                // set engine
-                const engine = document.getElementById('select_engine').value;
-
-                // set option
-                const option = ipcRenderer.sendSync('get-translate-option', engine, document.getElementById('select_from').value, document.getElementById('select_to').value, inputText);
-
                 // translate
                 ipcRenderer
-                    .invoke('get-translation', engine, option)
+                    .invoke('translate-text', dialogData.text, dialogData.translation)
                     .then((translatedText) => {
                         // show translated text
                         if (translatedText !== '') {
@@ -98,7 +92,8 @@ function setButton() {
     };
 }
 
-function startNodeTranslation(text) {
+// create dialog data
+function createDialogData(text) {
     const config = ipcRenderer.sendSync('get-config');
 
     let dialogData = {
@@ -113,10 +108,10 @@ function startNodeTranslation(text) {
 
     dialogData.translation.from = document.getElementById('select_from').value;
     dialogData.translation.fromPlayer = document.getElementById('select_from').value;
-    dialogData.translation.to = document.getElementById('select_to').value === 'Chinese' ? dialogData.translation.to : document.getElementById('select_to').value;
+    dialogData.translation.to = document.getElementById('select_to').value;
     dialogData.translation.engine = document.getElementById('select_engine').value;
 
-    ipcRenderer.send('start-translation', dialogData);
+    return dialogData;
 }
 
 // get audio html

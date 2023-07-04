@@ -40,21 +40,11 @@
         <main class="container-fluid p-2">
             <div class="row align-items-center">
                 <div class="col-auto">
-                    <select class="form-select" id="select_engine">
-                        <option value="Youdao" selected>有道翻譯</option>
-                        <option value="Baidu">百度翻譯</option>
-                        <option value="Caiyun">彩雲小譯</option>
-                        <option value="Papago">Papago</option>
-                        <option value="DeepL">DeepL</option>
-                        <!-- <option value="Google">Google</option> -->
-                    </select>
-                </div>
-
-                <div class="col-auto">
                     <select class="form-select" id="select_from">
                         <option value="Japanese" selected>日文</option>
                         <option value="English">英文</option>
-                        <option value="Chinese">中文</option>
+                        <option value="Traditional-Chinese">繁體中文</option>
+                        <option value="Simplified-Chinese">簡體中文</option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -66,7 +56,8 @@
                     <select class="form-select" id="select_to">
                         <option value="Japanese">日文</option>
                         <option value="English">英文</option>
-                        <option value="Chinese" selected>中文</option>
+                        <option value="Traditional-Chinese" selected>繁體中文</option>
+                        <option value="Simplified-Chinese">簡體中文</option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -78,7 +69,7 @@
 
             <div class="row align-items-center">
                 <div class="col">
-                    <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="請輸入你要翻譯的文字"></textarea>
+                    <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="請輸入要翻譯的文字"></textarea>
                 </div>
             </div>
 
@@ -86,12 +77,22 @@
 
             <div class="row align-items-center">
                 <div class="col-auto">
+                    <select class="form-select" id="select_engine">
+                        <option value="Youdao" selected>有道翻譯</option>
+                        <option value="Baidu">百度翻譯</option>
+                        <option value="Caiyun">彩雲小譯</option>
+                        <option value="Papago">Papago</option>
+                        <option value="DeepL">DeepL</option>
+                        <!-- <option value="Google">Google</option> -->
+                    </select>
+                </div>
+                <div class="col-auto">
                     <button id="button_translate" class="btn btn-primary">翻譯</button>
                 </div>
                 <div class="col-auto">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_text_fix" />
-                        <label class="form-check-label" for="checkbox_text_fix" style="user-select: none;">詞彙校正</label>
+                        <label class="form-check-label" for="checkbox_text_fix" style="user-select: none;">名詞校正</label>
                     </div>
                 </div>
             </div>

@@ -65,7 +65,7 @@ function setButton() {
 
 function readLogList() {
     try {
-        const logs = ipcRenderer.sendSync('directory-reader', logPath);
+        const logs = ipcRenderer.sendSync('read-directory', logPath);
 
         if (logs.length > 0) {
             const select = document.getElementById('select_log');
@@ -92,7 +92,7 @@ function readLog(fileName) {
 
     try {
         const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
-        const log = ipcRenderer.sendSync('json-reader', fileLocation, false);
+        const log = ipcRenderer.sendSync('read-json', fileLocation, false);
         const logNames = Object.getOwnPropertyNames(log);
 
         if (logNames.length > 0) {

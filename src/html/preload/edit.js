@@ -14,11 +14,11 @@ const fileModule = {
     getUserDataPath: (...args) => {
         return ipcRenderer.sendSync('get-user-data-path', ...args);
     },
-    jsonReader: (filePath, returnArray) => {
-        return ipcRenderer.sendSync('json-reader', filePath, returnArray);
+    readJson: (filePath, returnArray) => {
+        return ipcRenderer.sendSync('read-json', filePath, returnArray);
     },
-    jsonWriter: (filePath, data) => {
-        ipcRenderer.send('json-writer', filePath, data);
+    writeJson: (filePath, data) => {
+        ipcRenderer.send('write-json', filePath, data);
     },
 };
 
@@ -77,7 +77,7 @@ function setIPC() {
                 for (let index = 0; index < logFileList.length; index++) {
                     try {
                         const filePath = fileModule.getPath(logPath, logFileList[index]);
-                        const log = fileModule.jsonReader(filePath, false);
+                        const log = fileModule.readJson(filePath, false);
                         targetLog = log[id];
 
                         if (targetLog) {
@@ -166,7 +166,7 @@ function setButton() {
         dialogData.translation.fromPlayer = document.getElementById('select_from').value;
         dialogData.translation.engine = document.getElementById('select_engine').value;
 
-        ipcRenderer.send('start-translation', dialogData);
+        ipcRenderer.send('add-task', dialogData);
     };
 
     // load json
@@ -277,9 +277,9 @@ function showText() {
 
 // add and save
 function addAndSave(name, textBefore, textAfter, type) {
-    let temp = fileModule.jsonReader(fileModule.getPath(tempPath, name));
+    let temp = fileModule.readJson(fileModule.getPath(tempPath, name));
     temp = addTemp(temp, textBefore, textAfter, type);
-    fileModule.jsonWriter(fileModule.getPath(tempPath, name), temp);
+    fileModule.writeJson(fileModule.getPath(tempPath, name), temp);
 }
 
 // add temp
@@ -304,9 +304,9 @@ function addTemp(temp, textBefore, textAfter, type) {
 
 // delete and save
 function deleteAndSave(name, textBefore) {
-    let temp = fileModule.jsonReader(fileModule.getPath(tempPath, name));
+    let temp = fileModule.readJson(fileModule.getPath(tempPath, name));
     temp = deleteTemp(temp, textBefore);
-    fileModule.jsonWriter(fileModule.getPath(tempPath, name), temp);
+    fileModule.writeJson(fileModule.getPath(tempPath, name), temp);
 }
 
 // delete temp

@@ -88,7 +88,7 @@
             range_dialog_transparency: ['對話框透明度', '对话框透明度'],
 
             checkbox_auto_change: ['翻譯失敗時切換翻譯引擎', '翻译失败时切换翻译引擎'],
-            checkbox_text_fix: ['詞彙校正', '词汇校正'],
+            checkbox_text_fix: ['名詞校正', '名词校正'],
             checkbox_skip_system: ['忽略常見系統訊息', '忽略常见系统讯息'],
             checkbox_skip_chinese: ['忽略漢化字幕', '忽略汉化字幕'],
             select_engine: ['翻譯引擎', '翻译引擎'],
@@ -159,7 +159,7 @@
         },
         textarea: {
             // dictionary
-            textarea_original_text: ['請輸入你要翻譯的文字', '请输入你要翻译的文字'],
+            textarea_original_text: ['請輸入要翻譯的文字', '请输入要翻译的文字'],
 
             // edit
             textarea_before: ['替換前', '替换前'],

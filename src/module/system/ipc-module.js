@@ -18,9 +18,6 @@ const configModule = require('./config-module');
 // dialog module
 const dialogModule = require('./dialog-module');
 
-// engine module
-const engineModule = require('./engine-module');
-
 // file module
 const fileModule = require('./file-module');
 
@@ -37,7 +34,7 @@ const sharlayanModule = require('./sharlayan-module');
 const textDetectModule = require('./text-detect-module');
 
 // translate module
-const { getTranslation, zhConvert } = require('./translate-module');
+const translateModule = require('./translate-module');
 
 // window module
 const windowModule = require('./window-module');
@@ -445,34 +442,14 @@ function setJsonChannel() {
 
 // set translate channel
 function setTranslateChannel() {
-    // get language enum
-    ipcMain.on('get-language-enum', (event) => {
-        event.returnValue = engineModule.languageEnum;
-    });
-
-    // get translate option
-    ipcMain.on('get-translate-option', (event, engine, from, to, text) => {
-        event.returnValue = engineModule.getTranslateOption(engine, from, to, text);
-    });
-
-    // get language code
-    ipcMain.on('get-language-code', (event, language, engine) => {
-        event.returnValue = engineModule.getLanguageCode(language, engine);
-    });
-
-    // start translation
-    ipcMain.on('start-translation', (event, dialogData) => {
+    // add task
+    ipcMain.on('add-task', (event, dialogData) => {
         addTask(dialogData);
     });
 
     // get translation
-    ipcMain.handle('get-translation', (event, engine, option) => {
-        return getTranslation(engine, option);
-    });
-
-    // zh convert
-    ipcMain.handle('zh-convert', (event, text, languageTo) => {
-        return zhConvert(text, languageTo);
+    ipcMain.handle('translate-text', (event, text, translation) => {
+        return translateModule.translate(text, translation);
     });
 
     // google tts
@@ -493,34 +470,19 @@ function setTranslateChannel() {
 
 // set file channel
 function setFileChannel() {
-    // directory reader
-    ipcMain.on('directory-reader', (event, path) => {
+    // read directory
+    ipcMain.on('read-directory', (event, path) => {
         event.returnValue = fileModule.readdir(path);
     });
 
-    // json reader
-    ipcMain.on('json-reader', (event, filePath, returnArray) => {
+    // read json
+    ipcMain.on('read-json', (event, filePath, returnArray) => {
         event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
     });
 
     // json writer
-    ipcMain.on('json-writer', (event, filePath, data) => {
+    ipcMain.on('write-json', (event, filePath, data) => {
         fileModule.write(filePath, data, 'json');
-    });
-
-    // file writer
-    ipcMain.on('file-writer', (event, filePath, data) => {
-        fileModule.write(filePath, data);
-    });
-
-    // file checker
-    ipcMain.on('file-checker', (event, filePath) => {
-        event.returnValue = fileModule.exists(filePath);
-    });
-
-    // file deleter
-    ipcMain.on('file-deleter', (event, filePath) => {
-        fileModule.unlink(filePath);
     });
 
     // get path

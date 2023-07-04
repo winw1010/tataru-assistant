@@ -53,12 +53,16 @@ function createWindow(windowName, data = null) {
             window.show();
         });
 
-        // send data
-        if (data) {
-            window.webContents.once('did-finish-load', () => {
+        // did-finish-load
+        window.webContents.once('did-finish-load', () => {
+            // change language
+            window.webContents.send('change-ui-text');
+
+            // send data
+            if (data) {
                 window.webContents.send('send-data', data);
-            });
-        }
+            }
+        });
 
         // set event
         switch (windowName) {

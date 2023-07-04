@@ -52,7 +52,7 @@ function setButton() {
     };
 
     // exchange
-    document.getElementById('button_exchange').onclick = () => {
+    document.getElementById('button_switch').onclick = () => {
         const valueFrom = document.getElementById('select_from').value;
         document.getElementById('select_from').value = document.getElementById('select_to').value;
         document.getElementById('select_to').value = valueFrom;

@@ -38,11 +38,11 @@ function addDialog(id, code) {
 }
 
 // update dialog
-async function updateDialog(id, name, text, dialogData = null, translation = null) {
+async function updateDialog(id, name, text, dialogData = null) {
     // zh convert
-    if (translation) {
-        name = await translateModule.zhConvert(name, translation.to);
-        text = await translateModule.zhConvert(text, translation.to);
+    if (dialogData.translation) {
+        name = await translateModule.zhConvert(name, dialogData.translation.to);
+        text = await translateModule.zhConvert(text, dialogData.translation.to);
     }
 
     // add dialog
@@ -57,8 +57,8 @@ async function updateDialog(id, name, text, dialogData = null, translation = nul
     showDialog();
 
     // save dialog
-    if (dialogData && translation) {
-        saveLog(id, name, text, dialogData, translation);
+    if (dialogData) {
+        saveLog(id, name, text, dialogData);
     }
 }
 
@@ -127,7 +127,7 @@ function getColor(code) {
 }
 
 // save dialog
-function saveLog(id, name, text, dialogData, translation) {
+function saveLog(id, name, text, dialogData) {
     const item = {
         id: id,
         code: dialogData.code,
@@ -139,7 +139,7 @@ function saveLog(id, name, text, dialogData, translation) {
         translated_text: text,
         timestamp: dialogData.timestamp,
         datetime: new Date(dialogData.timestamp).toLocaleString(),
-        translation: translation,
+        translation: dialogData.translation,
     };
 
     const filePath = fileModule.getPath(logLocation, createLogName(item.timestamp));
@@ -156,8 +156,8 @@ function saveLog(id, name, text, dialogData, translation) {
     }
 
     // play audio at first time
-    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData.audioText !== '' && translation.autoPlay) {
-        const urlList = googleTTS.getAudioUrl(dialogData.audioText, translation.from);
+    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData.audioText !== '' && dialogData.translation.autoPlay) {
+        const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
         windowModule.sendIndex('add-audio', urlList);
     }
 

@@ -1,5 +1,8 @@
 'use strict';
 
+// config module
+const configModule = require('../system/config-module');
+
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
@@ -28,6 +31,25 @@ function setRunning(value) {
 
 // add task
 function addTask(dialogData) {
+    // check id and timestamp
+    if (!dialogData.id || !dialogData.timestamp) {
+        const timestamp = new Date().getTime();
+        dialogData.id = 'id' + timestamp;
+        dialogData.timestamp = timestamp;
+    }
+
+    // set audio text
+    dialogData.audioText = dialogData.text;
+
+    // set translated text
+    dialogData.translatedName = '';
+    dialogData.translatedText = '';
+
+    // set translation
+    if (!dialogData.translation) {
+        dialogData.translation = configModule.getConfig().translation;
+    }
+
     entryIntervalItem.push(dialogData);
 }
 
@@ -49,20 +71,6 @@ function getEntryInterval() {
 async function entry() {
     let dialogData = entryIntervalItem.shift();
     if (dialogData) {
-        // check id and timestamp
-        if (!dialogData.id || !dialogData.timestamp) {
-            const timestamp = new Date().getTime();
-            dialogData.id = 'id' + timestamp;
-            dialogData.timestamp = timestamp;
-        }
-
-        // set audio text
-        dialogData.audioText = dialogData.text;
-
-        // set translated text
-        dialogData.translatedName = '';
-        dialogData.translatedText = '';
-
         // add dialog
         dialogModule.addDialog(dialogData.id, dialogData.code);
 
@@ -82,7 +90,7 @@ async function entry() {
 
         // update dialog
         if (dialogData.translatedText !== '') {
-            dialogModule.updateDialog(dialogData.id, dialogData.translatedName, dialogData.translatedText, dialogData, dialogData.translation);
+            dialogModule.updateDialog(dialogData.id, dialogData.translatedName, dialogData.translatedText, dialogData);
         }
     }
 }

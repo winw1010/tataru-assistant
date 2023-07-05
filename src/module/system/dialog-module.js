@@ -34,11 +34,12 @@ function addDialog(id, code) {
         code,
         innerHTML: '<span>......</span>',
         style: getStyle(code),
+        scroll: false,
     });
 }
 
 // update dialog
-async function updateDialog(id, name, text, dialogData = null) {
+async function updateDialog(id, name, text, dialogData = null, scroll = true) {
     // zh convert
     if (dialogData?.translation) {
         name = await translateModule.zhConvert(name, dialogData.translation.to);
@@ -50,7 +51,7 @@ async function updateDialog(id, name, text, dialogData = null) {
         id,
         innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
         style: { display: 'block' },
-        scroll: true,
+        scroll: scroll,
     });
 
     // show dialog

@@ -68,14 +68,14 @@ function setIPC() {
     });
 
     // add dialog
-    ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = false }) => {
+    ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = true }) => {
         // div
         const div = document.getElementById('div_dialog');
 
-        // dialog
+        // get dialog
         let dialog = document.getElementById(id);
 
-        // check the dialog
+        // check dialog
         if (!dialog) {
             dialog = document.createElement('div');
             div.append(dialog);
@@ -84,16 +84,16 @@ function setIPC() {
             dialog.style.display = 'none';
         }
 
-        // set the dialog
+        // set dialog
         dialog.innerHTML = innerHTML;
         setStyle(dialog, style);
 
-        // set the first dialog
+        // set first dialog
         if (div.firstElementChild) {
             document.getElementById(div.firstElementChild.id).style.marginTop = '0';
         }
 
-        // add click listener
+        // add click event
         if (dialog.className !== 'FFFF') {
             dialog.style.cursor = 'pointer';
             dialog.onclick = () => {
@@ -101,7 +101,7 @@ function setIPC() {
             };
         }
 
-        // navigate to the dialog
+        // navigate dialog
         if (scroll) {
             setTimeout(() => {
                 location.href = '#' + id;
@@ -353,10 +353,9 @@ function resetDialogStyle() {
 function moveToBottom() {
     setTimeout(() => {
         clearSelection();
-
         let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
         div.scrollTop = div.scrollHeight;
-    }, 300);
+    }, 200);
 }
 
 // clear selection

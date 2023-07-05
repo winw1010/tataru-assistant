@@ -40,7 +40,7 @@ function addDialog(id, code) {
 // update dialog
 async function updateDialog(id, name, text, dialogData = null) {
     // zh convert
-    if (dialogData.translation) {
+    if (dialogData?.translation) {
         name = await translateModule.zhConvert(name, dialogData.translation.to);
         text = await translateModule.zhConvert(text, dialogData.translation.to);
     }

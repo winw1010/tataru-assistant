@@ -79,6 +79,12 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
             resolve(null);
         }, timeout);
 
+        // on request error
+        request.on('error', (error) => {
+            console.log(error);
+            resolve(null);
+        });
+
         // on response
         request.on('response', (response) => {
             // clear timeout
@@ -86,6 +92,12 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
 
             // set chunk array
             let chunkArray = [];
+
+            // on response error
+            response.on('error', () => {
+                console.log(response.statusCode + ': ' + response.statusMessage);
+                resolve(null);
+            });
 
             // on response end
             response.on('end', () => {
@@ -117,18 +129,6 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
                     chunkArray.push(chunk);
                 }
             });
-
-            // on response error
-            response.on('error', () => {
-                console.log(response.statusCode + ': ' + response.statusMessage);
-                resolve(null);
-            });
-        });
-
-        // on request error
-        request.on('error', (error) => {
-            console.log(error);
-            resolve(null);
         });
 
         // write data

@@ -36,11 +36,11 @@ function start() {
     child = childProcess.spawn(sharlayanPath);
 
     child.on('error', (err) => {
-        console.log(err);
+        console.log(err.message);
     });
 
     child.stdout.on('error', (err) => {
-        console.log(err);
+        console.log(err.message);
     });
 
     child.stdout.on('data', (data) => {

@@ -144,17 +144,12 @@ function getUserDataPath(...args) {
 module.exports = {
     directoryCheck,
 
-    // new functions
     readdir,
     exists,
     unlink,
     read,
     write,
 
-    // old functions
-    // directoryReader|jsonReader|jsonWriter|imageWriter|fileWriter|fileChecker|fileDeleter
-
-    // preserve
     getPath,
     getRootPath,
     getRootDataPath,

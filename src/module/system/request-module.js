@@ -92,10 +92,12 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
                 // set chunk string
                 const chunkString = Buffer.concat(chunkArray).toString();
 
+                /*
                 // show chunk string
                 if (method === 'POST') {
                     console.log('chunk string:', chunkString + '\r\n');
                 }
+                */
 
                 // resolve
                 if (returnType === 'data') {

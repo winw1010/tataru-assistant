@@ -94,10 +94,14 @@ async function nameFix(name, translation) {
     // same check
     const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
     const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
+    const target3 = fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+
     if (target1) {
         return target1[1];
     } else if (target2) {
-        return target2[1].replaceAll('#', '');
+        return target2[1].replaceAll(/#$/gi, '');
+    } else if (target3) {
+        return target3[1].replaceAll(/##$/gi, '');
     } else {
         const translatedName = translateName(name, getKatakanaName(name), translation);
         return translatedName;

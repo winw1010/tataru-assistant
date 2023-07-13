@@ -45,7 +45,12 @@ function replaceTextByCode(text, array) {
     for (let index = 0; index < tempTable.length && codeIndex < codeString.length; index++) {
         const element = tempTable[index];
         const searchElement = element[srcIndex].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const searchReg = new RegExp(`\\b(the |a |an )?${searchElement}(s|es|n|an)?\\b`, 'gi');
+        let searchReg = null;
+        if (['Allie'].includes(searchElement)) {
+            searchReg = new RegExp(`\\b(the |a |an )?${searchElement}\\b`, 'gi');
+        } else {
+            searchReg = new RegExp(`\\b(the |a |an )?${searchElement}(s|es|n|an)?\\b`, 'gi');
+        }
 
         if (searchReg.test(text)) {
             text = text.replaceAll(searchReg, codeString[codeIndex]);

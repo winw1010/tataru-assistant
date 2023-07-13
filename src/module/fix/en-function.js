@@ -15,14 +15,19 @@ function replaceTextByCode(text, array) {
         };
     }
 
+    // for 5 words name
+    text = text.replaceAll(/(?<=\b)[a-z]{1,5}(?=\b)/gi, '$&#');
+
     // set parameters
     const srcIndex = 0;
     const rplIndex = 1;
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
     let tempText = text;
-    let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
+    let tempTable = [];
     let table = [];
+
+    tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true);
 
     // sort temp table
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
@@ -53,6 +58,9 @@ function replaceTextByCode(text, array) {
             codeIndex++;
         }
     }
+
+    // remove #
+    text = text.replaceAll('#', '');
 
     const result = {
         text: text,

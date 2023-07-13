@@ -41,6 +41,21 @@ function load(targetLanguage) {
 
     // combine
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+
+    // version fix
+    versionFix();
+}
+
+// version fix
+function versionFix() {
+    // combine
+    // Allies
+    for (let index = chArray.combine.length - 1; index >= 0; index--) {
+        const element = chArray.combine[index][0];
+        if (/^Allies$/gi.test(element)) {
+            chArray.combine.splice(index, 1);
+        }
+    }
 }
 
 // get ch array

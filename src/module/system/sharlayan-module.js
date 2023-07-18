@@ -1,5 +1,8 @@
 'use strict';
 
+// Bytes=90 Opcode=nop
+// 90 11 C9 2B 33 02
+
 // child process
 const childProcess = require('child_process');
 

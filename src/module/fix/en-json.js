@@ -7,10 +7,10 @@ const jsonFunction = require('./json-function');
 const { languageEnum, languageIndex } = require('../system/engine-module');
 
 // ch array
-let chArray = [];
+let chArray = {};
 
 // en array
-let enArray = [];
+let enArray = {};
 
 // load
 function load(targetLanguage) {
@@ -32,6 +32,7 @@ function load(targetLanguage) {
     enArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('en', 'ignore.json'));
     enArray.en1 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
     enArray.en2 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));
+    enArray.uncountable = jsonFunction.readText(jsonFunction.getTextPath('en', 'uncountable.json'));
 
     // main
     chArray.main = jsonFunction.readMain(srcIndex, rplIndex);

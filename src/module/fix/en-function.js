@@ -6,6 +6,9 @@ const fixFunction = require('./fix-function');
 // female words
 //const femaleWords = getFemaleWords();
 
+// uncountable list
+const uncountableList = ['Allie'];
+
 // en text function
 function replaceTextByCode(text, array) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
@@ -45,11 +48,13 @@ function replaceTextByCode(text, array) {
     for (let index = 0; index < tempTable.length && codeIndex < codeString.length; index++) {
         const element = tempTable[index];
         const searchElement = element[srcIndex].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const searchElementPlural = getPluralType(searchElement);
+        const searchElementAdjective = getAdjectiveType(searchElement);
         let searchReg = null;
-        if (['Allie'].includes(searchElement)) {
-            searchReg = new RegExp(`\\b(the |a |an )?${searchElement}\\b`, 'gi');
+        if (uncountableList.includes(searchElement)) {
+            searchReg = new RegExp(`\\b(the |a |an )?(${searchElement}|${searchElementAdjective})\\b`, 'gi');
         } else {
-            searchReg = new RegExp(`\\b(the |a |an )?${searchElement}(s|es|n|an)?\\b`, 'gi');
+            searchReg = new RegExp(`\\b(the |a |an )?(${searchElementPlural}|${searchElement}|${searchElementAdjective})\\b`, 'gi');
         }
 
         if (searchReg.test(text)) {
@@ -93,6 +98,34 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 */
+
+function getPluralType(text = '') {
+    if (/(s|x|z|sh|ch)$/gi.test(text)) {
+        return text + 'es';
+    } else if (/(f|fe)$/gi.test(text)) {
+        return text.replace(/(f|fe)$/gi, 'ves');
+    } else if (/[^aeiou]y$/gi.test(text)) {
+        return text.replace(/y$/gi, 'ies');
+    } else if (/[^aeiou]o$/gi.test(text)) {
+        return text + 'es';
+    }
+
+    return text + 's';
+}
+
+function getAdjectiveType(text = '') {
+    if (/(s|x|z|sh|ch)$/gi.test(text)) {
+        return text + 'en';
+    } else if (/(f|fe)$/gi.test(text)) {
+        return text.replace(/(f|fe)$/gi, 'ven');
+    } else if (/[^aeiou]y$/gi.test(text)) {
+        return text.replace(/y$/gi, 'ien');
+    } else if (/(a|e|i|o|u)$/gi.test(text)) {
+        return text.replace(/(a|e|i|o|u)$/gi, 'an');
+    }
+
+    return text + 'an';
+}
 
 function isChinese(text, translation) {
     //return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);

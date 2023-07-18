@@ -17,7 +17,7 @@ body {
     margin-bottom: 0.7rem;
     padding: 0.7rem;
     /*word-wrap: break-word;*/
-    line-break: anywhere;
+    line-break: loose;
     color: #ffffff;
 }
 

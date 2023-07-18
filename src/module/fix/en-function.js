@@ -3,11 +3,11 @@
 // fix function
 const fixFunction = require('./fix-function');
 
+// en json
+const enJson = require('./en-json');
+
 // female words
 //const femaleWords = getFemaleWords();
-
-// uncountable list
-const uncountableList = ['Allie'];
 
 // en text function
 function replaceTextByCode(text, array) {
@@ -51,10 +51,11 @@ function replaceTextByCode(text, array) {
         const searchElementPlural = getPluralType(searchElement);
         const searchElementAdjective = getAdjectiveType(searchElement);
         let searchReg = null;
-        if (uncountableList.includes(searchElement)) {
-            searchReg = new RegExp(`\\b(the |a |an )?(${searchElement}|${searchElementAdjective})\\b`, 'gi');
+
+        if (enJson.getEnArray().uncountable.includes(searchElement)) {
+            searchReg = new RegExp(`\\b(${searchElement}|${searchElementAdjective})\\b`, 'gi');
         } else {
-            searchReg = new RegExp(`\\b(the |a |an )?(${searchElementPlural}|${searchElement}|${searchElementAdjective})\\b`, 'gi');
+            searchReg = new RegExp(`\\b(${searchElementPlural}|${searchElement}|${searchElementAdjective})\\b`, 'gi');
         }
 
         if (searchReg.test(text)) {

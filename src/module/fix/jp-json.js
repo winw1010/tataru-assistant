@@ -7,10 +7,10 @@ const jsonFunction = require('./json-function');
 const { languageEnum, languageIndex } = require('../system/engine-module');
 
 // ch array
-let chArray = [];
+let chArray = {};
 
 // jp array
-let jpArray = [];
+let jpArray = {};
 
 // load
 function load(targetLanguage) {

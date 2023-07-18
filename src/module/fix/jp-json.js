@@ -54,31 +54,11 @@ function load(targetLanguage) {
 
 // version fix
 function versionFix() {
-    // jp1
-    // 異邦の詩人
-    // リセ
-    for (let index = jpArray.jp1.length - 1; index >= 0; index--) {
-        const element = jpArray.jp1[index][0];
-        if (/\u3000|リセット/gi.test(element)) {
-            jpArray.jp1.splice(index, 1);
-        }
-    }
-
-    // jp2
-    // ～
-    for (let index = jpArray.jp2.length - 1; index >= 0; index--) {
-        const element = jpArray.jp2[index][0];
-        if (/～/gi.test(element)) {
-            jpArray.jp2.splice(index, 1);
-        }
-    }
-
     // combine
-    // リセ
     // 2 words name
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
-        if (/^リセ$|リセット|^[ァ-ヺ]{2}$/gi.test(element)) {
+        if (/^[ァ-ヺ]{2}$/gi.test(element)) {
             chArray.combine.splice(index, 1);
         }
     }

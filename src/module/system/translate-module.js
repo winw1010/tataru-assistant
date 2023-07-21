@@ -25,10 +25,11 @@ async function translate(text = '', translation = {}, table = []) {
     let result = '';
     let previousResult = '';
 
-    // clear table
-    table = clearTable(text, table);
-
     try {
+        // clear table
+        table = clearTable(text, table);
+
+        // translate process
         do {
             // sleep
             if (count > 0) {
@@ -61,12 +62,12 @@ async function translate(text = '', translation = {}, table = []) {
             // set previous translated text
             previousResult = result;
         } while (missingCode.length > 0 && count < maxCount);
+
+        return zhConvert(clearCode(result, table), translation.to);
     } catch (error) {
         console.log(error);
-        result = error;
+        return error;
     }
-
-    return zhConvert(clearCode(result, table), translation.to);
 }
 
 // translate 2

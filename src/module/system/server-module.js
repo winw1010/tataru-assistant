@@ -43,7 +43,8 @@ function dataProcess(data) {
                     .replaceAll('\r', '')
                     .replaceAll('%&', '')
                     .replaceAll(/（.*?）/gi, '')
-                    .replaceAll(/\(.*?\)/gi, '');
+                    .replaceAll(/\(.*?\)/gi, '')
+                    .replaceAll(/「+,/gi, '「');
                 if (currentText !== lastTextList[dialogData.code]) {
                     lastTextList[dialogData.code] = currentText;
                 } else {

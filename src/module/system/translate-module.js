@@ -66,7 +66,7 @@ async function translate(text, translation, table = []) {
         result = error;
     }
 
-    return zhConvert(result, translation.to);
+    return zhConvert(clearCode(result, table), translation.to);
 }
 
 // translate 2
@@ -174,6 +174,19 @@ function fixCode(text = '', missingCode = []) {
             text = text.replaceAll(codeRegExp, '$1' + code);
         }
     }
+
+    return text;
+}
+
+// clear code
+function clearCode(text = '', table = []) {
+    if (table.length > 0) {
+        table.forEach((value) => {
+            const code = value[0];
+            text = text.replaceAll(new RegExp(`\\s?${code}+\\s?`, 'gi'), code.toUpperCase());
+        });
+    }
+
     return text;
 }
 

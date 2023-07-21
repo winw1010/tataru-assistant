@@ -134,9 +134,6 @@ async function textFix(name, text, translation) {
         // special fix
         text = specialTextFix(name, text);
 
-        // mark fix
-        text = fixFunction.markFix(text);
-
         // jp1
         text = fixFunction.replaceText(text, jpArray.jp1);
 
@@ -152,6 +149,9 @@ async function textFix(name, text, translation) {
             text = jpFunction.convertKana(text, 'hira');
         }
 
+        // mark fix
+        text = fixFunction.markFix(text);
+
         // value fix before
         const valueResult = fixFunction.valueFixBefore(text);
         text = valueResult.text;
@@ -162,20 +162,17 @@ async function textFix(name, text, translation) {
             text = await translateModule.translate(text, translation, codeResult.table);
         }
 
-        // clear code
-        text = fixFunction.clearCode(text, codeResult.table);
+        // value fix after
+        text = fixFunction.valueFixAfter(text, valueResult.table);
+
+        // mark fix
+        text = fixFunction.markFix(text, true);
 
         // gender fix
         text = jpFunction.genderFix(originalText, text);
 
         // after translation
         text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-        // mark fix
-        text = fixFunction.markFix(text, true);
-
-        // value fix after
-        text = fixFunction.valueFixAfter(text, valueResult.table);
 
         // table
         text = fixFunction.replaceText(text, codeResult.table);
@@ -238,9 +235,6 @@ async function translateName(name, katakanaName, translation) {
             // translate
             translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
         }
-
-        // clear code
-        translatedName = fixFunction.clearCode(translatedName, codeResult.table);
 
         // after translation
         translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
@@ -409,9 +403,6 @@ function specialTextFix(name, text) {
 
     // デス => です
     text = text.replaceAll(/(?<![^ァ-ヺ・ー＝])デス(?![^ァ-ヺ・ー＝])/gi, 'です');
-
-    // 魔器装備（武器・盾） => 魔器装備「武器・盾」
-    text = text.replaceAll('魔器装備（武器・盾）', '魔器装備「武器・盾」').replaceAll('魔器装備（防具）', '魔器装備「防具」');
 
     return text;
 }

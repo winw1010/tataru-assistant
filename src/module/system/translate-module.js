@@ -13,7 +13,7 @@ const google = require('../translator/google');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
-async function translate(text, translation, table = []) {
+async function translate(text = '', translation = {}, table = []) {
     if (text === '') {
         return '……';
     }
@@ -70,7 +70,7 @@ async function translate(text, translation, table = []) {
 }
 
 // translate 2
-async function translate2(text, translation) {
+async function translate2(text = '', translation = {}) {
     const autoChange = translation.autoChange;
     let engineList = engineModule.getEngineList(translation.engine);
     let result = '';
@@ -85,7 +85,7 @@ async function translate2(text, translation) {
 }
 
 // get translation
-async function getTranslation(engine, option) {
+async function getTranslation(engine = '', option = {}) {
     let result = '';
 
     try {

@@ -328,11 +328,14 @@ function specialTextFix(name, text) {
     // 方
     //text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
 
+    // マンダヴィィィィィィル
+    text = text.replaceAll(/マンダヴィ+ル/gi, 'マンダヴィル');
+
     // ヒルディィィィィィブランドゥッ
     text = text.replaceAll(/ヒルディ+ブランドゥ*ッ*/gi, 'ヒルディブランド');
 
-    // マンダヴィィィィィィル
-    text = text.replaceAll(/マンダヴィ+ル/gi, 'マンダヴィル');
+    // ゴッドォォォォォォォォォブランドゥッ
+    text = text.replaceAll(/ゴッドォ+ブランドゥ*ッ*/gi, 'ゴッドブランド');
 
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {

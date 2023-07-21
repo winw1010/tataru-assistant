@@ -42,9 +42,9 @@ function dataProcess(data) {
                 const currentText = dialogData.text
                     .replaceAll('\r', '')
                     .replaceAll('%&', '')
+                    .replaceAll('「+,', '「')
                     .replaceAll(/（.*?）/gi, '')
-                    .replaceAll(/\(.*?\)/gi, '')
-                    .replaceAll(/「+,/gi, '「');
+                    .replaceAll(/\(.*?\)/gi, '');
                 if (currentText !== lastTextList[dialogData.code]) {
                     lastTextList[dialogData.code] = currentText;
                 } else {
@@ -61,7 +61,7 @@ function dataProcess(data) {
                 }
 
                 // text fix
-                dialogData.text = dialogData.text.replaceAll('%&', '');
+                dialogData.text = dialogData.text.replaceAll('%&', '').replaceAll('「+,', '「');
 
                 // system message fix
                 if (systemChannel.includes(dialogData.code)) {

@@ -99,9 +99,6 @@ async function nameFix(name, translation) {
             translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
         }
 
-        // clear code
-        translatedName = fixFunction.clearCode(translatedName, codeResult.table);
-
         // mark fix
         translatedName = fixFunction.markFix(translatedName, true);
 
@@ -128,9 +125,6 @@ async function textFix(name, text, translation) {
         // special fix
         text = specialTextFix(name, text);
 
-        // mark fix
-        text = fixFunction.markFix(text);
-
         // en1
         text = fixFunction.replaceText(text, enArray.en1, true);
 
@@ -140,6 +134,9 @@ async function textFix(name, text, translation) {
 
         // en2
         text = fixFunction.replaceText(text, enArray.en2, true);
+
+        // mark fix
+        text = fixFunction.markFix(text);
 
         // value fix before
         const valueResult = fixFunction.valueFixBefore(text);
@@ -151,17 +148,14 @@ async function textFix(name, text, translation) {
             text = await translateModule.translate(text, translation, codeResult.table);
         }
 
-        // clear code
-        text = fixFunction.clearCode(text, codeResult.table);
-
-        // after translation
-        text = fixFunction.replaceText(text, chArray.afterTranslation);
+        // value fix after
+        text = fixFunction.valueFixAfter(text, valueResult.table);
 
         // mark fix
         text = fixFunction.markFix(text, true);
 
-        // value fix after
-        text = fixFunction.valueFixAfter(text, valueResult.table);
+        // after translation
+        text = fixFunction.replaceText(text, chArray.afterTranslation);
 
         // table
         text = fixFunction.replaceText(text, codeResult.table);

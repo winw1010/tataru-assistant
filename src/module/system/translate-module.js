@@ -25,6 +25,9 @@ async function translate(text, translation, table = []) {
     let result = '';
     let previousResult = '';
 
+    // clear table
+    table = clearTable(text, table);
+
     try {
         do {
             // sleep
@@ -52,8 +55,8 @@ async function translate(text, translation, table = []) {
                 break;
             }
 
-            // check code
-            missingCode = checkCode(result, table);
+            // check table
+            missingCode = checkTable(result, table);
 
             // set previous translated text
             previousResult = result;
@@ -122,7 +125,7 @@ async function getTranslation(engine, option) {
 }
 
 // zh convert
-function zhConvert(text, languageTo) {
+function zhConvert(text = '', languageTo = '') {
     if (text === '') {
         return text;
     }
@@ -136,8 +139,20 @@ function zhConvert(text, languageTo) {
     }
 }
 
-// check code
-function checkCode(text, table) {
+// clear table
+function clearTable(text = '', table = []) {
+    for (let index = table.length - 1; index >= 0; index--) {
+        const code = table[index][0];
+        if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
+            table.splice(index, 1);
+        }
+    }
+
+    return table;
+}
+
+// check table
+function checkTable(text = '', table = []) {
     let missingCodes = [];
 
     for (let index = 0; index < table.length; index++) {
@@ -151,7 +166,7 @@ function checkCode(text, table) {
 }
 
 // fix code
-function fixCode(text, missingCode) {
+function fixCode(text = '', missingCode = []) {
     if (missingCode.length > 0) {
         for (let index = 0; index < missingCode.length; index++) {
             const code = missingCode[index][0];

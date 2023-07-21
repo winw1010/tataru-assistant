@@ -156,18 +156,6 @@ function markFix(text, isTranslated = false) {
     return text;
 }
 
-// clear code
-function clearCode(text, table) {
-    if (table.length > 0) {
-        table.forEach((value) => {
-            const character = value[0];
-            text = text.replaceAll(new RegExp(`\\s?${character}+\\s?`, 'gi'), character.toUpperCase());
-        });
-    }
-
-    return text;
-}
-
 // value fix before
 function valueFixBefore(text) {
     const valueList = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
@@ -206,7 +194,6 @@ module.exports = {
     includesArrayItem,
     sameAsArrayItem,
     markFix,
-    clearCode,
     valueFixBefore,
     valueFixAfter,
 };

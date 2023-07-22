@@ -23,42 +23,46 @@ let child = null;
 
 // start
 function start() {
-    stop();
+    try {
+        stop();
 
-    if (fileModule.exists(versionPath)) {
-        try {
-            const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
-            if (signatures) {
-                fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
+        if (fileModule.exists(versionPath)) {
+            try {
+                const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
+                if (signatures) {
+                    fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
         }
+
+        child = childProcess.spawn(sharlayanPath);
+
+        child.on('close', (code) => {
+            console.log(`SharlayanReader.exe closed (code: ${code})`);
+        });
+
+        child.on('error', (err) => {
+            console.log(err.message);
+        });
+
+        child.stdout.on('error', (err) => {
+            console.log(err.message);
+        });
+
+        child.stdout.on('data', (data) => {
+            if (Buffer.isBuffer(data)) {
+                let dataArray = data.toString('utf8').split('\r\n');
+                for (let index = 0; index < dataArray.length; index++) {
+                    let element = dataArray[index];
+                    if (element.length > 0) serverModule.dataProcess(element);
+                }
+            }
+        });
+    } catch (error) {
+        //console.log(error);
     }
-
-    child = childProcess.spawn(sharlayanPath);
-
-    child.on('close', (code) => {
-        console.log(`SharlayanReader.exe closed (code: ${code})`);
-    });
-
-    child.on('error', (err) => {
-        console.log(err.message);
-    });
-
-    child.stdout.on('error', (err) => {
-        console.log(err.message);
-    });
-
-    child.stdout.on('data', (data) => {
-        if (Buffer.isBuffer(data)) {
-            let dataArray = data.toString('utf8').split('\r\n');
-            for (let index = 0; index < dataArray.length; index++) {
-                let element = dataArray[index];
-                if (element.length > 0) serverModule.dataProcess(element);
-            }
-        }
-    });
 }
 
 // stop

@@ -158,10 +158,15 @@ function sortArray(array) {
     }
 
     if (Array.isArray(array[0])) {
-        // 2d
-        return array.sort((a, b) => b[0].length - a[0].length);
+        if (Array.isArray(array[0][0])) {
+            // 3d
+            return array.sort((a, b) => b[0][0].length - a[0][0].length);
+        } else {
+            // 2d
+            return array.sort((a, b) => b[0].length - a[0].length);
+        }
     } else {
-        // not 2d
+        // 1d
         return array.sort((a, b) => b.length - a.length);
     }
 }

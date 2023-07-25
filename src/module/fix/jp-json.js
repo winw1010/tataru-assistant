@@ -59,7 +59,7 @@ function versionFix() {
     // 2 words name
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
-        if (/^[ァ-ヺ]{2}$/gi.test(element)) {
+        if (element.length < 3) {
             chArray.combine.splice(index, 1);
         }
     }

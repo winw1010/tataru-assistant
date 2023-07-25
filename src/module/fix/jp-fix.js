@@ -305,6 +305,9 @@ function specialTextFix(name, text) {
     // モン
     text = text.replaceAll(/(?<![ァ-ヺ・ー＝])モン(?![ァ-ヺ・ー＝])/gi, 'もん');
 
+    // ヒト
+    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])ヒト(?![ァ-ヺ・ー＝])/gi, '人類');
+
     // 核修正
     text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
 
@@ -341,9 +344,6 @@ function specialTextFix(name, text) {
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
         text = text.replaceAll(/\u3000/gi, '、');
     }
-
-    // リセ
-    text = text.replaceAll(/リセ(?!ット)/gi, 'リセ#');
 
     // ヒエン
     if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {

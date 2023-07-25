@@ -308,7 +308,10 @@ function specialTextFix(name, text) {
     // ヒト
     text = text.replaceAll(/(?<![ァ-ヺ・ー＝])ヒト(?![ァ-ヺ・ー＝])/gi, '人類');
 
-    // 核修正
+    // 貴公
+    text = text.replaceAll(/貴公(?!子)/gi, '貴方');
+
+    // 核
     text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
 
     // コボルド族

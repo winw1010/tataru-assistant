@@ -61,7 +61,7 @@ function start() {
             }
         });
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 
@@ -70,7 +70,7 @@ function stop() {
     try {
         child.kill('SIGINT');
     } catch (error) {
-        //console.log(error);
+        console.log(error);
     }
 }
 

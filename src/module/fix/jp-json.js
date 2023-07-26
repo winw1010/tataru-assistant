@@ -58,15 +58,25 @@ function load(targetLanguage) {
 
 // create special array
 function createSpecialArray(array = []) {
+    let invalidIndex = [];
+
+    // create RegExp
     for (let index = 0; index < array.length; index++) {
         const element = array[index][0];
         try {
             array[index][0] = new RegExp(element, 'gi');
         } catch (error) {
-            array[index][0] = element;
-            console.log();
+            invalidIndex.push(index);
+            //console.log(error);
         }
     }
+
+    // delete invalid element
+    invalidIndex = invalidIndex.reverse();
+    for (let index = 0; index < invalidIndex.length; index++) {
+        array.splice(invalidIndex[index], 1);
+    }
+
     return array;
 }
 

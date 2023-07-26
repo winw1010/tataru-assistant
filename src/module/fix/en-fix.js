@@ -123,7 +123,7 @@ async function textFix(name, text, translation) {
         return fixFunction.replaceText(target[1], chArray.combine, true);
     } else {
         // special fix
-        text = specialTextFix(name, text);
+        text = specialFix(name, text);
 
         // en1
         text = fixFunction.replaceText(text, enArray.en1, true);
@@ -164,6 +164,7 @@ async function textFix(name, text, translation) {
     }
 }
 
+// save name
 function saveName(name = '', translatedName = '') {
     if (name === translatedName) {
         return;
@@ -184,7 +185,8 @@ function saveName(name = '', translatedName = '') {
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
-function specialTextFix(name, text) {
+// special fix
+function specialFix(name, text) {
     let loopCount = 0;
 
     // A-Apple

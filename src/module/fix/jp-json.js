@@ -34,10 +34,10 @@ function load(targetLanguage) {
     jpArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('jp', 'ignore.json'));
     jpArray.jp1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp1.json'));
     jpArray.jp2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp2.json'));
-    jpArray.kana = jsonFunction.readText(jsonFunction.getTextPath('jp', 'kana.json'));
     jpArray.listCrystalium = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listCrystalium.json'));
     jpArray.listHira = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listHira.json'));
     jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
+    jpArray.special = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special.json'));
     jpArray.title = jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'));
 
     // main
@@ -49,8 +49,25 @@ function load(targetLanguage) {
     // combine
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
+    // create special array
+    jpArray.special = createSpecialArray(jpArray.special);
+
     // version fix
     versionFix();
+}
+
+// create special array
+function createSpecialArray(array = []) {
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index][0];
+        try {
+            array[index][0] = new RegExp(element, 'gi');
+        } catch (error) {
+            array[index][0] = element;
+            console.log();
+        }
+    }
+    return array;
 }
 
 // version fix

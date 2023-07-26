@@ -40,9 +40,10 @@ function dataProcess(data) {
 
                 // check repetition
                 const currentText = dialogData.text
-                    .replaceAll('\r', '')
+                    .replaceAll(/^#/gi, '')
                     .replaceAll('%&', '')
                     .replaceAll('「+,', '「')
+                    .replaceAll('\r', '')
                     .replaceAll(/（.*?）/gi, '')
                     .replaceAll(/\(.*?\)/gi, '');
                 if (currentText !== lastTextList[dialogData.code]) {
@@ -61,7 +62,7 @@ function dataProcess(data) {
                 }
 
                 // text fix
-                dialogData.text = dialogData.text.replaceAll('%&', '').replaceAll('「+,', '「');
+                dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll('%&', '').replaceAll('「+,', '「');
 
                 // system message fix
                 if (systemChannel.includes(dialogData.code)) {

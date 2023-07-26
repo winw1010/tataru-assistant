@@ -132,7 +132,7 @@ async function textFix(name, text, translation) {
         }
 
         // special fix
-        text = specialTextFix(name, text);
+        text = specialFix(name, text);
 
         // jp1
         text = fixFunction.replaceText(text, jpArray.jp1);
@@ -292,27 +292,15 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
-// special text fix
-function specialTextFix(name, text) {
+// special fix
+function specialFix(name, text) {
     let loopCount = 0;
 
-    // ーーー
-    text = text.replaceAll(/ー+/gi, 'ー');
-
-    // ～
-    text = text.replaceAll(/(?<![0-9])～(?![0-9])/gi, '');
-
-    // モン
-    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])モン(?![ァ-ヺ・ー＝])/gi, 'もん');
-
-    // ヒト
-    text = text.replaceAll(/(?<![ァ-ヺ・ー＝])ヒト(?![ァ-ヺ・ー＝])/gi, '人類');
-
-    // 貴公
-    text = text.replaceAll(/貴公(?!子)/gi, '貴方');
-
-    // 核
-    text = text.replaceAll(/心核|中核|内核|核(?!心)/gi, '核心');
+    // special replace
+    for (let index = 0; index < jpArray.special.length; index++) {
+        const element = jpArray.special[index];
+        text = text.replaceAll(element[0], element[1]);
+    }
 
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
@@ -330,18 +318,6 @@ function specialTextFix(name, text) {
         // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
         text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
     }
-
-    // 方
-    //text = text.replaceAll(/([あそこ])の方(?=[ぁ-ゖ])/gi, '$1の人');
-
-    // マンダヴィィィィィィル
-    text = text.replaceAll(/マンダヴィ+ル/gi, 'マンダヴィル');
-
-    // ヒルディィィィィィブランドゥッ
-    text = text.replaceAll(/ヒルディ+ブランドゥ*ッ*/gi, 'ヒルディブランド');
-
-    // ゴッドォォォォォォォォォブランドゥッ
-    text = text.replaceAll(/ゴッドォ+ブランドゥ*ッ*/gi, 'ゴッドブランド');
 
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
@@ -362,14 +338,6 @@ function specialTextFix(name, text) {
     if (/ライアン/gi.test(name)) {
         text = text.replaceAll('あーた', '貴方');
     }
-
-    /*
-    // 召喚士
-    // ラムブルース？
-    if (/ヤ・ミトラ|プリンキピア|クリスピン|ジャジャサム|デニース|^サリ(|の声)$/gi.test(name)) {
-        text = text.replaceAll('サリ', 'サリ#');
-    }
-    */
 
     // 暗黒騎士
     if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
@@ -406,9 +374,6 @@ function specialTextFix(name, text) {
         const t2 = jpFunction.convertKana(t1, 'hira');
         text = text.replaceAll(t1, t2);
     }
-
-    // デス => です
-    text = text.replaceAll(/(?<![^ァ-ヺ・ー＝])デス(?![^ァ-ヺ・ー＝])/gi, 'です');
 
     return text;
 }

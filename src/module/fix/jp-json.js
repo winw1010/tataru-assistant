@@ -62,9 +62,8 @@ function createSpecialArray(array = []) {
 
     // create RegExp
     for (let index = 0; index < array.length; index++) {
-        const element = array[index][0];
         try {
-            array[index][0] = new RegExp(element, 'gi');
+            array[index][0] = new RegExp(array[index][0], 'gi');
         } catch (error) {
             invalidIndex.push(index);
             //console.log(error);

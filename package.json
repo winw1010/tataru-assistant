@@ -45,11 +45,9 @@
         "win": {
             "requestedExecutionLevel": "requireAdministrator",
             "icon": "src/html/img/icon/tataru.ico",
-            "target": [
-                "nsis"
-            ]
+            "target": "msi"
         },
-        "nsis": {
+        "msi": {
             "createStartMenuShortcut": true,
             "createDesktopShortcut": "always"
         }

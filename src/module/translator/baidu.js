@@ -154,6 +154,7 @@ async function translate(cookie, authentication, option) {
         console.log('cookie:', cookie);
         console.log('authentication:', authentication);
         console.log('option:', option);
+        console.log('data:', response);
         throw 'ERROR: translate';
     }
 }

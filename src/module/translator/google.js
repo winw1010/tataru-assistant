@@ -46,6 +46,7 @@ async function exec(option) {
             return result;
         } else {
             console.log('option:', option);
+            console.log('data:', response);
             throw 'ERROR: translate';
         }
     } catch (error) {

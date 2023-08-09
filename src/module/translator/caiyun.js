@@ -30,6 +30,7 @@ async function exec(option) {
             return response.target;
         } else {
             console.log('option:', option);
+            console.log('data:', response);
             throw 'ERROR: translate';
         }
     } catch (error) {

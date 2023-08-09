@@ -168,6 +168,7 @@ async function translate(cookie, authentication, option, chunks) {
         console.log('authentication:', authentication);
         console.log('option:', option);
         console.log('chunks:', chunks);
+        console.log('data:', response);
         throw 'ERROR: translate';
     }
 }

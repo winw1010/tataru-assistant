@@ -1,7 +1,7 @@
 'use strict';
 
 // female words
-//const femaleWords = getFemaleWords();
+const femaleWords = getFemaleWords();
 
 // jp json
 const jpJson = require('./jp-json');
@@ -212,13 +212,11 @@ function canSkipTranslation(text) {
 }
 
 function genderFix(originalText, translatedText) {
-    /*
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
     if (!isFemale) {
         translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
     }
-    */
 
     if (!originalText.includes('娘')) {
         translatedText = translatedText.replaceAll('女兒', '女孩');
@@ -231,11 +229,9 @@ function isChinese(text, translation) {
     return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
 }
 
-/*
 function getFemaleWords() {
     return ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア', 'クイーン'];
 }
-*/
 
 function getHiraganaString() {
     return 'ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ';

@@ -23,7 +23,7 @@ function replaceTextByCode(text, array) {
     const rplIndex = 1;
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
-    let tempText = text;
+    let tempText = '';
     let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
     let table = [];
 
@@ -70,6 +70,8 @@ function replaceTextByCode(text, array) {
         table: table,
     };
 
+    console.log(tempTable);
+    console.log(codeString);
     console.log('result:', result);
 
     return result;

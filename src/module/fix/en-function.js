@@ -23,7 +23,7 @@ function replaceTextByCode(text, array) {
     const rplIndex = 1;
     let codeIndex = 0;
     let codeString = 'BCFGHJLMNPQRSTVWXYZ';
-    let tempText = '';
+    let tempText = text;
     let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
     let table = [];
 
@@ -31,13 +31,16 @@ function replaceTextByCode(text, array) {
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
 
     // set temp text
-    for (let index = 0; index < tempTable.length; index++) {
-        const element = tempTable[index];
-        tempText += element[rplIndex];
+    const tempTextArray = tempText.match(/\b[A-Z]+[a-z]+\b/g);
+    if (tempTextArray) {
+        for (let index = 0; index < tempTextArray.length; index++) {
+            const element = tempTextArray[index];
+            tempText = tempText.replaceAll(element, element.toUpperCase());
+        }
     }
 
     // clear code
-    const characters = tempText.match(/[a-z]/gi);
+    const characters = tempText.match(/[A-Z]/g);
     if (characters) {
         for (let index = 0; index < characters.length; index++) {
             codeString = codeString.replaceAll(characters[index].toUpperCase(), '');

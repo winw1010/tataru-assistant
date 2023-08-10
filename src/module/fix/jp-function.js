@@ -148,6 +148,8 @@ function replaceTextByCode(text, array, textType = 0) {
         table: table,
     };
 
+    console.log(tempTable);
+    console.log(codeString);
     console.log('result:', result);
 
     return result;

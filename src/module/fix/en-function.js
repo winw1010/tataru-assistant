@@ -6,9 +6,6 @@ const fixFunction = require('./fix-function');
 // en json
 const enJson = require('./en-json');
 
-// female words
-//const femaleWords = getFemaleWords();
-
 // en text function
 function replaceTextByCode(text, array) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
@@ -93,18 +90,6 @@ function canSkipTranslation(text, table) {
     return text === '';
 }
 
-/*
-function genderFix(originalText, translatedText) {
-    const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
-
-    if (!isFemale) {
-        translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
-    }
-
-    return translatedText;
-}
-*/
-
 function getPluralType(text = '') {
     if (/(s|x|z|sh|ch)$/gi.test(text)) {
         return text + 'es';
@@ -134,15 +119,8 @@ function getAdjectiveType(text = '') {
 }
 
 function isChinese(text, translation) {
-    //return /[\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
-    return translation.skipChinese && text.match(/[\u3400-\u9FFF]/gi)?.length > text.length / 2;
+    return translation.skipChinese && text.match(/[\u3400-\u9FFF]/gi)?.length > text.match(/[a-z]/gi)?.length;
 }
-
-/*
-function getFemaleWords() {
-    return ['Girl', 'She', 'Her', 'Women', 'Female', 'Lady', 'Grandmother', 'Grandma', 'Mother', 'Mom', 'Granddaughter', 'Daughter', 'Aunt', 'Niece', 'Waitress', 'Actress', 'Heroine'];
-}
-*/
 
 // module exports
 module.exports = {

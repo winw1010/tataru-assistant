@@ -118,8 +118,10 @@ function getAdjectiveType(text = '') {
     return text + 'an';
 }
 
-function isChinese(text, translation) {
-    return translation.skipChinese && text.match(/[\u3400-\u9FFF]/gi)?.length > text.match(/[a-z]/gi)?.length;
+function isChinese(text = '', translation = {}) {
+    const chLength = text.match(/[\u3400-\u9FFF]/gi)?.length || 0;
+    const enLength = text.match(/[a-z]/gi)?.length || 0;
+    return translation.skipChinese && chLength > enLength;
 }
 
 // module exports

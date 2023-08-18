@@ -34,8 +34,8 @@ function start() {
             }
         }
 
-        child = childProcess.spawn(sharlayanPath);
-        //child = childProcess.execFile(sharlayanPath);
+        //child = childProcess.spawn(sharlayanPath);
+        child = childProcess.execFile(sharlayanPath);
 
         child.on('close', (code) => {
             console.log(`SharlayanReader.exe closed (code: ${code})`);
@@ -50,8 +50,8 @@ function start() {
         });
 
         child.stdout.on('data', (data) => {
-            if (Buffer.isBuffer(data)) {
-                let dataArray = data.toString('utf8').split('\r\n');
+            if (typeof data === 'string') {
+                let dataArray = data.split('\r\n');
                 for (let index = 0; index < dataArray.length; index++) {
                     let element = dataArray[index];
                     if (element.length > 0) serverModule.dataProcess(element);

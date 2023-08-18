@@ -72,7 +72,7 @@ function setSystemChannel() {
 
     // close app
     ipcMain.on('close-app', () => {
-        sharlayanModule.stop();
+        sharlayanModule.stop(false);
         app.quit();
     });
 
@@ -127,7 +127,7 @@ function setSystemChannel() {
 
     // start sharlayan reader
     ipcMain.on('start-sharlayan-reader', () => {
-        sharlayanModule.start();
+        sharlayanModule.stop(true);
     });
 }
 

@@ -18,11 +18,12 @@ const versionPath = fileModule.getRootPath('src', 'data', 'text', 'version.json'
 // child
 let child = null;
 
+// do restart
+let restartReader = true;
+
 // start
 function start() {
     try {
-        stop();
-
         if (fileModule.exists(versionPath)) {
             try {
                 const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
@@ -39,6 +40,9 @@ function start() {
 
         child.on('close', (code) => {
             console.log(`SharlayanReader.exe closed (code: ${code})`);
+            if (restartReader) {
+                start();
+            }
         });
 
         child.on('error', (err) => {
@@ -64,7 +68,8 @@ function start() {
 }
 
 // stop
-function stop() {
+function stop(restart = true) {
+    restartReader = restart;
     try {
         child.kill('SIGINT');
     } catch (error) {

@@ -20,6 +20,7 @@ const jpFix = require('./jp-fix');
 const playerChannel = getPlayerChannel();
 
 // entry interval
+let lastTimestamp = 0;
 let running = false;
 let entryIntervalItem = [];
 let entryInterval = getEntryInterval();
@@ -33,7 +34,9 @@ function setRunning(value) {
 function addTask(dialogData) {
     // check id and timestamp
     if (!dialogData.id || !dialogData.timestamp) {
-        const timestamp = new Date().getTime();
+        let timestamp = new Date().getTime();
+        if (timestamp <= lastTimestamp) timestamp = lastTimestamp + 1;
+        lastTimestamp = timestamp;
         dialogData.id = 'id' + timestamp;
         dialogData.timestamp = timestamp;
     }

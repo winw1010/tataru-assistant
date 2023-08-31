@@ -39,11 +39,11 @@ function addDialog(id, code) {
 }
 
 // update dialog
-async function updateDialog(id, name, text, dialogData = null, scroll = true) {
+function updateDialog(id, name, text, dialogData = null, scroll = true) {
     // zh convert
     if (dialogData?.translation) {
-        name = await translateModule.zhConvert(name, dialogData.translation.to);
-        text = await translateModule.zhConvert(text, dialogData.translation.to);
+        name = translateModule.zhConvert(name, dialogData.translation.to);
+        text = translateModule.zhConvert(text, dialogData.translation.to);
     }
 
     // add dialog
@@ -64,14 +64,14 @@ async function updateDialog(id, name, text, dialogData = null, scroll = true) {
 }
 
 // show notification
-async function showNotification(text) {
+function showNotification(text) {
     const config = configModule.getConfig();
     const timestamp = new Date().getTime();
     const id = 'id' + timestamp;
     const code = 'FFFF';
 
     // zh convert
-    text = await translateModule.zhConvert(text, config.translation.to);
+    text = translateModule.zhConvert(text, config.translation.to);
 
     addDialog(id, code);
     updateDialog(id, '', text).then(() => {

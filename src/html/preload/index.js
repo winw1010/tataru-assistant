@@ -81,7 +81,7 @@ function setIPC() {
             div.append(dialog);
             dialog.id = id;
             dialog.className = code;
-            dialog.style.display = 'none';
+            //dialog.style.display = 'none';
         }
 
         // set dialog

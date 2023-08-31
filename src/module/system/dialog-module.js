@@ -32,7 +32,7 @@ function addDialog(id, code) {
     windowModule.sendIndex('add-dialog', {
         id,
         code,
-        innerHTML: '<span>......</span>',
+        innerHTML: '<span>...</span>',
         style: getStyle(code),
         scroll: false,
     });
@@ -50,7 +50,7 @@ async function updateDialog(id, name, text, dialogData = null, scroll = true) {
     windowModule.sendIndex('add-dialog', {
         id,
         innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
-        style: { display: 'block' },
+        //style: { display: 'block' },
         scroll: scroll,
     });
 

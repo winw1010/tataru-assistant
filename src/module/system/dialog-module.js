@@ -74,12 +74,10 @@ function showNotification(text) {
     text = translateModule.zhConvert(text, config.translation.to);
 
     addDialog(id, code);
-    updateDialog(id, '', text).then(() => {
-        // set timeout
-        setTimeout(() => {
-            windowModule.sendIndex('remove-dialog', id);
-        }, 5000 + Math.min(text.length * 20, 5000));
-    });
+    updateDialog(id, '', text);
+    setTimeout(() => {
+        windowModule.sendIndex('remove-dialog', id);
+    }, 5000 + Math.min(text.length * 20, 5000));
 }
 
 // show dialog

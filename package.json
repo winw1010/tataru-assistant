@@ -43,6 +43,7 @@
             "!src/data/img/*.png"
         ],
         "win": {
+            "requestedExecutionLevel": "requireAdministrator",
             "icon": "src/html/img/icon/tataru.ico",
             "target": "nsis"
         },

@@ -67,7 +67,7 @@ function updateDialog(id, name, text, dialogData = null, scroll = true) {
 function showNotification(text) {
     const config = configModule.getConfig();
     const timestamp = new Date().getTime();
-    const id = 'id' + timestamp;
+    const id = 'sid' + timestamp;
     const code = 'FFFF';
 
     // zh convert

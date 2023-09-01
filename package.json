@@ -1,6 +1,6 @@
 {
     "name": "tataru-helper-node",
-    "version": "2.3.23",
+    "version": "2.3.24",
     "description": "tataru-helper-node",
     "main": "src/main.js",
     "scripts": {
@@ -43,7 +43,6 @@
             "!src/data/img/*.png"
         ],
         "win": {
-            "requestedExecutionLevel": "requireAdministrator",
             "icon": "src/html/img/icon/tataru.ico",
             "target": "nsis"
         },

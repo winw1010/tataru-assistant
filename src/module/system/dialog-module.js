@@ -50,7 +50,7 @@ function updateDialog(id, name, text, dialogData = null, scroll = true) {
     windowModule.sendIndex('add-dialog', {
         id,
         innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
-        //style: { display: 'block' },
+        style: { display: 'block' },
         scroll: scroll,
     });
 
@@ -61,6 +61,11 @@ function updateDialog(id, name, text, dialogData = null, scroll = true) {
     if (dialogData) {
         saveLog(id, name, text, dialogData);
     }
+}
+
+// remove dialog
+function removeDialog(id) {
+    windowModule.sendIndex('remove-dialog', id);
 }
 
 // show notification
@@ -76,7 +81,7 @@ function showNotification(text) {
     addDialog(id, code);
     updateDialog(id, '', text);
     setTimeout(() => {
-        windowModule.sendIndex('remove-dialog', id);
+        removeDialog(id);
     }, 5000 + Math.min(text.length * 20, 5000));
 }
 
@@ -191,6 +196,7 @@ function createLogName(milliseconds = null) {
 module.exports = {
     addDialog,
     updateDialog,
+    removeDialog,
     showNotification,
     showDialog,
     getStyle,

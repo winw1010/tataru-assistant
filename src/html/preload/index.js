@@ -284,8 +284,9 @@ function setButton() {
 
 // start app
 function startApp() {
-    ipcRenderer.send('initialize-json');
+    ipcRenderer.send('show-notification', '按下CTRL+F9可查看使用說明書');
     ipcRenderer.send('version-check');
+    ipcRenderer.send('initialize-json');
 }
 
 // reset view

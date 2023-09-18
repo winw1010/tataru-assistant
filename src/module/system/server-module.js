@@ -52,7 +52,7 @@ function dataProcess(data) {
                     return;
                 }
 
-                // clear id and timestamp
+                // reset id and timestamp
                 dialogData.id = null;
                 dialogData.timestamp = null;
 

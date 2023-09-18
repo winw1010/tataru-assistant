@@ -38,16 +38,16 @@ function dataProcess(data) {
                 }
                 */
 
-                // check repetition
-                const currentText = dialogData.text
-                    .replaceAll(/^#/gi, '')
-                    .replaceAll('%&', '')
-                    .replaceAll('「+,', '「')
+                // text fix
+                dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll('%&', '').replaceAll('「+,', '「');
+
+                // check text repetition
+                const checkText = dialogData.text
                     .replaceAll('\r', '')
                     .replaceAll(/（.*?）/gi, '')
                     .replaceAll(/\(.*?\)/gi, '');
-                if (currentText !== lastTextList[dialogData.code]) {
-                    lastTextList[dialogData.code] = currentText;
+                if (checkText !== lastTextList[dialogData.code]) {
+                    lastTextList[dialogData.code] = checkText;
                 } else {
                     return;
                 }
@@ -60,9 +60,6 @@ function dataProcess(data) {
                 if (dialogData.name === '...') {
                     dialogData.name = '';
                 }
-
-                // text fix
-                dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll('%&', '').replaceAll('「+,', '「');
 
                 // system message fix
                 if (systemChannel.includes(dialogData.code)) {

@@ -66,12 +66,15 @@ dataFix(dialogData){
 
 updateDialog(dialogData){} => null
 
-jpFix(dialogData){
+jpFix,enFix(dialogData){
     // check config.fix
-    // translate
-} => dialogData
+    if(config.fix){
+        // fix name then translate
+        // fix text then translate
+    }else{
+        // just do translate
+    }
 
-enFix(dialogData){
-    // check config.fix
-    // translate
+    // return
+    return dialogData
 } => dialogData

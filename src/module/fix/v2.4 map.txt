@@ -1,0 +1,77 @@
+dialogData = {
+    id
+    timestamp
+    name
+    text
+    translatedName
+    translatedText
+    audioText
+    config
+}
+
+entry(dialogData){
+    // initailize data
+    dialogData = initailizeData(dialogData)
+
+    // set language
+    dialogData = setLanguage(dialogData)
+
+    // skip check
+    if(skipCheck(dialogData)) return;
+
+    // add dialog
+    addDialog(dialogData)
+
+    // data fix
+    dialogData = dataFix(dialogData)
+
+    // update dialog
+    updateDialog(dialogData)
+} => null
+
+initailizeData(dialogData){
+    // set id (if null)
+    // set timestamp (if null)
+    // clear translatedName
+    // clear translatedText
+    // clear audioText
+    
+    // return
+    return dialogData
+} => dialogData
+
+setLanguage(dialogData){
+    // check dialog code
+    // reset config.from
+
+    // return
+    return dialogData
+} => dialogData
+
+skipCheck(dialogData){} => boolean
+
+addDialog(dialogData){} => null
+
+dataFix(dialogData){
+    // check config.from
+    if(dialogData.config.from==='jp'){
+        dialogData = jpFix(dialogData)
+    }eles{
+        dialogData = enFix(dialogData)
+    }
+
+    // return
+    return dialogData
+} => dialogData
+
+updateDialog(dialogData){} => null
+
+jpFix(dialogData){
+    // check config.fix
+    // translate
+} => dialogData
+
+enFix(dialogData){
+    // check config.fix
+    // translate
+} => dialogData

@@ -67,14 +67,25 @@ dataFix(dialogData){
 updateDialog(dialogData){} => null
 
 jpFix,enFix(dialogData){
+    let translatedName = dialogData.name;
+    let translatedText = dialogData.text;
+
     // check config.fix
-    if(config.fix){
-        // fix name then translate
-        // fix text then translate
-    }else{
-        // just do translate
-    }
+    if(dialogData.config.fix){
+        // fix name
+        let translatedName = fixName(dialogData.name)
+        // fix text
+        let translatedText = fixText(dialogData.text)
+    }=
+
+    // do translate
+    translatedName = translate(translatedName)
+    translatedText = translate(translatedText)
 
     // return
     return dialogData
 } => dialogData
+
+fixName(name){} => string
+fixText(text){} => string
+fixString(str){} => string

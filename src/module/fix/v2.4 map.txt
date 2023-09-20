@@ -80,6 +80,7 @@ jpFix,enFix(dialogData){
 
     // do translate
     translatedName = translate(translatedName)
+    delay(1000)
     translatedText = translate(translatedText)
 
     // return

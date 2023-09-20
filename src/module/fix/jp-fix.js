@@ -51,7 +51,7 @@ async function startFix(dialogData, translation) {
         }
 
         // sleep 1 second
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await fixFunction.sleep();
 
         // text translation
         let translatedText = '';

@@ -43,6 +43,9 @@ async function startFix(dialogData, translation) {
             }
         }
 
+        // sleep 1 second
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         // text translation
         let translatedText = '';
         if (enFunction.isChinese(dialogData.text, translation)) {

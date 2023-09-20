@@ -76,7 +76,7 @@ jpFix,enFix(dialogData){
         let translatedName = fixName(dialogData.name)
         // fix text
         let translatedText = fixText(dialogData.text)
-    }=
+    }
 
     // do translate
     translatedName = translate(translatedName)

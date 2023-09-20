@@ -188,6 +188,11 @@ function valueFixAfter(text, valueTable) {
     return text;
 }
 
+// sleep
+function sleep(ms = 1000) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 module.exports = {
     skipCheck,
     replaceText,
@@ -196,4 +201,5 @@ module.exports = {
     markFix,
     valueFixBefore,
     valueFixAfter,
+    sleep,
 };

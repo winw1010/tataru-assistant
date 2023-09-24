@@ -6,7 +6,7 @@ function skipCheck(code, name, text, ignoreArray) {
 }
 
 // replace text
-function replaceText(text, array, useRegex = false) {
+function replaceText(text = '', array = [], useRegExp = false) {
     const srcIndex = 0;
     const rplIndex = 1;
 
@@ -14,7 +14,7 @@ function replaceText(text, array, useRegex = false) {
         return text;
     }
 
-    if (useRegex) {
+    if (useRegExp) {
         const target = includesArrayItem(text, array, srcIndex, true);
         if (target) {
             for (let index = 0; index < target.length; index++) {
@@ -30,6 +30,57 @@ function replaceText(text, array, useRegex = false) {
     }
 
     return text;
+}
+
+// replace word
+function replaceWord(text = '', table = []) {
+    if (text === '' || !Array.isArray(table) || !table.length > 0) {
+        return text;
+    }
+
+    const tableCode = table.map((x) => x[0]);
+    let target = text.match(/[A-Z]+/gi)?.sort((a, b) => b.length - a.length) || [];
+    let wordTable = [];
+
+    for (let index = 0; index < target.length; index++) {
+        let code = `*@${index}*`;
+        text = text.replace(target[index], code);
+        wordTable.push([code, target[index]]);
+    }
+
+    console.log(text);
+
+    for (let index = 0; index < wordTable.length; index++) {
+        const element = wordTable[index];
+        let word = element[1];
+        console.log(word);
+
+        if (codeTest(word, tableCode)) {
+            word = replaceText(word, table);
+        } else if (/[a-z]/.test(word)) {
+            word = word[0].toUpperCase() + word.slice(1).toLowerCase();
+        }
+
+        text = text.replace(element[0], word);
+
+        console.log(element);
+        console.log(word);
+        console.log(text);
+        console.log();
+    }
+
+    return text;
+}
+
+// code test
+function codeTest(text = '', code = []) {
+    if (text === '') return false;
+
+    for (let index = 0; index < code.length; index++) {
+        text = text.replaceAll(code[index], '');
+    }
+
+    return text === '';
 }
 
 // can ignore
@@ -196,6 +247,7 @@ function sleep(ms = 1000) {
 module.exports = {
     skipCheck,
     replaceText,
+    replaceWord,
     includesArrayItem,
     sameAsArrayItem,
     markFix,

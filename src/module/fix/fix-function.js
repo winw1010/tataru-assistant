@@ -53,7 +53,6 @@ function replaceWord(text = '', table = []) {
     for (let index = 0; index < wordTable.length; index++) {
         const element = wordTable[index];
         let word = element[1];
-        console.log(word);
 
         if (codeTest(word, tableCode)) {
             word = replaceText(word, table);
@@ -62,11 +61,6 @@ function replaceWord(text = '', table = []) {
         }
 
         text = text.replace(element[0], word);
-
-        console.log(element);
-        console.log(word);
-        console.log(text);
-        console.log();
     }
 
     return text;

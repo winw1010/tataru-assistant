@@ -161,7 +161,7 @@ async function textFix(name, text, translation) {
         text = fixFunction.replaceText(text, chArray.afterTranslation);
 
         // table
-        text = fixFunction.replaceText(text, codeResult.table);
+        text = fixFunction.replaceWord(text, codeResult.table);
 
         return text;
     }

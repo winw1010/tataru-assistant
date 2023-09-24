@@ -102,9 +102,9 @@ async function nameFix(name, translation) {
     if (target1) {
         return target1[1];
     } else if (target2) {
-        return target2[1].replaceAll(/#$/gi, '');
+        return target2[1].replace(/#$/, '');
     } else if (target3) {
-        return target3[1].replaceAll(/##$/gi, '');
+        return target3[1].replace(/##$/, '');
     } else {
         const translatedName = translateName(name, getKatakanaName(name), translation);
         return translatedName;
@@ -178,7 +178,7 @@ async function textFix(name, text, translation) {
         text = fixFunction.replaceText(text, chArray.afterTranslation);
 
         // table
-        text = fixFunction.replaceText(text, codeResult.table);
+        text = fixFunction.replaceWord(text, codeResult.table);
 
         return text;
     }
@@ -258,9 +258,9 @@ async function translateName(name, katakanaName, translation) {
 // create name
 function createName(katakanaName) {
     let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
-    tempName = tempName.replaceAll(/^ルル/gi, '路路');
-    tempName = tempName.replaceAll(/^ル/gi, '路');
-    tempName = tempName.replaceAll(/^ア/gi, '阿');
+    tempName = tempName.replace(/^ルル/, '路路');
+    tempName = tempName.replace(/^ル/, '路');
+    tempName = tempName.replace(/^ア/, '阿');
 
     return fixFunction.replaceText(tempName, chArray.chName);
 }

@@ -260,7 +260,7 @@ function createName(katakanaName) {
     let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
     tempName = tempName.replace(/^ルル/, '路路');
     tempName = tempName.replace(/^ル/, '路');
-    tempName = tempName.replace(/^ア/, '阿');
+    tempName = tempName.replace(/^ア(?!イ|ウ|ン)/, '阿');
 
     return fixFunction.replaceText(tempName, chArray.chName);
 }

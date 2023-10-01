@@ -20,7 +20,7 @@ function replaceTextByCode(text, array, textType = 0) {
     }
 
     // for 2 words name
-    if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺ・ー＝])[ァ-ヺー]{2}(?![ァ-ヺ・ー＝])/gi, '$&#');
+    if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺー])[ァ-ヺー]{2}(?![ァ-ヺー])/gi, '$&#');
 
     // set parameters
     const nameFixArray = jpJson.getJpArray().title;

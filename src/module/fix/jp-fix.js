@@ -366,8 +366,8 @@ function specialFix(name, text) {
 
     // あアあ => あああ
     loopCount = 0;
-    while (/([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.test(text) && loopCount++ < 10) {
-        let t1 = /([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.exec(text);
+    while (/([^ァ-ヺー]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー]|$)/gi.test(text) && loopCount++ < 10) {
+        let t1 = /([^ァ-ヺー]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー]|$)/gi.exec(text);
 
         if (!t1?.length > 0) {
             break;

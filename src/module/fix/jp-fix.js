@@ -186,13 +186,13 @@ async function textFix(name, text, translation) {
 
 // get katakana name
 function getKatakanaName(name = '') {
-    if (/^([ァ-ヺ・ー＝]+)([^ァ-ヺ・ー＝]+)？*$/gi.test(name)) {
+    if (/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // katakana + not katakana
-        return name.replaceAll(/^([ァ-ヺ・ー＝]+)([^ァ-ヺ・ー＝]+)？*$/gi, '$1');
-    } else if (/^([^ァ-ヺ・ー＝]+)([ァ-ヺ・ー＝]+)？*$/gi.test(name)) {
+        return name.replaceAll(/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi, '$1');
+    } else if (/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // not katakana + katakana
-        return name.replaceAll(/^([^ァ-ヺ・ー＝]+)([ァ-ヺ・ー＝]+)？*$/gi, '$2');
-    } else if (/^([ァ-ヺ・ー＝]+)？*$/gi.test(name)) {
+        return name.replaceAll(/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi, '$2');
+    } else if (/^([ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // all katakana
         return name;
     } else {
@@ -366,8 +366,8 @@ function specialFix(name, text) {
 
     // あアあ => あああ
     loopCount = 0;
-    while (/([^ァ-ヺ・ー＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ・ー＝]|$)/gi.test(text) && loopCount++ < 10) {
-        let t1 = /([^ァ-ヺ・ー＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺ・ー＝]|$)/gi.exec(text);
+    while (/([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.test(text) && loopCount++ < 10) {
+        let t1 = /([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.exec(text);
 
         if (!t1?.length > 0) {
             break;

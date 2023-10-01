@@ -4,7 +4,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 // kana characters
-const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+const allKana = /^[ぁ-ゖァ-ヺー]+$/gi;
 
 // file module
 const fileModule = {

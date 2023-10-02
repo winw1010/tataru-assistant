@@ -1,10 +1,10 @@
 'use strict';
 
-// female words
-const femaleWords = getFemaleWords();
-
 // jp json
 const jpJson = require('./jp-json');
+
+// female words
+const femaleWords = getFemaleWords();
 
 // kana
 const hiragana = getHiraganaString();

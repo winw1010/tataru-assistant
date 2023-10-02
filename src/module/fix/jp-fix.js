@@ -191,10 +191,10 @@ async function textFix(name = '', text = '', translation = {}) {
 function getKatakanaName(name = '') {
     if (/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // katakana + not katakana
-        return name.replaceAll(/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi, '$1');
+        return name.replace(/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi, '$1');
     } else if (/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // not katakana + katakana
-        return name.replaceAll(/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi, '$2');
+        return name.replace(/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi, '$2');
     } else if (/^([ァ-ヺー・＝]+)？*$/gi.test(name)) {
         // all katakana
         return name;
@@ -305,17 +305,17 @@ function specialFix1(name = '', text = '') {
 
     // ヒエン
     if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
-        text = text.replaceAll(/若(?!若|々|い|し|様)/gi, '若様');
+        text = text.replace(/若(?!若|々|い|し|様)/gi, '若様');
     }
 
     // 水晶公
     if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
+        text = text.replace(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
     }
 
     // 暗黒騎士
     if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
-        text = text.replaceAll('ミスト', 'ミスト#');
+        text = text.replace(/ミスト/gi, 'ミスト#');
     }
 
     return text;
@@ -328,35 +328,35 @@ function specialFix2(name = '', text = '') {
 
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
-        text = text.replaceAll('ー', '');
+        text = text.replace(/ー/gi, '');
     }
 
     // マムージャ族 & 強化グリーンワート
     if (/マムージャ|[ァ-ヺ]{2}ージャジャ$|[ァ-ヺ]{2}ージャ$|強化グリーンワート/gi.test(name)) {
-        text = text.replaceAll('、', '');
+        text = text.replace(/、/gi, '');
     }
 
     // バヌバヌ族
     if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
         // 長老さま、長老さま！
         // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-        text = text.replaceAll(/(.{3,}?)、\1/gi, '$1');
+        text = text.replace(/(.{3,}?)、\1/gi, '$1');
     }
 
     // 異邦の詩人
     if (/異邦の詩人|異世界の詩人/gi.test(name)) {
-        text = text.replaceAll(/\u3000/gi, '、');
+        text = text.replace(/\u3000/gi, '、');
     }
 
     // ライアン
     if (/ライアン/gi.test(name)) {
-        text = text.replaceAll('あーた', '貴方');
+        text = text.replace(/あーた/gi, '貴方');
     }
 
     // あ…… or あ… or あ、
     let loopCount = 0;
     while (/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replaceAll(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
+        text = text.replace(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
         loopCount++;
     }
 
@@ -366,7 +366,7 @@ function specialFix2(name = '', text = '') {
 
     loopCount = 0;
     while (/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replaceAll(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
+        text = text.replace(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
         loopCount++;
     }
 
@@ -375,13 +375,13 @@ function specialFix2(name = '', text = '') {
     while (/([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.test(text) && loopCount++ < 10) {
         let t1 = /([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.exec(text);
 
-        if (!t1?.length > 0) {
+        if (t1 && t1.length > 0) {
+            let element = t1[0];
+            const t2 = jpFunction.convertKana(element, 'hira');
+            text = text.replaceAll(element, t2);
+        } else {
             break;
         }
-
-        t1 = t1[0];
-        const t2 = jpFunction.convertKana(t1, 'hira');
-        text = text.replaceAll(t1, t2);
     }
 
     return text;

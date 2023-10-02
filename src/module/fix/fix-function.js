@@ -162,7 +162,7 @@ function sameAsArrayItem(text = '', array = [], searchIndex = 0) {
         }
     }
 
-    return target + '';
+    return target;
 }
 
 // mark fix

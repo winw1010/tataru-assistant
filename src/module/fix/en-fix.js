@@ -20,7 +20,7 @@ const npcChannel = ['003D', '0044', '2AB9'];
 let enArray = enJson.getEnArray();
 let chArray = enJson.getChArray();
 
-async function startFix(dialogData, translation) {
+async function startFix(dialogData = {}, translation = {}) {
     try {
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, enArray.ignore)) {
@@ -72,7 +72,7 @@ async function startFix(dialogData, translation) {
     return dialogData;
 }
 
-async function nameFix(name, translation) {
+async function nameFix(name = '', translation = {}) {
     if (name === '') {
         return '';
     }
@@ -115,7 +115,7 @@ async function nameFix(name, translation) {
     }
 }
 
-async function textFix(name, text, translation) {
+async function textFix(name = '', text = '', translation = {}) {
     if (text === '') {
         return '';
     }
@@ -189,8 +189,12 @@ function saveName(name = '', translatedName = '') {
 }
 
 // special fix
-function specialFix(name, text) {
+function specialFix(name = '', text = '') {
     let loopCount = 0;
+
+    if (name) {
+        // do something
+    }
 
     // A-Apple
     while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {

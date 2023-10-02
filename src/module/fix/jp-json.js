@@ -91,9 +91,7 @@ function versionFix() {
         if (/(^[ァ-ヺー]{2}$)|(^ココ#$)/.test(element)) {
             chArray.combine.splice(index, 1);
         } else {
-            if (!element.includes('#')) {
-                chArray.combine[index][0] = element.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
-            }
+            chArray.combine[index][0] = element.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝]|#)/gi, '$&#');
         }
     }
 

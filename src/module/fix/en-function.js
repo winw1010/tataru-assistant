@@ -47,7 +47,7 @@ function replaceTextByCode(text = '', array = []) {
     // search and replace
     for (let index = 0; index < tempTable.length && codeIndex < codeString.length; index++) {
         const element = tempTable[index];
-        const searchElement = element[srcIndex].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const searchElement = element[srcIndex].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const searchElementPlural = getPluralType(searchElement);
         const searchElementAdjective = getAdjectiveType(searchElement);
         let searchReg = null;
@@ -59,7 +59,7 @@ function replaceTextByCode(text = '', array = []) {
         }
 
         if (searchReg.test(text)) {
-            text = text.replaceAll(searchReg, codeString[codeIndex]);
+            text = text.replace(searchReg, codeString[codeIndex]);
             table.push([codeString[codeIndex], element[rplIndex]]);
             codeIndex++;
         }
@@ -81,11 +81,11 @@ function canSkipTranslation(text = '', table = []) {
     // remove table index
     const enReg = table.map((value) => value[0]).join('|');
     if (enReg !== '') {
-        text = text.replaceAll(new RegExp(enReg, 'gi'), '');
+        text = text.replace(new RegExp(enReg, 'gi'), '');
     }
 
     // remove marks
-    text = text.replaceAll(/[^a-z]/gi, '');
+    text = text.replace(/[^a-z]/gi, '');
 
     return text === '';
 }

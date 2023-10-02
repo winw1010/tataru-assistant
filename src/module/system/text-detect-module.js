@@ -59,19 +59,18 @@ async function googleVision(imagePath) {
 async function tesseractOCR(imageBuffer) {
     try {
         const config = configModule.getConfig();
-        const worker = await createWorker({
+        let worker = null;
+        let workerOption = {
             langPath: tesseractPath,
             cacheMethod: 'none',
             gzip: false,
-        });
+        };
 
         // load language
         if (config.translation.from === engineModule.languageEnum.ja) {
-            await worker.loadLanguage('jpn');
-            await worker.initialize('jpn');
+            worker = await createWorker('jpn', 1, workerOption);
         } else if (config.translation.from === engineModule.languageEnum.en) {
-            await worker.loadLanguage('eng');
-            await worker.initialize('eng');
+            worker = await createWorker('eng', 1, workerOption);
         }
 
         // recognize text

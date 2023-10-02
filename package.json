@@ -13,18 +13,18 @@
     "author": "winw1010",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^26.2.1",
-        "electron-builder": "^24.6.3",
-        "eslint": "^8.45.0"
+        "electron": "^26.2.4",
+        "electron-builder": "^24.6.4",
+        "eslint": "^8.50.0"
     },
     "dependencies": {
-        "@google-cloud/vision": "^3.1.4",
-        "axios": "^1.4.0",
+        "@google-cloud/vision": "^4.0.2",
+        "axios": "^1.5.1",
         "crypto-js": "^4.1.1",
         "download": "^8.0.0",
-        "sharp": "^0.32.4",
+        "sharp": "^0.32.6",
         "temp": "^0.9.4",
-        "tesseract.js": "^4.1.1"
+        "tesseract.js": "^5.0.0"
     },
     "build": {
         "appId": "com.app.tataru.helper.node",

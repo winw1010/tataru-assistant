@@ -122,6 +122,8 @@ async function getTranslation(engine = '', option = {}) {
         console.log(error);
     }
 
+    console.log(result);
+
     return result || '';
 }
 

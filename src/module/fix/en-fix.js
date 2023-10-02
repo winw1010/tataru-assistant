@@ -85,9 +85,9 @@ async function nameFix(name = '', translation = {}) {
     if (target1) {
         return target1[1];
     } else if (target2) {
-        return target2[1].replaceAll(/#$/gi, '');
+        return target2[1].replace(/#$/, '');
     } else if (target3) {
-        return target3[1].replaceAll(/##$/gi, '');
+        return target3[1].replace(/##$/, '');
     } else {
         // code
         const codeResult = enFunction.replaceTextByCode(name, chArray.combine);

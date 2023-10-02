@@ -19,11 +19,13 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         };
     }
 
-    // for miqo'te tribes
-    //if (textType !== 2) text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]{1}族(?![ァ-ヺー・＝])/gi, '$&#');
+    if (textType !== 2) {
+        // miqo'te tribes
+        // text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]族(?![ァ-ヺー・＝]|#)/gi, '$&#');
 
-    // for 2 words name
-    if (textType !== 2) text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
+        // 2 words name
+        text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝]|#)/gi, '$&#');
+    }
 
     // set parameters
     const nameFixArray = jpJson.getJpArray().title;
@@ -85,18 +87,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
     // sort temp table
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
-
-    /*
-    // fix temp table
-    if (textType === 2) {
-        for (let index = tempTable.length - 1; index >= 0; index--) {
-            const element = tempTable[index][0];
-            if (/^[ァ-ヺ]{1,2}$/gi.test(element)) {
-                tempTable.splice(index, 1);
-            }
-        }
-    }
-    */
 
     // reset temp text
     tempText = text;

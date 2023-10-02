@@ -78,7 +78,7 @@ async function tesseractOCR(imageBuffer) {
             data: { text },
         } = await worker.recognize(imageBuffer, { rotateAuto: true });
 
-        // fix or error
+        // fix or show error
         if (text.trim().length > 0) {
             fixImageText(text);
         } else {
@@ -186,7 +186,7 @@ async function translateImageText(text) {
 // delete images
 function deleteImages() {
     fileModule.readdir(imagePath).forEach((fileName) => {
-        if (fileName.includes('png')) {
+        if (fileName.includes('.png')) {
             fileModule.unlink(fileModule.getPath(imagePath, fileName));
         }
     });

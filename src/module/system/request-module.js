@@ -145,8 +145,8 @@ async function netRequest(method, options, data, headers, timeout, returnType = 
 async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
     return new Promise((resolve) => {
         netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
-            console.log('headers', response?.headers);
-            console.log('set-cookie', response?.headers?.['set-cookie']);
+            //console.log('headers', response?.headers);
+            //console.log('set-cookie', response?.headers?.['set-cookie']);
             const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';
 
             if (Array.isArray(targetRegExp)) {

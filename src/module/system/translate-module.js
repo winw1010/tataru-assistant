@@ -14,6 +14,8 @@ const zhConverter = require('../translator/zh-convert');
 
 // translate
 async function translate(text = '', translation = {}, table = []) {
+    console.log('Before:', text);
+
     if (text === '') {
         return '……';
     }
@@ -122,7 +124,7 @@ async function getTranslation(engine = '', option = {}) {
         console.log(error);
     }
 
-    console.log(result);
+    console.log('After:', result);
 
     return result || '';
 }

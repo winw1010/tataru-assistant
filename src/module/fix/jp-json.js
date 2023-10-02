@@ -90,6 +90,8 @@ function versionFix() {
         const element = chArray.combine[index][0];
         if (/(^[ァ-ヺー]{2}$)|(^ココ#$)/.test(element)) {
             chArray.combine.splice(index, 1);
+        } else {
+            chArray.combine[index][0] = element.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
         }
     }
 

@@ -136,8 +136,6 @@ async function translate(cookie, authentication, option) {
         const jsonString = youdaoFunction.decodeData(response);
         const data = JSON.parse(jsonString);
 
-        //console.log('json string:', jsonString);
-
         if (data?.translateResult?.[0]) {
             // getKeyword(option);
 

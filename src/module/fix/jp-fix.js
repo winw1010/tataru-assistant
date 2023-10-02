@@ -27,7 +27,7 @@ const textTypeList = {
 let jpArray = jpJson.getJpArray();
 let chArray = jpJson.getChArray();
 
-async function startFix(dialogData, translation) {
+async function startFix(dialogData = {}, translation = {}) {
     try {
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
@@ -89,7 +89,7 @@ async function startFix(dialogData, translation) {
     return dialogData;
 }
 
-async function nameFix(name, translation) {
+async function nameFix(name = '', translation = {}) {
     if (name === '') {
         return '';
     }
@@ -111,7 +111,7 @@ async function nameFix(name, translation) {
     }
 }
 
-async function textFix(name, text, translation) {
+async function textFix(name = '', text = '', translation = {}) {
     if (text === '') {
         return '';
     }
@@ -205,7 +205,7 @@ function getKatakanaName(name = '') {
 }
 
 // translate name
-async function translateName(name, katakanaName, translation) {
+async function translateName(name = '', katakanaName = '', translation = {}) {
     // same check
     const sameKatakanaName1 = fixFunction.sameAsArrayItem(katakanaName, chArray.combine);
     const sameKatakanaName2 = fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine);
@@ -259,7 +259,7 @@ async function translateName(name, katakanaName, translation) {
 }
 
 // create name
-function createName(katakanaName) {
+function createName(katakanaName = '') {
     let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
     tempName = tempName.replace(/^ルル/, '路路');
     tempName = tempName.replace(/^ル/, '路');
@@ -269,7 +269,7 @@ function createName(katakanaName) {
 }
 
 // create east name
-//function createEastName(katakanaName) {}
+//function createEastName(katakanaName = '') {}
 
 // save name
 function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
@@ -299,13 +299,9 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 }
 
 // special fix 1
-function specialFix1(name, text) {
+function specialFix1(name = '', text = '') {
     // special replace
-    let specialArray = jpArray.special1;
-    for (let index = 0; index < specialArray.length; index++) {
-        const element = specialArray[index];
-        text = text.replaceAll(element[0], element[1]);
-    }
+    text = jpFunction.specialReplace(text, jpArray.special1);
 
     // ヒエン
     if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
@@ -326,13 +322,9 @@ function specialFix1(name, text) {
 }
 
 // special fix 2
-function specialFix2(name, text) {
+function specialFix2(name = '', text = '') {
     // special replace
-    let specialArray = jpArray.special2;
-    for (let index = 0; index < specialArray.length; index++) {
-        const element = specialArray[index];
-        text = text.replaceAll(element[0], element[1]);
-    }
+    text = jpFunction.specialReplace(text, jpArray.special2);
 
     // コボルド族
     if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
@@ -396,7 +388,7 @@ function specialFix2(name, text) {
 }
 
 // get text type
-function getTextType(name, text) {
+function getTextType(name = '', text = '') {
     let type = textTypeList.normal;
 
     if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
@@ -409,7 +401,7 @@ function getTextType(name, text) {
 }
 
 // check katakana
-function allKataCheck(name, text) {
+function allKataCheck(name = '', text = '') {
     if (fixFunction.includesArrayItem(name, jpArray.listHira)) {
         return true;
     }

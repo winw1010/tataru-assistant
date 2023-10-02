@@ -85,9 +85,10 @@ function createRegExpArray(array = []) {
 function versionFix() {
     // combine
     // 2 words name
+    // ココ#
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
-        if (/^[ァ-ヺー]{2}$/.test(element)) {
+        if (/(^[ァ-ヺー]{2}$)|(^ココ#$)/.test(element)) {
             chArray.combine.splice(index, 1);
         }
     }
@@ -96,7 +97,7 @@ function versionFix() {
     // ココ#
     for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
         const element = chArray.chTemp[index][0];
-        if (/^ココ#$/.test(element)) {
+        if (/(^ココ#$)/.test(element)) {
             chArray.chTemp.splice(index, 1);
         }
     }

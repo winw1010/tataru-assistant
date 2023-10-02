@@ -15,7 +15,7 @@ const pathList = {
 };
 
 // get text path
-function getTextPath(dir, ...args) {
+function getTextPath(dir = '', ...args) {
     return fileModule.getRootPath(pathList[dir], ...args);
 }
 
@@ -25,12 +25,16 @@ function getTempTextPath(...args) {
 }
 
 // read text
-function readText(path, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
+function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 1) {
     try {
-        let array = fileModule.read(path, 'json');
+        let array = [];
+        let data = fileModule.read(path, 'json');
 
-        if (!Array.isArray(array)) {
-            throw path + ' is not an array.';
+        if (Array.isArray(data)) {
+            array = data;
+        } else {
+            console.log(path + ' is not an array.');
+            return array;
         }
 
         // map array
@@ -49,18 +53,17 @@ function readText(path, sort = true, map = false, srcIndex = 0, rplIndex = 1) {
         return array;
     } catch (error) {
         console.log(error);
-        fileModule.write(path, [], 'json');
         return [];
     }
 }
 
 // read overwrite EN
-function readOverwriteEN(rplIndex) {
+function readOverwriteEN(rplIndex = 1) {
     return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-en'), 0, rplIndex);
 }
 
 // read overwrite JP
-function readOverwriteJP(rplIndex) {
+function readOverwriteJP(rplIndex = 1) {
     return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-jp'), 0, rplIndex);
 }
 
@@ -75,12 +78,12 @@ function readSubtitleJP() {
 }
 
 // read main
-function readMain(srcIndex, rplIndex) {
+function readMain(srcIndex = 0, rplIndex = 1) {
     return readMultiText(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
 }
 
 // read multi texts
-function readMultiText(filePath, srcIndex, rplIndex) {
+function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
     try {
         const fileList = fileModule.readdir(filePath);
         let array = [];
@@ -101,17 +104,17 @@ function readMultiText(filePath, srcIndex, rplIndex) {
 }
 
 // read temp
-function readTemp(name, sort = true) {
+function readTemp(name = '', sort = true) {
     return readText(getTempTextPath(name), sort);
 }
 
 // write temp
-function writeTemp(name, data) {
+function writeTemp(name = '', data = '') {
     fileModule.write(getTempTextPath(name), data, 'json');
 }
 
 // map array
-function mapArray(array, index0, index1) {
+function mapArray(array = [], index0 = 0, index1 = 1) {
     if (!checkArray(array)) {
         return [];
     }
@@ -124,7 +127,7 @@ function mapArray(array, index0, index1) {
 }
 
 // clear array
-function clearArray(array) {
+function clearArray(array = []) {
     if (!checkArray(array)) {
         return [];
     }
@@ -152,7 +155,7 @@ function clearArray(array) {
 }
 
 // sort array
-function sortArray(array) {
+function sortArray(array = []) {
     if (!checkArray(array)) {
         return [];
     }
@@ -177,7 +180,7 @@ function combineArray(...args) {
 }
 
 // combine array with temp
-function combineArrayWithTemp(temp, ...args) {
+function combineArrayWithTemp(temp = [], ...args) {
     // ignore index
     let tempIgnoreIndex = [];
     let combineIgnoreIndex = [];
@@ -247,7 +250,7 @@ function combineArrayWithTemp(temp, ...args) {
 }
 
 // check array
-function checkArray(array) {
+function checkArray(array = []) {
     return Array.isArray(array) && array.length > 0;
 }
 

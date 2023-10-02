@@ -19,6 +19,9 @@ function replaceTextByCode(text, array, textType = 0) {
         };
     }
 
+    // for miqo'te tribes
+    //if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺー・＝])[ァ-ヺ]{1}族(?![ァ-ヺー・＝])/gi, '$&#');
+
     // for 2 words name
     if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
 

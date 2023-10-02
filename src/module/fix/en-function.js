@@ -7,7 +7,7 @@ const fixFunction = require('./fix-function');
 const enJson = require('./en-json');
 
 // en text function
-function replaceTextByCode(text, array) {
+function replaceTextByCode(text = '', array = []) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -77,7 +77,7 @@ function replaceTextByCode(text, array) {
     return result;
 }
 
-function canSkipTranslation(text, table) {
+function canSkipTranslation(text = '', table = []) {
     // remove table index
     const enReg = table.map((value) => value[0]).join('|');
     if (enReg !== '') {

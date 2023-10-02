@@ -134,8 +134,8 @@ async function textFix(name, text, translation) {
             text = jpFunction.reverseKana(text);
         }
 
-        // special fix
-        text = specialFix(name, text);
+        // special fix 1
+        text = specialFix1(name, text);
 
         // jp1
         text = fixFunction.replaceText(text, jpArray.jp1);
@@ -146,6 +146,9 @@ async function textFix(name, text, translation) {
 
         // jp2
         text = fixFunction.replaceText(text, jpArray.jp2);
+
+        // special fix 2
+        text = specialFix2(name, text);
 
         // convert to hira
         if (textType === textTypeList.allKatakana) {
@@ -295,13 +298,39 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
-// special fix
-function specialFix(name, text) {
+// special fix 1
+function specialFix1(name, text) {
+    // special replace
+    for (let index = 0; index < jpArray.special1.length; index++) {
+        const element = jpArray.special1[index];
+        text = text.replaceAll(element[0], element[1]);
+    }
+
+    // ヒエン
+    if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
+        text = text.replaceAll(/若(?!若|々|い|し|様)/gi, '若様');
+    }
+
+    // 水晶公
+    if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
+        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
+    }
+
+    // 暗黒騎士
+    if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
+        text = text.replaceAll('ミスト', 'ミスト#');
+    }
+
+    return text;
+}
+
+// special fix 2
+function specialFix2(name, text) {
     let loopCount = 0;
 
     // special replace
-    for (let index = 0; index < jpArray.special.length; index++) {
-        const element = jpArray.special[index];
+    for (let index = 0; index < jpArray.special2.length; index++) {
+        const element = jpArray.special2[index];
         text = text.replaceAll(element[0], element[1]);
     }
 
@@ -327,24 +356,9 @@ function specialFix(name, text) {
         text = text.replaceAll(/\u3000/gi, '、');
     }
 
-    // ヒエン
-    if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
-        text = text.replaceAll(/若(?!若|々|い|し|様)/gi, '若様');
-    }
-
-    // 水晶公
-    if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-        text = text.replaceAll(/(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi, '水晶公');
-    }
-
     // ライアン
     if (/ライアン/gi.test(name)) {
         text = text.replaceAll('あーた', '貴方');
-    }
-
-    // 暗黒騎士
-    if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
-        text = text.replaceAll('ミスト', 'ミスト#');
     }
 
     // あ…… or あ… or あ、

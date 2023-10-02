@@ -78,6 +78,7 @@ async function entry() {
         dialogModule.addDialog(dialogData.id, dialogData.code);
 
         // start fix
+        console.log();
         const dataLanguage = getLanguage(dialogData);
         if (dataLanguage === languageEnum.ja) {
             dialogData.translation.from = languageEnum.ja;

@@ -301,8 +301,9 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 // special fix 1
 function specialFix1(name, text) {
     // special replace
-    for (let index = 0; index < jpArray.special1.length; index++) {
-        const element = jpArray.special1[index];
+    let specialArray = jpArray.special1;
+    for (let index = 0; index < specialArray.length; index++) {
+        const element = specialArray[index];
         text = text.replaceAll(element[0], element[1]);
     }
 
@@ -326,11 +327,10 @@ function specialFix1(name, text) {
 
 // special fix 2
 function specialFix2(name, text) {
-    let loopCount = 0;
-
     // special replace
-    for (let index = 0; index < jpArray.special2.length; index++) {
-        const element = jpArray.special2[index];
+    let specialArray = jpArray.special2;
+    for (let index = 0; index < specialArray.length; index++) {
+        const element = specialArray[index];
         text = text.replaceAll(element[0], element[1]);
     }
 
@@ -362,7 +362,7 @@ function specialFix2(name, text) {
     }
 
     // あ…… or あ… or あ、
-    loopCount = 0;
+    let loopCount = 0;
     while (/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
         text = text.replaceAll(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
         loopCount++;

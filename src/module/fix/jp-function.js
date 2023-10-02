@@ -11,7 +11,7 @@ const hiragana = getHiraganaString();
 const katakana = getKatakanaString();
 
 // jp text function
-function replaceTextByCode(text, array, textType = 0) {
+function replaceTextByCode(text = '', array = [], textType = 0) {
     if (text === '' || !Array.isArray(array) || !array.length > 0) {
         return {
             text: text,
@@ -20,10 +20,10 @@ function replaceTextByCode(text, array, textType = 0) {
     }
 
     // for miqo'te tribes
-    //if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺー・＝])[ァ-ヺ]{1}族(?![ァ-ヺー・＝])/gi, '$&#');
+    //if (textType !== 2) text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]{1}族(?![ァ-ヺー・＝])/gi, '$&#');
 
     // for 2 words name
-    if (textType !== 2) text = text.replaceAll(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
+    if (textType !== 2) text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝])/gi, '$&#');
 
     // set parameters
     const nameFixArray = jpJson.getJpArray().title;
@@ -158,6 +158,14 @@ function replaceTextByCode(text, array, textType = 0) {
     return result;
 }
 
+function specialReplace(text = '', array = []) {
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        text = text.replace(element[0], element[1]);
+    }
+    return text;
+}
+
 function convertKana(text = '', type = '') {
     switch (type) {
         case 'hira':
@@ -197,26 +205,26 @@ function reverseKana(text = '') {
 }
 
 function hiraFix(text = '') {
-    text = text.replaceAll(/([あかさたなはまらがざだばぱやわ])ー/gi, '$1あ');
-    text = text.replaceAll(/([いきしちにひみりぎじぢびぴ])ー/gi, '$1い');
-    text = text.replaceAll(/([うくすつぬふむるぐずづぶぷゆ])ー/gi, '$1う');
-    text = text.replaceAll(/([えけせてねへめれげぜでべぺ])ー/gi, '$1え');
-    text = text.replaceAll(/([おこそとのほもろごぞどぼぽよを])ー/gi, '$1お');
+    text = text.replace(/([あかさたなはまらがざだばぱやわ])ー/gi, '$1あ');
+    text = text.replace(/([いきしちにひみりぎじぢびぴ])ー/gi, '$1い');
+    text = text.replace(/([うくすつぬふむるぐずづぶぷゆ])ー/gi, '$1う');
+    text = text.replace(/([えけせてねへめれげぜでべぺ])ー/gi, '$1え');
+    text = text.replace(/([おこそとのほもろごぞどぼぽよを])ー/gi, '$1お');
 
-    text = text.replaceAll('ゔぁ', 'ば');
-    text = text.replaceAll('ゔぃ', 'び');
-    text = text.replaceAll('ゔ', 'ぶ');
-    text = text.replaceAll('ゔぇ', 'べ');
-    text = text.replaceAll('ゔぉ', 'ぼ');
+    text = text.replace(/ゔぁ/gi, 'ば');
+    text = text.replace(/ゔぃ/gi, 'び');
+    text = text.replace(/ゔ/gi, 'ぶ');
+    text = text.replace(/ゔぇ/gi, 'べ');
+    text = text.replace(/ゔぉ/gi, 'ぼ');
 
     return text;
 }
 
-function canSkipTranslation(text) {
+function canSkipTranslation(text = '') {
     return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
-function genderFix(originalText, translatedText) {
+function genderFix(originalText = '', translatedText = '') {
     const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
     if (!isFemale) {
@@ -230,7 +238,7 @@ function genderFix(originalText, translatedText) {
     return translatedText;
 }
 
-function isChinese(text, translation) {
+function isChinese(text = '', translation = {}) {
     return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
 }
 
@@ -249,6 +257,7 @@ function getKatakanaString() {
 // module exports
 module.exports = {
     replaceTextByCode,
+    specialReplace,
     convertKana,
     reverseKana,
     canSkipTranslation,

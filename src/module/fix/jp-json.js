@@ -50,15 +50,16 @@ function load(targetLanguage) {
     // combine
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
-    // create special array
-    jpArray.special = createSpecialArray(jpArray.special);
+    // create RegExp array
+    jpArray.other = createRegExpArray(jpArray.other);
+    jpArray.special = createRegExpArray(jpArray.special);
 
     // version fix
     versionFix();
 }
 
-// create special array
-function createSpecialArray(array = []) {
+// create RegExp array
+function createRegExpArray(array = []) {
     let invalidIndex = [];
 
     // create RegExp

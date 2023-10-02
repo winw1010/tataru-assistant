@@ -125,6 +125,9 @@ async function textFix(name, text, translation) {
     if (target) {
         return fixFunction.replaceText(target[1], chArray.combine, true);
     } else {
+        // special fix
+        text = specialFix(name, text);
+
         // en1
         text = fixFunction.replaceText(text, enArray.en1, true);
 
@@ -134,9 +137,6 @@ async function textFix(name, text, translation) {
 
         // en2
         text = fixFunction.replaceText(text, enArray.en2, true);
-
-        // special fix
-        text = specialFix(name, text);
 
         // mark fix
         text = fixFunction.markFix(text);

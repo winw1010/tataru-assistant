@@ -1,7 +1,7 @@
 'use strict';
 
 // skip check
-function skipCheck(code, name, text, ignoreArray) {
+function skipCheck(code = '', name = '', text = '', ignoreArray = []) {
     return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
 }
 
@@ -78,7 +78,7 @@ function codeTest(text = '', code = []) {
 }
 
 // can ignore
-function canIgnore(text, ignoreArray) {
+function canIgnore(text = '', ignoreArray = []) {
     if (text === '' || !Array.isArray(ignoreArray) || !ignoreArray.length > 0) {
         return false;
     }
@@ -93,7 +93,7 @@ function canIgnore(text, ignoreArray) {
 }
 
 // includes array item
-function includesArrayItem(text, array, searchIndex = 0, useRegex = false) {
+function includesArrayItem(text = '', array = [], searchIndex = 0, useRegex = false) {
     // search array
     let searchArray = array;
 
@@ -136,7 +136,7 @@ function includesArrayItem(text, array, searchIndex = 0, useRegex = false) {
 }
 
 // same as array item
-function sameAsArrayItem(text, array, searchIndex = 0) {
+function sameAsArrayItem(text = '', array = [], searchIndex = 0) {
     // search array
     let searchArray = array;
 
@@ -166,7 +166,7 @@ function sameAsArrayItem(text, array, searchIndex = 0) {
 }
 
 // mark fix
-function markFix(text, isTranslated = false) {
+function markFix(text = '', isTranslated = false) {
     // remove （） and its content
     text = text.replaceAll(/（.*?）/gi, '');
 
@@ -202,7 +202,7 @@ function markFix(text, isTranslated = false) {
 }
 
 // value fix before
-function valueFixBefore(text) {
+function valueFixBefore(text = '') {
     const valueList = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
     let valueTable = [];
 
@@ -224,7 +224,7 @@ function valueFixBefore(text) {
 }
 
 // value fix after
-function valueFixAfter(text, valueTable) {
+function valueFixAfter(text = '', valueTable = []) {
     for (let index = 0; index < valueTable.length; index++) {
         const element = valueTable[index];
         text = text.replaceAll(element[0], element[1]);

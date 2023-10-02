@@ -37,8 +37,8 @@ function load(targetLanguage) {
     jpArray.listCrystalium = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listCrystalium.json'));
     jpArray.listHira = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listHira.json'));
     jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
-    jpArray.other = jsonFunction.readText(jsonFunction.getTextPath('jp', 'other.json'));
-    jpArray.special = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special.json'));
+    jpArray.special1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special1.json'));
+    jpArray.special2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special2.json'));
     jpArray.title = jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'));
 
     // main
@@ -51,8 +51,8 @@ function load(targetLanguage) {
     chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
     // create RegExp array
-    jpArray.other = createRegExpArray(jpArray.other);
-    jpArray.special = createRegExpArray(jpArray.special);
+    jpArray.special1 = createRegExpArray(jpArray.special1);
+    jpArray.special2 = createRegExpArray(jpArray.special2);
 
     // version fix
     versionFix();

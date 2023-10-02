@@ -198,7 +198,7 @@ function specialFix(name = '', text = '') {
 
     // A-Apple
     while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {
-        text = text.replaceAll(/(?<=\b)(\w{1,2})-\1/gi, '$1');
+        text = text.replace(/(?<=\b)(\w{1,2})-\1/gi, '$1');
         loopCount++;
     }
 

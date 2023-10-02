@@ -66,7 +66,7 @@ async function translate(text = '', translation = {}, table = []) {
         return zhConvert(clearCode(result, table), translation.to);
     } catch (error) {
         console.log(error);
-        return 'Failed to translate: ' + error;
+        return 'Failed to get translation: ' + error;
     }
 }
 

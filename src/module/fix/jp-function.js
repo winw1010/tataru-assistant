@@ -21,10 +21,10 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
     if (textType !== 2) {
         // miqo'te tribes
-        // text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]族(?![ァ-ヺー・＝]|#)/gi, '$&#');
+        // text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]族(?![ァ-ヺー・＝#])/gi, '$&#');
 
         // 2 words name
-        text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝]|#)/gi, '$&#');
+        text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝#])/gi, '$&#');
     }
 
     // set parameters

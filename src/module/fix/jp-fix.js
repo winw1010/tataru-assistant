@@ -134,6 +134,9 @@ async function textFix(name, text, translation) {
             text = jpFunction.reverseKana(text);
         }
 
+        // special fix
+        text = specialFix(name, text);
+
         // jp1
         text = fixFunction.replaceText(text, jpArray.jp1);
 
@@ -143,9 +146,6 @@ async function textFix(name, text, translation) {
 
         // jp2
         text = fixFunction.replaceText(text, jpArray.jp2);
-
-        // special fix
-        text = specialFix(name, text);
 
         // convert to hira
         if (textType === textTypeList.allKatakana) {

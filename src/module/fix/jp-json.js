@@ -91,6 +91,15 @@ function versionFix() {
             chArray.combine.splice(index, 1);
         }
     }
+
+    // chTemp
+    // ココ#
+    for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
+        const element = chArray.chTemp[index][0];
+        if (/^ココ#$/.test(element)) {
+            chArray.chTemp.splice(index, 1);
+        }
+    }
 }
 
 // get ch array

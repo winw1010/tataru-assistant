@@ -1,9 +1,22 @@
 'use strict';
 
-// 1AF5E268370
-// CUTSCENE(9): 68 250 0
-// DIALOG NAME(7): ?
-// DIALOG TEXT(7): 68 250 100
+// CUTSCENE
+// BASE VALUE: 1AF5E268370
+// MAX LEVEL: 9
+// PATH: 68 250 0
+
+// DIALOG NAME
+// BASE VALUE: 1EC143436E0
+// MAX LEVEL: 8
+// PATH: 290 C8 FE2
+// PATH: 298 1E8 FE2
+// NOT ACTION, NOT OBJECT
+
+// DIALOG TEXT
+// BASE VALUE: 1AF5E268370
+// MAX LEVEL: 7
+// PATH: 68 250 100
+// NOT ACTION
 
 // child process
 const childProcess = require('child_process');

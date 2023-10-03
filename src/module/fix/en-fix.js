@@ -84,35 +84,39 @@ async function nameFix(name = '', translation = {}) {
 
     if (target1) {
         return target1[1];
-    } else if (target2) {
-        return target2[1].replace(/#$/, '');
-    } else if (target3) {
-        return target3[1].replace(/##$/, '');
-    } else {
-        // code
-        const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
-
-        // translate name
-        let translatedName = '';
-        translatedName = codeResult.text;
-
-        // skip check
-        if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
-            // translate
-            translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
-        }
-
-        // mark fix
-        translatedName = fixFunction.markFix(translatedName, true);
-
-        // table
-        translatedName = fixFunction.replaceText(translatedName, codeResult.table);
-
-        // save to temp
-        saveName(name, translatedName);
-
-        return translatedName;
     }
+
+    if (target2) {
+        return target2[1].replace(/#$/, '');
+    }
+
+    if (target3) {
+        return target3[1].replace(/##$/, '');
+    }
+
+    // code
+    const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
+
+    // translate name
+    let translatedName = '';
+    translatedName = codeResult.text;
+
+    // skip check
+    if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
+        // translate
+        translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
+    }
+
+    // mark fix
+    translatedName = fixFunction.markFix(translatedName, true);
+
+    // table
+    translatedName = fixFunction.replaceText(translatedName, codeResult.table);
+
+    // save to temp
+    saveName(name, translatedName);
+
+    return translatedName;
 }
 
 async function textFix(name = '', text = '', translation = {}) {
@@ -124,47 +128,47 @@ async function textFix(name = '', text = '', translation = {}) {
     const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
         return fixFunction.replaceText(target[1], chArray.combine, true);
-    } else {
-        // en1
-        text = fixFunction.replaceText(text, enArray.en1, true);
-
-        // combine
-        const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-        text = codeResult.text;
-
-        // en2
-        text = fixFunction.replaceText(text, enArray.en2, true);
-
-        // special fix
-        text = specialFix(name, text);
-
-        // mark fix
-        text = fixFunction.markFix(text);
-
-        // value fix before
-        const valueResult = fixFunction.valueFixBefore(text);
-        text = valueResult.text;
-
-        // skip check
-        if (!enFunction.canSkipTranslation(text, codeResult.table)) {
-            // translate
-            text = await translateModule.translate(text, translation, codeResult.table);
-        }
-
-        // value fix after
-        text = fixFunction.valueFixAfter(text, valueResult.table);
-
-        // mark fix
-        text = fixFunction.markFix(text, true);
-
-        // after translation
-        text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-        // table
-        text = fixFunction.replaceWord(text, codeResult.table);
-
-        return text;
     }
+
+    // en1
+    text = fixFunction.replaceText(text, enArray.en1, true);
+
+    // combine
+    const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
+    text = codeResult.text;
+
+    // en2
+    text = fixFunction.replaceText(text, enArray.en2, true);
+
+    // special fix
+    text = specialFix(name, text);
+
+    // mark fix
+    text = fixFunction.markFix(text);
+
+    // value fix before
+    const valueResult = fixFunction.valueFixBefore(text);
+    text = valueResult.text;
+
+    // skip check
+    if (!enFunction.canSkipTranslation(text, codeResult.table)) {
+        // translate
+        text = await translateModule.translate(text, translation, codeResult.table);
+    }
+
+    // value fix after
+    text = fixFunction.valueFixAfter(text, valueResult.table);
+
+    // mark fix
+    text = fixFunction.markFix(text, true);
+
+    // after translation
+    text = fixFunction.replaceText(text, chArray.afterTranslation);
+
+    // table
+    text = fixFunction.replaceWord(text, codeResult.table);
+
+    return text;
 }
 
 // save name

@@ -1,5 +1,10 @@
 'use strict';
 
+// 1AF5E268370
+// CUTSCENE(9): 68 250 0
+// DIALOG NAME(7): ?
+// DIALOG TEXT(7): 68 250 100
+
 // child process
 const childProcess = require('child_process');
 

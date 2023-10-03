@@ -14,16 +14,12 @@
 	},
 	{
 		"Key": "PANEL_TEXT",
-		"ASMSignature": true,
 		"PointerPath": [
-			0,
-			0,
-			32,
-			14504,
-			552,
-			184
-		],
-		"Value": "488B4708498B5D00498B7728488B3D"
+			35463968,
+			104,
+			592,
+			256
+		]
 	},
 	{
 		"Key": "CUTSCENE_DETECTOR",

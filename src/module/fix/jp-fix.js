@@ -101,14 +101,18 @@ async function nameFix(name = '', translation = {}) {
 
     if (target1) {
         return target1[1];
-    } else if (target2) {
-        return target2[1].replace(/#$/, '');
-    } else if (target3) {
-        return target3[1].replace(/##$/, '');
-    } else {
-        const translatedName = translateName(name, getKatakanaName(name), translation);
-        return translatedName;
     }
+
+    if (target2) {
+        return target2[1].replace(/#$/, '');
+    }
+
+    if (target3) {
+        return target3[1].replace(/##$/, '');
+    }
+
+    const translatedName = translateName(name, getKatakanaName(name), translation);
+    return translatedName;
 }
 
 async function textFix(name = '', text = '', translation = {}) {
@@ -122,69 +126,69 @@ async function textFix(name = '', text = '', translation = {}) {
     const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
     if (target) {
         return fixFunction.replaceText(target[1], chArray.combine);
-    } else {
-        // get text type
-        const textType = getTextType(name, text);
-
-        // subtitle
-        text = fixFunction.replaceText(text, jpArray.subtitle);
-
-        // reverse text
-        if (textType === textTypeList.reversed) {
-            text = jpFunction.reverseKana(text);
-        }
-
-        // special fix 1
-        text = specialFix1(name, text);
-
-        // jp1
-        text = fixFunction.replaceText(text, jpArray.jp1);
-
-        // combine
-        const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
-        text = codeResult.text;
-
-        // jp2
-        text = fixFunction.replaceText(text, jpArray.jp2);
-
-        // special fix 2
-        text = specialFix2(name, text);
-
-        // convert to hira
-        if (textType === textTypeList.allKatakana) {
-            text = jpFunction.convertKana(text, 'hira');
-        }
-
-        // mark fix
-        text = fixFunction.markFix(text);
-
-        // value fix before
-        const valueResult = fixFunction.valueFixBefore(text);
-        text = valueResult.text;
-
-        // skip check
-        if (!jpFunction.canSkipTranslation(text)) {
-            // translate
-            text = await translateModule.translate(text, translation, codeResult.table);
-        }
-
-        // value fix after
-        text = fixFunction.valueFixAfter(text, valueResult.table);
-
-        // mark fix
-        text = fixFunction.markFix(text, true);
-
-        // gender fix
-        text = jpFunction.genderFix(originalText, text);
-
-        // after translation
-        text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-        // table
-        text = fixFunction.replaceWord(text, codeResult.table);
-
-        return text;
     }
+
+    // get text type
+    const textType = getTextType(name, text);
+
+    // subtitle
+    text = fixFunction.replaceText(text, jpArray.subtitle);
+
+    // reverse text
+    if (textType === textTypeList.reversed) {
+        text = jpFunction.reverseKana(text);
+    }
+
+    // special fix 1
+    text = specialFix1(name, text);
+
+    // jp1
+    text = fixFunction.replaceText(text, jpArray.jp1);
+
+    // combine
+    const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
+    text = codeResult.text;
+
+    // jp2
+    text = fixFunction.replaceText(text, jpArray.jp2);
+
+    // special fix 2
+    text = specialFix2(name, text);
+
+    // convert to hira
+    if (textType === textTypeList.allKatakana) {
+        text = jpFunction.convertKana(text, 'hira');
+    }
+
+    // mark fix
+    text = fixFunction.markFix(text);
+
+    // value fix before
+    const valueResult = fixFunction.valueFixBefore(text);
+    text = valueResult.text;
+
+    // skip check
+    if (!jpFunction.canSkipTranslation(text)) {
+        // translate
+        text = await translateModule.translate(text, translation, codeResult.table);
+    }
+
+    // value fix after
+    text = fixFunction.valueFixAfter(text, valueResult.table);
+
+    // mark fix
+    text = fixFunction.markFix(text, true);
+
+    // gender fix
+    text = jpFunction.genderFix(originalText, text);
+
+    // after translation
+    text = fixFunction.replaceText(text, chArray.afterTranslation);
+
+    // table
+    text = fixFunction.replaceWord(text, codeResult.table);
+
+    return text;
 }
 
 // get katakana name

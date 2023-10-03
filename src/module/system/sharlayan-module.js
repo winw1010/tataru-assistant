@@ -11,7 +11,7 @@
 
 // DIALOG TEXT
 // MAX LEVEL: 7
-// PATH: 68 250 100
+// PATH: 68 250 200
 // NOT ACTION
 
 // child process

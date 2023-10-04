@@ -43,14 +43,14 @@ function start() {
             try {
                 const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
                 if (signatures) {
-                    let IndexPanelName = findIndex(signatures, 'Key', 'PANEL_NAME');
-                    let IndexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
-                    let IndexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
+                    let indexPanelName = findIndex(signatures, 'Key', 'PANEL_NAME');
+                    let indexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
+                    let indexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
 
                     if (childProcess.execSync('ver').toString().includes('10.0.22')) {
-                        signatures[IndexPanelName].PointerPath = signatures[IndexPanelName11].PointerPath;
+                        signatures[indexPanelName].PointerPath = signatures[indexPanelName11].PointerPath;
                     } else {
-                        signatures[IndexPanelName].PointerPath = signatures[IndexPanelName10].PointerPath;
+                        signatures[indexPanelName].PointerPath = signatures[indexPanelName10].PointerPath;
                     }
 
                     fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');

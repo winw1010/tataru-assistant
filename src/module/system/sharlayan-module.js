@@ -49,7 +49,6 @@ function start() {
             }
         }
 
-        //child = childProcess.spawn(sharlayanPath);
         child = childProcess.spawn(sharlayanPath);
 
         child.on('close', (code) => {
@@ -68,12 +67,14 @@ function start() {
         });
 
         child.stdout.on('data', (data) => {
-            if (typeof data === 'string') {
-                let dataArray = data.split('\r\n');
+            try {
+                let dataArray = data.toString().split('\r\n');
                 for (let index = 0; index < dataArray.length; index++) {
                     let element = dataArray[index];
                     if (element.length > 0) serverModule.dataProcess(element);
                 }
+            } catch (error) {
+                console.log(error);
             }
         });
     } catch (error) {

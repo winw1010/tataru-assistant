@@ -47,7 +47,7 @@ function start() {
                     let IndexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
                     let IndexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
 
-                    if (childProcess.execSync('ver').toString().includes('10.0.2')) {
+                    if (childProcess.execSync('ver').toString().includes('10.0.22')) {
                         signatures[IndexPanelName].PointerPath = signatures[IndexPanelName11].PointerPath;
                     } else {
                         signatures[IndexPanelName].PointerPath = signatures[IndexPanelName10].PointerPath;

@@ -1,24 +1,28 @@
 [
 	{
 		"Key": "PANEL_NAME",
+		"ASMSignature": true,
+		"Value": "488B4708498B5D00498B7728488B3D",
 		"PointerPath": [
-			35463968,
-			344,
 			0,
-			16,
-			8,
 			0,
-			200,
-			608
+			32,
+			14504,
+			544,
+			218
 		]
 	},
 	{
 		"Key": "PANEL_TEXT",
+		"ASMSignature": true,
+		"Value": "488B4708498B5D00498B7728488B3D",
 		"PointerPath": [
-			35463968,
-			104,
-			592,
-			512
+			0,
+			0,
+			32,
+			14504,
+			552,
+			184
 		]
 	},
 	{

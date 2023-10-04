@@ -43,6 +43,16 @@ function start() {
             try {
                 const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
                 if (signatures) {
+                    let IndexPanelName = findIndex(signatures, 'Key', 'PANEL_NAME');
+                    let IndexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
+                    let IndexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
+
+                    if (childProcess.execSync('ver').toString().includes('10.0.2')) {
+                        signatures[IndexPanelName].PointerPath = signatures[IndexPanelName11].PointerPath;
+                    } else {
+                        signatures[IndexPanelName].PointerPath = signatures[IndexPanelName10].PointerPath;
+                    }
+
                     fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
                 }
             } catch (error) {
@@ -91,6 +101,18 @@ function stop(restart = true) {
     } catch (error) {
         //console.log(error);
     }
+}
+
+// find index
+function findIndex(array = [], key = '', value = '') {
+    let target = -1;
+    for (let index = 0; index < array.length; index++) {
+        if (array[index][key] === value) {
+            target = index;
+            break;
+        }
+    }
+    return target;
 }
 
 // module exports

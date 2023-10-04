@@ -50,7 +50,7 @@ function start() {
         }
 
         //child = childProcess.spawn(sharlayanPath);
-        child = childProcess.execFile(sharlayanPath);
+        child = childProcess.spawn(sharlayanPath);
 
         child.on('close', (code) => {
             console.log(`SharlayanReader.exe closed (code: ${code})`);

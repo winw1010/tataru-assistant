@@ -13,7 +13,7 @@ const { addTask } = require('../fix/fix-entry');
 const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
 // name history
-let nameHistory = '';
+let nameHistory = {};
 
 // text history
 let textHistory = {};
@@ -65,8 +65,8 @@ function dataProcess(data) {
                 }
 
                 // name repetition check
-                if (dialogData.name !== nameHistory) {
-                    nameHistory = dialogData.name;
+                if (dialogData.name !== nameHistory[dialogData.code]) {
+                    nameHistory[dialogData.code] = dialogData.name;
                 } else {
                     dialogData.name = '';
                 }

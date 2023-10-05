@@ -73,13 +73,9 @@ function dataProcess(data) {
 
                 // new line fix
                 if (config.translation.from === engineModule.languageEnum.ja) {
-                    if (dialogData.type === 'CUTSCENE') {
-                        dialogData.text = dialogData.text.replaceAll('\r', '、');
-                    } else {
-                        dialogData.text = dialogData.text.replaceAll('\r', '');
-                    }
+                    dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
                 } else {
-                    dialogData.text = dialogData.text.replaceAll('\r', ' ');
+                    dialogData.text = dialogData.text.replace(/\r/gi, ' ');
                 }
 
                 // set translation

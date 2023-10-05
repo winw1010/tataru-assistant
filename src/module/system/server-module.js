@@ -65,10 +65,10 @@ function dataProcess(data) {
                 }
 
                 // name repetition check
-                if (dialogData.name === nameHistory) {
-                    dialogData.name = '';
-                } else {
+                if (dialogData.name !== nameHistory) {
                     nameHistory = dialogData.name;
+                } else {
+                    dialogData.name = '';
                 }
 
                 // new line fix

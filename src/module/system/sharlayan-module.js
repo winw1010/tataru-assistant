@@ -51,16 +51,18 @@ function start() {
                     let indexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
                     let indexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
 
+                    /*
                     let indexPanelText = findIndex(signatures, 'Key', 'PANEL_TEXT');
                     let indexPanelText10 = findIndex(signatures, 'Key', 'PANEL_TEXT_10');
                     let indexPanelText11 = findIndex(signatures, 'Key', 'PANEL_TEXT_11');
+                    */
 
                     if (childProcess.execSync('ver').toString().includes('10.0.22')) {
                         signatures[indexPanelName].PointerPath = signatures[indexPanelName11].PointerPath;
-                        signatures[indexPanelText].PointerPath = signatures[indexPanelText11].PointerPath;
+                        //signatures[indexPanelText].PointerPath = signatures[indexPanelText11].PointerPath;
                     } else {
                         signatures[indexPanelName].PointerPath = signatures[indexPanelName10].PointerPath;
-                        signatures[indexPanelText].PointerPath = signatures[indexPanelText10].PointerPath;
+                        //signatures[indexPanelText].PointerPath = signatures[indexPanelText10].PointerPath;
                     }
 
                     fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');

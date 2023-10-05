@@ -16,10 +16,7 @@ const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '
 let nameHistory = '';
 
 // text history
-// let textHistory = {};
-
-// check text history
-let checkTextHistory = {};
+let textHistory = {};
 
 // data process
 function dataProcess(data) {
@@ -49,8 +46,8 @@ function dataProcess(data) {
                     .replaceAll('\r', '')
                     .replaceAll(/（.*?）/gi, '')
                     .replaceAll(/\(.*?\)/gi, '');
-                if (checkText !== checkTextHistory[dialogData.code]) {
-                    checkTextHistory[dialogData.code] = checkText;
+                if (checkText !== textHistory[dialogData.code]) {
+                    textHistory[dialogData.code] = checkText;
                 } else {
                     return;
                 }

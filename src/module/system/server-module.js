@@ -12,6 +12,9 @@ const { addTask } = require('../fix/fix-entry');
 // system channel
 const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
+// name history
+let nameHistory = '';
+
 // text history
 // let textHistory = {};
 
@@ -41,7 +44,7 @@ function dataProcess(data) {
                 // text fix
                 dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll('%&', '').replaceAll('「+,', '「');
 
-                // check text repetition
+                // text repetition check
                 const checkText = dialogData.text
                     .replaceAll('\r', '')
                     .replaceAll(/（.*?）/gi, '')
@@ -56,17 +59,19 @@ function dataProcess(data) {
                 dialogData.id = null;
                 dialogData.timestamp = null;
 
-                // name check
-                if (dialogData.name === '...') {
-                    dialogData.name = '';
-                }
-
                 // system message fix
                 if (systemChannel.includes(dialogData.code)) {
                     if (dialogData.name !== '') {
                         dialogData.text = dialogData.name + ':' + dialogData.text;
                         dialogData.name = '';
                     }
+                }
+
+                // name repetition check
+                if (dialogData.name === nameHistory) {
+                    dialogData.name = '';
+                } else {
+                    nameHistory = dialogData.name;
                 }
 
                 // new line fix

@@ -35,7 +35,7 @@ const serverModule = require('./server-module');
 const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', 'SharlayanReader.exe');
 
 // version path
-const versionPath = fileModule.getRootPath('src', 'data', 'text', 'version.json');
+const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
 
 // child
 let child = null;
@@ -48,24 +48,8 @@ function start() {
     try {
         if (fileModule.exists(versionPath)) {
             try {
-                const signatures = JSON.parse(fileModule.read(versionPath)).signatures;
+                const signatures = JSON.parse(fileModule.read(versionPath));
                 if (signatures) {
-                    let indexPanelName = findIndex(signatures, 'Key', 'PANEL_NAME');
-                    let indexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
-                    let indexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
-
-                    //let indexPanelText = findIndex(signatures, 'Key', 'PANEL_TEXT');
-                    //let indexPanelText10 = findIndex(signatures, 'Key', 'PANEL_TEXT_10');
-                    //let indexPanelText11 = findIndex(signatures, 'Key', 'PANEL_TEXT_11');
-
-                    if (childProcess.execSync('ver').toString().includes('10.0.22')) {
-                        signatures[indexPanelName].PointerPath = signatures[indexPanelName11].PointerPath;
-                        //signatures[indexPanelText].PointerPath = signatures[indexPanelText11].PointerPath;
-                    } else {
-                        signatures[indexPanelName].PointerPath = signatures[indexPanelName10].PointerPath;
-                        //signatures[indexPanelText].PointerPath = signatures[indexPanelText10].PointerPath;
-                    }
-
                     fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
                 }
             } catch (error) {
@@ -114,18 +98,6 @@ function stop(restart = true) {
     } catch (error) {
         //console.log(error);
     }
-}
-
-// find index
-function findIndex(array = [], key = '', value = '') {
-    let target = -1;
-    for (let index = 0; index < array.length; index++) {
-        if (array[index][key] === value) {
-            target = index;
-            break;
-        }
-    }
-    return target;
 }
 
 // module exports

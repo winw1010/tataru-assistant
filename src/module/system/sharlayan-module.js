@@ -1,21 +1,22 @@
 'use strict';
 
 // CUTSCENE
-// MAX LEVEL: 9
+// MAX DIFFERENT OFFSETS PER NODE: 4
+// MAXIUM OFFSET VALUE: 32767
+// MAX LEVEL: 5
 // PATH: 68 250 0
 
 // DIALOG NAME
-// MAX LEVEL: 9
-// PATH(10): 10 50 130 C8 18 20 40 220 E0
-// PATH(11): 10 50 130 F0 18 80 40 220 E0
-// NOT ACTION, NOT OBJECT, NOT SKILL, END WITH E0
-// ENGILISH
+// MAX DIFFERENT OFFSETS PER NODE: 4
+// MAXIUM OFFSET VALUE: 32767
+// MAX LEVEL: 5
+// NOT ACTION, NOT OBJECT, NOT SKILL
 
 // DIALOG TEXT
-// MAX LEVEL: 9
+// MAX DIFFERENT OFFSETS PER NODE: 4
+// MAXIUM OFFSET VALUE: 32767
+// MAX LEVEL: 5
 // PATH: 68 250 200 (BROKEN)
-// PATH(10): 10 50 130 C8 18 80 10 3A0 200 (BROKEN)
-// PATH(11): 10 50 130 F0 18 80 40 3A0 200 (BROKEN)
 // NOT ACTION, NOT OBJECT, NOT SKILL, WITH NEW LINE
 // STEP 100, FIRST ONE, SAME BASE WITH NAME, END WITH 200
 
@@ -51,11 +52,9 @@ function start() {
                     let indexPanelName10 = findIndex(signatures, 'Key', 'PANEL_NAME_10');
                     let indexPanelName11 = findIndex(signatures, 'Key', 'PANEL_NAME_11');
 
-                    /*
-                    let indexPanelText = findIndex(signatures, 'Key', 'PANEL_TEXT');
-                    let indexPanelText10 = findIndex(signatures, 'Key', 'PANEL_TEXT_10');
-                    let indexPanelText11 = findIndex(signatures, 'Key', 'PANEL_TEXT_11');
-                    */
+                    //let indexPanelText = findIndex(signatures, 'Key', 'PANEL_TEXT');
+                    //let indexPanelText10 = findIndex(signatures, 'Key', 'PANEL_TEXT_10');
+                    //let indexPanelText11 = findIndex(signatures, 'Key', 'PANEL_TEXT_11');
 
                     if (childProcess.execSync('ver').toString().includes('10.0.22')) {
                         signatures[indexPanelName].PointerPath = signatures[indexPanelName11].PointerPath;

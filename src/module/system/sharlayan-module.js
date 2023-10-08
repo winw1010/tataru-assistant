@@ -1,6 +1,6 @@
 'use strict';
 
-// ASM [0,0] = Target Address
+// ASMSignature [0,0] = Target Base Address(Value in ["ffxiv_dx11.exe"+XXXXXXXX])
 
 // CUTSCENE
 // MAX DIFFERENT OFFSETS PER NODE: 4

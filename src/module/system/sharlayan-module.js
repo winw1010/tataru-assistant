@@ -49,7 +49,7 @@ function start() {
     try {
         if (fileModule.exists(versionPath)) {
             try {
-                const signatures = JSON.parse(fileModule.read(versionPath, 'json'));
+                const signatures = JSON.parse(fileModule.read(versionPath));
                 if (signatures) {
                     fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
                 }

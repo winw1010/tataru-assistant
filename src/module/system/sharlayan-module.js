@@ -1,5 +1,7 @@
 'use strict';
 
+// ASM [0,0] = Target Address
+
 // CUTSCENE
 // MAX DIFFERENT OFFSETS PER NODE: 4
 // MAXIUM OFFSET VALUE: 65535

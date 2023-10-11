@@ -20,8 +20,11 @@ const npcChannel = ['003D', '0044', '2AB9'];
 let enArray = enJson.getEnArray();
 let chArray = enJson.getChArray();
 
-async function startFix(dialogData = {}, translation = {}) {
+async function startFix(dialogData = {}) {
     try {
+        // get translation
+        const translation = dialogData.translation;
+
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
             throw '';

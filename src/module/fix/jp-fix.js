@@ -149,16 +149,16 @@ async function textFix(name = '', text = '', translation = {}) {
     const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
     text = codeResult.text;
 
-    // convert to hira
-    if (textType === textTypeList.allKatakana) {
-        text = jpFunction.convertKana(text, 'hira');
-    }
-
     // jp2
     text = fixFunction.replaceText(text, jpArray.jp2);
 
     // special fix 2
     text = specialFix2(name, text);
+
+    // convert to hira
+    if (textType === textTypeList.allKatakana) {
+        text = jpFunction.convertKana(text, 'hira');
+    }
 
     // mark fix
     text = fixFunction.markFix(text);

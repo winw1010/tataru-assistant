@@ -27,8 +27,11 @@ const textTypeList = {
 let jpArray = jpJson.getJpArray();
 let chArray = jpJson.getChArray();
 
-async function startFix(dialogData = {}, translation = {}) {
+async function startFix(dialogData = {}) {
     try {
+        // get translation
+        const translation = dialogData.translation;
+
         // skip check
         if (translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore)) {
             throw '';

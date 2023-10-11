@@ -41,17 +41,17 @@ function addTask(dialogData) {
         dialogData.timestamp = timestamp;
     }
 
+    // check translation
+    if (!dialogData.translation) {
+        dialogData.translation = configModule.getConfig().translation;
+    }
+
     // set audio text
     dialogData.audioText = dialogData.text;
 
     // set translated text
     dialogData.translatedName = '';
     dialogData.translatedText = '';
-
-    // set translation
-    if (!dialogData.translation) {
-        dialogData.translation = configModule.getConfig().translation;
-    }
 
     entryIntervalItem.push(dialogData);
 }
@@ -82,10 +82,10 @@ async function entry() {
         const dataLanguage = getLanguage(dialogData);
         if (dataLanguage === languageEnum.ja) {
             dialogData.translation.from = languageEnum.ja;
-            dialogData = await jpFix.startFix(dialogData, dialogData.translation);
+            dialogData = await jpFix.startFix(dialogData);
         } else if (dataLanguage === languageEnum.en) {
             dialogData.translation.from = languageEnum.en;
-            dialogData = await enFix.startFix(dialogData, dialogData.translation);
+            dialogData = await enFix.startFix(dialogData);
         } else {
             dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
             dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);

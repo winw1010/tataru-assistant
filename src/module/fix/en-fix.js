@@ -23,7 +23,7 @@ let chArray = enJson.getChArray();
 async function startFix(dialogData = {}, translation = {}) {
     try {
         // skip check
-        if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, enArray.ignore)) {
+        if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
             throw '';
         }
 

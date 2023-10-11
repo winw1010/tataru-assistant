@@ -1,8 +1,8 @@
 'use strict';
 
 // skip check
-function skipCheck(code = '', name = '', text = '', ignoreArray = []) {
-    return (name + text).includes('') || (['0039', '0839'].includes(code) && canIgnore(text, ignoreArray));
+function skipCheck(dialogData, ignoreArray = []) {
+    return ['0039', '0839'].includes(dialogData.code) && canIgnore(dialogData.text, ignoreArray);
 }
 
 // replace text

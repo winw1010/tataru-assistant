@@ -30,7 +30,7 @@ let chArray = jpJson.getChArray();
 async function startFix(dialogData = {}, translation = {}) {
     try {
         // skip check
-        if (translation.skip && fixFunction.skipCheck(dialogData.code, dialogData.name, dialogData.text, jpArray.ignore)) {
+        if (translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore)) {
             throw '';
         }
 

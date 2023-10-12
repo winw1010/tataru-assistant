@@ -35,12 +35,12 @@ function createWindow(windowName, data = null) {
                 contextIsolation: true,
                 nodeIntegration: false,
                 sandbox: true,
-                preload: fileModule.getPath(__dirname, '..', '..', 'html', 'preload', `${windowName}.js`),
+                preload: fileModule.getPath(__dirname, `../../html/preload/${windowName}.js`),
             },
         });
 
         // load html
-        window.loadFile(fileModule.getPath(__dirname, '..', '..', 'html', `${windowName}.html`));
+        window.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
 
         // set always on top
         window.setAlwaysOnTop(!['edit', 'dictionary'].includes(windowName), 'screen-saver');

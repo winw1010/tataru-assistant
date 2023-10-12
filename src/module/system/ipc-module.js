@@ -125,8 +125,8 @@ function setSystemChannel() {
         event.returnValue = chatCodeModule.getChatCode();
     });
 
-    // start sharlayan reader
-    ipcMain.on('start-sharlayan-reader', () => {
+    // restart sharlayan reader
+    ipcMain.on('restart-sharlayan-reader', () => {
         sharlayanModule.stop(true);
     });
 }

@@ -195,7 +195,7 @@ function combineArrayWithTemp(temp = [], ...args) {
         const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
 
         // add index to delete list
-        if ((targetIndex1 || targetIndex2) && tempElement[2] === 'temp') {
+        if ((targetIndex1 >= 0 || targetIndex2 >= 0) && tempElement[2] === 'temp') {
             // add to delete list(temp)
             if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
         } else {

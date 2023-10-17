@@ -3,8 +3,8 @@
 // file module
 const fileModule = require('../system/file-module');
 
-// all kana
-const allKana = /^[ぁ-ゖァ-ヺ]+$/gi;
+// all words
+const allWords = /^[ぁ-ゖァ-ヺA-Z]+$/gi;
 
 // path list
 const pathList = {
@@ -182,71 +182,66 @@ function combineArray(...args) {
 // combine array with temp
 function combineArrayWithTemp(temp = [], ...args) {
     // ignore index
-    let tempIgnoreIndex = [];
-    let combineIgnoreIndex = [];
+    let tempDeleteIndexList = [];
+    let combineDeleteIndexList = [];
 
     // combine array
     let combine = combineArray(...args);
 
-    // search same name and delete it
+    // search same name in temp and add its index to delete list
     const combine0 = combine.map((x) => x[0]);
     temp.forEach((tempElement, tempIndex) => {
         const targetIndex1 = combine0.indexOf(tempElement[0]);
         const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
 
-        // delete name
-        if (targetIndex1 >= 0) {
-            if (tempElement[2] === 'temp') {
-                // from temp
-                if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
-            } else {
-                // from combine
-                if (!combineIgnoreIndex.includes(targetIndex1)) combineIgnoreIndex.push(targetIndex1);
+        // add index to delete list
+        if (tempElement[2] === 'temp') {
+            // add to delete list(temp)
+            if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
+        } else {
+            // add to delete list(combine)
+            if (targetIndex1 >= 0) {
+                if (!combineDeleteIndexList.includes(targetIndex1)) combineDeleteIndexList.push(targetIndex1);
             }
-        }
 
-        // delete name#
-        if (targetIndex2 >= 0) {
-            if (tempElement[2] === 'temp') {
-                // from temp
-                if (!tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
-            } else {
-                // from combine
-                if (!combineIgnoreIndex.includes(targetIndex2)) combineIgnoreIndex.push(targetIndex2);
+            if (targetIndex2 >= 0) {
+                if (!combineDeleteIndexList.includes(targetIndex2)) combineDeleteIndexList.push(targetIndex2);
             }
         }
 
         // delete name from temp which length < 3
-        if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allKana.test(tempElement[0]))) {
-            if (tempElement[2] === 'temp' && !tempIgnoreIndex.includes(tempIndex)) tempIgnoreIndex.push(tempIndex);
+        if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allWords.test(tempElement[0]))) {
+            if (tempElement[2] === 'temp' && !tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
         }
     });
 
-    // delete name from temp
-    if (tempIgnoreIndex.length > 0) {
-        tempIgnoreIndex.sort((a, b) => b - a);
-        for (let index = 0; index < tempIgnoreIndex.length; index++) {
-            const element = tempIgnoreIndex[index];
-            temp.splice(element, 1);
-        }
+    if (tempDeleteIndexList.length > 0) {
+        // delete elements from temp
+        temp = deleteElements(temp, tempDeleteIndexList);
 
         // update temp
         fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp, 'json');
     }
 
-    // delete name from combine
-    if (combineIgnoreIndex.length > 0) {
-        combineIgnoreIndex.sort((a, b) => b - a);
-        for (let index = 0; index < combineIgnoreIndex.length; index++) {
-            const element = combineIgnoreIndex[index];
-            combine.splice(element, 1);
-        }
+    if (combineDeleteIndexList.length > 0) {
+        // delete elements from combine
+        combine = deleteElements(combine, combineDeleteIndexList);
     }
 
     // sub temp
     temp = temp.map((x) => [x[0], x[1]]);
 
     return combineArray(temp, combine);
+}
+
+// delete elements
+function deleteElements(array = [], deleteIndexList = []) {
+    deleteIndexList.sort((a, b) => b - a);
+    for (let index = 0; index < deleteIndexList.length; index++) {
+        const element = deleteIndexList[index];
+        array.splice(element, 1);
+    }
+    return array;
 }
 
 // check array

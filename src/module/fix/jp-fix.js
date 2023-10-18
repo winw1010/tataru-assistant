@@ -325,6 +325,16 @@ function specialFix1(name = '', text = '') {
         text = text.replace(/ミスト/gi, 'ミスト#');
     }
 
+    // あ、あ、あ
+    const matchResult = text.match(/(?<![ぁ-ゖァ-ヺー])([ぁ-ゖァ-ヺー]、)+/gi);
+    console.log(matchResult);
+    if (matchResult) {
+        for (let index = 0; index < matchResult.length; index++) {
+            const element = matchResult[index];
+            text = text.replaceAll(element, element.replaceAll('、', ''));
+        }
+    }
+
     return text;
 }
 

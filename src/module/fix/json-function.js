@@ -194,20 +194,20 @@ function combineArrayWithTemp(temp = [], ...args) {
         const targetIndex1 = combine0.indexOf(tempElement[0]);
         const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
 
-        if (targetIndex1 >= 0 || targetIndex2 >= 0) {
-            // add index to delete list
-            if (tempElement[2] === 'temp') {
-                // add to delete list(temp)
+        // add index to delete list
+        if (tempElement[2] === 'temp') {
+            // add to delete list(temp)
+            if (targetIndex1 >= 0 || targetIndex2 >= 0) {
                 if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
-            } else {
-                // add to delete list(combine)
-                if (targetIndex1 >= 0) {
-                    if (!combineDeleteIndexList.includes(targetIndex1)) combineDeleteIndexList.push(targetIndex1);
-                }
+            }
+        } else {
+            // add to delete list(combine)
+            if (targetIndex1 >= 0) {
+                if (!combineDeleteIndexList.includes(targetIndex1)) combineDeleteIndexList.push(targetIndex1);
+            }
 
-                if (targetIndex2 >= 0) {
-                    if (!combineDeleteIndexList.includes(targetIndex2)) combineDeleteIndexList.push(targetIndex2);
-                }
+            if (targetIndex2 >= 0) {
+                if (!combineDeleteIndexList.includes(targetIndex2)) combineDeleteIndexList.push(targetIndex2);
             }
         }
 

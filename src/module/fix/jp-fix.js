@@ -360,22 +360,34 @@ function specialFix2(name = '', text = '') {
         text = text.replace(/あーた/gi, '貴方');
     }
 
-    // あ…… or あ… or あ、
     let loopCount = 0;
-    while (/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replace(/^([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$3');
-        loopCount++;
-    }
 
-    if (loopCount > 0 && !/^…+/gi.test(text)) {
-        text = '……' + text;
-    }
-
+    /*
+    // あ、あ(or 漢字)
+    // あ……あ(or 漢字)
+    // あ…あ(or 漢字)
     loopCount = 0;
-    while (/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi.test(text) && loopCount < 10) {
-        text = text.replace(/([、。！？])([…、]*)([ぁ-ゖ][ぁぃぅぇぉゃゅょっ]?|[ァ-ヺ][ァィゥェォャュョッ]?)[…、]+([^…、])/gi, '$1$2$4');
+    const RegExpCommaWords1 = /^([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\2|[一-龠])/gi;
+    const RegExpCommaWords2 = /([、。！？])([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\3|[一-龠])/gi;
+    while (loopCount < 10) {
+        const result1 = RegExpCommaWords1.test(text);
+        const result2 = RegExpCommaWords2.test(text);
+
+        if (result1) {
+            text = text.replace(RegExpCommaWords1, '$1$3');
+        }
+
+        if (result2) {
+            text = text.replace(RegExpCommaWords2, '$1$2$4');
+        }
+
+        if (!result1 && !result2) {
+            break;
+        }
+
         loopCount++;
     }
+    */
 
     // あアあ => あああ
     loopCount = 0;

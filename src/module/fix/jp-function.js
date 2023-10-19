@@ -90,10 +90,12 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
     // reset temp text
     tempText = text;
+    /*
     for (let index = 0; index < tempTable.length; index++) {
         const element = tempTable[index];
         tempText += element[1];
     }
+    */
 
     // clear code
     const characters = tempText.match(/[a-z]/gi);

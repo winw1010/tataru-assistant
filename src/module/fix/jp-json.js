@@ -38,6 +38,7 @@ function load(targetLanguage) {
     jpArray.jp1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp1.json'));
     jpArray.jp2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp2.json'));
     jpArray.listCrystalium = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listCrystalium.json'));
+    jpArray.listDelete = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listDelete.json'));
     jpArray.listHira = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listHira.json'));
     jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
     jpArray.special1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special1.json'));
@@ -104,7 +105,7 @@ function versionFix() {
     const jpCombine = jpArray.jp1.concat(jpArray.jp2).map((x) => x[0]);
     for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
         const element = chArray.chTemp[index][0];
-        if (/(^ココ#$)/.test(element) || jpCombine.includes(element)) {
+        if (/(^ココ#$)/.test(element) || jpCombine.includes(element) || jpArray.listDelete.includes(element)) {
             chArray.chTemp.splice(index, 1);
         }
     }

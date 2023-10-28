@@ -75,7 +75,7 @@ function codeTest(text = '', code = []) {
     }
 
     // remove Roman numeral
-    text = text.replace(/[IVXLCDM]/g, '');
+    text = text.replace(/[IVXLCDM]/gi, '');
 
     return text.trim() === '';
 }

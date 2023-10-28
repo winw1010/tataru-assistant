@@ -73,8 +73,9 @@ function codeTest(text = '', code = []) {
     for (let index = 0; index < code.length; index++) {
         text = text.replaceAll(code[index], '');
     }
+    text = text.replace(/[IVXLCDM]/, '');
 
-    return text === '';
+    return text.trim() === '';
 }
 
 // can ignore

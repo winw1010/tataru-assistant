@@ -28,7 +28,7 @@ function replaceTextByCode(text = '', array = []) {
     tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
 
     // set temp text
-    const tempTextArray = tempText.match(/\b[A-Z]+[a-z]+\b/g);
+    const tempTextArray = tempText.match(/\b[A-Z]+[a-z]*\b/g);
     if (tempTextArray) {
         for (let index = 0; index < tempTextArray.length; index++) {
             const element = tempTextArray[index];

@@ -1,5 +1,8 @@
 'use strict';
 
+// file module
+const fileModule = require('../system/file-module');
+
 // json function
 const jsonFunction = require('./json-function');
 
@@ -97,12 +100,17 @@ function versionFix() {
 
     // chTemp
     // ココ#
+    // same word in jp1 and jp2
+    const jpCombine = jpArray.jp1.concat(jpArray.jp2).map((x) => x[0]);
     for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
         const element = chArray.chTemp[index][0];
-        if (/(^ココ#$)/.test(element)) {
+        if (/(^ココ#$)/.test(element) || jpCombine.includes(element)) {
             chArray.chTemp.splice(index, 1);
         }
     }
+
+    // update temp
+    fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), chArray.chTemp, 'json');
 }
 
 // get ch array

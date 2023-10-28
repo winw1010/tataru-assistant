@@ -1,8 +1,5 @@
 'use strict';
 
-// file module
-const fileModule = require('../system/file-module');
-
 // json function
 const jsonFunction = require('./json-function');
 
@@ -111,7 +108,23 @@ function versionFix() {
     }
 
     // update temp
-    fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), chArray.chTemp, 'json');
+    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+
+    // jp2
+    // include words in combine -> move to jp1
+    for (let index1 = 0; index1 < jpArray.jp2.length; index1++) {
+        for (let index2 = 0; index2 < chArray.combine.length; index2++) {
+            const element1 = jpArray.jp2[index1];
+            const element2 = chArray.combine[index2];
+
+            if (element1[0].includes(element2[0])) {
+                jpArray.jp1.push(element1);
+            }
+        }
+    }
+
+    // sort jp1
+    jpArray.jp1 = jsonFunction.sortArray(jpArray.jp1);
 }
 
 // get ch array

@@ -70,11 +70,12 @@ function replaceWord(text = '', table = []) {
 function codeTest(text = '', code = []) {
     if (text === '') return false;
 
+    // remove table code from text
     for (let index = 0; index < code.length; index++) {
         text = text.replaceAll(code[index], '');
     }
 
-    // remove Roman numeral
+    // remove Roman numeral from text
     text = text.replace(/[IVXLCDM]/gi, '');
 
     return text.trim() === '';

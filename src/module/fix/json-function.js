@@ -263,6 +263,7 @@ module.exports = {
     readMain,
     readTemp,
     writeTemp,
+    sortArray,
     combineArray,
     combineArrayWithTemp,
 };

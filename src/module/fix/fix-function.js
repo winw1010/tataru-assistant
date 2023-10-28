@@ -73,6 +73,8 @@ function codeTest(text = '', code = []) {
     for (let index = 0; index < code.length; index++) {
         text = text.replaceAll(code[index], '');
     }
+
+    // remove Roman numeral
     text = text.replace(/[IVXLCDM]/, '');
 
     return text.trim() === '';

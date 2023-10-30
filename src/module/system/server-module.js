@@ -23,6 +23,12 @@ function dataProcess(data) {
     try {
         const config = configModule.getConfig();
         let dialogData = JSON.parse(data.toString());
+
+        if (dialogData.type === 'MESSAGE') {
+            console.log(dialogData.text);
+            return;
+        }
+
         console.log('Dialog Data:', dialogData);
 
         // check dialog data

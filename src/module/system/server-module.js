@@ -24,7 +24,7 @@ function dataProcess(data) {
         const config = configModule.getConfig();
         let dialogData = JSON.parse(data.toString());
 
-        if (dialogData.type === 'MESSAGE') {
+        if (dialogData.type === 'CONSOLE') {
             console.log(dialogData.text);
             return;
         }

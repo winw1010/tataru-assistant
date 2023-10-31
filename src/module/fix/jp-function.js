@@ -48,40 +48,40 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
             if (tempText.includes('「' + hiraElement + '」')) {
                 tempTable.push(['「' + hiraElement + '」', '「' + element[rplIndex] + '」']);
-                tempText = tempText.replaceAll('「' + hiraElement + '」', '');
+                tempText = tempText.replaceAll('「' + hiraElement + '」', '*');
             }
 
             if (tempText.includes('『' + hiraElement + '』')) {
                 tempTable.push(['『' + hiraElement + '』', '『' + element[rplIndex] + '』']);
-                tempText = tempText.replaceAll('『' + hiraElement + '』', '');
+                tempText = tempText.replaceAll('『' + hiraElement + '』', '*');
             }
 
             if (tempText.includes('「' + hiraElement2 + '」')) {
                 tempTable.push(['「' + hiraElement2 + '」', '「' + element[rplIndex] + '」']);
-                tempText = tempText.replaceAll('「' + hiraElement2 + '」', '');
+                tempText = tempText.replaceAll('「' + hiraElement2 + '」', '*');
             }
 
             if (tempText.includes('『' + hiraElement2 + '』')) {
                 tempTable.push(['『' + hiraElement2 + '』', '『' + element[rplIndex] + '』']);
-                tempText = tempText.replaceAll('『' + hiraElement2 + '』', '');
+                tempText = tempText.replaceAll('『' + hiraElement2 + '』', '*');
             }
         }
 
         // brackets
         if (tempText.includes('「' + element[srcIndex] + '」')) {
             tempTable.push(['「' + element[srcIndex] + '」', '「' + element[rplIndex] + '」']);
-            tempText = tempText.replaceAll('「' + element[srcIndex] + '」', '');
+            tempText = tempText.replaceAll('「' + element[srcIndex] + '」', '*');
         }
 
         if (tempText.includes('『' + element[srcIndex] + '』')) {
             tempTable.push(['『' + element[srcIndex] + '』', '『' + element[rplIndex] + '』']);
-            tempText = tempText.replaceAll('『' + element[srcIndex] + '』', '');
+            tempText = tempText.replaceAll('『' + element[srcIndex] + '』', '*');
         }
 
         // normal
         if (tempText.includes(element[srcIndex])) {
             tempTable.push([element[srcIndex], element[rplIndex]]);
-            tempText = tempText.replaceAll(element[srcIndex], '');
+            tempText = tempText.replaceAll(element[srcIndex], '*');
         }
     }
 

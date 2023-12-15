@@ -310,6 +310,11 @@ function specialFix1(name = '', text = '') {
     // special replace
     text = jpFunction.specialReplace(text, jpArray.special1);
 
+    // タタル
+    if (/タタル/gi.test(name)) {
+        text = text.replace(/(?<=さ|ま|で)っす/gi, 'す');
+    }
+
     // ヒエン
     if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
         text = text.replace(/若(?!若|々|い|し|様)/gi, '若様');

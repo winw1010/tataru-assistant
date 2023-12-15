@@ -22,12 +22,12 @@ let textHistory = {};
 function dataProcess(data) {
     try {
         let dialogData = JSON.parse(data.toString());
-        console.log('Dialog Data:', dialogData);
 
         if (checkData(dialogData)) {
             if (dialogData.type === 'CONSOLE') {
                 showData(dialogData);
             } else {
+                console.log('Dialog Data:', dialogData);
                 translateData(dialogData);
             }
         }

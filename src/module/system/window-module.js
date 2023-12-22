@@ -256,7 +256,10 @@ function getWindowSize(windowName, config) {
 function getNearPosition(displayBounds, indexBounds, bounds) {
     bounds = boundsSizeCheck(bounds);
     bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
-    bounds.y = indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
+    bounds.y =
+        indexBounds.y + bounds.height > displayBounds.y + displayBounds.height
+            ? displayBounds.y + displayBounds.height - bounds.height
+            : indexBounds.y;
     return bounds;
 }
 

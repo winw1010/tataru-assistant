@@ -398,7 +398,7 @@ function setRequestChannel() {
                     notificationText = '已安裝最新版本';
                 } else {
                     windowModule.sendIndex('hide-update-button', false);
-                    notificationText = `已有可用的更新<br />請點選上方的<img src="./img/ui/update_white_24dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+                    notificationText = `已有可用的更新<br />請點選上方的<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
                 }
             })
             .catch((error) => {

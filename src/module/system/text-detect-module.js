@@ -63,7 +63,7 @@ async function tesseractOCR(imageBuffer) {
         let workerOption = {
             langPath: tesseractPath,
             cacheMethod: 'none',
-            gzip: false,
+            gzip: true,
         };
 
         // load language
@@ -82,7 +82,7 @@ async function tesseractOCR(imageBuffer) {
         if (text.trim().length > 0) {
             fixImageText(text);
         } else {
-            dialogModule.showNotification('無法擷取文字，請重新擷取或更換辨識模式');
+            dialogModule.showNotification('無法擷取文字');
         }
 
         // terminate worker

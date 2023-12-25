@@ -128,6 +128,7 @@ function fixImageText(text) {
     if (config.captureWindow.type !== 'google') {
         text = text
             .replaceAll('`', '「')
+            .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
             .replaceAll('ガンプレイカー', 'ガンブレイカー')
             .replaceAll('ガンプブレイカー', 'ガンブレイカー')
             .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')

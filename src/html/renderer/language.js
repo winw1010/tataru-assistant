@@ -104,8 +104,8 @@
 
             // edit
             checkbox_replace: ['取代原本翻譯', '取代原本翻译'],
-            textarea_before: ['替換前(原文)', '替换前(原文)'],
-            textarea_after: ['替換後(自訂翻譯)', '替换后(自订翻译)'],
+            textarea_before: ['原文', '原文'],
+            textarea_after: ['取代為', '取代为'],
             select_type: ['類別', '类别'],
 
             // read log
@@ -155,15 +155,15 @@
             span_author: ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)'],
 
             // edit
-            span_flex_right_title: ['新增自訂翻譯', '新增自订翻译'],
+            span_flex_right_title: ['自訂翻譯', '自订翻译'],
         },
         textarea: {
             // dictionary
-            textarea_original_text: ['請輸入要翻譯的文字', '请输入要翻译的文字'],
+            textarea_original_text: ['輸入要翻譯的文字', '输入要翻译的文字'],
 
             // edit
-            textarea_before: ['替換前', '替换前'],
-            textarea_after: ['替換後', '替换后'],
+            textarea_before: ['原文', '原文'],
+            textarea_after: ['取代為', '取代为'],
         },
         div: {
             // config

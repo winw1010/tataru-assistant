@@ -65,7 +65,13 @@ function checkRepetition(dialogData, fixText = false) {
 // show data
 function showData(dialogData) {
     if (checkRepetition(dialogData)) {
-        dialogModule.showNotification(dialogData.text);
+        console.log(dialogData.text);
+
+        if (['Waiting...', 'Start reading...', 'Stop reading...'].includes(dialogData.text)) {
+            return;
+        } else {
+            dialogModule.showNotification(dialogData.text);
+        }
     }
 }
 

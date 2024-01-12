@@ -96,7 +96,11 @@ function write(filePath = './', data = '', type = '') {
                 {
                     let dataString = JSON.stringify(data).includes('{')
                         ? JSON.stringify(data, null, '\t')
-                        : JSON.stringify(data).replaceAll('[[', '[\n\t[').replaceAll('],', '],\n\t').replaceAll(']]', ']\n]').replaceAll('","', '", "');
+                        : JSON.stringify(data)
+                              .replaceAll('[[', '[\n\t[')
+                              .replaceAll('],', '],\n\t')
+                              .replaceAll(']]', ']\n]')
+                              .replaceAll('","', '", "');
                     dataString = dataString.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');
                     fs.writeFileSync(filePath, dataString);
                 }

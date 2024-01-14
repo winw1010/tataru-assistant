@@ -25,7 +25,7 @@ function load(targetLanguage) {
     chArray.player = jsonFunction.readTemp('player.json');
 
     // ch
-    chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex);
+    chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
     chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
     chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1);
 

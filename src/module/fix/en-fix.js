@@ -46,8 +46,10 @@ async function startFix(dialogData = {}) {
             }
         }
 
-        // sleep 1 second
-        await fixFunction.sleep();
+        if (dialogData.name !== '') {
+            // sleep 1 second
+            await fixFunction.sleep();
+        }
 
         // text translation
         let translatedText = '';

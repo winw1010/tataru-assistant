@@ -104,7 +104,8 @@ function setIPC() {
         // navigate dialog
         if (scroll) {
             setTimeout(() => {
-                location.href = '#' + id;
+                //location.href = '#' + id;
+                document.getElementById(id).scrollIntoView();
             }, 200);
         }
     });

@@ -290,14 +290,14 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
 
     if (name.length > 0 && name.length < 3) {
         chArray.chTemp.push([name + '#', translatedName, 'temp']);
-    } else {
+    } else if (name.length > 2) {
         chArray.chTemp.push([name, translatedName, 'temp']);
     }
 
     if (katakanaName.length > 0 && !fixFunction.includesArrayItem(katakanaName, chArray.combine)) {
         if (katakanaName.length < 3) {
-            chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
-        } else {
+            //chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
+        } else if (name.length > 2) {
             chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp']);
         }
     }

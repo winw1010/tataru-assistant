@@ -295,9 +295,10 @@ function saveName(name = '', translatedName = '', katakanaName = '', translatedK
     }
 
     if (katakanaName.length > 0 && !fixFunction.includesArrayItem(katakanaName, chArray.combine)) {
-        if (katakanaName.length < 3) {
-            //chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
-        } else if (name.length > 2) {
+        /*if (katakanaName.length < 3) {
+            chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
+        } else*/
+        if (name.length > 2) {
             chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp']);
         }
     }

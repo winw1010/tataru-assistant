@@ -99,7 +99,7 @@ function versionFix() {
     // chTemp
     // 2 letters name
     // same word in jp1 and jp2
-    const jpCombine = jpArray.jp1.concat(jpArray.jp2).map((x) => x[0]);
+    const jpCombine = [].concat(jpArray.jp1, jpArray.jp2).map((x) => x[0]);
     for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
         const element = chArray.chTemp[index][0];
         if (/(^[ァ-ヺー]{2}#$)/.test(element) || jpCombine.includes(element) || jpArray.listDelete.includes(element)) {

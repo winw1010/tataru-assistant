@@ -85,7 +85,7 @@ function createRegExpArray(array = []) {
 // version fix
 function versionFix() {
     // combine
-    // 2 words name
+    // 2 letters name
     // ココ#
     for (let index = chArray.combine.length - 1; index >= 0; index--) {
         const element = chArray.combine[index][0];
@@ -97,12 +97,12 @@ function versionFix() {
     }
 
     // chTemp
-    // ココ#
+    // 2 letters name
     // same word in jp1 and jp2
     const jpCombine = jpArray.jp1.concat(jpArray.jp2).map((x) => x[0]);
     for (let index = chArray.chTemp.length - 1; index >= 0; index--) {
         const element = chArray.chTemp[index][0];
-        if (/(^ココ#$)/.test(element) || jpCombine.includes(element) || jpArray.listDelete.includes(element)) {
+        if (/(^[ァ-ヺー]{2}#$)/.test(element) || jpCombine.includes(element) || jpArray.listDelete.includes(element)) {
             chArray.chTemp.splice(index, 1);
         }
     }

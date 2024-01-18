@@ -316,6 +316,7 @@ function specialFix1(name = '', text = '') {
     // タタル
     if (/タタル/gi.test(name)) {
         text = text.replace(/(?<=さ|ま|で)っす/gi, 'す');
+        text = text.replace(/(?<=ま)っし/gi, 'し');
     }
 
     // ヒエン

@@ -86,7 +86,7 @@ function translateData(dialogData) {
     }
 
     // fix text
-    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll('%&', '').replaceAll('「+,', '「');
+    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
 
     // check repetition
     if (!checkRepetition(dialogData, true)) {

@@ -276,6 +276,10 @@ function setWindowChannel() {
             if (error) console.log(error);
         });
     });
+
+    ipcMain.on('show-message-box', (event, message = '') => {
+        dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), { message });
+    });
 }
 
 // set dialog channel

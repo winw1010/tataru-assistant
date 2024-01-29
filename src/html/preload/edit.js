@@ -335,10 +335,10 @@ function reportTranslation() {
         const path = `/forms/d/e/${formId}/formResponse?` + `${entry1}=待處理` + `&${entry2}=${targetLog.translation.engine}` + `&${entry3}=${text1}` + `&${entry4}=${text2}`;
 
         ipcRenderer.send('post-form', encodeURI(path));
-        ipcRenderer.send('show-notification', '回報完成');
+        ipcRenderer.send('show-message-box', '回報完成');
     } catch (error) {
         console.log(error);
-        ipcRenderer.send('show-notification', error);
+        ipcRenderer.send('show-message-box', error);
     }
 }
 

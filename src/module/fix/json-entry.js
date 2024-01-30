@@ -63,9 +63,10 @@ function initializeJSON() {
 function downloadJSON() {
     download(tableURL, tableTempPath, async (file) => {
         file.close();
-        console.log('Download Completed');
+        console.log('Download Completed. (URL: ' + tableURL + ')');
 
         if (file.errored) {
+            console.log('Download Failed: ' + file.errored.message);
             dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
         } else {
             deleteText('text');

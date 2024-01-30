@@ -59,6 +59,8 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
+    JSESSIONIDRegExp.lastIndex = 0;
+
     const response = await requestModule.getCookie(
         {
             protocol: 'https:',
@@ -78,6 +80,10 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
+    fileNameRegExp.lastIndex = 0;
+    ppgRegExp.lastIndex = 0;
+    versionRegExp.lastIndex = 0;
+
     const response1 = await requestModule.get({
         protocol: 'https:',
         hostname: 'papago.naver.com',

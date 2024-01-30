@@ -3,14 +3,20 @@
 // child process
 const { execSync } = require('child_process');
 
+// https
+const https = require('https');
+
+// fs
+const fs = require('fs');
+
+// decompress
+const decompress = require('decompress');
+
 // en json
 const enJson = require('./en-json');
 
 // jp json
 const jpJson = require('./jp-json');
-
-// download git
-const downloadGit = require('./json-download-git');
 
 // fix entry
 const fixEntry = require('./fix-entry');
@@ -21,8 +27,23 @@ const configModule = require('../system/config-module');
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
+// file module
+const fileModule = require('../system/file-module');
+
 // sharlayan module
 const sharlayanModule = require('../system/sharlayan-module');
+
+// table URL
+const tableURL = 'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
+
+// table name
+const tableName = 'table.zip';
+
+// table temp path
+const tableTempPath = fileModule.getRootDataPath(tableName);
+
+// table path
+const tablePath = fileModule.getRootDataPath('text');
 
 // first time
 let firstTime = true;
@@ -40,18 +61,33 @@ function initializeJSON() {
 
 // download json
 function downloadJSON() {
-    deleteText('text2');
-    downloadGit('winw1010/tataru-helper-node-text-v2#main', 'src/data/text2', (error) => {
-        if (error) {
-            dialogModule.showNotification('翻譯對照表下載失敗：' + error);
-            console.log(error);
+    download(tableURL, tableTempPath, async (file) => {
+        file.close();
+        console.log('Download Completed');
+
+        if (file.errored) {
+            dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
         } else {
-            dialogModule.showNotification('翻譯對照表下載完畢');
             deleteText('text');
-            moveText();
+            await decompress(tableTempPath, tablePath, { strip: 1 });
+            fileModule.unlink(tableTempPath);
+            dialogModule.showNotification('對照表下載完畢');
         }
 
         loadJSON();
+    });
+}
+
+// download
+function download(URL = '', disc = '', callback = function () {}) {
+    const file = fs.createWriteStream(disc);
+    https.get(URL, function (response) {
+        response.pipe(file);
+
+        // after download completed close filestream
+        file.on('finish', () => {
+            callback(file);
+        });
     });
 }
 
@@ -59,15 +95,6 @@ function downloadJSON() {
 function deleteText(dir) {
     try {
         execSync(`rmdir /Q /S src\\data\\${dir}`);
-    } catch (error) {
-        //console.log(error);
-    }
-}
-
-// move text
-function moveText() {
-    try {
-        execSync('move src\\data\\text2 src\\data\\text');
     } catch (error) {
         //console.log(error);
     }

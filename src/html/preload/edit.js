@@ -287,6 +287,7 @@ function addTemp(temp, textBefore, textAfter, type) {
     const list = ['jp', 'overwrite', 'player', 'retainer'];
     const array = temp.map((x) => x[0]);
 
+    allKana.lastIndex = 0;
     if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
         textBefore = textBefore + '#';
     }
@@ -332,7 +333,12 @@ function reportTranslation() {
     try {
         const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
         const text2 = (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
-        const path = `/forms/d/e/${formId}/formResponse?` + `${entry1}=待處理` + `&${entry2}=${targetLog.translation.engine}` + `&${entry3}=${text1}` + `&${entry4}=${text2}`;
+        const path =
+            `/forms/d/e/${formId}/formResponse?` +
+            `${entry1}=待處理` +
+            `&${entry2}=${targetLog.translation.engine}` +
+            `&${entry3}=${text1}` +
+            `&${entry4}=${text2}`;
 
         ipcRenderer.send('post-form', encodeURI(path));
         ipcRenderer.send('show-message-box', '回報完成');

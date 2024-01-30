@@ -55,6 +55,9 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
+    baiduIdRegExp.lastIndex = 0;
+    baiduBfessRegExp.lastIndex = 0;
+
     const currentTime = Math.floor(new Date().getTime() / 1000);
     const response = await requestModule.getCookie(
         {
@@ -79,6 +82,9 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
+    tokenRegExp.lastIndex = 0;
+    gtkRegExp.lastIndex = 0;
+
     const response = await requestModule.get(
         {
             protocol: 'https:',

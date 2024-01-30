@@ -212,6 +212,7 @@ function combineArrayWithTemp(temp = [], ...args) {
         }
 
         // delete name from temp which length < 3
+        allWords.lastIndex = 0;
         if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allWords.test(tempElement[0]))) {
             if (tempElement[2] === 'temp' && !tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
         }

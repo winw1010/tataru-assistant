@@ -57,6 +57,8 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
+    dapUidRegExp.lastIndex = 0;
+
     const response = await requestModule.getCookie(
         {
             protocol: 'https:',

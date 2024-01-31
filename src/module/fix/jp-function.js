@@ -154,6 +154,7 @@ function specialReplace(text = '', array = []) {
     for (let index = 0; index < array.length; index++) {
         const element = array[index];
         text = text.replace(element[0], element[1]);
+        element[0].lastIndex = 0;
     }
     return text;
 }

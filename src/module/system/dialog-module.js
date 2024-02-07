@@ -179,7 +179,17 @@ function saveLog(id, name, text, dialogData) {
 // create log name
 function createLogName(milliseconds = null) {
     const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
-    return `${date.getFullYear()}-${(date.getMonth() + 1 + '').padStart(2, '0')}-${(date.getDay() + '').padStart(2, '0')}.json`;
+    let dateString = date.toLocaleDateString().split('/');
+
+    if (dateString[1].length < 2) {
+        dateString[1] = '0' + dateString[1];
+    }
+
+    if (dateString[2].length < 2) {
+        dateString[2] = '0' + dateString[2];
+    }
+
+    return dateString.join('-') + '.json';
 }
 
 // module exports

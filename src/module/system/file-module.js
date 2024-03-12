@@ -16,7 +16,7 @@ const userPath = process.env.USERPROFILE;
 const appName = 'Tataru Helper Node';
 
 // directory check
-function directoryCheck() {
+function directoryCheck() {    
     const documentPath = getUserPath('Documents');
     const subPath = ['', appName, appName + '\\image', appName + '\\log', appName + '\\setting', appName + '\\temp'];
 

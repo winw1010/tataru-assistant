@@ -1,57 +1,57 @@
 body {
-    height: 100vh;
-    background-color: #000000aa;
-    /*font-family: sans-serif;*/
-    /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;*/
+  height: 100vh;
+  background-color: #000000aa;
+  /*font-family: sans-serif;*/
+  /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;*/
 }
 
 header,
 footer {
-    -webkit-user-select: none;
-    user-select: none;
-    position: absolute;
-    z-index: 10;
+  -webkit-user-select: none;
+  user-select: none;
+  position: absolute;
+  z-index: 10;
 }
 
 header {
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
 }
 
 footer {
-    bottom: 0;
-    left: 0;
+  bottom: 0;
+  left: 0;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .drop_shadow {
-    -webkit-filter: drop-shadow(0 0 0.2rem #000000);
-    filter: drop-shadow(0 0 0 0.2rem #000000);
+  -webkit-filter: drop-shadow(0 0 0.2rem #000000);
+  filter: drop-shadow(0 0 0 0.2rem #000000);
 }
 
 .img_button {
-    -webkit-filter: drop-shadow(0 0 0.2rem #000000);
-    filter: drop-shadow(0 0 0 0.2rem #000000);
-    cursor: pointer;
-    /*padding: 0.2rem;*/
-    padding: 0.1rem;
-    opacity: 0.5;
-    width: 2rem;
-    height: 2rem;
+  -webkit-filter: drop-shadow(0 0 0.2rem #000000);
+  filter: drop-shadow(0 0 0 0.2rem #000000);
+  cursor: pointer;
+  /*padding: 0.2rem;*/
+  padding: 0.1rem;
+  opacity: 0.5;
+  width: 2rem;
+  height: 2rem;
 }
 
 .img_button:hover {
-    /*padding: 0.1rem;*/
-    opacity: 1;
-    background-color: #007bff;
-    /*background-color: #343a40;*/
+  /*padding: 0.1rem;*/
+  opacity: 1;
+  background-color: #007bff;
+  /*background-color: #343a40;*/
 }
 
 #img_button_close:hover,
 #img_button_backspace:hover,
 #img_button_clear:hover {
-    background-color: #dc3545;
+  background-color: #dc3545;
 }

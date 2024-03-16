@@ -1,90 +1,128 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <title>Tataru Node UI</title>
+  <head>
+    <title>Tataru Node UI</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
         /> -->
 
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-        <!-- app -->
-        <link rel="stylesheet" href="css/app.css" />
+    <!-- app -->
+    <link rel="stylesheet" href="css/app.css" />
 
-        <!-- window -->
-        <link rel="stylesheet" href="css/capture-edit.css" />
-    </head>
+    <!-- window -->
+    <link rel="stylesheet" href="css/capture-edit.css" />
+  </head>
 
-    <body>
-        <header class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/drag_handle_white_48dp.svg" />
-                </div>
-                <div class="col">
-                    <span id="span_capture_edit">編輯擷取文字</span>
-                </div>
-                <div class="col-auto">
-                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
-                </div>
-            </div>
-        </header>
+  <body>
+    <header class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img
+            id="img_button_drag"
+            class="img_button auto_hidden"
+            title="拖曳視窗"
+            src="./img/ui/drag_handle_white_48dp.svg"
+          />
+        </div>
+        <div class="col">
+          <span id="span_capture_edit">編輯擷取文字</span>
+        </div>
+        <div class="col-auto">
+          <img
+            id="img_button_close"
+            class="img_button float_right"
+            title="關閉"
+            src="./img/ui/close_white_24dp.svg"
+          />
+        </div>
+      </div>
+    </header>
 
-        <main class="container-fluid px-2">
-            <!-- page button -->
-            <div class="row">
-                <div class="col">
-                    <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="div_captured_text" autocomplete="off" checked />
-                        <label class="btn btn-outline-primary" for="btnradio1">擷取文字</label>
+    <main class="container-fluid px-2">
+      <!-- page button -->
+      <div class="row">
+        <div class="col">
+          <div
+            id="div_page_button"
+            class="btn-group"
+            role="group"
+            aria-label="Basic radio toggle button group"
+          >
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio1"
+              value="div_captured_text"
+              autocomplete="off"
+              checked
+            />
+            <label class="btn btn-outline-primary" for="btnradio1"
+              >擷取文字</label
+            >
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="div_captured_image" autocomplete="off" />
-                        <label class="btn btn-outline-primary" for="btnradio2">擷取圖片</label>
-                    </div>
-                </div>
-            </div>
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio2"
+              value="div_captured_image"
+              autocomplete="off"
+            />
+            <label class="btn btn-outline-primary" for="btnradio2"
+              >擷取圖片</label
+            >
+          </div>
+        </div>
+      </div>
 
-            <br />
+      <br />
 
-            <div id="div_captured_text" class="div_page">
-                <div class="row">
-                    <div class="col">
-                        <textarea class="form-control" id="textarea_screen_text" rows="7"></textarea>
-                    </div>
-                </div>
+      <div id="div_captured_text" class="div_page">
+        <div class="row">
+          <div class="col">
+            <textarea
+              class="form-control"
+              id="textarea_screen_text"
+              rows="7"
+            ></textarea>
+          </div>
+        </div>
 
-                <br />
+        <br />
 
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <button id="button_translate" class="btn btn-primary">翻譯</button>
-                    </div>
-                    <div class="col-auto">
-                        <input type="checkbox" value="" id="checkbox_split" />
-                        <label for="checkbox_split">換行切割</label>
-                    </div>
-                </div>
-            </div>
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <button id="button_translate" class="btn btn-primary">翻譯</button>
+          </div>
+          <div class="col-auto">
+            <input type="checkbox" value="" id="checkbox_split" />
+            <label for="checkbox_split">換行切割</label>
+          </div>
+        </div>
+      </div>
 
-            <div id="div_captured_image" class="div_page" hidden>
-                <div class="row">
-                    <div class="col">
-                        <img class="img-fluid" id="img_captured" src="" alt="" />
-                    </div>
-                </div>
-            </div>
-        </main>
+      <div id="div_captured_image" class="div_page" hidden>
+        <div class="row">
+          <div class="col">
+            <img class="img-fluid" id="img_captured" src="" alt="" />
+          </div>
+        </div>
+      </div>
+    </main>
 
-        <!-- renderer -->
-        <script src="./renderer/function.js"></script>
-        <script src="./renderer/drag.js"></script>
-        <script src="./renderer/language.js"></script>
-    </body>
+    <!-- renderer -->
+    <script src="./renderer/function.js"></script>
+    <script src="./renderer/drag.js"></script>
+    <script src="./renderer/language.js"></script>
+  </body>
 </html>

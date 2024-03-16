@@ -1,67 +1,79 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <title>Tataru Node UI</title>
+  <head>
+    <title>Tataru Node UI</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
         /> -->
 
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-        <!-- app -->
-        <link rel="stylesheet" href="css/app.css" />
+    <!-- app -->
+    <link rel="stylesheet" href="css/app.css" />
 
-        <!-- window -->
-        <link rel="stylesheet" href="css/read-log.css" />
-    </head>
+    <!-- window -->
+    <link rel="stylesheet" href="css/read-log.css" />
+  </head>
 
-    <body>
-        <header class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/drag_handle_white_48dp.svg" />
-                </div>
-                <div class="col">
-                    <span id="span_read_log">讀取對話紀錄</span>
-                </div>
-                <div class="col-auto">
-                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
-                </div>
-            </div>
-        </header>
+  <body>
+    <header class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img
+            id="img_button_drag"
+            class="img_button auto_hidden"
+            title="拖曳視窗"
+            src="./img/ui/drag_handle_white_48dp.svg"
+          />
+        </div>
+        <div class="col">
+          <span id="span_read_log">讀取對話紀錄</span>
+        </div>
+        <div class="col-auto">
+          <img
+            id="img_button_close"
+            class="img_button float_right"
+            title="關閉"
+            src="./img/ui/close_white_24dp.svg"
+          />
+        </div>
+      </div>
+    </header>
 
-        <main class="container-fluid px-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <label for="select_log">選擇對話紀錄</label>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select" id="select_log">
-                        <option value="none">無</option>
-                    </select>
-                </div>
-            </div>
+    <main class="container-fluid px-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <label for="select_log">選擇對話紀錄</label>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="select_log">
+            <option value="none">無</option>
+          </select>
+        </div>
+      </div>
 
-            <br />
+      <br />
 
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <button id="button_read_log" class="btn btn-primary">讀取</button>
-                    <button id="button_view_log" class="btn btn-secondary">檢視對話紀錄檔案</button>
-                </div>
-            </div>
-        </main>
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <button id="button_read_log" class="btn btn-primary">讀取</button>
+          <button id="button_view_log" class="btn btn-secondary">
+            檢視對話紀錄檔案
+          </button>
+        </div>
+      </div>
+    </main>
 
-        <!-- renderer -->
-        <script src="./renderer/function.js"></script>
-        <script src="./renderer/drag.js"></script>
-        <script src="./renderer/language.js"></script>
-    </body>
+    <!-- renderer -->
+    <script src="./renderer/function.js"></script>
+    <script src="./renderer/drag.js"></script>
+    <script src="./renderer/language.js"></script>
+  </body>
 </html>

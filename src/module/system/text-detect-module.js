@@ -32,169 +32,175 @@ const imagePath = fileModule.getRootPath('src', 'data', 'img');
 
 // google vision
 async function googleVision(imagePath) {
-    try {
-        const path = fileModule.getUserDataPath('setting', 'google-credential.json');
-        if (!fileModule.exists(path)) {
-            throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
-        }
-
-        const client = new vision.ImageAnnotatorClient({
-            keyFilename: fileModule.getUserDataPath('setting', 'google-credential.json'),
-        });
-        const [result] = await client.textDetection(imagePath);
-        const detections = result.textAnnotations[0];
-
-        if (detections?.description) {
-            fixImageText(detections.description);
-        } else {
-            throw result.error;
-        }
-    } catch (error) {
-        console.log(error);
-        dialogModule.showNotification('無法辨識圖片文字: ' + error);
+  try {
+    const path = fileModule.getUserDataPath(
+      'setting',
+      'google-credential.json'
+    );
+    if (!fileModule.exists(path)) {
+      throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
     }
+
+    const client = new vision.ImageAnnotatorClient({
+      keyFilename: fileModule.getUserDataPath(
+        'setting',
+        'google-credential.json'
+      ),
+    });
+    const [result] = await client.textDetection(imagePath);
+    const detections = result.textAnnotations[0];
+
+    if (detections?.description) {
+      fixImageText(detections.description);
+    } else {
+      throw result.error;
+    }
+  } catch (error) {
+    console.log(error);
+    dialogModule.showNotification('無法辨識圖片文字: ' + error);
+  }
 }
 
 // tesseract ocr
 async function tesseractOCR(imageBuffer) {
-    try {
-        const config = configModule.getConfig();
-        let worker = null;
-        let workerOption = {
-            langPath: tesseractPath,
-            cacheMethod: 'none',
-            gzip: true,
-        };
+  try {
+    const config = configModule.getConfig();
+    let worker = null;
+    let workerOption = {
+      langPath: tesseractPath,
+      cacheMethod: 'none',
+      gzip: true,
+    };
 
-        // load language
-        if (config.translation.from === engineModule.languageEnum.ja) {
-            worker = await createWorker('jpn', 1, workerOption);
-        } else if (config.translation.from === engineModule.languageEnum.en) {
-            worker = await createWorker('eng', 1, workerOption);
-        }
-
-        // recognize text
-        const {
-            data: { text },
-        } = await worker.recognize(imageBuffer, { rotateAuto: true });
-
-        // fix or show error
-        if (text.trim().length > 0) {
-            fixImageText(text);
-        } else {
-            dialogModule.showNotification('無法擷取文字');
-        }
-
-        // terminate worker
-        await worker.terminate();
-    } catch (error) {
-        console.log(error);
-        dialogModule.showNotification('無法辨識圖片文字: ' + error);
+    // load language
+    if (config.translation.from === engineModule.languageEnum.ja) {
+      worker = await createWorker('jpn', 1, workerOption);
+    } else if (config.translation.from === engineModule.languageEnum.en) {
+      worker = await createWorker('eng', 1, workerOption);
     }
+
+    // recognize text
+    const {
+      data: { text },
+    } = await worker.recognize(imageBuffer, { rotateAuto: true });
+
+    // fix or show error
+    if (text.trim().length > 0) {
+      fixImageText(text);
+    } else {
+      dialogModule.showNotification('無法擷取文字');
+    }
+
+    // terminate worker
+    await worker.terminate();
+  } catch (error) {
+    console.log(error);
+    dialogModule.showNotification('無法辨識圖片文字: ' + error);
+  }
 }
 
 // fix image text
 function fixImageText(text) {
-    console.log(text);
+  console.log(text);
 
-    // get config
-    const config = configModule.getConfig();
+  // get config
+  const config = configModule.getConfig();
 
-    // fix new line
-    text = text.replaceAll('\n\n', '\n');
+  // fix new line
+  text = text.replaceAll('\n\n', '\n');
 
-    // fix jp
-    if (config.translation.from === engineModule.languageEnum.ja) {
-        text = text
-            .replaceAll(' ', '')
-            .replaceAll('...', '…')
-            .replaceAll('..', '…')
-            .replaceAll('･･･', '…')
-            .replaceAll('･･', '…')
-            .replaceAll('･', '・')
-            .replaceAll('・・・', '…')
-            .replaceAll('・・', '…')
-            .replaceAll('､', '、')
-            .replaceAll('?', '？')
-            .replaceAll('!', '！')
-            .replaceAll('~', '～')
-            .replaceAll(':', '：')
-            .replaceAll('=', '＝')
-            .replaceAll('『', '「')
-            .replaceAll('』', '」');
-    }
+  // fix jp
+  if (config.translation.from === engineModule.languageEnum.ja) {
+    text = text
+      .replaceAll(' ', '')
+      .replaceAll('...', '…')
+      .replaceAll('..', '…')
+      .replaceAll('･･･', '…')
+      .replaceAll('･･', '…')
+      .replaceAll('･', '・')
+      .replaceAll('・・・', '…')
+      .replaceAll('・・', '…')
+      .replaceAll('､', '、')
+      .replaceAll('?', '？')
+      .replaceAll('!', '！')
+      .replaceAll('~', '～')
+      .replaceAll(':', '：')
+      .replaceAll('=', '＝')
+      .replaceAll('『', '「')
+      .replaceAll('』', '」');
+  }
 
-    // fix tesseract
-    if (config.captureWindow.type !== 'google') {
-        text = text
-            .replaceAll('`', '「')
-            .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
-            .replaceAll('ガンプレイカー', 'ガンブレイカー')
-            .replaceAll('ガンプブレイカー', 'ガンブレイカー')
-            .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
-            .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士');
-    }
+  // fix tesseract
+  if (config.captureWindow.type !== 'google') {
+    text = text
+      .replaceAll('`', '「')
+      .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
+      .replaceAll('ガンプレイカー', 'ガンブレイカー')
+      .replaceAll('ガンプブレイカー', 'ガンブレイカー')
+      .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
+      .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士');
+  }
 
-    // show notification
-    dialogModule.showNotification('辨識完成');
+  // show notification
+  dialogModule.showNotification('辨識完成');
 
-    // return if edit is true
-    if (config.captureWindow.edit) {
-        windowModule.restartWindow('capture-edit', text);
-        return;
-    }
+  // return if edit is true
+  if (config.captureWindow.edit) {
+    windowModule.restartWindow('capture-edit', text);
+    return;
+  }
 
-    // translate image text
-    translateImageText(text);
+  // translate image text
+  translateImageText(text);
 }
 
 // translate image text
 async function translateImageText(text) {
-    const config = configModule.getConfig();
+  const config = configModule.getConfig();
 
-    // set string array
-    let stringArray = [];
-    if (config.captureWindow.split) {
-        stringArray = text.split('\n');
+  // set string array
+  let stringArray = [];
+  if (config.captureWindow.split) {
+    stringArray = text.split('\n');
+  } else {
+    if (config.translation.from === engineModule.languageEnum.ja) {
+      stringArray = [text.replaceAll('\n', '')];
     } else {
-        if (config.translation.from === engineModule.languageEnum.ja) {
-            stringArray = [text.replaceAll('\n', '')];
-        } else {
-            stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
-        }
+      stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
     }
+  }
 
-    // delete images
-    deleteImages();
+  // delete images
+  deleteImages();
 
-    // start translate
-    for (let index = 0; index < stringArray.length; index++) {
-        const element = stringArray[index];
-        if (element !== '') {
-            const dialogData = {
-                code: '003D',
-                name: '',
-                text: element,
-                translation: config.translation,
-            };
+  // start translate
+  for (let index = 0; index < stringArray.length; index++) {
+    const element = stringArray[index];
+    if (element !== '') {
+      const dialogData = {
+        code: '003D',
+        name: '',
+        text: element,
+        translation: config.translation,
+      };
 
-            await engineModule.sleep(100);
-            addTask(dialogData);
-        }
+      await engineModule.sleep(100);
+      addTask(dialogData);
     }
+  }
 }
 
 // delete images
 function deleteImages() {
-    fileModule.readdir(imagePath).forEach((fileName) => {
-        if (fileName.includes('.png')) {
-            fileModule.unlink(fileModule.getPath(imagePath, fileName));
-        }
-    });
+  fileModule.readdir(imagePath).forEach((fileName) => {
+    if (fileName.includes('.png')) {
+      fileModule.unlink(fileModule.getPath(imagePath, fileName));
+    }
+  });
 }
 
 module.exports = {
-    googleVision,
-    tesseractOCR,
-    translateImageText,
+  googleVision,
+  tesseractOCR,
+  translateImageText,
 };

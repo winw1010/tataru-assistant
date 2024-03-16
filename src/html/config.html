@@ -1,496 +1,721 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <title>Tataru Node UI</title>
+  <head>
+    <title>Tataru Node UI</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
         /> -->
 
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-        <!-- app -->
-        <link rel="stylesheet" href="css/app.css" />
+    <!-- app -->
+    <link rel="stylesheet" href="css/app.css" />
 
-        <!-- window -->
-        <link rel="stylesheet" href="css/config.css" />
-    </head>
+    <!-- window -->
+    <link rel="stylesheet" href="css/config.css" />
+  </head>
 
-    <body>
-        <header class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/drag_handle_white_48dp.svg" />
-                </div>
-                <div class="col">
-                    <span id="span_config">設定</span>
-                </div>
-                <div class="col-auto">
-                    <img id="img_button_close" class="img_button" title="關閉" src="./img/ui/close_white_24dp.svg" />
-                </div>
+  <body>
+    <header class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img
+            id="img_button_drag"
+            class="img_button auto_hidden"
+            title="拖曳視窗"
+            src="./img/ui/drag_handle_white_48dp.svg"
+          />
+        </div>
+        <div class="col">
+          <span id="span_config">設定</span>
+        </div>
+        <div class="col-auto">
+          <img
+            id="img_button_close"
+            class="img_button"
+            title="關閉"
+            src="./img/ui/close_white_24dp.svg"
+          />
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <!-- page button -->
+        <div
+          id="div_page_button"
+          class="btn-group"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio1"
+            value="div_window"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary" for="btnradio1">視窗</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio2"
+            value="div_font"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="btnradio2">文字</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio3"
+            value="div_channel"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="btnradio3">頻道</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio4"
+            value="div_translation"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="btnradio4">翻譯</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio5"
+            value="div_system"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="btnradio5">系統</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio6"
+            value="div_about"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="btnradio6">關於</label>
+        </div>
+      </div>
+    </header>
+
+    <main class="container-fluid px-2">
+      <!-- window page -->
+      <div id="div_window" class="setting_page">
+        <!-- always on top -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_top"
+              />
+              <label class="form-check-label" for="checkbox_top"
+                >顯示在最上層</label
+              >
             </div>
+          </div>
+        </div>
 
-            <div class="row my-2">
-                <!-- page button -->
-                <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="div_window" autocomplete="off" checked />
-                    <label class="btn btn-outline-primary" for="btnradio1">視窗</label>
+        <br />
 
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="div_font" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="btnradio2">文字</label>
-
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="div_channel" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="btnradio3">頻道</label>
-
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="div_translation" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="btnradio4">翻譯</label>
-
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value="div_system" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="btnradio5">系統</label>
-
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio6" value="div_about" autocomplete="off" />
-                    <label class="btn btn-outline-primary" for="btnradio6">關於</label>
-                </div>
+        <!-- focusable -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_focusable"
+              />
+              <label class="form-check-label" for="checkbox_focusable"
+                >可被選取</label
+              >
             </div>
-        </header>
+          </div>
+        </div>
 
-        <main class="container-fluid px-2">
-            <!-- window page -->
-            <div id="div_window" class="setting_page">
-                <!-- always on top -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_top" />
-                            <label class="form-check-label" for="checkbox_top">顯示在最上層</label>
-                        </div>
-                    </div>
-                </div>
+        <br />
 
-                <br />
-
-                <!-- focusable -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_focusable" />
-                            <label class="form-check-label" for="checkbox_focusable">可被選取</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- shortcut -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_shortcut" />
-                            <label class="form-check-label" for="checkbox_shortcut">啟用快捷鍵</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- min size -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_min_size" />
-                            <label class="form-check-label" for="checkbox_min_size">最小尺寸限制</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- hide button -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_button" />
-                            <label class="form-check-label" for="checkbox_hide_button">自動隱藏按鈕</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- hide dialog -->
-                <div class="row">
-                    <div class="col-auto">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_dialog" />
-                            <label class="form-check-label" for="checkbox_hide_dialog">自動隱藏視窗</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- hide dialog timeout -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <input class="form-control" type="number" id="input_hide_dialog" min="1" step="1" value="20" />
-                    </div>
-                    <div class="col-auto"><label for="input_hide_dialog">秒後隱藏視窗</label></div>
-                </div>
-
-                <br />
-
-                <!-- background color -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="color_background_color">背景顏色</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="color" class="form-control form-control-color" id="color_background_color" />
-                    </div>
-                    <div class="col-auto">
-                        <span id="span_background_color"></span>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- background transparency -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="range_background_transparency">背景透明度</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="range" class="form-range" min="0" max="255" id="range_background_transparency" />
-                    </div>
-                    <div class="col-auto"><span id="span_background_transparency"></span></div>
-                </div>
+        <!-- shortcut -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_shortcut"
+              />
+              <label class="form-check-label" for="checkbox_shortcut"
+                >啟用快捷鍵</label
+              >
             </div>
+          </div>
+        </div>
 
-            <!-- font page -->
-            <div id="div_font" class="setting_page" hidden>
-                <!-- select font weight -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="select_font_weight">文字粗細</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="select_font_weight">
-                            <option value="normal" selected>細</option>
-                            <option value="bold">粗</option>
-                        </select>
-                    </div>
-                </div>
+        <br />
 
-                <br />
-
-                <!-- font size -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="input_font_size">文字大小</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_font_size" />
-                    </div>
-                    <div class="col-auto">
-                        <span>rem</span>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- dialog space -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="input_dialog_spacing">對話框間隔</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_dialog_spacing" />
-                    </div>
-                    <div class="col-auto">
-                        <span>rem</span>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- dialog radius -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="input_dialog_radius">對話框圓角</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="number" class="form-control" min="0" value="0" step="0.1" id="input_dialog_radius" />
-                    </div>
-                    <div class="col-auto">
-                        <span>rem</span>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- dialog color -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="color_dialog_color">對話框顏色</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="color" class="form-control form-control-color" id="color_dialog_color" />
-                    </div>
-                    <div class="col-auto">
-                        <span id="span_dialog_color"></span>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- dialog transparency -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="range_dialog_transparency">對話框透明度</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="range" class="form-range" min="0" max="255" id="range_dialog_transparency" />
-                    </div>
-                    <div class="col-auto">
-                        <span id="span_dialog_transparency"></span>
-                    </div>
-                </div>
+        <!-- min size -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_min_size"
+              />
+              <label class="form-check-label" for="checkbox_min_size"
+                >最小尺寸限制</label
+              >
             </div>
+          </div>
+        </div>
 
-            <!-- channel page -->
-            <div id="div_channel" class="setting_page" hidden>
-                <div><span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span></div>
-                <div id="div_channel_list"></div>
-                <br />
+        <br />
+
+        <!-- hide button -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_hide_button"
+              />
+              <label class="form-check-label" for="checkbox_hide_button"
+                >自動隱藏按鈕</label
+              >
             </div>
+          </div>
+        </div>
 
-            <!-- translation page -->
-            <div id="div_translation" class="setting_page" hidden>
-                <!-- auto change -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_change" />
-                            <label class="form-check-label" for="checkbox_auto_change">翻譯失敗時切換翻譯引擎</label>
-                        </div>
-                    </div>
-                </div>
+        <br />
 
-                <br />
-
-                <!-- text fix -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_text_fix" />
-                            <label class="form-check-label" for="checkbox_text_fix">名詞校正</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- skip system message -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_system" />
-                            <label class="form-check-label" for="checkbox_skip_system">忽略常見系統訊息</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- skip chinese message -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_chinese" />
-                            <label class="form-check-label" for="checkbox_skip_chinese">忽略漢化字幕</label>
-                        </div>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- select translator -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="select_engine">翻譯引擎</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="select_engine">
-                            <option value="Youdao" selected>有道翻譯</option>
-                            <option value="Baidu">百度翻譯</option>
-                            <option value="Caiyun">彩雲小譯</option>
-                            <option value="Papago">Papago</option>
-                            <option value="DeepL">DeepL</option>
-                            <!-- <option value="Google">Google</option> -->
-                        </select>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- select from -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="select_from">遊戲語言</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="select_from">
-                            <option value="Japanese" selected>日文</option>
-                            <option value="English">英文</option>
-                        </select>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- select from player -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="select_from_player">玩家頻道</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="select_from_player">
-                            <option value="Japanese" selected>日文</option>
-                            <option value="English">英文</option>
-                        </select>
-                    </div>
-                </div>
-
-                <br />
-
-                <!-- select to -->
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <label for="select_to">翻譯語言</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="select_to">
-                            <option value="Traditional-Chinese" selected>繁體中文</option>
-                            <option value="Simplified-Chinese">簡體中文</option>
-                        </select>
-                    </div>
-                </div>
+        <!-- hide dialog -->
+        <div class="row">
+          <div class="col-auto">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_hide_dialog"
+              />
+              <label class="form-check-label" for="checkbox_hide_dialog"
+                >自動隱藏視窗</label
+              >
             </div>
+          </div>
+        </div>
 
-            <!-- system page -->
-            <div id="div_system" class="setting_page" hidden>
-                <!-- auto download json -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_download_json" />
-                            <label class="form-check-label" for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
-                        </div>
-                    </div>
-                </div>
+        <br />
 
-                <br />
+        <!-- hide dialog timeout -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <input
+              class="form-control"
+              type="number"
+              id="input_hide_dialog"
+              min="1"
+              step="1"
+              value="20"
+            />
+          </div>
+          <div class="col-auto">
+            <label for="input_hide_dialog">秒後隱藏視窗</label>
+          </div>
+        </div>
 
-                <!-- download json -->
-                <div class="row">
-                    <div class="col">
-                        <button id="button_download_json" class="btn btn-primary">下載翻譯對照表</button>
-                    </div>
-                </div>
+        <br />
 
-                <br />
+        <!-- background color -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="color_background_color">背景顏色</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="color"
+              class="form-control form-control-color"
+              id="color_background_color"
+            />
+          </div>
+          <div class="col-auto">
+            <span id="span_background_color"></span>
+          </div>
+        </div>
 
-                <!-- start sharlayan reader -->
-                <div class="row">
-                    <div class="col">
-                        <button id="button_restart_sharlayan_reader" class="btn btn-primary">重新啟動字幕讀取器</button>
-                    </div>
-                </div>
+        <br />
 
-                <br />
+        <!-- background transparency -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="range_background_transparency">背景透明度</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="range"
+              class="form-range"
+              min="0"
+              max="255"
+              id="range_background_transparency"
+            />
+          </div>
+          <div class="col-auto">
+            <span id="span_background_transparency"></span>
+          </div>
+        </div>
+      </div>
 
-                <!-- set google credential -->
-                <div class="row align-items-center">
-                    <div class="col-auto" id="div_google_credential" title="設定Google憑證，不使用Google Vision辨識功能則無需設定">
-                        <button id="button_google_credential" class="btn btn-primary">設定Google憑證</button>
-                    </div>
-                    <div class="col-auto"><a href="#" id="a_get_credential">憑證取得教學</a></div>
-                </div>
+      <!-- font page -->
+      <div id="div_font" class="setting_page" hidden>
+        <!-- select font weight -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select_font_weight">文字粗細</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select_font_weight">
+              <option value="normal" selected>細</option>
+              <option value="bold">粗</option>
+            </select>
+          </div>
+        </div>
 
-                <br />
+        <br />
 
-                <!-- version check -->
-                <div class="row">
-                    <div class="col">
-                        <button id="button_version_check" class="btn btn-primary">檢查更新</button>
-                    </div>
-                </div>
+        <!-- font size -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="input_font_size">文字大小</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="number"
+              class="form-control"
+              min="0"
+              value="1"
+              step="0.1"
+              id="input_font_size"
+            />
+          </div>
+          <div class="col-auto">
+            <span>rem</span>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- dialog space -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="input_dialog_spacing">對話框間隔</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="number"
+              class="form-control"
+              min="0"
+              value="1"
+              step="0.1"
+              id="input_dialog_spacing"
+            />
+          </div>
+          <div class="col-auto">
+            <span>rem</span>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- dialog radius -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="input_dialog_radius">對話框圓角</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="number"
+              class="form-control"
+              min="0"
+              value="0"
+              step="0.1"
+              id="input_dialog_radius"
+            />
+          </div>
+          <div class="col-auto">
+            <span>rem</span>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- dialog color -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="color_dialog_color">對話框顏色</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="color"
+              class="form-control form-control-color"
+              id="color_dialog_color"
+            />
+          </div>
+          <div class="col-auto">
+            <span id="span_dialog_color"></span>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- dialog transparency -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="range_dialog_transparency">對話框透明度</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="range"
+              class="form-range"
+              min="0"
+              max="255"
+              id="range_dialog_transparency"
+            />
+          </div>
+          <div class="col-auto">
+            <span id="span_dialog_transparency"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- channel page -->
+      <div id="div_channel" class="setting_page" hidden>
+        <div>
+          <span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span>
+        </div>
+        <div id="div_channel_list"></div>
+        <br />
+      </div>
+
+      <!-- translation page -->
+      <div id="div_translation" class="setting_page" hidden>
+        <!-- auto change -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_auto_change"
+              />
+              <label class="form-check-label" for="checkbox_auto_change"
+                >翻譯失敗時切換翻譯引擎</label
+              >
             </div>
+          </div>
+        </div>
 
-            <!-- about page -->
-            <div id="div_about" class="setting_page" hidden>
-                <div class="row">
-                    <div class="col">
-                        <span>版本: ver.</span>
-                        <span id="span_version"></span>
-                    </div>
-                </div>
+        <br />
 
-                <div class="row">
-                    <div class="col">
-                        <span id="span_author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span>
-                    </div>
-                </div>
+        <!-- text fix -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_text_fix"
+              />
+              <label class="form-check-label" for="checkbox_text_fix"
+                >名詞校正</label
+              >
+            </div>
+          </div>
+        </div>
 
-                <hr />
+        <br />
 
-                <div class="row">
-                    <div class="col">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_readme">使用說明書</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_bug_report">問題回報</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_translation_report">回報翻譯錯誤</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_github">GitHub</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_bahamut">訪問作者</a>
-                            </li>
-                            <!-- 
+        <!-- skip system message -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_skip_system"
+              />
+              <label class="form-check-label" for="checkbox_skip_system"
+                >忽略常見系統訊息</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- skip chinese message -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_skip_chinese"
+              />
+              <label class="form-check-label" for="checkbox_skip_chinese"
+                >忽略漢化字幕</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- select translator -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select_engine">翻譯引擎</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select_engine">
+              <option value="Youdao" selected>有道翻譯</option>
+              <option value="Baidu">百度翻譯</option>
+              <option value="Caiyun">彩雲小譯</option>
+              <option value="Papago">Papago</option>
+              <option value="DeepL">DeepL</option>
+              <!-- <option value="Google">Google</option> -->
+            </select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- select from -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select_from">遊戲語言</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select_from">
+              <option value="Japanese" selected>日文</option>
+              <option value="English">英文</option>
+            </select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- select from player -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select_from_player">玩家頻道</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select_from_player">
+              <option value="Japanese" selected>日文</option>
+              <option value="English">英文</option>
+            </select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- select to -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select_to">翻譯語言</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select_to">
+              <option value="Traditional-Chinese" selected>繁體中文</option>
+              <option value="Simplified-Chinese">簡體中文</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- system page -->
+      <div id="div_system" class="setting_page" hidden>
+        <!-- auto download json -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_auto_download_json"
+              />
+              <label class="form-check-label" for="checkbox_auto_download_json"
+                >啟動時下載翻譯對照表</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- download json -->
+        <div class="row">
+          <div class="col">
+            <button id="button_download_json" class="btn btn-primary">
+              下載翻譯對照表
+            </button>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- start sharlayan reader -->
+        <div class="row">
+          <div class="col">
+            <button
+              id="button_restart_sharlayan_reader"
+              class="btn btn-primary"
+            >
+              重新啟動字幕讀取器
+            </button>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- set google credential -->
+        <div class="row align-items-center">
+          <div
+            class="col-auto"
+            id="div_google_credential"
+            title="設定Google憑證，不使用Google Vision辨識功能則無需設定"
+          >
+            <button id="button_google_credential" class="btn btn-primary">
+              設定Google憑證
+            </button>
+          </div>
+          <div class="col-auto">
+            <a href="#" id="a_get_credential">憑證取得教學</a>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- version check -->
+        <div class="row">
+          <div class="col">
+            <button id="button_version_check" class="btn btn-primary">
+              檢查更新
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- about page -->
+      <div id="div_about" class="setting_page" hidden>
+        <div class="row">
+          <div class="col">
+            <span>版本: ver.</span>
+            <span id="span_version"></span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <span id="span_author"
+              >作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span
+            >
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="col">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="a_readme">使用說明書</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="a_bug_report">問題回報</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="a_translation_report"
+                  >回報翻譯錯誤</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="a_github">GitHub</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="a_bahamut">訪問作者</a>
+              </li>
+              <!-- 
                             <li class="nav-item">
                                 <a class="nav-link" href="#" id="a_donate">贊助作者</a>
                             </li>
                              -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </main>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
 
-        <footer class="container-fluid p-2">
-            <div class="row align-items-center text-end">
-                <div class="col">
-                    <button id="button_save_default_config" class="btn btn-secondary">恢復預設值</button>
-                    <button id="button_save_config" class="btn btn-primary">儲存設定</button>
-                </div>
-            </div>
-        </footer>
+    <footer class="container-fluid p-2">
+      <div class="row align-items-center text-end">
+        <div class="col">
+          <button id="button_save_default_config" class="btn btn-secondary">
+            恢復預設值
+          </button>
+          <button id="button_save_config" class="btn btn-primary">
+            儲存設定
+          </button>
+        </div>
+      </div>
+    </footer>
 
-        <!-- renderer -->
-        <script src="./renderer/function.js"></script>
-        <script src="./renderer/drag.js"></script>
-        <script src="./renderer/language.js"></script>
-    </body>
+    <!-- renderer -->
+    <script src="./renderer/function.js"></script>
+    <script src="./renderer/drag.js"></script>
+    <script src="./renderer/language.js"></script>
+  </body>
 </html>

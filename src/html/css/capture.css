@@ -1,24 +1,24 @@
 body {
-    /*background-color: #00000022;*/
-    background-color: #00000000;
-    border: 0.1rem #808080 solid;
+  /*background-color: #00000022;*/
+  background-color: #00000000;
+  border: 0.1rem #808080 solid;
 }
 
 header {
-    background-color: #000000bb;
-    border: 0.1rem #808080 solid;
+  background-color: #000000bb;
+  border: 0.1rem #808080 solid;
 }
 
 #canvas_select {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
 }
 
 #button_screenshot {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    z-index: 10;
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 10;
 }

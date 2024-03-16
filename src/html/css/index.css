@@ -1,28 +1,28 @@
 body {
-    overflow: hidden;
-    background-color: #00000000;
+  overflow: hidden;
+  background-color: #00000000;
 }
 
 #div_dialog {
-    scroll-behavior: smooth;
-    overflow: scroll;
-    padding: 0 0.7rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    width: 100vw;
-    height: 100vh;
+  scroll-behavior: smooth;
+  overflow: scroll;
+  padding: 0 0.7rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  width: 100vw;
+  height: 100vh;
 }
 
 #div_dialog div {
-    margin-bottom: 0.7rem;
-    padding: 0.7rem;
-    /*word-wrap: break-word;*/
-    line-break: loose;
-    color: #ffffff;
+  margin-bottom: 0.7rem;
+  padding: 0.7rem;
+  /*word-wrap: break-word;*/
+  line-break: loose;
+  color: #ffffff;
 }
 
 #div_dialog p,
 #div_dialog span {
-    -webkit-filter: drop-shadow(0 0 0.2rem #000000);
-    filter: drop-shadow(0 0 0 0.2rem #000000);
+  -webkit-filter: drop-shadow(0 0 0.2rem #000000);
+  filter: drop-shadow(0 0 0 0.2rem #000000);
 }

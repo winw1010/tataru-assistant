@@ -16,147 +16,156 @@ const userPath = process.env.USERPROFILE;
 const appName = 'Tataru Helper Node';
 
 // directory check
-function directoryCheck() {    
-    const documentPath = getUserPath('Documents');
-    const subPath = ['', appName, appName + '\\image', appName + '\\log', appName + '\\setting', appName + '\\temp'];
+function directoryCheck() {
+  const documentPath = getUserPath('Documents');
+  const subPath = [
+    '',
+    appName,
+    appName + '\\image',
+    appName + '\\log',
+    appName + '\\setting',
+    appName + '\\temp',
+  ];
 
-    subPath.forEach((value) => {
-        try {
-            const dir = getPath(documentPath, value);
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    });
+  subPath.forEach((value) => {
+    try {
+      const dir = getPath(documentPath, value);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 }
 
 // readdir
 function readdir(path) {
-    let result = [];
+  let result = [];
 
-    try {
-        result = fs.readdirSync(path);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    result = fs.readdirSync(path);
+  } catch (error) {
+    console.log(error);
+  }
 
-    return result;
+  return result;
 }
 
 // exists
 function exists(filePath = './') {
-    let result = false;
+  let result = false;
 
-    try {
-        result = fs.existsSync(filePath);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    result = fs.existsSync(filePath);
+  } catch (error) {
+    console.log(error);
+  }
 
-    return result;
+  return result;
 }
 
 // unlink
 function unlink(filePath = './') {
-    try {
-        fs.unlinkSync(filePath);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    fs.unlinkSync(filePath);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // read
 function read(filePath = './', type = '') {
-    let data = null;
+  let data = null;
 
-    try {
-        switch (type) {
-            case 'json':
-                data = JSON.parse(fs.readFileSync(filePath));
-                break;
+  try {
+    switch (type) {
+      case 'json':
+        data = JSON.parse(fs.readFileSync(filePath));
+        break;
 
-            default:
-                data = fs.readFileSync(filePath);
-                break;
-        }
-    } catch (error) {
-        console.log(error);
+      default:
+        data = fs.readFileSync(filePath);
+        break;
     }
+  } catch (error) {
+    console.log(error);
+  }
 
-    return data;
+  return data;
 }
 
 // write
 function write(filePath = './', data = '', type = '') {
-    try {
-        switch (type) {
-            case 'json':
-                {
-                    let dataString = JSON.stringify(data).includes('{')
-                        ? JSON.stringify(data, null, '\t')
-                        : JSON.stringify(data)
-                              .replaceAll('[[', '[\n\t[')
-                              .replaceAll('],', '],\n\t')
-                              .replaceAll(']]', ']\n]')
-                              .replaceAll('","', '", "');
-                    dataString = dataString.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');
-                    fs.writeFileSync(filePath, dataString);
-                }
-                break;
-
-            case 'image':
-                fs.writeFileSync(filePath, Buffer.from(data, 'base64'));
-                break;
-
-            default:
-                fs.writeFileSync(filePath, data);
-                break;
+  try {
+    switch (type) {
+      case 'json':
+        {
+          let dataString = JSON.stringify(data).includes('{')
+            ? JSON.stringify(data, null, '\t')
+            : JSON.stringify(data)
+                .replaceAll('[[', '[\n\t[')
+                .replaceAll('],', '],\n\t')
+                .replaceAll(']]', ']\n]')
+                .replaceAll('","', '", "');
+          dataString = dataString
+            .replaceAll('\r\n', '\n')
+            .replaceAll('\n', '\r\n');
+          fs.writeFileSync(filePath, dataString);
         }
-    } catch (error) {
-        console.log(error);
+        break;
+
+      case 'image':
+        fs.writeFileSync(filePath, Buffer.from(data, 'base64'));
+        break;
+
+      default:
+        fs.writeFileSync(filePath, data);
+        break;
     }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // get path
 function getPath(...args) {
-    return path.join(...args);
+  return path.join(...args);
 }
 
 // get root path
 function getRootPath(...args) {
-    return path.join(rootPath, ...args);
+  return path.join(rootPath, ...args);
 }
 
 // get root data path
 function getRootDataPath(...args) {
-    return path.join(rootPath, 'src', 'data', ...args);
+  return path.join(rootPath, 'src', 'data', ...args);
 }
 
 // get user path
 function getUserPath(...args) {
-    return path.join(userPath, ...args);
+  return path.join(userPath, ...args);
 }
 
 // get user path
 function getUserDataPath(...args) {
-    return path.join(userPath, 'Documents', appName, ...args);
+  return path.join(userPath, 'Documents', appName, ...args);
 }
 
 // module exports
 module.exports = {
-    directoryCheck,
+  directoryCheck,
 
-    readdir,
-    exists,
-    unlink,
-    read,
-    write,
+  readdir,
+  exists,
+  unlink,
+  read,
+  write,
 
-    getPath,
-    getRootPath,
-    getRootDataPath,
-    getUserPath,
-    getUserDataPath,
+  getPath,
+  getRootPath,
+  getRootDataPath,
+  getUserPath,
+  getUserDataPath,
 };

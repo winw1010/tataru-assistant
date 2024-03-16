@@ -33,10 +33,20 @@ const fileModule = require('./file-module');
 const serverModule = require('./server-module');
 
 // sharlayan path
-const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', 'SharlayanReader.exe');
+const sharlayanPath = fileModule.getRootPath(
+  'src',
+  'data',
+  'SharlayanReader',
+  'SharlayanReader.exe'
+);
 
 // version path
-const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
+const versionPath = fileModule.getRootPath(
+  'src',
+  'data',
+  'text',
+  'signatures.json'
+);
 
 // child
 let child = null;
@@ -46,65 +56,69 @@ let restartReader = true;
 
 // start
 function start() {
-    try {
-        if (fileModule.exists(versionPath)) {
-            try {
-                const signatures = fileModule.read(versionPath, 'json');
-                if (signatures) {
-                    fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
-                }
-            } catch (error) {
-                console.log(error);
-            }
+  try {
+    if (fileModule.exists(versionPath)) {
+      try {
+        const signatures = fileModule.read(versionPath, 'json');
+        if (signatures) {
+          fileModule.write(
+            fileModule.getRootPath('signatures.json'),
+            signatures,
+            'json'
+          );
         }
-
-        child = childProcess.spawn(sharlayanPath);
-
-        child.on('close', (code) => {
-            console.log(`SharlayanReader.exe closed (code: ${code})`);
-            if (restartReader) {
-                start();
-            }
-        });
-
-        child.on('error', (err) => {
-            console.log(err.message);
-        });
-
-        child.stdout.on('error', (err) => {
-            console.log(err.message);
-        });
-
-        child.stdout.on('data', (data) => {
-            try {
-                let dataArray = data.toString().split('\r\n');
-                for (let index = 0; index < dataArray.length; index++) {
-                    let element = dataArray[index];
-                    if (element.length > 0) serverModule.dataProcess(element);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        });
-    } catch (error) {
+      } catch (error) {
         console.log(error);
+      }
     }
+
+    child = childProcess.spawn(sharlayanPath);
+
+    child.on('close', (code) => {
+      console.log(`SharlayanReader.exe closed (code: ${code})`);
+      if (restartReader) {
+        start();
+      }
+    });
+
+    child.on('error', (err) => {
+      console.log(err.message);
+    });
+
+    child.stdout.on('error', (err) => {
+      console.log(err.message);
+    });
+
+    child.stdout.on('data', (data) => {
+      try {
+        let dataArray = data.toString().split('\r\n');
+        for (let index = 0; index < dataArray.length; index++) {
+          let element = dataArray[index];
+          if (element.length > 0) serverModule.dataProcess(element);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // stop
 function stop(restart = true) {
-    restartReader = restart;
-    try {
-        child.kill('SIGINT');
-    } catch (error) {
-        //console.log(error);
-    }
+  restartReader = restart;
+  try {
+    child.kill('SIGINT');
+  } catch (error) {
+    //console.log(error);
+  }
 }
 
 // module exports
 module.exports = {
-    start,
-    stop,
+  start,
+  stop,
 };
 
 /*

@@ -1,125 +1,158 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <title>Tataru Node UI</title>
+  <head>
+    <title>Tataru Node UI</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
         /> -->
 
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-        <!-- app -->
-        <link rel="stylesheet" href="css/app.css" />
+    <!-- app -->
+    <link rel="stylesheet" href="css/app.css" />
 
-        <!-- window -->
-        <link rel="stylesheet" href="css/dictionary.css" />
-    </head>
+    <!-- window -->
+    <link rel="stylesheet" href="css/dictionary.css" />
+  </head>
 
-    <body>
-        <header class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/drag_handle_white_48dp.svg" />
-                </div>
-                <div class="col">
-                    <span id="span_dictionary">翻譯查詢</span>
-                </div>
-                <div class="col-auto">
-                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
-                </div>
-            </div>
-        </header>
+  <body>
+    <header class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img
+            id="img_button_drag"
+            class="img_button auto_hidden"
+            title="拖曳視窗"
+            src="./img/ui/drag_handle_white_48dp.svg"
+          />
+        </div>
+        <div class="col">
+          <span id="span_dictionary">翻譯查詢</span>
+        </div>
+        <div class="col-auto">
+          <img
+            id="img_button_close"
+            class="img_button float_right"
+            title="關閉"
+            src="./img/ui/close_white_24dp.svg"
+          />
+        </div>
+      </div>
+    </header>
 
-        <main class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <select class="form-select" id="select_from">
-                        <option value="Japanese" selected>日文</option>
-                        <option value="English">英文</option>
-                        <option value="Traditional-Chinese">繁體中文</option>
-                        <option value="Simplified-Chinese">簡體中文</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                        <path
-                            fill-rule="evenodd"
-                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-                        />
-                    </svg>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select" id="select_to">
-                        <option value="Japanese">日文</option>
-                        <option value="English">英文</option>
-                        <option value="Traditional-Chinese" selected>繁體中文</option>
-                        <option value="Simplified-Chinese">簡體中文</option>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button id="button_switch" class="btn btn-secondary">切換</button>
-                </div>
-            </div>
+    <main class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <select class="form-select" id="select_from">
+            <option value="Japanese" selected>日文</option>
+            <option value="English">英文</option>
+            <option value="Traditional-Chinese">繁體中文</option>
+            <option value="Simplified-Chinese">簡體中文</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-arrow-right"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+            />
+          </svg>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="select_to">
+            <option value="Japanese">日文</option>
+            <option value="English">英文</option>
+            <option value="Traditional-Chinese" selected>繁體中文</option>
+            <option value="Simplified-Chinese">簡體中文</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <button id="button_switch" class="btn btn-secondary">切換</button>
+        </div>
+      </div>
 
-            <br />
+      <br />
 
-            <div class="row align-items-center">
-                <div class="col">
-                    <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="輸入要翻譯的文字"></textarea>
-                </div>
-            </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <textarea
+            class="form-control"
+            id="textarea_original_text"
+            rows="5"
+            placeholder="輸入要翻譯的文字"
+          ></textarea>
+        </div>
+      </div>
 
-            <br />
+      <br />
 
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <select class="form-select" id="select_engine">
-                        <option value="Youdao" selected>有道翻譯</option>
-                        <option value="Baidu">百度翻譯</option>
-                        <option value="Caiyun">彩雲小譯</option>
-                        <option value="Papago">Papago</option>
-                        <option value="DeepL">DeepL</option>
-                        <!-- <option value="Google">Google</option> -->
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button id="button_translate" class="btn btn-primary">翻譯</button>
-                </div>
-                <div class="col-auto">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_text_fix" />
-                        <label class="form-check-label" for="checkbox_text_fix" style="user-select: none;">名詞校正</label>
-                    </div>
-                </div>
-            </div>
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <select class="form-select" id="select_engine">
+            <option value="Youdao" selected>有道翻譯</option>
+            <option value="Baidu">百度翻譯</option>
+            <option value="Caiyun">彩雲小譯</option>
+            <option value="Papago">Papago</option>
+            <option value="DeepL">DeepL</option>
+            <!-- <option value="Google">Google</option> -->
+          </select>
+        </div>
+        <div class="col-auto">
+          <button id="button_translate" class="btn btn-primary">翻譯</button>
+        </div>
+        <div class="col-auto">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              name=""
+              id="checkbox_text_fix"
+            />
+            <label
+              class="form-check-label"
+              for="checkbox_text_fix"
+              style="user-select: none"
+              >名詞校正</label
+            >
+          </div>
+        </div>
+      </div>
 
-            <hr />
+      <hr />
 
-            <div class="row align-items-center">
-                <div class="col">
-                    <div><span id="span_translated_text"></span></div>
-                </div>
-            </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <div><span id="span_translated_text"></span></div>
+        </div>
+      </div>
 
-            <br />
+      <br />
 
-            <div class="row align-items-center">
-                <div class="col">
-                    <div id="div_audio"></div>
-                </div>
-            </div>
-        </main>
+      <div class="row align-items-center">
+        <div class="col">
+          <div id="div_audio"></div>
+        </div>
+      </div>
+    </main>
 
-        <!-- renderer -->
-        <script src="./renderer/function.js"></script>
-        <script src="./renderer/drag.js"></script>
-        <script src="./renderer/language.js"></script>
-    </body>
+    <!-- renderer -->
+    <script src="./renderer/function.js"></script>
+    <script src="./renderer/drag.js"></script>
+    <script src="./renderer/language.js"></script>
+  </body>
 </html>

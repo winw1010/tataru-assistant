@@ -1,13 +1,13 @@
 body {
-    overflow: hidden;
-    -webkit-user-select: none;
-    user-select: none;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 main {
-    scroll-behavior: smooth;
-    overflow: scroll;
-    padding-top: 7rem;
-    padding-bottom: 3rem;
-    height: 100vh;
+  scroll-behavior: smooth;
+  overflow: scroll;
+  padding-top: 7rem;
+  padding-bottom: 3rem;
+  height: 100vh;
 }

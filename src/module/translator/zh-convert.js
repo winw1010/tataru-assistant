@@ -8,19 +8,19 @@ const zhException = ['当当'];
 
 // exec
 function exec(option = { text: '', tableName: 'zh2Hant' }) {
-    return replaceText(option.text, zhTables[option.tableName]);
+  return replaceText(option.text, zhTables[option.tableName]);
 }
 
 // replace text
 function replaceText(text = '', zhTable = []) {
-    for (let index = 0; index < zhTable.length; index++) {
-        const table = zhTable[index];
-        if (!zhException.includes(table[0])) {
-            text = text.replaceAll(table[0], table[1]);
-        }
+  for (let index = 0; index < zhTable.length; index++) {
+    const table = zhTable[index];
+    if (!zhException.includes(table[0])) {
+      text = text.replaceAll(table[0], table[1]);
     }
+  }
 
-    return text;
+  return text;
 }
 
 // module exports

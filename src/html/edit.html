@@ -1,184 +1,222 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <title>Tataru Node UI</title>
+  <head>
+    <title>Tataru Node UI</title>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self' https://*; script-src 'self'; style-src 'self' 'unsafe-inline'"
         /> -->
 
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-        <!-- app -->
-        <link rel="stylesheet" href="css/app.css" />
+    <!-- app -->
+    <link rel="stylesheet" href="css/app.css" />
 
-        <!-- window -->
-        <link rel="stylesheet" href="css/edit.css" />
-    </head>
+    <!-- window -->
+    <link rel="stylesheet" href="css/edit.css" />
+  </head>
 
-    <body>
-        <header class="container-fluid p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img id="img_button_drag" class="img_button auto_hidden" title="拖曳視窗" src="./img/ui/drag_handle_white_48dp.svg" />
-                </div>
-                <div class="col">
-                    <span id="span_edit">重新翻譯</span>
-                </div>
-                <div class="col-auto">
-                    <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
-                </div>
+  <body>
+    <header class="container-fluid p-2">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img
+            id="img_button_drag"
+            class="img_button auto_hidden"
+            title="拖曳視窗"
+            src="./img/ui/drag_handle_white_48dp.svg"
+          />
+        </div>
+        <div class="col">
+          <span id="span_edit">重新翻譯</span>
+        </div>
+        <div class="col-auto">
+          <img
+            id="img_button_close"
+            class="img_button float_right"
+            title="關閉"
+            src="./img/ui/close_white_24dp.svg"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="container-fluid px-2">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <div id="div_text1"></div>
             </div>
-        </header>
+          </div>
 
-        <main class="container-fluid px-2">
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div id="div_text1"></div>
-                        </div>
-                    </div>
+          <br />
 
-                    <br />
-
-                    <div class="row">
-                        <div class="col">
-                            <div id="div_text2"></div>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row">
-                        <div class="col">
-                            <div id="div_audio"></div>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <select class="form-select" id="select_engine">
-                                <option value="Youdao" selected>有道翻譯</option>
-                                <option value="Baidu">百度翻譯</option>
-                                <option value="Caiyun">彩雲小譯</option>
-                                <option value="Papago">Papago</option>
-                                <option value="DeepL">DeepL</option>
-                                <!-- <option value="Google">Google</option> -->
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <select class="form-select" id="select_from">
-                                <option value="Japanese" selected>日文</option>
-                                <option value="English">英文</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <button id="button_restart_translate" class="btn btn-primary">重新翻譯</button>
-                            <button id="button_read_json" class="btn btn-secondary">重新讀取對照表</button>
-                            <button id="button_report_translation" class="btn btn-secondary">回報翻譯錯誤</button>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_replace" />
-                                <label class="form-check-label" for="checkbox_replace">取代原本翻譯</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-auto" style="border-left: white 1px dotted;"></div>
-
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <span id="span_flex_right_title">自訂翻譯</span>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating">
-                                <textarea class="form-control" id="textarea_before" style="height: 6rem;"></textarea>
-                                <label for="textarea_before">原文</label><br />
-                            </div>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating">
-                                <textarea class="form-control" id="textarea_after" style="height: 6rem;"></textarea>
-                                <label for="textarea_after">取代為</label><br />
-                            </div>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <label for="select_type">類別</label>
-                        </div>
-                        <div class="col-auto">
-                            <select class="form-select" id="select_type">
-                                <option disabled>#原文->中文</option>
-                                <option value="player">玩家名稱</option>
-                                <option value="retainer">雇員名稱</option>
-                                <option value="npc" selected>NPC名稱</option>
-                                <option value="title">稱呼</option>
-                                <option value="group">組織</option>
-                                <option value="monster">魔物</option>
-                                <option value="things">事物</option>
-                                <option value="skill">技能</option>
-                                <option value="map">地名</option>
-                                <option value="other">其他</option>
-                                <option disabled>#整句原文->整句中文</option>
-                                <option value="overwrite">整句替換</option>
-                                <option disabled>#日文->日文</option>
-                                <option value="jp">日文替換</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row">
-                        <div class="col">
-                            <button id="button_save_temp" class="btn btn-primary">儲存</button>
-                            <button id="button_delete_temp" class="btn btn-danger">刪除</button>
-                            <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯檔案</button>
-                        </div>
-                    </div>
-                </div>
+          <div class="row">
+            <div class="col">
+              <div id="div_text2"></div>
             </div>
-        </main>
+          </div>
 
-        <!-- renderer -->
-        <script src="./renderer/function.js"></script>
-        <script src="./renderer/drag.js"></script>
-        <script src="./renderer/language.js"></script>
-    </body>
+          <br />
+
+          <div class="row">
+            <div class="col">
+              <div id="div_audio"></div>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <select class="form-select" id="select_engine">
+                <option value="Youdao" selected>有道翻譯</option>
+                <option value="Baidu">百度翻譯</option>
+                <option value="Caiyun">彩雲小譯</option>
+                <option value="Papago">Papago</option>
+                <option value="DeepL">DeepL</option>
+                <!-- <option value="Google">Google</option> -->
+              </select>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" id="select_from">
+                <option value="Japanese" selected>日文</option>
+                <option value="English">英文</option>
+              </select>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col">
+              <button id="button_restart_translate" class="btn btn-primary">
+                重新翻譯
+              </button>
+              <button id="button_read_json" class="btn btn-secondary">
+                重新讀取對照表
+              </button>
+              <button id="button_report_translation" class="btn btn-secondary">
+                回報翻譯錯誤
+              </button>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  name=""
+                  id="checkbox_replace"
+                />
+                <label class="form-check-label" for="checkbox_replace"
+                  >取代原本翻譯</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto" style="border-left: white 1px dotted"></div>
+
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <span id="span_flex_right_title">自訂翻譯</span>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row">
+            <div class="col">
+              <div class="form-floating">
+                <textarea
+                  class="form-control"
+                  id="textarea_before"
+                  style="height: 6rem"
+                ></textarea>
+                <label for="textarea_before">原文</label><br />
+              </div>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row">
+            <div class="col">
+              <div class="form-floating">
+                <textarea
+                  class="form-control"
+                  id="textarea_after"
+                  style="height: 6rem"
+                ></textarea>
+                <label for="textarea_after">取代為</label><br />
+              </div>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="select_type">類別</label>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" id="select_type">
+                <option disabled>#原文->中文</option>
+                <option value="player">玩家名稱</option>
+                <option value="retainer">雇員名稱</option>
+                <option value="npc" selected>NPC名稱</option>
+                <option value="title">稱呼</option>
+                <option value="group">組織</option>
+                <option value="monster">魔物</option>
+                <option value="things">事物</option>
+                <option value="skill">技能</option>
+                <option value="map">地名</option>
+                <option value="other">其他</option>
+                <option disabled>#整句原文->整句中文</option>
+                <option value="overwrite">整句替換</option>
+                <option disabled>#日文->日文</option>
+                <option value="jp">日文替換</option>
+              </select>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row">
+            <div class="col">
+              <button id="button_save_temp" class="btn btn-primary">
+                儲存
+              </button>
+              <button id="button_delete_temp" class="btn btn-danger">
+                刪除
+              </button>
+              <button id="button_view_temp" class="btn btn-secondary">
+                檢視自訂翻譯檔案
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- renderer -->
+    <script src="./renderer/function.js"></script>
+    <script src="./renderer/drag.js"></script>
+    <script src="./renderer/language.js"></script>
+  </body>
 </html>

@@ -21,200 +21,226 @@ let enArray = enJson.getEnArray();
 let chArray = enJson.getChArray();
 
 async function startFix(dialogData = {}) {
-    try {
-        // get translation
-        const translation = dialogData.translation;
+  try {
+    // get translation
+    const translation = dialogData.translation;
 
-        // skip check
-        if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
-            throw '';
-        }
-
-        // name translation
-        let translatedName = '';
-        if (enFunction.isChinese(dialogData.name, translation)) {
-            translatedName = fixFunction.replaceText(dialogData.name, chArray.combine, true);
-        } else {
-            if (npcChannel.includes(dialogData.code)) {
-                if (translation.fix) {
-                    translatedName = await nameFix(dialogData.name, translation);
-                } else {
-                    translatedName = await translateModule.translate(dialogData.name, translation);
-                }
-            } else {
-                translatedName = dialogData.name;
-            }
-        }
-
-        if (dialogData.name !== '') {
-            // sleep 1 second
-            await fixFunction.sleep();
-        }
-
-        // text translation
-        let translatedText = '';
-        if (enFunction.isChinese(dialogData.text, translation)) {
-            translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
-        } else {
-            if (translation.fix) {
-                translatedText = await textFix(dialogData.name, dialogData.text, translation);
-            } else {
-                translatedText = await translateModule.translate(dialogData.text, translation);
-            }
-        }
-
-        // set translated text
-        dialogData.translatedName = translatedName;
-        dialogData.translatedText = translatedText;
-    } catch (error) {
-        console.log(error);
-
-        // set translated text
-        dialogData.translatedName = 'Error';
-        dialogData.translatedText = error;
+    // skip check
+    if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
+      throw '';
     }
 
-    return dialogData;
+    // name translation
+    let translatedName = '';
+    if (enFunction.isChinese(dialogData.name, translation)) {
+      translatedName = fixFunction.replaceText(
+        dialogData.name,
+        chArray.combine,
+        true
+      );
+    } else {
+      if (npcChannel.includes(dialogData.code)) {
+        if (translation.fix) {
+          translatedName = await nameFix(dialogData.name, translation);
+        } else {
+          translatedName = await translateModule.translate(
+            dialogData.name,
+            translation
+          );
+        }
+      } else {
+        translatedName = dialogData.name;
+      }
+    }
+
+    if (dialogData.name !== '') {
+      // sleep 1 second
+      await fixFunction.sleep();
+    }
+
+    // text translation
+    let translatedText = '';
+    if (enFunction.isChinese(dialogData.text, translation)) {
+      translatedText = fixFunction.replaceText(
+        dialogData.text,
+        chArray.combine,
+        true
+      );
+    } else {
+      if (translation.fix) {
+        translatedText = await textFix(
+          dialogData.name,
+          dialogData.text,
+          translation
+        );
+      } else {
+        translatedText = await translateModule.translate(
+          dialogData.text,
+          translation
+        );
+      }
+    }
+
+    // set translated text
+    dialogData.translatedName = translatedName;
+    dialogData.translatedText = translatedText;
+  } catch (error) {
+    console.log(error);
+
+    // set translated text
+    dialogData.translatedName = 'Error';
+    dialogData.translatedText = error;
+  }
+
+  return dialogData;
 }
 
 async function nameFix(name = '', translation = {}) {
-    if (name === '') {
-        return '';
-    }
+  if (name === '') {
+    return '';
+  }
 
-    // same check
-    const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
-    const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
-    const target3 = fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  // same check
+  const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
+  const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
+  const target3 = fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
-    if (target1) {
-        return target1[1];
-    }
+  if (target1) {
+    return target1[1];
+  }
 
-    if (target2) {
-        return target2[1].replace(/#$/, '');
-    }
+  if (target2) {
+    return target2[1].replace(/#$/, '');
+  }
 
-    if (target3) {
-        return target3[1].replace(/##$/, '');
-    }
+  if (target3) {
+    return target3[1].replace(/##$/, '');
+  }
 
-    // code
-    const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
+  // code
+  const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-    // translate name
-    let translatedName = '';
-    translatedName = codeResult.text;
+  // translate name
+  let translatedName = '';
+  translatedName = codeResult.text;
 
-    // skip check
-    if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
-        // translate
-        translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
-    }
+  // skip check
+  if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
+    // translate
+    translatedName = await translateModule.translate(
+      translatedName,
+      translation,
+      codeResult.table
+    );
+  }
 
-    // mark fix
-    translatedName = fixFunction.markFix(translatedName, true);
+  // mark fix
+  translatedName = fixFunction.markFix(translatedName, true);
 
-    // table
-    translatedName = fixFunction.replaceText(translatedName, codeResult.table);
+  // table
+  translatedName = fixFunction.replaceText(translatedName, codeResult.table);
 
-    // save to temp
-    saveName(name, translatedName);
+  // save to temp
+  saveName(name, translatedName);
 
-    return translatedName;
+  return translatedName;
 }
 
 async function textFix(name = '', text = '', translation = {}) {
-    if (text === '') {
-        return '';
-    }
+  if (text === '') {
+    return '';
+  }
 
-    // force overwrite
-    const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
-    if (target) {
-        return fixFunction.replaceText(target[1], chArray.combine, true);
-    }
+  // force overwrite
+  const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
+  if (target) {
+    return fixFunction.replaceText(target[1], chArray.combine, true);
+  }
 
-    // en1
-    text = fixFunction.replaceText(text, enArray.en1, true);
+  // en1
+  text = fixFunction.replaceText(text, enArray.en1, true);
 
-    // combine
-    const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-    text = codeResult.text;
+  // combine
+  const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
+  text = codeResult.text;
 
-    // en2
-    text = fixFunction.replaceText(text, enArray.en2, true);
+  // en2
+  text = fixFunction.replaceText(text, enArray.en2, true);
 
-    // special fix
-    text = specialFix(name, text);
+  // special fix
+  text = specialFix(name, text);
 
-    // mark fix
-    text = fixFunction.markFix(text);
+  // mark fix
+  text = fixFunction.markFix(text);
 
-    // value fix before
-    const valueResult = fixFunction.valueFixBefore(text);
-    text = valueResult.text;
+  // value fix before
+  const valueResult = fixFunction.valueFixBefore(text);
+  text = valueResult.text;
 
-    // skip check
-    if (!enFunction.canSkipTranslation(text, codeResult.table)) {
-        // translate
-        text = await translateModule.translate(text, translation, codeResult.table);
-    }
+  // skip check
+  if (!enFunction.canSkipTranslation(text, codeResult.table)) {
+    // translate
+    text = await translateModule.translate(text, translation, codeResult.table);
+  }
 
-    // value fix after
-    text = fixFunction.valueFixAfter(text, valueResult.table);
+  // value fix after
+  text = fixFunction.valueFixAfter(text, valueResult.table);
 
-    // mark fix
-    text = fixFunction.markFix(text, true);
+  // mark fix
+  text = fixFunction.markFix(text, true);
 
-    // after translation
-    text = fixFunction.replaceText(text, chArray.afterTranslation);
+  // after translation
+  text = fixFunction.replaceText(text, chArray.afterTranslation);
 
-    // table
-    text = fixFunction.replaceWord(text, codeResult.table);
+  // table
+  text = fixFunction.replaceWord(text, codeResult.table);
 
-    return text;
+  return text;
 }
 
 // save name
 function saveName(name = '', translatedName = '') {
-    if (name === translatedName) {
-        return;
-    }
+  if (name === translatedName) {
+    return;
+  }
 
-    chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
+  chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
 
-    if (name.length < 5) {
-        chArray.chTemp.push([name + '#', translatedName, 'temp']);
-    } else {
-        chArray.chTemp.push([name, translatedName, 'temp']);
-    }
+  if (name.length < 5) {
+    chArray.chTemp.push([name + '#', translatedName, 'temp']);
+  } else {
+    chArray.chTemp.push([name, translatedName, 'temp']);
+  }
 
-    // set combine
-    chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+  // set combine
+  chArray.combine = jsonFunction.combineArrayWithTemp(
+    chArray.chTemp,
+    chArray.player,
+    chArray.main
+  );
 
-    // write
-    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+  // write
+  jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 
 // special fix
 function specialFix(name = '', text = '') {
-    let loopCount = 0;
+  let loopCount = 0;
 
-    if (name) {
-        // do something
-    }
+  if (name) {
+    // do something
+  }
 
-    // A-Apple
-    while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {
-        text = text.replace(/(?<=\b)(\w{1,2})-\1/gi, '$1');
-        loopCount++;
-    }
+  // A-Apple
+  while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {
+    text = text.replace(/(?<=\b)(\w{1,2})-\1/gi, '$1');
+    loopCount++;
+  }
 
-    return text;
+  return text;
 }
 
 // module exports
 module.exports = {
-    startFix,
+  startFix,
 };

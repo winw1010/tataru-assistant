@@ -34,7 +34,8 @@ const fileModule = require('../system/file-module');
 const sharlayanModule = require('../system/sharlayan-module');
 
 // table URL
-const tableURL = 'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
+const tableURL =
+  'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
 
 // table name
 const tableName = 'table.zip';
@@ -50,77 +51,77 @@ let firstTime = true;
 
 // initialize json
 function initializeJSON() {
-    const config = configModule.getConfig();
+  const config = configModule.getConfig();
 
-    if (config.system.autoDownloadJson) {
-        downloadJSON();
-    } else {
-        loadJSON();
-    }
+  if (config.system.autoDownloadJson) {
+    downloadJSON();
+  } else {
+    loadJSON();
+  }
 }
 
 // download json
 function downloadJSON() {
-    download(tableURL, tableTempPath, async (file) => {
-        file.close();
-        console.log('Download Completed. (URL: ' + tableURL + ')');
+  download(tableURL, tableTempPath, async (file) => {
+    file.close();
+    console.log('Download Completed. (URL: ' + tableURL + ')');
 
-        if (file.errored) {
-            console.log('Download Failed: ' + file.errored.message);
-            dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
-        } else {
-            deleteText('text');
-            await decompress(tableTempPath, tablePath, { strip: 1 });
-            fileModule.unlink(tableTempPath);
-            dialogModule.showNotification('對照表下載完畢');
-        }
+    if (file.errored) {
+      console.log('Download Failed: ' + file.errored.message);
+      dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
+    } else {
+      deleteText('text');
+      await decompress(tableTempPath, tablePath, { strip: 1 });
+      fileModule.unlink(tableTempPath);
+      dialogModule.showNotification('對照表下載完畢');
+    }
 
-        loadJSON();
-    });
+    loadJSON();
+  });
 }
 
 // download
 function download(URL = '', disc = '', callback = function () {}) {
-    const file = fs.createWriteStream(disc);
-    https.get(URL, function (response) {
-        response.pipe(file);
+  const file = fs.createWriteStream(disc);
+  https.get(URL, function (response) {
+    response.pipe(file);
 
-        // after download completed close filestream
-        file.on('finish', () => {
-            callback(file);
-        });
+    // after download completed close filestream
+    file.on('finish', () => {
+      callback(file);
     });
+  });
 }
 
 // delete text
 function deleteText(dir) {
-    try {
-        execSync(`rmdir /Q /S src\\data\\${dir}`);
-    } catch (error) {
-        //console.log(error);
-    }
+  try {
+    execSync(`rmdir /Q /S src\\data\\${dir}`);
+  } catch (error) {
+    //console.log(error);
+  }
 }
 
 // load json
 function loadJSON() {
-    fixEntry.setRunning(false);
-    const config = configModule.getConfig();
-    const targetLanguage = config.translation.to;
-    enJson.load(targetLanguage);
-    jpJson.load(targetLanguage);
-    dialogModule.showNotification('對照表讀取完畢');
-    fixEntry.setRunning(true);
+  fixEntry.setRunning(false);
+  const config = configModule.getConfig();
+  const targetLanguage = config.translation.to;
+  enJson.load(targetLanguage);
+  jpJson.load(targetLanguage);
+  dialogModule.showNotification('對照表讀取完畢');
+  fixEntry.setRunning(true);
 
-    // start sharlayan reader
-    if (firstTime) {
-        firstTime = false;
-        sharlayanModule.start();
-    }
+  // start sharlayan reader
+  if (firstTime) {
+    firstTime = false;
+    sharlayanModule.start();
+  }
 }
 
 // module exports
 module.exports = {
-    initializeJSON,
-    downloadJSON,
-    loadJSON,
+  initializeJSON,
+  downloadJSON,
+  loadJSON,
 };

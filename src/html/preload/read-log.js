@@ -8,37 +8,43 @@ const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    setContextBridge();
-    setIPC();
+  setContextBridge();
+  setIPC();
 
-    setView();
-    setEvent();
-    setButton();
+  setView();
+  setEvent();
+  setButton();
 });
 
 // set context bridge
 function setContextBridge() {
-    contextBridge.exposeInMainWorld('myAPI', {
-        getConfig: () => {
-            return ipcRenderer.sendSync('get-config');
-        },
-        dragWindow: (clientX, clientY, windowWidth, windowHeight) => {
-            return ipcRenderer.send('drag-window', clientX, clientY, windowWidth, windowHeight);
-        },
-    });
+  contextBridge.exposeInMainWorld('myAPI', {
+    getConfig: () => {
+      return ipcRenderer.sendSync('get-config');
+    },
+    dragWindow: (clientX, clientY, windowWidth, windowHeight) => {
+      return ipcRenderer.send(
+        'drag-window',
+        clientX,
+        clientY,
+        windowWidth,
+        windowHeight
+      );
+    },
+  });
 }
 
 // set IPC
 function setIPC() {
-    // change UI text
-    ipcRenderer.on('change-ui-text', () => {
-        document.dispatchEvent(new CustomEvent('change-ui-text'));
-    });
+  // change UI text
+  ipcRenderer.on('change-ui-text', () => {
+    document.dispatchEvent(new CustomEvent('change-ui-text'));
+  });
 }
 
 // set view
 function setView() {
-    readLogList();
+  readLogList();
 }
 
 // set enevt
@@ -46,70 +52,79 @@ function setEvent() {}
 
 // set button
 function setButton() {
-    // read
-    document.getElementById('button_read_log').onclick = () => {
-        const file = document.getElementById('select_log').value;
-        readLog(file);
-    };
+  // read
+  document.getElementById('button_read_log').onclick = () => {
+    const file = document.getElementById('select_log').value;
+    readLog(file);
+  };
 
-    // view
-    document.getElementById('button_view_log').onclick = () => {
-        ipcRenderer.send('execute-command', `start "" "${logPath}"`);
-    };
+  // view
+  document.getElementById('button_view_log').onclick = () => {
+    ipcRenderer.send('execute-command', `start "" "${logPath}"`);
+  };
 
-    // close
-    document.getElementById('img_button_close').onclick = () => {
-        ipcRenderer.send('close-window');
-    };
+  // close
+  document.getElementById('img_button_close').onclick = () => {
+    ipcRenderer.send('close-window');
+  };
 }
 
 function readLogList() {
-    try {
-        const logs = ipcRenderer.sendSync('read-directory', logPath);
+  try {
+    const logs = ipcRenderer.sendSync('read-directory', logPath);
 
-        if (logs.length > 0) {
-            const select = document.getElementById('select_log');
+    if (logs.length > 0) {
+      const select = document.getElementById('select_log');
 
-            let innerHTML = '';
-            for (let index = 0; index < logs.length; index++) {
-                const log = logs[index];
-                innerHTML += `<option value="${log}">${log?.replace('.json', '')}</option>`;
-            }
+      let innerHTML = '';
+      for (let index = 0; index < logs.length; index++) {
+        const log = logs[index];
+        innerHTML += `<option value="${log}">${log?.replace(
+          '.json',
+          ''
+        )}</option>`;
+      }
 
-            select.innerHTML = innerHTML;
-            select.value = logs[logs.length - 1];
-        }
-    } catch (error) {
-        console.log(error);
+      select.innerHTML = innerHTML;
+      select.value = logs[logs.length - 1];
     }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function readLog(fileName) {
-    if (fileName === 'none') {
-        ipcRenderer.send('show-notification', '檔案不存在');
-        return;
-    }
+  if (fileName === 'none') {
+    ipcRenderer.send('show-notification', '檔案不存在');
+    return;
+  }
 
-    try {
-        const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
-        const log = ipcRenderer.sendSync('read-json', fileLocation, false);
-        const logNames = Object.getOwnPropertyNames(log);
+  try {
+    const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
+    const log = ipcRenderer.sendSync('read-json', fileLocation, false);
+    const logNames = Object.getOwnPropertyNames(log);
 
-        if (logNames.length > 0) {
-            ipcRenderer.send('send-index', 'clear-dialog');
+    if (logNames.length > 0) {
+      ipcRenderer.send('send-index', 'clear-dialog');
 
-            for (let index = 0; index < logNames.length; index++) {
-                const logElement = log[logNames[index]];
+      for (let index = 0; index < logNames.length; index++) {
+        const logElement = log[logNames[index]];
 
-                if (logElement.code !== 'FFFF') {
-                    ipcRenderer.send('add-log', logElement.id, logElement.code, logElement.translated_name, logElement.translated_text);
-                }
-            }
-
-            ipcRenderer.send('send-index', 'move-to-bottom');
+        if (logElement.code !== 'FFFF') {
+          ipcRenderer.send(
+            'add-log',
+            logElement.id,
+            logElement.code,
+            logElement.translated_name,
+            logElement.translated_text
+          );
         }
-    } catch (error) {
-        console.log(error);
-        ipcRenderer.send('show-notification', '無法讀取檔案');
+      }
+
+      ipcRenderer.send('send-index', 'move-to-bottom');
     }
+  } catch (error) {
+    console.log(error);
+    ipcRenderer.send('show-notification', '無法讀取檔案');
+  }
 }

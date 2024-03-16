@@ -1,8 +1,8 @@
 body {
-    -webkit-user-select: none;
-    user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 main {
-    padding-top: 3rem;
+  padding-top: 3rem;
 }

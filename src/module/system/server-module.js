@@ -13,114 +13,138 @@ const engineModule = require('./engine-module');
 const fixEntryModule = require('../fix/fix-entry');
 
 // system channel
-const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
+const systemChannel = [
+  '0039',
+  '0839',
+  '0003',
+  '0038',
+  '003C',
+  '0048',
+  '001D',
+  '001C',
+];
 
 // text history
 let textHistory = {};
 
 // data process
 function dataProcess(data) {
-    try {
-        let dialogData = JSON.parse(data.toString());
+  try {
+    let dialogData = JSON.parse(data.toString());
 
-        if (checkData(dialogData)) {
-            if (dialogData.type === 'CONSOLE') {
-                showData(dialogData);
-            } else {
-                console.log('Dialog Data:', dialogData);
-                translateData(dialogData);
-            }
-        }
-    } catch (error) {
-        console.error(error);
+    if (checkData(dialogData)) {
+      if (dialogData.type === 'CONSOLE') {
+        showData(dialogData);
+      } else {
+        console.log('Dialog Data:', dialogData);
+        translateData(dialogData);
+      }
     }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // check data
 function checkData(dialogData) {
-    const names = Object.getOwnPropertyNames(dialogData);
-    return names.includes('type') && names.includes('code') && names.includes('name') && names.includes('text');
+  const names = Object.getOwnPropertyNames(dialogData);
+  return (
+    names.includes('type') &&
+    names.includes('code') &&
+    names.includes('name') &&
+    names.includes('text')
+  );
 }
 
 // check repetition
 function checkRepetition(dialogData, fixText = false) {
-    let code = dialogData.code;
-    let text = dialogData.text;
+  let code = dialogData.code;
+  let text = dialogData.text;
 
-    if (fixText) {
-        text = text
-            .replaceAll('\r', '')
-            .replaceAll(/（.*?）/gi, '')
-            .replaceAll(/\(.*?\)/gi, '');
-    }
+  if (fixText) {
+    text = text
+      .replaceAll('\r', '')
+      .replaceAll(/（.*?）/gi, '')
+      .replaceAll(/\(.*?\)/gi, '');
+  }
 
-    if (text !== textHistory[code]) {
-        textHistory[code] = text;
-        return true;
-    }
+  if (text !== textHistory[code]) {
+    textHistory[code] = text;
+    return true;
+  }
 
-    return false;
+  return false;
 }
 
 // show data
 function showData(dialogData) {
-    if (checkRepetition(dialogData)) {
-        console.log(dialogData.text);
+  if (checkRepetition(dialogData)) {
+    console.log(dialogData.text);
 
-        if (['Waiting...', 'Start reading...', 'Stop reading...'].includes(dialogData.text)) {
-            return;
-        } else {
-            dialogModule.showNotification(dialogData.text);
-        }
+    if (
+      ['Waiting...', 'Start reading...', 'Stop reading...'].includes(
+        dialogData.text
+      )
+    ) {
+      return;
+    } else {
+      dialogModule.showNotification(dialogData.text);
     }
+  }
 }
 
 // translate data
 function translateData(dialogData) {
-    const config = configModule.getConfig();
+  const config = configModule.getConfig();
 
-    // check text and code
-    if (dialogData.text === '' || !config.channel[dialogData.code]) {
-        console.log('Skip translation');
-        return;
+  // check text and code
+  if (dialogData.text === '' || !config.channel[dialogData.code]) {
+    console.log('Skip translation');
+    return;
+  }
+
+  // fix text
+  dialogData.text = dialogData.text
+    .replaceAll(/^#/gi, '')
+    .replaceAll(')*', '')
+    .replaceAll('%&', '')
+    .replaceAll('「+,', '「');
+
+  // check repetition
+  if (!checkRepetition(dialogData, true)) {
+    return;
+  }
+
+  // reset id and timestamp
+  dialogData.id = null;
+  dialogData.timestamp = null;
+
+  // fix system message
+  if (systemChannel.includes(dialogData.code)) {
+    if (dialogData.name !== '') {
+      dialogData.text = dialogData.name + ':' + dialogData.text;
+      dialogData.name = '';
     }
+  }
 
-    // fix text
-    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
+  // fix new line
+  if (config.translation.from === engineModule.languageEnum.ja) {
+    dialogData.text = dialogData.text
+      .replace(/(?<=[…、。？！])\r/gi, '')
+      .replace(/\r/gi, '、');
+  } else {
+    dialogData.text = dialogData.text.replace(/\r/gi, ' ');
+  }
 
-    // check repetition
-    if (!checkRepetition(dialogData, true)) {
-        return;
-    }
+  // set translation
+  dialogData.translation = config.translation;
 
-    // reset id and timestamp
-    dialogData.id = null;
-    dialogData.timestamp = null;
-
-    // fix system message
-    if (systemChannel.includes(dialogData.code)) {
-        if (dialogData.name !== '') {
-            dialogData.text = dialogData.name + ':' + dialogData.text;
-            dialogData.name = '';
-        }
-    }
-
-    // fix new line
-    if (config.translation.from === engineModule.languageEnum.ja) {
-        dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
-    } else {
-        dialogData.text = dialogData.text.replace(/\r/gi, ' ');
-    }
-
-    // set translation
-    dialogData.translation = config.translation;
-
-    // start translation
-    console.log('Start translation');
-    fixEntryModule.addTask(dialogData);
+  // start translation
+  console.log('Start translation');
+  fixEntryModule.addTask(dialogData);
 }
 
 // module exports
 module.exports = {
-    dataProcess,
+  dataProcess,
 };

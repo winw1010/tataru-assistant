@@ -1,8 +1,8 @@
 main {
-    padding-top: 4rem;
+  padding-top: 4rem;
 }
 
 #div_text1,
 #div_text2 {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }

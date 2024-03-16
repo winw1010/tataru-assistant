@@ -1,55 +1,55 @@
 {
-    "name": "tataru-helper-node",
-    "version": "2.4.10",
-    "description": "tataru-helper-node",
-    "main": "src/main.js",
-    "scripts": {
-        "start": "electron .",
-        "pack": "electron-builder --dir",
-        "dist": "electron-builder"
+  "name": "tataru-helper-node",
+  "version": "2.4.10",
+  "description": "tataru-helper-node",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "repository": "https://github.com/winw1010/tataru-helper-node-v2",
+  "keywords": [],
+  "author": "winw1010",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.6.4",
+    "eslint": "^8.50.0"
+  },
+  "dependencies": {
+    "@google-cloud/vision": "^4.0.2",
+    "axios": "^1.5.1",
+    "crypto-js": "^4.1.1",
+    "decompress": "^4.2.1",
+    "sharp": "^0.32.6",
+    "temp": "^0.9.4",
+    "tesseract.js": "^5.0.3"
+  },
+  "build": {
+    "appId": "com.app.tataru.helper.node",
+    "productName": "Tataru Helper Node",
+    "directories": {
+      "output": "build"
     },
-    "repository": "https://github.com/winw1010/tataru-helper-node-v2",
-    "keywords": [],
-    "author": "winw1010",
-    "license": "MIT",
-    "devDependencies": {
-        "electron": "^28.2.0",
-        "electron-builder": "^24.6.4",
-        "eslint": "^8.50.0"
+    "extraFiles": [
+      "actions-latest.json",
+      "signatures-global-latest.json",
+      "signatures.json",
+      "statuses-latest.json",
+      "structures-global-latest.json",
+      "zones-latest.json",
+      "src/data",
+      "!src/data/img/*.png"
+    ],
+    "win": {
+      "requestedExecutionLevel": "highestAvailable",
+      "icon": "src/html/img/icon/tataru.ico",
+      "target": "nsis"
     },
-    "dependencies": {
-        "@google-cloud/vision": "^4.0.2",
-        "axios": "^1.5.1",
-        "crypto-js": "^4.1.1",
-        "decompress": "^4.2.1",
-        "sharp": "^0.32.6",
-        "temp": "^0.9.4",
-        "tesseract.js": "^5.0.3"
-    },
-    "build": {
-        "appId": "com.app.tataru.helper.node",
-        "productName": "Tataru Helper Node",
-        "directories": {
-            "output": "build"
-        },
-        "extraFiles": [
-            "actions-latest.json",
-            "signatures-global-latest.json",
-            "signatures.json",
-            "statuses-latest.json",
-            "structures-global-latest.json",
-            "zones-latest.json",
-            "src/data",
-            "!src/data/img/*.png"
-        ],
-        "win": {
-            "requestedExecutionLevel": "highestAvailable",
-            "icon": "src/html/img/icon/tataru.ico",
-            "target": "nsis"
-        },
-        "nsis": {
-            "createStartMenuShortcut": true,
-            "createDesktopShortcut": "always"
-        }
+    "nsis": {
+      "createStartMenuShortcut": true,
+      "createDesktopShortcut": "always"
     }
+  }
 }

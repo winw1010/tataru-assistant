@@ -153,23 +153,9 @@ function setWindowChannel() {
     windowModule.restartWindow(windowName, data);
   });
 
-  // drag window
-  ipcMain.on(
-    'drag-window',
-    (event, clientX, clientY, windowWidth, windowHeight) => {
-      try {
-        const cursorScreenPoint = screen.getCursorScreenPoint();
-        BrowserWindow.fromWebContents(event.sender).setBounds({
-          x: cursorScreenPoint.x - clientX,
-          y: cursorScreenPoint.y - clientY,
-          width: windowWidth,
-          height: windowHeight,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  );
+  ipcMain.on('move-window', (event, detail) => {
+    BrowserWindow.fromWebContents(event.sender).setBounds(detail);
+  });
 
   // minimize window
   ipcMain.on('minimize-window', (event) => {

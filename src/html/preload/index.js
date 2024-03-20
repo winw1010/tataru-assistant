@@ -1,7 +1,7 @@
 'use strict';
 
 // electron
-const { contextBridge, ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
 
 // click through
 let clickThrough = false;
@@ -11,7 +11,6 @@ let mouseOutCheckInterval = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-  setContextBridge();
   setIPC();
 
   setView();
@@ -21,29 +20,14 @@ window.addEventListener('DOMContentLoaded', () => {
   startApp();
 });
 
-// set context bridge
-function setContextBridge() {
-  contextBridge.exposeInMainWorld('myAPI', {
-    getConfig: () => {
-      return ipcRenderer.sendSync('get-config');
-    },
-    dragWindow: (clientX, clientY, windowWidth, windowHeight) => {
-      return ipcRenderer.send(
-        'drag-window',
-        clientX,
-        clientY,
-        windowWidth,
-        windowHeight
-      );
-    },
-  });
-}
-
 // set IPC
 function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
-    dispatchCustomEvent('change-ui-text');
+    const config = ipcRenderer.sendSync('get-config');
+    document.dispatchEvent(
+      new CustomEvent('change-ui-text', { detail: config })
+    );
   });
 
   /*
@@ -143,7 +127,9 @@ function setIPC() {
 
   // add audio
   ipcRenderer.on('add-audio', (event, urlList) => {
-    dispatchCustomEvent('add-to-playlist', { urlList });
+    document.dispatchEvent(
+      new CustomEvent('add-to-playlist', { detail: urlList })
+    );
   });
 }
 
@@ -178,6 +164,11 @@ function setView() {
 
 // set event
 function setEvent() {
+  // move window
+  document.addEventListener('move-window', (e) => {
+    ipcRenderer.send('move-window', e.detail, false);
+  });
+
   // drag click through
   document
     .getElementById('img_button_drag')
@@ -434,16 +425,11 @@ function setAutoPlay(value) {
     document
       .getElementById('img_button_auto_play')
       .setAttribute('src', './img/ui/volume_up_white_24dp.svg');
-    dispatchCustomEvent('start-playing');
+    document.dispatchEvent(new CustomEvent('start-playing'));
   } else {
     document
       .getElementById('img_button_auto_play')
       .setAttribute('src', './img/ui/volume_off_white_24dp.svg');
-    dispatchCustomEvent('stop-playing');
+    document.dispatchEvent(new CustomEvent('stop-playing'));
   }
-}
-
-// dispatch custom event
-function dispatchCustomEvent(type, value) {
-  document.dispatchEvent(new CustomEvent(type, { detail: value }));
 }

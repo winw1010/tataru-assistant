@@ -1,11 +1,10 @@
 'use strict';
 
 // electron
-const { contextBridge, ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-  setContextBridge();
   setIPC();
 
   setView();
@@ -13,29 +12,14 @@ window.addEventListener('DOMContentLoaded', () => {
   setButton();
 });
 
-// set context bridge
-function setContextBridge() {
-  contextBridge.exposeInMainWorld('myAPI', {
-    getConfig: () => {
-      return ipcRenderer.sendSync('get-config');
-    },
-    dragWindow: (clientX, clientY, windowWidth, windowHeight) => {
-      return ipcRenderer.send(
-        'drag-window',
-        clientX,
-        clientY,
-        windowWidth,
-        windowHeight
-      );
-    },
-  });
-}
-
 // set IPC
 function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
-    document.dispatchEvent(new CustomEvent('change-ui-text'));
+    const config = ipcRenderer.sendSync('get-config');
+    document.dispatchEvent(
+      new CustomEvent('change-ui-text', { detail: config })
+    );
   });
 }
 
@@ -52,6 +36,11 @@ function setView() {
 
 // set event
 function setEvent() {
+  // move window
+  document.addEventListener('move-window', (e) => {
+    ipcRenderer.send('move-window', e.detail, false);
+  });
+
   // on resize
   window.onresize = () => {
     setCanvasSize();

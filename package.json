@@ -33,14 +33,14 @@
       "output": "build"
     },
     "extraFiles": [
+      "src/data",
+      "!src/data/img/*.png",
       "actions-latest.json",
       "signatures-global-latest.json",
       "signatures.json",
       "statuses-latest.json",
       "structures-global-latest.json",
-      "zones-latest.json",
-      "src/data",
-      "!src/data/img/*.png"
+      "zones-latest.json"
     ],
     "win": {
       "requestedExecutionLevel": "highestAvailable",

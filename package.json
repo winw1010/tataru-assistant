@@ -18,13 +18,13 @@
     "eslint": "^8.57.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^4.0.2",
-    "axios": "^1.5.1",
-    "crypto-js": "^4.1.1",
+    "@google-cloud/vision": "^4.1.0",
+    "axios": "^1.6.8",
+    "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.2",
     "temp": "^0.9.4",
-    "tesseract.js": "^5.0.3"
+    "tesseract.js": "^5.0.5"
   },
   "build": {
     "appId": "com.app.tataru.helper.node",

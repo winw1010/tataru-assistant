@@ -26,7 +26,7 @@ const defaultConfig = {
   },
   dialog: {
     weight: 'normal',
-    fontSize: '1.1',
+    fontSize: '1',
     spacing: '1',
     radius: '0',
     backgroundColor: '#000000A0',

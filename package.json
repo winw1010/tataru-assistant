@@ -14,8 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^28.2.0",
-    "electron-builder": "^24.6.4",
-    "eslint": "^8.50.0"
+    "electron-builder": "^24.13.3",
+    "eslint": "^8.57.0"
   },
   "dependencies": {
     "@google-cloud/vision": "^4.0.2",

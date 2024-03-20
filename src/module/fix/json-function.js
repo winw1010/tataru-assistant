@@ -40,6 +40,7 @@ function readText(
       array = data;
     } else {
       console.log(path + ' is not an array.');
+      fileModule.write(path, '[]');
       return array;
     }
 

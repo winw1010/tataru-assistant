@@ -84,7 +84,7 @@ function showNotification(text) {
   updateDialog(id, '', text);
   setTimeout(() => {
     removeDialog(id);
-  }, 5000 + Math.min(text.length * 20, 5000));
+  }, 10000 /*5000 + Math.min(text.length * 20, 5000)*/);
 }
 
 // show dialog

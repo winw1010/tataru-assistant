@@ -70,7 +70,7 @@ function downloadJSON() {
       console.log('Download Failed: ' + file.errored.message);
       dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
     } else {
-      deleteText('text');
+      deleteTable();
       await decompress(tableTempPath, tablePath, { strip: 1 });
       fileModule.unlink(tableTempPath);
       dialogModule.showNotification('對照表下載完畢');
@@ -93,10 +93,10 @@ function download(URL = '', disc = '', callback = function () {}) {
   });
 }
 
-// delete text
-function deleteText(dir) {
+// delete table
+function deleteTable() {
   try {
-    execSync(`rmdir /Q /S src\\data\\${dir}`);
+    execSync(`rmdir /Q /S ${tablePath}`);
   } catch (error) {
     //console.log(error);
   }

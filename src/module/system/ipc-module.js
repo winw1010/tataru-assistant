@@ -36,6 +36,9 @@ const textDetectModule = require('./text-detect-module');
 // translate module
 const translateModule = require('./translate-module');
 
+// version module
+const versionModule = require('./version-module');
+
 // window module
 const windowModule = require('./window-module');
 
@@ -411,7 +414,7 @@ function setRequestChannel() {
 
         // compare app version
         const latestVersion = data?.number;
-        if (appVersion === latestVersion) {
+        if (versionModule.isLatest(appVersion, latestVersion)) {
           windowModule.sendIndex('hide-update-button', true);
           notificationText = '已安裝最新版本';
         } else {

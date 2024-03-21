@@ -13,7 +13,7 @@
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^29.1.4",
+    "electron": "^29.1.5",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0"
   },
@@ -35,6 +35,8 @@
     "extraFiles": [
       "src/data",
       "!src/data/img/*.png",
+      "eng.traineddata",
+      "jpn.traineddata",
       "actions-latest.json",
       "signatures-global-latest.json",
       "signatures.json",

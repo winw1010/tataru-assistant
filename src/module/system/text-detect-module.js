@@ -24,9 +24,6 @@ const engineModule = require('./engine-module');
 // fix entry
 const { addTask } = require('../fix/fix-entry');
 
-// tesseract path
-const tesseractPath = fileModule.getRootPath('src', 'data', 'tesseract');
-
 // image path
 const imagePath = fileModule.getRootPath('src', 'data', 'img');
 
@@ -65,18 +62,13 @@ async function googleVision(imagePath) {
 async function tesseractOCR(imageBuffer) {
   try {
     const config = configModule.getConfig();
-    let worker = null;
-    let workerOption = {
-      langPath: tesseractPath,
-      cacheMethod: 'none',
-      gzip: true,
-    };
 
-    // load language
+    // set worker
+    let worker = null;
     if (config.translation.from === engineModule.languageEnum.ja) {
-      worker = await createWorker('jpn', 1, workerOption);
-    } else if (config.translation.from === engineModule.languageEnum.en) {
-      worker = await createWorker('eng', 1, workerOption);
+      worker = await createWorker('jpn');
+    } /*else if (config.translation.from === engineModule.languageEnum.en)*/ else {
+      worker = await createWorker('eng');
     }
 
     // recognize text
@@ -88,7 +80,7 @@ async function tesseractOCR(imageBuffer) {
     if (text.trim().length > 0) {
       fixImageText(text);
     } else {
-      dialogModule.showNotification('無法擷取文字');
+      dialogModule.showNotification('無法辨識圖片文字: 字串長度為0');
     }
 
     // terminate worker

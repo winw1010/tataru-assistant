@@ -26,3 +26,11 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0)
     windowModule.createWindow('index');
 });
+
+process.on('uncaughtException', (error) => {
+  console.log(error);
+});
+
+process.on('unhandledRejection', (error) => {
+  console.log(error);
+});

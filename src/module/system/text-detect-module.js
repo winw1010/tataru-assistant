@@ -30,19 +30,17 @@ const imagePath = fileModule.getRootPath('src', 'data', 'img');
 // google vision
 async function googleVision(imagePath) {
   try {
-    const path = fileModule.getUserDataPath(
+    const keyPath = fileModule.getUserDataPath(
       'setting',
       'google-credential.json'
     );
-    if (!fileModule.exists(path)) {
+
+    if (!fileModule.exists(keyPath)) {
       throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';
     }
 
     const client = new vision.ImageAnnotatorClient({
-      keyFilename: fileModule.getUserDataPath(
-        'setting',
-        'google-credential.json'
-      ),
+      keyFilename: keyPath,
     });
     const [result] = await client.textDetection(imagePath);
     const detections = result.textAnnotations[0];

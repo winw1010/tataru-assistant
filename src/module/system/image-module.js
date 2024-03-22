@@ -82,7 +82,6 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
         width: parseInt(rectangleSize.width * newSize.scaleRate),
         height: parseInt(rectangleSize.height * newSize.scaleRate),
       })
-      .png({ quality: 100 })
       .toBuffer();
 
     // save crop
@@ -107,7 +106,6 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
 function getNewSize(displayBounds) {
   if (displayBounds.width > 1920) {
     const scaleRate = 1920 / displayBounds.width;
-
     return {
       width: 1920,
       height: parseInt(displayBounds.height * scaleRate),
@@ -123,27 +121,24 @@ function getNewSize(displayBounds) {
 }
 
 // fix image
-async function fixImage(imageBuffer) {
+async function fixImage(imageBuffer = Buffer.from('')) {
   try {
-    // greyscale image
-    let image = sharp(imageBuffer).greyscale();
+    // greyscale
+    let imageSharp = sharp(imageBuffer).greyscale();
 
-    // determind background color is light or dark
-    const { dominant } = await image.stats();
+    // get dominant
+    const { dominant } = await imageSharp.stats();
 
+    // negate image if background is dark
     if (hsp(dominant) >= 16256.25) {
-      // light color background
-      console.log('light color background');
-
-      // set result image buffer
-      return await image.toBuffer();
+      console.log('light background');
     } else {
-      // dark color background
-      console.log('dark color background');
-
-      // set result image buffer
-      return await image.negate({ alpha: false }).toBuffer();
+      console.log('dark background');
+      imageSharp = imageSharp.negate({ alpha: false });
     }
+
+    // to buffer
+    return await imageSharp.toBuffer();
   } catch (error) {
     console.log(error);
     dialogModule.showNotification('圖片處理發生錯誤: ' + error);

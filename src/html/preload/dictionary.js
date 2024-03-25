@@ -26,6 +26,16 @@ function setIPC() {
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
+
+  document.getElementById('select_engine').innerHTML =
+    ipcRenderer.sendSync('get-engine-select');
+
+  document.getElementById('select_from').innerHTML =
+    ipcRenderer.sendSync('get-source-select');
+
+  document.getElementById('select_to').innerHTML =
+    ipcRenderer.sendSync('get-target-select');
+
   document.getElementById('select_engine').value = config.translation.engine;
   document.getElementById('select_from').value = config.translation.from;
   document.getElementById('select_to').value = config.translation.to;

@@ -1,5 +1,19 @@
 'use strict';
 
+// source list
+const sourceList = ['Japanese', 'English'];
+
+// target list
+const targetList = [
+  'Japanese',
+  'English',
+  'Traditional-Chinese',
+  'Simplified-Chinese',
+];
+
+// ui list
+const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
+
 // language enum
 const languageEnum = {
   auto: 'Auto',
@@ -9,8 +23,7 @@ const languageEnum = {
   zhs: 'Simplified-Chinese',
 };
 
-// text/main
-// language index
+// language index (text/main)
 const languageIndex = {
   Japanese: 0,
   English: 1,
@@ -18,14 +31,28 @@ const languageIndex = {
   'Simplified-Chinese': 3,
 };
 
+// language name
+const languageName = {
+  Japanese: '日文',
+  English: '英文',
+  German: '德文',
+  French: '法文',
+  'Traditional-Chinese': '繁體中文',
+  'Simplified-Chinese': '簡體中文',
+};
+
 // engine list
-const engineList = [
-  'Youdao',
-  'Baidu',
-  'Caiyun',
-  'Papago',
-  'DeepL' /*, 'Google'*/,
-];
+const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];
+
+// engine name
+const engineName = {
+  Youdao: '有道翻譯',
+  Baidu: '百度翻譯',
+  Caiyun: '彩雲小譯',
+  Papago: 'Papago',
+  DeepL: 'DeepL',
+  GPT: 'ChatGPT',
+};
 
 // engine table
 const engineTable = {
@@ -85,7 +112,47 @@ const engineTable = {
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN',
   },
+  GPT: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+  },
 };
+
+// get engine select
+function getEngineSelect() {
+  return getSelect(engineList, engineName);
+}
+
+// get source select
+function getSourceSelect() {
+  return getSelect(sourceList, languageName);
+}
+
+// get target select
+function getTargetSelect() {
+  return getSelect(targetList, languageName);
+}
+
+// get UI select
+function getUISelect() {
+  return getSelect(uiList, engineName);
+}
+
+// get select
+function getSelect(list = [], names = {}) {
+  let innerHTML = '';
+
+  for (let index = 0; index < list.length; index++) {
+    const name = list[index];
+    innerHTML += `<option value="${name}">${names[name]}</option>`;
+  }
+
+  return innerHTML;
+}
 
 // get engine list
 function getEngineList(engine = 'Youdao') {
@@ -119,28 +186,17 @@ function sleep(ms = 1000) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/*
-function fixLanguageCode(code) {
-    if (/Auto/gi.test(code)) {
-        code = 'Auto';
-    } else if (/Japanese/gi.test(code)) {
-        code = 'Japanese';
-    } else if (/English/gi.test(code)) {
-        code = 'English';
-    } else if (/Traditional-Chinese/gi.test(code)) {
-        code = 'Traditional-Chinese';
-    } else if (/Simplified-Chinese/gi.test(code)) {
-        code = 'Simplified-Chinese';
-    }
-
-    return code;
-}
-*/
-
 // module exports
 module.exports = {
   languageEnum,
   languageIndex,
+  engineList,
+
+  getEngineSelect,
+  getSourceSelect,
+  getTargetSelect,
+  getUISelect,
+
   getEngineList,
   getTranslateOption,
   getLanguageCode,

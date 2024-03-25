@@ -90,11 +90,11 @@ function setIPC() {
           showText();
 
           /*
-                    // show restart
-                    if (targetLog?.code !== 'FFFF') {
-                        document.getElementById('div_restart').hidden = false;
-                    }
-                    */
+          // show restart
+          if (targetLog?.code !== 'FFFF') {
+              document.getElementById('div_restart').hidden = false;
+          }
+          */
 
           // set select_engine
           if (targetLog?.translation?.engine) {
@@ -110,10 +110,14 @@ function setIPC() {
 
           // set select_from
           if (targetLog?.translation?.from) {
-            if (['Japanese', 'English'].includes(targetLog.translation.from)) {
-              document.getElementById('select_from').value =
-                targetLog.translation.from;
-            }
+            document.getElementById('select_from').value =
+              targetLog.translation.from;
+          }
+
+          // set select_to
+          if (targetLog?.translation?.to) {
+            document.getElementById('select_to').value =
+              targetLog.translation.to;
           }
         }
       }
@@ -126,8 +130,19 @@ function setIPC() {
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
+
+  document.getElementById('select_engine').innerHTML =
+    ipcRenderer.sendSync('get-engine-select');
+
+  document.getElementById('select_from').innerHTML =
+    ipcRenderer.sendSync('get-source-select');
+
+  document.getElementById('select_to').innerHTML =
+    ipcRenderer.sendSync('get-target-select');
+
   document.getElementById('select_engine').value = config.translation.engine;
   document.getElementById('select_from').value = config.translation.from;
+  document.getElementById('select_to').value = config.translation.to;
   document.getElementById('checkbox_replace').checked =
     config.translation.replace;
 }
@@ -169,11 +184,12 @@ function setButton() {
       dialogData.timestamp = null;
     }
 
+    dialogData.translation.engine =
+      document.getElementById('select_engine').value;
     dialogData.translation.from = document.getElementById('select_from').value;
     dialogData.translation.fromPlayer =
       document.getElementById('select_from').value;
-    dialogData.translation.engine =
-      document.getElementById('select_engine').value;
+    dialogData.translation.to = document.getElementById('select_to').value;
 
     ipcRenderer.send('add-task', dialogData);
   };

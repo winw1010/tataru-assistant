@@ -47,78 +47,28 @@
       </div>
 
       <div class="row my-2">
-        <!-- page button -->
-        <div
-          id="div_page_button"
-          class="btn-group"
-          role="group"
-          aria-label="Basic radio toggle button group"
-        >
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio1"
-            value="div_window"
-            autocomplete="off"
-            checked
-          />
-          <label class="btn btn-outline-primary" for="btnradio1">視窗</label>
+        <div class="col-auto">
+          <select class="form-select" name="" id="select-option">
+            <option value="div_window" selected>視窗樣式</option>
+            <option value="div_font">文字樣式</option>
+            <option value="div_channel">頻道設定</option>
+            <option value="div_translation">翻譯設定</option>
+            <option value="div_api">API設定</option>
+            <option value="div_system">系統設定</option>
+            <option value="div_about">關於</option>
+          </select>
+        </div>
 
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio2"
-            value="div_font"
-            autocomplete="off"
-          />
-          <label class="btn btn-outline-primary" for="btnradio2">文字</label>
-
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio3"
-            value="div_channel"
-            autocomplete="off"
-          />
-          <label class="btn btn-outline-primary" for="btnradio3">頻道</label>
-
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio4"
-            value="div_translation"
-            autocomplete="off"
-          />
-          <label class="btn btn-outline-primary" for="btnradio4">翻譯</label>
-
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio5"
-            value="div_system"
-            autocomplete="off"
-          />
-          <label class="btn btn-outline-primary" for="btnradio5">系統</label>
-
-          <input
-            type="radio"
-            class="btn-check"
-            name="btnradio"
-            id="btnradio6"
-            value="div_about"
-            autocomplete="off"
-          />
-          <label class="btn btn-outline-primary" for="btnradio6">關於</label>
+        <div class="col-auto">
+          <button id="button_save_config" class="btn btn-primary">儲存</button>
+          <button id="button_save_default_config" class="btn btn-secondary">
+            恢復預設
+          </button>
         </div>
       </div>
     </header>
 
-    <main class="container-fluid px-2">
+    <main class="container-fluid">
       <!-- window page -->
       <div id="div_window" class="setting_page">
         <!-- always on top -->
@@ -132,9 +82,9 @@
                 value=""
                 id="checkbox_top"
               />
-              <label class="form-check-label" for="checkbox_top"
-                >顯示在最上層</label
-              >
+              <label class="form-check-label" for="checkbox_top">
+                顯示在最上層
+              </label>
             </div>
           </div>
         </div>
@@ -152,29 +102,9 @@
                 value=""
                 id="checkbox_focusable"
               />
-              <label class="form-check-label" for="checkbox_focusable"
-                >可被選取</label
-              >
-            </div>
-          </div>
-        </div>
-
-        <br />
-
-        <!-- shortcut -->
-        <div class="row">
-          <div class="col">
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                value=""
-                id="checkbox_shortcut"
-              />
-              <label class="form-check-label" for="checkbox_shortcut"
-                >啟用快捷鍵</label
-              >
+              <label class="form-check-label" for="checkbox_focusable">
+                可被選取
+              </label>
             </div>
           </div>
         </div>
@@ -243,6 +173,9 @@
 
         <!-- hide dialog timeout -->
         <div class="row align-items-center">
+          <div class="col">
+            <label for="input_hide_dialog">隱藏間隔(秒)</label>
+          </div>
           <div class="col-auto">
             <input
               class="form-control"
@@ -253,17 +186,17 @@
               value="20"
             />
           </div>
-          <div class="col-auto">
-            <label for="input_hide_dialog">秒後隱藏視窗</label>
-          </div>
         </div>
 
         <br />
 
         <!-- background color -->
         <div class="row align-items-center">
-          <div class="col-auto">
+          <div class="col">
             <label for="color_background_color">背景顏色</label>
+          </div>
+          <div class="col-auto">
+            <span id="span_background_color"></span>
           </div>
           <div class="col-auto">
             <input
@@ -272,17 +205,17 @@
               id="color_background_color"
             />
           </div>
-          <div class="col-auto">
-            <span id="span_background_color"></span>
-          </div>
         </div>
 
         <br />
 
         <!-- background transparency -->
         <div class="row align-items-center">
-          <div class="col-auto">
+          <div class="col">
             <label for="range_background_transparency">背景透明度</label>
+          </div>
+          <div class="col-auto">
+            <span id="span_background_transparency"></span>
           </div>
           <div class="col-auto">
             <input
@@ -293,9 +226,6 @@
               id="range_background_transparency"
             />
           </div>
-          <div class="col-auto">
-            <span id="span_background_transparency"></span>
-          </div>
         </div>
       </div>
 
@@ -303,7 +233,7 @@
       <div id="div_font" class="setting_page" hidden>
         <!-- select font weight -->
         <div class="row align-items-center">
-          <div class="col-auto">
+          <div class="col">
             <label for="select_font_weight">文字粗細</label>
           </div>
           <div class="col-auto">
@@ -318,8 +248,8 @@
 
         <!-- font size -->
         <div class="row align-items-center">
-          <div class="col-auto">
-            <label for="input_font_size">文字大小</label>
+          <div class="col">
+            <label for="input_font_size">文字大小(rem)</label>
           </div>
           <div class="col-auto">
             <input
@@ -331,17 +261,14 @@
               id="input_font_size"
             />
           </div>
-          <div class="col-auto">
-            <span>rem</span>
-          </div>
         </div>
 
         <br />
 
         <!-- dialog space -->
         <div class="row align-items-center">
-          <div class="col-auto">
-            <label for="input_dialog_spacing">對話框間隔</label>
+          <div class="col">
+            <label for="input_dialog_spacing">對話框間隔(rem)</label>
           </div>
           <div class="col-auto">
             <input
@@ -353,17 +280,14 @@
               id="input_dialog_spacing"
             />
           </div>
-          <div class="col-auto">
-            <span>rem</span>
-          </div>
         </div>
 
         <br />
 
         <!-- dialog radius -->
         <div class="row align-items-center">
-          <div class="col-auto">
-            <label for="input_dialog_radius">對話框圓角</label>
+          <div class="col">
+            <label for="input_dialog_radius">對話框圓角(rem)</label>
           </div>
           <div class="col-auto">
             <input
@@ -375,17 +299,17 @@
               id="input_dialog_radius"
             />
           </div>
-          <div class="col-auto">
-            <span>rem</span>
-          </div>
         </div>
 
         <br />
 
         <!-- dialog color -->
         <div class="row align-items-center">
-          <div class="col-auto">
+          <div class="col">
             <label for="color_dialog_color">對話框顏色</label>
+          </div>
+          <div class="col-auto">
+            <span id="span_dialog_color"></span>
           </div>
           <div class="col-auto">
             <input
@@ -394,17 +318,17 @@
               id="color_dialog_color"
             />
           </div>
-          <div class="col-auto">
-            <span id="span_dialog_color"></span>
-          </div>
         </div>
 
         <br />
 
         <!-- dialog transparency -->
         <div class="row align-items-center">
-          <div class="col-auto">
+          <div class="col">
             <label for="range_dialog_transparency">對話框透明度</label>
+          </div>
+          <div class="col-auto">
+            <span id="span_dialog_transparency"></span>
           </div>
           <div class="col-auto">
             <input
@@ -415,16 +339,13 @@
               id="range_dialog_transparency"
             />
           </div>
-          <div class="col-auto">
-            <span id="span_dialog_transparency"></span>
-          </div>
         </div>
       </div>
 
       <!-- channel page -->
       <div id="div_channel" class="setting_page" hidden>
         <div>
-          <span id="span_channel_comment">使用滑鼠滾輪檢視頻道清單</span>
+          <span id="span_channel_comment">使用滑鼠滾輪滾動頻道清單</span>
         </div>
         <div id="div_channel_list"></div>
         <br />
@@ -517,15 +438,8 @@
           <div class="col-auto">
             <label for="select_engine">翻譯引擎</label>
           </div>
-          <div class="col-auto">
-            <select class="form-select" id="select_engine">
-              <option value="Youdao" selected>有道翻譯</option>
-              <option value="Baidu">百度翻譯</option>
-              <option value="Caiyun">彩雲小譯</option>
-              <option value="Papago">Papago</option>
-              <option value="DeepL">DeepL</option>
-              <!-- <option value="Google">Google</option> -->
-            </select>
+          <div class="col-6">
+            <select class="form-select" id="select_engine"></select>
           </div>
         </div>
 
@@ -536,11 +450,8 @@
           <div class="col-auto">
             <label for="select_from">遊戲語言</label>
           </div>
-          <div class="col-auto">
-            <select class="form-select" id="select_from">
-              <option value="Japanese" selected>日文</option>
-              <option value="English">英文</option>
-            </select>
+          <div class="col-6">
+            <select class="form-select" id="select_from"></select>
           </div>
         </div>
 
@@ -551,11 +462,8 @@
           <div class="col-auto">
             <label for="select_from_player">玩家頻道</label>
           </div>
-          <div class="col-auto">
-            <select class="form-select" id="select_from_player">
-              <option value="Japanese" selected>日文</option>
-              <option value="English">英文</option>
-            </select>
+          <div class="col-6">
+            <select class="form-select" id="select_from_player"></select>
           </div>
         </div>
 
@@ -566,17 +474,115 @@
           <div class="col-auto">
             <label for="select_to">翻譯語言</label>
           </div>
+          <div class="col-6">
+            <select class="form-select" id="select_to"></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- api page -->
+      <div id="div_api" class="setting_page" hidden>
+        <!-- set google vision -->
+        <p id="p-google-vision">Google Vision設定</p>
+
+        <div class="row">
           <div class="col-auto">
-            <select class="form-select" id="select_to">
-              <option value="Traditional-Chinese" selected>繁體中文</option>
-              <option value="Simplified-Chinese">簡體中文</option>
+            <button id="button_google_credential" class="btn btn-primary">
+              開啟Google憑證檔案
+            </button>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+          <div class="col-auto">
+            <a href="#" id="a_get_credential">憑證取得教學</a>
+          </div>
+        </div>
+
+        <hr />
+
+        <!-- set GPT -->
+        <p id="p-chat-gpt">ChatGPT設定</p>
+
+        <div class="row">
+          <div class="col">
+            <select class="form-select" name="" id="select-model">
+              <option value="3">GPT-3.5 Turbo</option>
+              <option value="4">
+                GPT-4 (Plus, Team, Enterprise User Only)
+              </option>
             </select>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <input
+              type="password"
+              class="form-control"
+              name=""
+              id="input-gpt-api-key"
+              placeholder="請輸入API KEY"
+            />
+          </div>
+          <div class="col-auto">
+            <img
+              class="img-fluid"
+              src="./img/ui/visibility_off_white_48dp.svg"
+              alt=""
+              style="width: 1.5rem"
+              id="img-api-key-visibility"
+            />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+          <div class="col-auto">
+            <a href="#" id="a_get_gpt_api_key">API KEY取得教學</a>
           </div>
         </div>
       </div>
 
       <!-- system page -->
       <div id="div_system" class="setting_page" hidden>
+        <!-- select app language -->
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="select-app-language">語言</label>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" id="select-app-language"></select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- shortcut -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                value=""
+                id="checkbox_shortcut"
+              />
+              <label class="form-check-label" for="checkbox_shortcut"
+                >啟用快捷鍵</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <br />
+
         <!-- auto download json -->
         <div class="row">
           <div class="col">
@@ -588,9 +594,9 @@
                 value=""
                 id="checkbox_auto_download_json"
               />
-              <label class="form-check-label" for="checkbox_auto_download_json"
-                >啟動時下載翻譯對照表</label
-              >
+              <label class="form-check-label" for="checkbox_auto_download_json">
+                啟動時下載翻譯對照表
+              </label>
             </div>
           </div>
         </div>
@@ -601,7 +607,7 @@
         <div class="row">
           <div class="col">
             <button id="button_download_json" class="btn btn-primary">
-              下載翻譯對照表
+              重新下載翻譯對照表
             </button>
           </div>
         </div>
@@ -622,24 +628,6 @@
 
         <br />
 
-        <!-- set google credential -->
-        <div class="row align-items-center">
-          <div
-            class="col-auto"
-            id="div_google_credential"
-            title="設定Google憑證，不使用Google Vision辨識功能則無需設定"
-          >
-            <button id="button_google_credential" class="btn btn-primary">
-              設定Google憑證
-            </button>
-          </div>
-          <div class="col-auto">
-            <a href="#" id="a_get_credential">憑證取得教學</a>
-          </div>
-        </div>
-
-        <br />
-
         <!-- version check -->
         <div class="row">
           <div class="col">
@@ -654,7 +642,7 @@
       <div id="div_about" class="setting_page" hidden>
         <div class="row">
           <div class="col">
-            <span>版本: ver.</span>
+            <span>Ver.</span>
             <span id="span_version"></span>
           </div>
         </div>
@@ -687,13 +675,13 @@
                 <a class="nav-link" href="#" id="a_github">GitHub</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_bahamut">訪問作者</a>
+                <a class="nav-link" href="#" id="a_author">訪問作者</a>
               </li>
               <!-- 
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="a_donate">贊助作者</a>
-                            </li>
-                             -->
+              <li class="nav-item">
+                  <a class="nav-link" href="#" id="a_donate">贊助作者</a>
+              </li>
+              -->
             </ul>
           </div>
         </div>
@@ -701,16 +689,7 @@
     </main>
 
     <footer class="container-fluid p-2">
-      <div class="row align-items-center text-end">
-        <div class="col">
-          <button id="button_save_default_config" class="btn btn-secondary">
-            恢復預設值
-          </button>
-          <button id="button_save_config" class="btn btn-primary">
-            儲存設定
-          </button>
-        </div>
-      </div>
+      <div class="row align-items-center text-end"></div>
     </footer>
 
     <!-- renderer -->

@@ -3,6 +3,9 @@
 // file module
 const fileModule = require('./file-module');
 
+// engine module
+const engineModule = require('./engine-module');
+
 // config location
 const configLocation = fileModule.getUserDataPath('setting', 'config.json');
 
@@ -61,11 +64,14 @@ const defaultConfig = {
     to: 'Traditional-Chinese',
   },
   system: {
+    appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
     firstTime: true,
-    scu: '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+    scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+    gptModel: '3',
+    gptApiKey: '',
   },
 };
 
@@ -100,6 +106,11 @@ function loadConfig() {
             currentConfig[mainName][subName] === null ||
             currentConfig[mainName][subName] === undefined
           ) {
+            if (subName === 'appLanguage') {
+              currentConfig.system.appLanguage = currentConfig.translation.to;
+              return;
+            }
+
             currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });
@@ -122,11 +133,7 @@ function loadConfig() {
     });
 
     // translator
-    if (
-      !['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(
-        currentConfig.translation.engine
-      )
-    ) {
+    if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
       currentConfig.translation.engine = 'Youdao';
     }
 

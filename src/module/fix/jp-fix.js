@@ -73,11 +73,19 @@ async function startFix(dialogData = {}) {
       );
     } else {
       if (translation.fix) {
-        translatedText = await textFix(
-          dialogData.name,
-          dialogData.text,
-          translation
-        );
+        if (translation.engine === 'GPT') {
+          translatedText = await textFixGPT(
+            dialogData.name,
+            dialogData.text,
+            translation
+          );
+        } else {
+          translatedText = await textFix(
+            dialogData.name,
+            dialogData.text,
+            translation
+          );
+        }
       } else {
         translatedText = await translateModule.translate(
           dialogData.text,
@@ -137,6 +145,7 @@ async function nameFix(name = '', translation = {}) {
     getKatakanaName(name),
     translation
   );
+
   return translatedName;
 }
 
@@ -204,6 +213,61 @@ async function textFix(name = '', text = '', translation = {}) {
 
   // value fix after
   text = fixFunction.valueFixAfter(text, valueResult.table);
+
+  // mark fix
+  text = fixFunction.markFix(text, true);
+
+  // gender fix
+  text = jpFunction.genderFix(originalText, text);
+
+  // after translation
+  text = fixFunction.replaceText(text, chArray.afterTranslation);
+
+  // table
+  text = fixFunction.replaceWord(text, codeResult.table);
+
+  return text;
+}
+
+async function textFixGPT(name = '', text = '', translation = {}) {
+  if (text === '') {
+    return '';
+  }
+
+  let originalText = text;
+
+  // get text type
+  const textType = getTextType(name, text);
+
+  // reverse text
+  /*
+  if (textType === textTypeList.reversed) {
+    text = jpFunction.reverseKana(text);
+  }
+  */
+
+  // special fix 1
+  text = specialFix1(name, text);
+
+  // combine
+  const codeResult = jpFunction.replaceTextByCode(
+    text,
+    chArray.combine,
+    textType
+  );
+  text = codeResult.text;
+
+  // special fix 2
+  text = specialFix2(name, text);
+
+  // mark fix
+  text = fixFunction.markFix(text);
+
+  // skip check
+  if (!jpFunction.canSkipTranslation(text)) {
+    // translate
+    text = await translateModule.translate(text, translation, codeResult.table);
+  }
 
   // mark fix
   text = fixFunction.markFix(text, true);

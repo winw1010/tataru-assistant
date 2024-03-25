@@ -18,6 +18,9 @@ const configModule = require('./config-module');
 // dialog module
 const dialogModule = require('./dialog-module');
 
+// engine module
+const engineModule = require('./engine-module');
+
 // file module
 const fileModule = require('./file-module');
 
@@ -467,6 +470,26 @@ function setJsonChannel() {
 
 // set translate channel
 function setTranslateChannel() {
+  // get engine select
+  ipcMain.on('get-engine-select', (event) => {
+    event.returnValue = engineModule.getEngineSelect();
+  });
+
+  // get source select
+  ipcMain.on('get-source-select', (event) => {
+    event.returnValue = engineModule.getSourceSelect();
+  });
+
+  // get target select
+  ipcMain.on('get-target-select', (event) => {
+    event.returnValue = engineModule.getTargetSelect();
+  });
+
+  // get UI select
+  ipcMain.on('get-ui-select', (event) => {
+    event.returnValue = engineModule.getUISelect();
+  });
+
   // add task
   ipcMain.on('add-task', (event, dialogData) => {
     addTask(dialogData);

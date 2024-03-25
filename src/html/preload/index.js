@@ -142,10 +142,7 @@ function setView() {
 
   // first time check
   if (config.system.firstTime) {
-    ipcRenderer.send('create-window', 'config', [
-      'btnradio4',
-      'div_translation',
-    ]);
+    ipcRenderer.send('create-window', 'config', 'div_translation');
   }
 
   // set click through
@@ -296,7 +293,7 @@ function setButton() {
 
 // start app
 function startApp() {
-  ipcRenderer.send('show-notification', '按下CTRL+F9可查看使用說明');
+  ipcRenderer.send('show-notification', '查看使用說明: CTRL+F9');
   ipcRenderer.send('version-check');
   ipcRenderer.send('initialize-json');
 }

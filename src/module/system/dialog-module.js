@@ -78,7 +78,7 @@ function showNotification(text) {
   const code = 'FFFF';
 
   // zh convert
-  text = translateModule.zhConvert(text, config.translation.to);
+  text = translateModule.zhConvert(text, config.system.appLanguage);
 
   addDialog(id, code);
   updateDialog(id, '', text);

@@ -68,11 +68,19 @@ async function startFix(dialogData = {}) {
       );
     } else {
       if (translation.fix) {
-        translatedText = await textFix(
-          dialogData.name,
-          dialogData.text,
-          translation
-        );
+        if (translation.engine === 'GPT') {
+          translatedText = await textFixGPT(
+            dialogData.name,
+            dialogData.text,
+            translation
+          );
+        } else {
+          translatedText = await textFix(
+            dialogData.name,
+            dialogData.text,
+            translation
+          );
+        }
       } else {
         translatedText = await translateModule.translate(
           dialogData.text,
@@ -134,9 +142,6 @@ async function nameFix(name = '', translation = {}) {
     );
   }
 
-  // mark fix
-  translatedName = fixFunction.markFix(translatedName, true);
-
   // table
   translatedName = fixFunction.replaceText(translatedName, codeResult.table);
 
@@ -160,15 +165,15 @@ async function textFix(name = '', text = '', translation = {}) {
   // en1
   text = fixFunction.replaceText(text, enArray.en1, true);
 
+  // special fix
+  text = specialFix(name, text);
+
   // combine
   const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
   text = codeResult.text;
 
   // en2
   text = fixFunction.replaceText(text, enArray.en2, true);
-
-  // special fix
-  text = specialFix(name, text);
 
   // mark fix
   text = fixFunction.markFix(text);
@@ -188,6 +193,33 @@ async function textFix(name = '', text = '', translation = {}) {
 
   // mark fix
   text = fixFunction.markFix(text, true);
+
+  // after translation
+  text = fixFunction.replaceText(text, chArray.afterTranslation);
+
+  // table
+  text = fixFunction.replaceWord(text, codeResult.table);
+
+  return text;
+}
+
+async function textFixGPT(name = '', text = '', translation = {}) {
+  if (text === '') {
+    return '';
+  }
+
+  // special fix
+  text = specialFix(name, text);
+
+  // combine
+  const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
+  text = codeResult.text;
+
+  // skip check
+  if (!enFunction.canSkipTranslation(text, codeResult.table)) {
+    // translate
+    text = await translateModule.translate(text, translation, codeResult.table);
+  }
 
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);

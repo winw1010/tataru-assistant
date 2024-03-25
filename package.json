@@ -1,14 +1,14 @@
 {
-  "name": "tataru-helper-node",
-  "version": "2.4.11",
-  "description": "tataru-helper-node",
+  "name": "tataru-assistant",
+  "version": "3.0.0",
+  "description": "tataru-assistant",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "repository": "https://github.com/winw1010/tataru-helper-node-v2",
+  "repository": "https://github.com/winw1010/tataru-assistant",
   "keywords": [],
   "author": "https://github.com/winw1010",
   "license": "MIT",
@@ -22,13 +22,14 @@
     "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
+    "openai": "^4.29.2",
     "sharp": "^0.33.2",
     "temp": "^0.9.4",
     "tesseract.js": "^5.0.5"
   },
   "build": {
-    "appId": "com.app.tataru.helper.node",
-    "productName": "Tataru Helper Node",
+    "appId": "com.app.tataru.assistant",
+    "productName": "Tataru Assistant",
     "directories": {
       "output": "build"
     },

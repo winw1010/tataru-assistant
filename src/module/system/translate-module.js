@@ -10,6 +10,7 @@ const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 const google = require('../translator/google');
+const gpt = require('../translator/gpt');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
@@ -117,6 +118,10 @@ async function getTranslation(engine = '', option = {}) {
 
       case 'DeepL':
         result = await deepl.exec(option);
+        break;
+
+      case 'GPT':
+        result = await gpt.exec(option);
         break;
 
       case 'Google':

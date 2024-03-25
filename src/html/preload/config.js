@@ -3,6 +3,8 @@
 // electron
 const { ipcRenderer } = require('electron');
 
+let apiKeyVisibility = false;
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -23,17 +25,32 @@ function setIPC() {
   });
 
   // send data
-  ipcRenderer.on('send-data', (event, idList) => {
-    document.getElementById(idList[0]).checked = true;
+  ipcRenderer.on('send-data', (event, divId) => {
+    document.getElementById('select-option').value = divId;
     document.querySelectorAll('.setting_page').forEach((value) => {
       document.getElementById(value.id).hidden = true;
     });
-    document.getElementById(idList[1]).hidden = false;
+    document.getElementById(divId).hidden = false;
   });
 }
 
 // set view
 function setView() {
+  document.getElementById('select_engine').innerHTML =
+    ipcRenderer.sendSync('get-engine-select');
+
+  document.getElementById('select_from').innerHTML =
+    ipcRenderer.sendSync('get-source-select');
+
+  document.getElementById('select_from_player').innerHTML =
+    ipcRenderer.sendSync('get-source-select');
+
+  document.getElementById('select_to').innerHTML =
+    ipcRenderer.sendSync('get-target-select');
+
+  document.getElementById('select-app-language').innerHTML =
+    ipcRenderer.sendSync('get-ui-select');
+
   showConfig();
 }
 
@@ -81,14 +98,13 @@ function setButton() {
   };
 
   // page
-  document.getElementsByName('btnradio').forEach((btnradio) => {
-    btnradio.onclick = () => {
-      document.querySelectorAll('.setting_page').forEach((page) => {
-        document.getElementById(page.id).hidden = true;
-      });
-      document.getElementById(btnradio.value).hidden = false;
-    };
-  });
+  document.getElementById('select-option').onchange = () => {
+    const value = document.getElementById('select-option').value;
+    document.querySelectorAll('.setting_page').forEach((page) => {
+      document.getElementById(page.id).hidden = true;
+    });
+    document.getElementById(value).hidden = false;
+  };
 
   // download json
   document.getElementById('button_download_json').onclick = () => {
@@ -118,9 +134,40 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
+  // get gpt api key
+  document.getElementById('a_get_gpt_api_key').onclick = () => {
+    const path = ipcRenderer.sendSync(
+      'get-root-path',
+      'src',
+      'data',
+      'text',
+      'readme',
+      'sub-gpt-api.html'
+    );
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
   // set google credential
   document.getElementById('button_google_credential').onclick = () => {
     ipcRenderer.send('set-google-credential');
+  };
+
+  // set google credential
+  document.getElementById('img-api-key-visibility').onclick = () => {
+    apiKeyVisibility = !apiKeyVisibility;
+    if (apiKeyVisibility) {
+      document
+        .getElementById('img-api-key-visibility')
+        .setAttribute('src', './img/ui/visibility_white_48dp.svg');
+      document.getElementById('input-gpt-api-key').setAttribute('type', 'text');
+    } else {
+      document
+        .getElementById('img-api-key-visibility')
+        .setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
+      document
+        .getElementById('input-gpt-api-key')
+        .setAttribute('type', 'password');
+    }
   };
 
   // readme
@@ -160,8 +207,8 @@ function setButton() {
     );
   };
 
-  // bahamut
-  document.getElementById('a_bahamut').onclick = () => {
+  // author
+  document.getElementById('a_author').onclick = () => {
     ipcRenderer.send(
       'execute-command',
       'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"'
@@ -274,7 +321,15 @@ function showConfig() {
 
   document.getElementById('select_to').value = config.translation.to;
 
+  // api
+  document.getElementById('select-model').value = config.system.gptModel;
+
+  document.getElementById('input-gpt-api-key').value = config.system.gptApiKey;
+
   // system
+  document.getElementById('select-app-language').value =
+    config.system.appLanguage;
+
   document.getElementById('checkbox_auto_download_json').checked =
     config.system.autoDownloadJson;
 
@@ -400,7 +455,16 @@ function saveConfig() {
 
   config.translation.to = document.getElementById('select_to').value;
 
+  // api
+  config.system.gptModel = document.getElementById('select-model').value;
+
+  config.system.gptApiKey = document.getElementById('input-gpt-api-key').value;
+
   // system
+  config.system.appLanguage = document.getElementById(
+    'select-app-language'
+  ).value;
+
   config.system.autoDownloadJson = document.getElementById(
     'checkbox_auto_download_json'
   ).checked;
@@ -462,17 +526,17 @@ function loadChannel(config, chatCode) {
     newInnerHTML += `
             <hr />
             <div class="row align-items-center">
-                <div class="col-6">
+                <div class="col">
                     <div class="form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" value="" id="${checkboxId}" ${checked} />
                         <label class="form-check-label" for="${checkboxId}">${element.Name}</label>
                     </div>
                 </div>
                 <div class="col-auto">
-                    <input type="color" class="form-control form-control-color" value="${color}" id="${colorId}" />
+                    <span id="${spanId}" style="color:${color};">${color}</span>
                 </div>
                 <div class="col-auto">
-                    <span id="${spanId}" style="color:${color};">${color}</span>
+                    <input type="color" class="form-control form-control-color" value="${color}" id="${colorId}" />
                 </div>
             </div>
         `;

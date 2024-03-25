@@ -57,7 +57,7 @@
       button_translate: ['翻譯', '翻译', 'Translate'],
 
       // dictionary
-      button_exchange: ['切換', '切换', 'Exchange'],
+      button_switch: ['切換', '切换', 'Exchange'],
 
       // edit
       button_restart_translate: ['重新翻譯', '重新翻译', 'Translate Again'],

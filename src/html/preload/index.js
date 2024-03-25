@@ -30,13 +30,6 @@ function setIPC() {
     );
   });
 
-  /*
-    // change reccord icon
-    ipcRenderer.on('change-reccord-icon', (event, isRecording) => {
-        document.getElementById('img_button_record_icon').setAttribute('src', isRecording ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
-    });
-    */
-
   // clear dialog
   ipcRenderer.on('clear-dialog', () => {
     document.getElementById('div_dialog').innerHTML = '';
@@ -140,23 +133,16 @@ function setView() {
   // reset view
   resetView(config);
 
-  // first time check
-  if (config.system.firstTime) {
-    ipcRenderer.send('create-window', 'config', 'div_translation');
-  }
-
   // set click through
   setClickThrough(config.indexWindow.clickThrough);
 
   // set auto play
   setAutoPlay(config.translation.autoPlay);
 
-  /*
-    // change reccord icon
-    document
-        .getElementById('img_button_record_icon')
-        .setAttribute('src', config.translation.getCutsceneText ? './img/ui/radio_button_checked_white_24dp.svg' : './img/ui/radio_button_unchecked_white_24dp.svg');
-    */
+  // first time check
+  if (config.system.firstTime) {
+    ipcRenderer.send('create-window', 'config', 'div_translation');
+  }
 }
 
 // set event
@@ -249,13 +235,6 @@ function setButton() {
   document.getElementById('img_button_close').onclick = () => {
     ipcRenderer.send('close-app');
   };
-
-  /*
-    // record
-    document.getElementById('img_button_record_icon').onclick = () => {
-        ipcRenderer.send('change-reccord-icon');
-    };
-    */
 
   // auto play
   document.getElementById('img_button_auto_play').onclick = () => {

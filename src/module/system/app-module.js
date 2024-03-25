@@ -15,6 +15,9 @@ const configModule = require('./config-module');
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
+// engine module
+const engineModule = require('./engine-module');
+
 // window module
 const windowModule = require('./window-module');
 
@@ -55,14 +58,14 @@ function detectUserLanguage() {
     const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
 
     if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
-      config.translation.to = 'Traditional-Chinese';
-      config.system.appLanguage = 'Traditional-Chinese';
+      config.translation.to = engineModule.languageEnum.zht;
+      config.system.appLanguage = engineModule.languageEnum.zht;
     } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
-      config.translation.to = 'Simplified-Chinese';
-      config.system.appLanguage = 'Simplified-Chinese';
+      config.translation.to = engineModule.languageEnum.zhs;
+      config.system.appLanguage = engineModule.languageEnum.zhs;
     } else {
-      config.translation.to = 'English';
-      config.system.appLanguage = 'English';
+      config.translation.to = engineModule.languageEnum.en;
+      config.system.appLanguage = engineModule.languageEnum.en;
     }
 
     configModule.setConfig(config);

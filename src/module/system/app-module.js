@@ -16,7 +16,7 @@ const configModule = require('./config-module');
 const chatCodeModule = require('./chat-code-module');
 
 // engine module
-const engineModule = require('./engine-module');
+const { languageEnum } = require('./engine-module');
 
 // window module
 const windowModule = require('./window-module');
@@ -58,14 +58,14 @@ function detectUserLanguage() {
     const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
 
     if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
-      config.translation.to = engineModule.languageEnum.zht;
-      config.system.appLanguage = engineModule.languageEnum.zht;
+      config.translation.to = languageEnum.zht;
+      config.system.appLanguage = languageEnum.zht;
     } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
-      config.translation.to = engineModule.languageEnum.zhs;
-      config.system.appLanguage = engineModule.languageEnum.zhs;
+      config.translation.to = languageEnum.zhs;
+      config.system.appLanguage = languageEnum.zhs;
     } else {
-      config.translation.to = engineModule.languageEnum.en;
-      config.system.appLanguage = engineModule.languageEnum.en;
+      config.translation.to = languageEnum.en;
+      config.system.appLanguage = languageEnum.en;
     }
 
     configModule.setConfig(config);

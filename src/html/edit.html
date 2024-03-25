@@ -75,12 +75,31 @@
           <br />
 
           <div class="row align-items-center">
+            <div class="col">
+              <label for="select_engine">翻譯引擎</label>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" id="select_engine"></select>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col">
+              <label for="select_from">遊戲語言</label>
+            </div>
             <div class="col-auto">
               <select class="form-select" id="select_from"></select>
             </div>
+          </div>
 
-            <div class="col-auto">></div>
+          <br />
 
+          <div class="row align-items-center">
+            <div class="col">
+              <label for="select_to">翻譯語言</label>
+            </div>
             <div class="col-auto">
               <select class="form-select" id="select_to"></select>
             </div>
@@ -90,7 +109,9 @@
 
           <div class="row align-items-center">
             <div class="col-auto">
-              <select class="form-select" id="select_engine"></select>
+              <button id="button_restart_translate" class="btn btn-primary">
+                重新翻譯
+              </button>
             </div>
 
             <div class="col-auto">
@@ -113,9 +134,6 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <button id="button_restart_translate" class="btn btn-primary">
-                重新翻譯
-              </button>
               <button id="button_read_json" class="btn btn-secondary">
                 重新讀取對照表
               </button>

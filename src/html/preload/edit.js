@@ -289,7 +289,7 @@ function showAudio() {
         const url = urlList[index];
 
         innerHTML += `
-                    <audio controls preload="metadata">
+                    <audio class="w-100" controls preload="metadata">
                         <source src="${url}" type="audio/ogg">
                         <source src="${url}" type="audio/mpeg">
                     </audio>

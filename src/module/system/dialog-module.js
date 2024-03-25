@@ -87,6 +87,20 @@ function showNotification(text) {
   }, 7000 /*5000 + Math.min(text.length * 20, 5000)*/);
 }
 
+// show system message
+function showSystemMessage(messageId) {
+  const appLanguage = configModule.getConfig().system.appLanguage;
+  const id = 'sid' + new Date().getTime();
+  const code = 'FFFF';
+  const message = getSystemMessage(messageId, appLanguage);
+
+  addDialog(id, code);
+  updateDialog(id, '', message);
+  setTimeout(() => {
+    removeDialog(id);
+  }, 7000);
+}
+
 // show dialog
 function showDialog() {
   clearTimeout(hideDialogTimeout);
@@ -205,12 +219,38 @@ function createLogName(milliseconds = null) {
   );
 }
 
+// get system message
+function getSystemMessage(messageId = '', appLanguage = '') {
+  const systemMessage = {
+    '000': ['OK', 'OK', 'OK'],
+  };
+
+  let languageIndex = 2;
+
+  switch (appLanguage) {
+    case 'Traditional-Chinese':
+      languageIndex = 0;
+      break;
+
+    case 'Simplified-Chinese':
+      languageIndex = 1;
+      break;
+
+    default:
+      languageIndex = 2;
+      break;
+  }
+
+  return systemMessage?.[messageId]?.[languageIndex] || '';
+}
+
 // module exports
 module.exports = {
   addDialog,
   updateDialog,
   removeDialog,
   showNotification,
+  showSystemMessage,
   showDialog,
   getStyle,
   createLogName,

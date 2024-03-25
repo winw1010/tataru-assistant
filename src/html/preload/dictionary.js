@@ -31,7 +31,7 @@ function setView() {
     ipcRenderer.sendSync('get-engine-select');
 
   document.getElementById('select_from').innerHTML =
-    ipcRenderer.sendSync('get-source-select');
+    ipcRenderer.sendSync('get-target-select');
 
   document.getElementById('select_to').innerHTML =
     ipcRenderer.sendSync('get-target-select');

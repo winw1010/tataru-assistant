@@ -316,9 +316,6 @@
       case 'Simplified-Chinese':
         return 1;
 
-      case 'English':
-        return 2;
-
       default:
         return 2;
     }

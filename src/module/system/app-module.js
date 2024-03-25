@@ -55,10 +55,13 @@ function detectUserLanguage() {
     const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
 
     if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
+      config.translation.to = 'Traditional-Chinese';
       config.system.appLanguage = 'Traditional-Chinese';
     } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
+      config.translation.to = 'Simplified-Chinese';
       config.system.appLanguage = 'Simplified-Chinese';
     } else {
+      config.translation.to = 'English';
       config.system.appLanguage = 'English';
     }
 

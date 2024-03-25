@@ -203,20 +203,6 @@ function createLogName(milliseconds = null) {
     date.getDate().toString().padStart(2, '0') +
     '.json'
   );
-
-  /*
-  let dateString = date.toLocaleDateString().split('/');
-
-  if (dateString[1].length < 2) {
-    dateString[1] = '0' + dateString[1];
-  }
-
-  if (dateString[2].length < 2) {
-    dateString[2] = '0' + dateString[2];
-  }
-
-  return dateString.join('-') + '.json';
-  */
 }
 
 // module exports

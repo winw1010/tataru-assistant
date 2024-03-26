@@ -10,7 +10,113 @@ const femaleWords = getFemaleWords();
 const hiragana = getHiraganaString();
 const katakana = getKatakanaString();
 
+// reg
+const noKatakana1 = '(?<![ァ-ヺ])';
+const noKatakana2 = '(?![ァ-ヺ])';
+const regAllKatakana = /^[ァ-ヺー・＝]+$/;
+const regFirstKatakana = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
+const regLastKatakana = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+
 // jp text function
+function replaceTextByCode2(text = '', array = [], textType = 0) {
+  if (text === '' || !Array.isArray(array) || !array.length > 0) {
+    return {
+      text: text,
+      table: [],
+    };
+  }
+
+  const titleArray = jpJson.getJpArray().title;
+  const srcIndex = 0;
+  const rplIndex = 1;
+  let codeIndex = 0;
+  let codeString = 'BCFGHJLMNPQRSTVWXYZ';
+  const matchedWords = [];
+
+  // get matched words
+  if (textType === 2) {
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+
+      if (element[0].length < 4) {
+        continue;
+      }
+
+      if (text.includes(element[0])) {
+        matchedWords.push(element);
+      }
+    }
+  } else {
+    let temp = [];
+
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+
+      if (text.includes(element[0])) {
+        temp.push(element);
+      }
+    }
+
+    for (let index = 0; index < temp.length; index++) {
+      const element = temp[index];
+
+      if (regAllKatakana.test(text)) {
+        const hiraText = convertKana(text, 'hira');
+        const matchReg1 = new RegExp(noKatakana1 + text + noKatakana2, 'gi');
+        const matchReg2 = new RegExp(noKatakana1 + hiraText + noKatakana2, 'gi');
+        const matchReg3 = new RegExp(noKatakana1 + hiraFix(hiraText) + noKatakana2, 'gi');
+
+        if (matchReg1.test(text)) {
+          matchedWords.push(element);
+        }
+
+        if (matchReg2.test(text)) {
+          matchedWords.push([hiraText, element[1]]);
+        }
+
+        if (matchReg3.test(text)) {
+          matchedWords.push([hiraFix(hiraText), element[1]]);
+        }
+      } else if (regFirstKatakana.test(text)) {
+        const matchReg = new RegExp(noKatakana1 + text, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regLastKatakana.test(text)) {
+        const matchReg = new RegExp(text + noKatakana2, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else {
+        const matchReg = new RegExp(text, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      }
+    }
+  }
+
+  // clear code
+  const characters = text.match(/[a-z]/gi);
+  if (characters) {
+    for (let index = 0; index < characters.length; index++) {
+      codeString = codeString.replace(characters[index].toUpperCase(), '');
+    }
+  }
+}
+
+function getMatchReg(text = '') {
+  if (regAllKatakana.test(text)) {
+    return new RegExp(`(?<![ァ-ヺー・＝])${text}(?![ァ-ヺー・＝])`, 'gi');
+  } else if (regFirstKatakana.test(text)) {
+    return new RegExp(`(?<![ァ-ヺー・＝])${text}`, 'gi');
+  } else if (regLastKatakana.test(text)) {
+    return new RegExp(`${text}(?![ァ-ヺー・＝])`, 'gi');
+  } else {
+    return new RegExp(text, 'gi');
+  }
+}
+
 function replaceTextByCode(text = '', array = [], textType = 0) {
   if (text === '' || !Array.isArray(array) || !array.length > 0) {
     return {
@@ -24,10 +130,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
     // text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺ]族(?![ァ-ヺー・＝#])/gi, '$&#');
 
     // 2 words name
-    text = text.replace(
-      /(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝#])/gi,
-      '$&#'
-    );
+    text = text.replace(/(?<![ァ-ヺー・＝])[ァ-ヺー]{2}(?![ァ-ヺー・＝#])/gi, '$&#');
   }
 
   // set parameters
@@ -50,52 +153,34 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       const hiraElement2 = hiraFix(hiraElement);
 
       if (tempText.includes('「' + hiraElement + '」')) {
-        tempTable.push([
-          '「' + hiraElement + '」',
-          '「' + element[rplIndex] + '」',
-        ]);
+        tempTable.push(['「' + hiraElement + '」', '「' + element[rplIndex] + '」']);
         tempText = tempText.replaceAll('「' + hiraElement + '」', '*');
       }
 
       if (tempText.includes('『' + hiraElement + '』')) {
-        tempTable.push([
-          '『' + hiraElement + '』',
-          '『' + element[rplIndex] + '』',
-        ]);
+        tempTable.push(['『' + hiraElement + '』', '『' + element[rplIndex] + '』']);
         tempText = tempText.replaceAll('『' + hiraElement + '』', '*');
       }
 
       if (tempText.includes('「' + hiraElement2 + '」')) {
-        tempTable.push([
-          '「' + hiraElement2 + '」',
-          '「' + element[rplIndex] + '」',
-        ]);
+        tempTable.push(['「' + hiraElement2 + '」', '「' + element[rplIndex] + '」']);
         tempText = tempText.replaceAll('「' + hiraElement2 + '」', '*');
       }
 
       if (tempText.includes('『' + hiraElement2 + '』')) {
-        tempTable.push([
-          '『' + hiraElement2 + '』',
-          '『' + element[rplIndex] + '』',
-        ]);
+        tempTable.push(['『' + hiraElement2 + '』', '『' + element[rplIndex] + '』']);
         tempText = tempText.replaceAll('『' + hiraElement2 + '』', '*');
       }
     }
 
     // brackets
     if (tempText.includes('「' + element[srcIndex] + '」')) {
-      tempTable.push([
-        '「' + element[srcIndex] + '」',
-        '「' + element[rplIndex] + '」',
-      ]);
+      tempTable.push(['「' + element[srcIndex] + '」', '「' + element[rplIndex] + '」']);
       tempText = tempText.replaceAll('「' + element[srcIndex] + '」', '*');
     }
 
     if (tempText.includes('『' + element[srcIndex] + '』')) {
-      tempTable.push([
-        '『' + element[srcIndex] + '』',
-        '『' + element[rplIndex] + '』',
-      ]);
+      tempTable.push(['『' + element[srcIndex] + '』', '『' + element[rplIndex] + '』']);
       tempText = tempText.replaceAll('『' + element[srcIndex] + '』', '*');
     }
 
@@ -112,11 +197,11 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
   // reset temp text
   tempText = text;
   /*
-    for (let index = 0; index < tempTable.length; index++) {
-        const element = tempTable[index];
-        tempText += element[1];
-    }
-    */
+  for (let index = 0; index < tempTable.length; index++) {
+      const element = tempTable[index];
+      tempText += element[1];
+  }
+  */
 
   // clear code
   const characters = tempText.match(/[a-z]/gi);
@@ -127,30 +212,18 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
   }
 
   // search and replace
-  for (
-    let eleIndex = 0;
-    eleIndex < tempTable.length && codeIndex < codeString.length;
-    eleIndex++
-  ) {
+  for (let eleIndex = 0; eleIndex < tempTable.length && codeIndex < codeString.length; eleIndex++) {
     const element = tempTable[eleIndex];
 
     for (let fixIndex = 0; fixIndex < nameFixArray.length; fixIndex++) {
       try {
         const nameFix = nameFixArray[fixIndex];
-        const sorceName =
-          nameFix[0][1] === 0
-            ? nameFix[0][0] + element[srcIndex]
-            : element[srcIndex] + nameFix[0][0];
-        const replaceName =
-          nameFix[1][1] === 0
-            ? nameFix[1][0] + element[rplIndex]
-            : element[rplIndex] + nameFix[1][0];
+        const sorceName = nameFix[0][1] === 0 ? nameFix[0][0] + element[srcIndex] : element[srcIndex] + nameFix[0][0];
+        const replaceName = nameFix[1][1] === 0 ? nameFix[1][0] + element[rplIndex] : element[rplIndex] + nameFix[1][0];
 
         if (nameFix[2]) {
           const exceptionName =
-            nameFix[2][1] === 0
-              ? nameFix[2][0] + element[srcIndex]
-              : element[srcIndex] + nameFix[2][0];
+            nameFix[2][1] === 0 ? nameFix[2][0] + element[srcIndex] : element[srcIndex] + nameFix[2][0];
           if (text.includes(sorceName) && !text.includes(exceptionName)) {
             text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
@@ -255,10 +328,7 @@ function genderFix(originalText = '', translatedText = '') {
   const isFemale = new RegExp(femaleWords.join('|'), 'gi').test(originalText);
 
   if (!isFemale) {
-    translatedText = translatedText
-      .replaceAll('她', '他')
-      .replaceAll('小姐', '')
-      .replaceAll('女王', '王');
+    translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
   }
 
   if (!originalText.includes('娘')) {
@@ -273,16 +343,7 @@ function isChinese(text = '', translation = {}) {
 }
 
 function getFemaleWords() {
-  return [
-    '女',
-    '娘',
-    '嬢',
-    '母',
-    'マザー',
-    'ピクシー',
-    'ティターニア',
-    'クイーン',
-  ];
+  return ['女', '娘', '嬢', '母', 'マザー', 'ピクシー', 'ティターニア', 'クイーン'];
 }
 
 function getHiraganaString() {

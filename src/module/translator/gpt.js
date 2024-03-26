@@ -31,7 +31,7 @@ async function translate(
 
   try {
     response = await openai.chat.completions.create({
-      model: config.system.gptModel === '3' ? 'gpt-3.5-turbo' : 'gpt-4',
+      model: config.system.gptModel !== '4' ? 'gpt-3.5-turbo' : 'gpt-4',
       messages: [
         {
           role: 'system',
@@ -47,7 +47,7 @@ async function translate(
       //top_p: 1,
     });
 
-    console.log(response);
+    console.log('Total Tokens:', response?.usage?.total_tokens);
     return response?.choices[0]?.message?.content || '';
   } catch (error) {
     console.log(error.message);

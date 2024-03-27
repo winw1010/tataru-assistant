@@ -17,9 +17,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 }
 
@@ -27,14 +25,11 @@ function setIPC() {
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
 
-  document.getElementById('select_engine').innerHTML =
-    ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
 
-  document.getElementById('select_from').innerHTML =
-    ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-target-select');
 
-  document.getElementById('select_to').innerHTML =
-    ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
   document.getElementById('select_engine').value = config.translation.engine;
   document.getElementById('select_from').value = config.translation.from;
@@ -47,6 +42,12 @@ function setEvent() {
   document.addEventListener('move-window', (e) => {
     ipcRenderer.send('move-window', e.detail, false);
   });
+
+  // Tataru
+  document.getElementById('checkbox_text_fix').onchange = () => {
+    const checked = document.getElementById('checkbox_text_fix').checked;
+    document.getElementById('div-original-name').hidden = !checked;
+  };
 }
 
 // set button
@@ -59,18 +60,15 @@ function setButton() {
   // exchange
   document.getElementById('button_switch').onclick = () => {
     const valueFrom = document.getElementById('select_from').value;
-    document.getElementById('select_from').value =
-      document.getElementById('select_to').value;
+    document.getElementById('select_from').value = document.getElementById('select_to').value;
     document.getElementById('select_to').value = valueFrom;
   };
 
   // translate
   document.getElementById('button_translate').onclick = () => {
-    const inputText = document
-      .getElementById('textarea_original_text')
-      .value?.trim()
-      ?.replaceAll('\n', ' ');
-    const dialogData = createDialogData(inputText);
+    const inputName = document.getElementById('input-original-name').value?.trim()?.replaceAll('\n', ' ');
+    const inputText = document.getElementById('textarea_original_text').value?.trim()?.replaceAll('\n', ' ');
+    const dialogData = createDialogData(inputName, inputText);
 
     document.getElementById('span_translated_text').innerText = '...';
     document.getElementById('div_audio').innerHTML = '';
@@ -85,48 +83,43 @@ function setButton() {
           .then((translatedText) => {
             // show translated text
             if (translatedText !== '') {
-              document.getElementById('span_translated_text').innerText =
-                translatedText;
+              document.getElementById('span_translated_text').innerText = translatedText;
               document.getElementById('div_audio').innerHTML = getAudioHtml(
                 translatedText,
                 document.getElementById('select_to').value
               );
             } else {
-              document.getElementById('span_translated_text').innerText =
-                '翻譯失敗，請稍後再試';
+              document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
               document.getElementById('div_audio').innerHTML = '';
             }
           })
           .catch(console.log);
       }
     } else {
-      document.getElementById('span_translated_text').innerText =
-        '翻譯文字不可空白';
+      document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
       document.getElementById('div_audio').innerHTML = '';
     }
   };
 }
 
 // create dialog data
-function createDialogData(text) {
+function createDialogData(name = '', text = '') {
   const config = ipcRenderer.sendSync('get-config');
 
   let dialogData = {
     id: null,
     playerName: '',
     code: '003D',
-    name: '',
+    name: name,
     text: text,
     timestamp: null,
     translation: config.translation,
   };
 
   dialogData.translation.from = document.getElementById('select_from').value;
-  dialogData.translation.fromPlayer =
-    document.getElementById('select_from').value;
+  dialogData.translation.fromPlayer = document.getElementById('select_from').value;
   dialogData.translation.to = document.getElementById('select_to').value;
-  dialogData.translation.engine =
-    document.getElementById('select_engine').value;
+  dialogData.translation.engine = document.getElementById('select_engine').value;
 
   return dialogData;
 }
@@ -135,11 +128,7 @@ function createDialogData(text) {
 function getAudioHtml(translatedText, languageTo) {
   if (translatedText !== '') {
     try {
-      const urlList = ipcRenderer.sendSync(
-        'google-tts',
-        translatedText,
-        languageTo
-      );
+      const urlList = ipcRenderer.sendSync('google-tts', translatedText, languageTo);
       console.log('TTS url:', urlList);
 
       let innerHTML = '';

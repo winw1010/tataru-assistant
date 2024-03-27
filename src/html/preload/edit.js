@@ -52,9 +52,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
   // send data
@@ -98,26 +96,19 @@ function setIPC() {
 
           // set select_engine
           if (targetLog?.translation?.engine) {
-            if (
-              ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(
-                targetLog.translation.engine
-              )
-            ) {
-              document.getElementById('select_engine').value =
-                targetLog.translation.engine;
+            if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(targetLog.translation.engine)) {
+              document.getElementById('select_engine').value = targetLog.translation.engine;
             }
           }
 
           // set select_from
           if (targetLog?.translation?.from) {
-            document.getElementById('select_from').value =
-              targetLog.translation.from;
+            document.getElementById('select_from').value = targetLog.translation.from;
           }
 
           // set select_to
           if (targetLog?.translation?.to) {
-            document.getElementById('select_to').value =
-              targetLog.translation.to;
+            document.getElementById('select_to').value = targetLog.translation.to;
           }
         }
       }
@@ -131,20 +122,16 @@ function setIPC() {
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
 
-  document.getElementById('select_engine').innerHTML =
-    ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
 
-  document.getElementById('select_from').innerHTML =
-    ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_to').innerHTML =
-    ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
   document.getElementById('select_engine').value = config.translation.engine;
   document.getElementById('select_from').value = config.translation.from;
   document.getElementById('select_to').value = config.translation.to;
-  document.getElementById('checkbox_replace').checked =
-    config.translation.replace;
+  document.getElementById('checkbox_replace').checked = config.translation.replace;
 }
 
 // set event
@@ -156,8 +143,7 @@ function setEvent() {
 
   document.getElementById('checkbox_replace').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.translation.replace =
-      document.getElementById('checkbox_replace').checked;
+    config.translation.replace = document.getElementById('checkbox_replace').checked;
     ipcRenderer.send('set-config', config);
   };
 }
@@ -184,11 +170,9 @@ function setButton() {
       dialogData.timestamp = null;
     }
 
-    dialogData.translation.engine =
-      document.getElementById('select_engine').value;
+    dialogData.translation.engine = document.getElementById('select_engine').value;
     dialogData.translation.from = document.getElementById('select_from').value;
-    dialogData.translation.fromPlayer =
-      document.getElementById('select_from').value;
+    dialogData.translation.fromPlayer = document.getElementById('select_from').value;
     dialogData.translation.to = document.getElementById('select_to').value;
 
     ipcRenderer.send('add-task', dialogData);
@@ -206,14 +190,8 @@ function setButton() {
 
   // save custom
   document.getElementById('button_save_temp').onclick = () => {
-    const textBefore = document
-      .getElementById('textarea_before')
-      .value.replaceAll('\n', '')
-      .trim();
-    const textAfter = document
-      .getElementById('textarea_after')
-      .value.replaceAll('\n', '')
-      .trim();
+    const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
+    const textAfter = document.getElementById('textarea_after').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select_type').value;
 
     if (textBefore !== '') {
@@ -236,10 +214,7 @@ function setButton() {
 
   // delete temp
   document.getElementById('button_delete_temp').onclick = () => {
-    const textBefore = document
-      .getElementById('textarea_before')
-      .value.replaceAll('\n', '')
-      .trim();
+    const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select_type').value;
 
     if (textBefore !== '') {
@@ -277,11 +252,7 @@ function showAudio() {
 
   if (text !== '') {
     try {
-      const urlList = ipcRenderer.sendSync(
-        'google-tts',
-        text,
-        targetLog.translation.from
-      );
+      const urlList = ipcRenderer.sendSync('google-tts', text, targetLog.translation.from);
       console.log('TTS url:', urlList);
 
       let innerHTML = '';
@@ -309,15 +280,10 @@ function showText() {
   const text1 = document.getElementById('div_text1');
   const text2 = document.getElementById('div_text2');
 
-  text1.innerHTML = `<span>${
-    targetLog.name !== '' ? targetLog.name + '：<br>' : ''
-  }${targetLog.text}</span>`;
+  text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
   text2.innerHTML =
-    `<span>${
-      targetLog.translated_name !== ''
-        ? targetLog.translated_name + '：<br>'
-        : ''
-    }` + `${targetLog.translated_text}</span>`;
+    `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
+    `${targetLog.translated_text}</span>`;
 }
 
 // add and save
@@ -333,17 +299,11 @@ function addTemp(temp, textBefore, textAfter, type) {
   const array = temp.map((x) => x[0]);
 
   allKana.lastIndex = 0;
-  if (
-    !list.includes(type) &&
-    textBefore.length < 3 &&
-    allKana.test(textBefore)
-  ) {
+  if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
     textBefore = textBefore + '#';
   }
 
-  const element = !list.includes(type)
-    ? [textBefore, textAfter, type]
-    : [textBefore, textAfter];
+  const element = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
 
   if (array.includes(textBefore)) {
     temp[array.indexOf(textBefore)] = element;
@@ -382,12 +342,9 @@ function deleteTemp(temp, textBefore) {
 // report translation
 function reportTranslation() {
   try {
-    const text1 =
-      (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
+    const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
     const text2 =
-      (targetLog.translated_name !== ''
-        ? targetLog.translated_name + ': '
-        : '') + targetLog.translated_text;
+      (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
     const path =
       `/forms/d/e/${formId}/formResponse?` +
       `${entry1}=待處理` +

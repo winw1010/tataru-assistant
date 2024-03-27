@@ -210,7 +210,7 @@ function saveName(name = '', translatedName = '') {
   chArray.combine = jsonFunction.sortArray(chArray.combine);
 
   // add to chTemp
-  chArray.chTemp.push([name, translatedName, 'temp']);
+  chArray.chTemp.push([name, translatedName, 'temp-npc']);
   jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 

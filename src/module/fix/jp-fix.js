@@ -133,7 +133,7 @@ async function nameFix(name = '', translation = {}) {
 
       // add to combine
       chArray.combine.push([katakanaName, translatedKatakanaName]);
-      chArray.combinejsonFunction.sortArray(chArray.combine);
+      chArray.combine = jsonFunction.sortArray(chArray.combine);
 
       // add to chTemp
       chArray.chTemp.push([katakanaName, translatedKatakanaName]);
@@ -143,11 +143,12 @@ async function nameFix(name = '', translation = {}) {
 
   // get replace result
   const replaceResult = jpFunction.replaceTextByCode(name, chArray.combine);
+  translatedName = replaceResult.text;
 
   // skip check
-  if (!jpFunction.canSkipTranslation(replaceResult.text)) {
+  if (!jpFunction.canSkipTranslation(translatedName)) {
     // translate
-    translatedName = await translateModule.translate(replaceResult.text, translation, replaceResult.table);
+    translatedName = await translateModule.translate(translatedName, translation, replaceResult.table);
   }
 
   // after translation
@@ -157,12 +158,12 @@ async function nameFix(name = '', translation = {}) {
   translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
 
   // save translated name
-  if (name != katakanaName) {
+  if (name !== katakanaName) {
     if (name.length < 3) name += '#';
 
     // add to combine
     chArray.combine.push([name, translatedName]);
-    chArray.combinejsonFunction.sortArray(chArray.combine);
+    chArray.combine = jsonFunction.sortArray(chArray.combine);
 
     // add to chTemp
     chArray.chTemp.push([name, translatedName]);

@@ -20,9 +20,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
   // send data
@@ -34,14 +32,8 @@ function setIPC() {
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
-  document.getElementById('checkbox_split').checked =
-    config.captureWindow.split;
-  document
-    .getElementById('img_captured')
-    .setAttribute(
-      'src',
-      ipcRenderer.sendSync('get-path', imagePath, 'crop.png')
-    );
+  document.getElementById('checkbox_split').checked = config.captureWindow.split;
+  document.getElementById('img_captured').setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'crop.png'));
 }
 
 // set event
@@ -54,8 +46,7 @@ function setEvent() {
   // checkbox
   document.getElementById('checkbox_split').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.split =
-      document.getElementById('checkbox_split').checked;
+    config.captureWindow.split = document.getElementById('checkbox_split').checked;
     ipcRenderer.send('set-config', config);
   };
 }
@@ -79,9 +70,6 @@ function setButton() {
 
   // translate
   document.getElementById('button_translate').onclick = () => {
-    ipcRenderer.send(
-      'translate-image-text',
-      document.getElementById('textarea_screen_text').value
-    );
+    ipcRenderer.send('translate-image-text', document.getElementById('textarea_screen_text').value);
   };
 }

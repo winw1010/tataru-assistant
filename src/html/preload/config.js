@@ -19,9 +19,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
   // send data
@@ -36,20 +34,15 @@ function setIPC() {
 
 // set view
 function setView() {
-  document.getElementById('select_engine').innerHTML =
-    ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
 
-  document.getElementById('select_from').innerHTML =
-    ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_from_player').innerHTML =
-    ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select_from_player').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_to').innerHTML =
-    ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
-  document.getElementById('select-app-language').innerHTML =
-    ipcRenderer.sendSync('get-ui-select');
+  document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
 
   showConfig();
 }
@@ -71,8 +64,9 @@ function setEvent() {
 
   // background transparency
   document.getElementById('range_background_transparency').oninput = () => {
-    document.getElementById('span_background_transparency').innerText =
-      document.getElementById('range_background_transparency').value;
+    document.getElementById('span_background_transparency').innerText = document.getElementById(
+      'range_background_transparency'
+    ).value;
   };
 
   // dialog color
@@ -123,27 +117,13 @@ function setButton() {
 
   // get google credential
   document.getElementById('a_get_credential').onclick = () => {
-    const path = ipcRenderer.sendSync(
-      'get-root-path',
-      'src',
-      'data',
-      'text',
-      'readme',
-      'sub-google-api.html'
-    );
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // get gpt api key
   document.getElementById('a_get_gpt_api_key').onclick = () => {
-    const path = ipcRenderer.sendSync(
-      'get-root-path',
-      'src',
-      'data',
-      'text',
-      'readme',
-      'sub-gpt-api.html'
-    );
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -156,39 +136,23 @@ function setButton() {
   document.getElementById('img-api-key-visibility').onclick = () => {
     apiKeyVisibility = !apiKeyVisibility;
     if (apiKeyVisibility) {
-      document
-        .getElementById('img-api-key-visibility')
-        .setAttribute('src', './img/ui/visibility_white_48dp.svg');
+      document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_white_48dp.svg');
       document.getElementById('input-gpt-api-key').setAttribute('type', 'text');
     } else {
-      document
-        .getElementById('img-api-key-visibility')
-        .setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
-      document
-        .getElementById('input-gpt-api-key')
-        .setAttribute('type', 'password');
+      document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
+      document.getElementById('input-gpt-api-key').setAttribute('type', 'password');
     }
   };
 
   // readme
   document.getElementById('a_readme').onclick = () => {
-    const path = ipcRenderer.sendSync(
-      'get-root-path',
-      'src',
-      'data',
-      'text',
-      'readme',
-      'index.html'
-    );
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // bug report
   document.getElementById('a_bug_report').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"'
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
   };
 
   // translation report
@@ -201,18 +165,12 @@ function setButton() {
 
   // github
   document.getElementById('a_github').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://github.com/winw1010/tataru-helper-node-v2"'
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-v2"');
   };
 
   // author
   document.getElementById('a_author').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"'
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
   /*
@@ -240,30 +198,21 @@ function showConfig() {
   const version = ipcRenderer.sendSync('get-version');
 
   // window
-  document.getElementById('checkbox_top').checked =
-    config.indexWindow.alwaysOnTop;
+  document.getElementById('checkbox_top').checked = config.indexWindow.alwaysOnTop;
 
-  document.getElementById('checkbox_focusable').checked =
-    config.indexWindow.focusable;
+  document.getElementById('checkbox_focusable').checked = config.indexWindow.focusable;
 
-  document.getElementById('checkbox_shortcut').checked =
-    config.indexWindow.shortcut;
+  document.getElementById('checkbox_shortcut').checked = config.indexWindow.shortcut;
 
-  document.getElementById('checkbox_min_size').checked =
-    config.indexWindow.minSize;
+  document.getElementById('checkbox_min_size').checked = config.indexWindow.minSize;
 
-  document.getElementById('checkbox_hide_button').checked =
-    config.indexWindow.hideButton;
+  document.getElementById('checkbox_hide_button').checked = config.indexWindow.hideButton;
 
-  document.getElementById('checkbox_hide_dialog').checked =
-    config.indexWindow.hideDialog;
-  document.getElementById('input_hide_dialog').value =
-    config.indexWindow.hideDialogTimeout;
+  document.getElementById('checkbox_hide_dialog').checked = config.indexWindow.hideDialog;
+  document.getElementById('input_hide_dialog').value = config.indexWindow.hideDialogTimeout;
 
-  document.getElementById('span_background_color').innerText =
-    config.indexWindow.backgroundColor.slice(0, 7);
-  document.getElementById('color_background_color').value =
-    config.indexWindow.backgroundColor.slice(0, 7);
+  document.getElementById('span_background_color').innerText = config.indexWindow.backgroundColor.slice(0, 7);
+  document.getElementById('color_background_color').value = config.indexWindow.backgroundColor.slice(0, 7);
 
   document.getElementById('span_background_transparency').innerText = parseInt(
     config.indexWindow.backgroundColor.slice(7),
@@ -283,41 +232,29 @@ function showConfig() {
 
   document.getElementById('input_dialog_radius').value = config.dialog.radius;
 
-  document.getElementById('span_dialog_color').innerText =
-    config.dialog.backgroundColor.slice(0, 7);
-  document.getElementById('color_dialog_color').value =
-    config.dialog.backgroundColor.slice(0, 7);
+  document.getElementById('span_dialog_color').innerText = config.dialog.backgroundColor.slice(0, 7);
+  document.getElementById('color_dialog_color').value = config.dialog.backgroundColor.slice(0, 7);
 
-  document.getElementById('span_dialog_transparency').innerText = parseInt(
-    config.dialog.backgroundColor.slice(7),
-    16
-  );
-  document.getElementById('range_dialog_transparency').value = parseInt(
-    config.dialog.backgroundColor.slice(7),
-    16
-  );
+  document.getElementById('span_dialog_transparency').innerText = parseInt(config.dialog.backgroundColor.slice(7), 16);
+  document.getElementById('range_dialog_transparency').value = parseInt(config.dialog.backgroundColor.slice(7), 16);
 
   // channel
   loadChannel(config, chatCode);
 
   // translation
-  document.getElementById('checkbox_auto_change').checked =
-    config.translation.autoChange;
+  document.getElementById('checkbox_auto_change').checked = config.translation.autoChange;
 
   document.getElementById('checkbox_text_fix').checked = config.translation.fix;
 
-  document.getElementById('checkbox_skip_system').checked =
-    config.translation.skip;
+  document.getElementById('checkbox_skip_system').checked = config.translation.skip;
 
-  document.getElementById('checkbox_skip_chinese').checked =
-    config.translation.skipChinese;
+  document.getElementById('checkbox_skip_chinese').checked = config.translation.skipChinese;
 
   document.getElementById('select_engine').value = config.translation.engine;
 
   document.getElementById('select_from').value = config.translation.from;
 
-  document.getElementById('select_from_player').value =
-    config.translation.fromPlayer;
+  document.getElementById('select_from_player').value = config.translation.fromPlayer;
 
   document.getElementById('select_to').value = config.translation.to;
 
@@ -327,11 +264,9 @@ function showConfig() {
   document.getElementById('input-gpt-api-key').value = config.system.gptApiKey;
 
   // system
-  document.getElementById('select-app-language').value =
-    config.system.appLanguage;
+  document.getElementById('select-app-language').value = config.system.appLanguage;
 
-  document.getElementById('checkbox_auto_download_json').checked =
-    config.system.autoDownloadJson;
+  document.getElementById('checkbox_auto_download_json').checked = config.system.autoDownloadJson;
 
   // about
   document.getElementById('span_version').innerText = version;
@@ -343,39 +278,22 @@ function saveConfig() {
   let chatCode = ipcRenderer.sendSync('get-chat-code');
 
   // window
-  config.indexWindow.alwaysOnTop =
-    document.getElementById('checkbox_top').checked;
+  config.indexWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
 
-  config.indexWindow.focusable =
-    document.getElementById('checkbox_focusable').checked;
+  config.indexWindow.focusable = document.getElementById('checkbox_focusable').checked;
 
-  config.indexWindow.shortcut =
-    document.getElementById('checkbox_shortcut').checked;
+  config.indexWindow.shortcut = document.getElementById('checkbox_shortcut').checked;
 
-  config.indexWindow.minSize =
-    document.getElementById('checkbox_min_size').checked;
+  config.indexWindow.minSize = document.getElementById('checkbox_min_size').checked;
 
-  config.indexWindow.hideButton = document.getElementById(
-    'checkbox_hide_button'
-  ).checked;
+  config.indexWindow.hideButton = document.getElementById('checkbox_hide_button').checked;
 
-  config.indexWindow.hideDialog = document.getElementById(
-    'checkbox_hide_dialog'
-  ).checked;
-  config.indexWindow.hideDialogTimeout = parseInt(
-    document.getElementById('input_hide_dialog').value
-  );
+  config.indexWindow.hideDialog = document.getElementById('checkbox_hide_dialog').checked;
+  config.indexWindow.hideDialogTimeout = parseInt(document.getElementById('input_hide_dialog').value);
 
-  config.indexWindow.backgroundColor = document
-    .getElementById('color_background_color')
-    .value.toString()
-    .toUpperCase();
+  config.indexWindow.backgroundColor = document.getElementById('color_background_color').value.toString().toUpperCase();
 
-  let pt = parseInt(
-    document.getElementById('range_background_transparency').value
-  )
-    .toString(16)
-    .toUpperCase();
+  let pt = parseInt(document.getElementById('range_background_transparency').value).toString(16).toUpperCase();
   config.indexWindow.backgroundColor += '' + pt.length < 2 ? '0' + '' + pt : pt;
 
   // font
@@ -387,71 +305,45 @@ function saveConfig() {
 
   config.dialog.radius = document.getElementById('input_dialog_radius').value;
 
-  config.dialog.backgroundColor = document
-    .getElementById('color_dialog_color')
-    .value.toString()
-    .toUpperCase();
+  config.dialog.backgroundColor = document.getElementById('color_dialog_color').value.toString().toUpperCase();
 
-  let dt = parseInt(document.getElementById('range_dialog_transparency').value)
-    .toString(16)
-    .toUpperCase();
+  let dt = parseInt(document.getElementById('range_dialog_transparency').value).toString(16).toUpperCase();
   config.dialog.backgroundColor += '' + dt.length < 2 ? '0' + '' + dt : dt;
 
   // channel
   config.channel = {};
 
   // app notification
-  config.channel['FFFF'] = document
-    .getElementById('color_0039_color')
-    .value.toUpperCase();
+  config.channel['FFFF'] = document.getElementById('color_0039_color').value.toUpperCase();
 
   // checked color
-  const checkedArray = document.querySelectorAll(
-    '#div_channel input[type="checkbox"]:checked'
-  );
+  const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
   for (let index = 0; index < checkedArray.length; index++) {
-    const code = checkedArray[index].id
-      .replaceAll('checkbox_', '')
-      .toUpperCase();
-    config.channel[code] = document
-      .getElementById(`color_${code}_color`)
-      .value.toUpperCase();
+    const code = checkedArray[index].id.replaceAll('checkbox_', '').toUpperCase();
+    config.channel[code] = document.getElementById(`color_${code}_color`).value.toUpperCase();
   }
 
   // all color
-  const channelArray = document.querySelectorAll(
-    '#div_channel input[type="checkbox"]'
-  );
+  const channelArray = document.querySelectorAll('#div_channel input[type="checkbox"]');
   for (let index = 0; index < channelArray.length; index++) {
-    const code = channelArray[index].id
-      .replaceAll('checkbox_', '')
-      .toUpperCase();
-    chatCode[index].Color = document
-      .getElementById(`color_${code}_color`)
-      .value.toUpperCase();
+    const code = channelArray[index].id.replaceAll('checkbox_', '').toUpperCase();
+    chatCode[index].Color = document.getElementById(`color_${code}_color`).value.toUpperCase();
   }
 
   // translation
-  config.translation.autoChange = document.getElementById(
-    'checkbox_auto_change'
-  ).checked;
+  config.translation.autoChange = document.getElementById('checkbox_auto_change').checked;
 
   config.translation.fix = document.getElementById('checkbox_text_fix').checked;
 
-  config.translation.skip = document.getElementById(
-    'checkbox_skip_system'
-  ).checked;
+  config.translation.skip = document.getElementById('checkbox_skip_system').checked;
 
-  config.translation.skipChinese = document.getElementById(
-    'checkbox_skip_chinese'
-  ).checked;
+  config.translation.skipChinese = document.getElementById('checkbox_skip_chinese').checked;
 
   config.translation.engine = document.getElementById('select_engine').value;
 
   config.translation.from = document.getElementById('select_from').value;
 
-  config.translation.fromPlayer =
-    document.getElementById('select_from_player').value;
+  config.translation.fromPlayer = document.getElementById('select_from_player').value;
 
   config.translation.to = document.getElementById('select_to').value;
 
@@ -461,13 +353,9 @@ function saveConfig() {
   config.system.gptApiKey = document.getElementById('input-gpt-api-key').value;
 
   // system
-  config.system.appLanguage = document.getElementById(
-    'select-app-language'
-  ).value;
+  config.system.appLanguage = document.getElementById('select-app-language').value;
 
-  config.system.autoDownloadJson = document.getElementById(
-    'checkbox_auto_download_json'
-  ).checked;
+  config.system.autoDownloadJson = document.getElementById('checkbox_auto_download_json').checked;
 
   // set config
   ipcRenderer.sendSync('set-config', config);
@@ -546,12 +434,8 @@ function loadChannel(config, chatCode) {
 
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
-    const channelColor = document.getElementById(
-      `color_${element.ChatCode}_color`
-    );
-    const channelSpan = document.getElementById(
-      `span_${element.ChatCode}_color`
-    );
+    const channelColor = document.getElementById(`color_${element.ChatCode}_color`);
+    const channelSpan = document.getElementById(`span_${element.ChatCode}_color`);
 
     channelColor.oninput = () => {
       channelSpan.style.color = channelColor.value.toString();

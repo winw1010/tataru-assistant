@@ -37,12 +37,7 @@
           <span id="span_dictionary">翻譯查詢</span>
         </div>
         <div class="col-auto">
-          <img
-            id="img_button_close"
-            class="img_button float_right"
-            title="關閉"
-            src="./img/ui/close_white_24dp.svg"
-          />
+          <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
     </header>
@@ -74,22 +69,33 @@
 
       <br />
 
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-auto">
-          <button id="button_switch" class="btn btn-secondary">切換</button>
+          <button id="button_switch" class="btn btn-primary">切換</button>
+        </div>
+        <div class="col-auto">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_text_fix" />
+            <label class="form-check-label" for="checkbox_text_fix" style="user-select: none">使用Tataru翻譯</label>
+          </div>
         </div>
       </div>
 
       <br />
 
+      <div id="div-original-name" hidden>
+        <div class="row align-items-center">
+          <div class="col">
+            <input class="form-control" type="text" name="" id="input-original-name" placeholder="Name" />
+          </div>
+        </div>
+
+        <br />
+      </div>
+
       <div class="row align-items-center">
         <div class="col">
-          <textarea
-            class="form-control"
-            id="textarea_original_text"
-            rows="5"
-            placeholder="輸入要翻譯的文字"
-          ></textarea>
+          <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="Text"></textarea>
         </div>
       </div>
 
@@ -101,23 +107,6 @@
         </div>
         <div class="col-auto">
           <button id="button_translate" class="btn btn-primary">翻譯</button>
-        </div>
-        <div class="col-auto">
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              name=""
-              id="checkbox_text_fix"
-            />
-            <label
-              class="form-check-label"
-              for="checkbox_text_fix"
-              style="user-select: none"
-              >名詞校正</label
-            >
-          </div>
         </div>
       </div>
 

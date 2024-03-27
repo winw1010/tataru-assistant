@@ -35,23 +35,15 @@ function createWindow(windowName, data = null) {
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
-        preload: fileModule.getPath(
-          __dirname,
-          `../../html/preload/${windowName}.js`
-        ),
+        preload: fileModule.getPath(__dirname, `../../html/preload/${windowName}.js`),
       },
     });
 
     // load html
-    window.loadFile(
-      fileModule.getPath(__dirname, `../../html/${windowName}.html`)
-    );
+    window.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
 
     // set always on top
-    window.setAlwaysOnTop(
-      !['edit', 'dictionary'].includes(windowName),
-      'screen-saver'
-    );
+    window.setAlwaysOnTop(!['edit', 'dictionary'].includes(windowName), 'screen-saver');
 
     // set minimizable
     window.setMinimizable(false);
@@ -143,9 +135,7 @@ function getWindowSize(windowName, config) {
   };
 
   // get display bounds nearest cursor
-  const displayBounds = screen.getDisplayNearestPoint(
-    screen.getCursorScreenPoint()
-  ).bounds;
+  const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
 
   switch (windowName) {
     case 'index':
@@ -266,9 +256,7 @@ function getWindowSize(windowName, config) {
 function getNearPosition(displayBounds, indexBounds, bounds) {
   bounds = boundsSizeCheck(bounds);
   bounds.x =
-    indexBounds.x - bounds.width > displayBounds.x
-      ? indexBounds.x - bounds.width
-      : indexBounds.x + indexBounds.width;
+    indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
   bounds.y =
     indexBounds.y + bounds.height > displayBounds.y + displayBounds.height
       ? displayBounds.y + displayBounds.height - bounds.height
@@ -319,10 +307,7 @@ function boundsPositionCheck(bounds) {
 
   if (bounds.y < nearestBounds.y) {
     bounds.y = nearestBounds.y;
-  } else if (
-    bounds.y >
-    nearestBounds.y + nearestBounds.height - bounds.height
-  ) {
+  } else if (bounds.y > nearestBounds.y + nearestBounds.height - bounds.height) {
     bounds.y = nearestBounds.y + nearestBounds.height - bounds.height;
   }
 

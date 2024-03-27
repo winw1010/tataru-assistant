@@ -23,8 +23,7 @@ app.on('window-all-closed', () => {
 
 // on activate
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0)
-    windowModule.createWindow('index');
+  if (BrowserWindow.getAllWindows().length === 0) windowModule.createWindow('index');
 });
 
 process.on('uncaughtException', (error) => {

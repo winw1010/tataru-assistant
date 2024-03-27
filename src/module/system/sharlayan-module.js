@@ -33,20 +33,10 @@ const fileModule = require('./file-module');
 const serverModule = require('./server-module');
 
 // sharlayan path
-const sharlayanPath = fileModule.getRootPath(
-  'src',
-  'data',
-  'SharlayanReader',
-  'SharlayanReader.exe'
-);
+const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', 'SharlayanReader.exe');
 
 // version path
-const versionPath = fileModule.getRootPath(
-  'src',
-  'data',
-  'text',
-  'signatures.json'
-);
+const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
 
 // child
 let child = null;
@@ -61,11 +51,7 @@ function start() {
       try {
         const signatures = fileModule.read(versionPath, 'json');
         if (signatures) {
-          fileModule.write(
-            fileModule.getRootPath('signatures.json'),
-            signatures,
-            'json'
-          );
+          fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
         }
       } catch (error) {
         console.log(error);

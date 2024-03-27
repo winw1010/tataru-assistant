@@ -30,10 +30,7 @@ const imagePath = fileModule.getRootPath('src', 'data', 'img');
 // google vision
 async function googleVision(imagePath) {
   try {
-    const keyPath = fileModule.getUserDataPath(
-      'setting',
-      'google-credential.json'
-    );
+    const keyPath = fileModule.getUserDataPath('setting', 'google-credential.json');
 
     if (!fileModule.exists(keyPath)) {
       throw '尚未設定Google憑證，請先至【設定】>【系統】取得憑證';

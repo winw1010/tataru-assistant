@@ -56,12 +56,8 @@ function generateJobs(chunks) {
           prefix: newChunks[index].prefix,
         },
       ],
-      raw_en_context_before: newChunks[index - 1]
-        ? [newChunks[index - 1].text]
-        : [],
-      raw_en_context_after: newChunks[index + 1]
-        ? [newChunks[index + 1].text]
-        : [],
+      raw_en_context_before: newChunks[index - 1] ? [newChunks[index - 1].text] : [],
+      raw_en_context_after: newChunks[index + 1] ? [newChunks[index + 1].text] : [],
       preferred_num_beams: 1,
     });
   }

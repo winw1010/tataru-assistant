@@ -84,10 +84,7 @@ function loadConfig() {
     currentConfig = fileModule.read(configLocation, 'json') || {};
 
     // fix old bug
-    if (
-      Array.isArray(currentConfig) ||
-      Object.getOwnPropertyNames(currentConfig).length === 0
-    ) {
+    if (Array.isArray(currentConfig) || Object.getOwnPropertyNames(currentConfig).length === 0) {
       throw null;
     }
 
@@ -102,10 +99,7 @@ function loadConfig() {
         // add property
         const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
         subNames.forEach((subName) => {
-          if (
-            currentConfig[mainName][subName] === null ||
-            currentConfig[mainName][subName] === undefined
-          ) {
+          if (currentConfig[mainName][subName] === null || currentConfig[mainName][subName] === undefined) {
             if (subName === 'appLanguage') {
               currentConfig.system.appLanguage = currentConfig.translation.to;
               return;
@@ -119,10 +113,7 @@ function loadConfig() {
         const subNames2 = Object.getOwnPropertyNames(currentConfig[mainName]);
         if (subNames.length !== subNames2.length) {
           subNames2.forEach((subName) => {
-            if (
-              defaultConfig[mainName][subName] === null ||
-              defaultConfig[mainName][subName] === undefined
-            ) {
+            if (defaultConfig[mainName][subName] === null || defaultConfig[mainName][subName] === undefined) {
               delete currentConfig[mainName][subName];
             }
           });

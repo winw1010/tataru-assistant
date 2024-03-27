@@ -25,40 +25,23 @@ function load(targetLanguage) {
 
   // ch
   chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);
-  chArray.afterTranslation = jsonFunction.readText(
-    jsonFunction.getTextPath('ch', `after-translation-${ch}.json`)
-  );
+  chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
 
   // en
   enArray.subtitle = jsonFunction.readSubtitleEN();
-  enArray.ignore = jsonFunction.readText(
-    jsonFunction.getTextPath('en', 'ignore.json')
-  );
-  enArray.en1 = jsonFunction.readText(
-    jsonFunction.getTextPath('en', 'en1.json')
-  );
-  enArray.en2 = jsonFunction.readText(
-    jsonFunction.getTextPath('en', 'en2.json')
-  );
-  enArray.uncountable = jsonFunction.readText(
-    jsonFunction.getTextPath('en', 'uncountable.json')
-  );
+  enArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('en', 'ignore.json'));
+  enArray.en1 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
+  enArray.en2 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));
+  enArray.uncountable = jsonFunction.readText(jsonFunction.getTextPath('en', 'uncountable.json'));
 
   // main
   chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
 
   // overwrite
-  chArray.overwrite = jsonFunction.combineArrayWithTemp(
-    chArray.overwriteTemp,
-    chArray.overwrite
-  );
+  chArray.overwrite = jsonFunction.combineArrayWithTemp(chArray.overwriteTemp, chArray.overwrite);
 
   // combine
-  chArray.combine = jsonFunction.combineArrayWithTemp(
-    chArray.chTemp,
-    chArray.player,
-    chArray.main
-  );
+  chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
   // version fix
   versionFix();
@@ -70,6 +53,11 @@ function versionFix() {
   // Allies
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
+
+    // remove regex
+    chArray.combine[index][0] = element.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // remove Allies
     if (/^Allies$/gi.test(element)) {
       chArray.combine.splice(index, 1);
     }

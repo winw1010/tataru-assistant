@@ -25,9 +25,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
   // clear dialog
@@ -51,53 +49,47 @@ function setIPC() {
   });
 
   // add dialog
-  ipcRenderer.on(
-    'add-dialog',
-    (
-      event,
-      { id = '', code = '', innerHTML = '', style = {}, scroll = true }
-    ) => {
-      // div
-      const div = document.getElementById('div_dialog');
+  ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = true }) => {
+    // div
+    const div = document.getElementById('div_dialog');
 
-      // get dialog
-      let dialog = document.getElementById(id);
+    // get dialog
+    let dialog = document.getElementById(id);
 
-      // check dialog
-      if (!dialog) {
-        dialog = document.createElement('div');
-        div.append(dialog);
-        dialog.id = id;
-        dialog.className = code;
-        dialog.style.display = 'none';
-      }
-
-      // set dialog
-      dialog.innerHTML = innerHTML;
-      setStyle(dialog, style);
-
-      // set first dialog
-      if (div.firstElementChild) {
-        document.getElementById(div.firstElementChild.id).style.marginTop = '0';
-      }
-
-      // add click event
-      if (dialog.className !== 'FFFF') {
-        dialog.style.cursor = 'pointer';
-        dialog.onclick = () => {
-          ipcRenderer.send('restart-window', 'edit', id);
-        };
-      }
-
-      // navigate dialog
-      if (scroll) {
-        setTimeout(() => {
-          //location.href = '#' + id;
-          document.getElementById(id).scrollIntoView();
-        }, 200);
-      }
+    // check dialog
+    if (!dialog) {
+      dialog = document.createElement('div');
+      div.append(dialog);
+      dialog.id = id;
+      dialog.className = code;
+      dialog.style.display = 'none';
     }
-  );
+
+    // set dialog
+    dialog.innerHTML = innerHTML;
+    setStyle(dialog, style);
+
+    // set first dialog
+    if (div.firstElementChild) {
+      document.getElementById(div.firstElementChild.id).style.marginTop = '0';
+    }
+
+    // add click event
+    if (dialog.className !== 'FFFF') {
+      dialog.style.cursor = 'pointer';
+      dialog.onclick = () => {
+        ipcRenderer.send('restart-window', 'edit', id);
+      };
+    }
+
+    // navigate dialog
+    if (scroll) {
+      setTimeout(() => {
+        //location.href = '#' + id;
+        document.getElementById(id).scrollIntoView();
+      }, 200);
+    }
+  });
 
   // remove dialog
   ipcRenderer.on('remove-dialog', (event, id) => {
@@ -120,9 +112,7 @@ function setIPC() {
 
   // add audio
   ipcRenderer.on('add-audio', (event, urlList) => {
-    document.dispatchEvent(
-      new CustomEvent('add-to-playlist', { detail: urlList })
-    );
+    document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
   });
 }
 
@@ -153,11 +143,9 @@ function setEvent() {
   });
 
   // drag click through
-  document
-    .getElementById('img_button_drag')
-    .addEventListener('mousedown', () => {
-      clickThrough = false;
-    });
+  document.getElementById('img_button_drag').addEventListener('mousedown', () => {
+    clickThrough = false;
+  });
   document.getElementById('img_button_drag').addEventListener('mouseup', () => {
     clickThrough = ipcRenderer.sendSync('get-click-through-config');
   });
@@ -214,10 +202,7 @@ function setButton() {
 
   // update
   document.getElementById('img_button_update').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"'
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
   // minimize
@@ -300,8 +285,7 @@ function resetView(config) {
   ipcRenderer.send('show-dialog');
 
   // set background color
-  document.getElementById('div_dialog').style.backgroundColor =
-    config.indexWindow.backgroundColor;
+  document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
   // start/restart mouse out check interval
   clearInterval(mouseOutCheckInterval);
@@ -347,10 +331,7 @@ function resetDialogStyle() {
 function moveToBottom() {
   setTimeout(() => {
     clearSelection();
-    let div =
-      document.getElementById('div_dialog') ||
-      document.scrollingElement ||
-      document.body;
+    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
     div.scrollTop = div.scrollHeight;
   }, 200);
 }
@@ -386,26 +367,18 @@ function hideButton(isMouseOut, hideButton) {
 function setClickThrough(value) {
   clickThrough = value;
   if (clickThrough) {
-    document
-      .getElementById('img_button_through')
-      .setAttribute('src', './img/ui/near_me_white_24dp.svg');
+    document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
   } else {
-    document
-      .getElementById('img_button_through')
-      .setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+    document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
   }
 }
 
 function setAutoPlay(value) {
   if (value) {
-    document
-      .getElementById('img_button_auto_play')
-      .setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+    document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
     document.dispatchEvent(new CustomEvent('start-playing'));
   } else {
-    document
-      .getElementById('img_button_auto_play')
-      .setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     document.dispatchEvent(new CustomEvent('stop-playing'));
   }
 }

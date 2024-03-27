@@ -58,8 +58,7 @@ const googleTTS = require('../translator/google-tts');
 const appVersion = app.getVersion();
 
 // update button
-const updateButton =
-  '<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">';
+const updateButton = '<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">';
 
 // set ipc
 function setIPC() {
@@ -107,17 +106,11 @@ function setSystemChannel() {
 
     try {
       // reset index bounds
-      const defaultIndexBounds = windowModule.getWindowSize(
-        'index',
-        defaultConfig
-      );
+      const defaultIndexBounds = windowModule.getWindowSize('index', defaultConfig);
       windowModule.getWindow('index').setBounds(defaultIndexBounds);
 
       // reset config bounds
-      const defaultConfigBounds = windowModule.getWindowSize(
-        'config',
-        defaultConfig
-      );
+      const defaultConfigBounds = windowModule.getWindowSize('config', defaultConfig);
       windowModule.getWindow('config').setBounds(defaultConfigBounds);
     } catch (error) {
       //console.log();
@@ -197,10 +190,7 @@ function setWindowChannel() {
   // always on top
   ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
     try {
-      BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(
-        isAlwaysOnTop,
-        'screen-saver'
-      );
+      BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
     } catch (error) {
       console.log(error);
     }
@@ -251,9 +241,7 @@ function setWindowChannel() {
   ipcMain.handle('mouse-out-check', (event) => {
     const config = configModule.getConfig();
     const cursorScreenPoint = screen.getCursorScreenPoint();
-    const windowBounds = BrowserWindow.fromWebContents(
-      event.sender
-    ).getBounds();
+    const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
     const isMouseOut =
       cursorScreenPoint.x < windowBounds.x ||
       cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
@@ -265,9 +253,7 @@ function setWindowChannel() {
 
   // mute window
   ipcMain.on('mute-window', (event, autoPlay) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(
-      !autoPlay
-    );
+    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
   });
 
   // send index
@@ -353,9 +339,7 @@ function setCaptureChannel() {
 
   // get dispaly bounds
   ipcMain.on('get-dispaly-bounds', (event) => {
-    event.returnValue = screen.getDisplayNearestPoint(
-      screen.getCursorScreenPoint()
-    ).bounds;
+    event.returnValue = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
   });
 
   // minimize all windows
@@ -375,19 +359,11 @@ function setCaptureChannel() {
     dialog
       .showOpenDialog({ filters: [{ name: 'JSON', extensions: ['json'] }] })
       .then((value) => {
-        if (
-          !value.canceled &&
-          value.filePaths.length > 0 &&
-          value.filePaths[0].length > 0
-        ) {
+        if (!value.canceled && value.filePaths.length > 0 && value.filePaths[0].length > 0) {
           let data = fileModule.read(value.filePaths[0], 'json');
 
           if (data) {
-            fileModule.write(
-              fileModule.getUserDataPath('setting', 'google-credential.json'),
-              data,
-              'json'
-            );
+            fileModule.write(fileModule.getUserDataPath('setting', 'google-credential.json'), data, 'json');
             dialogModule.showNotification('已儲存Google憑證');
           } else {
             dialogModule.showNotification('檔案格式不正確');
@@ -525,8 +501,7 @@ function setFileChannel() {
 
   // read json
   ipcMain.on('read-json', (event, filePath, returnArray) => {
-    event.returnValue =
-      fileModule.read(filePath, 'json') || (returnArray ? [] : {});
+    event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
   });
 
   // write json

@@ -33,20 +33,13 @@ async function startFix(dialogData = {}) {
     // name translation
     let translatedName = '';
     if (enFunction.isChinese(dialogData.name, translation)) {
-      translatedName = fixFunction.replaceText(
-        dialogData.name,
-        chArray.combine,
-        true
-      );
+      translatedName = fixFunction.replaceText(dialogData.name, chArray.combine, true);
     } else {
       if (npcChannel.includes(dialogData.code)) {
         if (translation.fix) {
           translatedName = await nameFix(dialogData.name, translation);
         } else {
-          translatedName = await translateModule.translate(
-            dialogData.name,
-            translation
-          );
+          translatedName = await translateModule.translate(dialogData.name, translation);
         }
       } else {
         translatedName = dialogData.name;
@@ -61,31 +54,16 @@ async function startFix(dialogData = {}) {
     // text translation
     let translatedText = '';
     if (enFunction.isChinese(dialogData.text, translation)) {
-      translatedText = fixFunction.replaceText(
-        dialogData.text,
-        chArray.combine,
-        true
-      );
+      translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
     } else {
       if (translation.fix) {
         if (translation.engine === 'GPT') {
-          translatedText = await textFixGPT(
-            dialogData.name,
-            dialogData.text,
-            translation
-          );
+          translatedText = await textFixGPT(dialogData.name, dialogData.text, translation);
         } else {
-          translatedText = await textFix(
-            dialogData.name,
-            dialogData.text,
-            translation
-          );
+          translatedText = await textFix(dialogData.name, dialogData.text, translation);
         }
       } else {
-        translatedText = await translateModule.translate(
-          dialogData.text,
-          translation
-        );
+        translatedText = await translateModule.translate(dialogData.text, translation);
       }
     }
 
@@ -109,20 +87,13 @@ async function nameFix(name = '', translation = {}) {
   }
 
   // same check
-  const target1 = fixFunction.sameAsArrayItem(name, chArray.combine);
-  const target2 = fixFunction.sameAsArrayItem(name + '#', chArray.combine);
-  const target3 = fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target =
+    fixFunction.sameAsArrayItem(name, chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
-  if (target1) {
-    return target1[1];
-  }
-
-  if (target2) {
-    return target2[1].replace(/#$/, '');
-  }
-
-  if (target3) {
-    return target3[1].replace(/##$/, '');
+  if (target) {
+    return target[1];
   }
 
   // code
@@ -135,11 +106,7 @@ async function nameFix(name = '', translation = {}) {
   // skip check
   if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(
-      translatedName,
-      translation,
-      codeResult.table
-    );
+    translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
   }
 
   // table
@@ -245,11 +212,7 @@ function saveName(name = '', translatedName = '') {
   }
 
   // set combine
-  chArray.combine = jsonFunction.combineArrayWithTemp(
-    chArray.chTemp,
-    chArray.player,
-    chArray.main
-  );
+  chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
 
   // write
   jsonFunction.writeTemp('chTemp.json', chArray.chTemp);

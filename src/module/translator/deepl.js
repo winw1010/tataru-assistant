@@ -36,8 +36,7 @@ async function exec(option) {
     const chunks = await splitText(option.text);
 
     // get result
-    chunks &&
-      (result = await translate(cookie, authentication, option, chunks));
+    chunks && (result = await translate(cookie, authentication, option, chunks));
 
     return result;
   } catch (error) {
@@ -130,9 +129,7 @@ async function translate(cookie, authentication, option, chunks) {
   postData.params.jobs = deeplFunction.generateJobs(chunks);
   postData.params.lang.source_lang_computed = option.from;
   postData.params.lang.target_lang = option.to;
-  postData.params.timestamp = deeplFunction.generateTimestamp(
-    postData.params.jobs
-  );
+  postData.params.timestamp = deeplFunction.generateTimestamp(postData.params.jobs);
 
   const response = await requestModule.post(
     {
@@ -149,8 +146,7 @@ async function translate(cookie, authentication, option, chunks) {
       cookie: cookie,
       origin: 'https://www.deepl.com',
       referer: 'https://www.deepl.com/',
-      'sec-ch-ua':
-        '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+      'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
       'sec-fetch-dest': 'empty',

@@ -17,17 +17,14 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 }
 
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
-  document.getElementById('checkbox_split').checked =
-    config.captureWindow.split;
+  document.getElementById('checkbox_split').checked = config.captureWindow.split;
   document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
   document.getElementById('select_type').value = config.captureWindow.type;
   showScreenshotButton(config);
@@ -49,15 +46,13 @@ function setEvent() {
   // checkbox
   document.getElementById('checkbox_split').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.split =
-      document.getElementById('checkbox_split').checked;
+    config.captureWindow.split = document.getElementById('checkbox_split').checked;
     ipcRenderer.send('set-config', config);
   };
 
   document.getElementById('checkbox_edit').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.edit =
-      document.getElementById('checkbox_edit').checked;
+    config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
     ipcRenderer.send('set-config', config);
   };
 
@@ -102,8 +97,7 @@ function setButton() {
 
 // show screenshot button
 function showScreenshotButton(config) {
-  document.getElementById('button_screenshot').hidden =
-    config.captureWindow.type !== 'google';
+  document.getElementById('button_screenshot').hidden = config.captureWindow.type !== 'google';
 }
 
 // set canvas size
@@ -124,8 +118,7 @@ function setCanvasEvent() {
   // set line width
   let lineWidth = 1;
   try {
-    lineWidth =
-      0.1 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    lineWidth = 0.1 * parseFloat(getComputedStyle(document.documentElement).fontSize);
   } catch (error) {
     console.log(error);
   }
@@ -148,12 +141,7 @@ function setCanvasEvent() {
 
     // on mouse move
     canvas.onmousemove = (event) => {
-      drawRectangle(
-        mousedownClientPosition.x,
-        mousedownClientPosition.y,
-        event.clientX,
-        event.clientY
-      );
+      drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
     };
 
     // on mouse up
@@ -199,12 +187,7 @@ function setCanvasEvent() {
       // draw rectangle
       ctx.strokeStyle = '#808080';
       ctx.lineWidth = lineWidth;
-      ctx.strokeRect(
-        rectangleSize.x,
-        rectangleSize.y,
-        rectangleSize.width,
-        rectangleSize.height
-      );
+      ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
     }
   }
 }

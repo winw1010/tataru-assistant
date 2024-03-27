@@ -9,12 +9,7 @@ const temp = require('temp');
 const path = require('path');
 const { readAndUnlinkP, defaultAll } = require('./screenshot-utils');
 const fileModule = require('./file-module');
-const batFilePath = fileModule.getRootPath(
-  'src',
-  'data',
-  'ScreenCapture',
-  'screenCapture_1.3.2.bat'
-);
+const batFilePath = fileModule.getRootPath('src', 'data', 'ScreenCapture', 'screenCapture_1.3.2.bat');
 const batRootPath = fileModule.getRootPath('src', 'data', 'ScreenCapture');
 
 function windowsSnapshot(options = {}) {
@@ -59,9 +54,7 @@ function parseDisplaysOutput(output) {
     .slice(index + match.length)
     .split('\n')
     .map((s) => s.replace(/[\n\r]/g, ''))
-    .map((s) =>
-      s.match(/(.*?);(.?\d+);(.?\d+);(.?\d+);(.?\d+);(.?\d*[\.,]?\d+)/)
-    ) // eslint-disable-line
+    .map((s) => s.match(/(.*?);(.?\d+);(.?\d+);(.?\d+);(.?\d+);(.?\d*[\.,]?\d+)/)) // eslint-disable-line
     .filter((s) => s)
     .map((m) => ({
       id: m[1],

@@ -87,34 +87,21 @@ async function entry() {
       dialogData.translation.from = languageEnum.en;
       dialogData = await enFix.startFix(dialogData);
     } else {
-      dialogData.translatedName = translateModule.translate(
-        dialogData.name,
-        dialogData.translation
-      );
-      dialogData.translatedText = translateModule.translate(
-        dialogData.text,
-        dialogData.translation
-      );
+      dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
+      dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
       dialogData.audioText = dialogData.text;
     }
 
     // update dialog
     if (dialogData.translatedText !== '') {
-      dialogModule.updateDialog(
-        dialogData.id,
-        dialogData.translatedName,
-        dialogData.translatedText,
-        dialogData
-      );
+      dialogModule.updateDialog(dialogData.id, dialogData.translatedName, dialogData.translatedText, dialogData);
     }
   }
 }
 
 // get language
 function getLanguage(dialogData) {
-  return isPlayerChannel(dialogData.code)
-    ? dialogData.translation.fromPlayer
-    : dialogData.translation.from;
+  return isPlayerChannel(dialogData.code) ? dialogData.translation.fromPlayer : dialogData.translation.from;
 }
 
 // is player channel

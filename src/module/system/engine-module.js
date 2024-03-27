@@ -4,12 +4,7 @@
 const sourceList = ['Japanese', 'English'];
 
 // target list
-const targetList = [
-  'Japanese',
-  'English',
-  'Traditional-Chinese',
-  'Simplified-Chinese',
-];
+const targetList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
 const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];

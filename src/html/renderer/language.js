@@ -8,17 +8,9 @@
       // index
       img_button_drag: ['拖曳', '拖曳', 'Drag'],
       img_button_config: ['設定', '设定', 'Config'],
-      img_button_capture: [
-        '翻譯螢幕文字',
-        '翻译萤幕文字',
-        'Translate Screen Text',
-      ],
+      img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
       img_button_through: ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
-      img_button_update: [
-        '下載最新版本',
-        '下载最新版本',
-        'Download Latest Version',
-      ],
+      img_button_update: ['下載最新版本', '下载最新版本', 'Download Latest Version'],
       img_button_minimize: ['縮小', '缩小', 'Minimize'],
       img_button_close: ['關閉', '关闭', 'Close'],
 
@@ -33,22 +25,10 @@
       button_save_config: ['儲存', '储存', 'Save'],
       button_save_default_config: ['恢復預設', '恢复预设', 'Set Default'],
 
-      button_download_json: [
-        '重新下載翻譯對照表',
-        '重新下载翻译对照表',
-        'Download Table',
-      ],
-      button_restart_sharlayan_reader: [
-        '重新啟動字幕讀取器',
-        '重新启动字幕读取器',
-        'Restart Chat Reader',
-      ],
+      button_download_json: ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download Table'],
+      button_restart_sharlayan_reader: ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart Chat Reader'],
       button_version_check: ['檢查更新', '检查更新', 'Check For Updates'],
-      button_google_credential: [
-        '開啟Google憑證檔案',
-        '开启Google凭证档案',
-        'Open Google Credential File',
-      ],
+      button_google_credential: ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google Credential File'],
 
       // capture
       button_screenshot: ['All', 'All', 'All'],
@@ -66,19 +46,11 @@
 
       button_save_temp: ['儲存', '储存', 'Save'],
       button_delete_temp: ['刪除', '删除', 'Delete'],
-      button_view_temp: [
-        '檢視自訂翻譯檔案',
-        '检视自订翻译档案',
-        'View Custom Table',
-      ],
+      button_view_temp: ['檢視自訂翻譯檔案', '检视自订翻译档案', 'View Custom Table'],
 
       // read log
       button_read_log: ['讀取', '读取', 'Open'],
-      button_view_log: [
-        '檢視對話紀錄檔案',
-        '检视对话纪录档案',
-        'View Chat Logs',
-      ],
+      button_view_log: ['檢視對話紀錄檔案', '检视对话纪录档案', 'View Chat Logs'],
     },
     a: {
       // config
@@ -86,11 +58,7 @@
       a_get_gpt_api_key: ['API KEY取得教學', 'API KEY取得教程', 'Get API KEY'],
       a_readme: ['使用說明書', '使用说明书', 'Readme'],
       a_bug_report: ['問題回報', '问题回报', 'Bug Report'],
-      a_translation_report: [
-        '回報翻譯錯誤',
-        '回报翻译错误',
-        'Translation Report',
-      ],
+      a_translation_report: ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
       a_github: ['GitHub', 'GitHub', 'GitHub'],
       a_author: ['訪問作者', '访问作者', 'Author'],
       a_donate: ['贊助作者', '赞助作者', 'Donate'],
@@ -103,64 +71,28 @@
       checkbox_min_size: ['最小尺寸限制', '最小尺寸限制', 'Minimum Size'],
       checkbox_hide_button: ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons'],
       checkbox_hide_dialog: ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window'],
-      input_hide_dialog: [
-        '隱藏間隔(秒)',
-        '隐藏间隔(秒)',
-        'Hide Window After(sec)',
-      ],
+      input_hide_dialog: ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(sec)'],
       color_background_color: ['背景顏色', '背景颜色', 'Color'],
-      range_background_transparency: [
-        '背景透明度',
-        '背景透明度',
-        'Transparency',
-      ],
+      range_background_transparency: ['背景透明度', '背景透明度', 'Transparency'],
 
       select_font_weight: ['文字粗細', '文字粗细', 'Font Weight'],
       input_font_size: ['文字大小(rem)', '文字大小(rem)', 'Font Size(rem)'],
-      input_dialog_spacing: [
-        '對話框間隔(rem)',
-        '对话框间隔(rem)',
-        'Spacing(rem)',
-      ],
-      input_dialog_radius: [
-        '對話框圓角(rem)',
-        '对话框圆角(rem)',
-        'Radius(rem)',
-      ],
+      input_dialog_spacing: ['對話框間隔(rem)', '对话框间隔(rem)', 'Spacing(rem)'],
+      input_dialog_radius: ['對話框圓角(rem)', '对话框圆角(rem)', 'Radius(rem)'],
       color_dialog_color: ['對話框顏色', '对话框颜色', 'Color'],
-      range_dialog_transparency: [
-        '對話框透明度',
-        '对话框透明度',
-        'Transparency',
-      ],
+      range_dialog_transparency: ['對話框透明度', '对话框透明度', 'Transparency'],
 
-      checkbox_auto_change: [
-        '翻譯失敗時切換翻譯引擎',
-        '翻译失败时切换翻译引擎',
-        'Change Engine When Failed',
-      ],
-      checkbox_text_fix: ['名詞校正', '名词校正', 'Translate Correction'],
-      checkbox_skip_system: [
-        '忽略常見系統訊息',
-        '忽略常见系统讯息',
-        'Ignore System Message',
-      ],
-      checkbox_skip_chinese: [
-        '忽略漢化字幕',
-        '忽略汉化字幕',
-        'Ignore Chinese Text',
-      ],
+      checkbox_auto_change: ['翻譯失敗時切換翻譯引擎', '翻译失败时切换翻译引擎', 'Change Engine When Failed'],
+      checkbox_text_fix: ['使用Tataru翻譯', '使用Tataru翻译', 'Use Tataru'],
+      checkbox_skip_system: ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
+      checkbox_skip_chinese: ['忽略漢化字幕', '忽略汉化字幕', 'Ignore Chinese Text'],
       select_engine: ['翻譯引擎', '翻译引擎', 'Engine'],
       select_from: ['遊戲語言', '游戏语言', 'Game Language'],
       select_from_player: ['玩家頻道', '玩家频道', 'Player Language'],
       select_to: ['翻譯語言', '翻译语言', 'Target Language'],
 
       'select-app-language': ['語言', '语言', 'Language'],
-      checkbox_auto_download_json: [
-        '啟動時下載翻譯對照表',
-        '启动时下载翻译对照表',
-        'Download Table at Start',
-      ],
+      checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table at Start'],
 
       // capture
       checkbox_split: ['換行切割', '换行切割', 'New Line'],
@@ -215,11 +147,7 @@
       none: ['無', '无', 'None'],
     },
     p: {
-      'p-google-vision': [
-        'Google Vision設定',
-        'Google Vision设定',
-        'Google Vision',
-      ],
+      'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
       'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
     },
     span: {
@@ -231,11 +159,7 @@
       span_read_log: ['讀取對話紀錄', '读取对话纪录', 'View Chat Logs'],
 
       // config
-      span_channel_comment: [
-        '使用滑鼠滾輪滾動頻道清單',
-        '使用鼠标滚轮滚动频道清单',
-        'Use Mouse To Sroll The Page',
-      ],
+      span_channel_comment: ['使用滑鼠滾輪滾動頻道清單', '使用鼠标滚轮滚动频道清单', 'Use Mouse To Sroll The Page'],
       span_author: [
         '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
         '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
@@ -250,11 +174,7 @@
     },
     textarea: {
       // dictionary
-      textarea_original_text: [
-        '輸入要翻譯的文字',
-        '输入要翻译的文字',
-        'Input Your Text Here',
-      ],
+      // textarea_original_text: ['輸入要翻譯的文字', '输入要翻译的文字', 'Input Your Text Here'],
 
       // edit
       textarea_before: ['原文', '原文', 'Before'],
@@ -289,15 +209,10 @@
       const elementList = document.getElementsByTagName(nameList[0]);
 
       if (elementList.length > 0) {
-        for (
-          let elementIndex = 0;
-          elementIndex < elementList.length;
-          elementIndex++
-        ) {
+        for (let elementIndex = 0; elementIndex < elementList.length; elementIndex++) {
           try {
             const element = elementList.item(elementIndex);
-            const elementText =
-              elementTextList[nameList[0]][element.getAttribute(nameList[1])];
+            const elementText = elementTextList[nameList[0]][element.getAttribute(nameList[1])];
             if (elementText.length > 0) {
               element[nameList[2]] = elementText[textIndex];
             }

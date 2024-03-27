@@ -49,9 +49,7 @@ function updateDialog(id, name, text, dialogData = null, scroll = true) {
   // add dialog
   windowModule.sendIndex('add-dialog', {
     id,
-    innerHTML: `<span>${name}</span>${
-      name !== '' ? '：<br />' : ''
-    }<span>${text}</span>`,
+    innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
     style: { display: 'block' },
     scroll: scroll,
   });
@@ -162,10 +160,7 @@ function saveLog(id, name, text, dialogData) {
     translation: dialogData.translation,
   };
 
-  const filePath = fileModule.getPath(
-    logLocation,
-    createLogName(item.timestamp)
-  );
+  const filePath = fileModule.getPath(logLocation, createLogName(item.timestamp));
   let log = {};
 
   // read/create log file
@@ -185,10 +180,7 @@ function saveLog(id, name, text, dialogData) {
     dialogData.audioText !== '' &&
     dialogData.translation.autoPlay
   ) {
-    const urlList = googleTTS.getAudioUrl(
-      dialogData.audioText,
-      dialogData.translation.from
-    );
+    const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
     windowModule.sendIndex('add-audio', urlList);
   }
 
@@ -205,9 +197,7 @@ function saveLog(id, name, text, dialogData) {
 
 // create log name
 function createLogName(milliseconds = null) {
-  const date = Number.isInteger(milliseconds)
-    ? new Date(milliseconds)
-    : new Date();
+  const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
 
   return (
     date.getFullYear().toString() +

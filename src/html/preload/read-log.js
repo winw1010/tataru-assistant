@@ -20,9 +20,7 @@ function setIPC() {
   // change UI text
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
-    document.dispatchEvent(
-      new CustomEvent('change-ui-text', { detail: config })
-    );
+    document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 }
 
@@ -68,10 +66,7 @@ function readLogList() {
       let innerHTML = '';
       for (let index = 0; index < logs.length; index++) {
         const log = logs[index];
-        innerHTML += `<option value="${log}">${log?.replace(
-          '.json',
-          ''
-        )}</option>`;
+        innerHTML += `<option value="${log}">${log?.replace('.json', '')}</option>`;
       }
 
       select.innerHTML = innerHTML;

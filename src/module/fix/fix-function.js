@@ -2,10 +2,7 @@
 
 // skip check
 function skipCheck(dialogData, ignoreArray = []) {
-  return (
-    ['0039', '0839'].includes(dialogData.code) &&
-    canIgnore(dialogData.text, ignoreArray)
-  );
+  return ['0039', '0839'].includes(dialogData.code) && canIgnore(dialogData.text, ignoreArray);
 }
 
 // replace text
@@ -42,8 +39,7 @@ function replaceWord(text = '', table = []) {
   }
 
   const tableCode = table.map((x) => x[0]);
-  let target =
-    text.match(/[A-Z]+/gi)?.sort((a, b) => b.length - a.length) || [];
+  let target = text.match(/[A-Z]+/gi)?.sort((a, b) => b.length - a.length) || [];
   let wordTable = [];
 
   for (let index = 0; index < target.length; index++) {
@@ -101,12 +97,7 @@ function canIgnore(text = '', ignoreArray = []) {
 }
 
 // includes array item
-function includesArrayItem(
-  text = '',
-  array = [],
-  searchIndex = 0,
-  useRegex = false
-) {
+function includesArrayItem(text = '', array = [], searchIndex = 0, useRegex = false) {
   // search array
   let searchArray = array;
 
@@ -127,10 +118,7 @@ function includesArrayItem(
 
   if (useRegex) {
     for (let index = 0; index < searchArray.length; index++) {
-      const element = searchArray[index].replaceAll(
-        /[.*+?^${}()|[\]\\]/g,
-        '\\$&'
-      );
+      const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
       if (new RegExp(element, 'gi').test(text)) {
         text = text.replaceAll(element, '');
         temp.push(array[index]);
@@ -170,10 +158,7 @@ function sameAsArrayItem(text = '', array = [], searchIndex = 0) {
 
   // match
   for (let index = 0; index < searchArray.length; index++) {
-    const element = searchArray[index].replaceAll(
-      /[.*+?^${}()|[\]\\]/g,
-      '\\$&'
-    );
+    const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     if (new RegExp('^' + element + '$', 'gi').test(text)) {
       target = array[index];

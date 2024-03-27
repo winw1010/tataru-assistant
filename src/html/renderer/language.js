@@ -174,7 +174,7 @@
     },
     textarea: {
       // dictionary
-      textarea_original_text: ['輸入要翻譯的文字', '输入要翻译的文字', 'Input Your Text Here'],
+      // textarea_original_text: ['輸入要翻譯的文字', '输入要翻译的文字', 'Input Your Text Here'],
 
       // edit
       textarea_before: ['原文', '原文', 'Before'],

@@ -125,6 +125,7 @@ async function nameFix(name = '', translation = {}) {
       fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine) ||
       fixFunction.sameAsArrayItem(katakanaName + '##', chArray.combine);
 
+    // save translated katakanaName if not found
     if (!sameCheck) {
       translatedKatakanaName = createName(katakanaName);
 

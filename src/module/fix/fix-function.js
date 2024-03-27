@@ -15,12 +15,11 @@ function replaceText(text = '', array = [], useRegExp = false) {
   }
 
   if (useRegExp) {
-    const target = includesArrayItem(text, array, srcIndex, true);
-    if (target) {
-      for (let index = 0; index < target.length; index++) {
-        const element = target[index];
-        text = text.replaceAll(element[srcIndex], element[rplIndex]);
-      }
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      const name0 = new RegExp(element[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      const name1 = element[1];
+      text = text.replaceAll(name0, name1);
     }
   } else {
     for (let index = 0; index < array.length; index++) {

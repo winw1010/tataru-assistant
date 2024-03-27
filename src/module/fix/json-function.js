@@ -215,6 +215,7 @@ function combineArrayWithTemp(temp = [], ...args) {
       // delete element from combine
       if (combineIndex >= 0) {
         combine.splice(combineIndex, 1);
+        combine0.splice(combineIndex, 1);
       }
     }
   }

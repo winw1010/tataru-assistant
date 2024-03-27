@@ -192,23 +192,18 @@ function combineArrayWithTemp(temp = [], ...args) {
   // search same name in temp and add its index to delete list
   const combine0 = combine.map((x) => x[0]);
   temp.forEach((tempElement, tempIndex) => {
-    const targetIndex1 = combine0.indexOf(tempElement[0]);
-    const targetIndex2 = combine0.indexOf(tempElement[0] + '#');
+    const targetIndex = Math.max(combine0.indexOf(tempElement[0]) || combine0.indexOf(tempElement[0] + '#'));
 
     // add index to delete list
     if (tempElement[2] === 'temp') {
       // add to delete list(temp)
-      if (targetIndex1 >= 0 || targetIndex2 >= 0) {
+      if (targetIndex >= 0) {
         if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
       }
     } else {
       // add to delete list(combine)
-      if (targetIndex1 >= 0) {
-        if (!combineDeleteIndexList.includes(targetIndex1)) combineDeleteIndexList.push(targetIndex1);
-      }
-
-      if (targetIndex2 >= 0) {
-        if (!combineDeleteIndexList.includes(targetIndex2)) combineDeleteIndexList.push(targetIndex2);
+      if (targetIndex >= 0) {
+        if (!combineDeleteIndexList.includes(targetIndex)) combineDeleteIndexList.push(targetIndex);
       }
     }
 

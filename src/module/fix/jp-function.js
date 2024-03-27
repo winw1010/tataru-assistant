@@ -11,14 +11,15 @@ const hiragana = getHiraganaString();
 const katakana = getKatakanaString();
 
 // reg
-const noKatakana1 = '(?<![ァ-ヺ])';
-const noKatakana2 = '(?![ァ-ヺ])';
+const regBrackets = /「|『|』|」/;
 const regAllKatakana = /^[ァ-ヺー・＝]+$/;
-const regFirstKatakana = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
-const regLastKatakana = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
+const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+const noKatakanaFront = '(?<![ァ-ヺ])';
+const noKatakanaBack = '(?![ァ-ヺ])';
 
 // jp text function
-function replaceTextByCode2(text = '', array = [], textType = 0) {
+function replaceTextByCode(text = '', array = [], textType = 0) {
   if (text === '' || !Array.isArray(array) || !array.length > 0) {
     return {
       text: text,
@@ -26,75 +27,124 @@ function replaceTextByCode2(text = '', array = [], textType = 0) {
     };
   }
 
-  const titleArray = jpJson.getJpArray().title;
-  const srcIndex = 0;
-  const rplIndex = 1;
-  let codeIndex = 0;
-  let codeString = 'BCFGHJLMNPQRSTVWXYZ';
   const matchedWords = [];
 
-  // get matched words
+  // determine text type
   if (textType === 2) {
+    // find matched words
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
+      const name = element[0];
+      const translatedName = element[1];
 
-      if (element[0].length < 4) {
+      if (text.includes(`「${name}」`)) {
+        matchedWords.push([`「${name}」`, `「${translatedName}」`]);
+      }
+
+      if (text.includes(`『${name}』`)) {
+        matchedWords.push([`『${name}』`, `『${translatedName}』`]);
+      }
+
+      if (name.length < 3) {
         continue;
       }
 
-      if (text.includes(element[0])) {
+      if (text.includes(name)) {
         matchedWords.push(element);
       }
     }
   } else {
-    let temp = [];
+    // find temp array
+    let temp = findTempArray(text, array);
 
-    for (let index = 0; index < array.length; index++) {
-      const element = array[index];
-
-      if (text.includes(element[0])) {
-        temp.push(element);
-      }
-    }
-
+    // find match words from temp array
     for (let index = 0; index < temp.length; index++) {
       const element = temp[index];
+      const name = element[0];
 
-      if (regAllKatakana.test(text)) {
-        const hiraText = convertKana(text, 'hira');
-        const matchReg1 = new RegExp(noKatakana1 + text + noKatakana2, 'gi');
-        const matchReg2 = new RegExp(noKatakana1 + hiraText + noKatakana2, 'gi');
-        const matchReg3 = new RegExp(noKatakana1 + hiraFix(hiraText) + noKatakana2, 'gi');
-
-        if (matchReg1.test(text)) {
-          matchedWords.push(element);
-        }
-
-        if (matchReg2.test(text)) {
-          matchedWords.push([hiraText, element[1]]);
-        }
-
-        if (matchReg3.test(text)) {
-          matchedWords.push([hiraFix(hiraText), element[1]]);
-        }
-      } else if (regFirstKatakana.test(text)) {
-        const matchReg = new RegExp(noKatakana1 + text, 'gi');
+      if (regBrackets.test(name)) {
+        matchedWords.push(element);
+      } else if (regAllKatakana.test(name)) {
+        const matchReg = new RegExp(noKatakanaFront + name + noKatakanaBack, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else if (regLastKatakana.test(text)) {
-        const matchReg = new RegExp(text + noKatakana2, 'gi');
+      } else if (regKatakanaFront.test(name)) {
+        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKatakanaBack.test(name)) {
+        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
       } else {
-        const matchReg = new RegExp(text, 'gi');
-        if (matchReg.test(text)) {
+        if (text.includes(name)) {
           matchedWords.push(element);
         }
       }
     }
   }
+
+  const result = findTable(text, matchedWords);
+  console.log('Result:', result);
+  return result;
+}
+
+function findTempArray(text = '', array = []) {
+  let temp = [];
+
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    const name = element[0];
+    const translatedName = element[1];
+    const hiraName = convertKana(element[0], 'hira');
+    const hiraNameFix = hiraFix(hiraName);
+
+    if (text.includes(name)) {
+      temp.push([name, translatedName]);
+    }
+
+    if (text.includes(`「${name}」`)) {
+      temp.push([`「${name}」`, `「${translatedName}」`]);
+    }
+
+    if (text.includes(`『${name}』`)) {
+      temp.push([`『${name}』`, `『${translatedName}』`]);
+    }
+
+    if (name.length < 3 || !regAllKatakana.test(name)) {
+      continue;
+    }
+
+    if (text.includes(`「${hiraName}」`)) {
+      temp.push([`「${hiraName}」`, `「${translatedName}」`]);
+    }
+
+    if (text.includes(`『${hiraName}』`)) {
+      temp.push([`『${hiraName}』`, `『${translatedName}』`]);
+    }
+
+    if (text.includes(`「${hiraNameFix}」`)) {
+      temp.push([`「${hiraNameFix}」`, `「${translatedName}」`]);
+    }
+
+    if (text.includes(`『${hiraNameFix}』`)) {
+      temp.push([`『${hiraNameFix}』`, `『${translatedName}』`]);
+    }
+  }
+
+  return temp.sort((a, b) => b[0].length - a[0].length);
+}
+
+function findTable(text, matchedWords) {
+  const titleArray = jpJson.getJpArray().title;
+  const srcIndex = 0;
+  const rplIndex = 1;
+  let codeIndex = 0;
+  let codeString = 'BCFGHJLMNPQRSTVWXYZ';
+  let table = [];
 
   // clear code
   const characters = text.match(/[a-z]/gi);
@@ -103,20 +153,46 @@ function replaceTextByCode2(text = '', array = [], textType = 0) {
       codeString = codeString.replace(characters[index].toUpperCase(), '');
     }
   }
-}
 
-function getMatchReg(text = '') {
-  if (regAllKatakana.test(text)) {
-    return new RegExp(`(?<![ァ-ヺー・＝])${text}(?![ァ-ヺー・＝])`, 'gi');
-  } else if (regFirstKatakana.test(text)) {
-    return new RegExp(`(?<![ァ-ヺー・＝])${text}`, 'gi');
-  } else if (regLastKatakana.test(text)) {
-    return new RegExp(`${text}(?![ァ-ヺー・＝])`, 'gi');
-  } else {
-    return new RegExp(text, 'gi');
+  console.log('Remain Codes:', codeString);
+
+  // search and replace
+  for (let eleIndex = 0; eleIndex < matchedWords.length && codeIndex < codeString.length; eleIndex++) {
+    const element = matchedWords[eleIndex];
+
+    for (let fixIndex = 0; fixIndex < titleArray.length; fixIndex++) {
+      try {
+        const title = titleArray[fixIndex];
+        const sorceName = title[0][1] === 0 ? title[0][0] + element[srcIndex] : element[srcIndex] + title[0][0];
+        const replaceName = title[1][1] === 0 ? title[1][0] + element[rplIndex] : element[rplIndex] + title[1][0];
+
+        if (title[2]) {
+          const exceptionName = title[2][1] === 0 ? title[2][0] + element[srcIndex] : element[srcIndex] + title[2][0];
+          if (text.includes(sorceName) && !text.includes(exceptionName)) {
+            text = text.replaceAll(sorceName, codeString[codeIndex]);
+            table.push([codeString[codeIndex], replaceName]);
+            codeIndex++;
+          }
+        } else {
+          if (text.includes(sorceName)) {
+            text = text.replaceAll(sorceName, codeString[codeIndex]);
+            table.push([codeString[codeIndex], replaceName]);
+            codeIndex++;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
+
+  return {
+    text: text,
+    table: table,
+  };
 }
 
+/*
 function replaceTextByCode(text = '', array = [], textType = 0) {
   if (text === '' || !Array.isArray(array) || !array.length > 0) {
     return {
@@ -196,12 +272,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
   // reset temp text
   tempText = text;
-  /*
-  for (let index = 0; index < tempTable.length; index++) {
-      const element = tempTable[index];
-      tempText += element[1];
-  }
-  */
 
   // clear code
   const characters = tempText.match(/[a-z]/gi);
@@ -256,6 +326,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
   return result;
 }
+*/
 
 function specialReplace(text = '', array = []) {
   for (let index = 0; index < array.length; index++) {

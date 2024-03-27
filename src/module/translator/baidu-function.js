@@ -28,14 +28,7 @@ function getSign(t, r) {
         .concat(t.substr(Math.floor(a / 2) - 5, 10))
         .concat(t.substr(-10, 10)));
   } else {
-    for (
-      var s = t.split(/[\uD800-\uDBFF][\uDC00-\uDFFF]/),
-        c = 0,
-        u = s.length,
-        l = [];
-      c < u;
-      c++
-    )
+    for (var s = t.split(/[\uD800-\uDBFF][\uDC00-\uDFFF]/), c = 0, u = s.length, l = []; c < u; c++)
       '' !== s[c] &&
         l.push.apply(
           l,
@@ -43,10 +36,7 @@ function getSign(t, r) {
             if (Array.isArray(t)) return e(t);
           })((o = s[c].split(''))) ||
             (function (t) {
-              if (
-                ('undefined' != typeof Symbol && null != t[Symbol.iterator]) ||
-                null != t['@@iterator']
-              )
+              if (('undefined' != typeof Symbol && null != t[Symbol.iterator]) || null != t['@@iterator'])
                 return Array.from(t);
             })(o) ||
             (function (t, n) {
@@ -57,8 +47,7 @@ function getSign(t, r) {
                   'Object' === r && t.constructor && (r = t.constructor.name),
                   'Map' === r || 'Set' === r
                     ? Array.from(t)
-                    : 'Arguments' === r ||
-                      /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)
+                    : 'Arguments' === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)
                     ? e(t, n)
                     : void 0
                 );
@@ -79,10 +68,7 @@ function getSign(t, r) {
         l.slice(-10).join(''));
   }
   for (
-    var p = ''
-        .concat(String.fromCharCode(103))
-        .concat(String.fromCharCode(116))
-        .concat(String.fromCharCode(107)),
+    var p = ''.concat(String.fromCharCode(103)).concat(String.fromCharCode(116)).concat(String.fromCharCode(107)),
       f = (null !== r ? r : (r = window[p] || '') || '').split('.'),
       h = Number(f[0]) || 0,
       m = Number(f[1]) || 0,
@@ -97,9 +83,7 @@ function getSign(t, r) {
       ? (g[v++] = w)
       : (w < 2048
           ? (g[v++] = (w >> 6) | 192)
-          : (55296 == (64512 & w) &&
-            y + 1 < t.length &&
-            56320 == (64512 & t.charCodeAt(y + 1))
+          : (55296 == (64512 & w) && y + 1 < t.length && 56320 == (64512 & t.charCodeAt(y + 1))
               ? ((w = 65536 + ((1023 & w) << 10) + (1023 & t.charCodeAt(++y))),
                 (g[v++] = (w >> 18) | 240),
                 (g[v++] = ((w >> 12) & 63) | 128))
@@ -110,27 +94,12 @@ function getSign(t, r) {
   for (
     var b = h,
       x =
-        ''
-          .concat(String.fromCharCode(43))
-          .concat(String.fromCharCode(45))
-          .concat(String.fromCharCode(97)) +
-        ''
-          .concat(String.fromCharCode(94))
-          .concat(String.fromCharCode(43))
-          .concat(String.fromCharCode(54)),
+        ''.concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(97)) +
+        ''.concat(String.fromCharCode(94)).concat(String.fromCharCode(43)).concat(String.fromCharCode(54)),
       k =
-        ''
-          .concat(String.fromCharCode(43))
-          .concat(String.fromCharCode(45))
-          .concat(String.fromCharCode(51)) +
-        ''
-          .concat(String.fromCharCode(94))
-          .concat(String.fromCharCode(43))
-          .concat(String.fromCharCode(98)) +
-        ''
-          .concat(String.fromCharCode(43))
-          .concat(String.fromCharCode(45))
-          .concat(String.fromCharCode(102)),
+        ''.concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(51)) +
+        ''.concat(String.fromCharCode(94)).concat(String.fromCharCode(43)).concat(String.fromCharCode(98)) +
+        ''.concat(String.fromCharCode(43)).concat(String.fromCharCode(45)).concat(String.fromCharCode(102)),
       _ = 0;
     _ < g.length;
     _++

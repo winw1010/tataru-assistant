@@ -16,10 +16,8 @@ const r = 'fanyideskweb',
   u = 'fanyi.web';
 
 // decode
-const decodeKey =
-  'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl';
-const decodeIv =
-  'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4';
+const decodeKey = 'ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl';
+const decodeIv = 'ydsecret://query/iv/C@lZe2YzHtZ2CYgaXKSVfsb7Y4QWHjITPPZ0nQp87fBeJ!Iv6v^6fvi2WN@bYpJ4';
 
 // create user id
 function createUserID() {
@@ -48,9 +46,7 @@ function toMD5Buffer(text) {
 
 // create sign
 function createSign(currentTime, key) {
-  return toMD5String(
-    `client=${r}&mysticTime=${currentTime}&product=${i}&key=${key}`
-  );
+  return toMD5String(`client=${r}&mysticTime=${currentTime}&product=${i}&key=${key}`);
 }
 
 // create params

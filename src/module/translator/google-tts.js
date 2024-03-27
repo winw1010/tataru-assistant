@@ -27,9 +27,7 @@ function getAudioUrl(text = '', from = 'Japanese') {
       const params =
         `ie=UTF-8&q=${text}&tl=${languageCode[from]}&total=1&idx=0` +
         `&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=1`;
-      urlArray.push(
-        `https://translate.google.com/translate_tts?${encodeURI(params)}`
-      );
+      urlArray.push(`https://translate.google.com/translate_tts?${encodeURI(params)}`);
     }
   }
 

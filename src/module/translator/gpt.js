@@ -15,11 +15,7 @@ async function exec(option) {
   }
 }
 
-async function translate(
-  sentence = '',
-  source = 'Japanese',
-  target = 'Chinese'
-) {
+async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
   sentence = sentence.replace(/\r|\n/g, '');
 
   const config = configModule.getConfig();

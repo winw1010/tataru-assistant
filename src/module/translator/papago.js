@@ -118,9 +118,10 @@ async function setAuthentication() {
 // translate
 async function translate(cookie, authentication, option) {
   const currentTime = new Date().getTime();
-  const authorization = `PPG ${
-    authentication.deviceId
-  }:${papagoFunction.generateSignature(authentication, currentTime)}`;
+  const authorization = `PPG ${authentication.deviceId}:${papagoFunction.generateSignature(
+    authentication,
+    currentTime
+  )}`;
 
   const response = await requestModule.post(
     {

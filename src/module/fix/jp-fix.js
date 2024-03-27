@@ -109,12 +109,64 @@ async function nameFix(name = '', translation = {}) {
     fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
     fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
+  // return if found
   if (target) {
     return target[1];
   }
 
   //const translatedName = translateName(name, getKatakanaName(name), translation);
   let translatedName = '';
+  let katakanaName = getKatakanaName(name);
+
+  if (katakanaName.length > 0) {
+    let translatedKatakanaName = '';
+    const sameCheck =
+      fixFunction.sameAsArrayItem(katakanaName, chArray.combine) ||
+      fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine) ||
+      fixFunction.sameAsArrayItem(katakanaName + '##', chArray.combine);
+
+    if (!sameCheck) {
+      translatedKatakanaName = createName(katakanaName);
+
+      if (katakanaName.length < 3) katakanaName += '#';
+
+      // add to combine
+      chArray.combine.push([katakanaName, translatedKatakanaName]);
+      chArray.combinejsonFunction.sortArray(chArray.combine);
+
+      // add to chTemp
+      chArray.chTemp.push([katakanaName, translatedKatakanaName]);
+      jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+    }
+  }
+
+  // get replace result
+  const replaceResult = jpFunction.replaceTextByCode(name, chArray.combine);
+
+  // skip check
+  if (!jpFunction.canSkipTranslation(replaceResult.text)) {
+    // translate
+    translatedName = await translateModule.translate(replaceResult.text, translation, replaceResult.table);
+  }
+
+  // after translation
+  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+
+  // table
+  translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
+
+  // save translated name
+  if (name != katakanaName) {
+    if (name.length < 3) name += '#';
+
+    // add to combine
+    chArray.combine.push([name, translatedName]);
+    chArray.combinejsonFunction.sortArray(chArray.combine);
+
+    // add to chTemp
+    chArray.chTemp.push([name, translatedName]);
+    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+  }
 
   return translatedName;
 }
@@ -253,79 +305,11 @@ async function textFixGPT(name = '', text = '', translation = {}) {
 
 // get katakana name
 function getKatakanaName(name = '') {
-  if (/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi.test(name)) {
-    // katakana + not katakana
-    return name.replace(/^([ァ-ヺー・＝]+)([^ァ-ヺー・＝]+)？*$/gi, '$1');
-  } else if (/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi.test(name)) {
-    // not katakana + katakana
-    return name.replace(/^([^ァ-ヺー・＝]+)([ァ-ヺー・＝]+)？*$/gi, '$2');
-  } else if (/^([ァ-ヺー・＝]+)？*$/gi.test(name)) {
-    // all katakana
-    return name;
+  if (jpFunction.isKatakanaName(name)) {
+    return /[ァ-ヺー・＝]+/.exec(name)[0];
   } else {
     // other
     return '';
-  }
-}
-
-// translate name
-async function translateName(name = '', katakanaName = '', translation = {}) {
-  // same check
-  const sameKatakanaName1 = fixFunction.sameAsArrayItem(katakanaName, chArray.combine);
-  const sameKatakanaName2 = fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine);
-
-  // translate katakana name
-  const translatedKatakanaName = sameKatakanaName1
-    ? sameKatakanaName1[1]
-    : sameKatakanaName2
-    ? sameKatakanaName2[1]
-    : createName(katakanaName);
-
-  if (name === katakanaName) {
-    // all katakana => use translatedKatakanaName
-
-    // save name
-    saveName(name, translatedKatakanaName);
-
-    // return translatedKatakanaName
-    return translatedKatakanaName;
-  } else {
-    // not all katakana => use standard
-
-    // translated name
-    let translatedName = '';
-
-    // code
-    const codeResult =
-      katakanaName !== '' && katakanaName.length > 2
-        ? jpFunction.replaceTextByCode(
-            name,
-            jsonFunction.combineArray(chArray.combine, [[katakanaName, translatedKatakanaName]])
-          )
-        : jpFunction.replaceTextByCode(name, chArray.combine);
-
-    // translated name
-    translatedName = codeResult.text;
-
-    // skip check
-    if (!jpFunction.canSkipTranslation(translatedName)) {
-      // translate
-      translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
-    }
-
-    // after translation
-    translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
-
-    // mark fix
-    translatedName = fixFunction.markFix(translatedName, true);
-
-    // table
-    translatedName = fixFunction.replaceText(translatedName, codeResult.table);
-
-    // save name
-    saveName(name, translatedName, katakanaName, translatedKatakanaName);
-
-    return translatedName;
   }
 }
 
@@ -335,42 +319,11 @@ function createName(katakanaName = '') {
   tempName = tempName.replace(/^ルル/, '路路');
   tempName = tempName.replace(/^ル/, '路');
   tempName = tempName.replace(/^ア(?!イ|ウ|ン)/, '阿');
-
   return fixFunction.replaceText(tempName, chArray.chName);
 }
 
 // create east name
 //function createEastName(katakanaName = '') {}
-
-// save name
-function saveName(name = '', translatedName = '', katakanaName = '', translatedKatakanaName = '') {
-  if (name === translatedName) {
-    return;
-  }
-
-  chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
-
-  if (name.length > 0 && name.length < 3) {
-    chArray.chTemp.push([name + '#', translatedName, 'temp']);
-  } else if (name.length > 2) {
-    chArray.chTemp.push([name, translatedName, 'temp']);
-  }
-
-  if (katakanaName.length > 2 && !fixFunction.includesArrayItem(katakanaName, chArray.combine)) {
-    /*
-    if (katakanaName.length < 3 &&name===katakanaName) {
-        chArray.chTemp.push([katakanaName + '#', translatedKatakanaName, 'temp']);
-    } else
-    */
-    if (name.length > 2) {
-      chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp']);
-    }
-  }
-
-  // write
-  chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-  jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
-}
 
 // special fix 1
 function specialFix1(name = '', text = '') {

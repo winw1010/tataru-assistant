@@ -203,18 +203,14 @@ function saveName(name = '', translatedName = '') {
     return;
   }
 
-  chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
+  if (name.length < 3) name += '#';
 
-  if (name.length < 5) {
-    chArray.chTemp.push([name + '#', translatedName, 'temp']);
-  } else {
-    chArray.chTemp.push([name, translatedName, 'temp']);
-  }
+  // add to combine
+  chArray.combine.push([name, translatedName]);
+  chArray.combine = jsonFunction.sortArray(chArray.combine);
 
-  // set combine
-  chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
-
-  // write
+  // add to chTemp
+  chArray.chTemp.push([name, translatedName, 'temp']);
   jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
 }
 

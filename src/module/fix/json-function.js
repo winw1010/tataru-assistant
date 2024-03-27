@@ -202,7 +202,7 @@ function combineArrayWithTemp(temp = [], ...args) {
     // delete element
     if (
       tempType === 'temp' ||
-      (tempType !== '' && regNotKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
+      (tempType !== '' && tempName.length < 3 && regNotKanji.test(tempName) && !tempName.length.includes('#'))
     ) {
       // delete element from temp
       snapTemp.splice(tempIndex, 1);

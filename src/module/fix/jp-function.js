@@ -13,6 +13,8 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 const regAllKatakana = /^[ァ-ヺー・＝]+$/;
+const regKatakanaName =
+  /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
 const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
 const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
 const noKatakanaFront = '(?<![ァ-ヺ])';
@@ -409,6 +411,10 @@ function genderFix(originalText = '', translatedText = '') {
   return translatedText;
 }
 
+function isKatakanaName(name = '') {
+  return regKatakanaName.test(name);
+}
+
 function isChinese(text = '', translation = {}) {
   return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
 }
@@ -433,5 +439,6 @@ module.exports = {
   reverseKana,
   canSkipTranslation,
   genderFix,
+  isKatakanaName,
   isChinese,
 };

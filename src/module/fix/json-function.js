@@ -25,13 +25,7 @@ function getTempTextPath(...args) {
 }
 
 // read text
-function readText(
-  path = '',
-  sort = true,
-  map = false,
-  srcIndex = 0,
-  rplIndex = 1
-) {
+function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 1) {
   try {
     let array = [];
     let data = fileModule.read(path, 'json');
@@ -66,20 +60,12 @@ function readText(
 
 // read overwrite EN
 function readOverwriteEN(rplIndex = 1) {
-  return readMultiText(
-    fileModule.getRootPath(pathList.ch, 'overwrite-en'),
-    0,
-    rplIndex
-  );
+  return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-en'), 0, rplIndex);
 }
 
 // read overwrite JP
 function readOverwriteJP(rplIndex = 1) {
-  return readMultiText(
-    fileModule.getRootPath(pathList.ch, 'overwrite-jp'),
-    0,
-    rplIndex
-  );
+  return readMultiText(fileModule.getRootPath(pathList.ch, 'overwrite-jp'), 0, rplIndex);
 }
 
 // read subtitle EN
@@ -94,11 +80,7 @@ function readSubtitleJP() {
 
 // read main
 function readMain(srcIndex = 0, rplIndex = 1) {
-  return readMultiText(
-    fileModule.getRootPath(pathList.main),
-    srcIndex,
-    rplIndex
-  );
+  return readMultiText(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
 }
 
 // read multi texts
@@ -110,15 +92,7 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
     if (fileList.length > 0) {
       fileList.forEach((value) => {
         if (value !== 'hidden.json') {
-          array = array.concat(
-            readText(
-              fileModule.getPath(filePath, value),
-              false,
-              true,
-              srcIndex,
-              rplIndex
-            )
-          );
+          array = array.concat(readText(fileModule.getPath(filePath, value), false, true, srcIndex, rplIndex));
         }
       });
     }
@@ -136,7 +110,7 @@ function readTemp(name = '', sort = true) {
 }
 
 // write temp
-function writeTemp(name = '', data = '') {
+function writeTemp(name = '', data = []) {
   fileModule.write(getTempTextPath(name), data, 'json');
 }
 
@@ -164,10 +138,7 @@ function clearArray(array = []) {
     for (let index = array.length - 1; index >= 0; index--) {
       const element = array[index];
 
-      if (
-        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element[0]) ||
-        /(\/\/comment)|(^N\/A$)/gi.test(element[1])
-      ) {
+      if (/(\/\/comment)|(^N\/A$)|(^$)/gi.test(element[0]) || /(\/\/comment)|(^N\/A$)/gi.test(element[1])) {
         array.splice(index, 1);
       }
     }
@@ -228,30 +199,23 @@ function combineArrayWithTemp(temp = [], ...args) {
     if (tempElement[2] === 'temp') {
       // add to delete list(temp)
       if (targetIndex1 >= 0 || targetIndex2 >= 0) {
-        if (!tempDeleteIndexList.includes(tempIndex))
-          tempDeleteIndexList.push(tempIndex);
+        if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
       }
     } else {
       // add to delete list(combine)
       if (targetIndex1 >= 0) {
-        if (!combineDeleteIndexList.includes(targetIndex1))
-          combineDeleteIndexList.push(targetIndex1);
+        if (!combineDeleteIndexList.includes(targetIndex1)) combineDeleteIndexList.push(targetIndex1);
       }
 
       if (targetIndex2 >= 0) {
-        if (!combineDeleteIndexList.includes(targetIndex2))
-          combineDeleteIndexList.push(targetIndex2);
+        if (!combineDeleteIndexList.includes(targetIndex2)) combineDeleteIndexList.push(targetIndex2);
       }
     }
 
     // delete name from temp which length < 3
     allWords.lastIndex = 0;
-    if (
-      tempElement[0].length === 1 ||
-      (tempElement[0].length < 3 && allWords.test(tempElement[0]))
-    ) {
-      if (tempElement[2] === 'temp' && !tempDeleteIndexList.includes(tempIndex))
-        tempDeleteIndexList.push(tempIndex);
+    if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allWords.test(tempElement[0]))) {
+      if (tempElement[2] === 'temp' && !tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
     }
   });
 
@@ -260,11 +224,7 @@ function combineArrayWithTemp(temp = [], ...args) {
     temp = deleteElements(temp, tempDeleteIndexList);
 
     // update temp
-    fileModule.write(
-      fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'),
-      temp,
-      'json'
-    );
+    fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp, 'json');
   }
 
   if (combineDeleteIndexList.length > 0) {

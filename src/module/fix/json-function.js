@@ -3,9 +3,6 @@
 // file module
 const fileModule = require('../system/file-module');
 
-// all words
-const allWords = /^[ぁ-ゖァ-ヺA-Z]+$/gi;
-
 // path list
 const pathList = {
   ch: 'src/data/text/ch',
@@ -13,6 +10,9 @@ const pathList = {
   jp: 'src/data/text/jp',
   main: 'src/data/text/main',
 };
+
+// kanji
+const regKanji = /\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF/;
 
 // get text path
 function getTextPath(dir = '', ...args) {
@@ -182,65 +182,43 @@ function combineArray(...args) {
 
 // combine array with temp
 function combineArrayWithTemp(temp = [], ...args) {
-  // ignore index
-  let tempDeleteIndexList = [];
-  let combineDeleteIndexList = [];
-
-  // combine array
-  let combine = combineArray(...args);
+  // array
+  const combine = combineArray(...args);
+  const combine0 = combine.map((x) => x[0]);
+  let combineTemp = [].concat(temp);
 
   // search same name in temp and add its index to delete list
-  const combine0 = combine.map((x) => x[0]);
-  temp.forEach((tempElement, tempIndex) => {
-    const targetIndex = Math.max(combine0.indexOf(tempElement[0]), combine0.indexOf(tempElement[0] + '#'));
+  for (let index = combineTemp.length - 1; index >= 0; index--) {
+    const tempElement = combineTemp[index];
+    const tempName = tempElement[0] || '';
+    const tempType = tempElement[2] || '';
+    const tempIndex = index;
+    const targetIndex = Math.max(combine0.indexOf(tempName), combine0.indexOf(tempName + '#'));
 
     // add index to delete list
-    if (tempElement[2] === 'temp') {
-      // add to delete list(temp)
+    if (
+      tempType === 'temp' ||
+      (tempType !== '' && !regKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
+    ) {
+      // delete temp
+      combineTemp.splice(tempIndex, 1);
+    } else if (tempType === 'temp-npc') {
+      // delete temp-npc
       if (targetIndex >= 0) {
-        if (!tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
+        combineTemp.splice(tempIndex, 1);
       }
     } else {
-      // add to delete list(combine)
+      // delete combine
       if (targetIndex >= 0) {
-        if (!combineDeleteIndexList.includes(targetIndex)) combineDeleteIndexList.push(targetIndex);
+        combine.splice(tempIndex, 1);
       }
     }
-
-    // delete name from temp which length < 3
-    allWords.lastIndex = 0;
-    if (tempElement[0].length === 1 || (tempElement[0].length < 3 && allWords.test(tempElement[0]))) {
-      if (tempElement[2] === 'temp' && !tempDeleteIndexList.includes(tempIndex)) tempDeleteIndexList.push(tempIndex);
-    }
-  });
-
-  if (tempDeleteIndexList.length > 0) {
-    // delete elements from temp
-    temp = deleteElements(temp, tempDeleteIndexList);
-
-    // update temp
-    fileModule.write(fileModule.getPath(fileModule.getUserDataPath('temp'), 'chTemp.json'), temp, 'json');
   }
 
-  if (combineDeleteIndexList.length > 0) {
-    // delete elements from combine
-    combine = deleteElements(combine, combineDeleteIndexList);
-  }
+  // sub combine temp
+  combineTemp = combineTemp.map((x) => [x[0], x[1]]);
 
-  // sub temp
-  temp = temp.map((x) => [x[0], x[1]]);
-
-  return combineArray(temp, combine);
-}
-
-// delete elements
-function deleteElements(array = [], deleteIndexList = []) {
-  deleteIndexList.sort((a, b) => b - a);
-  for (let index = 0; index < deleteIndexList.length; index++) {
-    const element = deleteIndexList[index];
-    array.splice(element, 1);
-  }
-  return array;
+  return combineArray(combineTemp, combine);
 }
 
 // check array

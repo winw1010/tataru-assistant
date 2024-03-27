@@ -193,7 +193,11 @@ function combineArrayWithTemp(temp = [], ...args) {
     const tempName = tempElement[0] || '';
     const tempType = tempElement[2] || '';
     const tempIndex = index;
-    const targetIndex = Math.max(combine0.indexOf(tempName), combine0.indexOf(tempName + '#'));
+    const combineIndex = Math.max(
+      combine0.indexOf(tempName),
+      combine0.indexOf(tempName + '#'),
+      combine0.indexOf(tempName + '##')
+    );
 
     // delete element
     if (
@@ -204,13 +208,13 @@ function combineArrayWithTemp(temp = [], ...args) {
       combineTemp.splice(tempIndex, 1);
     } else if (tempType === 'temp-npc') {
       // delete element from temp-npc
-      if (targetIndex >= 0) {
+      if (combineIndex >= 0) {
         combineTemp.splice(tempIndex, 1);
       }
     } else {
       // delete element from combine
-      if (targetIndex >= 0) {
-        combine.splice(targetIndex, 1);
+      if (combineIndex >= 0) {
+        combine.splice(combineIndex, 1);
       }
     }
   }

@@ -11,8 +11,8 @@ const pathList = {
   main: 'src/data/text/main',
 };
 
-// kanji
-const regKanji = /\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF/;
+// Not kanji
+const regNotKanji = /[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/;
 
 // get text path
 function getTextPath(dir = '', ...args) {
@@ -202,7 +202,7 @@ function combineArrayWithTemp(temp = [], ...args) {
     // delete element
     if (
       tempType === 'temp' ||
-      (tempType !== '' && !regKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
+      (tempType !== '' && regNotKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
     ) {
       // delete element from temp
       snapTemp.splice(tempIndex, 1);

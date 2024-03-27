@@ -21,8 +21,7 @@ function replaceTextByCode(text = '', array = []) {
   let codeIndex = 0;
   let codeString = 'BCFGHJLMNPQRSTVWXYZ';
   let tempText = text;
-  let tempTable =
-    fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
+  let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
   let table = [];
 
   // sort temp table
@@ -46,30 +45,17 @@ function replaceTextByCode(text = '', array = []) {
   }
 
   // search and replace
-  for (
-    let index = 0;
-    index < tempTable.length && codeIndex < codeString.length;
-    index++
-  ) {
+  for (let index = 0; index < tempTable.length && codeIndex < codeString.length; index++) {
     const element = tempTable[index];
-    const searchElement = element[srcIndex].replace(
-      /[.*+?^${}()|[\]\\]/g,
-      '\\$&'
-    );
+    const searchElement = element[srcIndex].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const searchElementPlural = getPluralType(searchElement);
     const searchElementAdjective = getAdjectiveType(searchElement);
     let searchReg = null;
 
     if (enJson.getEnArray().uncountable.includes(searchElement)) {
-      searchReg = new RegExp(
-        `\\b(${searchElement}|${searchElementAdjective})\\b`,
-        'gi'
-      );
+      searchReg = new RegExp(`\\b(${searchElement}|${searchElementAdjective})\\b`, 'gi');
     } else {
-      searchReg = new RegExp(
-        `\\b(${searchElementPlural}|${searchElement}|${searchElementAdjective})\\b`,
-        'gi'
-      );
+      searchReg = new RegExp(`\\b(${searchElementPlural}|${searchElement}|${searchElementAdjective})\\b`, 'gi');
     }
 
     if (searchReg.test(text)) {

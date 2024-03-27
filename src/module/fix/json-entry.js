@@ -34,8 +34,7 @@ const fileModule = require('../system/file-module');
 const sharlayanModule = require('../system/sharlayan-module');
 
 // table URL
-const tableURL =
-  'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
+const tableURL = 'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
 
 // table name
 const tableName = 'table.zip';

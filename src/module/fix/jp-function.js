@@ -138,7 +138,7 @@ function findTempArray(text = '', array = []) {
   return temp.sort((a, b) => b[0].length - a[0].length);
 }
 
-function findTable(text, matchedWords) {
+function findTable(text = '', matchedWords = []) {
   const titleArray = jpJson.getJpArray().title;
   const srcIndex = 0;
   const rplIndex = 1;

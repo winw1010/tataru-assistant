@@ -185,11 +185,11 @@ function combineArrayWithTemp(temp = [], ...args) {
   // array
   const combine = combineArray(...args);
   const combine0 = combine.map((x) => x[0]);
-  let combineTemp = [].concat(temp);
+  let snapTemp = [].concat(temp);
 
   // search same name in temp and add its index to delete list
-  for (let index = combineTemp.length - 1; index >= 0; index--) {
-    const tempElement = combineTemp[index];
+  for (let index = snapTemp.length - 1; index >= 0; index--) {
+    const tempElement = snapTemp[index];
     const tempName = tempElement[0] || '';
     const tempType = tempElement[2] || '';
     const tempIndex = index;
@@ -205,11 +205,11 @@ function combineArrayWithTemp(temp = [], ...args) {
       (tempType !== '' && !regKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
     ) {
       // delete element from temp
-      combineTemp.splice(tempIndex, 1);
+      snapTemp.splice(tempIndex, 1);
     } else if (tempType === 'temp-npc') {
       // delete element from temp-npc
       if (combineIndex >= 0) {
-        combineTemp.splice(tempIndex, 1);
+        snapTemp.splice(tempIndex, 1);
       }
     } else {
       // delete element from combine
@@ -219,10 +219,10 @@ function combineArrayWithTemp(temp = [], ...args) {
     }
   }
 
-  // sub combine temp
-  combineTemp = combineTemp.map((x) => [x[0], x[1]]);
+  // sub snap temp
+  snapTemp = snapTemp.map((x) => [x[0], x[1]]);
 
-  return combineArray(combineTemp, combine);
+  return combineArray(snapTemp, combine);
 }
 
 // check array

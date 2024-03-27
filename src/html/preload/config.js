@@ -200,8 +200,6 @@ function showConfig() {
   // window
   document.getElementById('checkbox_top').checked = config.indexWindow.alwaysOnTop;
 
-  document.getElementById('checkbox_focusable').checked = config.indexWindow.focusable;
-
   document.getElementById('checkbox_shortcut').checked = config.indexWindow.shortcut;
 
   document.getElementById('checkbox_min_size').checked = config.indexWindow.minSize;
@@ -279,8 +277,6 @@ function saveConfig() {
 
   // window
   config.indexWindow.alwaysOnTop = document.getElementById('checkbox_top').checked;
-
-  config.indexWindow.focusable = document.getElementById('checkbox_focusable').checked;
 
   config.indexWindow.shortcut = document.getElementById('checkbox_shortcut').checked;
 

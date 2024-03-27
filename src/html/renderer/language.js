@@ -66,7 +66,6 @@
     label: {
       // config
       checkbox_top: ['顯示在最上層', '显示在最上层', 'Always on Top'],
-      checkbox_focusable: ['可被選取', '可被选取', 'Selectable'],
       checkbox_shortcut: ['啟用快捷鍵', '启用快捷键', 'Shortcut'],
       checkbox_min_size: ['最小尺寸限制', '最小尺寸限制', 'Minimum Size'],
       checkbox_hide_button: ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons'],

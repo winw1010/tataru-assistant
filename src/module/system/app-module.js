@@ -89,22 +89,11 @@ function registerGlobalShortcut() {
     let config = configModule.getConfig();
     config.translation.getCutsceneText = !config.translation.getCutsceneText;
     configModule.setConfig(config);
-    windowModule.sendIndex(
-      'change-reccord-icon',
-      config.translation.getCutsceneText
-    );
+    windowModule.sendIndex('change-reccord-icon', config.translation.getCutsceneText);
   });
 
   globalShortcut.register('CommandOrControl+F9', () => {
-    exec(
-      `explorer "${fileModule.getRootPath(
-        'src',
-        'data',
-        'text',
-        'readme',
-        'index.html'
-      )}"`
-    );
+    exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'index.html')}"`);
   });
 
   globalShortcut.register('CommandOrControl+F10', () => {

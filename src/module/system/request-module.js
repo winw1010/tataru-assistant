@@ -34,14 +34,7 @@ function post(options, data = null, headers = {}, timeout = 15000) {
 }
 
 // net request
-async function netRequest(
-  method,
-  options,
-  data,
-  headers,
-  timeout,
-  returnType = 'data'
-) {
+async function netRequest(method, options, data, headers, timeout, returnType = 'data') {
   /*
     try {
         const axiosConfig = {
@@ -158,35 +151,27 @@ async function netRequest(
 }
 
 // get cookie
-async function getCookie(
-  options,
-  targetRegExp = /(?<target>.*)/,
-  headers = {},
-  timeout = 15000
-) {
+async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
   return new Promise((resolve) => {
-    netRequest('GET', options, null, headers, timeout, 'response').then(
-      (response) => {
-        //console.log('headers', response?.headers);
-        //console.log('set-cookie', response?.headers?.['set-cookie']);
-        const cookieString =
-          response?.headers?.['set-cookie']?.join('; ') || '';
+    netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
+      //console.log('headers', response?.headers);
+      //console.log('set-cookie', response?.headers?.['set-cookie']);
+      const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';
 
-        if (Array.isArray(targetRegExp)) {
-          const targetArray = [];
-          for (let index = 0; index < targetRegExp.length; index++) {
-            const regex = targetRegExp[index];
-            const target = regex.exec(cookieString)?.groups?.target;
-            if (target) {
-              targetArray.push(target);
-            }
+      if (Array.isArray(targetRegExp)) {
+        const targetArray = [];
+        for (let index = 0; index < targetRegExp.length; index++) {
+          const regex = targetRegExp[index];
+          const target = regex.exec(cookieString)?.groups?.target;
+          if (target) {
+            targetArray.push(target);
           }
-          resolve(targetArray.join('; '));
-        } else {
-          resolve(targetRegExp.exec(cookieString)?.groups?.target);
         }
+        resolve(targetArray.join('; '));
+      } else {
+        resolve(targetRegExp.exec(cookieString)?.groups?.target);
       }
-    );
+    });
   });
 }
 
@@ -220,9 +205,7 @@ function getExpiryDate() {
 // get sec-ch-ua
 function getSCU() {
   const scu = configModule.getConfig()?.system?.scu;
-  return scu
-    ? scu
-    : '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"';
+  return scu ? scu : '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"';
 }
 
 // get user agent

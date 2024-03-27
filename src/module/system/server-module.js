@@ -13,16 +13,7 @@ const engineModule = require('./engine-module');
 const fixEntryModule = require('../fix/fix-entry');
 
 // system channel
-const systemChannel = [
-  '0039',
-  '0839',
-  '0003',
-  '0038',
-  '003C',
-  '0048',
-  '001D',
-  '001C',
-];
+const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
 // text history
 let textHistory = {};
@@ -48,12 +39,7 @@ function dataProcess(data) {
 // check data
 function checkData(dialogData) {
   const names = Object.getOwnPropertyNames(dialogData);
-  return (
-    names.includes('type') &&
-    names.includes('code') &&
-    names.includes('name') &&
-    names.includes('text')
-  );
+  return names.includes('type') && names.includes('code') && names.includes('name') && names.includes('text');
 }
 
 // check repetition
@@ -81,11 +67,7 @@ function showData(dialogData) {
   if (checkRepetition(dialogData)) {
     console.log(dialogData.text);
 
-    if (
-      ['Waiting...', 'Start reading...', 'Stop reading...'].includes(
-        dialogData.text
-      )
-    ) {
+    if (['Waiting...', 'Start reading...', 'Stop reading...'].includes(dialogData.text)) {
       return;
     } else {
       dialogModule.showNotification(dialogData.text);
@@ -129,9 +111,7 @@ function translateData(dialogData) {
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {
-    dialogData.text = dialogData.text
-      .replace(/(?<=[…、。？！])\r/gi, '')
-      .replace(/\r/gi, '、');
+    dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
   } else {
     dialogData.text = dialogData.text.replace(/\r/gi, ' ');
   }

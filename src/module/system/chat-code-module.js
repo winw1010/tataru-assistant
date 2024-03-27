@@ -6,10 +6,7 @@
 const fileModule = require('./file-module');
 
 // chat code location
-const chatCodeLocation = fileModule.getUserDataPath(
-  'setting',
-  'chat-code.json'
-);
+const chatCodeLocation = fileModule.getUserDataPath('setting', 'chat-code.json');
 
 // default chat code
 const defaultChatCode = [

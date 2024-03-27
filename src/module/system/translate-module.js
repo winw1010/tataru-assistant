@@ -52,8 +52,7 @@ async function translate(text = '', translation = {}, table = []) {
       // check translated text
       if (result === '') {
         if (previousResult === '') {
-          result =
-            '無法取得翻譯文字，請確認您的網路連線，或暫時使用其他翻譯引擎';
+          result = '無法取得翻譯文字，請確認您的網路連線，或暫時使用其他翻譯引擎';
         } else {
           result = previousResult;
         }
@@ -82,12 +81,7 @@ async function translate2(text = '', translation = {}) {
 
   do {
     const engine = engineList.shift();
-    const option = engineModule.getTranslateOption(
-      engine,
-      translation.from,
-      translation.to,
-      text
-    );
+    const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
     result = await getTranslation(engine, option);
   } while (result === '' && autoChange && engineList.length > 0);
 
@@ -159,10 +153,7 @@ function zhConvert(text = '', languageTo = '') {
 function clearTable(text = '', table = []) {
   for (let index = table.length - 1; index >= 0; index--) {
     const code = table[index][0];
-    if (
-      !text.includes(code.toUpperCase()) &&
-      !text.includes(code.toLowerCase())
-    ) {
+    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
       table.splice(index, 1);
     }
   }
@@ -176,10 +167,7 @@ function checkTable(text = '', table = []) {
 
   for (let index = 0; index < table.length; index++) {
     const code = table[index][0];
-    if (
-      !text.includes(code.toUpperCase()) &&
-      !text.includes(code.toLowerCase())
-    ) {
+    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
       missingCodes.push(code);
     }
   }

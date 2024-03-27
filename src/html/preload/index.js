@@ -230,6 +230,11 @@ function setButton() {
     setAutoPlay(config.translation.autoPlay);
   };
 
+  // custom
+  document.getElementById('img_button_custom').onclick = () => {
+    ipcRenderer.send('create-window', 'custom');
+  };
+
   // read log
   document.getElementById('img_button_read_log').onclick = () => {
     ipcRenderer.send('create-window', 'read-log');

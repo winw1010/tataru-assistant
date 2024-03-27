@@ -234,6 +234,17 @@ function getWindowSize(windowName, config) {
       }
       break;
 
+    case 'custom':
+      {
+        const indexBounds = windowList['index'].getBounds();
+        bounds.width = parseInt(displayBounds.width * 0.42);
+        bounds.height = parseInt(displayBounds.width * 0.34);
+        bounds.minWidth = 800;
+        bounds.minHeight = 640;
+        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+      }
+      break;
+
     case 'read-log':
       {
         const indexBounds = windowList['index'].getBounds();

@@ -139,7 +139,8 @@
       skill: ['技能', '技能', 'Skill'],
       map: ['地名', '地名', 'Map'],
       other: ['其他', '其他', 'Other'],
-      overwrite: ['整句替換', '整句替换', 'Overwrite'],
+      overwrite: ['完全替換', '完全替换', 'Overwrite'],
+      replace: ['原文替換', '原文替换', 'Text Replace'],
       jp: ['日文替換', '日文替换', 'JP Replace'],
 
       // read log

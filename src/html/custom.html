@@ -25,19 +25,128 @@
   <body>
     <header class="container-fluid p-2">
       <div class="row align-items-center">
-        <div class="col">
+        <div class="col-auto">
           <img
             id="img_button_drag"
             class="img_button auto_hidden"
             title="拖曳"
             src="./img/ui/open_with_white_48dp.svg"
           />
+        </div>
+        <div class="col">
+          <span id="span_custom">自訂單字</span>
+        </div>
+        <div class="col-auto">
           <img id="img_button_close" class="img_button auto_hidden" title="關閉" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
     </header>
 
-    <main></main>
+    <main class="container-fluid">
+      <!-- Custom -->
+      <div class="row">
+        <!-- Custom Before -->
+        <div class="col">
+          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom Before"></textarea>
+        </div>
+
+        <!-- Custom After -->
+        <div class="col">
+          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom After"></textarea>
+        </div>
+      </div>
+
+      <br />
+
+      <!-- Add -->
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <span>類別</span>
+        </div>
+
+        <div class="col-auto">
+          <select class="form-select" name="" id="">
+            <option disabled>#原文->中文</option>
+            <option value="player">玩家名稱</option>
+            <option value="retainer">雇員名稱</option>
+            <option value="npc" selected>NPC名稱</option>
+            <option value="title">稱呼</option>
+            <option value="group">組織</option>
+            <option value="monster">魔物</option>
+            <option value="things">事物</option>
+            <option value="skill">技能</option>
+            <option value="map">地名</option>
+            <option value="other">其他</option>
+            <option disabled>#整句原文->整句中文</option>
+            <option value="overwrite">完全替換</option>
+            <option disabled>#原文->原文</option>
+            <option value="replace">原文替換</option>
+          </select>
+        </div>
+
+        <div class="col">
+          <button class="btn btn-primary">儲存</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <!-- Select Table -->
+        <div class="col-auto">
+          <select class="form-select" name="" id="">
+            <option value="chinese-table" selected>#原文->中文</option>
+            <option value="overwrite-table">#整句原文->整句中文</option>
+            <option value="replace-table">#日文->日文</option>
+            <option value="replace-table">#暫存</option>
+            <option value="replace-table-old">#舊版暫存(不讀取)</option>
+          </select>
+        </div>
+
+        <!-- Select Search Type -->
+        <div class="col-auto">
+          <select class="form-select" name="" id="">
+            <option value="all" selected>全部</option>
+            <option value="keyword">關鍵字</option>
+          </select>
+        </div>
+
+        <!-- Keyword -->
+        <div class="col-auto">
+          <input class="form-control" type="text" name="" id="" placeholder="Keyword" />
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-auto">
+          <button class="btn btn-primary">查詢</button>
+        </div>
+      </div>
+
+      <br />
+
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <table class="table table-bordered table-striped table-hover">
+            <thead class="sticky-top">
+              <tr>
+                <th>替換前</th>
+                <th>替換後</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>TEST1</td>
+                <td>TEST2</td>
+                <td><a href="">編輯</a> <a class="text-danger" href="">刪除</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
 
     <footer class="container-fluid p-2"></footer>
 

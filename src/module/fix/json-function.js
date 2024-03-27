@@ -210,7 +210,7 @@ function combineArrayWithTemp(temp = [], ...args) {
     } else {
       // delete element from combine
       if (targetIndex >= 0) {
-        combine.splice(tempIndex, 1);
+        combine.splice(targetIndex, 1);
       }
     }
   }

@@ -136,7 +136,7 @@ async function nameFix(name = '', translation = {}) {
       chArray.combine = jsonFunction.sortArray(chArray.combine);
 
       // add to chTemp
-      chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp']);
+      chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp-npc']);
       jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
     }
   }
@@ -166,7 +166,7 @@ async function nameFix(name = '', translation = {}) {
     chArray.combine = jsonFunction.sortArray(chArray.combine);
 
     // add to chTemp
-    chArray.chTemp.push([name, translatedName, 'temp']);
+    chArray.chTemp.push([name, translatedName, 'temp-npc']);
     jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
   }
 

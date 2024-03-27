@@ -195,20 +195,20 @@ function combineArrayWithTemp(temp = [], ...args) {
     const tempIndex = index;
     const targetIndex = Math.max(combine0.indexOf(tempName), combine0.indexOf(tempName + '#'));
 
-    // add index to delete list
+    // delete element
     if (
       tempType === 'temp' ||
       (tempType !== '' && !regKanji.test(tempName) && tempName.length < 3 && !tempName.length.includes('#'))
     ) {
-      // delete temp
+      // delete element from temp
       combineTemp.splice(tempIndex, 1);
     } else if (tempType === 'temp-npc') {
-      // delete temp-npc
+      // delete element from temp-npc
       if (targetIndex >= 0) {
         combineTemp.splice(tempIndex, 1);
       }
     } else {
-      // delete combine
+      // delete element from combine
       if (targetIndex >= 0) {
         combine.splice(tempIndex, 1);
       }

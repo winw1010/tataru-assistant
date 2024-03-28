@@ -137,16 +137,23 @@ function clearArray(array = []) {
     // 2d
     for (let index = array.length - 1; index >= 0; index--) {
       const element = array[index];
+      const text = element[0];
+      const translatedText = element[1];
 
-      if (/(\/\/comment)|(^N\/A$)|(^$)/gi.test(element[0]) || /(\/\/comment)|(^N\/A$)/gi.test(element[1])) {
+      if (
+        !text ||
+        !translatedText ||
+        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element[0]) ||
+        /(\/\/comment)|(^N\/A$)/gi.test(element[1])
+      ) {
         array.splice(index, 1);
       }
     }
   } else {
     // not 2d
     for (let index = array.length - 1; index >= 0; index--) {
-      const element = array[index];
-      if (/(\/\/comment)|(^N\/A$)|(^$)/gi.test(element)) {
+      const text = array[index];
+      if (!text || /(\/\/comment)|(^N\/A$)|(^$)/gi.test(text)) {
         array.splice(index, 1);
       }
     }

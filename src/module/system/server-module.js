@@ -13,7 +13,7 @@ const engineModule = require('./engine-module');
 const fixEntryModule = require('../fix/fix-entry');
 
 // system channel
-const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
+// const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
 
 // text history
 let textHistory = {};
@@ -101,6 +101,7 @@ function translateData(dialogData) {
   dialogData.id = null;
   dialogData.timestamp = null;
 
+  /*
   // fix system message
   if (systemChannel.includes(dialogData.code)) {
     if (dialogData.name !== '') {
@@ -108,6 +109,7 @@ function translateData(dialogData) {
       dialogData.name = '';
     }
   }
+  */
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {

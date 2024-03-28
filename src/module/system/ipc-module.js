@@ -465,6 +465,11 @@ function setTranslateChannel() {
     event.returnValue = engineModule.getEngineSelect();
   });
 
+  // get all language select
+  ipcMain.on('get-all-language-select', (event) => {
+    event.returnValue = engineModule.getAllLanguageSelect();
+  });
+
   // get source select
   ipcMain.on('get-source-select', (event) => {
     event.returnValue = engineModule.getSourceSelect();

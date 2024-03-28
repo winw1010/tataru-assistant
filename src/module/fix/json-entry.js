@@ -118,9 +118,31 @@ function loadJSON() {
   }
 }
 
+// get array
+function getArray(language = '', type = '', name = '') {
+  let array = [];
+
+  if (language === 'jp') {
+    if (type === 'ch') {
+      array = jpJson.getChArray()[name];
+    } else {
+      array = jpJson.getJpArray()[name];
+    }
+  } else if (language === 'en') {
+    if (type === 'ch') {
+      array = enJson.getChArray()[name];
+    } else {
+      array = enJson.getEnArray()[name];
+    }
+  }
+
+  return array || [];
+}
+
 // module exports
 module.exports = {
   initializeJSON,
   downloadJSON,
   loadJSON,
+  getArray,
 };

@@ -34,7 +34,7 @@
           />
         </div>
         <div class="col">
-          <span id="span_custom">自訂單字</span>
+          <span id="span_custom">自訂翻譯</span>
         </div>
         <div class="col-auto">
           <img id="img_button_close" class="img_button auto_hidden" title="關閉" src="./img/ui/close_white_24dp.svg" />
@@ -94,38 +94,39 @@
       <div class="row">
         <!-- Select Table -->
         <div class="col-auto">
-          <select class="form-select" name="" id="">
+          <select class="form-select" name="" id="select-table-type">
             <option value="chinese-table" selected>#原文->中文</option>
             <option value="overwrite-table">#整句原文->整句中文</option>
             <option value="replace-table">#日文->日文</option>
-            <option value="replace-table">#暫存</option>
-            <option value="replace-table-old">#舊版暫存(不讀取)</option>
+            <option value="temp-table">#暫存</option>
+            <option value="replace-old-table">#舊版暫存(不使用)</option>
+            <option value="tataru-table">#Tataru對照表</option>
           </select>
         </div>
 
         <!-- Select Search Type -->
         <div class="col-auto">
-          <select class="form-select" name="" id="">
+          <select class="form-select" name="" id="select-search-type">
             <option value="all" selected>全部</option>
             <option value="keyword">關鍵字</option>
           </select>
         </div>
 
         <!-- Keyword -->
-        <div class="col-auto">
-          <input class="form-control" type="text" name="" id="" placeholder="Keyword" />
+        <div class="col-auto" id="div-input-keyword" hidden>
+          <input class="form-control" type="text" name="" id="input-Keyword" placeholder="Keyword" />
         </div>
 
         <!-- Search Button -->
         <div class="col-auto">
-          <button class="btn btn-primary">查詢</button>
+          <button class="btn btn-primary" id="button-search">查詢</button>
         </div>
       </div>
 
       <br />
 
       <!-- Table -->
-      <div class="row">
+      <div class="row" id="div-custom-table">
         <div class="col">
           <table class="table table-bordered table-striped table-hover">
             <thead class="sticky-top">
@@ -136,12 +137,17 @@
               </tr>
             </thead>
 
-            <tbody>
+            <tbody id="tbody-custom-table">
+              <tr>
+                <td colspan="3">無資料</td>
+              </tr>
+              <!--
               <tr>
                 <td>TEST1</td>
                 <td>TEST2</td>
                 <td><a href="">編輯</a> <a class="text-danger" href="">刪除</a></td>
               </tr>
+              -->
             </tbody>
           </table>
         </div>

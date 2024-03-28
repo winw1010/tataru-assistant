@@ -442,6 +442,20 @@ function setJsonChannel() {
   ipcMain.on('load-json', () => {
     jsonEntry.loadJSON();
   });
+
+  // get array
+  ipcMain.on('get-array', (event, type = '', name = '') => {
+    const config = configModule.getConfig();
+    let array = [];
+
+    if (config.translation.from === engineModule.languageEnum.ja) {
+      array = jsonEntry.getArray('jp', type, name);
+    } else if (config.translation.from === engineModule.languageEnum.en) {
+      array = jsonEntry.getArray('en', type, name);
+    }
+
+    event.returnValue = array;
+  });
 }
 
 // set translate channel

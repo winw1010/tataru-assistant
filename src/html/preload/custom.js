@@ -3,6 +3,15 @@
 // electron
 const { ipcRenderer } = require('electron');
 
+const arrayParameters = {
+  'chinese-table': { type: 'ch', name: 'chTemp', textType: 'no-temp' },
+  'overwrite-table': { type: 'ch', name: 'overwrite', textType: 'all' },
+  'replace-table': { type: 'game', name: 'replaceTemp', textType: 'all' },
+  'temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
+  'temp-old-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
+  'tataru-table': { type: 'ch', name: 'combine', textType: 'all' },
+};
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -22,7 +31,9 @@ function setIPC() {
 }
 
 // set view
-function setView() {}
+function setView() {
+  createTable();
+}
 
 // set enevt
 function setEvent() {
@@ -30,6 +41,14 @@ function setEvent() {
   document.addEventListener('move-window', (e) => {
     ipcRenderer.send('move-window', e.detail, false);
   });
+
+  document.getElementById('select-table-type').onchange = () => {
+    createTable(document.getElementById('select-table-type').value);
+  };
+
+  document.getElementById('select-search-type').onchange = () => {
+    document.getElementById('div-input-keyword').hidden = document.getElementById('select-search-type').value === 'all';
+  };
 }
 
 // set button
@@ -38,4 +57,44 @@ function setButton() {
   document.getElementById('img_button_close').onclick = () => {
     ipcRenderer.send('close-window');
   };
+
+  // search
+  document.getElementById('button-search').onclick = () => {
+    let keyword = '';
+
+    if (document.getElementById('select-search-type').value !== 'all')
+      keyword = document.getElementById('input-Keyword').value;
+
+    createTable(document.getElementById('select-table-type').value, keyword);
+  };
+}
+
+// create table
+function createTable(type = '', keyword = '') {
+  if (type === '') type = document.getElementById('select-table-type').value;
+
+  const arrayParameter = arrayParameters[type];
+  const array = ipcRenderer.sendSync('get-array', arrayParameter.type, arrayParameter.name);
+  const tbody = document.getElementById('tbody-custom-table');
+  let innerHTML = '';
+
+  if (array.length > 0) {
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+
+      if (keyword !== '' && !element[0].includes(keyword) && !element[1].includes(keyword)) continue;
+
+      innerHTML += `
+      <tr>
+      <td>${element[0]}</td>
+      <td>${element[1]}</td>
+      <td></td>
+      </tr>
+      `;
+    }
+  } else {
+    innerHTML += '<tr><td colspan="3">無資料</td></tr>';
+  }
+
+  tbody.innerHTML = innerHTML;
 }

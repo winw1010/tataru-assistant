@@ -23,6 +23,9 @@
 // NOT IN CUTSCENE: 1
 // GREEN ADDRESS
 
+// HEX TO DECIMAL: console.log(0x38A8)
+// DECIMAL TO HEX: console.log((14504).toString(16))
+
 // child process
 const childProcess = require('child_process');
 

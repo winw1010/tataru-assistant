@@ -13,17 +13,20 @@ const rootPath = process.cwd();
 const userPath = process.env.USERPROFILE;
 
 // app name
-const appName = 'Tataru Assistant';
+// const appName = 'Tataru Assistant';
+const appName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
   const documentPath = getUserPath('Documents');
   const subPath = ['', appName, appName + '\\image', appName + '\\log', appName + '\\setting', appName + '\\temp'];
 
+  /*
   if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, 'Tataru Helper Node'))) {
     fs.cpSync(getPath(documentPath, 'Tataru Helper Node'), getPath(documentPath, appName), { recursive: true });
     return;
   }
+  */
 
   subPath.forEach((value) => {
     try {

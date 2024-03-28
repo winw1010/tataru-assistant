@@ -4,12 +4,12 @@
 const { ipcRenderer } = require('electron');
 
 const arrayParameters = {
-  'chinese-table': { type: 'ch', name: 'chTemp', textType: 'no-temp' },
-  'overwrite-table': { type: 'ch', name: 'overwrite', textType: 'all' },
-  'replace-table': { type: 'game', name: 'replaceTemp', textType: 'all' },
-  'temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
-  'temp-old-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
-  'tataru-table': { type: 'ch', name: 'combine', textType: 'all' },
+  'custom-chinese-table': { type: 'ch', name: 'chTemp', textType: 'no-temp' },
+  'custom-overwrite-table': { type: 'ch', name: 'overwriteTemp', textType: 'all' },
+  'custom-replace-table': { type: 'game', name: 'replaceTemp', textType: 'all' },
+  'app-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
+  'app-old-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
+  'app-combine': { type: 'ch', name: 'combine', textType: 'all' },
 };
 
 // DOMContentLoaded

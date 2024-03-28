@@ -1,10 +1,13 @@
 'use strict';
 
+// all list
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
+
 // source list
 const sourceList = ['Japanese', 'English'];
 
 // target list
-const targetList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
+const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
 const uiList = [/*'English',*/ 'Traditional-Chinese', 'Simplified-Chinese'];
@@ -122,6 +125,11 @@ function getEngineSelect() {
   return getSelect(engineList, engineName);
 }
 
+// get all language select
+function getAllLanguageSelect() {
+  return getSelect(allLanguageList, languageName);
+}
+
 // get source select
 function getSourceSelect() {
   return getSelect(sourceList, languageName);
@@ -188,6 +196,7 @@ module.exports = {
   engineList,
 
   getEngineSelect,
+  getAllLanguageSelect,
   getSourceSelect,
   getTargetSelect,
   getUISelect,

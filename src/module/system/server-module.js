@@ -81,7 +81,7 @@ function translateData(dialogData) {
 
   // check text and code
   if (dialogData.text === '' || !config.channel[dialogData.code]) {
-    console.log('Skip translation');
+    console.log('Skip');
     return;
   }
 
@@ -120,7 +120,6 @@ function translateData(dialogData) {
   dialogData.translation = config.translation;
 
   // start translation
-  console.log('Start translation');
   fixEntryModule.addTask(dialogData);
 }
 

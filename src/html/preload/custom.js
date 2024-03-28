@@ -5,11 +5,13 @@ const { ipcRenderer } = require('electron');
 
 const arrayParameters = {
   'custom-chinese-table': { type: 'ch', name: 'chTemp', textType: 'no-temp' },
-  'custom-overwrite-table': { type: 'ch', name: 'overwriteTemp', textType: 'all' },
-  'custom-replace-table': { type: 'game', name: 'replaceTemp', textType: 'all' },
+  'custom-overwrite-table': { type: 'ch', name: 'overwriteTemp', textType: '' },
+  'custom-replace-table': { type: 'game', name: 'replaceTemp', textType: '' },
+  'app-chinese-table': { type: 'ch', name: 'combine', textType: '' },
+  'app-overwrite-table': { type: 'ch', name: 'overwrite', textType: '' },
+  'app-replace-table': { type: 'game', name: 'replace', textType: '' },
   'app-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
   'app-old-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
-  'app-combine': { type: 'ch', name: 'combine', textType: 'all' },
 };
 
 // DOMContentLoaded
@@ -70,10 +72,10 @@ function setButton() {
 }
 
 // create table
-function createTable(type = '', keyword = '') {
-  if (type === '') type = document.getElementById('select-table-type').value;
+function createTable(tableType = '', keyword = '') {
+  if (tableType === '') tableType = document.getElementById('select-table-type').value;
 
-  const arrayParameter = arrayParameters[type];
+  const arrayParameter = arrayParameters[tableType];
   const array = ipcRenderer.sendSync('get-array', arrayParameter.type, arrayParameter.name);
   const tbody = document.getElementById('tbody-custom-table');
   let innerHTML = '';
@@ -81,8 +83,19 @@ function createTable(type = '', keyword = '') {
   if (array.length > 0) {
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
+      const text = element[0] || '';
+      const translatedText = element[1] || '';
+      const textType = element[2] || '';
 
-      if (keyword !== '' && !element[0].includes(keyword) && !element[1].includes(keyword)) continue;
+      if (keyword !== '' && !text.includes(keyword) && !translatedText.includes(keyword)) continue;
+
+      if (arrayParameter.textType !== '') {
+        if (arrayParameter.textType === 'no-temp') {
+          if (['temp', 'temp-name'].includes(textType)) continue;
+        } else {
+          if (arrayParameter.textType !== textType) continue;
+        }
+      }
 
       innerHTML += `
       <tr>

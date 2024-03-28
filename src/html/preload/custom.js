@@ -7,11 +7,11 @@ const arrayParameters = {
   'custom-chinese-table': { type: 'ch', name: 'chTemp', textType: 'no-temp' },
   'custom-overwrite-table': { type: 'ch', name: 'overwriteTemp', textType: '' },
   'custom-replace-table': { type: 'game', name: 'replaceTemp', textType: '' },
-  'app-chinese-table': { type: 'ch', name: 'combine', textType: '' },
-  'app-overwrite-table': { type: 'ch', name: 'overwrite', textType: '' },
-  'app-replace-table': { type: 'game', name: 'replace', textType: '' },
-  'app-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
-  'app-old-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
+  'tataru-chinese-table': { type: 'ch', name: 'combine', textType: '' },
+  'tataru-overwrite-table': { type: 'ch', name: 'overwrite', textType: '' },
+  'tataru-replace-table': { type: 'game', name: 'replace', textType: '' },
+  'tataru-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp-name' },
+  'tataru-old-temp-table': { type: 'ch', name: 'chTemp', textType: 'temp' },
 };
 
 // DOMContentLoaded
@@ -45,7 +45,7 @@ function setEvent() {
   });
 
   document.getElementById('select-table-type').onchange = () => {
-    createTable(document.getElementById('select-table-type').value);
+    createTable();
   };
 
   document.getElementById('select-search-type').onchange = () => {
@@ -67,14 +67,13 @@ function setButton() {
     if (document.getElementById('select-search-type').value !== 'all')
       keyword = document.getElementById('input-Keyword').value;
 
-    createTable(document.getElementById('select-table-type').value, keyword);
+    createTable(keyword);
   };
 }
 
 // create table
-function createTable(tableType = '', keyword = '') {
-  if (tableType === '') tableType = document.getElementById('select-table-type').value;
-
+function createTable(keyword = '') {
+  const tableType = document.getElementById('select-table-type').value;
   const arrayParameter = arrayParameters[tableType];
   const array = ipcRenderer.sendSync('get-array', arrayParameter.type, arrayParameter.name);
   const tbody = document.getElementById('tbody-custom-table');
@@ -101,7 +100,6 @@ function createTable(tableType = '', keyword = '') {
       <tr>
       <td>${element[0]}</td>
       <td>${element[1]}</td>
-      <td></td>
       </tr>
       `;
     }

@@ -21,6 +21,10 @@ async function translate(text = '', translation = {}, table = []) {
     return '……';
   }
 
+  if (translation.from === translation.to) {
+    return text;
+  }
+
   // initialize
   const maxCount = 3;
   let count = 0;

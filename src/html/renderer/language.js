@@ -232,7 +232,8 @@
         return 1;
 
       default:
-        return 2;
+        //return 2;
+        return 0;
     }
   }
 }

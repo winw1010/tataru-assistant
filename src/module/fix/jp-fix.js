@@ -269,11 +269,6 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // special fix 1
   text = specialFix1(name, text);
 
-  /*
-  // jp1
-  text = fixFunction.replaceText(text, jpArray.jp1);
-  */
-
   // combine
   const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
   text = codeResult.text;

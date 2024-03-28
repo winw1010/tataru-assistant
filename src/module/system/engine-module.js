@@ -7,7 +7,7 @@ const sourceList = ['Japanese', 'English'];
 const targetList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
-const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
+const uiList = [/*'English',*/ 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // language enum
 const languageEnum = {

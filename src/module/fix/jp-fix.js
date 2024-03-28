@@ -259,12 +259,10 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // get text type
   const textType = getTextType(name, text);
 
-  /*
   // reverse text
   if (textType === textTypeList.reversed) {
     text = jpFunction.reverseKana(text);
   }
-  */
 
   // special fix 1
   text = specialFix1(name, text);

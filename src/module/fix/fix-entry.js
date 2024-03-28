@@ -84,18 +84,16 @@ async function entry() {
     dialogData.translatedText = dialogData.text;
     dialogData.audioText = dialogData.text;
 
-    if (dataLanguage !== dialogData.translation.to) {
-      if (dataLanguage === languageEnum.ja) {
-        dialogData.translation.from = languageEnum.ja;
-        dialogData = await jpFix.startFix(dialogData);
-      } else if (dataLanguage === languageEnum.en) {
-        dialogData.translation.from = languageEnum.en;
-        dialogData = await enFix.startFix(dialogData);
-      } else {
-        dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
-        dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
-        dialogData.audioText = dialogData.text;
-      }
+    if (dataLanguage === languageEnum.ja) {
+      dialogData.translation.from = languageEnum.ja;
+      dialogData = await jpFix.startFix(dialogData);
+    } else if (dataLanguage === languageEnum.en) {
+      dialogData.translation.from = languageEnum.en;
+      dialogData = await enFix.startFix(dialogData);
+    } else {
+      dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
+      dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+      dialogData.audioText = dialogData.text;
     }
 
     // update dialog

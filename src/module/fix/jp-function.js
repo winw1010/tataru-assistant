@@ -17,8 +17,10 @@ const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
 const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
 const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
-const noKatakanaFront = '(?<![ァ-ヺ])';
-const noKatakanaBack = '(?![ァ-ヺ])';
+const noKatakanaFront =
+  '(?<![アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ])';
+const noKatakanaBack =
+  '(?![アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ])';
 
 // jp text function
 function replaceTextByCode(text = '', array = [], textType = 0) {

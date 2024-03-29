@@ -17,8 +17,11 @@ const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
 const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
 const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+
+// remove ァィゥェォッャュョヮヵヶ
 const noKatakana =
   'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ';
+
 const noKatakanaFront = `(?<![${noKatakana}])`;
 const noKatakanaBack = `(?![${noKatakana}])`;
 

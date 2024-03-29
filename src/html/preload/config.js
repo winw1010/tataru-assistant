@@ -376,8 +376,7 @@ function saveOptions(config = {}) {
     const configIndex2 = value[1][1];
 
     if (configIndex2 !== 'backgroundColor') {
-      let elementValue = document.getElementById(elementId)[elementProperty];
-      config[configIndex1][configIndex2] = elementValue;
+      config[configIndex1][configIndex2] = document.getElementById(elementId)[elementProperty];
     }
   });
 }

@@ -64,14 +64,14 @@ const defaultConfig = {
     to: 'Traditional-Chinese',
   },
   system: {
+    firstTime: true,
     appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
-    firstTime: true,
+    gptModel: '3',
+    gptApiKey: '',
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-    gptModel: '3',
-    gptApiKey: '',
   },
 };
 

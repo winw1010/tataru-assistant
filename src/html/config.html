@@ -362,33 +362,61 @@
 
         <hr />
 
-        <!-- set GPT -->
-        <p id="p-chat-gpt">ChatGPT設定</p>
-
-        <div class="row">
-          <div class="col">
-            <select class="form-select" name="" id="select-model">
-              <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-              <option value="gpt-4">GPT-4</option>
-              <option value="gpt-4-turbo-preview">GPT-4 Turbo Preview</option>
-            </select>
-          </div>
-        </div>
-
-        <br />
+        <!-- set OpenAI -->
+        <p id="p-chat-openai">OpenAI設定</p>
 
         <div class="row align-items-center">
           <div class="col">
-            <input type="password" class="form-control" name="" id="input-gpt-api-key" placeholder="請輸入API KEY" />
+            <label for="input_openai_api">OpenAI API</label>
           </div>
-          <div class="col-auto">
-            <img
-              class="img-fluid"
-              src="./img/ui/visibility_off_white_48dp.svg"
-              alt=""
-              style="width: 1.5rem"
-              id="img-api-key-visibility"
-            />
+          <div class="col">
+            <input class="form-control" type="text" id="input_openai_api" placeholder="請輸入OpenAI API" />
+          </div>
+        </div>
+        
+        <br />
+        
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input_openai_model">OpenAI模型</label>
+          </div>
+          <div class="col">
+            <input class="form-control" type="text" id="input_openai_model" placeholder="請輸入OpenAI模型" />
+          </div>
+        </div>
+        
+        <br />
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input_openai_api_key">OpenAI API密鑰</label>
+              <img
+                class="img-fluid"
+                src="./img/ui/visibility_off_white_48dp.svg"
+                alt=""
+                style="width: 1.5rem"
+                id="img-api-key-visibility"
+              />
+          </div>
+          <div class="col">
+            <input type="password" class="form-control" name="" id="input-openai-api-key" placeholder="請輸入API密鑰" />
+          </div>
+        </div>
+        <br />
+        
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_openai_verify_ssl" />
+              <label class="form-check-label" for="checkbox_openai_verify_ssl">SSL證書驗證</label>
+            </div>
+          </div>
+        </div>
+        
+        <br />
+        
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" name="" id="input-openai-prompt" placeholder="請查閱API相關設置教學以設置OpenAI提示詞" />
           </div>
         </div>
 
@@ -396,7 +424,7 @@
 
         <div class="row">
           <div class="col-auto">
-            <a href="#" id="a_get_gpt_api_key">API KEY取得教學</a>
+            <a href="#" id="a_get_openai_settings">API相关设置教學</a>
           </div>
         </div>
       </div>

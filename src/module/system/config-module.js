@@ -67,8 +67,11 @@ const defaultConfig = {
     firstTime: true,
     appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
-    gptModel: '3',
-    gptApiKey: '',
+    openaiModel: '',
+    openaiBaseURL: '',
+    openaiApiKey: '',
+    skipVerifySSL: true,
+    openaiPrompt: '',
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',

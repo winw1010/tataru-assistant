@@ -55,7 +55,7 @@
     a: {
       // config
       a_get_credential: ['憑證取得教學', '凭证取得教程', 'Get Credential'],
-      a_get_gpt_api_key: ['API KEY取得教學', 'API KEY取得教程', 'Get API KEY'],
+      a_get_openai_settings: ['API相关设置教學', 'API相关设置教学', 'API Settings Guide'],
       a_readme: ['使用說明書', '使用说明书', 'Readme'],
       a_bug_report: ['問題回報', '问题回报', 'Bug Report'],
       a_translation_report: ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
@@ -89,6 +89,11 @@
       select_from: ['遊戲語言', '游戏语言', 'Game Language'],
       select_from_player: ['玩家頻道', '玩家频道', 'Player Language'],
       select_to: ['翻譯語言', '翻译语言', 'Target Language'],
+
+      input_openai_api:['OpenAI API', 'OpenAI API', 'OpenAI API'],
+      input_openai_model:['OpenAI 模型', 'OpenAI 模型', 'OpenAI Model'],
+      input_openai_api_key:['OpenAI API密鑰', 'OpenAI API密钥', 'OpenAI API Key'],
+      checkbox_openai_verify_ssl:['SSL證書驗證', 'SSL证书验证', 'SSL Cert Verification'],
 
       'select-app-language': ['語言', '语言', 'Language'],
       checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table at Start'],
@@ -148,7 +153,7 @@
     },
     p: {
       'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
-      'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
+      'p-chat-openai': ['OpenAI設定', 'OpenAI设定', 'OpenAI'],
     },
     span: {
       // window title
@@ -170,7 +175,8 @@
       span_flex_right_title: ['自訂翻譯', '自订翻译', 'Custom Table'],
     },
     input: {
-      'input-gpt-api-key': ['請輸入API KEY', '请输入API KEY', 'API KEY'],
+      'input-openai-api-key': ['請輸入API密鑰', '请输入API密钥', 'API KEY'],
+      'input-openai-prompt': ['請查閱API相關設置教學以設置OpenAI提示詞', '请查阅API相关设置教学以设置OpenAI提示詞', 'Please follow the API Settings Guide to set OpenAI Prompt'],
     },
     textarea: {
       // dictionary

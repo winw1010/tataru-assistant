@@ -121,9 +121,9 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
-  // get gpt api key
-  document.getElementById('a_get_gpt_api_key').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
+  // get openai api key
+  document.getElementById('a_get_openai_settings').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-openai.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -137,10 +137,10 @@ function setButton() {
     apiKeyVisibility = !apiKeyVisibility;
     if (apiKeyVisibility) {
       document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_white_48dp.svg');
-      document.getElementById('input-gpt-api-key').setAttribute('type', 'text');
+      document.getElementById('input-openai-api-key').setAttribute('type', 'text');
     } else {
       document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
-      document.getElementById('input-gpt-api-key').setAttribute('type', 'password');
+      document.getElementById('input-openai-api-key').setAttribute('type', 'password');
     }
   };
 
@@ -519,12 +519,24 @@ function getOptionList() {
 
     // api
     [
-      ['select-model', 'value'],
-      ['system', 'gptModel'],
+      ['input_openai_api', 'value'],
+      ['system', 'openaiBaseURL'],
     ],
     [
-      ['input-gpt-api-key', 'value'],
-      ['system', 'gptApiKey'],
+      ['input_openai_model', 'value'],
+      ['system', 'openaiModel'],
+    ],
+    [
+      ['input-openai-api-key', 'value'],
+      ['system', 'openaiApiKey'],
+    ],
+    [
+      ['checkbox_openai_verify_ssl', 'checked'],
+      ['system', 'skipVerifySSL'],
+    ],
+    [
+      ['input-openai-prompt', 'value'],
+      ['system', 'openaiPrompt'],
     ],
 
     // system

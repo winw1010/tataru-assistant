@@ -22,7 +22,8 @@ async function exec(option) {
 function createOpenai() {
   const config = configModule.getConfig();
   const openai = new OpenAI({
-    apiKey: config.system.gptApiKey,
+    baseURL: config.system.openaiBaseURL || 'https://api.openai.com/v1',
+    apiKey: config.system.openaiApiKey,
   });
   currentOpenai = openai;
 }
@@ -31,20 +32,23 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
   sentence = sentence.replace(/\r|\n/g, '');
   const config = configModule.getConfig();
   //const openai = currentOpenai;
-
   const openai = new OpenAI({
-    apiKey: config.system.gptApiKey,
+    baseURL: config.system.openaiBaseURL || 'https://api.openai.com/v1',
+    apiKey: config.system.openaiApiKey,
   });
 
   let response = null;
 
   try {
+    if (config.system.skipVerifySSL === false) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    }
     response = await openai.chat.completions.create({
-      model: getModel(config.system.gptModel),
+      model: config.system.openaiModel || 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
-          content: `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`,
+          content: config.system.openaiPrompt === '' ? `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.` : config.system.openaiPrompt.replace('$source',source).replace('$target',target),
         },
         {
           role: 'user',
@@ -55,22 +59,13 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
       //temperature: 0.7,
       //top_p: 1,
     });
-
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
     console.log('Total Tokens:', response?.usage?.total_tokens);
     return response?.choices[0]?.message?.content || '';
   } catch (error) {
     console.log(error.message);
     return error.message;
   }
-}
-
-function getModel(model = '') {
-  if (model === '3') {
-    model = 'gpt-3.5-turbo';
-  } else if (model === '4') {
-    model = 'gpt-4';
-  }
-  return model;
 }
 
 // module exports

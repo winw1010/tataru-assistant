@@ -22,7 +22,7 @@
     "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
-    "openai": "^4.29.2",
+    "openai": "^4.31.0",
     "sharp": "^0.33.2",
     "temp": "^0.9.4",
     "tesseract.js": "^5.0.5"

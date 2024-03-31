@@ -4,21 +4,34 @@ const OpenAI = require('openai').default;
 
 const configModule = require('../system/config-module');
 
+let currentOpenai = null;
+
 // translate
 async function exec(option) {
   try {
+    if (!currentOpenai) createOpenai();
     const response = translate(option.text, option.from, option.to);
     return response;
   } catch (error) {
     console.log(error);
-    return '';
+    currentOpenai = null;
+    return error;
   }
+}
+
+function createOpenai() {
+  const config = configModule.getConfig();
+  const openai = new OpenAI({
+    apiKey: config.system.gptApiKey,
+  });
+  currentOpenai = openai;
 }
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
   sentence = sentence.replace(/\r|\n/g, '');
-
   const config = configModule.getConfig();
+  //const openai = currentOpenai;
+
   const openai = new OpenAI({
     apiKey: config.system.gptApiKey,
   });
@@ -27,7 +40,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
 
   try {
     response = await openai.chat.completions.create({
-      model: config.system.gptModel !== '4' ? 'gpt-3.5-turbo' : 'gpt-4',
+      model: getModel(config.system.gptModel),
       messages: [
         {
           role: 'system',
@@ -49,6 +62,15 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
     console.log(error.message);
     return error.message;
   }
+}
+
+function getModel(model = '') {
+  if (model === '3') {
+    model = 'gpt-3.5-turbo';
+  } else if (model === '4') {
+    model = 'gpt-4';
+  }
+  return model;
 }
 
 // module exports

@@ -30,11 +30,7 @@ function createOpenai() {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
   sentence = sentence.replace(/\r|\n/g, '');
   const config = configModule.getConfig();
-  //const openai = currentOpenai;
-
-  const openai = new OpenAI({
-    apiKey: config.system.gptApiKey,
-  });
+  const openai = currentOpenai;
 
   let response = null;
 

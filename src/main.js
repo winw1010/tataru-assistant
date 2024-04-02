@@ -26,17 +26,20 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) windowModule.createWindow('index');
 });
 
-process.on('uncaughtException', (error) => {
-  console.log(error);
-});
-
-process.on('unhandledRejection', (error) => {
-  console.log(error);
-});
-
+// ignore certificate error
 app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
   // Prevent having error
   event.preventDefault();
   // and continue
   callback(true);
+});
+
+// ignore uncaughtException
+process.on('uncaughtException', (error) => {
+  console.log(error);
+});
+
+// ignore unhandledRejection
+process.on('unhandledRejection', (error) => {
+  console.log(error);
 });

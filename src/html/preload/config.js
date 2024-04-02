@@ -45,6 +45,8 @@ function setView() {
   document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
 
   readConfig();
+
+  readGptModelList();
 }
 
 // set event
@@ -81,6 +83,11 @@ function setEvent() {
   document.getElementById('range_dialog_transparency').oninput = () => {
     document.getElementById('span_dialog_transparency').innerText =
       document.getElementById('range_dialog_transparency').value;
+  };
+
+  // input-gpt-api-key
+  document.getElementById('input-gpt-api-key').onchange = () => {
+    readGptModelList();
   };
 }
 
@@ -275,6 +282,36 @@ function resetApp(config) {
 
   // set global shortcut
   ipcRenderer.send('set-global-shortcut');
+}
+
+// read GPT model list
+async function readGptModelList() {
+  const apiKey = document.getElementById('input-gpt-api-key').value;
+
+  if (apiKey.length > 0) {
+    const config = ipcRenderer.sendSync('get-config');
+    const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
+
+    if (array.length > 0) {
+      const divGptModel = document.getElementById('div-gpt-model');
+      const selectGptModel = document.getElementById('select-gpt-model');
+      let innerHTML = '';
+
+      for (let index = 0; index < array.length; index++) {
+        const modelId = array[index];
+        const isDisabled = modelId.includes('#');
+        innerHTML += `<option value="${modelId}" ${isDisabled ? 'disabled' : ''}>${modelId}</option>`;
+      }
+
+      selectGptModel.innerHTML = innerHTML;
+
+      if (config.system.gptModel.length > 0) {
+        selectGptModel.value = config.system.gptModel;
+      }
+
+      divGptModel.hidden = false;
+    }
+  }
 }
 
 // read channel
@@ -519,12 +556,22 @@ function getOptionList() {
 
     // api
     [
-      ['select-model', 'value'],
+      ['select-gpt-model', 'value'],
       ['system', 'gptModel'],
     ],
     [
       ['input-gpt-api-key', 'value'],
       ['system', 'gptApiKey'],
+    ],
+
+    // unofficial api
+    [
+      ['checkbox-unofficial-api', 'checked'],
+      ['system', 'UnofficialApi'],
+    ],
+    [
+      ['input-unofficial-api-url', 'value'],
+      ['system', 'unofficialApiUrl'],
     ],
 
     // system

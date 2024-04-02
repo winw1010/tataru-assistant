@@ -17,13 +17,18 @@ const zhConverter = require('../translator/zh-convert');
 async function translate(text = '', translation = {}, table = []) {
   console.log('Before:', text);
 
+  // check length
   if (text === '') {
     return '……';
   }
 
+  // check target
   if (translation.from === translation.to) {
     return text;
   }
+
+  // clear newline
+  text = text.replace(/\r|\n/g, '');
 
   // initialize
   const maxCount = 3;

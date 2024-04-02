@@ -4,6 +4,8 @@ const OpenAI = require('openai').default;
 
 const configModule = require('../system/config-module');
 
+const regCommonModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
+
 let currentOpenai = null;
 
 // translate
@@ -19,16 +21,20 @@ async function exec(option) {
   }
 }
 
-function createOpenai() {
+function createOpenai(apiKey = null) {
   const config = configModule.getConfig();
-  const openai = new OpenAI({
-    apiKey: config.system.gptApiKey,
-  });
+  const openai = !config.system.UnofficialApi
+    ? new OpenAI({
+        apiKey: apiKey ? apiKey : config.system.gptApiKey,
+      })
+    : new OpenAI({
+        apiKey: apiKey ? apiKey : config.system.gptApiKey,
+        baseURL: config.system.unofficialApiUrl,
+      });
   currentOpenai = openai;
 }
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
-  sentence = sentence.replace(/\r|\n/g, '');
   const config = configModule.getConfig();
   const openai = currentOpenai;
 
@@ -36,7 +42,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
 
   try {
     response = await openai.chat.completions.create({
-      model: getModel(config.system.gptModel),
+      model: config.system.gptModel,
       messages: [
         {
           role: 'system',
@@ -60,14 +66,37 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
   }
 }
 
-function getModel(model = '') {
-  if (model === '3') {
-    model = 'gpt-3.5-turbo';
-  } else if (model === '4') {
-    model = 'gpt-4';
+async function getModelList(apiKey = null, keyword = '') {
+  let list = [];
+  try {
+    const commonModelList = [];
+    const otherModelList = [];
+
+    if (!currentOpenai) createOpenai(apiKey);
+    const tempModelList = (await currentOpenai.models.list()).data.map((x) => x.id);
+    tempModelList.sort();
+
+    for (let index = 0; index < tempModelList.length; index++) {
+      const modelId = tempModelList[index];
+
+      if (!modelId.includes(keyword)) continue;
+
+      if (regCommonModel.test(modelId)) {
+        commonModelList.push(modelId);
+      } else {
+        otherModelList.push(modelId);
+      }
+    }
+
+    list = [].concat(['# Common'], commonModelList, ['# Other'], otherModelList);
+  } catch (error) {
+    console.log(error?.error?.message || error);
   }
-  return model;
+  return list;
 }
 
 // module exports
-module.exports = { exec };
+module.exports = {
+  exec,
+  getModelList,
+};

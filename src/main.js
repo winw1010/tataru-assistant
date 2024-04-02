@@ -33,3 +33,10 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (error) => {
   console.log(error);
 });
+
+app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+  // Prevent having error
+  event.preventDefault();
+  // and continue
+  callback(true);
+});

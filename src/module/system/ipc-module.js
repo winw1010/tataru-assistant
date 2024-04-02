@@ -54,6 +54,9 @@ const jsonEntry = require('../fix/json-entry');
 // google tts
 const googleTTS = require('../translator/google-tts');
 
+// gpt
+const gpt = require('../translator/gpt');
+
 // app version
 const appVersion = app.getVersion();
 
@@ -500,15 +503,20 @@ function setTranslateChannel() {
     event.returnValue = googleTTS.getAudioUrl(text, from);
   });
 
+  // get GPT model list
+  ipcMain.handle('get-gpt-model-list', (event, apiKey) => {
+    return gpt.getModelList(apiKey);
+  });
+
   /*
-    // record
-    ipcMain.on('change-reccord-icon', (event) => {
-        let config = configModule.getConfig();
-        config.translation.getCutsceneText = !config.translation.getCutsceneText;
-        configModule.setConfig(config);
-        event.sender.send('change-reccord-icon', config.translation.getCutsceneText);
-    });
-    */
+  // record
+  ipcMain.on('change-reccord-icon', (event) => {
+      let config = configModule.getConfig();
+      config.translation.getCutsceneText = !config.translation.getCutsceneText;
+      configModule.setConfig(config);
+      event.sender.send('change-reccord-icon', config.translation.getCutsceneText);
+  });
+  */
 }
 
 // set file channel

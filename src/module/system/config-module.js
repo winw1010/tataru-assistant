@@ -69,6 +69,8 @@ const defaultConfig = {
     autoDownloadJson: true,
     gptModel: '3',
     gptApiKey: '',
+    UnofficialApi: false,
+    unofficialApiUrl: 'https://api.openai.com/v1',
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
@@ -123,14 +125,21 @@ function loadConfig() {
       }
     });
 
-    // translator
+    // fix translator
     if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
       currentConfig.translation.engine = 'Youdao';
     }
 
-    // text detect
+    // fix text detect
     if (!['tesseract', 'google'].includes(currentConfig.captureWindow.type)) {
       currentConfig.captureWindow.type = 'tesseract';
+    }
+
+    // fix GPT model
+    if (currentConfig.system.gptModel === '3') {
+      currentConfig.system.gptModel = 'gpt-3.5-turbo';
+    } else if (currentConfig.system.gptModel === '4') {
+      currentConfig.system.gptModel = 'gpt-4';
     }
 
     currentConfig.system.firstTime = false;

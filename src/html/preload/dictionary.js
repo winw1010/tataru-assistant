@@ -64,8 +64,8 @@ function setButton() {
 
   // translate
   document.getElementById('button_translate').onclick = () => {
-    const inputName = document.getElementById('input-original-name').value?.trim()?.replaceAll('\n', ' ');
-    const inputText = document.getElementById('textarea_original_text').value?.trim()?.replaceAll('\n', ' ');
+    const inputName = document.getElementById('input-original-name').value;
+    const inputText = document.getElementById('textarea_original_text').value;
     const dialogData = createDialogData(inputName, inputText);
 
     document.getElementById('span_translated_text').innerText = '...';

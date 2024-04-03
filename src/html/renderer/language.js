@@ -55,7 +55,7 @@
     a: {
       // config
       a_get_credential: ['憑證取得教學', '凭证取得教程', 'Get Credential'],
-      a_get_gpt_api_key: ['API KEY取得教學', 'API KEY取得教程', 'Get API KEY'],
+      a_get_gpt_api_key: ['ChatGPT設定教學', 'ChatGPT设定教学', 'ChatGPT Guide'],
       a_readme: ['使用說明書', '使用说明书', 'Readme'],
       a_bug_report: ['問題回報', '问题回报', 'Bug Report'],
       a_translation_report: ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
@@ -89,6 +89,12 @@
       select_from: ['遊戲語言', '游戏语言', 'Game Language'],
       select_from_player: ['玩家頻道', '玩家频道', 'Player Language'],
       select_to: ['翻譯語言', '翻译语言', 'Target Language'],
+
+      'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
+      'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT Model'],
+
+      'checkbox-unofficial-api': ['使用反向代理API', '使用反向代理API', 'Enable Unoffcial API'],
+      'input-unofficial-api-url': ['反向代理API網址', '反向代理API地址', 'Unoffcial API URL'],
 
       'select-app-language': ['語言', '语言', 'Language'],
       checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table at Start'],
@@ -128,6 +134,8 @@
       'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],
       'Simplified-Chinese': ['簡體中文', '简体中文', 'Simplified Chinese'],
 
+      'please-select-gpt-model': ['請選擇GPT模型', '请选择GPT模型', 'Please Select GPT Model'],
+
       // edit
       player: ['玩家名稱', '玩家名称', 'Player'],
       retainer: ['雇員名稱', '雇员名称', 'Retainer'],
@@ -149,6 +157,11 @@
     p: {
       'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
       'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
+      'p-unoffcia-api': [
+        '若您的所在地無法使用ChatGPT，請設置以下選項',
+        '若您的所在地无法使用ChatGPT，请设置以下选项',
+        'Set Options Below If Your Location Does Not Support ChatGPT',
+      ],
     },
     span: {
       // window title

@@ -2,12 +2,12 @@
 
 ## Tataru Helper Node 原始碼專案建置步驟
 
-- 建議使用[Visual Studio Code](https://code.visualstudio.com/)編輯與建置
+- 可使用[Visual Studio Code](https://code.visualstudio.com/)編輯程式碼
 - 使用專案前必須先安裝[Git](https://git-scm.com)和[Node.js(長期維護版)](https://nodejs.org/zh-tw/)
 
 ```bash
-# 啟動Visual Studio Code，對著想存放專案的資料夾按下滑鼠右鍵，然後點選【Open in Intergrated Terminal】
-# 在Visual Studio Code下方輸入以下指令
+# 啟動命令提示字元(cmd)
+於左下搜尋欄位輸入cmd開啟
 
 # 複製專案
 git clone https://github.com/winw1010/tataru-helper-node-v2
@@ -28,8 +28,11 @@ npm start
 - 安裝檔的設定位於 package.json 裡的 build 物件中，打包工具為 electron-builder
 
 ```bash
-# 啟動Visual Studio Code，對著Tataru Helper Node的專案資料夾按下滑鼠右鍵，然後點選【Open in Intergrated Terminal】
-# 在Visual Studio Code下方輸入以下指令
+# 啟動命令提示字元(cmd)
+於左下搜尋欄位輸入cmd開啟
+
+# 進入專案資料夾
+cd (你的專案位置)
 
 # 建立安裝檔
 npm run dist

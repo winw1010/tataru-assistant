@@ -293,7 +293,6 @@ async function readGptModelList() {
     const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
 
     if (array.length > 0) {
-      const divGptModel = document.getElementById('div-gpt-model');
       const selectGptModel = document.getElementById('select-gpt-model');
       let innerHTML = '';
 
@@ -308,8 +307,6 @@ async function readGptModelList() {
       if (config.system.gptModel.length > 0) {
         selectGptModel.value = config.system.gptModel;
       }
-
-      divGptModel.hidden = false;
     }
   }
 }

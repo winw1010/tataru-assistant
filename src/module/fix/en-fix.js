@@ -222,6 +222,11 @@ function specialFix(name = '', text = '') {
     // do something
   }
 
+  // Clive
+  if (/^Clive/gi.test(name)) {
+    text = text.replace(/Dominant/gi, 'Dominant#').replace(/Bearer/gi, 'Bearer#');
+  }
+
   // A-Apple
   while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {
     text = text.replace(/(?<=\b)(\w{1,2})-\1/gi, '$1');

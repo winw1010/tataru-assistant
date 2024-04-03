@@ -128,9 +128,15 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
-  // get gpt api key
-  document.getElementById('a_get_gpt_api_key').onclick = () => {
+  // set gpt api
+  document.getElementById('a-set-gpt-api').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
+  // set unofficial api
+  document.getElementById('a-set-unofficial-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-unofficial-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 

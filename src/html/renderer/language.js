@@ -159,8 +159,8 @@
       'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
       'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
       'p-unoffcia-api': [
-        '若您的所在地無法使用ChatGPT，請設置以下選項',
-        '若您的所在地无法使用ChatGPT，请设置以下选项',
+        '若您的位置無法使用ChatGPT，請設置以下選項',
+        '若您的位置无法使用ChatGPT，请设置以下选项',
         'Set Options Below If Your Location Does Not Support ChatGPT',
       ],
     },

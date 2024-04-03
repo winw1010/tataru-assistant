@@ -55,7 +55,9 @@
     a: {
       // config
       a_get_credential: ['憑證取得教學', '凭证取得教程', 'Get Credential'],
-      a_get_gpt_api_key: ['ChatGPT設定教學', 'ChatGPT设定教学', 'ChatGPT Guide'],
+      'a-set-gpt-api': ['ChatGPT設定教學', 'ChatGPT设定教学', 'ChatGPT Guide'],
+      'a-set-unofficial-api': ['反向代理API設定教學', '反向代理API设定教学', 'How to set unoffcial API'],
+
       a_readme: ['使用說明書', '使用说明书', 'Readme'],
       a_bug_report: ['問題回報', '问题回报', 'Bug Report'],
       a_translation_report: ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],

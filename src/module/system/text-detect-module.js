@@ -69,7 +69,7 @@ async function tesseractOCR(imageBuffer) {
     // recognize text
     const {
       data: { text },
-    } = await worker.recognize(imageBuffer, { rotateAuto: true });
+    } = await worker.recognize(imageBuffer, { rotateAuto: false });
 
     // fix or show error
     if (text.trim().length > 0) {

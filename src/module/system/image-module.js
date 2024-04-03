@@ -122,6 +122,9 @@ function getNewSize(displayBounds) {
 
 // fix image
 async function fixImage(imageBuffer = Buffer.from('')) {
+  // adaptive thresholding?
+  // Otsu thresholding?
+
   try {
     // greyscale
     let imageSharp = sharp(imageBuffer).greyscale();

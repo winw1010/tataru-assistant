@@ -161,7 +161,7 @@
       'p-unoffcia-api': [
         '若您的位置無法使用ChatGPT，請設置以下選項',
         '若您的位置无法使用ChatGPT，请设置以下选项',
-        'Set Options Below If Your Location Does Not Support ChatGPT',
+        'Set options below if your location does not support ChatGPT',
       ],
     },
     span: {

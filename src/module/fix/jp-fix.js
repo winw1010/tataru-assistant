@@ -375,12 +375,12 @@ function specialFix2(name = '', text = '') {
   }
 
   // 異邦の詩人
-  if (/異邦の詩人|異世界の詩人/gi.test(name)) {
+  if (/(異邦の詩人)|(異世界の詩人)/gi.test(name)) {
     text = text.replace(/\u3000/gi, '、');
   }
 
   // ライアン
-  if (/ライアン/gi.test(name)) {
+  if (/^ライアン/gi.test(name)) {
     text = text.replace(/あーた/gi, '貴方');
   }
 

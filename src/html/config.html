@@ -366,7 +366,9 @@
         <p id="p-chat-gpt">ChatGPT設定</p>
 
         <div class="row align-items-center">
-          <div class="col">API Key</div>
+          <div class="col">
+            <label for="input-gpt-api-key">API Key</label>
+          </div>
           <div class="col-auto">
             <img
               class="img-fluid"
@@ -377,17 +379,19 @@
             />
           </div>
           <div class="col-auto">
-            <input type="password" class="form-control" name="" id="input-gpt-api-key" placeholder="API KEY" />
+            <input type="password" class="form-control" name="" id="input-gpt-api-key" placeholder="API Key" />
           </div>
         </div>
 
         <br />
 
         <div class="row align-items-center">
-          <div class="col">Model</div>
+          <div class="col">
+            <label for="select-gpt-model">GPT Model</label>
+          </div>
           <div class="col-auto">
             <select class="form-select" name="" id="select-gpt-model">
-              <option value="please-select-gpt-model" selected>請選擇GPT模型</option>
+              <option value="please-select-gpt-model" selected>Please Select GPT Model</option>
             </select>
           </div>
         </div>
@@ -396,13 +400,13 @@
 
         <div class="row">
           <div class="col-auto">
-            <a href="#" id="a_get_gpt_api_key">API KEY取得教學</a>
+            <a href="#" id="a_get_gpt_api_key">ChatGPT設定教學</a>
           </div>
         </div>
 
         <hr />
 
-        <p class="text-danger">Unoffcial API</p>
+        <p id="p-unoffcia-api" class="text-danger">Set Options Below If Your Location Does Not Support ChatGPT</p>
 
         <div class="row align-items-center">
           <div class="col-auto">
@@ -416,7 +420,9 @@
         <br />
 
         <div class="row align-items-center">
-          <div class="col-auto">Unoffcial API URL</div>
+          <div class="col-auto">
+            <label for="input-unofficial-api-url">Unoffcial API URL</label>
+          </div>
           <div class="col">
             <input class="form-control" type="text" name="" id="input-unofficial-api-url" />
           </div>

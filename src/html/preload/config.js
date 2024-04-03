@@ -580,5 +580,9 @@ function getOptionList() {
       ['checkbox_auto_download_json', 'checked'],
       ['system', 'autoDownloadJson'],
     ],
+    [
+      ['checkbox-ssl-certificate', 'checked'],
+      ['system', 'sslCertificate'],
+    ],
   ];
 }

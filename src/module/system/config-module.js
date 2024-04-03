@@ -71,6 +71,7 @@ const defaultConfig = {
     gptApiKey: '',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
+    sslCertificate: true,
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
@@ -148,6 +149,7 @@ function loadConfig() {
     currentConfig = getDefaultConfig();
   }
 
+  setSSLCertificate();
   saveConfig();
   return currentConfig;
 }
@@ -169,6 +171,7 @@ function getConfig() {
 // set config
 function setConfig(newConfig) {
   currentConfig = newConfig;
+  setSSLCertificate();
   saveConfig();
 }
 
@@ -180,6 +183,16 @@ function getDefaultConfig() {
 // set default config
 function setDefaultConfig() {
   currentConfig = getDefaultConfig();
+  setSSLCertificate();
+}
+
+// set SSL certificate
+function setSSLCertificate() {
+  if (currentConfig.system.sslCertificate) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+  } else {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+  }
 }
 
 // module exports

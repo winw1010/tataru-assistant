@@ -98,6 +98,7 @@
 
       'select-app-language': ['語言', '语言', 'Language'],
       checkbox_auto_download_json: ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table at Start'],
+      'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL Certificate'],
 
       // capture
       checkbox_split: ['換行切割', '换行切割', 'New Line'],

@@ -67,7 +67,7 @@ const defaultConfig = {
     firstTime: true,
     appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
-    gptModel: '3',
+    gptModel: 'please-select-gpt-model',
     gptApiKey: '',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',

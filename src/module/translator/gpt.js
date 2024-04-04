@@ -6,17 +6,13 @@ const configModule = require('../system/config-module');
 
 const regCommonModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
 
-let currentOpenai = null;
-
 // translate
 async function exec(option) {
   try {
-    if (!currentOpenai) createOpenai();
     const response = translate(option.text, option.from, option.to);
     return response;
   } catch (error) {
     console.log(error);
-    currentOpenai = null;
     return error;
   }
 }
@@ -31,12 +27,12 @@ function createOpenai(apiKey = null) {
         apiKey: apiKey ? apiKey : config.system.gptApiKey,
         baseURL: config.system.unofficialApiUrl,
       });
-  currentOpenai = openai;
+  return openai;
 }
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
   const config = configModule.getConfig();
-  const openai = currentOpenai;
+  const openai = createOpenai();
 
   let response = null;
 
@@ -69,11 +65,11 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
 async function getModelList(apiKey = null, keyword = '') {
   let list = [];
   try {
+    const openai = createOpenai(apiKey);
     const commonModelList = [];
     const otherModelList = [];
 
-    if (!currentOpenai) createOpenai(apiKey);
-    const tempModelList = (await currentOpenai.models.list()).data.map((x) => x.id);
+    const tempModelList = (await openai.models.list()).data.map((x) => x.id);
     tempModelList.sort();
 
     for (let index = 0; index < tempModelList.length; index++) {

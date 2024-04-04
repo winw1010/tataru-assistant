@@ -13,7 +13,7 @@
     if (!isPlaying) return;
 
     try {
-      const urlList = event.detail.urlList;
+      const urlList = event.detail;
 
       for (let index = 0; index < urlList.length; index++) {
         const url = urlList[index];

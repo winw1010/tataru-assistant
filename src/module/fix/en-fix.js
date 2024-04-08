@@ -223,8 +223,11 @@ function specialFix(name = '', text = '') {
   }
 
   // Clive
-  if (/^Clive/gi.test(name)) {
-    text = text.replace(/Dominant/gi, 'Dominant#').replace(/Bearer/gi, 'Bearer#');
+  if (/^Clive$/gi.test(name)) {
+    text = text
+      .replace(/Dominant/gi, 'Dominant#')
+      .replace(/Bearer/gi, 'Bearer#')
+      .replace(/The Fallen/gi, 'The Fallen#');
   }
 
   // A-Apple

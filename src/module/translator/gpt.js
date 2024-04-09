@@ -4,7 +4,8 @@ const OpenAI = require('openai').default;
 
 const configModule = require('../system/config-module');
 
-const regCommonModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
+const regGptModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
+const regOtherGptModel = /gpt/i;
 
 // translate
 async function exec(option) {
@@ -76,9 +77,9 @@ async function getModelList(apiKey = null) {
     for (let index = 0; index < tempModelList.length; index++) {
       const modelId = tempModelList[index];
 
-      if (regCommonModel.test(modelId)) {
+      if (regGptModel.test(modelId)) {
         gptModelList.push(modelId);
-      } else if (modelId.includes('gpt')) {
+      } else if (regOtherGptModel.test(modelId)) {
         otherGptModelList.push(modelId);
       } else {
         otherModelList.push(modelId);

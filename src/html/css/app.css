@@ -50,6 +50,12 @@ footer {
   /*background-color: #343a40;*/
 }
 
+.hide-toggle {
+  overflow: hidden;
+  width: 0;
+  height: 0;
+}
+
 #img_button_close:hover,
 #img_button_backspace:hover,
 #img_button_clear:hover {

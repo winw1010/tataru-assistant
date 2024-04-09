@@ -43,7 +43,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
       messages: [
         {
           role: 'system',
-          content: `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}. Convert the sentence to standard ${source} before translation.`,
+          content: `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`,
         },
         {
           role: 'user',

@@ -62,11 +62,12 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
   }
 }
 
-async function getModelList(apiKey = null, keyword = '') {
+async function getModelList(apiKey = null) {
   let list = [];
   try {
     const openai = createOpenai(apiKey);
     const commonModelList = [];
+    const gptModelList = [];
     const otherModelList = [];
 
     const tempModelList = (await openai.models.list()).data.map((x) => x.id);
@@ -75,16 +76,16 @@ async function getModelList(apiKey = null, keyword = '') {
     for (let index = 0; index < tempModelList.length; index++) {
       const modelId = tempModelList[index];
 
-      if (!modelId.includes(keyword)) continue;
-
       if (regCommonModel.test(modelId)) {
         commonModelList.push(modelId);
+      } else if (modelId.includes('gpt')) {
+        gptModelList.push(modelId);
       } else {
         otherModelList.push(modelId);
       }
     }
 
-    list = [].concat(['# Common'], commonModelList, ['# Other'], otherModelList);
+    list = [].concat(['# GPT'], commonModelList, ['# Other GPT'], gptModelList, ['# Other'], otherModelList);
   } catch (error) {
     console.log(error?.error?.message || error);
   }

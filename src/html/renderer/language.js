@@ -166,9 +166,14 @@
         'Set options below if your location does not support ChatGPT',
       ],
       'p-ssl-warning': [
-        '若您的API不支援SSL驗證請至【系統設定】關閉SSL驗證',
-        '若您的API不支援SSL验证请至【系统设定】关闭SSL验证',
-        'Set SSL certificate off in "System Config" if your API does not support it',
+        '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
+        '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
+        'Set SSL certificate off in "System Config" if your API does\'t support it',
+      ],
+      'p-ssl-warning-2': [
+        '若您使用VPN或加速器時無法翻譯字幕，請至【系統設定】關閉SSL驗證',
+        '若您使用VPN或加速器时无法翻译字幕，请至【系统设定】关闭SSL验证',
+        'Set SSL certificate off in "System Config" if your VPN can\'t access translator',
       ],
     },
     span: {

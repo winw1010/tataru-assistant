@@ -85,6 +85,10 @@ function read(filePath = './', type = '') {
         data = JSON.parse(fs.readFileSync(filePath));
         break;
 
+      case 'image':
+        fs.readFileSync(filePath, { encoding: 'base64' });
+        break;
+
       default:
         data = fs.readFileSync(filePath);
         break;

@@ -13,6 +13,8 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 const regAllKatakana = /^[ァ-ヺー・＝]+$/;
+const regAllHiragana = /^[ぁ-ゖー・＝]+$/;
+
 const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
 const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
@@ -21,9 +23,13 @@ const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
 // remove ァィゥェォッャュョヮヵヶ
 const noKatakana =
   'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ';
-
 const noKatakanaFront = `(?<![${noKatakana}])`;
 const noKatakanaBack = `(?![${noKatakana}])`;
+
+const noHiragana =
+  'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゆよらりるれろわゐゑをんゔ';
+const noHiraganaFront = `(?<![${noHiragana}])`;
+const noHiraganaBack = `(?![${noHiragana}])`;
 
 // jp text function
 function replaceTextByCode(text = '', array = [], textType = 0) {
@@ -76,6 +82,11 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
+      } else if (regAllHiragana.test(name)) {
+        const matchReg = new RegExp(noHiraganaFront + name + noHiraganaBack, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
       } else if (regKatakanaFront.test(name)) {
         const matchReg = new RegExp(noKatakanaFront + name, 'gi');
         if (matchReg.test(text)) {
@@ -106,8 +117,8 @@ function findTempArray(text = '', array = []) {
     const element = array[index];
     const name = element[0];
     const translatedName = element[1];
-    const hiraName = convertKana(element[0], 'hira');
-    const hiraNameFix = hiraFix(hiraName);
+    const hiraName1 = convertKana(element[0], 'hira');
+    const hiraName2 = hiraFix(hiraName1);
 
     if (text.includes(name)) {
       temp.push([name, translatedName]);
@@ -125,20 +136,30 @@ function findTempArray(text = '', array = []) {
       continue;
     }
 
-    if (text.includes(`「${hiraName}」`)) {
-      temp.push([`「${hiraName}」`, `「${translatedName}」`]);
+    // hira name 1
+    if (text.includes(hiraName1)) {
+      temp.push([hiraName1, translatedName]);
     }
 
-    if (text.includes(`『${hiraName}』`)) {
-      temp.push([`『${hiraName}』`, `『${translatedName}』`]);
+    if (text.includes(`「${hiraName1}」`)) {
+      temp.push([`「${hiraName1}」`, `「${translatedName}」`]);
     }
 
-    if (text.includes(`「${hiraNameFix}」`)) {
-      temp.push([`「${hiraNameFix}」`, `「${translatedName}」`]);
+    if (text.includes(`『${hiraName1}』`)) {
+      temp.push([`『${hiraName1}』`, `『${translatedName}』`]);
     }
 
-    if (text.includes(`『${hiraNameFix}』`)) {
-      temp.push([`『${hiraNameFix}』`, `『${translatedName}』`]);
+    // hira name 2
+    if (text.includes(hiraName2)) {
+      temp.push([hiraName2, translatedName]);
+    }
+
+    if (text.includes(`「${hiraName2}」`)) {
+      temp.push([`「${hiraName2}」`, `「${translatedName}」`]);
+    }
+
+    if (text.includes(`『${hiraName2}』`)) {
+      temp.push([`『${hiraName2}』`, `『${translatedName}』`]);
     }
   }
 

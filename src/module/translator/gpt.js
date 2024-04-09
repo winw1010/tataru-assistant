@@ -66,8 +66,8 @@ async function getModelList(apiKey = null) {
   let list = [];
   try {
     const openai = createOpenai(apiKey);
-    const commonModelList = [];
     const gptModelList = [];
+    const otherGptModelList = [];
     const otherModelList = [];
 
     const tempModelList = (await openai.models.list()).data.map((x) => x.id);
@@ -77,15 +77,15 @@ async function getModelList(apiKey = null) {
       const modelId = tempModelList[index];
 
       if (regCommonModel.test(modelId)) {
-        commonModelList.push(modelId);
-      } else if (modelId.includes('gpt')) {
         gptModelList.push(modelId);
+      } else if (modelId.includes('gpt')) {
+        otherGptModelList.push(modelId);
       } else {
         otherModelList.push(modelId);
       }
     }
 
-    list = [].concat(['# GPT'], commonModelList, ['# Other GPT'], gptModelList, ['# Other'], otherModelList);
+    list = [].concat(['# GPT'], gptModelList, ['# Other GPT'], otherGptModelList, ['# Other'], otherModelList);
   } catch (error) {
     console.log(error?.error?.message || error);
   }

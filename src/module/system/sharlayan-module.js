@@ -50,12 +50,13 @@ let restartReader = true;
 // dialog history
 const dialogHistory = [];
 
-// chat history
-const chatHistory = {};
+// text history
+const textHistory = {};
 
 // start
 function start() {
   try {
+    // update signatures.json
     if (fileModule.exists(versionPath)) {
       try {
         const signatures = fileModule.read(versionPath, 'json');
@@ -67,8 +68,10 @@ function start() {
       }
     }
 
+    // spawn reader process
     child = childProcess.spawn(sharlayanPath);
 
+    // on reader close
     child.on('close', (code) => {
       console.log(`SharlayanReader.exe closed (code: ${code})`);
       if (restartReader) {
@@ -76,22 +79,33 @@ function start() {
       }
     });
 
+    // on reader error
     child.on('error', (err) => {
       console.log(err.message);
     });
 
+    // on reader stdout error
     child.stdout.on('error', (err) => {
       console.log(err.message);
     });
 
+    // on reader stdout data
     child.stdout.on('data', (data) => {
+      // split data string by \r\n
       let dataArray = data.toString().split('\r\n');
+
+      // read data
       for (let index = 0; index < dataArray.length; index++) {
         try {
           let jsonString = dataArray[index];
           if (jsonString.length > 0) {
+            // get dialog data
             let dialogData = JSON.parse(jsonString.toString());
+
+            // fix  dialog data text
             dialogData = fixText(dialogData);
+
+            // check repetition
             if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
           }
         } catch (error) {
@@ -134,6 +148,7 @@ function checkRepetition(dialogData) {
     .replaceAll(/（.*?）/gi, '')
     .replaceAll(/\(.*?\)/gi, '');
 
+  // check dialog history (DIALOG and CHAT_LOG)
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
@@ -144,8 +159,9 @@ function checkRepetition(dialogData) {
     }
   }
 
-  if (text !== chatHistory[code]) {
-    chatHistory[code] = text;
+  // check text history
+  if (text !== textHistory[code]) {
+    textHistory[code] = text;
     return true;
   }
 

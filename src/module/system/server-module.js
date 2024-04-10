@@ -19,20 +19,14 @@ const fixEntryModule = require('../fix/fix-entry');
 let textHistory = {};
 
 // data process
-function dataProcess(data) {
-  try {
-    let dialogData = JSON.parse(data.toString());
-
-    if (checkData(dialogData)) {
-      if (dialogData.type === 'CONSOLE') {
-        showData(dialogData);
-      } else {
-        console.log('Dialog Data:', dialogData);
-        translateData(dialogData);
-      }
+function dataProcess(dialogData) {
+  if (checkData(dialogData)) {
+    if (dialogData.type === 'CONSOLE') {
+      showData(dialogData);
+    } else {
+      console.log('Dialog Data:', dialogData);
+      translateData(dialogData);
     }
-  } catch (error) {
-    console.error(error);
   }
 }
 

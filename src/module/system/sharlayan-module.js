@@ -47,6 +47,9 @@ let child = null;
 // do restart
 let restartReader = true;
 
+// dialog history
+const dialogHistory = [];
+
 // start
 function start() {
   try {
@@ -79,14 +82,17 @@ function start() {
     });
 
     child.stdout.on('data', (data) => {
-      try {
-        let dataArray = data.toString().split('\r\n');
-        for (let index = 0; index < dataArray.length; index++) {
-          let element = dataArray[index];
-          if (element.length > 0) serverModule.dataProcess(element);
+      let dataArray = data.toString().split('\r\n');
+      for (let index = 0; index < dataArray.length; index++) {
+        try {
+          let jsonString = dataArray[index];
+          if (jsonString.length > 0) {
+            let dialogData = JSON.parse(jsonString.toString());
+            if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     });
   } catch (error) {
@@ -102,6 +108,18 @@ function stop(restart = true) {
   } catch (error) {
     //console.log(error);
   }
+}
+
+// check repetition
+function checkRepetition(dialogData) {
+  const text = dialogData.text.Replace('\r', '');
+  if (dialogData.type === 'DIALOG') {
+    dialogHistory.push(text);
+    if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
+  } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
+    return dialogHistory.length - dialogHistory.indexOf(text) > 3;
+  }
+  return true;
 }
 
 // module exports

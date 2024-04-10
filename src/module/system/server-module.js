@@ -12,9 +12,6 @@ const engineModule = require('./engine-module');
 // fix entry module
 const fixEntryModule = require('../fix/fix-entry');
 
-// system channel
-// const systemChannel = ['0039', '0839', '0003', '0038', '003C', '0048', '001D', '001C'];
-
 // data process
 function dataProcess(dialogData) {
   console.log('\r\nDialog Data:', dialogData);
@@ -47,16 +44,6 @@ function translateData(dialogData) {
   // reset id and timestamp
   dialogData.id = null;
   dialogData.timestamp = null;
-
-  /*
-  // fix system message
-  if (systemChannel.includes(dialogData.code)) {
-    if (dialogData.name !== '') {
-      dialogData.text = dialogData.name + ':' + dialogData.text;
-      dialogData.name = '';
-    }
-  }
-  */
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {

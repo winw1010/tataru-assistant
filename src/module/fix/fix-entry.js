@@ -98,7 +98,15 @@ async function entry() {
 
     // update dialog
     if (dialogData.translatedText !== '') {
-      dialogModule.updateDialog(dialogData.id, dialogData.translatedName, dialogData.translatedText, dialogData);
+      dialogModule.updateDialog(
+        dialogData.id,
+        dialogData.code,
+        dialogData.translatedName,
+        dialogData.translatedText,
+        dialogData
+      );
+    } else {
+      dialogModule.removeDialog(dialogData.id);
     }
   }
 }

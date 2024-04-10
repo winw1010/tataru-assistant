@@ -290,7 +290,7 @@ function setDialogChannel() {
   // add log
   ipcMain.on('add-log', (event, id, code, name, text) => {
     dialogModule.addDialog(id, code);
-    dialogModule.updateDialog(id, name, text, null, false);
+    dialogModule.updateDialog(id, code, name, text, null, false);
   });
 
   // show notification

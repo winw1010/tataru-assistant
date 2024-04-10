@@ -17,11 +17,12 @@ const fixEntryModule = require('../fix/fix-entry');
 
 // data process
 function dataProcess(dialogData) {
+  console.log('Dialog Data:', dialogData, '\r\n');
+
   if (checkData(dialogData)) {
     if (dialogData.type === 'CONSOLE') {
-      showData(dialogData);
+      dialogModule.showNotification(dialogData.text);
     } else {
-      console.log('Dialog Data:', dialogData);
       translateData(dialogData);
     }
   }
@@ -33,24 +34,13 @@ function checkData(dialogData) {
   return names.includes('type') && names.includes('code') && names.includes('name') && names.includes('text');
 }
 
-// show data
-function showData(dialogData) {
-  console.log(dialogData.text);
-
-  if (['Waiting...', 'Start reading...', 'Stop reading...'].includes(dialogData.text)) {
-    return;
-  } else {
-    dialogModule.showNotification(dialogData.text);
-  }
-}
-
 // translate data
 function translateData(dialogData) {
   const config = configModule.getConfig();
 
   // check text and code
   if (dialogData.text === '' || !config.channel[dialogData.code]) {
-    console.log('Skip');
+    console.log('skip', dialogData.code);
     return;
   }
 

@@ -79,7 +79,7 @@ function showNotification(text) {
   text = translateModule.zhConvert(text, config.system.appLanguage);
 
   addDialog(id, code);
-  updateDialog(id, '', text);
+  updateDialog(id, code, '', text);
   setTimeout(() => {
     removeDialog(id);
   }, 7000 /*5000 + Math.min(text.length * 20, 5000)*/);
@@ -93,7 +93,7 @@ function showSystemMessage(messageId) {
   const message = getSystemMessage(messageId, appLanguage);
 
   addDialog(id, code);
-  updateDialog(id, '', message);
+  updateDialog(id, code, '', message);
   setTimeout(() => {
     removeDialog(id);
   }, 7000);

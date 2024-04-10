@@ -39,7 +39,7 @@ function addDialog(id, code) {
 }
 
 // update dialog
-function updateDialog(id, name, text, dialogData = null, scroll = true) {
+function updateDialog(id, code, name, text, dialogData = null, scroll = true) {
   // zh convert
   if (dialogData?.translation) {
     name = translateModule.zhConvert(name, dialogData.translation.to);
@@ -50,7 +50,7 @@ function updateDialog(id, name, text, dialogData = null, scroll = true) {
   windowModule.sendIndex('add-dialog', {
     id,
     innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
-    style: { display: 'block' },
+    style: { ...getStyle(code), display: 'block' },
     scroll: scroll,
   });
 

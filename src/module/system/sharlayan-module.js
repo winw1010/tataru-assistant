@@ -112,7 +112,7 @@ function stop(restart = true) {
 
 // check repetition
 function checkRepetition(dialogData) {
-  const text = dialogData.text.Replace('\r', '');
+  const text = dialogData.text.replaceAll('\r', '');
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);

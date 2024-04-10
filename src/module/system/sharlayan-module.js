@@ -50,6 +50,9 @@ let restartReader = true;
 // dialog history
 const dialogHistory = [];
 
+// chat history
+const chatHistory = {};
+
 // start
 function start() {
   try {
@@ -88,6 +91,7 @@ function start() {
           let jsonString = dataArray[index];
           if (jsonString.length > 0) {
             let dialogData = JSON.parse(jsonString.toString());
+            dialogData = fixText(dialogData);
             if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
           }
         } catch (error) {
@@ -110,16 +114,39 @@ function stop(restart = true) {
   }
 }
 
+// fix text
+function fixText(dialogData) {
+  if (dialogData.type !== 'CONSOLE') {
+    dialogData.text = dialogData.text
+      .replaceAll(/^#/gi, '')
+      .replaceAll(')*', '')
+      .replaceAll('%&', '')
+      .replaceAll('「+,', '「');
+  }
+  return dialogData;
+}
+
 // check repetition
 function checkRepetition(dialogData) {
-  const text = dialogData.text.replaceAll('\r', '');
+  const code = dialogData.code;
+  const text = dialogData.text
+    .replaceAll('\r', '')
+    .replaceAll(/（.*?）/gi, '')
+    .replaceAll(/\(.*?\)/gi, '');
+
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
   } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
-    return dialogHistory.length - dialogHistory.indexOf(text) > 3;
+    if (dialogHistory.length - dialogHistory.indexOf(text) <= 3) return false;
   }
-  return true;
+
+  if (text !== chatHistory[code]) {
+    chatHistory[code] = text;
+    return true;
+  }
+
+  return false;
 }
 
 // module exports

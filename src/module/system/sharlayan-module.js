@@ -138,7 +138,9 @@ function checkRepetition(dialogData) {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
   } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
-    if (dialogHistory.length - dialogHistory.indexOf(text) <= 3) return false;
+    if (dialogHistory.indexOf(text) >= 0 && dialogHistory.length - dialogHistory.indexOf(text) <= 3) {
+      return false;
+    }
   }
 
   if (text !== chatHistory[code]) {

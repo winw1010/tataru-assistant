@@ -175,7 +175,7 @@ function findTable(text = '', matchedWords = []) {
   const srcIndex = 0;
   const rplIndex = 1;
   let codeIndex = 0;
-  let codeString = 'BCFGHJLMNPQRSTVWXYZ';
+  let codeString = 'BCFGJLMNPRSTVWXYZ';
   let table = [];
 
   // clear code

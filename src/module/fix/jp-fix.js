@@ -294,8 +294,8 @@ async function textFixGPT(name = '', text = '', translation = {}) {
     text = await translateModule.translate(text, translation, gptTable);
   }
 
-  // mark fix
-  // text = fixFunction.markFix(text, true);
+  // fix zero
+  text = fixFunction.fixZero(text);
 
   // gender fix
   text = jpFunction.genderFix(originalText, text);

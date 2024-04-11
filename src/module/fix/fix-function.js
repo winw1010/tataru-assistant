@@ -204,6 +204,13 @@ function markFix(text = '', isTranslated = false) {
   return text;
 }
 
+function fixZero(text = '') {
+  // fix 0
+  text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w/%]|$)/gi, '$1零$2');
+  text = text.replaceAll(/zero/gi, '零');
+  return text;
+}
+
 // value fix before
 function valueFixBefore(text = '') {
   const valueList = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
@@ -248,6 +255,7 @@ module.exports = {
   includesArrayItem,
   sameAsArrayItem,
   markFix,
+  fixZero,
   valueFixBefore,
   valueFixAfter,
   sleep,

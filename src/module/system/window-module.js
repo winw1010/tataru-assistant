@@ -285,10 +285,7 @@ function boundsSizeCheck(bounds) {
 // bounds valid check
 function boundsValidCheck(bounds) {
   return (
-    bounds.x === null ||
-    bounds.y === null ||
-    bounds.width === null ||
-    bounds.height === null ||
+    (bounds.x === -1 && bounds.y === -1 && bounds.width === -1 && bounds.height === -1) ||
     bounds.width <= 0 ||
     bounds.height <= 0
   );

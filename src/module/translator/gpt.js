@@ -80,10 +80,9 @@ async function getModelList(apiKey = null) {
     const gptModelList = [];
     const otherGptModelList = [];
     const otherModelList = [];
+    const openai = createOpenai(apiKey);
 
-    if (!currentOpenAI) currentOpenAI = createOpenai(apiKey);
-
-    const tempModelList = (await currentOpenAI.models.list()).data.map((x) => x.id);
+    const tempModelList = (await openai.models.list()).data.map((x) => x.id);
     tempModelList.sort();
 
     for (let index = 0; index < tempModelList.length; index++) {
@@ -101,7 +100,6 @@ async function getModelList(apiKey = null) {
     list = [].concat(['# GPT'], gptModelList, ['# Other GPT'], otherGptModelList, ['# Other'], otherModelList);
   } catch (error) {
     console.log(error?.error?.message || error);
-    currentOpenAI = null;
   }
   return list;
 }

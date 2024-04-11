@@ -143,19 +143,28 @@ async function nameFix(name = '', translation = {}) {
 
   // get replace result
   const replaceResult = jpFunction.replaceTextByCode(name, chArray.combine);
-  translatedName = replaceResult.text;
 
-  // skip check
-  if (!jpFunction.canSkipTranslation(translatedName)) {
+  if (translation.engine === 'GPT') {
     // translate
-    translatedName = await translateModule.translate(translatedName, translation, replaceResult.table);
+    translatedName = await translateModule.translate(translatedName, translation, replaceResult.gptTable);
+
+    // after translation
+    translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+  } else {
+    translatedName = replaceResult.text;
+
+    // skip check
+    if (!jpFunction.canSkipTranslation(translatedName)) {
+      // translate
+      translatedName = await translateModule.translate(translatedName, translation, replaceResult.table);
+    }
+
+    // after translation
+    translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+
+    // table
+    translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
   }
-
-  // after translation
-  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
-
-  // table
-  translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
 
   // save translated name
   if (name !== katakanaName) {
@@ -269,22 +278,22 @@ async function textFixGPT(name = '', text = '', translation = {}) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
-  text = codeResult.text;
+  //text = codeResult.text;
 
   // special fix 2
   text = specialFix2(name, text);
 
   // mark fix
-  text = fixFunction.markFix(text);
+  // text = fixFunction.markFix(text);
 
   // skip check
-  if (!jpFunction.canSkipTranslation(text)) {
-    // translate
-    text = await translateModule.translate(text, translation, codeResult.table);
-  }
+  //if (!jpFunction.canSkipTranslation(text)) {
+  // translate
+  text = await translateModule.translate(text, translation, codeResult.gptTable);
+  //}
 
   // mark fix
-  text = fixFunction.markFix(text, true);
+  // text = fixFunction.markFix(text, true);
 
   // gender fix
   text = jpFunction.genderFix(originalText, text);
@@ -293,7 +302,7 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   text = fixFunction.replaceText(text, chArray.afterTranslation);
 
   // table
-  text = fixFunction.replaceWord(text, codeResult.table);
+  // text = fixFunction.replaceWord(text, codeResult.table);
 
   return text;
 }

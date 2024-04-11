@@ -12,6 +12,7 @@ function replaceTextByCode(text = '', array = []) {
     return {
       text: text,
       table: [],
+      gptTable: [],
     };
   }
 
@@ -23,6 +24,7 @@ function replaceTextByCode(text = '', array = []) {
   let tempText = text;
   let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
   let table = [];
+  let gptTable = [];
 
   // sort temp table
   tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
@@ -61,13 +63,15 @@ function replaceTextByCode(text = '', array = []) {
     if (searchReg.test(text)) {
       text = text.replace(searchReg, codeString[codeIndex]);
       table.push([codeString[codeIndex], element[rplIndex]]);
+      gptTable.push([element[srcIndex], element[rplIndex]]);
       codeIndex++;
     }
   }
 
   const result = {
-    text: text,
-    table: table,
+    text,
+    table,
+    gptTable,
   };
 
   console.log('tempTable:', tempTable);

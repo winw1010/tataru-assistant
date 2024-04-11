@@ -37,6 +37,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
     return {
       text: text,
       table: [],
+      gptTable: [],
     };
   }
 
@@ -177,6 +178,7 @@ function findTable(text = '', matchedWords = []) {
   let codeIndex = 0;
   let codeString = 'BCFGJLMNPRSTVWXYZ';
   let table = [];
+  let gptTable = [];
 
   // clear code
   const characters = text.match(/[a-z]/gi);
@@ -203,12 +205,14 @@ function findTable(text = '', matchedWords = []) {
           if (text.includes(sorceName) && !text.includes(exceptionName)) {
             text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
+            gptTable.push([sorceName, replaceName]);
             codeIndex++;
           }
         } else {
           if (text.includes(sorceName)) {
             text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
+            gptTable.push([sorceName, replaceName]);
             codeIndex++;
           }
         }
@@ -219,8 +223,9 @@ function findTable(text = '', matchedWords = []) {
   }
 
   return {
-    text: text,
-    table: table,
+    text,
+    table,
+    gptTable,
   };
 }
 

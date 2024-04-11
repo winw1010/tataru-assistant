@@ -30,6 +30,11 @@ async function translate(text = '', translation = {}, table = []) {
   // clear newline
   text = text.replace(/\r|\n/g, '');
 
+  // GPT
+  if (translation.engine === 'GPT') {
+    return zhConvert(await translate2(text, translation, table), translation.to);
+  }
+
   // initialize
   const maxCount = 3;
   let count = 0;
@@ -83,7 +88,7 @@ async function translate(text = '', translation = {}, table = []) {
 }
 
 // translate 2
-async function translate2(text = '', translation = {}) {
+async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
   let result = '';
@@ -91,14 +96,14 @@ async function translate2(text = '', translation = {}) {
   do {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
-    result = await getTranslation(engine, option);
+    result = await getTranslation(engine, option, table);
   } while (result === '' && autoChange && engineList.length > 0);
 
   return result;
 }
 
 // get translation
-async function getTranslation(engine = '', option = {}) {
+async function getTranslation(engine = '', option = {}, table = []) {
   let result = '';
 
   try {
@@ -124,7 +129,7 @@ async function getTranslation(engine = '', option = {}) {
         break;
 
       case 'GPT':
-        result = await gpt.exec(option);
+        result = await gpt.exec(option, table);
         break;
 
       case 'Google':

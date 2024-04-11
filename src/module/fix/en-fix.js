@@ -180,19 +180,19 @@ async function textFixGPT(name = '', text = '', translation = {}) {
 
   // combine
   const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-  text = codeResult.text;
+  // text = codeResult.text;
 
   // skip check
-  if (!enFunction.canSkipTranslation(text, codeResult.table)) {
-    // translate
-    text = await translateModule.translate(text, translation, codeResult.table);
-  }
+  // if (!enFunction.canSkipTranslation(text, codeResult.table)) {
+  // translate
+  text = await translateModule.translate(text, translation, codeResult.gptTable);
+  // }
 
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);
 
   // table
-  text = fixFunction.replaceWord(text, codeResult.table);
+  // text = fixFunction.replaceWord(text, codeResult.table);
 
   return text;
 }

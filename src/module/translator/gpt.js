@@ -8,9 +8,9 @@ const regGptModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
 const regOtherGptModel = /gpt/i;
 
 // translate
-async function exec(option) {
+async function exec(option, table = []) {
   try {
-    const response = translate(option.text, option.from, option.to);
+    const response = translate(option.text, option.from, option.to, table);
     return response;
   } catch (error) {
     console.log(error);
@@ -31,11 +31,16 @@ function createOpenai(apiKey = null) {
   return openai;
 }
 
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
+async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const openai = createOpenai();
-
+  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
   let response = null;
+
+  for (let index = 0; index < table.length; index++) {
+    const element = table[index];
+    prompt += ` Replace ${element[0]} with ${element[1]}.`;
+  }
 
   try {
     response = await openai.chat.completions.create({
@@ -43,7 +48,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
       messages: [
         {
           role: 'system',
-          content: `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`,
+          content: prompt,
         },
         {
           role: 'user',
@@ -55,6 +60,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese')
       //top_p: 1,
     });
 
+    console.log('prompt', prompt);
     console.log('Total Tokens:', response?.usage?.total_tokens);
     return response?.choices[0]?.message?.content || '';
   } catch (error) {

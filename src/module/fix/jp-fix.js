@@ -424,7 +424,6 @@ function specialFix2(name = '', text = '') {
   }
   */
 
-  /*
   // あアあ => あああ
   loopCount = 0;
   while (/([^ァ-ヺー・＝]|^)[ァ-ヺ][ァィゥェォャュョッ]?([^ァ-ヺー・＝]|$)/gi.test(text) && loopCount++ < 10) {
@@ -438,7 +437,6 @@ function specialFix2(name = '', text = '') {
       break;
     }
   }
-  */
 
   return text;
 }

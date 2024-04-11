@@ -41,8 +41,8 @@ const sharlayanPath = fileModule.getRootPath('src', 'data', 'SharlayanReader', '
 // version path
 const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
 
-// child
-let child = null;
+// reader process
+let readerProcess = null;
 
 // do restart
 let restartReader = true;
@@ -69,10 +69,10 @@ function start() {
     }
 
     // spawn reader process
-    child = childProcess.spawn(sharlayanPath);
+    readerProcess = childProcess.spawn(sharlayanPath);
 
     // on reader close
-    child.on('close', (code) => {
+    readerProcess.on('close', (code) => {
       console.log(`SharlayanReader.exe closed (code: ${code})`);
       if (restartReader) {
         start();
@@ -80,17 +80,17 @@ function start() {
     });
 
     // on reader error
-    child.on('error', (err) => {
+    readerProcess.on('error', (err) => {
       console.log(err.message);
     });
 
     // on reader stdout error
-    child.stdout.on('error', (err) => {
+    readerProcess.stdout.on('error', (err) => {
       console.log(err.message);
     });
 
     // on reader stdout data
-    child.stdout.on('data', (data) => {
+    readerProcess.stdout.on('data', (data) => {
       // split data string by \r\n
       let dataArray = data.toString().split('\r\n');
 
@@ -122,7 +122,7 @@ function start() {
 function stop(restart = true) {
   restartReader = restart;
   try {
-    child.kill('SIGINT');
+    readerProcess.kill('SIGINT');
   } catch (error) {
     //console.log(error);
   }

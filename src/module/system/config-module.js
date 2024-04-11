@@ -87,7 +87,7 @@ function loadConfig() {
     currentConfig = fileModule.read(configLocation, 'json') || {};
 
     // fix old bug
-    if (currentConfig === null || typeof currentConfig !== typeof defaultConfig) {
+    if (currentConfig === null || typeof currentConfig !== typeof defaultConfig || Array.isArray(currentConfig)) {
       throw null;
     }
 
@@ -95,7 +95,8 @@ function loadConfig() {
     mainNames.forEach((mainName) => {
       if (
         typeof currentConfig[mainName] === 'undefined' ||
-        typeof currentConfig[mainName] !== typeof defaultConfig[mainName]
+        typeof currentConfig[mainName] !== typeof defaultConfig[mainName] ||
+        Array.isArray(currentConfig[mainName])
       ) {
         currentConfig[mainName] = defaultConfig[mainName];
       } else {

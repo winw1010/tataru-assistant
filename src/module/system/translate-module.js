@@ -103,7 +103,7 @@ async function translate2(text = '', translation = {}, table = []) {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
     result = await getTranslation(engine, option, table);
-  } while (result === '' && autoChange && engineList.length > 0 && translation.engine !== 'GPT');
+  } while (result === '' && autoChange && engineList.length > 0);
 
   return result;
 }

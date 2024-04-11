@@ -12,6 +12,9 @@ const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 // ui list
 const uiList = [/*'English',*/ 'Traditional-Chinese', 'Simplified-Chinese'];
 
+// engine list
+const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];
+
 // language enum
 const languageEnum = {
   auto: 'Auto',
@@ -38,9 +41,6 @@ const languageName = {
   'Traditional-Chinese': '繁體中文',
   'Simplified-Chinese': '簡體中文',
 };
-
-// engine list
-const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];
 
 // engine name
 const engineName = {
@@ -191,9 +191,14 @@ function sleep(ms = 1000) {
 
 // module exports
 module.exports = {
+  allLanguageList,
+  sourceList,
+  targetList,
+  uiList,
+  engineList,
+
   languageEnum,
   languageIndex,
-  engineList,
 
   getEngineSelect,
   getAllLanguageSelect,

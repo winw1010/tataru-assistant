@@ -160,12 +160,12 @@ function checkRepetition(dialogData) {
   }
 
   // check text history
-  if (text !== textHistory[code]) {
-    textHistory[code] = text;
-    return true;
+  if (text === textHistory[code]) {
+    return false;
   }
 
-  return false;
+  textHistory[code] = text;
+  return true;
 }
 
 // module exports

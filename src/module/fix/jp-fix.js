@@ -283,7 +283,7 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   const { gptTable } = jpFunction.replaceTextByCode(text, chArray.combine, textType);
 
   // special fix 2
-  text = specialFix2(name, text);
+  // text = specialFix2(name, text);
 
   // mark fix
   // text = fixFunction.markFix(text);

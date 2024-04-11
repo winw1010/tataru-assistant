@@ -12,10 +12,10 @@ const configLocation = fileModule.getUserDataPath('setting', 'config.json');
 // default config
 const defaultConfig = {
   indexWindow: {
-    x: null,
-    y: null,
-    width: null,
-    height: null,
+    x: -1,
+    y: -1,
+    width: -1,
+    height: -1,
     alwaysOnTop: true,
     focusable: true,
     shortcut: true,
@@ -35,10 +35,10 @@ const defaultConfig = {
     backgroundColor: '#000000A0',
   },
   captureWindow: {
-    x: null,
-    y: null,
-    width: null,
-    height: null,
+    x: -1,
+    y: -1,
+    width: -1,
+    height: -1,
     type: 'tesseract',
     split: true,
     edit: false,
@@ -111,9 +111,7 @@ function loadConfig() {
             typeof currentConfig[mainName][subName] === 'undefined' ||
             typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]
           ) {
-            if (!['x', 'y', 'width', 'height'].includes(subName)) {
-              currentConfig[mainName][subName] = defaultConfig[mainName][subName];
-            }
+            currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });
 

@@ -99,7 +99,7 @@ function loadConfig() {
       ) {
         currentConfig[mainName] = defaultConfig[mainName];
       } else {
-        // skip checking when value is channel
+        // skip channel
         if (mainName === 'channel') {
           return;
         }

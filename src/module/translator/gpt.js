@@ -7,6 +7,8 @@ const configModule = require('../system/config-module');
 const regGptModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
 const regOtherGptModel = /gpt/i;
 
+let currentOpenAI = null;
+
 // translate
 async function exec(option, table = []) {
   try {
@@ -33,7 +35,9 @@ function createOpenai(apiKey = null) {
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
-  const openai = createOpenai();
+
+  if (!currentOpenAI) currentOpenAI = createOpenai();
+
   let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
   let response = null;
 
@@ -43,7 +47,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   }
 
   try {
-    response = await openai.chat.completions.create({
+    response = await currentOpenAI.chat.completions.create({
       model: config.system.gptModel,
       messages: [
         {
@@ -72,12 +76,13 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 async function getModelList(apiKey = null) {
   let list = [];
   try {
-    const openai = createOpenai(apiKey);
     const gptModelList = [];
     const otherGptModelList = [];
     const otherModelList = [];
 
-    const tempModelList = (await openai.models.list()).data.map((x) => x.id);
+    if (!currentOpenAI) currentOpenAI = createOpenai(apiKey);
+
+    const tempModelList = (await currentOpenAI.models.list()).data.map((x) => x.id);
     tempModelList.sort();
 
     for (let index = 0; index < tempModelList.length; index++) {

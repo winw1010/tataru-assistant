@@ -16,6 +16,7 @@ async function exec(option, table = []) {
     return response;
   } catch (error) {
     console.log(error);
+    currentOpenAI = null;
     return error;
   }
 }
@@ -100,6 +101,7 @@ async function getModelList(apiKey = null) {
     list = [].concat(['# GPT'], gptModelList, ['# Other GPT'], otherGptModelList, ['# Other'], otherModelList);
   } catch (error) {
     console.log(error?.error?.message || error);
+    currentOpenAI = null;
   }
   return list;
 }

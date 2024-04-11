@@ -297,9 +297,9 @@ async function readGptModelList() {
   if (apiKey.length > 0) {
     const config = ipcRenderer.sendSync('get-config');
     const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
+    const selectGptModel = document.getElementById('select-gpt-model');
 
     if (array.length > 0) {
-      const selectGptModel = document.getElementById('select-gpt-model');
       let innerHTML = '';
 
       for (let index = 0; index < array.length; index++) {
@@ -313,6 +313,8 @@ async function readGptModelList() {
       if (config.system.gptModel.length > 0) {
         selectGptModel.value = config.system.gptModel;
       }
+    } else {
+      selectGptModel.innerHTML = '<option value="please-select-gpt-model" selected>Please Select GPT Model</option>';
     }
   }
 }

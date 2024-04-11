@@ -146,49 +146,49 @@ function getColor(code) {
 
 // save dialog
 function saveLog(id, name, text, dialogData) {
-  const item = {
-    id: id,
-    code: dialogData.code,
-    player: dialogData.playerName,
-    name: dialogData.name,
-    text: dialogData.text,
-    audio_text: dialogData.audioText,
-    translated_name: name,
-    translated_text: text,
-    timestamp: dialogData.timestamp,
-    datetime: new Date(dialogData.timestamp).toLocaleString(),
-    translation: dialogData.translation,
-  };
-
-  const filePath = fileModule.getPath(logLocation, createLogName(item.timestamp));
-  let log = {};
-
-  // read/create log file
-  if (fileModule.exists(filePath)) {
-    log = fileModule.read(filePath, 'json') || {};
-
-    // fix old bug
-    if (Array.isArray(log)) {
-      log = {};
-    }
-  }
-
-  // play audio at first time
-  if (
-    !log[item.id] &&
-    npcChannel.includes(dialogData.code) &&
-    dialogData.audioText !== '' &&
-    dialogData.translation.autoPlay
-  ) {
-    const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
-    windowModule.sendIndex('add-audio', urlList);
-  }
-
-  // add/replcae log
-  log[item.id] = item;
-
-  // write log file
   try {
+    const item = {
+      id: id,
+      code: dialogData.code,
+      player: dialogData.playerName,
+      name: dialogData.name,
+      text: dialogData.text,
+      audio_text: dialogData.audioText,
+      translated_name: name,
+      translated_text: text,
+      timestamp: dialogData.timestamp,
+      datetime: new Date(dialogData.timestamp).toLocaleString(),
+      translation: dialogData.translation,
+    };
+
+    const filePath = fileModule.getPath(logLocation, createLogName(item.timestamp));
+    let log = {};
+
+    // read/create log file
+    if (fileModule.exists(filePath)) {
+      log = fileModule.read(filePath, 'json') || {};
+
+      // fix old bug
+      if (Array.isArray(log)) {
+        log = {};
+      }
+    }
+
+    // play audio at first time
+    if (
+      !log[item.id] &&
+      npcChannel.includes(dialogData.code) &&
+      dialogData.audioText !== '' &&
+      dialogData.translation.autoPlay
+    ) {
+      const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
+      windowModule.sendIndex('add-audio', urlList);
+    }
+
+    // add/replcae log
+    log[item.id] = item;
+
+    // write log file
     fileModule.write(filePath, log, 'json');
   } catch (error) {
     console.error(error);

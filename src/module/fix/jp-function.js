@@ -13,7 +13,7 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 const regAllKatakana = /^[ァ-ヺー・＝]+$/;
-const regAllHiragana = /^[ぁ-ゖー・＝]+$/;
+//const regAllHiragana = /^[ぁ-ゖー・＝]+$/;
 
 const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
@@ -83,11 +83,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else if (regAllHiragana.test(name)) {
-        const matchReg = new RegExp(noHiraganaFront + name + noHiraganaBack, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
       } else {
         if (text.includes(name)) {
           matchedWords.push(element);
@@ -95,6 +90,12 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       }
 
       /*
+      else if (regAllHiragana.test(name)) {
+        const matchReg = new RegExp(noHiraganaFront + name + noHiraganaBack, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      }
       else if (regKatakanaFront.test(name)) {
         const matchReg = new RegExp(noKatakanaFront + name, 'gi');
         if (matchReg.test(text)) {

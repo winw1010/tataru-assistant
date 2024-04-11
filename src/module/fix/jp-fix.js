@@ -145,26 +145,29 @@ async function nameFix(name = '', translation = {}) {
   const replaceResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
   if (translation.engine === 'GPT') {
-    // translate
-    translatedName = await translateModule.translate(translatedName, translation, replaceResult.gptTable);
+    // skip check
+    if (jpFunction.needTranslation(translatedName, replaceResult.gptTable)) {
+      // translate
+      translatedName = await translateModule.translate(translatedName, translation, replaceResult.gptTable);
+    }
 
-    // after translation
-    translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+    // table
+    translatedName = fixFunction.replaceText(translatedName, replaceResult.gptTable);
   } else {
     translatedName = replaceResult.text;
 
     // skip check
-    if (!jpFunction.canSkipTranslation(translatedName)) {
+    if (jpFunction.needTranslation(translatedName, replaceResult.table)) {
       // translate
       translatedName = await translateModule.translate(translatedName, translation, replaceResult.table);
     }
 
-    // after translation
-    translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
-
     // table
     translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
   }
+
+  // after translation
+  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save translated name
   if (name !== katakanaName) {
@@ -235,7 +238,7 @@ async function textFix(name = '', text = '', translation = {}) {
   text = valueResult.text;
 
   // skip check
-  if (!jpFunction.canSkipTranslation(text)) {
+  if (jpFunction.needTranslation(text, codeResult.table)) {
     // translate
     text = await translateModule.translate(text, translation, codeResult.table);
   }
@@ -249,11 +252,11 @@ async function textFix(name = '', text = '', translation = {}) {
   // gender fix
   text = jpFunction.genderFix(originalText, text);
 
-  // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
-
   // table
   text = fixFunction.replaceWord(text, codeResult.table);
+
+  // after translation
+  text = fixFunction.replaceText(text, chArray.afterTranslation);
 
   return text;
 }
@@ -277,8 +280,7 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   text = specialFix1(name, text);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
-  //text = codeResult.text;
+  const { gptTable } = jpFunction.replaceTextByCode(text, chArray.combine, textType);
 
   // special fix 2
   text = specialFix2(name, text);
@@ -287,10 +289,10 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // text = fixFunction.markFix(text);
 
   // skip check
-  //if (!jpFunction.canSkipTranslation(text)) {
-  // translate
-  text = await translateModule.translate(text, translation, codeResult.gptTable);
-  //}
+  if (jpFunction.needTranslation(text, gptTable)) {
+    // translate
+    text = await translateModule.translate(text, translation, gptTable);
+  }
 
   // mark fix
   // text = fixFunction.markFix(text, true);
@@ -298,11 +300,11 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // gender fix
   text = jpFunction.genderFix(originalText, text);
 
+  // table
+  text = fixFunction.replaceText(text, gptTable);
+
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-  // table
-  // text = fixFunction.replaceWord(text, codeResult.table);
 
   return text;
 }

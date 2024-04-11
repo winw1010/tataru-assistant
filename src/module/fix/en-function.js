@@ -81,17 +81,18 @@ function replaceTextByCode(text = '', array = []) {
   return result;
 }
 
-function canSkipTranslation(text = '', table = []) {
+function needTranslation(text = '', table = []) {
   // remove table index
-  const enReg = table.map((value) => value[0]).join('|');
+  const enReg = '(' + table.map((value) => value[0]).join(')|(') + ')';
   if (enReg !== '') {
     text = text.replace(new RegExp(enReg, 'gi'), '');
   }
 
   // remove marks
-  text = text.replace(/[^a-z]/gi, '');
+  text = text.replace(/[^A-Za-z]/g, '');
+  console.log('needTranslation:', text !== '');
 
-  return text === '';
+  return text !== '';
 }
 
 function getPluralType(text = '') {
@@ -131,6 +132,6 @@ function isChinese(text = '', translation = {}) {
 // module exports
 module.exports = {
   replaceTextByCode,
-  canSkipTranslation,
+  needTranslation,
   isChinese,
 };

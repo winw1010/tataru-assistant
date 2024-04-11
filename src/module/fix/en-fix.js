@@ -96,21 +96,36 @@ async function nameFix(name = '', translation = {}) {
     return target[1];
   }
 
+  // translate name
+  let translatedName = '';
+
   // code
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-  // translate name
-  let translatedName = '';
-  translatedName = codeResult.text;
+  if (translation.engine === 'GPT') {
+    // skip check
+    if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
+      // translate
+      translatedName = await translateModule.translate(translatedName, translation, codeResult.gptTable);
+    }
 
-  // skip check
-  if (!enFunction.canSkipTranslation(translatedName, codeResult.table)) {
-    // translate
-    translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
+    // table
+    translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable, true);
+  } else {
+    translatedName = codeResult.text;
+
+    // skip check
+    if (enFunction.needTranslation(translatedName, codeResult.table)) {
+      // translate
+      translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
+    }
+
+    // table
+    translatedName = fixFunction.replaceText(translatedName, codeResult.table);
   }
 
-  // table
-  translatedName = fixFunction.replaceText(translatedName, codeResult.table);
+  // after translation
+  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save to temp
   saveName(name, translatedName);
@@ -150,7 +165,7 @@ async function textFix(name = '', text = '', translation = {}) {
   text = valueResult.text;
 
   // skip check
-  if (!enFunction.canSkipTranslation(text, codeResult.table)) {
+  if (enFunction.needTranslation(text, codeResult.table)) {
     // translate
     text = await translateModule.translate(text, translation, codeResult.table);
   }
@@ -161,11 +176,11 @@ async function textFix(name = '', text = '', translation = {}) {
   // mark fix
   text = fixFunction.markFix(text, true);
 
-  // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
-
   // table
   text = fixFunction.replaceWord(text, codeResult.table);
+
+  // after translation
+  text = fixFunction.replaceText(text, chArray.afterTranslation);
 
   return text;
 }
@@ -179,20 +194,19 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   text = specialFix(name, text);
 
   // combine
-  const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-  // text = codeResult.text;
+  const { gptTable } = enFunction.replaceTextByCode(text, chArray.combine);
 
   // skip check
-  // if (!enFunction.canSkipTranslation(text, codeResult.table)) {
-  // translate
-  text = await translateModule.translate(text, translation, codeResult.gptTable);
-  // }
+  if (enFunction.needTranslation(text, gptTable)) {
+    // translate
+    text = await translateModule.translate(text, translation, gptTable);
+  }
+
+  // table
+  text = fixFunction.replaceText(text, gptTable, true);
 
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-  // table
-  // text = fixFunction.replaceWord(text, codeResult.table);
 
   return text;
 }
@@ -230,7 +244,18 @@ function specialFix(name = '', text = '') {
       .replace(/The Fallen/gi, 'The Fallen#');
   }
 
-  // A-Apple
+  // ApPlE => Apple
+  if (/(?<=[a-z])[A-Z](?=[a-z\b])/g.test(text)) {
+    let textArray = text.split(' ');
+    for (let index = 0; index < textArray.length; index++) {
+      const element = textArray[index];
+      textArray[index] = element[0].toUpperCase() + element.slice(1).toLowerCase();
+    }
+    text = textArray.join(' ');
+  }
+
+  // A-Apple => Apple
+  loopCount = 0;
   while (/(?<=\b)(\w{1,2})-\1/gi.test(text) && loopCount < 10) {
     text = text.replace(/(?<=\b)(\w{1,2})-\1/gi, '$1');
     loopCount++;

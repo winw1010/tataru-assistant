@@ -32,7 +32,13 @@ async function translate(text = '', translation = {}, table = []) {
 
   // GPT
   if (translation.engine === 'GPT') {
-    return zhConvert(await translate2(text, translation, table), translation.to);
+    let result = await translate2(text, translation, table);
+
+    if (result === '') {
+      result = '翻譯失敗';
+    }
+
+    return zhConvert(result, translation.to);
   }
 
   // initialize
@@ -66,7 +72,7 @@ async function translate(text = '', translation = {}, table = []) {
       // check translated text
       if (result === '') {
         if (previousResult === '') {
-          result = '無法取得翻譯文字，請確認您的網路連線，或暫時使用其他翻譯引擎';
+          result = '翻譯失敗';
         } else {
           result = previousResult;
         }
@@ -97,7 +103,7 @@ async function translate2(text = '', translation = {}, table = []) {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
     result = await getTranslation(engine, option, table);
-  } while (result === '' && autoChange && engineList.length > 0);
+  } while (result === '' && autoChange && engineList.length > 0 && translation.engine !== 'GPT');
 
   return result;
 }

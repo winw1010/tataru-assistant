@@ -428,8 +428,13 @@ function hiraFix(text = '') {
   return text;
 }
 
-function canSkipTranslation(text = '') {
-  return !/[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
+function needTranslation(text = '', table = []) {
+  for (let index = 0; index < table.length; index++) {
+    const element = table[index];
+    text = text.replaceAll(element[0], '');
+  }
+
+  return /[ぁ-ゖァ-ヺ\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/gi.test(text);
 }
 
 function genderFix(originalText = '', translatedText = '') {
@@ -472,7 +477,7 @@ module.exports = {
   specialReplace,
   convertKana,
   reverseKana,
-  canSkipTranslation,
+  needTranslation,
   genderFix,
   isKatakanaName,
   isChinese,

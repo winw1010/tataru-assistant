@@ -22,7 +22,7 @@ const defaultConfig = {
     hideButton: true,
     hideDialog: true,
     minSize: true,
-    hideDialogTimeout: 30,
+    hideDialogTimeout: '30',
     backgroundColor: '#00000034',
     clickThrough: false,
     lock: false,
@@ -93,7 +93,12 @@ function loadConfig() {
 
     const mainNames = Object.getOwnPropertyNames(defaultConfig);
     mainNames.forEach((mainName) => {
-      if (currentConfig[mainName]) {
+      if (
+        typeof currentConfig[mainName] === 'undefined' ||
+        typeof currentConfig[mainName] !== typeof defaultConfig[mainName]
+      ) {
+        currentConfig[mainName] = defaultConfig[mainName];
+      } else {
         // skip checking when value is channel
         if (mainName === 'channel') {
           return;
@@ -102,13 +107,13 @@ function loadConfig() {
         // add property
         const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
         subNames.forEach((subName) => {
-          if (currentConfig[mainName][subName] === null || currentConfig[mainName][subName] === undefined) {
-            if (subName === 'appLanguage') {
-              currentConfig.system.appLanguage = currentConfig.translation.to;
-              return;
+          if (
+            typeof currentConfig[mainName][subName] === 'undefined' ||
+            typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]
+          ) {
+            if (!['x', 'y', 'width', 'height'].includes(subName)) {
+              currentConfig[mainName][subName] = defaultConfig[mainName][subName];
             }
-
-            currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });
 
@@ -116,19 +121,27 @@ function loadConfig() {
         const subNames2 = Object.getOwnPropertyNames(currentConfig[mainName]);
         if (subNames.length !== subNames2.length) {
           subNames2.forEach((subName) => {
-            if (defaultConfig[mainName][subName] === null || defaultConfig[mainName][subName] === undefined) {
+            if (typeof defaultConfig[mainName][subName] === 'undefined') {
               delete currentConfig[mainName][subName];
             }
           });
         }
-      } else {
-        currentConfig[mainName] = defaultConfig[mainName];
       }
     });
 
     // fix translator
     if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
-      currentConfig.translation.engine = 'Youdao';
+      currentConfig.translation.engine = defaultConfig.translation.engine;
+    }
+
+    // fix source
+    if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
+      currentConfig.translation.from = defaultConfig.translation.from;
+    }
+
+    // fix target
+    if (!engineModule.targetList.includes(currentConfig.translation.to)) {
+      currentConfig.translation.to = defaultConfig.translation.to;
     }
 
     // fix text detect
@@ -143,6 +156,7 @@ function loadConfig() {
       currentConfig.system.gptModel = 'gpt-4';
     }
 
+    // set first time off
     currentConfig.system.firstTime = false;
   } catch (error) {
     console.log(error);

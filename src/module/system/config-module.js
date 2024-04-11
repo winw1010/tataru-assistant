@@ -87,7 +87,7 @@ function loadConfig() {
     currentConfig = fileModule.read(configLocation, 'json') || {};
 
     // fix old bug
-    if (Array.isArray(currentConfig) || Object.getOwnPropertyNames(currentConfig).length === 0) {
+    if (currentConfig === null || typeof currentConfig !== typeof defaultConfig) {
       throw null;
     }
 

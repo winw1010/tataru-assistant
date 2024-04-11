@@ -128,7 +128,7 @@ function loadConfig() {
       }
     });
 
-    // fix translator
+    // fix engine
     if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
       currentConfig.translation.engine = defaultConfig.translation.engine;
     }
@@ -136,6 +136,11 @@ function loadConfig() {
     // fix source
     if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
       currentConfig.translation.from = defaultConfig.translation.from;
+    }
+
+    // fix player
+    if (!engineModule.sourceList.includes(currentConfig.translation.fromPlayer)) {
+      currentConfig.translation.fromPlayer = defaultConfig.translation.fromPlayer;
     }
 
     // fix target

@@ -157,7 +157,7 @@ function loadConfig() {
     if (currentConfig.system.gptModel === '3') {
       currentConfig.system.gptModel = 'gpt-3.5-turbo';
     } else if (currentConfig.system.gptModel === '4') {
-      currentConfig.system.gptModel = 'gpt-4';
+      currentConfig.system.gptModel = 'gpt-4-turbo';
     }
 
     // set first time off

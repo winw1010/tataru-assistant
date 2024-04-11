@@ -26,10 +26,12 @@ const noKatakana =
 const noKatakanaFront = `(?<![${noKatakana}])`;
 const noKatakanaBack = `(?![${noKatakana}])`;
 
+/*
 const noHiragana =
   'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゆよらりるれろわゐゑをんゔ';
 const noHiraganaFront = `(?<![${noHiragana}])`;
 const noHiraganaBack = `(?![${noHiragana}])`;
+*/
 
 // jp text function
 function replaceTextByCode(text = '', array = [], textType = 0) {

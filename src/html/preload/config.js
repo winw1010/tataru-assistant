@@ -25,7 +25,7 @@ function setIPC() {
   // send data
   ipcRenderer.on('send-data', (event, divId) => {
     document.getElementById('select-option').value = divId;
-    document.querySelectorAll('.setting_page').forEach((value) => {
+    document.querySelectorAll('.config-page').forEach((value) => {
       document.getElementById(value.id).hidden = true;
     });
     document.getElementById(divId).hidden = false;
@@ -34,13 +34,13 @@ function setIPC() {
 
 // set view
 function setView() {
-  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
 
-  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_from_player').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from-player').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
   document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
 
@@ -57,32 +57,32 @@ function setEvent() {
   });
 
   // background color
-  document.getElementById('color_background_color').oninput = () => {
-    document.getElementById('span_background_color').innerText = document
-      .getElementById('color_background_color')
+  document.getElementById('input-background-color').oninput = () => {
+    document.getElementById('span-background-color').innerText = document
+      .getElementById('input-background-color')
       .value.toString()
       .toUpperCase();
   };
 
   // background transparency
-  document.getElementById('range_background_transparency').oninput = () => {
-    document.getElementById('span_background_transparency').innerText = document.getElementById(
-      'range_background_transparency'
+  document.getElementById('input-background-transparency').oninput = () => {
+    document.getElementById('span-background-transparency').innerText = document.getElementById(
+      'input-background-transparency'
     ).value;
   };
 
   // dialog color
-  document.getElementById('color_dialog_color').oninput = () => {
-    document.getElementById('span_dialog_color').innerText = document
-      .getElementById('color_dialog_color')
+  document.getElementById('input-dialog-color').oninput = () => {
+    document.getElementById('span-dialog-color').innerText = document
+      .getElementById('input-dialog-color')
       .value.toString()
       .toUpperCase();
   };
 
   // dialog transparency
-  document.getElementById('range_dialog_transparency').oninput = () => {
-    document.getElementById('span_dialog_transparency').innerText =
-      document.getElementById('range_dialog_transparency').value;
+  document.getElementById('input-dialog-transparency').oninput = () => {
+    document.getElementById('span-dialog-transparency').innerText =
+      document.getElementById('input-dialog-transparency').value;
   };
 
   // input-gpt-api-key
@@ -94,36 +94,36 @@ function setEvent() {
 // set button
 function setButton() {
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 
   // page
   document.getElementById('select-option').onchange = () => {
     const value = document.getElementById('select-option').value;
-    document.querySelectorAll('.setting_page').forEach((page) => {
+    document.querySelectorAll('.config-page').forEach((page) => {
       document.getElementById(page.id).hidden = true;
     });
     document.getElementById(value).hidden = false;
   };
 
   // download json
-  document.getElementById('button_download_json').onclick = () => {
+  document.getElementById('button-download-json').onclick = () => {
     ipcRenderer.send('download-json');
   };
 
   // version check
-  document.getElementById('button_version_check').onclick = () => {
+  document.getElementById('button-version-check').onclick = () => {
     ipcRenderer.send('version-check');
   };
 
   // restart sharlayan reader
-  document.getElementById('button_restart_sharlayan_reader').onclick = () => {
+  document.getElementById('button-restart-sharlayan-reader').onclick = () => {
     ipcRenderer.send('restart-sharlayan-reader');
   };
 
   // get google credential
-  document.getElementById('a_get_credential').onclick = () => {
+  document.getElementById('a-get-credential').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
@@ -141,7 +141,7 @@ function setButton() {
   };
 
   // set google credential
-  document.getElementById('button_google_credential').onclick = () => {
+  document.getElementById('button-google-credential').onclick = () => {
     ipcRenderer.send('set-google-credential');
   };
 
@@ -158,18 +158,18 @@ function setButton() {
   };
 
   // readme
-  document.getElementById('a_readme').onclick = () => {
+  document.getElementById('a-readme').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // bug report
-  document.getElementById('a_bug_report').onclick = () => {
+  document.getElementById('a-bug-report').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
   };
 
   // translation report
-  document.getElementById('a_translation_report').onclick = () => {
+  document.getElementById('a-translation-report').onclick = () => {
     ipcRenderer.send(
       'execute-command',
       'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
@@ -177,29 +177,27 @@ function setButton() {
   };
 
   // github
-  document.getElementById('a_github').onclick = () => {
+  document.getElementById('a-github').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-v2"');
   };
 
   // author
-  document.getElementById('a_author').onclick = () => {
+  document.getElementById('a-author').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
   /*
   // donate
-  document.getElementById('a_donate').onclick = () => {
-      ipcRenderer.send('execute-command', 'explorer "https://www.google.com/"');
-  };
+  document.getElementById('a-donate').onclick = () => {};
   */
 
   // default
-  document.getElementById('button_save_default_config').onclick = () => {
+  document.getElementById('button-save-default-config').onclick = () => {
     saveDefaultConfig();
   };
 
   // save
-  document.getElementById('button_save_config').onclick = () => {
+  document.getElementById('button-save-config').onclick = () => {
     saveConfig();
   };
 }
@@ -217,7 +215,7 @@ function readConfig() {
   readChannel(config, chatCode);
 
   // about
-  document.getElementById('span_version').innerText = version;
+  document.getElementById('span-version').innerText = version;
 }
 
 // save config
@@ -229,13 +227,13 @@ function saveConfig() {
   saveOptions(config);
 
   // window backgroundColor
-  let windowColor = document.getElementById('color_background_color').value;
-  let windowTransparent = parseInt(document.getElementById('range_background_transparency').value).toString(16);
+  let windowColor = document.getElementById('input-background-color').value;
+  let windowTransparent = parseInt(document.getElementById('input-background-transparency').value).toString(16);
   config.indexWindow.backgroundColor = windowColor + windowTransparent.padStart(2, '0');
 
   // dialog backgroundColor
-  let dialogColor = document.getElementById('color_dialog_color').value;
-  let dialogTransparent = parseInt(document.getElementById('range_dialog_transparency').value).toString(16);
+  let dialogColor = document.getElementById('input-dialog-color').value;
+  let dialogTransparent = parseInt(document.getElementById('input-dialog-transparency').value).toString(16);
   config.dialog.backgroundColor = dialogColor + dialogTransparent.padStart(2, '0');
 
   // save channel
@@ -321,14 +319,14 @@ async function readGptModelList() {
 
 // read channel
 function readChannel(config, chatCode) {
-  const channel = document.getElementById('div_channel_list');
+  const channel = document.getElementById('div-channel-list');
   let newInnerHTML = '';
 
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
-    const checkboxId = `checkbox_${element.ChatCode}`;
-    const colorId = `color_${element.ChatCode}_color`;
-    const spanId = `span_${element.ChatCode}_color`;
+    const checkboxId = `checkbox-${element.ChatCode}`;
+    const colorId = `input-${element.ChatCode}-color`;
+    const spanId = `span-${element.ChatCode}-color`;
     let checked, color;
 
     if (config.channel[element.ChatCode]) {
@@ -362,8 +360,8 @@ function readChannel(config, chatCode) {
 
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
-    const channelColor = document.getElementById(`color_${element.ChatCode}_color`);
-    const channelSpan = document.getElementById(`span_${element.ChatCode}_color`);
+    const channelColor = document.getElementById(`input-${element.ChatCode}-color`);
+    const channelSpan = document.getElementById(`span-${element.ChatCode}-color`);
 
     channelColor.oninput = () => {
       channelSpan.style.color = channelColor.value.toString();
@@ -376,17 +374,17 @@ function saveChannel(config = {}, chatCode = {}) {
   config.channel = {};
 
   // checked color
-  const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
+  const checkedArray = document.querySelectorAll('#div-channel input[type="checkbox"]:checked');
   for (let index = 0; index < checkedArray.length; index++) {
-    const code = checkedArray[index].id.replaceAll('checkbox_', '').toUpperCase();
-    config.channel[code] = document.getElementById(`color_${code}_color`).value.toUpperCase();
+    const code = checkedArray[index].id.replaceAll('checkbox-', '').toUpperCase();
+    config.channel[code] = document.getElementById(`input-${code}-color`).value.toUpperCase();
   }
 
   // all color
-  const channelArray = document.querySelectorAll('#div_channel input[type="checkbox"]');
+  const channelArray = document.querySelectorAll('#div-channel input[type="checkbox"]');
   for (let index = 0; index < channelArray.length; index++) {
-    const code = channelArray[index].id.replaceAll('checkbox_', '').toUpperCase();
-    chatCode[index].Color = document.getElementById(`color_${code}_color`).value.toUpperCase();
+    const code = channelArray[index].id.replaceAll('checkbox-', '').toUpperCase();
+    chatCode[index].Color = document.getElementById(`input-${code}-color`).value.toUpperCase();
   }
 }
 
@@ -424,52 +422,52 @@ function getOptionList() {
   return [
     // window
     [
-      ['checkbox_top', 'checked'],
+      ['checkbox-top', 'checked'],
       ['indexWindow', 'alwaysOnTop'],
     ],
     [
-      ['checkbox_shortcut', 'checked'],
+      ['checkbox-shortcut', 'checked'],
       ['indexWindow', 'shortcut'],
     ],
     [
-      ['checkbox_min_size', 'checked'],
+      ['checkbox-min-size', 'checked'],
       ['indexWindow', 'minSize'],
     ],
     [
-      ['checkbox_hide_button', 'checked'],
+      ['checkbox-hide-button', 'checked'],
       ['indexWindow', 'hideButton'],
     ],
     [
-      ['checkbox_hide_dialog', 'checked'],
+      ['checkbox-hide-dialog', 'checked'],
       ['indexWindow', 'hideDialog'],
     ],
     [
-      ['input_hide_dialog', 'value'],
+      ['input-hide-dialog', 'value'],
       ['indexWindow', 'hideDialogTimeout'],
     ],
     [
-      ['span_background_color', 'innerText'],
+      ['span-background-color', 'innerText'],
       ['indexWindow', 'backgroundColor'],
       (value) => {
         return value.slice(0, 7);
       },
     ],
     [
-      ['color_background_color', 'value'],
+      ['input-background-color', 'value'],
       ['indexWindow', 'backgroundColor'],
       (value) => {
         return value.slice(0, 7);
       },
     ],
     [
-      ['span_background_transparency', 'innerText'],
+      ['span-background-transparency', 'innerText'],
       ['indexWindow', 'backgroundColor'],
       (value) => {
         return parseInt(value.slice(7), 16);
       },
     ],
     [
-      ['range_background_transparency', 'value'],
+      ['input-background-transparency', 'value'],
       ['indexWindow', 'backgroundColor'],
       (value) => {
         return parseInt(value.slice(7), 16);
@@ -478,44 +476,44 @@ function getOptionList() {
 
     // font
     [
-      ['select_font_weight', 'value'],
+      ['select-font-weight', 'value'],
       ['dialog', 'weight'],
     ],
     [
-      ['input_font_size', 'value'],
+      ['input-font-size', 'value'],
       ['dialog', 'fontSize'],
     ],
     [
-      ['input_dialog_spacing', 'value'],
+      ['input-dialog-spacing', 'value'],
       ['dialog', 'spacing'],
     ],
     [
-      ['input_dialog_radius', 'value'],
+      ['input-dialog-radius', 'value'],
       ['dialog', 'radius'],
     ],
     [
-      ['span_dialog_color', 'innerText'],
+      ['span-dialog-color', 'innerText'],
       ['dialog', 'backgroundColor'],
       (value) => {
         return value.slice(0, 7);
       },
     ],
     [
-      ['color_dialog_color', 'value'],
+      ['input-dialog-color', 'value'],
       ['dialog', 'backgroundColor'],
       (value) => {
         return value.slice(0, 7);
       },
     ],
     [
-      ['span_dialog_transparency', 'innerText'],
+      ['span-dialog-transparency', 'innerText'],
       ['dialog', 'backgroundColor'],
       (value) => {
         return parseInt(value.slice(7), 16);
       },
     ],
     [
-      ['range_dialog_transparency', 'value'],
+      ['input-dialog-transparency', 'value'],
       ['dialog', 'backgroundColor'],
       (value) => {
         return parseInt(value.slice(7), 16);
@@ -524,35 +522,35 @@ function getOptionList() {
 
     // translation
     [
-      ['checkbox_auto_change', 'checked'],
+      ['checkbox-auto-change', 'checked'],
       ['translation', 'autoChange'],
     ],
     [
-      ['checkbox_text_fix', 'checked'],
+      ['checkbox-text-fix', 'checked'],
       ['translation', 'fix'],
     ],
     [
-      ['checkbox_skip_system', 'checked'],
+      ['checkbox-skip-system', 'checked'],
       ['translation', 'skip'],
     ],
     [
-      ['checkbox_skip_chinese', 'checked'],
+      ['checkbox-skip-chinese', 'checked'],
       ['translation', 'skipChinese'],
     ],
     [
-      ['select_engine', 'value'],
+      ['select-engine', 'value'],
       ['translation', 'engine'],
     ],
     [
-      ['select_from', 'value'],
+      ['select-from', 'value'],
       ['translation', 'from'],
     ],
     [
-      ['select_from_player', 'value'],
+      ['select-from-player', 'value'],
       ['translation', 'fromPlayer'],
     ],
     [
-      ['select_to', 'value'],
+      ['select-to', 'value'],
       ['translation', 'to'],
     ],
 
@@ -582,7 +580,7 @@ function getOptionList() {
       ['system', 'appLanguage'],
     ],
     [
-      ['checkbox_auto_download_json', 'checked'],
+      ['checkbox-auto-download-json', 'checked'],
       ['system', 'autoDownloadJson'],
     ],
     [

@@ -26,50 +26,45 @@
     <header class="container-fluid p-2">
       <div class="row align-items-center">
         <div class="col-auto">
-          <img
-            id="img-button-drag"
-            class="img_button auto_hidden"
-            title="Drag"
-            src="./img/ui/open_with_white_48dp.svg"
-          />
+          <img id="img-button-drag" class="img-button" src="./img/ui/open_with_white_48dp.svg" />
         </div>
         <div class="col">
-          <span id="span_config">設定</span>
+          <span id="span-title-config"></span>
         </div>
         <div class="col-auto">
-          <img id="img_button_close" class="img_button" title="關閉" src="./img/ui/close_white_24dp.svg" />
+          <img id="img-button-close" class="img-button" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
 
       <div class="row my-2">
         <div class="col-auto">
           <select class="form-select" name="" id="select-option">
-            <option value="div_window" selected>視窗樣式</option>
-            <option value="div_font">文字樣式</option>
-            <option value="div_channel">頻道設定</option>
-            <option value="div_translation">翻譯設定</option>
-            <option value="div_api">API設定</option>
-            <option value="div_system">系統設定</option>
-            <option value="div_about">關於</option>
+            <option value="div-window" selected></option>
+            <option value="div-font"></option>
+            <option value="div-channel"></option>
+            <option value="div-translation"></option>
+            <option value="div-api"></option>
+            <option value="div-system"></option>
+            <option value="div-about"></option>
           </select>
         </div>
 
         <div class="col-auto">
-          <button id="button_save_config" class="btn btn-primary">儲存</button>
-          <button id="button_save_default_config" class="btn btn-secondary">恢復預設</button>
+          <button id="button-save-config" class="btn btn-primary"></button>
+          <button id="button-save-default-config" class="btn btn-secondary"></button>
         </div>
       </div>
     </header>
 
     <main class="container-fluid">
       <!-- window page -->
-      <div id="div_window" class="setting_page">
+      <div id="div-window" class="config-page">
         <!-- always on top -->
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_top" />
-              <label class="form-check-label" for="checkbox_top">顯示在最上層</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-top" />
+              <label class="form-check-label" for="checkbox-top">顯示在最上層</label>
             </div>
           </div>
         </div>
@@ -80,8 +75,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_min_size" />
-              <label class="form-check-label" for="checkbox_min_size">最小尺寸限制</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-min-size" />
+              <label class="form-check-label" for="checkbox-min-size">最小尺寸限制</label>
             </div>
           </div>
         </div>
@@ -92,8 +87,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_button" />
-              <label class="form-check-label" for="checkbox_hide_button">自動隱藏按鈕</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-hide-button" />
+              <label class="form-check-label" for="checkbox-hide-button">自動隱藏按鈕</label>
             </div>
           </div>
         </div>
@@ -104,8 +99,8 @@
         <div class="row">
           <div class="col-auto">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_hide_dialog" />
-              <label class="form-check-label" for="checkbox_hide_dialog">自動隱藏視窗</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-hide-dialog" />
+              <label class="form-check-label" for="checkbox-hide-dialog">自動隱藏視窗</label>
             </div>
           </div>
         </div>
@@ -115,10 +110,10 @@
         <!-- hide dialog timeout -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="input_hide_dialog">隱藏間隔(秒)</label>
+            <label for="input-hide-dialog">隱藏間隔(秒)</label>
           </div>
           <div class="col-auto">
-            <input class="form-control" type="number" id="input_hide_dialog" min="1" step="1" value="20" />
+            <input class="form-control" type="number" id="input-hide-dialog" min="1" step="1" value="20" />
           </div>
         </div>
 
@@ -127,13 +122,13 @@
         <!-- background color -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="color_background_color">背景顏色</label>
+            <label for="input-background-color">背景顏色</label>
           </div>
           <div class="col-auto">
-            <span id="span_background_color"></span>
+            <span id="span-background-color"></span>
           </div>
           <div class="col-auto">
-            <input type="color" class="form-control form-control-color" id="color_background_color" />
+            <input type="color" class="form-control form-control-color" id="input-background-color" />
           </div>
         </div>
 
@@ -142,26 +137,26 @@
         <!-- background transparency -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="range_background_transparency">背景透明度</label>
+            <label for="input-background-transparency">背景透明度</label>
           </div>
           <div class="col-auto">
-            <span id="span_background_transparency"></span>
+            <span id="span-background-transparency"></span>
           </div>
           <div class="col-auto">
-            <input type="range" class="form-range" min="0" max="255" id="range_background_transparency" />
+            <input type="range" class="form-range" min="0" max="255" id="input-background-transparency" />
           </div>
         </div>
       </div>
 
       <!-- font page -->
-      <div id="div_font" class="setting_page" hidden>
+      <div id="div-font" class="config-page" hidden>
         <!-- select font weight -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="select_font_weight">文字粗細</label>
+            <label for="select-font-weight">文字粗細</label>
           </div>
           <div class="col-auto">
-            <select class="form-select" id="select_font_weight">
+            <select class="form-select" id="select-font-weight">
               <option value="normal" selected>細</option>
               <option value="bold">粗</option>
             </select>
@@ -173,10 +168,10 @@
         <!-- font size -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="input_font_size">文字大小(rem)</label>
+            <label for="input-font-size">文字大小(rem)</label>
           </div>
           <div class="col-auto">
-            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_font_size" />
+            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input-font-size" />
           </div>
         </div>
 
@@ -185,10 +180,10 @@
         <!-- dialog space -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="input_dialog_spacing">對話框間隔(rem)</label>
+            <label for="input-dialog-spacing">對話框間隔(rem)</label>
           </div>
           <div class="col-auto">
-            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input_dialog_spacing" />
+            <input type="number" class="form-control" min="0" value="1" step="0.1" id="input-dialog-spacing" />
           </div>
         </div>
 
@@ -197,10 +192,10 @@
         <!-- dialog radius -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="input_dialog_radius">對話框圓角(rem)</label>
+            <label for="input-dialog-radius">對話框圓角(rem)</label>
           </div>
           <div class="col-auto">
-            <input type="number" class="form-control" min="0" value="0" step="0.1" id="input_dialog_radius" />
+            <input type="number" class="form-control" min="0" value="0" step="0.1" id="input-dialog-radius" />
           </div>
         </div>
 
@@ -209,13 +204,13 @@
         <!-- dialog color -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="color_dialog_color">對話框顏色</label>
+            <label for="input-dialog-color">對話框顏色</label>
           </div>
           <div class="col-auto">
-            <span id="span_dialog_color"></span>
+            <span id="span-dialog-color"></span>
           </div>
           <div class="col-auto">
-            <input type="color" class="form-control form-control-color" id="color_dialog_color" />
+            <input type="color" class="form-control form-control-color" id="input-dialog-color" />
           </div>
         </div>
 
@@ -224,34 +219,34 @@
         <!-- dialog transparency -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="range_dialog_transparency">對話框透明度</label>
+            <label for="input-dialog-transparency">對話框透明度</label>
           </div>
           <div class="col-auto">
-            <span id="span_dialog_transparency"></span>
+            <span id="span-dialog-transparency"></span>
           </div>
           <div class="col-auto">
-            <input type="range" class="form-range" min="0" max="255" id="range_dialog_transparency" />
+            <input type="range" class="form-range" min="0" max="255" id="input-dialog-transparency" />
           </div>
         </div>
       </div>
 
       <!-- channel page -->
-      <div id="div_channel" class="setting_page" hidden>
+      <div id="div-channel" class="config-page" hidden>
         <div>
-          <span id="span_channel_comment">使用滑鼠滾輪滾動頻道清單</span>
+          <span id="span-channel-comment">使用滑鼠滾輪滾動頻道清單</span>
         </div>
-        <div id="div_channel_list"></div>
+        <div id="div-channel-list"></div>
         <br />
       </div>
 
       <!-- translation page -->
-      <div id="div_translation" class="setting_page" hidden>
+      <div id="div-translation" class="config-page" hidden>
         <!-- auto change -->
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_change" />
-              <label class="form-check-label" for="checkbox_auto_change">翻譯失敗時切換翻譯引擎</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-auto-change" />
+              <label class="form-check-label" for="checkbox-auto-change">翻譯失敗時切換翻譯引擎</label>
             </div>
           </div>
         </div>
@@ -262,8 +257,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_text_fix" />
-              <label class="form-check-label" for="checkbox_text_fix">使用Tataru翻譯</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-text-fix" />
+              <label class="form-check-label" for="checkbox-text-fix">使用Tataru翻譯</label>
             </div>
           </div>
         </div>
@@ -274,8 +269,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_system" />
-              <label class="form-check-label" for="checkbox_skip_system">忽略常見系統訊息</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-skip-system" />
+              <label class="form-check-label" for="checkbox-skip-system">忽略常見系統訊息</label>
             </div>
           </div>
         </div>
@@ -286,8 +281,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_skip_chinese" />
-              <label class="form-check-label" for="checkbox_skip_chinese">忽略漢化字幕</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-skip-chinese" />
+              <label class="form-check-label" for="checkbox-skip-chinese">忽略漢化字幕</label>
             </div>
           </div>
         </div>
@@ -297,10 +292,10 @@
         <!-- select translator -->
         <div class="row align-items-center">
           <div class="col-auto">
-            <label for="select_engine">翻譯引擎</label>
+            <label for="select-engine">翻譯引擎</label>
           </div>
           <div class="col-6">
-            <select class="form-select" id="select_engine"></select>
+            <select class="form-select" id="select-engine"></select>
           </div>
         </div>
 
@@ -309,10 +304,10 @@
         <!-- select from -->
         <div class="row align-items-center">
           <div class="col-auto">
-            <label for="select_from">遊戲語言</label>
+            <label for="select-from">遊戲語言</label>
           </div>
           <div class="col-6">
-            <select class="form-select" id="select_from"></select>
+            <select class="form-select" id="select-from"></select>
           </div>
         </div>
 
@@ -321,10 +316,10 @@
         <!-- select from player -->
         <div class="row align-items-center">
           <div class="col-auto">
-            <label for="select_from_player">玩家頻道</label>
+            <label for="select-from-player">玩家頻道</label>
           </div>
           <div class="col-6">
-            <select class="form-select" id="select_from_player"></select>
+            <select class="form-select" id="select-from-player"></select>
           </div>
         </div>
 
@@ -333,10 +328,10 @@
         <!-- select to -->
         <div class="row align-items-center">
           <div class="col-auto">
-            <label for="select_to">翻譯語言</label>
+            <label for="select-to">翻譯語言</label>
           </div>
           <div class="col-6">
-            <select class="form-select" id="select_to"></select>
+            <select class="form-select" id="select-to"></select>
           </div>
         </div>
 
@@ -348,13 +343,13 @@
       </div>
 
       <!-- api page -->
-      <div id="div_api" class="setting_page" hidden>
+      <div id="div-api" class="config-page" hidden>
         <!-- set google vision -->
         <p id="p-google-vision">Google Vision設定</p>
 
         <div class="row">
           <div class="col-auto">
-            <button id="button_google_credential" class="btn btn-primary">開啟Google憑證檔案</button>
+            <button id="button-google-credential" class="btn btn-primary">開啟Google憑證檔案</button>
           </div>
         </div>
 
@@ -362,7 +357,7 @@
 
         <div class="row">
           <div class="col-auto">
-            <a href="#" id="a_get_credential">憑證取得教學</a>
+            <a href="#" id="a-get-credential">憑證取得教學</a>
           </div>
         </div>
 
@@ -448,7 +443,7 @@
       </div>
 
       <!-- system page -->
-      <div id="div_system" class="setting_page" hidden>
+      <div id="div-system" class="config-page" hidden>
         <!-- select app language -->
         <div class="row align-items-center">
           <div class="col-auto">
@@ -465,8 +460,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_shortcut" />
-              <label class="form-check-label" for="checkbox_shortcut">啟用快捷鍵</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-shortcut" />
+              <label class="form-check-label" for="checkbox-shortcut">啟用快捷鍵</label>
             </div>
           </div>
         </div>
@@ -477,8 +472,8 @@
         <div class="row">
           <div class="col">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox_auto_download_json" />
-              <label class="form-check-label" for="checkbox_auto_download_json">啟動時下載翻譯對照表</label>
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-auto-download-json" />
+              <label class="form-check-label" for="checkbox-auto-download-json">啟動時下載翻譯對照表</label>
             </div>
           </div>
         </div>
@@ -500,7 +495,7 @@
         <!-- download json -->
         <div class="row">
           <div class="col">
-            <button id="button_download_json" class="btn btn-primary">重新下載翻譯對照表</button>
+            <button id="button-download-json" class="btn btn-primary">重新下載翻譯對照表</button>
           </div>
         </div>
 
@@ -509,7 +504,7 @@
         <!-- start sharlayan reader -->
         <div class="row">
           <div class="col">
-            <button id="button_restart_sharlayan_reader" class="btn btn-primary">重新啟動字幕讀取器</button>
+            <button id="button-restart-sharlayan-reader" class="btn btn-primary">重新啟動字幕讀取器</button>
           </div>
         </div>
 
@@ -518,23 +513,23 @@
         <!-- version check -->
         <div class="row">
           <div class="col">
-            <button id="button_version_check" class="btn btn-primary">檢查更新</button>
+            <button id="button-version-check" class="btn btn-primary">檢查更新</button>
           </div>
         </div>
       </div>
 
       <!-- about page -->
-      <div id="div_about" class="setting_page" hidden>
+      <div id="div-about" class="config-page" hidden>
         <div class="row">
           <div class="col">
             <span>Ver.</span>
-            <span id="span_version"></span>
+            <span id="span-version"></span>
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <span id="span_author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span>
+            <span id="span-author">作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)</span>
           </div>
         </div>
 
@@ -544,23 +539,23 @@
           <div class="col">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_readme">使用說明書</a>
+                <a class="nav-link" href="#" id="a-readme">使用說明書</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_bug_report">問題回報</a>
+                <a class="nav-link" href="#" id="a-bug-report">問題回報</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_translation_report">回報翻譯錯誤</a>
+                <a class="nav-link" href="#" id="a-translation-report">回報翻譯錯誤</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_github">GitHub</a>
+                <a class="nav-link" href="#" id="a-github">GitHub</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" id="a_author">訪問作者</a>
+                <a class="nav-link" href="#" id="a-author">訪問作者</a>
               </li>
               <!-- 
               <li class="nav-item">
-                  <a class="nav-link" href="#" id="a_donate">贊助作者</a>
+                  <a class="nav-link" href="#" id="a-donate">贊助作者</a>
               </li>
               -->
             </ul>

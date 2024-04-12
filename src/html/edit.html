@@ -28,18 +28,13 @@
     <header class="container-fluid p-2">
       <div class="row align-items-center">
         <div class="col-auto">
-          <img
-            id="img-button-drag"
-            class="img_button auto_hidden"
-            title="Drag"
-            src="./img/ui/open_with_white_48dp.svg"
-          />
+          <img id="img-button-drag" class="img-button" src="./img/ui/open_with_white_48dp.svg" />
         </div>
         <div class="col">
-          <span id="span_edit">重新翻譯</span>
+          <span id="span-title-edit"></span>
         </div>
         <div class="col-auto">
-          <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+          <img id="img-button-close" class="img-button" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
     </header>
@@ -49,7 +44,7 @@
         <div class="col">
           <div class="row">
             <div class="col">
-              <div id="div_text1"></div>
+              <div id="div-text1"></div>
             </div>
           </div>
 
@@ -57,7 +52,7 @@
 
           <div class="row">
             <div class="col">
-              <div id="div_text2"></div>
+              <div id="div-text2"></div>
             </div>
           </div>
 
@@ -65,7 +60,7 @@
 
           <div class="row">
             <div class="col">
-              <div id="div_audio"></div>
+              <div id="div-audio"></div>
             </div>
           </div>
 
@@ -73,10 +68,10 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <label for="select_engine">翻譯引擎</label>
+              <label for="select-engine"></label>
             </div>
             <div class="col-auto">
-              <select class="form-select" id="select_engine"></select>
+              <select class="form-select" id="select-engine"></select>
             </div>
           </div>
 
@@ -84,10 +79,10 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <label for="select_from">遊戲語言</label>
+              <label for="select-from"></label>
             </div>
             <div class="col-auto">
-              <select class="form-select" id="select_from"></select>
+              <select class="form-select" id="select-from"></select>
             </div>
           </div>
 
@@ -95,10 +90,10 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <label for="select_to">翻譯語言</label>
+              <label for="select-to"></label>
             </div>
             <div class="col-auto">
-              <select class="form-select" id="select_to"></select>
+              <select class="form-select" id="select-to"></select>
             </div>
           </div>
 
@@ -106,13 +101,13 @@
 
           <div class="row align-items-center">
             <div class="col-auto">
-              <button id="button_restart_translate" class="btn btn-primary">重新翻譯</button>
+              <button id="button-restart-translate" class="btn btn-primary"></button>
             </div>
 
             <div class="col-auto">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_replace" />
-                <label class="form-check-label" for="checkbox_replace"> 取代原本翻譯 </label>
+                <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox-replace" />
+                <label class="form-check-label" for="checkbox-replace"></label>
               </div>
             </div>
           </div>
@@ -121,8 +116,8 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <button id="button_read_json" class="btn btn-secondary">重新讀取對照表</button>
-              <button id="button_report_translation" class="btn btn-secondary">回報翻譯錯誤</button>
+              <button id="button-read-json" class="btn btn-secondary"></button>
+              <button id="button-report-translation" class="btn btn-secondary"></button>
             </div>
           </div>
         </div>
@@ -132,7 +127,7 @@
         <div class="col">
           <div class="row">
             <div class="col">
-              <span id="span-title-custom">自訂翻譯</span>
+              <span id="span-title-custom"></span>
             </div>
           </div>
 
@@ -141,8 +136,8 @@
           <div class="row">
             <div class="col">
               <div class="form-floating">
-                <textarea class="form-control" id="textarea_before" style="height: 6rem"></textarea>
-                <label for="textarea_before">原文</label><br />
+                <textarea class="form-control" id="textarea-before" style="height: 6rem"></textarea>
+                <label for="textarea-before"></label><br />
               </div>
             </div>
           </div>
@@ -152,8 +147,8 @@
           <div class="row">
             <div class="col">
               <div class="form-floating">
-                <textarea class="form-control" id="textarea_after" style="height: 6rem"></textarea>
-                <label for="textarea_after">取代為</label><br />
+                <textarea class="form-control" id="textarea-after" style="height: 6rem"></textarea>
+                <label for="textarea-after"></label><br />
               </div>
             </div>
           </div>
@@ -162,25 +157,25 @@
 
           <div class="row align-items-center">
             <div class="col-auto">
-              <label for="select_type">類別</label>
+              <label for="select-type"></label>
             </div>
             <div class="col-auto">
-              <select class="form-select" id="select_type">
-                <option disabled>#原文->中文</option>
-                <option value="player">玩家名稱</option>
-                <option value="retainer">雇員名稱</option>
-                <option value="npc" selected>NPC名稱</option>
-                <option value="title">稱呼</option>
-                <option value="group">組織</option>
-                <option value="monster">魔物</option>
-                <option value="things">事物</option>
-                <option value="skill">技能</option>
-                <option value="map">地名</option>
-                <option value="other">其他</option>
-                <option disabled>#整句原文->整句中文</option>
-                <option value="overwrite">整句替換</option>
-                <option disabled>#日文->日文</option>
-                <option value="jp">日文替換</option>
+              <select class="form-select" id="select-type">
+                <option value="#custom-word" disabled></option>
+                <option value="player"></option>
+                <option value="retainer"></option>
+                <option value="npc" selected></option>
+                <option value="title"></option>
+                <option value="group"></option>
+                <option value="monster"></option>
+                <option value="things"></option>
+                <option value="skill"></option>
+                <option value="map"></option>
+                <option value="other"></option>
+                <option value="#overwrite" disabled></option>
+                <option value="overwrite"></option>
+                <option value="#fix-source" disabled></option>
+                <option value="jp"></option>
               </select>
             </div>
           </div>
@@ -189,9 +184,9 @@
 
           <div class="row">
             <div class="col">
-              <button id="button_save_temp" class="btn btn-primary">儲存</button>
-              <button id="button_delete_temp" class="btn btn-danger">刪除</button>
-              <button id="button_view_temp" class="btn btn-secondary">檢視自訂翻譯檔案</button>
+              <button id="button-save-temp" class="btn btn-primary"></button>
+              <button id="button-delete-temp" class="btn btn-danger"></button>
+              <button id="button-view-temp" class="btn btn-secondary"></button>
             </div>
           </div>
         </div>

@@ -148,6 +148,7 @@
       'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
 
       // edit
+      '#custom-word': ['#原文->自訂翻譯', '#原文->自订翻译', '#Custom Word'],
       player: ['玩家名稱', '玩家名称', 'Player'],
       retainer: ['雇員名稱', '雇员名称', 'Retainer'],
       npc: ['NPC名稱', 'NPC名称', 'NPC'],
@@ -158,9 +159,11 @@
       skill: ['技能', '技能', 'Skill'],
       map: ['地名', '地名', 'Map'],
       other: ['其他', '其他', 'Other'],
-      overwrite: ['完全替換', '完全替换', 'Overwrite'],
-      replace: ['原文替換', '原文替换', 'Text Replace'],
-      jp: ['日文替換', '日文替换', 'JP Replace'],
+      '#overwrite': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite Full Sentence'],
+      overwrite: ['自訂整句翻譯', '自订整句翻译', 'Overwrite Full Sentence'],
+      '#fix-source': ['#原文->原文', '#原文->原文', '#Fix Source'],
+      replace: ['原文替換', '原文替换', 'Fix Source'],
+      jp: ['日文替換', '日文替换', 'Fix JP'],
 
       // read log
       none: ['無', '无', 'None'],

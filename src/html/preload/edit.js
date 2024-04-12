@@ -87,28 +87,21 @@ function setIPC() {
           // show text
           showText();
 
-          /*
-          // show restart
-          if (targetLog?.code !== 'FFFF') {
-              document.getElementById('div_restart').hidden = false;
-          }
-          */
-
-          // set select_engine
+          // set select-engine
           if (targetLog?.translation?.engine) {
             if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(targetLog.translation.engine)) {
-              document.getElementById('select_engine').value = targetLog.translation.engine;
+              document.getElementById('select-engine').value = targetLog.translation.engine;
             }
           }
 
-          // set select_from
+          // set select-from
           if (targetLog?.translation?.from) {
-            document.getElementById('select_from').value = targetLog.translation.from;
+            document.getElementById('select-from').value = targetLog.translation.from;
           }
 
-          // set select_to
+          // set select-to
           if (targetLog?.translation?.to) {
-            document.getElementById('select_to').value = targetLog.translation.to;
+            document.getElementById('select-to').value = targetLog.translation.to;
           }
         }
       }
@@ -122,16 +115,16 @@ function setIPC() {
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
 
-  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
 
-  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
 
-  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
-  document.getElementById('select_engine').value = config.translation.engine;
-  document.getElementById('select_from').value = config.translation.from;
-  document.getElementById('select_to').value = config.translation.to;
-  document.getElementById('checkbox_replace').checked = config.translation.replace;
+  document.getElementById('select-engine').value = config.translation.engine;
+  document.getElementById('select-from').value = config.translation.from;
+  document.getElementById('select-to').value = config.translation.to;
+  document.getElementById('checkbox-replace').checked = config.translation.replace;
 }
 
 // set event
@@ -141,9 +134,9 @@ function setEvent() {
     ipcRenderer.send('move-window', e.detail, false);
   });
 
-  document.getElementById('checkbox_replace').oninput = () => {
+  document.getElementById('checkbox-replace').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.translation.replace = document.getElementById('checkbox_replace').checked;
+    config.translation.replace = document.getElementById('checkbox-replace').checked;
     ipcRenderer.send('set-config', config);
   };
 }
@@ -151,7 +144,7 @@ function setEvent() {
 // set button
 function setButton() {
   // restart
-  document.getElementById('button_restart_translate').onclick = () => {
+  document.getElementById('button-restart-translate').onclick = () => {
     const config = ipcRenderer.sendSync('get-config');
 
     let dialogData = {
@@ -170,29 +163,29 @@ function setButton() {
       dialogData.timestamp = null;
     }
 
-    dialogData.translation.engine = document.getElementById('select_engine').value;
-    dialogData.translation.from = document.getElementById('select_from').value;
-    dialogData.translation.fromPlayer = document.getElementById('select_from').value;
-    dialogData.translation.to = document.getElementById('select_to').value;
+    dialogData.translation.engine = document.getElementById('select-engine').value;
+    dialogData.translation.from = document.getElementById('select-from').value;
+    dialogData.translation.fromPlayer = document.getElementById('select-from').value;
+    dialogData.translation.to = document.getElementById('select-to').value;
 
     ipcRenderer.send('add-task', dialogData);
   };
 
   // load json
-  document.getElementById('button_read_json').onclick = () => {
+  document.getElementById('button-read-json').onclick = () => {
     ipcRenderer.send('load-json');
   };
 
   // report translation
-  document.getElementById('button_report_translation').onclick = () => {
+  document.getElementById('button-report-translation').onclick = () => {
     reportTranslation();
   };
 
   // save custom
-  document.getElementById('button_save_temp').onclick = () => {
-    const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
-    const textAfter = document.getElementById('textarea_after').value.replaceAll('\n', '').trim();
-    const type = document.getElementById('select_type').value;
+  document.getElementById('button-save-temp').onclick = () => {
+    const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();
+    const textAfter = document.getElementById('textarea-after').value.replaceAll('\n', '').trim();
+    const type = document.getElementById('select-type').value;
 
     if (textBefore !== '') {
       if (type === 'jp') {
@@ -213,9 +206,9 @@ function setButton() {
   };
 
   // delete temp
-  document.getElementById('button_delete_temp').onclick = () => {
-    const textBefore = document.getElementById('textarea_before').value.replaceAll('\n', '').trim();
-    const type = document.getElementById('select_type').value;
+  document.getElementById('button-delete-temp').onclick = () => {
+    const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();
+    const type = document.getElementById('select-type').value;
 
     if (textBefore !== '') {
       if (type === 'jp') {
@@ -236,12 +229,12 @@ function setButton() {
   };
 
   // view temp
-  document.getElementById('button_view_temp').onclick = () => {
+  document.getElementById('button-view-temp').onclick = () => {
     ipcRenderer.send('execute-command', `start "" "${tempPath}"`);
   };
 
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 }
@@ -268,7 +261,7 @@ function showAudio() {
                 `;
       }
 
-      document.getElementById('div_audio').innerHTML = innerHTML;
+      document.getElementById('div-audio').innerHTML = innerHTML;
     } catch (error) {
       console.log(error);
     }
@@ -277,8 +270,8 @@ function showAudio() {
 
 // show text
 function showText() {
-  const text1 = document.getElementById('div_text1');
-  const text2 = document.getElementById('div_text2');
+  const text1 = document.getElementById('div-text1');
+  const text2 = document.getElementById('div-text2');
 
   text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
   text2.innerHTML =

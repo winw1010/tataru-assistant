@@ -3,7 +3,7 @@ body {
   background-color: #00000000;
 }
 
-#div_dialog {
+#div-dialog {
   scroll-behavior: smooth;
   overflow: scroll;
   padding: 0 0.7rem;
@@ -13,7 +13,7 @@ body {
   height: 100vh;
 }
 
-#div_dialog div {
+#div-dialog div {
   margin-bottom: 0.7rem;
   padding: 0.7rem;
   /*word-wrap: break-word;*/
@@ -21,8 +21,8 @@ body {
   color: #ffffff;
 }
 
-#div_dialog p,
-#div_dialog span {
+#div-dialog p,
+#div-dialog span {
   -webkit-filter: drop-shadow(0 0 0.2rem #000000);
   filter: drop-shadow(0 0 0 0.2rem #000000);
 }

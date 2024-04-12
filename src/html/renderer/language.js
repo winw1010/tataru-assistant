@@ -7,18 +7,18 @@
     img: {
       // index
       'img-button-drag': ['拖曳', '拖曳', 'Drag'],
-      img_button_config: ['設定', '设定', 'Config'],
-      img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
-      img_button_through: ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
-      img_button_update: ['下載最新版本', '下载最新版本', 'Download Latest Version'],
-      img_button_minimize: ['縮小', '缩小', 'Minimize'],
-      img_button_close: ['關閉', '关闭', 'Close'],
+      'img-button-config': ['設定', '设定', 'Config'],
+      'img-button-capture': ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
+      'img-button-through': ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
+      'img-button-update': ['下載最新版本', '下载最新版本', 'Download Latest Version'],
+      'img-button-minimize': ['縮小', '缩小', 'Minimize'],
+      'img-button-close': ['關閉', '关闭', 'Close'],
 
-      img_button_auto_play: ['文字語音', '文字语音', 'Text To Speech'],
-      img_button_dictionary: ['翻譯查詢', '翻译查询', 'Translate'],
-      img_button_read_log: ['讀取對話紀錄', '读取对话纪录', 'Read Chat Log'],
-      img_button_clear: ['刪除全部對話', '删除全部对话', 'Delete All'],
-      img_button_backspace: ['刪除最後一句', '删除最后一句', 'Delete Last'],
+      'img-button-speech': ['文字語音', '文字语音', 'Text To Speech'],
+      'img-button-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
+      'img-button-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Chat Log'],
+      'img-button-backspace': ['刪除最後一句', '删除最后一句', 'Delete Last'],
+      'img-button-clear': ['刪除全部對話', '删除全部对话', 'Delete All'],
     },
     button: {
       // config

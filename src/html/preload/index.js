@@ -30,7 +30,7 @@ function setIPC() {
 
   // clear dialog
   ipcRenderer.on('clear-dialog', () => {
-    document.getElementById('div_dialog').innerHTML = '';
+    document.getElementById('div-dialog').innerHTML = '';
   });
 
   // move to bottom
@@ -51,7 +51,7 @@ function setIPC() {
   // add dialog
   ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = true }) => {
     // div
-    const div = document.getElementById('div_dialog');
+    const div = document.getElementById('div-dialog');
 
     // get dialog
     let dialog = document.getElementById(id);
@@ -85,7 +85,6 @@ function setIPC() {
     // navigate dialog
     if (scroll) {
       setTimeout(() => {
-        //location.href = '#' + id;
         document.getElementById(id).scrollIntoView();
       }, 200);
     }
@@ -102,12 +101,12 @@ function setIPC() {
 
   // hide dialog
   ipcRenderer.on('hide-dialog', (event, isHidden) => {
-    document.getElementById('div_dialog').hidden = isHidden;
+    document.getElementById('div-dialog').hidden = isHidden;
   });
 
   // hide update button
   ipcRenderer.on('hide-update-button', (event, isHidden) => {
-    document.getElementById('img_button_update').hidden = isHidden;
+    document.getElementById('img-button-update').hidden = isHidden;
   });
 
   // add audio
@@ -164,7 +163,7 @@ function setEvent() {
   });
 
   // button click through
-  const buttonArray = document.getElementsByClassName('img_button');
+  const buttonArray = document.getElementsByClassName('img-button');
   for (let index = 0; index < buttonArray.length; index++) {
     const element = buttonArray[index];
 
@@ -185,28 +184,28 @@ function setEvent() {
 // set button
 function setButton() {
   // config
-  document.getElementById('img_button_config').onclick = () => {
+  document.getElementById('img-button-config').onclick = () => {
     ipcRenderer.send('create-window', 'config');
   };
 
   // capture
-  document.getElementById('img_button_capture').onclick = () => {
+  document.getElementById('img-button-capture').onclick = () => {
     ipcRenderer.send('create-window', 'capture');
   };
 
   // through
-  document.getElementById('img_button_through').onclick = () => {
+  document.getElementById('img-button-through').onclick = () => {
     setClickThrough(!clickThrough);
     ipcRenderer.send('set-click-through-config', clickThrough);
   };
 
   // update
-  document.getElementById('img_button_update').onclick = () => {
+  document.getElementById('img-button-update').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
   // minimize
-  document.getElementById('img_button_minimize').onclick = () => {
+  document.getElementById('img-button-minimize').onclick = () => {
     let config = ipcRenderer.sendSync('get-config');
 
     if (config.indexWindow.focusable) {
@@ -217,12 +216,12 @@ function setButton() {
   };
 
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-app');
   };
 
   // auto play
-  document.getElementById('img_button_auto_play').onclick = () => {
+  document.getElementById('img-button-speech').onclick = () => {
     let config = ipcRenderer.sendSync('get-config');
     config.translation.autoPlay = !config.translation.autoPlay;
     ipcRenderer.send('set-config', config);
@@ -230,33 +229,28 @@ function setButton() {
     setAutoPlay(config.translation.autoPlay);
   };
 
-  // custom
-  document.getElementById('img_button_custom').onclick = () => {
-    ipcRenderer.send('create-window', 'custom');
-  };
-
   // read log
-  document.getElementById('img_button_read_log').onclick = () => {
+  document.getElementById('img-button-read-log').onclick = () => {
     ipcRenderer.send('create-window', 'read-log');
   };
 
   // dictionary
-  document.getElementById('img_button_dictionary').onclick = () => {
+  document.getElementById('img-button-dictionary').onclick = () => {
     ipcRenderer.send('create-window', 'dictionary');
   };
 
   // backspace
-  document.getElementById('img_button_backspace').onclick = () => {
+  document.getElementById('img-button-backspace').onclick = () => {
     try {
-      document.getElementById('div_dialog').lastElementChild.remove();
+      document.getElementById('div-dialog').lastElementChild.remove();
     } catch (error) {
       console.log(error);
     }
   };
 
   // clear
-  document.getElementById('img_button_clear').onclick = () => {
-    document.getElementById('div_dialog').innerHTML = '';
+  document.getElementById('img-button-clear').onclick = () => {
+    document.getElementById('div-dialog').innerHTML = '';
   };
 }
 
@@ -279,7 +273,7 @@ function resetView(config) {
   ipcRenderer.send('set-focusable', config.indexWindow.focusable);
 
   // set button
-  document.querySelectorAll('.auto_hidden').forEach((value) => {
+  document.querySelectorAll('.img-hidden').forEach((value) => {
     document.getElementById(value.id).hidden = config.indexWindow.hideButton;
   });
 
@@ -290,7 +284,7 @@ function resetView(config) {
   ipcRenderer.send('show-dialog');
 
   // set background color
-  document.getElementById('div_dialog').style.backgroundColor = config.indexWindow.backgroundColor;
+  document.getElementById('div-dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
   // start/restart mouse out check interval
   clearInterval(mouseOutCheckInterval);
@@ -319,7 +313,7 @@ function setStyle(element, style = {}) {
 
 // reset dialog style
 function resetDialogStyle() {
-  const dialogCollection = document.getElementById('div_dialog').children;
+  const dialogCollection = document.getElementById('div-dialog').children;
 
   for (let index = 0; index < dialogCollection.length; index++) {
     const dialog = document.getElementById(dialogCollection[index].id);
@@ -336,7 +330,7 @@ function resetDialogStyle() {
 function moveToBottom() {
   setTimeout(() => {
     clearSelection();
-    let div = document.getElementById('div_dialog') || document.scrollingElement || document.body;
+    let div = document.getElementById('div-dialog') || document.scrollingElement || document.body;
     div.scrollTop = div.scrollHeight;
   }, 200);
 }
@@ -354,12 +348,12 @@ function clearSelection() {
 function hideButton(isMouseOut, hideButton) {
   if (isMouseOut) {
     // hide
-    document.querySelectorAll('.auto_hidden').forEach((value) => {
+    document.querySelectorAll('.img-hidden').forEach((value) => {
       document.getElementById(value.id).hidden = hideButton;
     });
   } else {
     // show
-    document.querySelectorAll('.auto_hidden').forEach((value) => {
+    document.querySelectorAll('.img-hidden').forEach((value) => {
       document.getElementById(value.id).hidden = false;
     });
 
@@ -372,18 +366,18 @@ function hideButton(isMouseOut, hideButton) {
 function setClickThrough(value) {
   clickThrough = value;
   if (clickThrough) {
-    document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
+    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
   } else {
-    document.getElementById('img_button_through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
   }
 }
 
 function setAutoPlay(value) {
   if (value) {
-    document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
     document.dispatchEvent(new CustomEvent('start-playing'));
   } else {
-    document.getElementById('img_button_auto_play').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
     document.dispatchEvent(new CustomEvent('stop-playing'));
   }
 }

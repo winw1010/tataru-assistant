@@ -88,9 +88,9 @@
       'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
       'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore Chinese Text'],
       'select-engine': ['翻譯引擎', '翻译引擎', 'Engine'],
-      'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
-      'select-from-player': ['玩家頻道', '玩家频道', 'Player Language'],
-      'select-to': ['翻譯語言', '翻译语言', 'Target Language'],
+      'select-from': ['遊戲語言', '游戏语言', 'Game Lang'],
+      'select-from-player': ['玩家頻道', '玩家频道', 'Player Lang'],
+      'select-to': ['翻譯語言', '翻译语言', 'Target Lang'],
 
       'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
       'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT Model'],
@@ -103,8 +103,8 @@
       'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL Certificate'],
 
       // capture
-      'checkbox-split': ['換行切割', '换行切割', 'New Line'],
-      'checkbox-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Detected Text'],
+      'checkbox-split': ['換行切割', '换行切割', 'Divide New Line'],
+      'checkbox-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit'],
 
       // capture edit
       'input-capture-text': ['擷取文字', '撷取文字', 'Text'],
@@ -278,8 +278,7 @@
         return 1;
 
       default:
-        //return 2;
-        return 0;
+        return 2;
     }
   }
 }

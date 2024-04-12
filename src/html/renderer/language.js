@@ -84,7 +84,7 @@
       'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Transparency'],
 
       'checkbox-auto-change': ['翻譯失敗時切換翻譯引擎', '翻译失败时切换翻译引擎', 'Change Engine When Failed'],
-      'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Use Tataru'],
+      'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix Translation'],
       'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
       'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore Chinese Text'],
       'select-engine': ['翻譯引擎', '翻译引擎', 'Engine'],
@@ -115,6 +115,9 @@
       'textarea-before': ['原文', '原文', 'Before'],
       'textarea-after': ['取代為', '取代为', 'After'],
       'select-type': ['類別', '类别', 'type'],
+
+      // dictionary
+      'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Use Tataru'],
 
       // read log
       'select-log': ['選擇對話紀錄', '选择对话纪录', 'Chat Log'],

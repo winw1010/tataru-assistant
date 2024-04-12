@@ -526,7 +526,7 @@ function getOptionList() {
       ['translation', 'autoChange'],
     ],
     [
-      ['checkbox-text-fix', 'checked'],
+      ['checkbox-fix-translation', 'checked'],
       ['translation', 'fix'],
     ],
     [

@@ -375,9 +375,6 @@ function readChannel(config, chatCode) {
 function saveChannel(config = {}, chatCode = {}) {
   config.channel = {};
 
-  // app notification
-  config.channel['FFFF'] = document.getElementById('color_0039_color').value.toUpperCase();
-
   // checked color
   const checkedArray = document.querySelectorAll('#div_channel input[type="checkbox"]:checked');
   for (let index = 0; index < checkedArray.length; index++) {

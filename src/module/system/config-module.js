@@ -44,7 +44,6 @@ const defaultConfig = {
     edit: false,
   },
   channel: {
-    FFFF: '#CCCCCC',
     '0039': '#CCCCCC',
     '0839': '#CCCCCC',
     '003D': '#ABD647',

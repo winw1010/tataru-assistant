@@ -366,18 +366,18 @@ function hideButton(isMouseOut, hideButton) {
 function setClickThrough(value) {
   clickThrough = value;
   if (clickThrough) {
-    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_white_24dp.svg');
+    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_white_48dp.svg');
   } else {
-    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_disabled_white_24dp.svg');
+    document.getElementById('img-button-through').setAttribute('src', './img/ui/near_me_disabled_white_48dp.svg');
   }
 }
 
 function setAutoPlay(value) {
   if (value) {
-    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_up_white_24dp.svg');
+    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_up_white_48dp.svg');
     document.dispatchEvent(new CustomEvent('start-playing'));
   } else {
-    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_off_white_24dp.svg');
+    document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_off_white_48dp.svg');
     document.dispatchEvent(new CustomEvent('stop-playing'));
   }
 }

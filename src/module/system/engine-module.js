@@ -10,7 +10,7 @@ const sourceList = ['Japanese', 'English'];
 const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
-const uiList = [/*'English',*/ 'Traditional-Chinese', 'Simplified-Chinese'];
+const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
 const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];

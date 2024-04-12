@@ -1,5 +1,4 @@
 'use strict';
-/* eslint-disable */
 
 {
   // play list
@@ -8,80 +7,49 @@
   let playInterval = null;
   let isPlaying = false;
 
-  // add audio
+  // add url
   document.addEventListener('add-to-playlist', (event) => {
-    if (!isPlaying) return;
-
-    try {
-      const urlList = event.detail;
-
-      for (let index = 0; index < urlList.length; index++) {
-        const url = urlList[index];
-        const audio = new Audio(url);
-        audio.currentTime = 0;
-        audio.volume = 1;
-
-        // set audio event
-        audio.onpause = () => {
-          nowPlaying = null;
-        };
-
-        audio.onended = () => {
-          nowPlaying = null;
-        };
-
-        audio.onerror = () => {
-          nowPlaying = null;
-        };
-
-        // add to playlist
-        playlist.push(audio);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    if (isPlaying) playlist = playlist.concat(event.detail);
   });
 
   // start playing
   document.addEventListener('start-playing', () => {
-    clearInterval(playInterval);
-
-    playInterval = setInterval(() => {
-      playNext();
-    }, 1000);
-
     isPlaying = true;
+
+    clearInterval(playInterval);
+    playInterval = setInterval(() => {
+      if (nowPlaying) return;
+
+      const url = playlist.shift();
+
+      if (url && typeof url === 'string') {
+        nowPlaying = new Audio(url);
+        nowPlaying.currentTime = 0;
+        nowPlaying.volume = 1;
+
+        nowPlaying.onpause = () => {
+          nowPlaying = null;
+        };
+
+        nowPlaying.onended = () => {
+          nowPlaying = null;
+        };
+
+        nowPlaying.onerror = () => {
+          nowPlaying = null;
+        };
+
+        nowPlaying.play();
+      }
+    }, 1000);
   });
 
   // stop playing
   document.addEventListener('stop-playing', () => {
     clearInterval(playInterval);
-
-    try {
-      nowPlaying.pause();
-    } catch (error) {
-      console.log(error);
-    }
-
     isPlaying = false;
+    nowPlaying?.pause();
     nowPlaying = null;
     playlist = [];
   });
-
-  // play next audio
-  function playNext() {
-    try {
-      if (!nowPlaying) {
-        const audio = playlist.shift();
-
-        if (audio) {
-          nowPlaying = audio;
-          audio.play();
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      nowPlaying = null;
-    }
-  }
 }

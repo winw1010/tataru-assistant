@@ -222,14 +222,22 @@
     ['div', 'id', 'title'],
   ];
 
-  // change UI text
+  // on change UI text
   document.addEventListener('change-ui-text', (e) => {
     const config = e.detail;
-    setLanguageText(config.system.appLanguage);
+    setText(config.system.appLanguage);
   });
 
-  function setLanguageText(language) {
+  // set text
+  function setText(language) {
+    // get text index
     const textIndex = getTextIndex(language);
+
+    // set title
+    const title = document.getElementsByTagName('title').item(0);
+    if (title) title.innerText = 'Tataru Assistant';
+
+    // set UI text
     for (let nameIndex = 0; nameIndex < elementNameList.length; nameIndex++) {
       const nameList = elementNameList[nameIndex];
       const elementList = document.getElementsByTagName(nameList[0]);

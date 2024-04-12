@@ -28,18 +28,13 @@
     <header class="container-fluid p-2">
       <div class="row align-items-center">
         <div class="col-auto">
-          <img
-            id="img-button-drag"
-            class="img_button auto_hidden"
-            title="Drag"
-            src="./img/ui/open_with_white_48dp.svg"
-          />
+          <img id="img-button-drag" class="img-button" src="./img/ui/open_with_white_48dp.svg" />
         </div>
         <div class="col">
-          <span id="span_capture_edit">編輯擷取文字</span>
+          <span id="span-capture-edit"></span>
         </div>
         <div class="col-auto">
-          <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+          <img id="img-button-close" class="img-button" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
     </header>
@@ -48,37 +43,37 @@
       <!-- page button -->
       <div class="row">
         <div class="col">
-          <div id="div_page_button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <div id="div-page-button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input
               type="radio"
               class="btn-check"
               name="btnradio"
-              id="btnradio1"
-              value="div_captured_text"
+              id="input-capture-text"
+              value="div-captured-text"
               autocomplete="off"
               checked
             />
-            <label class="btn btn-outline-primary" for="btnradio1">擷取文字</label>
+            <label class="btn btn-outline-primary" for="input-capture-text"></label>
 
             <input
               type="radio"
               class="btn-check"
               name="btnradio"
-              id="btnradio2"
-              value="div_captured_image"
+              id="input-capture-image"
+              value="div-captured-image"
               autocomplete="off"
             />
-            <label class="btn btn-outline-primary" for="btnradio2">擷取圖片</label>
+            <label class="btn btn-outline-primary" for="input-capture-image"></label>
           </div>
         </div>
       </div>
 
       <br />
 
-      <div id="div_captured_text" class="div_page">
+      <div id="div-captured-text" class="div-page">
         <div class="row">
           <div class="col">
-            <textarea class="form-control" id="textarea_screen_text" rows="7"></textarea>
+            <textarea class="form-control" id="textarea-screen-text" rows="7"></textarea>
           </div>
         </div>
 
@@ -86,19 +81,19 @@
 
         <div class="row align-items-center">
           <div class="col-auto">
-            <button id="button_translate" class="btn btn-primary">翻譯</button>
+            <button id="button-translate" class="btn btn-primary"></button>
           </div>
           <div class="col-auto">
-            <input type="checkbox" value="" id="checkbox_split" />
-            <label for="checkbox_split">換行切割</label>
+            <input type="checkbox" value="" id="checkbox-split" />
+            <label for="checkbox-split"></label>
           </div>
         </div>
       </div>
 
-      <div id="div_captured_image" class="div_page" hidden>
+      <div id="div-captured-image" class="div-page" hidden>
         <div class="row">
           <div class="col">
-            <img class="img-fluid" id="img_captured" src="" alt="" />
+            <img class="img-fluid" id="img-captured" src="" alt="" />
           </div>
         </div>
       </div>

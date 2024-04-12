@@ -106,6 +106,10 @@
       'checkbox-split': ['換行切割', '换行切割', 'New Line'],
       'checkbox-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Detected Text'],
 
+      // capture edit
+      'input-capture-text': ['擷取文字', '撷取文字', 'Text'],
+      'input-capture-image': ['擷取图片', '撷取图片', 'Image'],
+
       // edit
       'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace'],
       'textarea-before': ['原文', '原文', 'Before'],
@@ -187,6 +191,7 @@
       'span-title-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
       'span-title-edit': ['重新翻譯', '重新翻译', 'Translate Again'],
       'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'View Chat Logs'],
+      'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Word'],
 
       // config
       'span-channel-comment': ['使用滑鼠滾輪滾動頻道清單', '使用鼠标滚轮滚动频道清单', 'Use Mouse To Sroll The Page'],
@@ -195,9 +200,6 @@
         '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
         'Author: winw1010',
       ],
-
-      // edit
-      'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Table'],
     },
     input: {
       'input-gpt-api-key': ['請輸入API KEY', '请输入API KEY', 'API KEY'],

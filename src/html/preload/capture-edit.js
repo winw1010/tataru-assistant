@@ -25,15 +25,15 @@ function setIPC() {
 
   // send data
   ipcRenderer.on('send-data', (event, text) => {
-    document.getElementById('textarea_screen_text').value = text;
+    document.getElementById('textarea-screen-text').value = text;
   });
 }
 
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
-  document.getElementById('checkbox_split').checked = config.captureWindow.split;
-  document.getElementById('img_captured').setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'crop.png'));
+  document.getElementById('checkbox-split').checked = config.captureWindow.split;
+  document.getElementById('img-captured').setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'crop.png'));
 }
 
 // set event
@@ -44,9 +44,9 @@ function setEvent() {
   });
 
   // checkbox
-  document.getElementById('checkbox_split').oninput = () => {
+  document.getElementById('checkbox-split').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.split = document.getElementById('checkbox_split').checked;
+    config.captureWindow.split = document.getElementById('checkbox-split').checked;
     ipcRenderer.send('set-config', config);
   };
 }
@@ -54,14 +54,14 @@ function setEvent() {
 // set button
 function setButton() {
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 
   // page
   document.getElementsByName('btnradio').forEach((btnradio) => {
     btnradio.onclick = () => {
-      document.querySelectorAll('.div_page').forEach((page) => {
+      document.querySelectorAll('.div-page').forEach((page) => {
         document.getElementById(page.id).hidden = true;
       });
       document.getElementById(btnradio.value).hidden = false;
@@ -69,7 +69,7 @@ function setButton() {
   });
 
   // translate
-  document.getElementById('button_translate').onclick = () => {
-    ipcRenderer.send('translate-image-text', document.getElementById('textarea_screen_text').value);
+  document.getElementById('button-translate').onclick = () => {
+    ipcRenderer.send('translate-image-text', document.getElementById('textarea-screen-text').value);
   };
 }

@@ -115,33 +115,16 @@ function showDialog() {
 }
 
 // get style
-function getStyle(code = '0039') {
+function getStyle(code = '003D') {
   const config = configModule.getConfig();
   return {
     fontWeight: config.dialog.weight,
-    color: config.channel[code] || getColor(code),
+    color: chatCodeModule.getColor(code),
     fontSize: config.dialog.fontSize + 'rem',
     marginTop: config.dialog.spacing + 'rem',
     borderRadius: config.dialog.radius + 'rem',
     backgroundColor: config.dialog.backgroundColor,
   };
-}
-
-// get color
-function getColor(code) {
-  const chatCode = chatCodeModule.getChatCode();
-  let color = '#FFFFFF';
-
-  for (let index = 0; index < chatCode.length; index++) {
-    const element = chatCode[index];
-
-    if (code === element.ChatCode) {
-      color = element.Color;
-      break;
-    }
-  }
-
-  return color;
 }
 
 // save dialog

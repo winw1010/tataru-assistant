@@ -267,6 +267,23 @@ function setDefaultChatCode() {
   currentChatCode = getDefaultChatCode();
 }
 
+// get color
+function getColor(code) {
+  if (code === 'FFFF') code = '0039';
+
+  let color = '#FFFFFF';
+
+  for (let index = 0; index < currentChatCode.length; index++) {
+    const element = currentChatCode[index];
+    if (element.ChatCode === code) {
+      color = element.Color;
+      break;
+    }
+  }
+
+  return color;
+}
+
 // module exports
 module.exports = {
   loadChatCode,
@@ -275,4 +292,5 @@ module.exports = {
   setChatCode,
   getDefaultChatCode,
   setDefaultChatCode,
+  getColor,
 };

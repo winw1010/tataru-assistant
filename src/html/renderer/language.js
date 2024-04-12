@@ -6,7 +6,7 @@
   const elementTextList = {
     img: {
       // index
-      img_button_drag: ['拖曳', '拖曳', 'Drag'],
+      'img-button-drag': ['拖曳', '拖曳', 'Drag'],
       img_button_config: ['設定', '设定', 'Config'],
       img_button_capture: ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
       img_button_through: ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],

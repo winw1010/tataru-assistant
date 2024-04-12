@@ -143,10 +143,10 @@ function setEvent() {
   });
 
   // drag click through
-  document.getElementById('img_button_drag').addEventListener('mousedown', () => {
+  document.getElementById('img-button-drag').addEventListener('mousedown', () => {
     clickThrough = false;
   });
-  document.getElementById('img_button_drag').addEventListener('mouseup', () => {
+  document.getElementById('img-button-drag').addEventListener('mouseup', () => {
     clickThrough = ipcRenderer.sendSync('get-click-through-config');
   });
 

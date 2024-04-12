@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 // set drag element
-document.getElementById('img_button_drag').onmousedown = (event) => {
+document.getElementById('img-button-drag').onmousedown = (event) => {
   //event = event || window.event;
   event.preventDefault();
 

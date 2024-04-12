@@ -14,7 +14,7 @@
       'img-button-minimize': ['縮小', '缩小', 'Minimize'],
       'img-button-close': ['關閉', '关闭', 'Close'],
 
-      'img-button-speech': ['文字語音', '文字语音', 'Text To Speech'],
+      'img-button-speech': ['朗讀文字', '朗读文字', 'Text To Speech'],
       'img-button-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
       'img-button-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Chat Log'],
       'img-button-backspace': ['刪除最後一句', '删除最后一句', 'Delete Last'],

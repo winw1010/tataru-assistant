@@ -58,6 +58,7 @@ function setIPC() {
   // send data
   ipcRenderer.on('send-data', (event, id) => {
     try {
+      const config = ipcRenderer.sendSync('get-config');
       const milliseconds = parseInt(id.slice(2));
       const logFileList = [
         createLogName(milliseconds),
@@ -89,19 +90,29 @@ function setIPC() {
 
           // set select-engine
           if (targetLog?.translation?.engine) {
-            if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(targetLog.translation.engine)) {
-              document.getElementById('select-engine').value = targetLog.translation.engine;
-            }
+            document.getElementById('select-engine').value = fixLogValue(
+              targetLog.translation.engine,
+              ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'],
+              config.translation.engine
+            );
           }
 
           // set select-from
           if (targetLog?.translation?.from) {
-            document.getElementById('select-from').value = targetLog.translation.from;
+            document.getElementById('select-from').value = fixLogValue(
+              targetLog.translation.from,
+              ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+              config.translation.from
+            );
           }
 
           // set select-to
           if (targetLog?.translation?.to) {
-            document.getElementById('select-to').value = targetLog.translation.to;
+            document.getElementById('select-to').value = fixLogValue(
+              targetLog.translation.to,
+              ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+              config.translation.to
+            );
           }
         }
       }
@@ -351,6 +362,12 @@ function reportTranslation() {
     console.log(error);
     ipcRenderer.send('show-message-box', error);
   }
+}
+
+// fix log value
+function fixLogValue(value = '', valueArray = [], defaultValue = '') {
+  if (!valueArray.includes(value)) value = defaultValue;
+  return value;
 }
 
 // create log name

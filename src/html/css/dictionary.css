@@ -2,6 +2,11 @@ main {
   margin-top: 3rem;
 }
 
+#img-arrow-right {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 #span-translated-text {
   word-wrap: break-word;
 }

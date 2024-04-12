@@ -56,7 +56,7 @@ function setEvent() {
 // set button
 function setButton() {
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 

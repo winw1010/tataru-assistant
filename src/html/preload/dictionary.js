@@ -25,13 +25,13 @@ function setIPC() {
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
 
-  document.getElementById('select_engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
-  document.getElementById('select_from').innerHTML = ipcRenderer.sendSync('get-all-language-select');
-  document.getElementById('select_to').innerHTML = ipcRenderer.sendSync('get-all-language-select');
+  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
+  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-all-language-select');
+  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-all-language-select');
 
-  document.getElementById('select_engine').value = config.translation.engine;
-  document.getElementById('select_from').value = config.translation.from;
-  document.getElementById('select_to').value = config.translation.to;
+  document.getElementById('select-engine').value = config.translation.engine;
+  document.getElementById('select-from').value = config.translation.from;
+  document.getElementById('select-to').value = config.translation.to;
 }
 
 // set enevt
@@ -42,8 +42,8 @@ function setEvent() {
   });
 
   // Tataru
-  document.getElementById('checkbox_text_fix').onchange = () => {
-    const checked = document.getElementById('checkbox_text_fix').checked;
+  document.getElementById('checkbox-tataru').onchange = () => {
+    const checked = document.getElementById('checkbox-tataru').checked;
     document.getElementById('div-original-name').hidden = !checked;
   };
 }
@@ -51,28 +51,28 @@ function setEvent() {
 // set button
 function setButton() {
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 
   // exchange
-  document.getElementById('button_switch').onclick = () => {
-    const valueFrom = document.getElementById('select_from').value;
-    document.getElementById('select_from').value = document.getElementById('select_to').value;
-    document.getElementById('select_to').value = valueFrom;
+  document.getElementById('button-switch').onclick = () => {
+    const valueFrom = document.getElementById('select-from').value;
+    document.getElementById('select-from').value = document.getElementById('select-to').value;
+    document.getElementById('select-to').value = valueFrom;
   };
 
   // translate
-  document.getElementById('button_translate').onclick = () => {
+  document.getElementById('button-translate').onclick = () => {
     const inputName = document.getElementById('input-original-name').value;
-    const inputText = document.getElementById('textarea_original_text').value;
+    const inputText = document.getElementById('textarea-original-text').value;
     const dialogData = createDialogData(inputName, inputText);
 
-    document.getElementById('span_translated_text').innerText = '...';
-    document.getElementById('div_audio').innerHTML = '';
+    document.getElementById('span-translated-text').innerText = '...';
+    document.getElementById('div-audio').innerHTML = '';
 
     if (inputText !== '') {
-      if (document.getElementById('checkbox_text_fix').checked) {
+      if (document.getElementById('checkbox-tataru').checked) {
         ipcRenderer.send('add-task', dialogData);
       } else {
         // translate
@@ -81,21 +81,21 @@ function setButton() {
           .then((translatedText) => {
             // show translated text
             if (translatedText !== '') {
-              document.getElementById('span_translated_text').innerText = translatedText;
-              document.getElementById('div_audio').innerHTML = getAudioHtml(
+              document.getElementById('span-translated-text').innerText = translatedText;
+              document.getElementById('div-audio').innerHTML = getAudioHtml(
                 translatedText,
-                document.getElementById('select_to').value
+                document.getElementById('select-to').value
               );
             } else {
-              document.getElementById('span_translated_text').innerText = '翻譯失敗，請稍後再試';
-              document.getElementById('div_audio').innerHTML = '';
+              document.getElementById('span-translated-text').innerText = '翻譯失敗，請稍後再試';
+              document.getElementById('div-audio').innerHTML = '';
             }
           })
           .catch(console.log);
       }
     } else {
-      document.getElementById('span_translated_text').innerText = '翻譯文字不可空白';
-      document.getElementById('div_audio').innerHTML = '';
+      document.getElementById('span-translated-text').innerText = '翻譯文字不可空白';
+      document.getElementById('div-audio').innerHTML = '';
     }
   };
 }
@@ -114,10 +114,10 @@ function createDialogData(name = '', text = '') {
     translation: config.translation,
   };
 
-  dialogData.translation.from = document.getElementById('select_from').value;
-  dialogData.translation.fromPlayer = document.getElementById('select_from').value;
-  dialogData.translation.to = document.getElementById('select_to').value;
-  dialogData.translation.engine = document.getElementById('select_engine').value;
+  dialogData.translation.from = document.getElementById('select-from').value;
+  dialogData.translation.fromPlayer = document.getElementById('select-from').value;
+  dialogData.translation.to = document.getElementById('select-to').value;
+  dialogData.translation.engine = document.getElementById('select-engine').value;
 
   return dialogData;
 }

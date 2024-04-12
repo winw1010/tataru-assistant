@@ -84,7 +84,7 @@
       'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Transparency'],
 
       'checkbox-auto-change': ['翻譯失敗時切換翻譯引擎', '翻译失败时切换翻译引擎', 'Change Engine When Failed'],
-      'checkbox-text-fix': ['使用Tataru翻譯', '使用Tataru翻译', 'Use Tataru'],
+      'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Use Tataru'],
       'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
       'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore Chinese Text'],
       'select-engine': ['翻譯引擎', '翻译引擎', 'Engine'],

@@ -28,18 +28,13 @@
     <header class="container-fluid p-2">
       <div class="row align-items-center">
         <div class="col-auto">
-          <img
-            id="img-button-drag"
-            class="img_button auto_hidden"
-            title="Drag"
-            src="./img/ui/open_with_white_48dp.svg"
-          />
+          <img id="img-button-drag" class="img-button" src="./img/ui/open_with_white_48dp.svg" />
         </div>
         <div class="col">
-          <span id="span_dictionary">翻譯查詢</span>
+          <span id="span-title-dictionary"></span>
         </div>
         <div class="col-auto">
-          <img id="img_button_close" class="img_button float_right" title="關閉" src="./img/ui/close_white_24dp.svg" />
+          <img id="img-button-close" class="img-button" src="./img/ui/close_white_24dp.svg" />
         </div>
       </div>
     </header>
@@ -47,7 +42,7 @@
     <main class="container-fluid p-2">
       <div class="row align-items-center">
         <div class="col-auto">
-          <select class="form-select" id="select_from"></select>
+          <select class="form-select" id="select-from"></select>
         </div>
         <div class="col-auto">
           <svg
@@ -65,7 +60,7 @@
           </svg>
         </div>
         <div class="col-auto">
-          <select class="form-select" id="select_to"></select>
+          <select class="form-select" id="select-to"></select>
         </div>
       </div>
 
@@ -73,12 +68,12 @@
 
       <div class="row align-items-center">
         <div class="col-auto">
-          <button id="button_switch" class="btn btn-primary">切換</button>
+          <button id="button-switch" class="btn btn-primary"></button>
         </div>
         <div class="col-auto">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox_text_fix" />
-            <label class="form-check-label" for="checkbox_text_fix" style="user-select: none">使用Tataru翻譯</label>
+            <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox-tataru" />
+            <label class="form-check-label" for="checkbox-tataru" style="user-select: none"></label>
           </div>
         </div>
       </div>
@@ -97,7 +92,7 @@
 
       <div class="row align-items-center">
         <div class="col">
-          <textarea class="form-control" id="textarea_original_text" rows="5" placeholder="Text"></textarea>
+          <textarea class="form-control" id="textarea-original-text" rows="5" placeholder="Text"></textarea>
         </div>
       </div>
 
@@ -105,10 +100,10 @@
 
       <div class="row align-items-center">
         <div class="col-auto">
-          <select class="form-select" id="select_engine"></select>
+          <select class="form-select" id="select-engine"></select>
         </div>
         <div class="col-auto">
-          <button id="button_translate" class="btn btn-primary">翻譯</button>
+          <button class="btn btn-primary" id="button-translate"></button>
         </div>
       </div>
 
@@ -116,7 +111,7 @@
 
       <div class="row align-items-center">
         <div class="col">
-          <div><span id="span_translated_text"></span></div>
+          <div><span id="span-translated-text"></span></div>
         </div>
       </div>
 
@@ -124,7 +119,7 @@
 
       <div class="row align-items-center">
         <div class="col">
-          <div id="div_audio"></div>
+          <div id="div-audio"></div>
         </div>
       </div>
     </main>

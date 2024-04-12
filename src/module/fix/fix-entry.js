@@ -80,6 +80,9 @@ async function entry() {
     // start fix
     const dataLanguage = getLanguage(dialogData);
 
+    dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
+    dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
+
     dialogData.translatedName = dialogData.name;
     dialogData.translatedText = dialogData.text;
     dialogData.audioText = dialogData.text;

@@ -24,9 +24,9 @@ function setIPC() {
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
-  document.getElementById('checkbox_split').checked = config.captureWindow.split;
-  document.getElementById('checkbox_edit').checked = config.captureWindow.edit;
-  document.getElementById('select_type').value = config.captureWindow.type;
+  document.getElementById('checkbox-split').checked = config.captureWindow.split;
+  document.getElementById('checkbox-edit').checked = config.captureWindow.edit;
+  document.getElementById('select-type').value = config.captureWindow.type;
   showScreenshotButton(config);
   setCanvasSize();
 }
@@ -44,35 +44,35 @@ function setEvent() {
   };
 
   // checkbox
-  document.getElementById('checkbox_split').oninput = () => {
+  document.getElementById('checkbox-split').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.split = document.getElementById('checkbox_split').checked;
+    config.captureWindow.split = document.getElementById('checkbox-split').checked;
     ipcRenderer.send('set-config', config);
   };
 
-  document.getElementById('checkbox_edit').oninput = () => {
+  document.getElementById('checkbox-edit').oninput = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.edit = document.getElementById('checkbox_edit').checked;
+    config.captureWindow.edit = document.getElementById('checkbox-edit').checked;
     ipcRenderer.send('set-config', config);
   };
 
   // select
-  document.getElementById('select_type').onchange = () => {
+  document.getElementById('select-type').onchange = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.captureWindow.type = document.getElementById('select_type').value;
+    config.captureWindow.type = document.getElementById('select-type').value;
     ipcRenderer.send('set-config', config);
 
     showScreenshotButton(config);
   };
 
   // canvas event
-  setCanvasEvent(document.getElementById('canvas_select'));
+  setCanvasEvent(document.getElementById('canvas-select'));
 }
 
 // set button
 function setButton() {
   // screenshot
-  document.getElementById('button_screenshot').onclick = () => {
+  document.getElementById('button-screenshot').onclick = () => {
     // minimize all windows
     ipcRenderer.send('minimize-all-windows');
 
@@ -90,20 +90,20 @@ function setButton() {
   };
 
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 }
 
 // show screenshot button
 function showScreenshotButton(config) {
-  document.getElementById('button_screenshot').hidden = config.captureWindow.type !== 'google';
+  document.getElementById('button-screenshot').hidden = config.captureWindow.type !== 'google-vision';
 }
 
 // set canvas size
 function setCanvasSize() {
   // get canvas
-  const canvas = document.getElementById('canvas_select');
+  const canvas = document.getElementById('canvas-select');
 
   // set size
   canvas.setAttribute('width', window.innerWidth);
@@ -113,7 +113,7 @@ function setCanvasSize() {
 // set canvas event
 function setCanvasEvent() {
   // get canvas
-  const canvas = document.getElementById('canvas_select');
+  const canvas = document.getElementById('canvas-select');
 
   // set line width
   let lineWidth = 1;

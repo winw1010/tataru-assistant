@@ -148,8 +148,12 @@ function loadConfig() {
     }
 
     // fix text detect
-    if (!['tesseract', 'google'].includes(currentConfig.captureWindow.type)) {
-      currentConfig.captureWindow.type = 'tesseract';
+    if (!['tesseract-ocr', 'google-vision'].includes(currentConfig.captureWindow.type)) {
+      if (currentConfig.captureWindow.type === 'google') {
+        currentConfig.captureWindow.type = 'google-vision';
+      } else {
+        currentConfig.captureWindow.type = 'tesseract-ocr';
+      }
     }
 
     // fix GPT model

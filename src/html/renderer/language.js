@@ -139,6 +139,10 @@
 
       'please-select-gpt-model': ['請選擇GPT模型', '请选择GPT模型', 'Please Select GPT Model'],
 
+      // capture
+      'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
+      'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
+
       // edit
       player: ['玩家名稱', '玩家名称', 'Player'],
       retainer: ['雇員名稱', '雇员名称', 'Retainer'],

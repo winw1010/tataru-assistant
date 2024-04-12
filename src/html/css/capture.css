@@ -9,14 +9,14 @@ header {
   border: 0.1rem #808080 solid;
 }
 
-#canvas_select {
+#canvas-select {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 5;
 }
 
-#button_screenshot {
+#button-screenshot {
   position: absolute;
   right: 0.5rem;
   bottom: 0.5rem;

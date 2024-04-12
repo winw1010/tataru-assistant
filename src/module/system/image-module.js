@@ -89,7 +89,7 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
 
     // start reconize
     dialogModule.showNotification('正在辨識圖片文字');
-    if (config.captureWindow.type === 'google') {
+    if (config.captureWindow.type === 'google-vision') {
       // google vision
       textDetectModule.googleVision(cropPath);
     } else {

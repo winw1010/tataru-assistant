@@ -196,7 +196,7 @@
       'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Table'],
     },
     input: {
-      // 'input-gpt-api-key': ['請輸入API KEY', '请输入API KEY', 'API KEY'],
+      'input-gpt-api-key': ['請輸入API KEY', '请输入API KEY', 'API KEY'],
     },
     textarea: {
       // dictionary

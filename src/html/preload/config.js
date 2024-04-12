@@ -312,7 +312,7 @@ async function readGptModelList() {
         selectGptModel.value = config.system.gptModel;
       }
     } else {
-      selectGptModel.innerHTML = '<option value="please-select-gpt-model" selected>Please Select GPT Model</option>';
+      selectGptModel.innerHTML = '<option value="none" selected>None</option>';
     }
   }
 }

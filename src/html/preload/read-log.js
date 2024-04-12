@@ -40,18 +40,18 @@ function setEvent() {
 // set button
 function setButton() {
   // read
-  document.getElementById('button_read_log').onclick = () => {
-    const file = document.getElementById('select_log').value;
+  document.getElementById('button-read-log').onclick = () => {
+    const file = document.getElementById('select-log').value;
     readLog(file);
   };
 
   // view
-  document.getElementById('button_view_log').onclick = () => {
+  document.getElementById('button-view-log').onclick = () => {
     ipcRenderer.send('execute-command', `start "" "${logPath}"`);
   };
 
   // close
-  document.getElementById('img_button_close').onclick = () => {
+  document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
 }
@@ -61,7 +61,7 @@ function readLogList() {
     const logs = ipcRenderer.sendSync('read-directory', logPath);
 
     if (logs.length > 0) {
-      const select = document.getElementById('select_log');
+      const select = document.getElementById('select-log');
 
       let innerHTML = '';
       for (let index = 0; index < logs.length; index++) {

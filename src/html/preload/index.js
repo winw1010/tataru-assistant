@@ -130,7 +130,7 @@ function setView() {
 
   // first time check
   if (config.system.firstTime) {
-    ipcRenderer.send('create-window', 'config', 'div_translation');
+    ipcRenderer.send('create-window', 'config', 'div-translation');
   }
 }
 

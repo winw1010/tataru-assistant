@@ -110,7 +110,7 @@ function setIPC() {
   });
 
   // add audio
-  ipcRenderer.on('add-audio', (event, urlList) => {
+  ipcRenderer.on('add-to-playlist', (event, urlList) => {
     document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
   });
 }
@@ -125,8 +125,8 @@ function setView() {
   // set click through
   setClickThrough(config.indexWindow.clickThrough);
 
-  // set auto play
-  setAutoPlay(config.translation.autoPlay);
+  // set speech
+  setSpeech(config.indexWindow.speech);
 
   // first time check
   if (config.system.firstTime) {
@@ -223,10 +223,10 @@ function setButton() {
   // auto play
   document.getElementById('img-button-speech').onclick = () => {
     let config = ipcRenderer.sendSync('get-config');
-    config.translation.autoPlay = !config.translation.autoPlay;
+    config.indexWindow.speech = !config.indexWindow.speech;
     ipcRenderer.send('set-config', config);
-    ipcRenderer.send('mute-window', config.translation.autoPlay);
-    setAutoPlay(config.translation.autoPlay);
+    ipcRenderer.send('mute-window', config.indexWindow.speech);
+    setSpeech(config.indexWindow.speech);
   };
 
   // read log
@@ -265,6 +265,9 @@ function startApp() {
 function resetView(config) {
   // restore window
   ipcRenderer.send('restore-window');
+
+  // set speech speed
+  document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));
 
   // set always on top
   ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
@@ -372,7 +375,7 @@ function setClickThrough(value) {
   }
 }
 
-function setAutoPlay(value) {
+function setSpeech(value) {
   if (value) {
     document.getElementById('img-button-speech').setAttribute('src', './img/ui/volume_up_white_48dp.svg');
     document.dispatchEvent(new CustomEvent('start-playing'));

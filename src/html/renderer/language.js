@@ -75,6 +75,7 @@
       'input-hide-dialog': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(sec)'],
       'input-background-color': ['背景顏色', '背景颜色', 'Color'],
       'input-background-transparency': ['背景透明度', '背景透明度', 'Transparency'],
+      'input-speech-speed': ['朗讀速度', '朗读速度', 'Speech Speed'],
 
       'select-font-weight': ['文字粗細', '文字粗细', 'Font Weight'],
       'input-font-size': ['文字大小(rem)', '文字大小(rem)', 'Font Size(rem)'],

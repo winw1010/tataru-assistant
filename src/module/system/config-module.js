@@ -26,6 +26,8 @@ const defaultConfig = {
     backgroundColor: '#00000034',
     clickThrough: false,
     lock: false,
+    speech: false,
+    speechSpeed: '1',
   },
   dialog: {
     weight: 'normal',
@@ -52,7 +54,6 @@ const defaultConfig = {
   },
   translation: {
     autoChange: true,
-    autoPlay: false,
     fix: true,
     skip: true,
     skipChinese: true,

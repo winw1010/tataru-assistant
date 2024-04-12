@@ -157,15 +157,10 @@ function saveLog(id, name, text, dialogData) {
       }
     }
 
-    // play audio at first time
-    if (
-      !log[item.id] &&
-      npcChannel.includes(dialogData.code) &&
-      dialogData.audioText !== '' &&
-      dialogData.translation.autoPlay
-    ) {
+    // play speech at first time
+    if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData.audioText !== '') {
       const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
-      windowModule.sendIndex('add-audio', urlList);
+      windowModule.sendIndex('add-to-playlist', urlList);
     }
 
     // add/replcae log

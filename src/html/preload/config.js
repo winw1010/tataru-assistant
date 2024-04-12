@@ -57,33 +57,19 @@ function setEvent() {
   });
 
   // background color
-  document.getElementById('input-background-color').oninput = () => {
-    document.getElementById('span-background-color').innerText = document
-      .getElementById('input-background-color')
-      .value.toString()
-      .toUpperCase();
-  };
+  setOnInputEvent('input-background-color', 'span-background-color');
 
   // background transparency
-  document.getElementById('input-background-transparency').oninput = () => {
-    document.getElementById('span-background-transparency').innerText = document.getElementById(
-      'input-background-transparency'
-    ).value;
-  };
+  setOnInputEvent('input-background-transparency', 'span-background-transparency');
+
+  // speech speed
+  setOnInputEvent('input-speech-speed', 'span-speech-speed');
 
   // dialog color
-  document.getElementById('input-dialog-color').oninput = () => {
-    document.getElementById('span-dialog-color').innerText = document
-      .getElementById('input-dialog-color')
-      .value.toString()
-      .toUpperCase();
-  };
+  setOnInputEvent('input-dialog-color', 'span-dialog-color');
 
   // dialog transparency
-  document.getElementById('input-dialog-transparency').oninput = () => {
-    document.getElementById('span-dialog-transparency').innerText =
-      document.getElementById('input-dialog-transparency').value;
-  };
+  setOnInputEvent('input-dialog-transparency', 'span-dialog-transparency');
 
   // input-gpt-api-key
   document.getElementById('input-gpt-api-key').onchange = () => {
@@ -317,6 +303,13 @@ async function readGptModelList() {
   }
 }
 
+// set on input event
+function setOnInputEvent(inputId = '', spanId = '') {
+  document.getElementById(inputId).oninput = () => {
+    document.getElementById(spanId).innerText = document.getElementById(inputId).value;
+  };
+}
+
 // read channel
 function readChannel(config, chatCode) {
   const channel = document.getElementById('div-channel-list');
@@ -360,13 +353,7 @@ function readChannel(config, chatCode) {
 
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
-    const channelColor = document.getElementById(`input-${element.ChatCode}-color`);
-    const channelSpan = document.getElementById(`span-${element.ChatCode}-color`);
-
-    channelColor.oninput = () => {
-      channelSpan.style.color = channelColor.value.toString();
-      channelSpan.innerText = channelColor.value.toString().toUpperCase();
-    };
+    setOnInputEvent(`input-${element.ChatCode}-color`, `span-${element.ChatCode}-color`);
   }
 }
 
@@ -376,15 +363,15 @@ function saveChannel(config = {}, chatCode = {}) {
   // checked color
   const checkedArray = document.querySelectorAll('#div-channel input[type="checkbox"]:checked');
   for (let index = 0; index < checkedArray.length; index++) {
-    const code = checkedArray[index].id.replaceAll('checkbox-', '').toUpperCase();
-    config.channel[code] = document.getElementById(`input-${code}-color`).value.toUpperCase();
+    const code = checkedArray[index].id.replaceAll('checkbox-', '');
+    config.channel[code] = document.getElementById(`input-${code}-color`).value;
   }
 
   // all color
   const channelArray = document.querySelectorAll('#div-channel input[type="checkbox"]');
   for (let index = 0; index < channelArray.length; index++) {
-    const code = channelArray[index].id.replaceAll('checkbox-', '').toUpperCase();
-    chatCode[index].Color = document.getElementById(`input-${code}-color`).value.toUpperCase();
+    const code = channelArray[index].id.replaceAll('checkbox-', '');
+    chatCode[index].Color = document.getElementById(`input-${code}-color`).value;
   }
 }
 
@@ -472,6 +459,14 @@ function getOptionList() {
       (value) => {
         return parseInt(value.slice(7), 16);
       },
+    ],
+    [
+      ['span-speech-speed', 'innerText'],
+      ['indexWindow', 'speechSpeed'],
+    ],
+    [
+      ['input-speech-speed', 'value'],
+      ['indexWindow', 'speechSpeed'],
     ],
 
     // font

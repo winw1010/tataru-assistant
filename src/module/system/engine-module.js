@@ -1,126 +1,122 @@
 'use strict';
 
-/* Search Temp
-('Japanese')|('English')|('Traditional-Chinese')|('Simplified-Chinese')
-
-('Youdao')|('Baidu')|('Caiyun')|('Papago')|('DeepL')|('GPT')|(Google)
-
-('Japanese')|('English')|('Traditional-Chinese')|('Simplified-Chinese')|('Youdao')|('Baidu')|('Caiyun')|('Papago')|('DeepL')|('GPT')|('Google')
-
-(Japanese)|(English)|(Traditional-Chinese)|(Simplified-Chinese)|(Youdao)|(Baidu)|(Caiyun)|(Papago)|(DeepL)|(GPT)|(Google)
-*/
-
-// https://help.ads.microsoft.com/#apex/18/zh-CHT/10004/-1
-
 // all list
-const allLanguageList = ['ja', 'en', 'zh-cht', 'zh-chs'];
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // source list
-const sourceList = ['ja', 'en'];
+const sourceList = ['Japanese', 'English'];
 
 // target list
-const targetList = ['zh-cht', 'zh-chs'];
+const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
-const uiList = ['en', 'zh-cht', 'zh-chs'];
+const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['youdao', 'baidu', 'caiyun', 'papago', 'deepl', 'gpt'];
+const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];
 
 // language enum
 const languageEnum = {
-  auto: 'auto',
-  ja: 'ja',
-  en: 'en',
-  zht: 'zh-cht',
-  zhs: 'zh-chs',
+  auto: 'Auto',
+  ja: 'Japanese',
+  en: 'English',
+  zht: 'Traditional-Chinese',
+  zhs: 'Simplified-Chinese',
 };
 
 // language index (text/main)
 const languageIndex = {
-  ja: 0,
-  en: 1,
-  'zh-cht': 2,
-  'zh-chs': 3,
+  Japanese: 0,
+  English: 1,
+  'Traditional-Chinese': 2,
+  'Simplified-Chinese': 3,
 };
 
 // language name
 const languageName = {
-  ja: '日文',
-  en: '英文',
+  Japanese: '日文',
+  English: '英文',
   German: '德文',
   French: '法文',
-  'zh-cht': '繁體中文',
-  'zh-chs': '簡體中文',
+  'Traditional-Chinese': '繁體中文',
+  'Simplified-Chinese': '簡體中文',
 };
 
 // engine name
 const engineName = {
-  youdao: '有道翻譯',
-  baidu: '百度翻譯',
-  caiyun: '彩雲小譯',
-  papago: 'Papago',
-  deepl: 'DeepL',
-  gpt: 'ChatGPT',
+  Youdao: '有道翻譯',
+  Baidu: '百度翻譯',
+  Caiyun: '彩雲小譯',
+  Papago: 'Papago',
+  DeepL: 'DeepL',
+  GPT: 'ChatGPT',
 };
 
 // engine table
 const engineTable = {
-  baidu: {
-    auto: 'auto',
-    ja: 'jp',
-    en: 'en',
-    'zh-cht': 'zh',
-    'zh-chs': 'zh',
+  Baidu: {
+    Auto: 'auto',
+    Japanese: 'jp',
+    English: 'en',
+    Chinese: 'zh',
+    'Traditional-Chinese': 'zh',
+    'Simplified-Chinese': 'zh',
   },
-  caiyun: {
-    auto: 'auto',
-    ja: 'ja',
-    en: 'en',
-    'zh-cht': 'zh',
-    'zh-chs': 'zh',
+  Caiyun: {
+    Auto: 'auto',
+    Japanese: 'ja',
+    English: 'en',
+    Chinese: 'zh',
+    'Traditional-Chinese': 'zh',
+    'Simplified-Chinese': 'zh',
   },
-  youdao: {
-    auto: 'auto',
-    ja: 'ja',
-    en: 'en',
-    'zh-cht': 'zh-CHS',
-    'zh-chs': 'zh-CHS',
+  Youdao: {
+    Auto: 'auto',
+    Japanese: 'ja',
+    English: 'en',
+    Chinese: 'zh-CHS',
+    'Traditional-Chinese': 'zh-CHS',
+    'Simplified-Chinese': 'zh-CHS',
   },
-  tencent: {
-    auto: 'auto',
-    ja: 'jp',
-    en: 'en',
-    'zh-cht': 'zh',
-    'zh-chs': 'zh',
+  Tencent: {
+    Auto: 'auto',
+    Japanese: 'jp',
+    English: 'en',
+    Chinese: 'zh',
+    'Traditional-Chinese': 'zh',
+    'Simplified-Chinese': 'zh',
   },
-  papago: {
-    auto: 'detect',
-    ja: 'ja',
-    en: 'en',
-    'zh-cht': 'zh-CN',
-    'zh-chs': 'zh-CN',
+  Papago: {
+    Auto: 'detect',
+    Japanese: 'ja',
+    English: 'en',
+    Chinese: 'zh-CN',
+    'Traditional-Chinese': 'zh-CN',
+    'Simplified-Chinese': 'zh-CN',
   },
-  deepl: {
-    auto: 'auto',
-    ja: 'JA',
-    en: 'EN',
-    'zh-cht': 'ZH',
-    'zh-chs': 'ZH',
+  DeepL: {
+    Auto: 'auto',
+    Japanese: 'JA',
+    English: 'EN',
+    Chinese: 'ZH',
+    'Traditional-Chinese': 'ZH',
+    'Simplified-Chinese': 'ZH',
   },
-  google: {
-    auto: 'auto',
-    ja: 'ja',
-    en: 'en',
-    'zh-cht': 'zh-CN',
-    'zh-chs': 'zh-CN',
+  Google: {
+    Auto: 'auto',
+    Japanese: 'ja',
+    English: 'en',
+    Chinese: 'zh-CN',
+    'Traditional-Chinese': 'zh-CN',
+    'Simplified-Chinese': 'zh-CN',
   },
-  gpt: {
-    auto: 'any languages',
-    ja: 'Japanese',
-    en: 'English',
-    'zh-cht': 'Chinese',
-    'zh-chs': 'Chinese',
+  GPT: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
   },
 };
 
@@ -162,7 +158,7 @@ function getSelect(list = [], names = {}) {
 }
 
 // get engine list
-function getEngineList(engine = 'youdao') {
+function getEngineList(engine = 'Youdao') {
   const engineIndex = engineList.indexOf(engine);
 
   let newEngineList = JSON.parse(JSON.stringify(engineList));

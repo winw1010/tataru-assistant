@@ -89,17 +89,19 @@ function setIPC() {
 
           // set select-engine
           if (targetLog?.translation?.engine) {
-            document.getElementById('select-engine').value = fixEngine(targetLog.translation.engine, 'youdao');
+            if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(targetLog.translation.engine)) {
+              document.getElementById('select-engine').value = targetLog.translation.engine;
+            }
           }
 
           // set select-from
           if (targetLog?.translation?.from) {
-            document.getElementById('select-from').value = fixLanguage(targetLog.translation.from, 'ja');
+            document.getElementById('select-from').value = targetLog.translation.from;
           }
 
           // set select-to
           if (targetLog?.translation?.to) {
-            document.getElementById('select-to').value = fixLanguage(targetLog.translation.to, 'zh-cht');
+            document.getElementById('select-to').value = targetLog.translation.to;
           }
         }
       }
@@ -349,48 +351,6 @@ function reportTranslation() {
     console.log(error);
     ipcRenderer.send('show-message-box', error);
   }
-}
-
-function fixEngine(engine = '', defaultEngine = '') {
-  engine = engine.toLowerCase();
-
-  if (!['youdao', 'baidu', 'caiyun', 'papago', 'deepl', 'gpt'].includes(engine)) {
-    engine = defaultEngine;
-  }
-
-  return engine;
-}
-
-function fixLanguage(lang = '', defaultlang = '') {
-  if (['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'].includes(lang)) {
-    switch (lang) {
-      case 'Japanese':
-        lang = 'ja';
-        break;
-
-      case 'English':
-        lang = 'en';
-        break;
-
-      case 'Traditional-Chinese':
-        lang = 'zh-cht';
-        break;
-
-      case 'Simplified-Chinese':
-        lang = 'zh-chs';
-        break;
-
-      default:
-        lang = defaultlang;
-        break;
-    }
-  }
-
-  if (!['ja', 'en', 'zh-cht', 'zh-chs'].includes(lang)) {
-    lang = defaultlang;
-  }
-
-  return lang;
 }
 
 // create log name

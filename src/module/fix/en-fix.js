@@ -57,7 +57,7 @@ async function startFix(dialogData = {}) {
       translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
     } else {
       if (translation.fix) {
-        if (translation.engine === 'gpt') {
+        if (translation.engine === 'GPT') {
           translatedText = await textFixGPT(dialogData.name, dialogData.text, translation);
         } else {
           translatedText = await textFix(dialogData.name, dialogData.text, translation);
@@ -102,7 +102,7 @@ async function nameFix(name = '', translation = {}) {
   // code
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-  if (translation.engine === 'gpt') {
+  if (translation.engine === 'GPT') {
     // skip check
     if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate

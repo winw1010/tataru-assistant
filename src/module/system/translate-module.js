@@ -31,7 +31,7 @@ async function translate(text = '', translation = {}, table = []) {
   text = text.replace(/\r|\n/g, '');
 
   // GPT
-  if (translation.engine === 'gpt') {
+  if (translation.engine === 'GPT') {
     let result = await translate2(text, translation, table);
 
     if (result === '') {
@@ -114,31 +114,31 @@ async function getTranslation(engine = '', option = {}, table = []) {
 
   try {
     switch (engine) {
-      case 'baidu':
+      case 'Baidu':
         result = await baidu.exec(option);
         break;
 
-      case 'youdao':
+      case 'Youdao':
         result = await youdao.exec(option);
         break;
 
-      case 'caiyun':
+      case 'Caiyun':
         result = await caiyun.exec(option);
         break;
 
-      case 'papago':
+      case 'Papago':
         result = await papago.exec(option);
         break;
 
-      case 'deepL':
+      case 'DeepL':
         result = await deepl.exec(option);
         break;
 
-      case 'gpt':
+      case 'GPT':
         result = await gpt.exec(option, table);
         break;
 
-      case 'google':
+      case 'Google':
         result = await google.exec(option);
         break;
 

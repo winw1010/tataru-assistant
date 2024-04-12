@@ -3,8 +3,8 @@
 // file module
 const fileModule = require('./file-module');
 
-// fix config
-const fixConfig = require('./util/fix-config');
+// engine module
+const engineModule = require('./engine-module');
 
 // config location
 const configLocation = fileModule.getUserDataPath('setting', 'config.json');
@@ -57,14 +57,14 @@ const defaultConfig = {
     skip: true,
     skipChinese: true,
     replace: true,
-    engine: 'youdao',
-    from: 'ja',
-    fromPlayer: 'ja',
-    to: 'zh-cht',
+    engine: 'Youdao',
+    from: 'Japanese',
+    fromPlayer: 'Japanese',
+    to: 'Traditional-Chinese',
   },
   system: {
     firstTime: true,
-    appLanguage: 'zh-cht',
+    appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
     gptModel: 'please-select-gpt-model',
     gptApiKey: '',
@@ -128,31 +128,24 @@ function loadConfig() {
     });
 
     // fix engine
-    currentConfig.translation.engine = fixConfig.fixEngine(
-      currentConfig.translation.engine,
-      defaultConfig.translation.engine
-    );
+    if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
+      currentConfig.translation.engine = defaultConfig.translation.engine;
+    }
 
     // fix source
-    currentConfig.translation.from = fixConfig.fixLanguage(
-      currentConfig.translation.from,
-      defaultConfig.translation.from
-    );
+    if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
+      currentConfig.translation.from = defaultConfig.translation.from;
+    }
 
     // fix player
-    currentConfig.translation.fromPlayer = fixConfig.fixLanguage(
-      currentConfig.translation.fromPlayer,
-      defaultConfig.translation.fromPlayer
-    );
+    if (!engineModule.sourceList.includes(currentConfig.translation.fromPlayer)) {
+      currentConfig.translation.fromPlayer = defaultConfig.translation.fromPlayer;
+    }
 
     // fix target
-    currentConfig.translation.to = fixConfig.fixLanguage(currentConfig.translation.to, defaultConfig.translation.to);
-
-    // fix appLanguage
-    currentConfig.system.appLanguage = fixConfig.fixLanguage(
-      currentConfig.system.appLanguage,
-      defaultConfig.system.appLanguage
-    );
+    if (!engineModule.targetList.includes(currentConfig.translation.to)) {
+      currentConfig.translation.to = defaultConfig.translation.to;
+    }
 
     // fix text detect
     if (!['tesseract-ocr', 'google-vision'].includes(currentConfig.captureWindow.type)) {

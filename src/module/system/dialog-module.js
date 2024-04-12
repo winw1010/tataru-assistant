@@ -201,11 +201,11 @@ function getSystemMessage(messageId = '', appLanguage = '') {
   let languageIndex = 2;
 
   switch (appLanguage) {
-    case 'zh-cht':
+    case 'Traditional-Chinese':
       languageIndex = 0;
       break;
 
-    case 'zh-chs':
+    case 'Simplified-Chinese':
       languageIndex = 1;
       break;
 

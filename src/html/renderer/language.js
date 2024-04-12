@@ -135,14 +135,14 @@
       normal: ['細', '细', 'Normal'],
       bold: ['粗', '粗', 'Bold'],
 
-      youdao: ['有道翻譯', '有道翻译', 'Youdao'],
-      baidu: ['百度翻譯', '百度翻译', 'Baidu'],
-      caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
+      Youdao: ['有道翻譯', '有道翻译', 'Youdao'],
+      Baidu: ['百度翻譯', '百度翻译', 'Baidu'],
+      Caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
 
-      ja: ['日文', '日文', 'Japanese'],
-      en: ['英文', '英文', 'English'],
-      'zh-cht': ['繁體中文', '繁体中文', 'Traditional Chinese'],
-      'zh-chs': ['簡體中文', '简体中文', 'Simplified Chinese'],
+      Japanese: ['日文', '日文', 'Japanese'],
+      English: ['英文', '英文', 'English'],
+      'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],
+      'Simplified-Chinese': ['簡體中文', '简体中文', 'Simplified Chinese'],
 
       'please-select-gpt-model': ['請選擇GPT模型', '请选择GPT模型', 'Please Select GPT Model'],
 
@@ -271,10 +271,10 @@
   // get text index
   function getTextIndex(language) {
     switch (language) {
-      case 'zh-cht':
+      case 'Traditional-Chinese':
         return 0;
 
-      case 'zh-chs':
+      case 'Simplified-Chinese':
         return 1;
 
       default:

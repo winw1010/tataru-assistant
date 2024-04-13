@@ -170,7 +170,7 @@ function checkRepetition(dialogData) {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
   } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
-    const targetIndex = dialogHistory.indexOf(text);
+    const targetIndex = dialogHistory.lastIndexOf(text);
     if (targetIndex >= 0 && dialogHistory.length - targetIndex <= 3) {
       return false;
     }

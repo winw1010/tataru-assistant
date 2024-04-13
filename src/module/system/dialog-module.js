@@ -209,7 +209,7 @@ function getSystemMessage(messageId = '', appLanguage = '') {
       break;
   }
 
-  return systemMessage?.[messageId]?.[languageIndex] || '';
+  return systemMessage?.[messageId]?.[languageIndex] || messageId;
 }
 
 // module exports

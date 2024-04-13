@@ -44,8 +44,11 @@ const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', sharlayanRead
 // sharlayan.exe path
 const sharlayanExePath = fileModule.getRootPath('src', 'data', sharlayanReader, sharlayanReader + '.exe');
 
-// version path
-const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
+// data signatures path
+const dataSignaturesPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
+
+// root signatures path
+const rootSignaturesPath = fileModule.getRootPath('signatures.json');
 
 // reader process
 let readerProcess = null;
@@ -70,10 +73,10 @@ function start() {
     }
 
     // update signatures.json
-    if (fileModule.exists(versionPath)) {
-      const signatures = fileModule.read(versionPath, 'json');
+    if (fileModule.exists(dataSignaturesPath)) {
+      const signatures = fileModule.read(dataSignaturesPath, 'json');
       if (signatures) {
-        fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
+        fileModule.write(rootSignaturesPath, signatures, 'json');
       }
     }
 

@@ -38,8 +38,11 @@ const serverModule = require('./server-module');
 // sharlayan reader
 const sharlayanReader = 'sharlayan-reader'; // SharlayanReader
 
-// sharlayan path
-const sharlayanPath = fileModule.getRootPath('src', 'data', sharlayanReader, sharlayanReader + '.exe');
+// sharlayan history path
+const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', sharlayanReader, 'history.json');
+
+// sharlayan.exe path
+const sharlayanExePath = fileModule.getRootPath('src', 'data', sharlayanReader, sharlayanReader + '.exe');
 
 // version path
 const versionPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
@@ -51,35 +54,40 @@ let readerProcess = null;
 let restartReader = true;
 
 // dialog history
-const dialogHistory = [];
+let dialogHistory = [];
 
 // text history
-const textHistory = {};
+let textHistory = {};
 
 // start
 function start() {
   try {
-    // read dialog history
-    // read text history
+    // read history
+    if (fileModule.exists(sharlayanHistoryPath)) {
+      const history = fileModule.read(sharlayanHistoryPath, 'json');
+      dialogHistory = history.dialogHistory || [];
+      textHistory = history.textHistory || {};
+    }
 
     // update signatures.json
     if (fileModule.exists(versionPath)) {
-      try {
-        const signatures = fileModule.read(versionPath, 'json');
-        if (signatures) {
-          fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
-        }
-      } catch (error) {
-        console.log(error);
+      const signatures = fileModule.read(versionPath, 'json');
+      if (signatures) {
+        fileModule.write(fileModule.getRootPath('signatures.json'), signatures, 'json');
       }
     }
 
     // spawn reader process
-    readerProcess = childProcess.spawn(sharlayanPath);
+    readerProcess = childProcess.spawn(sharlayanExePath);
 
     // on reader close
     readerProcess.on('close', (code) => {
       console.log(`${sharlayanReader}.exe closed (code: ${code})`);
+
+      // write history
+      fileModule.write(sharlayanHistoryPath, { dialogHistory, textHistory }, 'json');
+
+      // restart if app is not closed
       if (restartReader) {
         start();
       }

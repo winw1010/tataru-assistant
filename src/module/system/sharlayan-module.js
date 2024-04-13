@@ -59,6 +59,9 @@ const textHistory = {};
 // start
 function start() {
   try {
+    // read dialog history
+    // read text history
+
     // update signatures.json
     if (fileModule.exists(versionPath)) {
       try {

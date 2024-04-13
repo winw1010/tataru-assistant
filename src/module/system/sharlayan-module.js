@@ -70,6 +70,7 @@ function start() {
       const history = fileModule.read(sharlayanHistoryPath, 'json');
       dialogHistory = history.dialogHistory || [];
       textHistory = history.textHistory || {};
+      textHistory['FFFF'] = '';
     }
 
     // update signatures.json

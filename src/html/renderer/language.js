@@ -176,6 +176,7 @@
     },
     p: {
       'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
+      'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
       'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
       'p-unoffcia-api': [
         '若您的位置無法使用ChatGPT，請設置以下選項',

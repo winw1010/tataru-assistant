@@ -145,9 +145,12 @@ function findTempArray(text = '', array = []) {
     }
 
     // hira name 1
+    /*
+    //NG くれない
     if (text.includes(hiraName1) && hiraName1.length > 3) {
       temp.push([hiraName1, translatedName]);
     }
+    */
 
     if (text.includes(`「${hiraName1}」`)) {
       temp.push([`「${hiraName1}」`, `「${translatedName}」`]);
@@ -158,9 +161,11 @@ function findTempArray(text = '', array = []) {
     }
 
     // hira name 2
+    /*
     if (text.includes(hiraName2) && hiraName2.length > 3) {
       temp.push([hiraName2, translatedName]);
     }
+    */
 
     if (text.includes(`「${hiraName2}」`)) {
       temp.push([`「${hiraName2}」`, `「${translatedName}」`]);

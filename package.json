@@ -20,6 +20,7 @@
   "dependencies": {
     "@google-cloud/vision": "^4.1.0",
     "axios": "^1.6.8",
+    "cohere-ai": "^7.9.3",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "openai": "^4.31.0",

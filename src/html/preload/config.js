@@ -3,8 +3,6 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-let apiKeyVisibility = false;
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -132,16 +130,23 @@ function setButton() {
   };
 
   // set google credential
-  document.getElementById('img-api-key-visibility').onclick = () => {
-    apiKeyVisibility = !apiKeyVisibility;
-    if (apiKeyVisibility) {
-      document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_white_48dp.svg');
-      document.getElementById('input-gpt-api-key').setAttribute('type', 'text');
-    } else {
-      document.getElementById('img-api-key-visibility').setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
-      document.getElementById('input-gpt-api-key').setAttribute('type', 'password');
-    }
-  };
+  const imgVisibilityButtons = document.getElementsByClassName('img-visibility');
+  for (let index = 0; index < imgVisibilityButtons.length; index++) {
+    let isVisible = false;
+    const element = imgVisibilityButtons[index];
+    element.onclick = () => {
+      const imgId = element.id;
+      const inputId = imgId.replace('img-visibility', 'input');
+      isVisible = !isVisible;
+      if (isVisible) {
+        document.getElementById(imgId).setAttribute('src', './img/ui/visibility_white_48dp.svg');
+        document.getElementById(inputId).setAttribute('type', 'text');
+      } else {
+        document.getElementById(imgId).setAttribute('src', './img/ui/visibility_off_white_48dp.svg');
+        document.getElementById(inputId).setAttribute('type', 'password');
+      }
+    };
+  }
 
   // readme
   document.getElementById('a-readme').onclick = () => {
@@ -551,12 +556,16 @@ function getOptionList() {
 
     // api
     [
-      ['select-gpt-model', 'value'],
-      ['system', 'gptModel'],
+      ['input-cohere-token', 'value'],
+      ['system', 'cohereToken'],
     ],
     [
       ['input-gpt-api-key', 'value'],
       ['system', 'gptApiKey'],
+    ],
+    [
+      ['select-gpt-model', 'value'],
+      ['system', 'gptModel'],
     ],
 
     // unofficial api

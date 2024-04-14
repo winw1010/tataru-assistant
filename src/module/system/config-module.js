@@ -69,6 +69,7 @@ const defaultConfig = {
     autoDownloadJson: true,
     gptModel: 'please-select-gpt-model',
     gptApiKey: '',
+    cohereToken: '',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
     sslCertificate: true,

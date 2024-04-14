@@ -93,6 +93,8 @@
       'select-from-player': ['玩家頻道', '玩家频道', 'Player Lang'],
       'select-to': ['翻譯語言', '翻译语言', 'Target Lang'],
 
+      'input-cohere-token': ['API Key', 'API金钥', 'API Key'],
+
       'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
       'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT Model'],
 
@@ -209,6 +211,7 @@
       ],
     },
     input: {
+      'input-cohere-token': ['請輸入API KEY', '请输入API KEY', 'API KEY'],
       'input-gpt-api-key': ['請輸入API KEY', '请输入API KEY', 'API KEY'],
     },
     textarea: {

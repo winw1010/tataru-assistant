@@ -11,7 +11,11 @@ const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 const google = require('../translator/google');
 const gpt = require('../translator/gpt');
+const cohere = require('../translator/cohere');
 const zhConverter = require('../translator/zh-convert');
+
+// ai engine
+const aiEngine = ['GPT', 'Cohere'];
 
 // translate
 async function translate(text = '', translation = {}, table = []) {
@@ -31,7 +35,7 @@ async function translate(text = '', translation = {}, table = []) {
   text = text.replace(/\r|\n/g, '');
 
   // GPT
-  if (translation.engine === 'GPT') {
+  if (aiEngine.includes(translation.engine)) {
     let result = await translate2(text, translation, table);
 
     if (result === '') {
@@ -136,6 +140,10 @@ async function getTranslation(engine = '', option = {}, table = []) {
 
       case 'GPT':
         result = await gpt.exec(option, table);
+        break;
+
+      case 'Cohere':
+        result = await cohere.exec(option, table);
         break;
 
       case 'Google':

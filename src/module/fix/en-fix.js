@@ -16,6 +16,9 @@ const translateModule = require('../system/translate-module');
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
+// ai engine
+const aiEngine = ['GPT', 'Cohere'];
+
 // array
 let enArray = enJson.getEnArray();
 let chArray = enJson.getChArray();
@@ -57,7 +60,7 @@ async function startFix(dialogData = {}) {
       translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
     } else {
       if (translation.fix) {
-        if (translation.engine === 'GPT') {
+        if (aiEngine.includes(translation.engine)) {
           translatedText = await textFixGPT(dialogData.name, dialogData.text, translation);
         } else {
           translatedText = await textFix(dialogData.name, dialogData.text, translation);
@@ -102,7 +105,7 @@ async function nameFix(name = '', translation = {}) {
   // code
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-  if (translation.engine === 'GPT') {
+  if (aiEngine.includes(translation.engine)) {
     // skip check
     if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate

@@ -13,7 +13,7 @@ const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT'];
+const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere'];
 
 // language enum
 const languageEnum = {
@@ -44,12 +44,13 @@ const languageName = {
 
 // engine name
 const engineName = {
-  Youdao: '有道翻譯',
-  Baidu: '百度翻譯',
-  Caiyun: '彩雲小譯',
+  Youdao: 'Youdao',
+  Baidu: 'Baidu',
+  Caiyun: 'Caiyun',
   Papago: 'Papago',
   DeepL: 'DeepL',
   GPT: 'ChatGPT',
+  Cohere: 'Cohere',
 };
 
 // engine table
@@ -111,6 +112,14 @@ const engineTable = {
     'Simplified-Chinese': 'zh-CN',
   },
   GPT: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+  },
+  Cohere: {
     Auto: 'any languages',
     Japanese: 'Japanese',
     English: 'English',

@@ -39,12 +39,16 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
   if (!currentOpenAI) currentOpenAI = createOpenai();
 
-  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
+  let prompt = `I want you to act as an expert translator. You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
   let response = null;
 
-  for (let index = 0; index < table.length; index++) {
-    const element = table[index];
-    prompt += ` Replace ${element[0]} with ${element[1]}.`;
+  if (table.length > 0) {
+    prompt += ' And';
+    for (let index = 0; index < table.length; index++) {
+      const element = table[index];
+      prompt += ` replace ${element[0]} with ${element[1]},`;
+    }
+    prompt = prompt.slice(0, prompt.lastIndexOf(',')) + '.';
   }
 
   try {

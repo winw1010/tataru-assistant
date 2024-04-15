@@ -111,20 +111,11 @@ async function nameFix(name = '', translation = {}) {
     // skip check
     if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate
-      translatedName = await translateModule.aiTranslate(
-        { text: translatedName, table: codeResult.gptTable },
-        { text: codeResult.text, table: codeResult.table },
-        translation
-      );
+      translatedName = await translateModule.aiTranslate(translatedName, translation, codeResult.gptTable);
     }
 
     // table
-    if (/^t2@/.test(translatedName)) {
-      translatedName = translatedName.replace('t2@', '');
-      translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
-    } else {
-      translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable, true);
-    }
+    translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable, true);
   } else {
     translatedName = codeResult.text;
 
@@ -213,20 +204,11 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // skip check
   if (enFunction.needTranslation(text, codeResult.gptTable)) {
     // translate
-    text = await translateModule.aiTranslate(
-      { text: text, table: codeResult.gptTable },
-      { text: codeResult.text, table: codeResult.table },
-      translation
-    );
+    text = await translateModule.aiTranslate(text, translation, codeResult.gptTable);
   }
 
   // table
-  if (/^t2@/.test(text)) {
-    text = text.replace('t2@', '');
-    text = fixFunction.replaceWord(text, codeResult.table);
-  } else {
-    text = fixFunction.replaceText(text, codeResult.gptTable, true);
-  }
+  text = fixFunction.replaceText(text, codeResult.gptTable, true);
 
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);

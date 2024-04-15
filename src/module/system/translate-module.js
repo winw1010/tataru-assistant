@@ -81,36 +81,27 @@ async function translate(text = '', translation = {}, table = []) {
   }
 }
 
-async function aiTranslate(option1 = { text: '', table: [] }, option2 = { text: '', table: [] }, translation = {}) {
-  let title = '';
-
+async function aiTranslate(text = '', translation = {}, table = []) {
   // clear newline
-  option1.text = option1.text.replace(/\r|\n/g, '');
-  option2.text = option2.text.replace(/\r|\n/g, '');
+  text = text.replace(/\r|\n/g, '');
 
   // check length
-  if (option1.text === '') {
+  if (text === '') {
     return '……';
   }
 
   // check target
   if (translation.from === translation.to) {
-    return option1.text;
+    return text;
   }
 
-  let result = await translate2(option1.text, translation, option1.table);
-
-  if (translation.to === engineModule.languageEnum.ja && /ぁ-ゖァ-ヺ/.test(result)) {
-    title = 't2@';
-    result = await translate2(option2.text, translation);
-    clearCode(result, option2.table);
-  }
+  let result = await translate2(text, translation, table);
 
   if (result === '') {
     result = '翻譯失敗';
   }
 
-  return title + zhConvert(result, translation.to);
+  return zhConvert(result, translation.to);
 }
 
 // translate 2

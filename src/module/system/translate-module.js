@@ -14,12 +14,10 @@ const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
 const zhConverter = require('../translator/zh-convert');
 
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
-
 // translate
 async function translate(text = '', translation = {}, table = []) {
-  console.log('Before:', text);
+  // clear newline
+  text = text.replace(/\r|\n/g, '');
 
   // check length
   if (text === '') {
@@ -29,20 +27,6 @@ async function translate(text = '', translation = {}, table = []) {
   // check target
   if (translation.from === translation.to) {
     return text;
-  }
-
-  // clear newline
-  text = text.replace(/\r|\n/g, '');
-
-  // GPT
-  if (aiEngine.includes(translation.engine)) {
-    let result = await translate2(text, translation, table);
-
-    if (result === '') {
-      result = '翻譯失敗';
-    }
-
-    return zhConvert(result, translation.to);
   }
 
   // initialize
@@ -97,6 +81,38 @@ async function translate(text = '', translation = {}, table = []) {
   }
 }
 
+async function aiTranslate(option1 = { text: '', table: [] }, option2 = { text: '', table: [] }, translation = {}) {
+  let title = '';
+
+  // clear newline
+  option1.text = option1.text.replace(/\r|\n/g, '');
+  option2.text = option2.text.replace(/\r|\n/g, '');
+
+  // check length
+  if (option1.text === '') {
+    return '……';
+  }
+
+  // check target
+  if (translation.from === translation.to) {
+    return option1.text;
+  }
+
+  let result = await translate2(option1.text, translation, option1.table);
+
+  if (translation.to === engineModule.languageEnum.ja && /ぁ-ゖァ-ヺ/.test(result)) {
+    title = 't2@';
+    result = await translate2(option2.text, translation);
+    clearCode(result, option2.table);
+  }
+
+  if (result === '') {
+    result = '翻譯失敗';
+  }
+
+  return title + zhConvert(result, translation.to);
+}
+
 // translate 2
 async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
@@ -114,6 +130,8 @@ async function translate2(text = '', translation = {}, table = []) {
 
 // get translation
 async function getTranslation(engine = '', option = {}, table = []) {
+  console.log('Before:', option?.text);
+
   let result = '';
 
   try {
@@ -231,6 +249,7 @@ function clearCode(text = '', table = []) {
 // module exports
 module.exports = {
   translate,
+  aiTranslate,
   getTranslation,
   zhConvert,
 };

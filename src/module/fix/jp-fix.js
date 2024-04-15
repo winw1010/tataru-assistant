@@ -118,7 +118,7 @@ async function nameFix(name = '', translation = {}) {
   }
 
   //const translatedName = translateName(name, getKatakanaName(name), translation);
-  let translatedName = '';
+  let translatedName = name;
   let katakanaName = getKatakanaName(name);
 
   if (katakanaName.length > 0) {
@@ -145,28 +145,37 @@ async function nameFix(name = '', translation = {}) {
   }
 
   // get replace result
-  const replaceResult = jpFunction.replaceTextByCode(name, chArray.combine);
+  const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
   if (aiEngine.includes(translation.engine)) {
     // skip check
-    if (jpFunction.needTranslation(translatedName, replaceResult.gptTable)) {
+    if (jpFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate
-      translatedName = await translateModule.translate(translatedName, translation, replaceResult.gptTable);
+      translatedName = await translateModule.aiTranslate(
+        { text: translatedName, table: codeResult.gptTable },
+        { text: codeResult.text, table: codeResult.table },
+        translation
+      );
     }
 
     // table
-    translatedName = fixFunction.replaceText(translatedName, replaceResult.gptTable);
+    if (/^t2@/.test(translatedName)) {
+      translatedName = translatedName.replace('t2@', '');
+      translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+    } else {
+      translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable);
+    }
   } else {
-    translatedName = replaceResult.text;
+    translatedName = codeResult.text;
 
     // skip check
-    if (jpFunction.needTranslation(translatedName, replaceResult.table)) {
+    if (jpFunction.needTranslation(translatedName, codeResult.table)) {
       // translate
-      translatedName = await translateModule.translate(translatedName, translation, replaceResult.table);
+      translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
     }
 
     // table
-    translatedName = fixFunction.replaceText(translatedName, replaceResult.table);
+    translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
   }
 
   // after translation
@@ -283,7 +292,7 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   text = specialFix1(name, text);
 
   // combine
-  const { gptTable } = jpFunction.replaceTextByCode(text, chArray.combine, textType);
+  const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
 
   // special fix 2
   // text = specialFix2(name, text);
@@ -292,9 +301,13 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   // text = fixFunction.markFix(text);
 
   // skip check
-  if (jpFunction.needTranslation(text, gptTable)) {
+  if (jpFunction.needTranslation(text, codeResult.gptTable)) {
     // translate
-    text = await translateModule.translate(text, translation, gptTable);
+    text = await translateModule.aiTranslate(
+      { text: text, table: codeResult.gptTable },
+      { text: codeResult.text, table: codeResult.table },
+      translation
+    );
   }
 
   // mark fix
@@ -304,7 +317,12 @@ async function textFixGPT(name = '', text = '', translation = {}) {
   text = jpFunction.genderFix(originalText, text);
 
   // table
-  text = fixFunction.replaceText(text, gptTable);
+  if (/^t2@/.test(text)) {
+    text = text.replace('t2@', '');
+    text = fixFunction.replaceWord(text, codeResult.table);
+  } else {
+    text = fixFunction.replaceText(text, codeResult.gptTable);
+  }
 
   // after translation
   text = fixFunction.replaceText(text, chArray.afterTranslation);

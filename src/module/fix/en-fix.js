@@ -100,12 +100,14 @@ async function nameFix(name = '', translation = {}) {
   }
 
   // translate name
-  let translatedName = name;
+  let translatedName = '';
 
   // code
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
   if (aiEngine.includes(translation.engine)) {
+    translatedName = name;
+
     // skip check
     if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate

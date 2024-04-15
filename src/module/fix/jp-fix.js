@@ -118,7 +118,7 @@ async function nameFix(name = '', translation = {}) {
   }
 
   //const translatedName = translateName(name, getKatakanaName(name), translation);
-  let translatedName = name;
+  let translatedName = '';
   let katakanaName = getKatakanaName(name);
 
   if (katakanaName.length > 0) {
@@ -148,6 +148,8 @@ async function nameFix(name = '', translation = {}) {
   const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
   if (aiEngine.includes(translation.engine)) {
+    translatedName = name;
+
     // skip check
     if (jpFunction.needTranslation(translatedName, codeResult.gptTable)) {
       // translate

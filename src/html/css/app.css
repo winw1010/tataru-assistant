@@ -32,6 +32,24 @@ footer {
   filter: drop-shadow(0 0 0 0.2rem #000000);
 }
 
+.button-menu {
+  opacity: 0.5;
+}
+
+.button-menu:hover {
+  opacity: 1;
+}
+
+.img-menu {
+  -webkit-filter: drop-shadow(0 0 0.2rem #000000);
+  filter: drop-shadow(0 0 0 0.2rem #000000);
+  cursor: pointer;
+  /*padding: 0.2rem;*/
+  padding: 0.1rem;
+  width: 2rem;
+  height: 2rem;
+}
+
 .img-button {
   -webkit-filter: drop-shadow(0 0 0.2rem #000000);
   filter: drop-shadow(0 0 0 0.2rem #000000);

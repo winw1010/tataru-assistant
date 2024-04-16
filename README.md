@@ -55,4 +55,4 @@ npm run dist
 
 ## Support
 
-[<img src="https://github.com/winw1010/tataru-helper-node-v2/blob/main/src/html/img/qr/bmc_qr.png" alt="drawing" width="200"/>](https://www.buymeacoffee.com/winw1010)
+[Buy me a coffee](https://www.buymeacoffee.com/winw1010)

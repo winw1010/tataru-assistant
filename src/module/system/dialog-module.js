@@ -189,7 +189,6 @@ function createLogName(milliseconds = null) {
 
 // get system message
 function getSystemMessage(option = { messageId: '', errorMessage: '', appLanguage: '' }) {
-  console.log(option);
   const messageId = option.messageId;
   const errorMessage = option.errorMessage;
   const appLanguage = option.appLanguage;

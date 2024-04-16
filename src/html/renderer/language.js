@@ -60,10 +60,10 @@
 
       'a-readme': ['使用說明書', '使用说明书', 'Readme'],
       'a-bug-report': ['問題回報', '问题回报', 'Bug Report'],
+      'a-view-response': ['查看回報表單', '查看回报表单', 'View Response'],
       'a-translation-report': ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
       'a-github': ['GitHub', 'GitHub', 'GitHub'],
       'a-author': ['訪問作者', '访问作者', 'Author'],
-      'a-donate': ['贊助作者', '赞助作者', 'Donate'],
     },
     label: {
       // config
@@ -179,20 +179,22 @@
       'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
       'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
       'p-unoffcia-api': [
-        '若您的位置無法使用ChatGPT，請設置以下選項',
-        '若您的位置无法使用ChatGPT，请设置以下选项',
-        'Set options below if your location does not support ChatGPT',
+        '若您的位置無法使用ChatGPT，請點此設定反向代理',
+        '若您的位置无法使用ChatGPT，请点此设定反向代理',
+        "Click here to set reverse proxy if your location can't access ChatGPT",
       ],
       'p-ssl-warning': [
         '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
         '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
-        'Set SSL certificate off in "System Config" if your API does\'t support it',
+        'Set SSL certificate off in "System Config" if your API can\'t access ChatGPT',
       ],
       'p-ssl-warning-2': [
         '若您使用VPN或加速器時無法翻譯字幕，請至【系統設定】關閉SSL驗證',
         '若您使用VPN或加速器时无法翻译字幕，请至【系统设定】关闭SSL验证',
         'Set SSL certificate off in "System Config" if your VPN can\'t access translator',
       ],
+
+      'p-donate': ['贊助作者', '赞助作者', 'Donate'],
     },
     span: {
       // window title
@@ -204,7 +206,11 @@
       'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Word'],
 
       // config
-      'span-channel-comment': ['使用滑鼠滾輪滾動頻道清單', '使用鼠标滚轮滚动频道清单', 'Use Mouse To Sroll The Page'],
+      'span-channel-comment': [
+        '滾動滑鼠中鍵可以滑動頻道清單',
+        '滚动鼠标中键可以滑动频道清单',
+        'Use Middle Mouse Button To Sroll The Page',
+      ],
       'span-author': [
         '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
         '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',

@@ -250,7 +250,7 @@
       <!-- channel page -->
       <div id="div-channel" class="config-page" hidden>
         <div>
-          <span id="span-channel-comment"></span>
+          <span class="text-warning" id="span-channel-comment"></span>
         </div>
         <div id="div-channel-list"></div>
         <br />
@@ -443,37 +443,39 @@
           </div>
         </div>
 
-        <hr />
+        <br />
 
         <p id="p-unoffcia-api" class="text-warning"></p>
 
-        <p id="p-ssl-warning" class="text-warning"></p>
+        <div class="hide-toggle" id="div-unoffcia-api">
+          <p id="p-ssl-warning" class="text-warning"></p>
 
-        <div class="row">
-          <div class="col-auto">
-            <a href="#" id="a-set-unofficial-api"></a>
-          </div>
-        </div>
-
-        <br />
-
-        <div class="row align-items-center">
-          <div class="col-auto">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-unofficial-api" />
-              <label class="form-check-label" for="checkbox-unofficial-api"></label>
+          <div class="row">
+            <div class="col-auto">
+              <a href="#" id="a-set-unofficial-api"></a>
             </div>
           </div>
-        </div>
 
-        <br />
+          <br />
 
-        <div class="row align-items-center">
-          <div class="col-auto">
-            <label for="input-unofficial-api-url"></label>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-unofficial-api" />
+                <label class="form-check-label" for="checkbox-unofficial-api"></label>
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <input class="form-control" type="text" name="" id="input-unofficial-api-url" />
+
+          <br />
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="input-unofficial-api-url"></label>
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" name="" id="input-unofficial-api-url" />
+            </div>
           </div>
         </div>
       </div>
@@ -581,6 +583,9 @@
                 <a class="nav-link" href="#" id="a-bug-report"></a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="#" id="a-view-response"></a>
+              </li>
+              <li class="nav-item" hidden>
                 <a class="nav-link" href="#" id="a-translation-report"></a>
               </li>
               <li class="nav-item">
@@ -589,14 +594,16 @@
               <li class="nav-item">
                 <a class="nav-link" href="#" id="a-author"></a>
               </li>
-              <!-- 
-              <li class="nav-item">
-                  <a class="nav-link" href="#" id="a-donate"></a>
-              </li>
-              -->
             </ul>
           </div>
         </div>
+
+        <hr />
+
+        <p id="p-donate"></p>
+        <a id="a-donate" href="#">
+          <img class="img-fluid" src="./img/qr/bmc_qr.png" style="width: 30vw" alt="" />
+        </a>
       </div>
     </main>
 

@@ -129,7 +129,7 @@ function setButton() {
     ipcRenderer.send('set-google-credential');
   };
 
-  // set google credential
+  // set img-visibility
   const imgVisibilityButtons = document.getElementsByClassName('img-visibility');
   for (let index = 0; index < imgVisibilityButtons.length; index++) {
     let isVisible = false;
@@ -148,6 +148,11 @@ function setButton() {
     };
   }
 
+  // set unofficial api toggle button
+  document.getElementById('p-unoffcia-api').onclick = () => {
+    document.getElementById('div-unoffcia-api').classList.toggle('hide-toggle');
+  };
+
   // readme
   document.getElementById('a-readme').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
@@ -159,6 +164,15 @@ function setButton() {
     ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
   };
 
+  // view response
+  document.getElementById('a-view-response').onclick = () => {
+    ipcRenderer.send(
+      'execute-command',
+      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"'
+    );
+  };
+
+  /*
   // translation report
   document.getElementById('a-translation-report').onclick = () => {
     ipcRenderer.send(
@@ -166,6 +180,7 @@ function setButton() {
       'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
     );
   };
+  */
 
   // github
   document.getElementById('a-github').onclick = () => {
@@ -177,10 +192,10 @@ function setButton() {
     ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
-  /*
   // donate
-  document.getElementById('a-donate').onclick = () => {};
-  */
+  document.getElementById('a-donate').onclick = () => {
+    ipcRenderer.send('execute-command', 'explorer "https://www.buymeacoffee.com/winw1010"');
+  };
 
   // default
   document.getElementById('button-save-default-config').onclick = () => {

@@ -274,7 +274,9 @@ function setWindowChannel() {
   // execute command
   ipcMain.on('execute-command', (event, command) => {
     exec(command, (error) => {
-      if (error) console.log(error);
+      if (error) {
+        //console.log(error);
+      }
     });
   });
 

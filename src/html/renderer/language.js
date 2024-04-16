@@ -32,7 +32,10 @@ function setText(language) {
 
       // loop of elements
       for (let index = 0; index < elements.length; index++) {
-        const element = elements[index];
+        const element = elements.item(index);
+
+        if (!element) continue;
+
         let elementId = element.id;
 
         switch (elementName) {

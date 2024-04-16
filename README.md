@@ -52,3 +52,7 @@ npm run dist
 - [sharp](https://github.com/lovell/sharp)
 - [temp](https://github.com/bruce/node-temp)
 - [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
+
+## Support
+
+[![Buy me a coffee](https://github.com/winw1010/tataru-helper-node-v2/blob/main/src/html/img/qr/bmc_qr.png)](https://www.buymeacoffee.com/winw1010)

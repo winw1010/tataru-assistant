@@ -20,14 +20,17 @@ function setText(language) {
   if (title) title.innerText = 'Tataru Assistant';
 
   // set UI text
+  // loop of property names
   for (let index = 0; index < propertyNames.length; index++) {
     const propertyName = propertyNames[index];
     const elementNames = Object.getOwnPropertyNames(elementTextList[propertyName]);
 
+    // loop of element names
     for (let index = 0; index < elementNames.length; index++) {
       const elementName = elementNames[index];
       const elements = document.getElementsByTagName(elementName);
 
+      // loop of elements
       for (let index = 0; index < elements.length; index++) {
         const element = elements[index];
         let elementId = element.id;
@@ -46,6 +49,7 @@ function setText(language) {
         }
 
         try {
+          // set text
           element[propertyName] = elementTextList[propertyName][elementName][elementId][textIndex];
         } catch (error) {
           //console.log(error);

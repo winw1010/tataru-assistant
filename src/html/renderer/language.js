@@ -129,9 +129,9 @@ function getElementTextList() {
         // config
         'checkbox-top': ['顯示在最上層', '显示在最上层', 'Always on Top'],
         'checkbox-shortcut': ['啟用快捷鍵', '启用快捷键', 'Shortcut'],
-        'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum Size'],
-        'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons'],
-        'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window'],
+        'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum Size Limit'],
+        'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons Automatically'],
+        'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window Automatically'],
         'input-hide-dialog': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(sec)'],
         'input-background-color': ['背景顏色', '背景颜色', 'Color'],
         'input-background-transparency': ['背景透明度', '背景透明度', 'Transparency'],

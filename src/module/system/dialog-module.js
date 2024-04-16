@@ -86,14 +86,14 @@ function showNotification(text) {
 }
 
 // show system message
-function showSystemMessage(messageId) {
+function showSystemMessage(messageId = '', errorMessage = '') {
   const appLanguage = configModule.getConfig().system.appLanguage;
   const id = 'sid' + new Date().getTime();
   const code = 'FFFF';
-  const message = getSystemMessage(messageId, appLanguage);
+  const systemMessage = getSystemMessage({ messageId, errorMessage, appLanguage });
 
   addDialog(id, code);
-  updateDialog(id, code, '', message);
+  updateDialog(id, code, '', systemMessage);
   setTimeout(() => {
     removeDialog(id);
   }, 7000);
@@ -188,9 +188,39 @@ function createLogName(milliseconds = null) {
 }
 
 // get system message
-function getSystemMessage(messageId = '', appLanguage = '') {
+function getSystemMessage(option = { messageId: '', errorMessage: '', appLanguage: '' }) {
+  console.log(option);
+  const messageId = option.messageId;
+  const errorMessage = option.errorMessage;
+  const appLanguage = option.appLanguage;
+
   const systemMessage = {
-    '000': ['OK', 'OK', 'OK'],
+    // system
+    S000: ['OK', 'OK', 'OK'],
+    S001: ['Error', 'Error', 'Error'],
+    S002: ['已安裝最新版本', '已安装最新版本', 'The latest version has been installed.'],
+    S003: ['已有可用的更新', '已有可用的更新', 'Updates are available.'],
+    S004: ['版本檢查失敗', '版本检查失败', 'Version check failed.'],
+    S005: ['翻譯失敗', '翻译失败', 'Translation failed.'],
+
+    // config
+    S100: ['設定已儲存', '设定已储存', 'Settings saved.'],
+    S101: ['已恢復預設值', '已恢復预设值', 'Restored to default settings.'],
+    S102: ['已儲存Google憑證', '已储存Google凭证', 'Google credential has been saved.'],
+    S103: ['檔案格式不正確', '档案格式不正确', 'The file format is incorrect.'],
+
+    // json
+    S200: ['對照表下載完畢', '对照表下载完毕', 'Table of translations has been downloaded.'],
+    S201: ['對照表下載失敗', '对照表下载失败', 'Failed to download table of translations.'],
+    S202: ['對照表讀取完畢', '对照表读取完毕', 'Table of translations has been loaded.'],
+
+    // capture
+    S300: ['正在擷取螢幕畫面', '正在擷取螢幕畫面', 'Capturing the screenshot.'],
+    S301: ['正在辨識圖片文字', '正在辨识图片文字', 'Extracting text from the screenshot.'],
+    S302: ['辨識完成', '辨识完成', 'Extraction completed'],
+    S303: ['無法擷取螢幕畫面', '无法撷取萤幕画面', 'Failed to capture the screenshot'],
+    S304: ['圖片處理發生錯誤', '图片处理发生错误', 'Failed to process the screenshot'],
+    S305: ['無法辨識圖片文字', '无法辨识图片文字', 'Failed to extract text from the screenshot'],
   };
 
   let languageIndex = 2;
@@ -209,7 +239,11 @@ function getSystemMessage(messageId = '', appLanguage = '') {
       break;
   }
 
-  return systemMessage?.[messageId]?.[languageIndex] || messageId;
+  if (systemMessage[messageId]) {
+    return systemMessage[messageId][languageIndex] + (errorMessage === '' ? '' : '\r\n' + errorMessage);
+  } else {
+    return errorMessage;
+  }
 }
 
 // module exports

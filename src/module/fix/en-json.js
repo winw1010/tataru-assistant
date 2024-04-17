@@ -7,10 +7,13 @@ const jsonFunction = require('./json-function');
 const { languageEnum, languageIndex } = require('../system/engine-module');
 
 // ch array
-let chArray = {};
+const chArray = {};
 
 // en array
-let enArray = {};
+const enArray = {};
+
+// user array
+const userArray = {};
 
 // load
 function load(targetLanguage) {
@@ -18,17 +21,19 @@ function load(targetLanguage) {
   const rplIndex = languageIndex[targetLanguage];
   const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
-  // temp
-  chArray.chTemp = jsonFunction.readTemp('chTemp.json', false);
-  chArray.overwriteTemp = jsonFunction.readTemp('overwriteTemp.json', false);
-  chArray.player = jsonFunction.readTemp('player.json');
+  // user
+  userArray.customSource = jsonFunction.readTemp('custom-source.json', false);
+  userArray.customTarget = jsonFunction.readTemp('custom-target.json', false);
+  userArray.customOverwrite = jsonFunction.readTemp('custom-overwrite.json', false);
+  userArray.playerName = jsonFunction.readTemp('player-name.json', false);
+  userArray.tempName = jsonFunction.readTemp('temp-name.json', false);
 
   // ch
   chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);
   chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
 
   // en
-  enArray.subtitle = jsonFunction.readSubtitleEN();
+  enArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleEN());
   enArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('en', 'ignore.json'));
   enArray.en1 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
   enArray.en2 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));
@@ -38,10 +43,15 @@ function load(targetLanguage) {
   chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
 
   // overwrite
-  chArray.overwrite = jsonFunction.combineArrayWithTemp(chArray.overwriteTemp, chArray.overwrite);
+  chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
-  chArray.combine = jsonFunction.combineArrayWithTemp(chArray.chTemp, chArray.player, chArray.main);
+  chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempName);
+  chArray.combine = jsonFunction.combineArray2(userArray.customTarget, chArray.combine);
+  chArray.combine = jsonFunction.combineArray2(userArray.playerName, chArray.combine);
+
+  // create RegExp array
+  enArray.ignore = jsonFunction.createRegExpArray(enArray.ignore);
 
   // version fix
   versionFix();
@@ -74,9 +84,15 @@ function getEnArray() {
   return enArray;
 }
 
+// get user array
+function getUserArray() {
+  return userArray;
+}
+
 // module exports
 module.exports = {
   load,
   getChArray,
   getEnArray,
+  getUserArray,
 };

@@ -33,9 +33,7 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     if (Array.isArray(data)) {
       array = data;
     } else {
-      console.log(path + ' is not an array.');
-      fileModule.write(path, '[]');
-      return array;
+      throw path + ' is not an array.';
     }
 
     // map array
@@ -54,6 +52,7 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     return array;
   } catch (error) {
     console.log(error);
+    fileModule.write(path, '[]');
     return [];
   }
 }
@@ -187,6 +186,33 @@ function combineArray(...args) {
   return sortArray([].concat(...args));
 }
 
+// combine array with user
+function combineArray2(customArray = [], ...args) {
+  // arrays
+  const otherArrays = combineArray(...args);
+  const otherNames = otherArrays.map((x) => x[0]);
+  let customArray2 = [].concat(customArray).map((x) => [x[0], x[1]]);
+
+  // compare names
+  for (let index = customArray2.length - 1; index >= 0; index--) {
+    const customElement = customArray2[index];
+    const customNames = customElement[0] || '';
+    const targetIndex = Math.max(
+      otherNames.indexOf(customNames),
+      otherNames.indexOf(customNames + '#'),
+      otherNames.indexOf(customNames + '##')
+    );
+
+    // remove elements from other array
+    if (targetIndex >= 0) {
+      otherArrays.splice(targetIndex, 1);
+      otherNames.splice(targetIndex, 1);
+    }
+  }
+
+  return combineArray(customArray2, otherArrays);
+}
+
 // combine array with temp
 function combineArrayWithTemp(temp = [], ...args) {
   // array
@@ -233,6 +259,21 @@ function combineArrayWithTemp(temp = [], ...args) {
   return combineArray(snapTemp, combine);
 }
 
+// create RegExp array
+function createRegExpArray(array = []) {
+  let newArray = [];
+
+  for (let index = 0; index < array.length; index++) {
+    try {
+      newArray.push([new RegExp(array[index][0], 'gi'), array[index][1]]);
+    } catch (error) {
+      //console.log(error);
+    }
+  }
+
+  return newArray;
+}
+
 // check array
 function checkArray(array = []) {
   return Array.isArray(array) && array.length > 0;
@@ -241,7 +282,6 @@ function checkArray(array = []) {
 // module exports
 module.exports = {
   getTextPath,
-  getTempTextPath,
   readText,
   readOverwriteEN,
   readOverwriteJP,
@@ -252,5 +292,7 @@ module.exports = {
   writeTemp,
   sortArray,
   combineArray,
+  combineArray2,
   combineArrayWithTemp,
+  createRegExpArray,
 };

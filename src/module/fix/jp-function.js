@@ -26,6 +26,8 @@ const noKatakana =
 const noKatakanaFront = `(?<![${noKatakana}])`;
 const noKatakanaBack = `(?![${noKatakana}])`;
 
+const regHiragana = /[ぁ-ゖ]/gi;
+
 /*
 const noHiragana =
   'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゆよらりるれろわゐゑをんゔ';
@@ -463,8 +465,17 @@ function isKatakanaName(name = '') {
   return regKatakanaName.test(name);
 }
 
-function isChinese(text = '', translation = {}) {
-  return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
+function getKatakanaName(name = '') {
+  if (isKatakanaName(name)) {
+    return /[ァ-ヺー・＝]+/.exec(name)[0];
+  } else {
+    // other
+    return '';
+  }
+}
+
+function isChinese(text = '') {
+  return !regHiragana.test(text) && !regKatakanaName.test(text);
 }
 
 function getFemaleWords() {
@@ -488,5 +499,6 @@ module.exports = {
   needTranslation,
   genderFix,
   isKatakanaName,
+  getKatakanaName,
   isChinese,
 };

@@ -87,7 +87,7 @@ function canIgnore(text = '', ignoreArray = []) {
   }
 
   for (let index = 0; index < ignoreArray.length; index++) {
-    if (text.match(new RegExp(ignoreArray[index], 'gi'))) {
+    if (ignoreArray[index].test(text)) {
       return true;
     }
   }

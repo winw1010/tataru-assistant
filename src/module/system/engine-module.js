@@ -6,11 +6,14 @@ const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplifi
 // source list
 const sourceList = ['Japanese', 'English'];
 
-// fix list
-const fixList = ['Japanese', 'English'];
-
 // target list
 const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
+
+// fix source list
+const fixSourceList = ['Japanese', 'English'];
+
+// fix target list
+const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
 const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
@@ -205,8 +208,9 @@ function sleep(ms = 1000) {
 module.exports = {
   allLanguageList,
   sourceList,
-  fixList,
   targetList,
+  fixSourceList,
+  fixTargetList,
   uiList,
   engineList,
 

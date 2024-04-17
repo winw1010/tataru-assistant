@@ -3,8 +3,8 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// kana characters
-const allKana = /^[ぁ-ゖァ-ヺー]+$/gi;
+// No kanji
+const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
 
 // file module
 const fileModule = {
@@ -22,11 +22,11 @@ const fileModule = {
   },
 };
 
-// log location
+// log path
 const logPath = fileModule.getUserDataPath('log');
 
-// temp location
-const tempPath = fileModule.getUserDataPath('temp');
+// user text path
+const userTextPath = fileModule.getUserDataPath('text');
 
 // target log
 let targetLog = null;
@@ -57,68 +57,7 @@ function setIPC() {
 
   // send data
   ipcRenderer.on('send-data', (event, id) => {
-    try {
-      const config = ipcRenderer.sendSync('get-config');
-      const milliseconds = parseInt(id.slice(2));
-      const logFileList = [
-        createLogName(milliseconds),
-        createLogName(milliseconds + 86400000),
-        createLogName(milliseconds - 86400000),
-      ];
-
-      if (logFileList.length > 0) {
-        for (let index = 0; index < logFileList.length; index++) {
-          try {
-            const filePath = fileModule.getPath(logPath, logFileList[index]);
-            const log = fileModule.readJson(filePath, false);
-            targetLog = log[id];
-
-            if (targetLog) {
-              break;
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
-
-        if (targetLog) {
-          // show audio
-          showAudio();
-
-          // show text
-          showText();
-
-          // set select-engine
-          if (targetLog?.translation?.engine) {
-            document.getElementById('select-engine').value = fixLogValue(
-              targetLog.translation.engine,
-              ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'],
-              config.translation.engine
-            );
-          }
-
-          // set select-from
-          if (targetLog?.translation?.from) {
-            document.getElementById('select-from').value = fixLogValue(
-              targetLog.translation.from,
-              ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
-              config.translation.from
-            );
-          }
-
-          // set select-to
-          if (targetLog?.translation?.to) {
-            document.getElementById('select-to').value = fixLogValue(
-              targetLog.translation.to,
-              ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
-              config.translation.to
-            );
-          }
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    readLog(id);
   });
 }
 
@@ -127,14 +66,13 @@ function setView() {
   const config = ipcRenderer.sendSync('get-config');
 
   document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
-
   document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
-
   document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
   document.getElementById('select-engine').value = config.translation.engine;
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('select-to').value = config.translation.to;
+
   document.getElementById('checkbox-replace').checked = config.translation.replace;
 }
 
@@ -183,7 +121,7 @@ function setButton() {
   };
 
   // load json
-  document.getElementById('button-read-json').onclick = () => {
+  document.getElementById('button-load-json').onclick = () => {
     ipcRenderer.send('load-json');
   };
 
@@ -193,61 +131,144 @@ function setButton() {
   };
 
   // save custom
-  document.getElementById('button-save-temp').onclick = () => {
+  document.getElementById('button-save-custom').onclick = () => {
     const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();
     const textAfter = document.getElementById('textarea-after').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select-type').value;
 
-    if (textBefore !== '') {
-      if (type === 'jp') {
-        addAndSave('jpTemp.json', textBefore, textAfter, type);
-      } else if (type === 'overwrite') {
-        addAndSave('overwriteTemp.json', textBefore, textAfter, type);
+    let fileName = '';
+    let textBefore2 = textBefore;
+    let array = [];
+
+    if (textBefore.length > 1) {
+      if (type === 'custom-source') {
+        fileName = 'custom-source.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+        array.push([textBefore2, textAfter]);
+      } else if (type === 'custom-overwrite') {
+        fileName = 'custom-overwrite.json';
+        array.push([textBefore2, textAfter]);
       } else if (type === 'player' || type === 'retainer') {
-        addAndSave('player.json', textBefore, textAfter, type);
+        fileName = 'player-name.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+        array.push([textBefore2, textAfter, type]);
       } else {
-        addAndSave('chTemp.json', textBefore, textAfter, type);
+        fileName = 'custom-target.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+        array.push([textBefore2, textAfter, type]);
       }
 
+      ipcRenderer.send('save-user-custom', fileName, array);
       ipcRenderer.send('show-notification', '已儲存自訂翻譯');
-      ipcRenderer.send('load-json');
     } else {
-      ipcRenderer.send('show-notification', '「替換前(原文)」不可為空白');
+      ipcRenderer.send('show-notification', '原文字數不足');
     }
   };
 
-  // delete temp
-  document.getElementById('button-delete-temp').onclick = () => {
+  // delete custom
+  document.getElementById('button-delete-custom').onclick = () => {
     const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select-type').value;
 
-    if (textBefore !== '') {
-      if (type === 'jp') {
-        deleteAndSave('jpTemp.json', textBefore);
-      } else if (type === 'overwrite') {
-        deleteAndSave('overwriteTemp.json', textBefore);
+    let fileName = '';
+    let textBefore2 = textBefore;
+
+    if (textBefore.length > 1) {
+      if (type === 'custom-source') {
+        fileName = 'custom-source.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+      } else if (type === 'custom-overwrite') {
+        fileName = 'custom-overwrite.json';
       } else if (type === 'player' || type === 'retainer') {
-        deleteAndSave('player.json', textBefore);
+        fileName = 'player-name.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
       } else {
-        deleteAndSave('chTemp.json', textBefore);
+        fileName = 'custom-target.json';
+        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
       }
 
+      ipcRenderer.send('delete-user-custom', fileName, textBefore2);
       ipcRenderer.send('show-notification', '已刪除自訂翻譯');
-      ipcRenderer.send('load-json');
     } else {
-      ipcRenderer.send('show-notification', '「替換前(原文)」不可為空白');
+      ipcRenderer.send('show-notification', '原文字數不足');
     }
   };
 
-  // view temp
-  document.getElementById('button-view-temp').onclick = () => {
-    ipcRenderer.send('execute-command', `start "" "${tempPath}"`);
+  // view custom
+  document.getElementById('button-view-custom').onclick = () => {
+    ipcRenderer.send('execute-command', `start "" "${userTextPath}"`);
   };
 
   // close
   document.getElementById('img-button-close').onclick = () => {
     ipcRenderer.send('close-window');
   };
+}
+
+// read log
+function readLog(id = '') {
+  try {
+    const config = ipcRenderer.sendSync('get-config');
+    const milliseconds = parseInt(id.slice(2));
+    const logFileList = [
+      createLogName(milliseconds),
+      createLogName(milliseconds + 86400000),
+      createLogName(milliseconds - 86400000),
+    ];
+
+    if (logFileList.length > 0) {
+      for (let index = 0; index < logFileList.length; index++) {
+        try {
+          const filePath = fileModule.getPath(logPath, logFileList[index]);
+          const log = fileModule.readJson(filePath, false);
+          targetLog = log[id];
+
+          if (targetLog) {
+            break;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      if (targetLog) {
+        // show audio
+        showAudio();
+
+        // show text
+        showText();
+
+        // set select-engine
+        if (targetLog?.translation?.engine) {
+          document.getElementById('select-engine').value = fixLogValue(
+            targetLog.translation.engine,
+            ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'],
+            config.translation.engine
+          );
+        }
+
+        // set select-from
+        if (targetLog?.translation?.from) {
+          document.getElementById('select-from').value = fixLogValue(
+            targetLog.translation.from,
+            ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+            config.translation.from
+          );
+        }
+
+        // set select-to
+        if (targetLog?.translation?.to) {
+          document.getElementById('select-to').value = fixLogValue(
+            targetLog.translation.to,
+            ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+            config.translation.to
+          );
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // show audio
@@ -288,59 +309,6 @@ function showText() {
   text2.innerHTML =
     `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
     `${targetLog.translated_text}</span>`;
-}
-
-// add and save
-function addAndSave(name, textBefore, textAfter, type) {
-  let temp = fileModule.readJson(fileModule.getPath(tempPath, name));
-  temp = addTemp(temp, textBefore, textAfter, type);
-  fileModule.writeJson(fileModule.getPath(tempPath, name), temp);
-}
-
-// add temp
-function addTemp(temp, textBefore, textAfter, type) {
-  const list = ['jp', 'overwrite', 'player', 'retainer'];
-  const array = temp.map((x) => x[0]);
-
-  allKana.lastIndex = 0;
-  if (!list.includes(type) && textBefore.length < 3 && allKana.test(textBefore)) {
-    textBefore = textBefore + '#';
-  }
-
-  const element = !list.includes(type) ? [textBefore, textAfter, type] : [textBefore, textAfter];
-
-  if (array.includes(textBefore)) {
-    temp[array.indexOf(textBefore)] = element;
-  } else {
-    temp.push(element);
-  }
-
-  return temp;
-}
-
-// delete and save
-function deleteAndSave(name, textBefore) {
-  let temp = fileModule.readJson(fileModule.getPath(tempPath, name));
-  temp = deleteTemp(temp, textBefore);
-  fileModule.writeJson(fileModule.getPath(tempPath, name), temp);
-}
-
-// delete temp
-function deleteTemp(temp, textBefore) {
-  let count = 0;
-
-  for (let index = temp.length - 1; index >= 0; index--) {
-    const element = temp[index];
-
-    if (element[0] === textBefore || element[0] === textBefore + '#') {
-      temp.splice(index, 1);
-      count++;
-    }
-  }
-
-  ipcRenderer.send('show-notification', `共找到${count}個`);
-
-  return temp;
 }
 
 // report translation

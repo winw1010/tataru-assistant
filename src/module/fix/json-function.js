@@ -11,8 +11,8 @@ const pathList = {
   main: 'src/data/text/main',
 };
 
-// Not kanji
-// const regNotKanji = /[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/;
+// No kanji
+// const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
 
 // get text path
 function getTextPath(dir = '', ...args) {
@@ -228,6 +228,36 @@ function createRegExpArray(array = []) {
   return newArray;
 }
 
+// save user custom
+function saveUserCustom(fileName = 'custom-target.json', customArray = []) {
+  // delete same item
+  for (let index = 0; index < customArray.length; index++) {
+    const element = customArray[index];
+    deleteUserCustom(fileName, element[0]);
+    deleteUserCustom('temp-name.json', element[0]);
+  }
+
+  // update
+  let userCustom = readUserText(fileName, false);
+  userCustom = userCustom.concat(customArray);
+  writeUserText(fileName, userCustom);
+}
+
+// delete user custom
+function deleteUserCustom(fileName = 'custom-target.json', target = '') {
+  const array = readUserText(fileName, false);
+
+  for (let index = array.length - 1; index >= 0; index--) {
+    const element = array[index];
+
+    if (target === element[0]) {
+      array.splice(index, 1);
+    }
+  }
+
+  writeUserText(fileName, array);
+}
+
 // check array
 function checkArray(array = []) {
   return Array.isArray(array) && array.length > 0;
@@ -247,5 +277,7 @@ module.exports = {
   sortArray,
   combineArray,
   combineArray2,
+  saveUserCustom,
+  deleteUserCustom,
   createRegExpArray,
 };

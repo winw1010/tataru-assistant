@@ -114,12 +114,12 @@ function getElementTextList() {
 
         // edit
         'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate Again'],
-        'button-read-json': ['重新讀取對照表', '重新读取对照表', 'Reload Table'],
+        'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload Table'],
         'button-report-translation': ['回報翻譯錯誤', '回报翻译错误', 'Report'],
 
-        'button-save-temp': ['儲存', '储存', 'Save'],
-        'button-delete-temp': ['刪除', '删除', 'Delete'],
-        'button-view-temp': ['檢視自訂翻譯檔案', '检视自订翻译档案', 'View Custom Table'],
+        'button-save-custom': ['儲存', '储存', 'Save'],
+        'button-delete-custom': ['刪除', '删除', 'Delete'],
+        'button-view-custom': ['檢視自訂翻譯', '检视自订翻译', 'View Custom Table'],
 
         // read log
         'button-read-log': ['讀取', '读取', 'Open'],
@@ -214,7 +214,9 @@ function getElementTextList() {
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
 
         // edit
-        '#custom-word': ['#原文->自訂翻譯', '#原文->自订翻译', '#Custom Word'],
+        '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
+        'custom-source': ['原文替換', '原文替换', 'Custom Source'],
+        '#custom-target': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
         player: ['玩家名稱', '玩家名称', 'Player'],
         retainer: ['雇員名稱', '雇员名称', 'Retainer'],
         npc: ['NPC名稱', 'NPC名称', 'NPC'],
@@ -225,11 +227,8 @@ function getElementTextList() {
         skill: ['技能', '技能', 'Skill'],
         map: ['地名', '地名', 'Map'],
         other: ['其他', '其他', 'Other'],
-        '#overwrite': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite Full Sentence'],
-        overwrite: ['自訂整句翻譯', '自订整句翻译', 'Overwrite Full Sentence'],
-        '#fix-source': ['#原文->原文', '#原文->原文', '#Fix Source'],
-        replace: ['原文替換', '原文替换', 'Fix Source'],
-        jp: ['日文替換', '日文替换', 'Fix JP'],
+        '#custom-overwrite': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite Source'],
+        'custom-overwrite': ['自訂整句翻譯', '自订整句翻译', 'Custom Overwrite'],
 
         // read log
         none: ['無', '无', 'None'],

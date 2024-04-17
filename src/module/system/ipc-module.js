@@ -51,6 +51,9 @@ const { addTask } = require('../fix/fix-entry');
 // json entry
 const jsonEntry = require('../fix/json-entry');
 
+// json function
+const jsonFunction = require('../fix/json-function');
+
 // google tts
 const googleTTS = require('../translator/google-tts');
 
@@ -460,6 +463,18 @@ function setJsonChannel() {
     }
 
     event.returnValue = array;
+  });
+
+  // save user custom
+  ipcMain.on('save-user-custom', (event, fileName = 'custom-target.json', customArray = []) => {
+    jsonFunction.saveUserCustom(fileName, customArray);
+    jsonEntry.loadJSON();
+  });
+
+  // delete user custom
+  ipcMain.on('delete-user-custom', (event, fileName = 'custom-target.json', target = '') => {
+    jsonFunction.deleteUserCustom(fileName, target);
+    jsonEntry.loadJSON();
   });
 }
 

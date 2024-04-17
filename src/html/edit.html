@@ -116,7 +116,7 @@
 
           <div class="row align-items-center">
             <div class="col">
-              <button id="button-read-json" class="btn btn-secondary"></button>
+              <button id="button-load-json" class="btn btn-secondary"></button>
               <button id="button-report-translation" class="btn btn-secondary"></button>
             </div>
           </div>
@@ -161,7 +161,9 @@
             </div>
             <div class="col-auto">
               <select class="form-select" id="select-type">
-                <option value="#custom-word" disabled></option>
+                <option value="#custom-source" disabled></option>
+                <option value="custom-source"></option>
+                <option value="#custom-target" disabled></option>
                 <option value="player"></option>
                 <option value="retainer"></option>
                 <option value="npc" selected></option>
@@ -172,10 +174,8 @@
                 <option value="skill"></option>
                 <option value="map"></option>
                 <option value="other"></option>
-                <option value="#overwrite" disabled></option>
-                <option value="overwrite"></option>
-                <option value="#fix-source" disabled></option>
-                <option value="jp"></option>
+                <option value="#custom-overwrite" disabled></option>
+                <option value="custom-overwrite"></option>
               </select>
             </div>
           </div>
@@ -184,9 +184,9 @@
 
           <div class="row">
             <div class="col">
-              <button id="button-save-temp" class="btn btn-primary"></button>
-              <button id="button-delete-temp" class="btn btn-danger"></button>
-              <button id="button-view-temp" class="btn btn-secondary"></button>
+              <button id="button-save-custom" class="btn btn-primary"></button>
+              <button id="button-delete-custom" class="btn btn-danger"></button>
+              <button id="button-view-custom" class="btn btn-secondary"></button>
             </div>
           </div>
         </div>

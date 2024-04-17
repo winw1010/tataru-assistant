@@ -198,7 +198,7 @@ function saveName(name = '', translatedName = '') {
 
   // add to tempName
   userArray.tempName.push([name, translatedName]);
-  jsonFunction.writeTemp('temp-name.json', userArray.tempName);
+  jsonFunction.writeUserText('temp-name.json', userArray.tempName);
 }
 
 /*

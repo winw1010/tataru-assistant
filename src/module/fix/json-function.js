@@ -12,16 +12,16 @@ const pathList = {
 };
 
 // Not kanji
-const regNotKanji = /[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/;
+// const regNotKanji = /[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/;
 
 // get text path
 function getTextPath(dir = '', ...args) {
   return fileModule.getRootPath(pathList[dir], ...args);
 }
 
-// get temp text path
-function getTempTextPath(...args) {
-  return fileModule.getUserDataPath('temp', ...args);
+// get user text path
+function getUserTextPath(...args) {
+  return fileModule.getUserDataPath('text', ...args);
 }
 
 // read text
@@ -103,14 +103,14 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   }
 }
 
-// read temp
-function readTemp(name = '', sort = true) {
-  return readText(getTempTextPath(name), sort);
+// read user text
+function readUserText(name = '', sort = true) {
+  return readText(getUserTextPath(name), sort);
 }
 
-// write temp
-function writeTemp(name = '', data = []) {
-  fileModule.write(getTempTextPath(name), data, 'json');
+// write user text
+function writeUserText(name = '', data = []) {
+  fileModule.write(getUserTextPath(name), data, 'json');
 }
 
 // map array
@@ -213,52 +213,6 @@ function combineArray2(customArray = [], ...args) {
   return combineArray(customArray2, otherArrays);
 }
 
-// combine array with temp
-function combineArrayWithTemp(temp = [], ...args) {
-  // array
-  const combine = combineArray(...args);
-  const combine0 = combine.map((x) => x[0]);
-  let snapTemp = [].concat(temp);
-
-  // search same name in temp and add its index to delete list
-  for (let index = snapTemp.length - 1; index >= 0; index--) {
-    const tempElement = snapTemp[index];
-    const tempName = tempElement[0] || '';
-    const tempType = tempElement[2] || '';
-    const tempIndex = index;
-    const combineIndex = Math.max(
-      combine0.indexOf(tempName),
-      combine0.indexOf(tempName + '#'),
-      combine0.indexOf(tempName + '##')
-    );
-
-    // delete element
-    if (
-      tempType === 'temp' ||
-      (tempType !== '' && tempName.length < 3 && regNotKanji.test(tempName) && !tempName.length.includes('#'))
-    ) {
-      // delete element from temp
-      snapTemp.splice(tempIndex, 1);
-    } else if (tempType === 'temp-npc') {
-      // delete element from temp-npc
-      if (combineIndex >= 0) {
-        snapTemp.splice(tempIndex, 1);
-      }
-    } else {
-      // delete element from combine
-      if (combineIndex >= 0) {
-        combine.splice(combineIndex, 1);
-        combine0.splice(combineIndex, 1);
-      }
-    }
-  }
-
-  // sub snap temp
-  snapTemp = snapTemp.map((x) => [x[0], x[1]]);
-
-  return combineArray(snapTemp, combine);
-}
-
 // create RegExp array
 function createRegExpArray(array = []) {
   let newArray = [];
@@ -288,11 +242,10 @@ module.exports = {
   readSubtitleEN,
   readSubtitleJP,
   readMain,
-  readTemp,
-  writeTemp,
+  readUserText,
+  writeUserText,
   sortArray,
   combineArray,
   combineArray2,
-  combineArrayWithTemp,
   createRegExpArray,
 };

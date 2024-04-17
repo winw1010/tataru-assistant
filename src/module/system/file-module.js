@@ -24,7 +24,7 @@ function directoryCheck() {
     appName + '\\' + 'image',
     appName + '\\' + 'log',
     appName + '\\' + 'setting',
-    appName + '\\' + 'temp',
+    appName + '\\' + 'text',
   ];
 
   subPath.forEach((value) => {

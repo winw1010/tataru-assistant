@@ -196,11 +196,11 @@ function combineArray2(customArray = [], ...args) {
   // compare names
   for (let index = customArray2.length - 1; index >= 0; index--) {
     const customElement = customArray2[index];
-    const customNames = customElement[0] || '';
+    const customName = customElement[0] || '';
     const targetIndex = Math.max(
-      otherNames.indexOf(customNames),
-      otherNames.indexOf(customNames + '#'),
-      otherNames.indexOf(customNames + '##')
+      otherNames.indexOf(customName),
+      otherNames.indexOf(customName + '#'),
+      otherNames.indexOf(customName + '##')
     );
 
     // remove elements from other array

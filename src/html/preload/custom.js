@@ -10,9 +10,6 @@ const arrayParameters = {
   'custom-source-table': { type: 'user', name: 'customSource' },
 };
 
-// No kanji
-const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -61,29 +58,8 @@ function setButton() {
     const textAfter = document.getElementById('textarea-after').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select-type').value;
 
-    let fileName = '';
-    let textBefore2 = textBefore;
-    let array = [];
-
     if (textBefore.length > 1) {
-      if (type === 'custom-source') {
-        fileName = 'custom-source.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-        array.push([textBefore2, textAfter]);
-      } else if (type === 'custom-overwrite') {
-        fileName = 'custom-overwrite.json';
-        array.push([textBefore2, textAfter]);
-      } else if (type === 'player' || type === 'retainer') {
-        fileName = 'player-name.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-        array.push([textBefore2, textAfter, type]);
-      } else {
-        fileName = 'custom-target.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-        array.push([textBefore2, textAfter, type]);
-      }
-
-      ipcRenderer.send('save-user-custom', fileName, array);
+      ipcRenderer.send('save-user-custom', textBefore, textAfter, type);
       ipcRenderer.send('show-notification', '已儲存自訂翻譯');
       createTable();
     } else {
@@ -96,24 +72,8 @@ function setButton() {
     const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();
     const type = document.getElementById('select-type').value;
 
-    let fileName = '';
-    let textBefore2 = textBefore;
-
     if (textBefore.length > 1) {
-      if (type === 'custom-source') {
-        fileName = 'custom-source.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-      } else if (type === 'custom-overwrite') {
-        fileName = 'custom-overwrite.json';
-      } else if (type === 'player' || type === 'retainer') {
-        fileName = 'player-name.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-      } else {
-        fileName = 'custom-target.json';
-        if (textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
-      }
-
-      ipcRenderer.send('delete-user-custom', fileName, textBefore2);
+      ipcRenderer.send('delete-user-custom', textBefore, type);
       ipcRenderer.send('show-notification', '已刪除自訂翻譯');
       createTable();
     } else {

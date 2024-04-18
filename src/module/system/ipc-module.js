@@ -66,6 +66,9 @@ const appVersion = app.getVersion();
 // update button
 const updateButton = '<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">';
 
+// No kanji
+const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
+
 // set ipc
 function setIPC() {
   setSystemChannel();
@@ -458,14 +461,49 @@ function setJsonChannel() {
   });
 
   // save user custom
-  ipcMain.on('save-user-custom', (event, name = '', customArray = []) => {
-    jsonFunction.saveUserCustom(name, customArray);
+  ipcMain.on('save-user-custom', (event, textBefore = '', textAfter = '', type = '') => {
+    let fileName = '';
+    let textBefore2 = textBefore;
+    let array = [];
+
+    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+
+    if (type === 'custom-source') {
+      fileName = 'custom-source.json';
+      array.push([textBefore2, textAfter]);
+    } else if (type === 'custom-overwrite') {
+      fileName = 'custom-overwrite.json';
+      array.push([textBefore2, textAfter]);
+    } else if (type === 'player' || type === 'retainer') {
+      fileName = 'player-name.json';
+      array.push([textBefore2, textAfter, type]);
+    } else {
+      fileName = 'custom-target.json';
+      array.push([textBefore2, textAfter, type]);
+    }
+
+    jsonFunction.saveUserCustom(fileName, array);
     jsonEntry.loadJSON();
   });
 
   // delete user custom
-  ipcMain.on('delete-user-custom', (event, name = '', target = '') => {
-    jsonFunction.editUserCustom(name, target);
+  ipcMain.on('delete-user-custom', (event, textBefore = '', type = '') => {
+    let fileName = '';
+    let textBefore2 = textBefore;
+
+    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+
+    if (type === 'custom-source') {
+      fileName = 'custom-source.json';
+    } else if (type === 'custom-overwrite') {
+      fileName = 'custom-overwrite.json';
+    } else if (type === 'player' || type === 'retainer') {
+      fileName = 'player-name.json';
+    } else {
+      fileName = 'custom-target.json';
+    }
+
+    jsonFunction.editUserCustom(fileName, textBefore2);
     jsonEntry.loadJSON();
   });
 }

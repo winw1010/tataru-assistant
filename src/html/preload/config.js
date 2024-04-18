@@ -151,6 +151,7 @@ function setButton() {
   // set unofficial api toggle button
   document.getElementById('p-unoffcia-api').onclick = () => {
     document.getElementById('div-unoffcia-api').classList.toggle('hide-toggle');
+    document.getElementById('input-unofficial-api-url').scrollIntoView();
   };
 
   // readme

@@ -216,9 +216,10 @@ function getElementTextList() {
         // edit
         '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
         'custom-source': ['原文替換', '原文替换', 'Custom source'],
-        '#custom-target': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
+        '#player-name': ['#玩家', '#玩家', '#Player'],
         player: ['玩家名稱', '玩家名称', 'Player'],
         retainer: ['雇員名稱', '雇员名称', 'Retainer'],
+        '#custom-target': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
         npc: ['NPC名稱', 'NPC名称', 'NPC'],
         title: ['稱呼', '称呼', 'Title'],
         group: ['組織', '组织', 'Group'],
@@ -307,6 +308,7 @@ function getElementTextList() {
         'img-button-close': ['關閉', '关闭', 'Close'],
 
         'img-button-speech': ['朗讀文字', '朗读文字', 'Text To Speech'],
+        'img-button-custom': ['自訂翻譯', '自订翻译', 'Custom Word'],
         'img-button-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
         'img-button-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Chat Log'],
         'img-button-backspace': ['刪除最後一句', '删除最后一句', 'Delete Last'],

@@ -452,16 +452,8 @@ function setJsonChannel() {
   });
 
   // get array
-  ipcMain.on('get-array', (event, type = '', name = '') => {
-    const config = configModule.getConfig();
-    let array = [];
-
-    if (config.translation.from === engineModule.languageEnum.ja) {
-      array = jsonEntry.getArray('jp', type, name);
-    } else if (config.translation.from === engineModule.languageEnum.en) {
-      array = jsonEntry.getArray('en', type, name);
-    }
-
+  ipcMain.on('get-user-array', (event, name = '') => {
+    let array = jsonEntry.getUserArray(name);
     event.returnValue = array;
   });
 

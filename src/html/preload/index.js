@@ -229,6 +229,11 @@ function setButton() {
     setSpeech(config.indexWindow.speech);
   };
 
+  // custom
+  document.getElementById('img-button-custom').onclick = () => {
+    ipcRenderer.send('create-window', 'custom');
+  };
+
   // read log
   document.getElementById('img-button-read-log').onclick = () => {
     ipcRenderer.send('create-window', 'read-log');

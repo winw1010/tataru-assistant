@@ -44,12 +44,26 @@
       <div class="row">
         <!-- Custom Before -->
         <div class="col">
-          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom Before"></textarea>
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-before"
+            cols="30"
+            rows="2"
+            placeholder="Custom Before"
+          ></textarea>
         </div>
 
         <!-- Custom After -->
         <div class="col">
-          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom After"></textarea>
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-after"
+            cols="30"
+            rows="2"
+            placeholder="Custom After"
+          ></textarea>
         </div>
       </div>
 
@@ -62,27 +76,29 @@
         </div>
 
         <div class="col-auto">
-          <select class="form-select" name="" id="">
-            <option disabled>#原文->中文</option>
-            <option value="player">玩家名稱</option>
-            <option value="retainer">雇員名稱</option>
-            <option value="npc" selected>NPC名稱</option>
-            <option value="title">稱呼</option>
-            <option value="group">組織</option>
-            <option value="monster">魔物</option>
-            <option value="things">事物</option>
-            <option value="skill">技能</option>
-            <option value="map">地名</option>
-            <option value="other">其他</option>
-            <option disabled>#整句原文->整句中文</option>
-            <option value="overwrite">完全替換</option>
-            <option disabled>#原文->原文</option>
-            <option value="replace">原文替換</option>
+          <select class="form-select" id="select-type">
+            <option value="#player-name" disabled></option>
+            <option value="player"></option>
+            <option value="retainer"></option>
+            <option value="#custom-target" disabled></option>
+            <option value="npc" selected></option>
+            <option value="title"></option>
+            <option value="group"></option>
+            <option value="monster"></option>
+            <option value="things"></option>
+            <option value="skill"></option>
+            <option value="map"></option>
+            <option value="other"></option>
+            <option value="#custom-overwrite" disabled></option>
+            <option value="custom-overwrite"></option>
+            <option value="#custom-source" disabled></option>
+            <option value="custom-source"></option>
           </select>
         </div>
 
         <div class="col">
-          <button class="btn btn-primary">新增</button>
+          <button class="btn btn-primary" id="button-save-custom">新增</button>
+          <button class="btn btn-danger" id="button-delete-custom">刪除</button>
         </div>
       </div>
 
@@ -92,16 +108,10 @@
         <!-- Select Table -->
         <div class="col-auto">
           <select class="form-select" name="" id="select-table-type">
-            <option value="custom-data" disabled>#自訂</option>
-            <option value="custom-chinese-table" selected>原文->中文</option>
-            <option value="custom-overwrite-table">整句原文->整句中文</option>
-            <option value="custom-replace-table">原文->原文</option>
-            <option value="tataru-data" disabled>#Tataru</option>
-            <option value="tataru-chinese-table">原文->中文</option>
-            <option value="tataru-overwrite-table">整句原文->整句中文</option>
-            <option value="tataru-replace-table">原文->原文</option>
-            <option value="tataru-temp-table">暫存</option>
-            <option value="tataru-old-temp-table">舊版暫存(不使用)</option>
+            <option value="player-name-table">玩家</option>
+            <option value="custom-target-table" selected>自訂翻譯</option>
+            <option value="custom-overwrite-table">自訂整句翻譯</option>
+            <option value="custom-source-table">自訂原文</option>
           </select>
         </div>
 
@@ -134,6 +144,8 @@
               <tr>
                 <th>替換前</th>
                 <th>替換後</th>
+                <th>類型</th>
+                <th>編輯</th>
               </tr>
             </thead>
 

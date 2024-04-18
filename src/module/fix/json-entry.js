@@ -18,6 +18,9 @@ const enJson = require('./en-json');
 // jp json
 const jpJson = require('./jp-json');
 
+// other json
+const otherJson = require('./other-json');
+
 // fix entry
 const fixEntry = require('./fix-entry');
 
@@ -108,6 +111,7 @@ function loadJSON() {
   const targetLanguage = config.translation.to;
   enJson.load(targetLanguage);
   jpJson.load(targetLanguage);
+  otherJson.load();
   dialogModule.showNotification('對照表讀取完畢');
   fixEntry.setRunning(true);
 
@@ -119,23 +123,8 @@ function loadJSON() {
 }
 
 // get array
-function getArray(language = '', type = '', name = '') {
-  let array = [];
-
-  if (language === 'jp') {
-    if (type === 'ch') {
-      array = jpJson.getChArray()[name];
-    } else {
-      array = jpJson.getJpArray()[name];
-    }
-  } else if (language === 'en') {
-    if (type === 'ch') {
-      array = enJson.getChArray()[name];
-    } else {
-      array = enJson.getEnArray()[name];
-    }
-  }
-
+function getUserArray(arrayName = '') {
+  let array = jpJson.getUserArray()[arrayName];
   return array || [];
 }
 
@@ -144,5 +133,5 @@ module.exports = {
   initializeJSON,
   downloadJSON,
   loadJSON,
-  getArray,
+  getUserArray,
 };

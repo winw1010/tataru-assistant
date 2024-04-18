@@ -1,5 +1,7 @@
 'use strict';
 
+const regNoRegSymbol = /[.*+?^${}()|[\]\\]/g;
+
 // skip check
 function skipCheck(dialogData, ignoreArray = []) {
   return ['0039', '0839'].includes(dialogData.code) && canIgnore(dialogData.text, ignoreArray);
@@ -17,7 +19,8 @@ function replaceText(text = '', array = [], useRegExp = false) {
   if (useRegExp) {
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      const name0 = new RegExp(element[0].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      const element0 = element[0].replace(regNoRegSymbol, '\\$&');
+      const name0 = new RegExp('\\b' + element0 + '\\b', 'gi');
       const name1 = element[1];
       text = text.replaceAll(name0, name1);
     }
@@ -117,7 +120,7 @@ function includesArrayItem(text = '', array = [], searchIndex = 0, useRegex = fa
 
   if (useRegex) {
     for (let index = 0; index < searchArray.length; index++) {
-      const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const element = searchArray[index].replace(regNoRegSymbol, '\\$&');
       if (new RegExp(element, 'gi').test(text)) {
         text = text.replaceAll(element, '');
         temp.push(array[index]);
@@ -157,7 +160,7 @@ function sameAsArrayItem(text = '', array = [], searchIndex = 0) {
 
   // match
   for (let index = 0; index < searchArray.length; index++) {
-    const element = searchArray[index].replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const element = searchArray[index].replace(regNoRegSymbol, '\\$&');
 
     if (new RegExp('^' + element + '$', 'gi').test(text)) {
       target = array[index];

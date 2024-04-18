@@ -100,6 +100,15 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   }
 }
 
+// read user array
+function readUserArray(userArray = {}) {
+  userArray.customSource = readUserText('custom-source.json', false);
+  userArray.customTarget = readUserText('custom-target.json', false);
+  userArray.customOverwrite = readUserText('custom-overwrite.json', false);
+  userArray.playerName = readUserText('player-name.json', false);
+  userArray.tempName = readUserText('temp-name.json', false);
+}
+
 // read user text
 function readUserText(name = '', sort = true) {
   return readText(getUserTextPath(name), sort);
@@ -316,6 +325,7 @@ module.exports = {
   readSubtitleEN,
   readSubtitleJP,
   readMain,
+  readUserArray,
   readUserText,
   writeUserText,
   sortArray,

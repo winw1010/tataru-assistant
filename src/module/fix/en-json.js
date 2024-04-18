@@ -22,11 +22,7 @@ function load(targetLanguage) {
   const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
   // user array
-  userArray.customSource = jsonFunction.readUserText('custom-source.json', false);
-  userArray.customTarget = jsonFunction.readUserText('custom-target.json', false);
-  userArray.customOverwrite = jsonFunction.readUserText('custom-overwrite.json', false);
-  userArray.playerName = jsonFunction.readUserText('player-name.json', false);
-  userArray.tempName = jsonFunction.readUserText('temp-name.json', false);
+  jsonFunction.readUserArray(userArray);
 
   // ch
   chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);

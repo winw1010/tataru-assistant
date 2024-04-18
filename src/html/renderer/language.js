@@ -111,6 +111,8 @@ function getElementTextList() {
 
         // custom
         'button-search': ['查詢', '查询', 'Search'],
+        'button-view-all': ['顯示全部', '显示全部', 'View All'],
+        'button-import-old-data': ['匯入舊版資料', '汇入旧版资料', 'Import old data'],
 
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],
@@ -239,9 +241,7 @@ function getElementTextList() {
         'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
         'custom-overwrite-table': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite source'],
         'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
-
-        'all-item': ['全部', '全部', 'All'],
-        keyword: ['關鍵字', '关键字', 'Keyword'],
+        'temp-name-table': ['#系統暫存', '#系統暫存', '#Cache'],
 
         // read log
         none: ['無', '无', 'None'],

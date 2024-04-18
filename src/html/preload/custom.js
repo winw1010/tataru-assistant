@@ -8,6 +8,7 @@ const arrayParameters = {
   'custom-target-table': { type: 'user', name: 'customTarget' },
   'custom-overwrite-table': { type: 'user', name: 'customOverwrite' },
   'custom-source-table': { type: 'user', name: 'customSource' },
+  'temp-name-table': { type: 'user', name: 'tempName' },
 };
 
 // DOMContentLoaded
@@ -25,6 +26,11 @@ function setIPC() {
   ipcRenderer.on('change-ui-text', () => {
     const config = ipcRenderer.sendSync('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
+  });
+
+  // create table
+  ipcRenderer.on('create-table', () => {
+    createTable();
   });
 }
 
@@ -61,7 +67,6 @@ function setButton() {
     if (textBefore.length > 1) {
       ipcRenderer.send('save-user-custom', textBefore, textAfter, type);
       ipcRenderer.send('show-notification', '已儲存自訂翻譯');
-      createTable();
     } else {
       ipcRenderer.send('show-notification', '原文字數不足');
     }
@@ -75,7 +80,6 @@ function setButton() {
     if (textBefore.length > 1) {
       ipcRenderer.send('delete-user-custom', textBefore, type);
       ipcRenderer.send('show-notification', '已刪除自訂翻譯');
-      createTable();
     } else {
       ipcRenderer.send('show-notification', '原文字數不足');
     }
@@ -83,12 +87,18 @@ function setButton() {
 
   // search
   document.getElementById('button-search').onclick = () => {
-    let keyword = '';
-
-    if (document.getElementById('select-search-type').value !== 'all')
-      keyword = document.getElementById('input-Keyword').value;
-
+    let keyword = document.getElementById('input-Keyword').value;
     createTable(keyword);
+  };
+
+  // view all
+  document.getElementById('button-view-all').onclick = () => {
+    createTable();
+  };
+
+  // import old data
+  document.getElementById('button-import-old-data').onclick = () => {
+    ipcRenderer.send('import-old-data');
   };
 }
 
@@ -97,7 +107,6 @@ function createTable(keyword = '') {
   const tableType = document.getElementById('select-table-type').value;
   const arrayParameter = arrayParameters[tableType];
   const array = ipcRenderer.sendSync('get-user-array', arrayParameter.name);
-  const searchType = document.getElementById('select-search-type').value;
   const tbody = document.getElementById('tbody-custom-table');
   let innerHTML = '';
 
@@ -108,8 +117,7 @@ function createTable(keyword = '') {
       const translatedText = element[1] || '';
       const textType = element[2] || '';
 
-      if (searchType === 'keyword' && keyword !== '' && !text.includes(keyword) && !translatedText.includes(keyword))
-        continue;
+      if (keyword !== '' && !text.includes(keyword) && !translatedText.includes(keyword)) continue;
 
       innerHTML += `
       <tr>

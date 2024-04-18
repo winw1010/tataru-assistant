@@ -112,25 +112,28 @@
             <option value="custom-target-table" selected></option>
             <option value="custom-overwrite-table"></option>
             <option value="custom-source-table"></option>
+            <option value="temp-name-table"></option>
           </select>
         </div>
+      </div>
 
-        <!-- Select Search Type -->
-        <div class="col-auto">
-          <select class="form-select" name="" id="select-search-type">
-            <option value="all-item" selected></option>
-            <option value="keyword"></option>
-          </select>
-        </div>
+      <br />
 
+      <div class="row">
         <!-- Keyword -->
         <div class="col-auto">
           <input class="form-control" type="text" name="" id="input-Keyword" placeholder="Keyword" />
         </div>
 
-        <!-- Search Button -->
         <div class="col-auto">
+          <!-- Search Button -->
           <button class="btn btn-primary" id="button-search"></button>
+
+          <!-- View All Button -->
+          <button class="btn btn-primary" id="button-view-all"></button>
+
+          <!-- Import Old Data Button -->
+          <button class="btn btn-secondary" id="button-import-old-data"></button>
         </div>
       </div>
 
@@ -139,7 +142,7 @@
       <!-- Table -->
       <div class="row" id="div-custom-table">
         <div class="col">
-          <table class="table table-bordered table-striped table-hover">
+          <table class="table table-hover">
             <thead class="sticky-top">
               <tr>
                 <th>替換前</th>

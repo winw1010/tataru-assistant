@@ -484,6 +484,7 @@ function setJsonChannel() {
 
     jsonFunction.saveUserCustom(fileName, array);
     jsonEntry.loadJSON();
+    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
   });
 
   // delete user custom
@@ -505,6 +506,14 @@ function setJsonChannel() {
 
     jsonFunction.editUserCustom(fileName, textBefore2);
     jsonEntry.loadJSON();
+    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
+  });
+
+  // import old data
+  ipcMain.on('import-old-data', (event) => {
+    jsonFunction.importOldData();
+    jsonEntry.loadJSON();
+    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
   });
 }
 

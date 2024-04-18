@@ -11,9 +11,6 @@ const pathList = {
   main: 'src/data/text/main',
 };
 
-// No kanji
-// const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
-
 // get text path
 function getTextPath(dir = '', ...args) {
   return fileModule.getRootPath(pathList[dir], ...args);
@@ -287,6 +284,24 @@ function editUserCustom(name = '', target = '', item = null) {
   writeUserText(name, array);
 }
 
+// import old data
+function importOldData() {
+  const player = readText(fileModule.getOldUserDataPath('temp', 'player.json'), false);
+  const chTemp = readText(fileModule.getOldUserDataPath('temp', 'chTemp.json'), false);
+  const overwriteTemp = readText(fileModule.getOldUserDataPath('temp', 'overwriteTemp.json'), false);
+  const jpTemp = readText(fileModule.getOldUserDataPath('temp', 'jpTemp.json'), false);
+
+  // remove temp from chTemp
+  for (let index = chTemp.length - 1; index >= 0; index--) {
+    if (chTemp[index][2].includes('temp')) chTemp.splice(index, 1);
+  }
+
+  saveUserCustom('player-name.json', player);
+  saveUserCustom('custom-source.json', jpTemp);
+  saveUserCustom('custom-target.json', chTemp);
+  saveUserCustom('custom-overwrite.json', overwriteTemp);
+}
+
 // check array
 function checkArray(array = []) {
   return Array.isArray(array) && array.length > 0;
@@ -306,7 +321,8 @@ module.exports = {
   sortArray,
   combineArray,
   combineArray2,
+  createRegExpArray,
   saveUserCustom,
   editUserCustom,
-  createRegExpArray,
+  importOldData,
 };

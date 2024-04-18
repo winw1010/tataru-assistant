@@ -13,7 +13,8 @@ const rootPath = process.cwd();
 const userPath = process.env.USERPROFILE;
 
 // app name
-const appName = 'Tataru Assistant'; //const appName = 'Tataru Helper Node';
+const appName = 'Tataru Assistant';
+const appOldName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
@@ -155,6 +156,11 @@ function getUserDataPath(...args) {
   return path.join(userPath, 'Documents', appName, ...args);
 }
 
+// get old user path
+function getOldUserDataPath(...args) {
+  return path.join(userPath, 'Documents', appOldName, ...args);
+}
+
 // module exports
 module.exports = {
   directoryCheck,
@@ -170,4 +176,5 @@ module.exports = {
   getRootDataPath,
   getUserPath,
   getUserDataPath,
+  getOldUserDataPath,
 };

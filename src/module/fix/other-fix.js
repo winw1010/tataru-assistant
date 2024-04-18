@@ -51,9 +51,9 @@ async function start(dialogData = {}) {
 
     // fix text
     if (aiEngine.includes(translation.engine)) {
-      translatedText = await fixText(dialogData);
-    } else {
       translatedText = await fixTextAI(dialogData);
+    } else {
+      translatedText = await fixText(dialogData);
     }
   } catch (error) {
     console.log(error);

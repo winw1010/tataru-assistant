@@ -60,9 +60,9 @@ async function start(dialogData = {}) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
       if (aiEngine.includes(translation.engine)) {
-        translatedText = await fixText(dialogData);
-      } else {
         translatedText = await fixTextAI(dialogData);
+      } else {
+        translatedText = await fixText(dialogData);
       }
     }
 

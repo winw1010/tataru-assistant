@@ -29,6 +29,15 @@ async function translate(text = '', translation = {}, table = []) {
     return text;
   }
 
+  // translate
+  try {
+    const result = await translate2(text, translation);
+    return zhConvert(clearCode(result, table), translation.to);
+  } catch (error) {
+    return zhConvert(error, translation.to);
+  }
+
+  /*
   // initialize
   const maxCount = 3;
   let count = 0;
@@ -79,29 +88,7 @@ async function translate(text = '', translation = {}, table = []) {
     console.log(error);
     return 'Failed to get translation: ' + error;
   }
-}
-
-async function aiTranslate(text = '', translation = {}, table = []) {
-  // clear newline
-  text = text.replace(/\r|\n/g, '');
-
-  // check length
-  if (text === '') {
-    return '……';
-  }
-
-  // check target
-  if (translation.from === translation.to) {
-    return text;
-  }
-
-  let result = await translate2(text, translation, table);
-
-  if (result === '') {
-    result = '翻譯失敗';
-  }
-
-  return zhConvert(result, translation.to);
+  */
 }
 
 // translate 2
@@ -240,7 +227,6 @@ function clearCode(text = '', table = []) {
 // module exports
 module.exports = {
   translate,
-  aiTranslate,
   getTranslation,
   zhConvert,
 };

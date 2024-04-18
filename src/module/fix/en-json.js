@@ -50,9 +50,6 @@ function load(targetLanguage) {
   chArray.combine = jsonFunction.combineArray2(userArray.customTarget, chArray.combine);
   chArray.combine = jsonFunction.combineArray2(userArray.playerName, chArray.combine);
 
-  // create RegExp array
-  enArray.ignore = jsonFunction.createRegExpArray(enArray.ignore);
-
   // version fix
   versionFix();
 }

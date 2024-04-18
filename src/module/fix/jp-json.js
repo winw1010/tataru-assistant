@@ -66,7 +66,6 @@ function load(targetLanguage) {
   // create RegExp array
   jpArray.special1 = jsonFunction.createRegExpArray(jpArray.special1);
   jpArray.special2 = jsonFunction.createRegExpArray(jpArray.special2);
-  jpArray.ignore = jsonFunction.createRegExpArray(jpArray.ignore);
 
   // version fix
   versionFix();

@@ -90,7 +90,9 @@ function canIgnore(text = '', ignoreArray = []) {
   }
 
   for (let index = 0; index < ignoreArray.length; index++) {
-    if (ignoreArray[index].test(text)) {
+    const element = ignoreArray[index];
+    const regIgnore = new RegExp(element, 'gi');
+    if (regIgnore.test(text)) {
       return true;
     }
   }

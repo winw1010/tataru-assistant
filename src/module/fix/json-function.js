@@ -103,6 +103,17 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   }
 }
 
+// read user array
+function readUserArray() {
+  const userArray = {};
+  userArray.customSource = readUserText('custom-source.json', false);
+  userArray.customTarget = readUserText('custom-target.json', false);
+  userArray.customOverwrite = readUserText('custom-overwrite.json', false);
+  userArray.playerName = readUserText('player-name.json', false);
+  userArray.tempName = readUserText('temp-name.json', false);
+  return userArray;
+}
+
 // read user text
 function readUserText(name = '', sort = true) {
   return readText(getUserTextPath(name), sort);
@@ -229,33 +240,62 @@ function createRegExpArray(array = []) {
 }
 
 // save user custom
-function saveUserCustom(fileName = 'custom-target.json', customArray = []) {
-  // delete same item
+function saveUserCustom(name = '', customArray = []) {
+  if (name === '') return;
+
+  // file names
+  const fileNames = [
+    'custom-source.json',
+    'custom-target.json',
+    'custom-overwrite.json',
+    'player-name.json',
+    'temp-name.json',
+  ];
+
+  // delete or replace item which has same source
   for (let index = 0; index < customArray.length; index++) {
     const element = customArray[index];
-    deleteUserCustom(fileName, element[0]);
-    deleteUserCustom('temp-name.json', element[0]);
-  }
 
-  // update
-  let userCustom = readUserText(fileName, false);
-  userCustom = userCustom.concat(customArray);
-  writeUserText(fileName, userCustom);
+    for (let index = 0; index < fileNames.length; index++) {
+      const fileName = fileNames[index];
+
+      if (fileName === name) {
+        editUserCustom(fileName, element[0], element);
+      } else {
+        editUserCustom(fileName, element[0]);
+      }
+    }
+  }
 }
 
-// delete user custom
-function deleteUserCustom(fileName = 'custom-target.json', target = '') {
-  const array = readUserText(fileName, false);
+// edit user custom
+function editUserCustom(name = '', target = '', item = null) {
+  if (name === '') return;
+
+  const array = readUserText(name, false);
+  let isNotFound = true;
 
   for (let index = array.length - 1; index >= 0; index--) {
     const element = array[index];
 
     if (target === element[0]) {
-      array.splice(index, 1);
+      isNotFound = false;
+
+      if (item) {
+        array[index] = item;
+      } else {
+        array.splice(index, 1);
+      }
+
+      break;
     }
   }
 
-  writeUserText(fileName, array);
+  if (item && isNotFound) {
+    array.push(item);
+  }
+
+  writeUserText(name, array);
 }
 
 // check array
@@ -272,12 +312,13 @@ module.exports = {
   readSubtitleEN,
   readSubtitleJP,
   readMain,
+  readUserArray,
   readUserText,
   writeUserText,
   sortArray,
   combineArray,
   combineArray2,
   saveUserCustom,
-  deleteUserCustom,
+  editUserCustom,
   createRegExpArray,
 };

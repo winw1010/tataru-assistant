@@ -466,14 +466,14 @@ function setJsonChannel() {
   });
 
   // save user custom
-  ipcMain.on('save-user-custom', (event, fileName = 'custom-target.json', customArray = []) => {
-    jsonFunction.saveUserCustom(fileName, customArray);
+  ipcMain.on('save-user-custom', (event, name = '', customArray = []) => {
+    jsonFunction.saveUserCustom(name, customArray);
     jsonEntry.loadJSON();
   });
 
   // delete user custom
-  ipcMain.on('delete-user-custom', (event, fileName = 'custom-target.json', target = '') => {
-    jsonFunction.deleteUserCustom(fileName, target);
+  ipcMain.on('delete-user-custom', (event, name = '', target = '') => {
+    jsonFunction.editUserCustom(name, target);
     jsonEntry.loadJSON();
   });
 }

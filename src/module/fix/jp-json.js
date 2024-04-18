@@ -13,20 +13,13 @@ const chArray = {};
 const jpArray = {};
 
 // user array
-const userArray = {};
+const userArray = jsonFunction.readUserArray();
 
 // load
 function load(targetLanguage) {
   const srcIndex = languageIndex[languageEnum.ja];
   const rplIndex = languageIndex[targetLanguage];
   const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
-
-  // user
-  userArray.customSource = jsonFunction.readUserText('custom-source.json', false);
-  userArray.customTarget = jsonFunction.readUserText('custom-target.json', false);
-  userArray.customOverwrite = jsonFunction.readUserText('custom-overwrite.json', false);
-  userArray.playerName = jsonFunction.readUserText('player-name.json', false);
-  userArray.tempName = jsonFunction.readUserText('temp-name.json', false);
 
   // ch
   chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);

@@ -173,6 +173,7 @@ function zhConvert(text = '', languageTo = '') {
   }
 }
 
+/*
 // clear table
 function clearTable(text = '', table = []) {
   for (let index = table.length - 1; index >= 0; index--) {
@@ -211,6 +212,7 @@ function fixCode(text = '', missingCode = []) {
 
   return text;
 }
+*/
 
 // clear code
 function clearCode(text = '', table = []) {

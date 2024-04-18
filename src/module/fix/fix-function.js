@@ -191,17 +191,10 @@ function markFix(text = '', isTranslated = false) {
     }
 
     // fix ""
-    //text = text.replaceAll(/"(.+?)"/gi, '「$1」');
+    // text = text.replaceAll(/"(.+?)"/gi, '「$1」');
 
     // fix .
-    //text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');
-
-    // fix ·
-    text = text.replaceAll(/([^·0-9])·([^·0-9])/gi, '$1・$2');
-
-    // fix 0
-    text = text.replaceAll(/([^-,.\w]|^)0([^-,.\w/%]|$)/gi, '$1零$2');
-    text = text.replaceAll(/zero/gi, '零');
+    // text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');
   }
 
   return text;

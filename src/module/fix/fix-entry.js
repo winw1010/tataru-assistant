@@ -90,7 +90,7 @@ async function entry() {
   const dataLanguage = getLanguage(dialogData);
 
   if (config.translation.fix) {
-    if (fixSourceList.includes[dataLanguage] && fixTargetList.includes(dialogData.translation.to)) {
+    if (fixSourceList.includes(dataLanguage) && fixTargetList.includes(dialogData.translation.to)) {
       if (dataLanguage === languageEnum.ja) {
         dialogData.translation.from = languageEnum.ja;
         dialogData = await jpFix.start(dialogData);

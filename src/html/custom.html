@@ -72,7 +72,7 @@
       <!-- Add -->
       <div class="row align-items-center">
         <div class="col-auto">
-          <span>類別</span>
+          <label for="select-type"></label>
         </div>
 
         <div class="col-auto">
@@ -97,8 +97,8 @@
         </div>
 
         <div class="col">
-          <button class="btn btn-primary" id="button-save-custom">新增</button>
-          <button class="btn btn-danger" id="button-delete-custom">刪除</button>
+          <button class="btn btn-primary" id="button-save-custom"></button>
+          <button class="btn btn-danger" id="button-delete-custom"></button>
         </div>
       </div>
 
@@ -108,29 +108,29 @@
         <!-- Select Table -->
         <div class="col-auto">
           <select class="form-select" name="" id="select-table-type">
-            <option value="player-name-table">玩家</option>
-            <option value="custom-target-table" selected>自訂翻譯</option>
-            <option value="custom-overwrite-table">自訂整句翻譯</option>
-            <option value="custom-source-table">自訂原文</option>
+            <option value="player-name-table"></option>
+            <option value="custom-target-table" selected></option>
+            <option value="custom-overwrite-table"></option>
+            <option value="custom-source-table"></option>
           </select>
         </div>
 
         <!-- Select Search Type -->
         <div class="col-auto">
           <select class="form-select" name="" id="select-search-type">
-            <option value="all" selected>全部</option>
-            <option value="keyword">關鍵字</option>
+            <option value="all-item" selected></option>
+            <option value="keyword"></option>
           </select>
         </div>
 
         <!-- Keyword -->
-        <div class="col-auto" id="div-input-keyword" hidden>
+        <div class="col-auto">
           <input class="form-control" type="text" name="" id="input-Keyword" placeholder="Keyword" />
         </div>
 
         <!-- Search Button -->
         <div class="col-auto">
-          <button class="btn btn-primary" id="button-search">查詢</button>
+          <button class="btn btn-primary" id="button-search"></button>
         </div>
       </div>
 
@@ -151,15 +151,8 @@
 
             <tbody id="tbody-custom-table">
               <tr>
-                <td colspan="2">無資料</td>
+                <td colspan="4">無資料</td>
               </tr>
-              <!--
-              <tr>
-                <td>TEST1</td>
-                <td>TEST2</td>
-                <td><a href="">編輯</a> <a class="text-danger" href="">刪除</a></td>
-              </tr>
-              -->
             </tbody>
           </table>
         </div>

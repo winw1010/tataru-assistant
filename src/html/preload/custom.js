@@ -46,10 +46,6 @@ function setEvent() {
   document.getElementById('select-table-type').onchange = () => {
     createTable();
   };
-
-  document.getElementById('select-search-type').onchange = () => {
-    document.getElementById('div-input-keyword').hidden = document.getElementById('select-search-type').value === 'all';
-  };
 }
 
 // set button
@@ -141,6 +137,7 @@ function createTable(keyword = '') {
   const tableType = document.getElementById('select-table-type').value;
   const arrayParameter = arrayParameters[tableType];
   const array = ipcRenderer.sendSync('get-user-array', arrayParameter.name);
+  const searchType = document.getElementById('select-search-type').value;
   const tbody = document.getElementById('tbody-custom-table');
   let innerHTML = '';
 
@@ -151,7 +148,8 @@ function createTable(keyword = '') {
       const translatedText = element[1] || '';
       const textType = element[2] || '';
 
-      if (keyword !== '' && !text.includes(keyword) && !translatedText.includes(keyword)) continue;
+      if (searchType === 'keyword' && keyword !== '' && !text.includes(keyword) && !translatedText.includes(keyword))
+        continue;
 
       innerHTML += `
       <tr>

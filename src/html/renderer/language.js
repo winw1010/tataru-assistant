@@ -109,6 +109,9 @@ function getElementTextList() {
         // capture edit
         'button-translate': ['翻譯', '翻译', 'Translate'],
 
+        // custom
+        'button-search': ['查詢', '查询', 'Search'],
+
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],
 
@@ -214,8 +217,6 @@ function getElementTextList() {
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
 
         // edit
-        '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'custom-source': ['原文替換', '原文替换', 'Custom source'],
         '#player-name': ['#玩家', '#玩家', '#Player'],
         player: ['玩家名稱', '玩家名称', 'Player'],
         retainer: ['雇員名稱', '雇员名称', 'Retainer'],
@@ -230,6 +231,17 @@ function getElementTextList() {
         other: ['其他', '其他', 'Other'],
         '#custom-overwrite': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite source'],
         'custom-overwrite': ['自訂整句翻譯', '自订整句翻译', 'Custom overwrite'],
+        '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
+        'custom-source': ['原文替換', '原文替换', 'Custom source'],
+
+        // custom
+        'player-name-table': ['#玩家', '#玩家', '#Player'],
+        'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
+        'custom-overwrite-table': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite source'],
+        'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
+
+        'all-item': ['全部', '全部', 'All'],
+        keyword: ['關鍵字', '关键字', 'Keyword'],
 
         // read log
         none: ['無', '无', 'None'],

@@ -100,25 +100,14 @@ async function fixName(dialogData = {}) {
       ? jpFunction.replaceTextByCode(name, targetArray.combine)
       : enFunction.replaceTextByCode(name, targetArray.combine);
 
-  if (aiEngine.includes(translation.engine)) {
-    // skip check
-    if (enFunction.needTranslation(name, codeResult.gptTable)) {
-      // translate
-      translatedName = await translateModule.aiTranslate(name, translation, codeResult.gptTable);
-    }
-
-    // table
-    translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable, true);
-  } else {
-    // skip check
-    if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
-      // translate
-      translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
-    }
-
-    // table
-    translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+  // skip check
+  if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
+    // translate
+    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
   }
+
+  // table
+  translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
 
   // save to temp
   saveName(name, translatedName);
@@ -218,15 +207,16 @@ async function fixTextAI(dialogData = {}) {
     translation.from === languageEnum.ja
       ? jpFunction.replaceTextByCode(text2, targetArray.combine)
       : enFunction.replaceTextByCode(text2, targetArray.combine);
+  text2 = codeResult.text;
 
   // skip check
-  if (enFunction.needTranslation(text2, codeResult.gptTable)) {
+  if (enFunction.needTranslation(text2, codeResult.table)) {
     // translate
-    translatedText = await translateModule.aiTranslate(text2, translation, codeResult.gptTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.table);
   }
 
   // table
-  translatedText = fixFunction.replaceText(translatedText, codeResult.gptTable, true);
+  translatedText = fixFunction.replaceText(translatedText, codeResult.table, true);
 
   return translatedText;
 }

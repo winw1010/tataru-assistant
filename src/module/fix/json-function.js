@@ -195,7 +195,7 @@ function combineArray2(customArray = [], ...args) {
     const customElement = customArray2[index];
     const customName = customElement[0] || '';
     const targetIndex = Math.max(
-      otherNames.indexOf(customName),
+      otherNames.indexOf(customName.replace(/#/g, '')),
       otherNames.indexOf(customName + '#'),
       otherNames.indexOf(customName + '##')
     );

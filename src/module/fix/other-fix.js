@@ -179,9 +179,6 @@ async function fixText(dialogData = {}) {
       : enFunction.replaceTextByCode(text2, targetArray.combine);
   text2 = codeResult.text;
 
-  // mark fix
-  text2 = fixFunction.markFix(text2);
-
   // value fix before
   const valueResult = fixFunction.valueFixBefore(text2);
   text2 = valueResult.text;
@@ -194,9 +191,6 @@ async function fixText(dialogData = {}) {
 
   // value fix after
   translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
-
-  // mark fix
-  translatedText = fixFunction.markFix(translatedText, true);
 
   // table
   translatedText = fixFunction.replaceWord(translatedText, codeResult.table);

@@ -202,7 +202,7 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, enArray.en2, true);
 
   // mark fix
-  text2 = fixFunction.markFix(text2);
+  // text2 = fixFunction.markFix(text2);
 
   // value fix before
   const valueResult = fixFunction.valueFixBefore(text2);
@@ -218,7 +218,7 @@ async function fixText(dialogData = {}) {
   translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
 
   // mark fix
-  translatedText = fixFunction.markFix(translatedText, true);
+  // translatedText = fixFunction.markFix(translatedText, true);
 
   // table
   translatedText = fixFunction.replaceWord(translatedText, codeResult.table);

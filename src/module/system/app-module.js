@@ -57,15 +57,6 @@ function detectUserLanguage() {
   if (config.system.firstTime) {
     const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
 
-    if (/zh-(CN|CHS|Hans)/i.test(locale)) {
-      config.translation.to = languageEnum.zhs;
-      config.system.appLanguage = languageEnum.zhs;
-    } else {
-      config.translation.to = languageEnum.zht;
-      config.system.appLanguage = languageEnum.zht;
-    }
-
-    /*
     if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
       config.translation.to = languageEnum.zht;
       config.system.appLanguage = languageEnum.zht;
@@ -75,6 +66,15 @@ function detectUserLanguage() {
     } else {
       config.translation.to = languageEnum.en;
       config.system.appLanguage = languageEnum.en;
+    }
+
+    /*
+    if (/zh-(CN|CHS|Hans)/i.test(locale)) {
+      config.translation.to = languageEnum.zhs;
+      config.system.appLanguage = languageEnum.zhs;
+    } else {
+      config.translation.to = languageEnum.zht;
+      config.system.appLanguage = languageEnum.zht;
     }
     */
 

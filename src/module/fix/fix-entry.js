@@ -15,6 +15,7 @@ const translateModule = require('../system/translate-module');
 // fix module
 const enFix = require('./en-fix');
 const jpFix = require('./jp-fix');
+const otherFix = require('./other-fix');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -91,6 +92,7 @@ async function entry() {
 
   if (config.translation.fix) {
     if (fixSourceList.includes(dataLanguage) && fixTargetList.includes(dialogData.translation.to)) {
+      // do XIV fix when JP/EN to CHT/CHS
       if (dataLanguage === languageEnum.ja) {
         dialogData.translation.from = languageEnum.ja;
         dialogData = await jpFix.start(dialogData);
@@ -99,9 +101,12 @@ async function entry() {
         dialogData = await enFix.start(dialogData);
       }
     } else {
-      // other fix
+      // do minimum fix
+      dialogData.translation.from = dataLanguage;
+      dialogData = await otherFix.start(dialogData);
     }
   } else {
+    // normal translate
     if (npcChannel.includes(dialogData.code)) {
       dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
     }

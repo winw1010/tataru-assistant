@@ -10,10 +10,17 @@ const targetArray = {};
 const sourceArray = {};
 
 // user array
-const userArray = jsonFunction.readUserArray();
+const userArray = {};
 
 // load
 function load() {
+  // user array
+  userArray.customSource = jsonFunction.readUserText('custom-source.json', false);
+  userArray.customTarget = jsonFunction.readUserText('custom-target.json', false);
+  userArray.customOverwrite = jsonFunction.readUserText('custom-overwrite.json', false);
+  userArray.playerName = jsonFunction.readUserText('player-name.json', false);
+  userArray.tempName = jsonFunction.readUserText('temp-name.json', false);
+
   // source
   sourceArray.subtitle = userArray.customSource;
 

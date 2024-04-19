@@ -41,7 +41,7 @@ const defaultConfig = {
     y: -1,
     width: -1,
     height: -1,
-    type: 'tesseract',
+    type: 'tesseract-ocr',
     split: true,
     edit: false,
   },

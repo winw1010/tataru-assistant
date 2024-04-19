@@ -96,7 +96,7 @@ function getElementTextList() {
       button: {
         // config
         'button-save-config': ['儲存', '储存', 'Save'],
-        'button-save-default-config': ['恢復預設', '恢复预设', 'Set default'],
+        'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download table'],
         'button-restart-sharlayan-reader': ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart chat reader'],
@@ -111,8 +111,8 @@ function getElementTextList() {
 
         // custom
         'button-search': ['查詢', '查询', 'Search'],
-        'button-view-all': ['顯示全部', '显示全部', 'View all'],
-        'button-import-old-data': ['匯入舊版資料', '汇入旧版资料', 'Import old data'],
+        'button-view-all': ['全部', '全部', 'All'],
+        'button-import-old-data': ['匯入', '汇入', 'Import'],
 
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],
@@ -120,7 +120,7 @@ function getElementTextList() {
         // edit
         'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate again'],
         'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload table'],
-        'button-report-translation': ['回報翻譯錯誤', '回报翻译错误', 'Report'],
+        'button-report-translation': ['回報翻譯', '回报翻译', 'Report'],
 
         'button-save-custom': ['儲存', '储存', 'Save'],
         'button-delete-custom': ['刪除', '删除', 'Delete'],
@@ -128,7 +128,7 @@ function getElementTextList() {
 
         // read log
         'button-read-log': ['讀取', '读取', 'Open'],
-        'button-view-log': ['檢視對話紀錄檔案', '检视对话纪录档案', 'View chat logs'],
+        'button-view-log': ['檢視檔案', '检视档案', 'View chat logs'],
       },
       label: {
         // config
@@ -171,8 +171,8 @@ function getElementTextList() {
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 
         // capture
-        'checkbox-split': ['換行切割', '换行切割', 'Divide new line'],
-        'checkbox-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit'],
+        'checkbox-split': ['換行切割', '换行切割', 'New line'],
+        'checkbox-edit': ['編輯文字', '编辑文字', 'Edit'],
 
         // capture edit
         'input-capture-text': ['擷取文字', '撷取文字', 'Text'],

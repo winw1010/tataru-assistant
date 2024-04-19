@@ -129,7 +129,7 @@ function createTable(keyword = '') {
       `;
     }
   } else {
-    innerHTML += '<tr><td colspan="4">無資料</td></tr>';
+    innerHTML += '<tr><td colspan="4">No data</td></tr>';
   }
 
   tbody.innerHTML = innerHTML;

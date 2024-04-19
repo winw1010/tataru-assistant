@@ -42,154 +42,123 @@
     <main class="container-fluid px-2">
       <div class="row">
         <div class="col">
-          <div class="row">
-            <div class="col">
-              <div id="div-text1"></div>
-            </div>
-          </div>
+          <div id="div-text1"></div>
+        </div>
 
-          <br />
+        <div class="col">
+          <div id="div-text2"></div>
+        </div>
+      </div>
 
-          <div class="row">
-            <div class="col">
-              <div id="div-text2"></div>
-            </div>
-          </div>
+      <br />
 
-          <br />
+      <div class="row">
+        <div class="col-6">
+          <div id="div-audio"></div>
+        </div>
+      </div>
 
-          <div class="row">
-            <div class="col">
-              <div id="div-audio"></div>
-            </div>
-          </div>
+      <br />
 
-          <br />
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <select class="form-select" id="select-engine"></select>
+        </div>
 
-          <div class="row align-items-center">
-            <div class="col">
-              <label for="select-engine"></label>
-            </div>
-            <div class="col-auto">
-              <select class="form-select" id="select-engine"></select>
-            </div>
-          </div>
+        <div class="col-auto">
+          <select class="form-select" id="select-from"></select>
+        </div>
 
-          <br />
+        <div class="col-auto">
+          <img
+            class="img-fluid"
+            id="img-arrow-right"
+            src="./img/ui/arrow_forward_white_48dp.svg"
+            alt=""
+            style="width: 1.5rem"
+          />
+        </div>
 
-          <div class="row align-items-center">
-            <div class="col">
-              <label for="select-from"></label>
-            </div>
-            <div class="col-auto">
-              <select class="form-select" id="select-from"></select>
-            </div>
-          </div>
+        <div class="col-auto">
+          <select class="form-select" id="select-to"></select>
+        </div>
+      </div>
 
-          <br />
+      <br />
 
-          <div class="row align-items-center">
-            <div class="col">
-              <label for="select-to"></label>
-            </div>
-            <div class="col-auto">
-              <select class="form-select" id="select-to"></select>
-            </div>
-          </div>
-
-          <br />
-
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <button id="button-restart-translate" class="btn btn-primary"></button>
-            </div>
-
-            <div class="col-auto">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox-replace" />
-                <label class="form-check-label" for="checkbox-replace"></label>
-              </div>
-            </div>
-          </div>
-
-          <br />
-
-          <div class="row align-items-center">
-            <div class="col">
-              <button id="button-load-json" class="btn btn-secondary"></button>
-              <button id="button-report-translation" class="btn btn-secondary"></button>
-            </div>
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="" id="checkbox-replace" />
+            <label class="form-check-label" for="checkbox-replace"></label>
           </div>
         </div>
 
-        <div class="col-auto" style="border-left: white 1px dotted"></div>
+        <div class="col-auto">
+          <button id="button-restart-translate" class="btn btn-primary"></button>
+          <button id="button-load-json" class="btn btn-secondary"></button>
+          <button id="button-report-translation" class="btn btn-secondary"></button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col">
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-before"
+            cols="30"
+            rows="2"
+            placeholder="Custom Before"
+          ></textarea>
+        </div>
 
         <div class="col">
-          <div class="row">
-            <div class="col">
-              <span id="span-title-custom"></span>
-            </div>
-          </div>
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-after"
+            cols="30"
+            rows="2"
+            placeholder="Custom After"
+          ></textarea>
+        </div>
+      </div>
 
-          <br />
+      <br />
 
-          <div class="row">
-            <div class="col">
-              <div class="form-floating">
-                <textarea class="form-control" id="textarea-before" style="height: 6rem"></textarea>
-                <label for="textarea-before"></label><br />
-              </div>
-            </div>
-          </div>
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <label for="select-type"></label>
+        </div>
 
-          <br />
+        <div class="col-auto">
+          <select class="form-select" id="select-type">
+            <option value="#player-name" disabled></option>
+            <option value="player"></option>
+            <option value="retainer"></option>
+            <option value="#custom-target" disabled></option>
+            <option value="npc" selected></option>
+            <option value="title"></option>
+            <option value="group"></option>
+            <option value="monster"></option>
+            <option value="things"></option>
+            <option value="skill"></option>
+            <option value="map"></option>
+            <option value="other"></option>
+            <option value="#custom-overwrite" disabled></option>
+            <option value="custom-overwrite"></option>
+            <option value="#custom-source" disabled></option>
+            <option value="custom-source"></option>
+          </select>
+        </div>
 
-          <div class="row">
-            <div class="col">
-              <div class="form-floating">
-                <textarea class="form-control" id="textarea-after" style="height: 6rem"></textarea>
-                <label for="textarea-after"></label><br />
-              </div>
-            </div>
-          </div>
-
-          <br />
-
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <label for="select-type"></label>
-            </div>
-            <div class="col-auto">
-              <select class="form-select" id="select-type">
-                <option value="#player-name" disabled></option>
-                <option value="player"></option>
-                <option value="retainer"></option>
-                <option value="#custom-target" disabled></option>
-                <option value="npc" selected></option>
-                <option value="title"></option>
-                <option value="group"></option>
-                <option value="monster"></option>
-                <option value="things"></option>
-                <option value="skill"></option>
-                <option value="map"></option>
-                <option value="other"></option>
-                <option value="#custom-overwrite" disabled></option>
-                <option value="custom-overwrite"></option>
-                <option value="#custom-source" disabled></option>
-                <option value="custom-source"></option>
-              </select>
-            </div>
-          </div>
-
-          <br />
-
-          <div class="row">
-            <div class="col">
-              <button id="button-save-custom" class="btn btn-primary"></button>
-              <button id="button-delete-custom" class="btn btn-danger"></button>
-              <button id="button-view-custom" class="btn btn-secondary"></button>
-            </div>
-          </div>
+        <div class="col">
+          <button id="button-save-custom" class="btn btn-primary"></button>
+          <button id="button-delete-custom" class="btn btn-danger"></button>
+          <button id="button-view-custom" class="btn btn-secondary"></button>
         </div>
       </div>
     </main>

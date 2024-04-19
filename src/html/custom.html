@@ -122,7 +122,7 @@
       <div class="row">
         <!-- Keyword -->
         <div class="col-auto">
-          <input class="form-control" type="text" name="" id="input-Keyword" placeholder="Keyword" />
+          <input class="form-control" type="text" name="" id="input-Keyword" />
         </div>
 
         <div class="col-auto">
@@ -145,24 +145,22 @@
           <table class="table table-hover">
             <thead class="sticky-top">
               <tr>
-                <th>替換前</th>
-                <th>替換後</th>
-                <th>類型</th>
-                <th>編輯</th>
+                <th id="th-custom-before"></th>
+                <th id="th-custom-after"></th>
+                <th id="th-custom-type"></th>
+                <th id="th-custom-edit"></th>
               </tr>
             </thead>
 
             <tbody id="tbody-custom-table">
               <tr>
-                <td colspan="4">無資料</td>
+                <td colspan="4">No data</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </main>
-
-    <footer class="container-fluid p-2"></footer>
 
     <!-- renderer -->
     <script src="./js/drag.js"></script>

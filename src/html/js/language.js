@@ -111,7 +111,7 @@ function getElementTextList() {
 
         // custom
         'button-search': ['查詢', '查询', 'Search'],
-        'button-view-all': ['顯示全部', '显示全部', 'View All'],
+        'button-view-all': ['顯示全部', '显示全部', 'View all'],
         'button-import-old-data': ['匯入舊版資料', '汇入旧版资料', 'Import old data'],
 
         // dictionary
@@ -124,7 +124,7 @@ function getElementTextList() {
 
         'button-save-custom': ['儲存', '储存', 'Save'],
         'button-delete-custom': ['刪除', '删除', 'Delete'],
-        'button-view-custom': ['檢視自訂翻譯', '检视自订翻译', 'View custom table'],
+        'button-view-custom': ['檢視檔案', '检视档案', 'View files'],
 
         // read log
         'button-read-log': ['讀取', '读取', 'Open'],
@@ -206,6 +206,10 @@ function getElementTextList() {
         Youdao: ['有道翻譯', '有道翻译', 'Youdao'],
         Baidu: ['百度翻譯', '百度翻译', 'Baidu'],
         Caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
+        Papago: ['Papago', 'Papago', 'Papago'],
+        DeepL: ['DeepL', 'DeepL', 'DeepL'],
+        GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
+        Cohere: ['Cohere', 'Cohere', 'Cohere'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
@@ -289,12 +293,21 @@ function getElementTextList() {
           'Author: winw1010',
         ],
       },
+      th: {
+        'th-custom-before': ['替換前', '替换前', 'Before'],
+        'th-custom-after': ['替換後', '替换后', 'After'],
+        'th-custom-type': ['類別', '类别', 'Type'],
+        'th-custom-edit': ['編輯', '编辑', 'Edit'],
+      },
     },
     placeholder: {
       input: {
         // config
         'input-cohere-token': ['請輸入API key', '请输入API金钥', 'API key'],
         'input-gpt-api-key': ['請輸入API key', '请输入API金钥', 'API key'],
+
+        // custom
+        'input-Keyword': ['關鍵字', '关键字', 'Keyword'],
 
         // dictionary
         'input-original-name': ['Name', 'Name', 'Name'],

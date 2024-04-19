@@ -38,27 +38,6 @@ const languageIndex = {
   'Simplified-Chinese': 3,
 };
 
-// language name
-const languageName = {
-  Japanese: '日文',
-  English: '英文',
-  German: '德文',
-  French: '法文',
-  'Traditional-Chinese': '繁體中文',
-  'Simplified-Chinese': '簡體中文',
-};
-
-// engine name
-const engineName = {
-  Youdao: 'Youdao',
-  Baidu: 'Baidu',
-  Caiyun: 'Caiyun',
-  Papago: 'Papago',
-  DeepL: 'DeepL',
-  GPT: 'ChatGPT',
-  Cohere: 'Cohere',
-};
-
 // engine table
 const engineTable = {
   Baidu: {
@@ -137,36 +116,40 @@ const engineTable = {
 
 // get engine select
 function getEngineSelect() {
-  return getSelect(engineList, engineName);
+  return getSelect(engineList);
 }
 
 // get all language select
 function getAllLanguageSelect() {
-  return getSelect(allLanguageList, languageName);
+  return getSelect(allLanguageList);
 }
 
 // get source select
 function getSourceSelect() {
-  return getSelect(sourceList, languageName);
+  return getSelect(sourceList);
 }
 
 // get target select
 function getTargetSelect() {
-  return getSelect(targetList, languageName);
+  return getSelect(targetList);
 }
 
 // get UI select
 function getUISelect() {
-  return getSelect(uiList, engineName);
+  return getSelect(uiList);
 }
 
 // get select
-function getSelect(list = [], names = {}) {
+function getSelect(list = []) {
   let innerHTML = '';
 
   for (let index = 0; index < list.length; index++) {
     const name = list[index];
-    innerHTML += `<option value="${name}">${names[name]}</option>`;
+    if (name[0] === '#') {
+      innerHTML += `<option value="${name}" disabled></option>`;
+    } else {
+      innerHTML += `<option value="${name}"></option>`;
+    }
   }
 
   return innerHTML;

@@ -43,7 +43,7 @@ function createWindow(windowName, data = null) {
     window.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
 
     // set always on top
-    window.setAlwaysOnTop(!['edit', 'dictionary'].includes(windowName), 'screen-saver');
+    window.setAlwaysOnTop(true, 'screen-saver');
 
     // set minimizable
     window.setMinimizable(false);

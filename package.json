@@ -1,6 +1,6 @@
 {
   "name": "tataru-assistant",
-  "version": "2.5.14",
+  "version": "2.6.0",
   "description": "A translator for FFXIV with word-fixing function.",
   "main": "src/main.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^29.2.0",
+    "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0"
   },

@@ -39,7 +39,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
   if (!currentOpenAI) currentOpenAI = createOpenai();
 
-  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
+  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}. The response should not be in ${source}.`;
   let response = null;
 
   if (table.length > 0) {

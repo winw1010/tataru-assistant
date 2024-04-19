@@ -100,14 +100,12 @@ async function fixName(dialogData = {}) {
       ? jpFunction.replaceTextByCode(name, targetArray.combine)
       : enFunction.replaceTextByCode(name, targetArray.combine);
 
-  // skip check
-  if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
-    // translate
+  if (aiEngine.includes(translation.engine)) {
+    translatedName = await translateModule.translate(name, translation, codeResult.gptTable);
+  } else {
     translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
+    translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
   }
-
-  // table
-  translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
 
   // save to temp
   saveName(name, translatedName);
@@ -172,11 +170,8 @@ async function fixText(dialogData = {}) {
   const valueResult = fixFunction.valueFixBefore(text2);
   text2 = valueResult.text;
 
-  // skip check
-  if (enFunction.needTranslation(text2, codeResult.table)) {
-    // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table);
-  }
+  // translate
+  translatedText = await translateModule.translate(text2, translation, codeResult.table);
 
   // value fix after
   translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
@@ -207,16 +202,9 @@ async function fixTextAI(dialogData = {}) {
     translation.from === languageEnum.ja
       ? jpFunction.replaceTextByCode(text2, targetArray.combine)
       : enFunction.replaceTextByCode(text2, targetArray.combine);
-  text2 = codeResult.text;
 
-  // skip check
-  if (enFunction.needTranslation(text2, codeResult.table)) {
-    // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table);
-  }
-
-  // table
-  translatedText = fixFunction.replaceText(translatedText, codeResult.table, true);
+  // translate
+  translatedText = await translateModule.translate(text2, translation, codeResult.gptTable);
 
   return translatedText;
 }

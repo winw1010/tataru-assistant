@@ -30,31 +30,30 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   if (!currentCohere) currentCohere = createCohereClient();
 
   let prompt = `I want you to act as an expert translator. You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
-  let prediction = null;
+  let response = null;
 
   if (table.length > 0) {
-    prompt += ' And';
+    prompt += ` You are given the following table of translation of ${source} to ${target} terms that you must use every time you encounter one of the ${source} terms from the table in the text to translate:\r\n|${source}|${target}|`;
     for (let index = 0; index < table.length; index++) {
       const element = table[index];
-      prompt += ` replace ${element[0]} with ${element[1]},`;
+      prompt += `\r\n|${element[0]}|${element[1]}|`;
     }
-    prompt = prompt.slice(0, prompt.lastIndexOf(',')) + '.';
   }
 
   try {
-    prediction = await currentCohere.chat({
+    response = await currentCohere.chat({
       preamble: prompt,
       message: sentence,
-      maxTokens: 4000,
+      maxTokens: 3000,
       temperature: 0,
       //temperature: 0.7,
       //top_p: 1,
     });
 
     console.log('prompt', prompt);
-    console.log('Input Tokens:', prediction?.meta?.tokens.inputTokens);
-    console.log('Output Tokens:', prediction?.meta?.tokens.outputTokens);
-    return prediction?.text?.replace(/^翻译结果：/, '') || '';
+    console.log('Input Tokens:', response?.meta?.tokens.inputTokens);
+    console.log('Output Tokens:', response?.meta?.tokens.outputTokens);
+    return response?.text?.replace(/^(翻译结果)|(翻譯結果)：/, '') || '';
   } catch (error) {
     console.log(error.message);
     return error.message;

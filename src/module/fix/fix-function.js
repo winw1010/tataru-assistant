@@ -20,7 +20,7 @@ function replaceText(text = '', array = [], useRegExp = false) {
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
       const element0 = element[0].replace(regNoRegSymbol, '\\$&');
-      const name0 = new RegExp('\\b' + element0 + '\\b', 'gi');
+      const name0 = new RegExp(element0, 'gi');
       const name1 = element[1];
       text = text.replaceAll(name0, name1);
     }

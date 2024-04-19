@@ -43,12 +43,11 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   let response = null;
 
   if (table.length > 0) {
-    prompt += ' And';
+    prompt += ` You are given the following table of translation of ${source} to ${target} terms that you must use every time you encounter one of the ${source} terms from the table in the text to translate:\r\n|${source}|${target}|`;
     for (let index = 0; index < table.length; index++) {
       const element = table[index];
-      prompt += ` replace ${element[0]} with ${element[1]},`;
+      prompt += `\r\n|${element[0]}|${element[1]}|`;
     }
-    prompt = prompt.slice(0, prompt.lastIndexOf(',')) + '.';
   }
 
   try {
@@ -64,7 +63,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
           content: sentence,
         },
       ],
-      max_tokens: 4000,
+      max_tokens: 3000,
       temperature: 0,
       //temperature: 0.7,
       //top_p: 1,

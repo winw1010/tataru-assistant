@@ -14,6 +14,9 @@ const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
 const zhConverter = require('../translator/zh-convert');
 
+// ai engine
+const aiEngine = ['GPT', 'Cohere'];
+
 // translate
 async function translate(text = '', translation = {}, table = []) {
   // clear newline
@@ -31,8 +34,13 @@ async function translate(text = '', translation = {}, table = []) {
 
   // translate
   try {
-    const result = await translate2(text, translation);
-    return zhConvert(clearCode(result, table), translation.to);
+    const result = await translate2(text, translation, table);
+
+    if (aiEngine.includes(translation.engine)) {
+      return zhConvert(result, translation.to);
+    } else {
+      return zhConvert(clearCode(result, table), translation.to);
+    }
   } catch (error) {
     return zhConvert(error, translation.to);
   }

@@ -143,14 +143,25 @@ async function fixName(dialogData = {}) {
   // get code result
   const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
-  // skip check
-  if (jpFunction.needTranslation(codeResult.text, codeResult.table)) {
-    // translate
-    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
-  }
+  if (aiEngine.includes(translation.engine)) {
+    // skip check
+    if (jpFunction.needTranslation(name, codeResult.gptTable)) {
+      // translate
+      translatedName = await translateModule.translate(name, translation, codeResult.gptTable);
+    } else {
+      // table
+      translatedName = fixFunction.replaceText(name, codeResult.gptTable);
+    }
+  } else {
+    // skip check
+    if (jpFunction.needTranslation(codeResult.text, codeResult.table)) {
+      // translate
+      translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
+    }
 
-  // table
-  translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+    // table
+    translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+  }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
@@ -301,16 +312,15 @@ async function fixTextAI(dialogData = {}) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
-  text2 = codeResult.text;
 
   // skip check
-  if (jpFunction.needTranslation(text2, codeResult.table)) {
+  if (jpFunction.needTranslation(text2, codeResult.gptTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+    translatedText = await translateModule.translate(text2, translation, codeResult.gptTable);
+  } else {
+    // table replace
+    translatedText = fixFunction.replaceText(text2, codeResult.gptTable);
   }
-
-  // table
-  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
   translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);

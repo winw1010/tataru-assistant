@@ -33,6 +33,19 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
       throw path + ' is not an array.';
     }
 
+    // check main length
+    if (path.includes('\\main\\')) {
+      for (let index = array.length - 1; index >= 0; index--) {
+        const element = array[index];
+
+        if (element.length !== 4) {
+          console.log('\r\nIncorrect data path:', path);
+          console.log('Data:', element);
+          array.splice(index, 1);
+        }
+      }
+    }
+
     // map array
     if (map) {
       array = mapArray(array, srcIndex, rplIndex);

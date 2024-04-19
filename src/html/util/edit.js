@@ -22,9 +22,6 @@ const fileModule = {
 // log path
 const logPath = fileModule.getUserDataPath('log');
 
-// user text path
-const userTextPath = fileModule.getUserDataPath('text');
-
 // target log
 let targetLog = null;
 
@@ -154,9 +151,9 @@ function setButton() {
     }
   };
 
-  // view custom
-  document.getElementById('button-view-custom').onclick = () => {
-    ipcRenderer.send('execute-command', `start "" "${userTextPath}"`);
+  // edit custom
+  document.getElementById('button-edit-custom').onclick = () => {
+    ipcRenderer.send('create-window', 'custom');
   };
 
   // close

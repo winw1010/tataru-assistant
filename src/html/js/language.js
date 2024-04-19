@@ -104,6 +104,8 @@ function getElementTextList() {
         'button-version-check': ['檢查更新', '检查更新', 'Check for updates'],
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
 
+        'button-import-old-settings': ['匯入舊設定', '汇入旧设定', 'Import old settings'],
+
         // capture
         'button-screenshot': ['All', 'All', 'All'],
 
@@ -113,7 +115,7 @@ function getElementTextList() {
         // custom
         'button-search': ['查詢', '查询', 'Search'],
         'button-view-all': ['全部', '全部', 'All'],
-        'button-import-old-data': ['匯入', '汇入', 'Import'],
+        'button-view-files': ['檢視檔案', '检视档案', 'View files'],
 
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],
@@ -125,7 +127,7 @@ function getElementTextList() {
 
         'button-save-custom': ['儲存', '储存', 'Save'],
         'button-delete-custom': ['刪除', '删除', 'Delete'],
-        'button-view-custom': ['檢視檔案', '检视档案', 'View files'],
+        'button-edit-custom': ['編輯', '编辑', 'Edit'],
 
         // read log
         'button-read-log': ['讀取', '读取', 'Open'],

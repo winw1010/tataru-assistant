@@ -96,14 +96,19 @@ function setButton() {
     ipcRenderer.send('download-json');
   };
 
+  // restart sharlayan reader
+  document.getElementById('button-restart-sharlayan-reader').onclick = () => {
+    ipcRenderer.send('restart-sharlayan-reader');
+  };
+
   // version check
   document.getElementById('button-version-check').onclick = () => {
     ipcRenderer.send('version-check');
   };
 
-  // restart sharlayan reader
-  document.getElementById('button-restart-sharlayan-reader').onclick = () => {
-    ipcRenderer.send('restart-sharlayan-reader');
+  // import old data
+  document.getElementById('button-import-old-settings').onclick = () => {
+    ipcRenderer.send('import-old-settings');
   };
 
   // get set google vision

@@ -2,6 +2,8 @@
 
 const { CohereClient } = require('cohere-ai');
 
+const { createPrompt } = require('./ai-function');
+
 const configModule = require('../system/config-module');
 
 let currentCohere = null;
@@ -29,16 +31,8 @@ function createCohereClient() {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   if (!currentCohere) currentCohere = createCohereClient();
 
-  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}. The response should not be in ${source}.`;
+  let prompt = createPrompt(source, target, table);
   let response = null;
-
-  if (table.length > 0) {
-    prompt += ` You are given the following table of translation of ${source} to ${target} terms that you must use every time you encounter one of the ${source} terms from the table in the text to translate:\r\n|${source}|${target}|`;
-    for (let index = 0; index < table.length; index++) {
-      const element = table[index];
-      prompt += `\r\n|${element[0]}|${element[1]}|`;
-    }
-  }
 
   try {
     response = await currentCohere.chat({

@@ -178,14 +178,14 @@ function setButton() {
   document.getElementById('a-translation-report').onclick = () => {
     ipcRenderer.send(
       'execute-command',
-      'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
+      'explorer "https://github.com/winw1010/tataru-assistant-text#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
     );
   };
   */
 
   // github
   document.getElementById('a-github').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-v2"');
+    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-assistant"');
   };
 
   // author

@@ -76,10 +76,10 @@ function readSubtitleJP() {
 
 // read main
 function readMain(srcIndex = 0, rplIndex = 1) {
-  return readMultiText(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+  return readMultiFolder(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
 }
 
-// read multi texts
+// read multi text
 function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   try {
     const fileList = fileModule.readdir(filePath);
@@ -89,6 +89,33 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
       fileList.forEach((value) => {
         if (value !== 'hidden.json') {
           array = array.concat(readText(fileModule.getPath(filePath, value), false, true, srcIndex, rplIndex));
+        }
+      });
+    }
+
+    return sortArray(array);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+// read multi folder
+function readMultiFolder(targetPath = '', srcIndex = 0, rplIndex = 1) {
+  try {
+    const folderList = fileModule.readdir(targetPath);
+    let array = [];
+
+    if (folderList.length > 0) {
+      folderList.forEach((folderName) => {
+        const folderPath = fileModule.getPath(targetPath, folderName);
+        const fileList = fileModule.readdir(folderPath);
+
+        if (fileList.length > 0) {
+          fileList.forEach((filename) => {
+            const filePath = fileModule.getPath(folderPath, filename);
+            array = array.concat(readText(filePath, false, true, srcIndex, rplIndex));
+          });
         }
       });
     }

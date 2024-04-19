@@ -395,7 +395,7 @@ function setRequestChannel() {
       .get({
         protocol: 'https:',
         hostname: 'raw.githubusercontent.com',
-        path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
+        path: '/winw1010/tataru-assistant-text/main/version.json',
       })
       .then((data) => {
         // set request config

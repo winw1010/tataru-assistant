@@ -136,7 +136,10 @@ function getWindowSize(windowName, config) {
 
   // get display bounds nearest cursor
   const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
-  const displayLength = parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9);
+  const displayLength =
+    displayBounds.width > displayBounds.height
+      ? parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9)
+      : displayBounds.width;
 
   switch (windowName) {
     case 'index':

@@ -34,7 +34,7 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     }
 
     // check length of array of main
-    if (path.includes('\\main\\')) {
+    if (path.includes('\\data\\text\\main\\')) {
       for (let index = array.length - 1; index >= 0; index--) {
         const element = array[index];
 

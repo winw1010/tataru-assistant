@@ -39,8 +39,8 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
         const element = array[index];
 
         if (element.length !== 4) {
-          console.log('\r\nIncorrect data path:', path);
-          console.log('Data:', element);
+          console.log('\r\nIncorrect data:', element);
+          console.log('Path:', path);
           array.splice(index, 1);
         }
       }

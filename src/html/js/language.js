@@ -82,9 +82,10 @@ function getElementTextList() {
     innerText: {
       a: {
         // config
-        'a-get-credential': ['憑證取得教學', '凭证取得教程', 'Get credential'],
-        'a-set-gpt-api': ['ChatGPT設定教學', 'ChatGPT设定教学', 'ChatGPT guide'],
-        'a-set-unofficial-api': ['反向代理API設定教學', '反向代理API设定教学', 'How to set unoffcial API'],
+        'a-set-google-vision': ['說明', '说明', 'Guide'],
+        'a-set-cohere-api': ['說明', '说明', 'Guide'],
+        'a-set-gpt-api': ['說明', '说明', 'Guide'],
+        'a-set-unofficial-api': ['說明', '说明', 'Guide'],
 
         'a-readme': ['使用說明書', '使用说明书', 'Readme'],
         'a-bug-report': ['問題回報', '问题回报', 'Bug report'],

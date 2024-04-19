@@ -106,9 +106,15 @@ function setButton() {
     ipcRenderer.send('restart-sharlayan-reader');
   };
 
-  // get google credential
-  document.getElementById('a-get-credential').onclick = () => {
+  // get set google vision
+  document.getElementById('a-set-google-vision').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
+  // set cohere api
+  document.getElementById('a-set-cohere-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 

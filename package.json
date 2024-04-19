@@ -1,14 +1,14 @@
 {
-  "name": "tataru-helper-node",
+  "name": "tataru-assistant",
   "version": "2.5.14",
-  "description": "tataru-helper-node",
+  "description": "A translator for FFXIV with word-fixing function.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "repository": "https://github.com/winw1010/tataru-helper-node",
+  "repository": "https://github.com/winw1010/tataru-assistant",
   "keywords": [],
   "author": "https://github.com/winw1010",
   "license": "MIT",
@@ -29,8 +29,8 @@
     "tesseract.js": "^5.0.5"
   },
   "build": {
-    "appId": "com.app.tataru.helper.node",
-    "productName": "Tataru Helper Node",
+    "appId": "com.app.tataru.assistant",
+    "productName": "Tataru Assistant",
     "directories": {
       "output": "build"
     },

@@ -29,7 +29,7 @@ function createCohereClient() {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   if (!currentCohere) currentCohere = createCohereClient();
 
-  let prompt = `I want you to act as an expert translator. You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
+  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
   let response = null;
 
   if (table.length > 0) {

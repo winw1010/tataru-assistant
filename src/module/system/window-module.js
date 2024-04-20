@@ -139,7 +139,8 @@ function getWindowSize(windowName, config) {
   const displaySizeRate = displayBounds.width >= 1920 ? 0.9 : 1;
   const displayLength =
     displayBounds.width > displayBounds.height
-      ? parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9) * displaySizeRate
+      ? Math.min(parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9), displayBounds.width) *
+        displaySizeRate
       : displayBounds.width * displaySizeRate;
 
   switch (windowName) {

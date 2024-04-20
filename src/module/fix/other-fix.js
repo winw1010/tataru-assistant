@@ -101,7 +101,7 @@ async function fixName(dialogData = {}) {
       : enFunction.replaceTextByCode(name, targetArray.combine);
 
   if (aiList.includes(translation.engine)) {
-    translatedName = await translateModule.translate(name, translation, codeResult.gptTable);
+    translatedName = await translateModule.translate(name, translation, codeResult.aiTable);
   } else {
     translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
     translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
@@ -204,7 +204,7 @@ async function fixTextAI(dialogData = {}) {
       : enFunction.replaceTextByCode(text2, targetArray.combine);
 
   // translate
-  translatedText = await translateModule.translate(text2, translation, codeResult.gptTable);
+  translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
 
   return translatedText;
 }

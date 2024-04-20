@@ -145,12 +145,12 @@ async function fixName(dialogData = {}) {
 
   if (aiList.includes(translation.engine)) {
     // skip check
-    if (jpFunction.needTranslation(name, codeResult.gptTable)) {
+    if (jpFunction.needTranslation(name, codeResult.aiTable)) {
       // translate
-      translatedName = await translateModule.translate(name, translation, codeResult.gptTable);
+      translatedName = await translateModule.translate(name, translation, codeResult.aiTable);
     } else {
       // table
-      translatedName = fixFunction.replaceText(name, codeResult.gptTable);
+      translatedName = fixFunction.replaceText(name, codeResult.aiTable);
     }
   } else {
     // skip check
@@ -319,12 +319,12 @@ async function fixTextAI(dialogData = {}) {
   }
 
   // skip check
-  if (jpFunction.needTranslation(text2, codeResult.gptTable)) {
+  if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.gptTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
   } else {
     // table replace
-    translatedText = fixFunction.replaceText(text2, codeResult.gptTable);
+    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
   }
 
   // after translation

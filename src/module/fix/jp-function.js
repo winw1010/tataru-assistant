@@ -26,7 +26,7 @@ const noKatakana =
 const noKatakanaFront = `(?<![${noKatakana}])`;
 const noKatakanaBack = `(?![${noKatakana}])`;
 
-const regHiragana = /[ぁ-ゖ]/gi;
+const regKana = /[ぁ-ゖァ-ヺー]/gi;
 
 /*
 const noHiragana =
@@ -475,7 +475,7 @@ function getKatakanaName(name = '') {
 }
 
 function isChinese(text = '') {
-  return !regHiragana.test(text) && !regKatakanaName.test(text);
+  return !regKana.test(text);
 }
 
 function getFemaleWords() {

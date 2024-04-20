@@ -65,7 +65,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
     console.log('prompt', prompt);
     console.log('Total Tokens:', response?.usage?.total_tokens);
-    return response?.choices[0]?.message?.content || '';
+    return response?.choices[0]?.message?.content;
   } catch (error) {
     console.log(error.message);
     return error.message;

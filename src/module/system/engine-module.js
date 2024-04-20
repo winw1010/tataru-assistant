@@ -19,7 +19,10 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere'];
+const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini'];
+
+// AI list
+const aiList = ['GPT', 'Cohere', 'Gemini'];
 
 // language enum
 const languageEnum = {
@@ -112,6 +115,14 @@ const engineTable = {
     'Traditional-Chinese': 'Chinese',
     'Simplified-Chinese': 'Chinese',
   },
+  Gemini: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+  },
 };
 
 // get engine select
@@ -196,6 +207,7 @@ module.exports = {
   fixTargetList,
   uiList,
   engineList,
+  aiList,
 
   languageEnum,
   languageIndex,

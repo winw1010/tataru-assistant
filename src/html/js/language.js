@@ -83,6 +83,7 @@ function getElementTextList() {
       a: {
         // config
         'a-set-google-vision': ['說明', '说明', 'Guide'],
+        'a-set-gemini-api': ['說明', '说明', 'Guide'],
         'a-set-cohere-api': ['說明', '说明', 'Guide'],
         'a-set-gpt-api': ['說明', '说明', 'Guide'],
         'a-set-unofficial-api': ['說明', '说明', 'Guide'],
@@ -161,6 +162,8 @@ function getElementTextList() {
         'select-from-player': ['玩家頻道', '玩家频道', 'Player lang'],
         'select-to': ['翻譯語言', '翻译语言', 'Target lang'],
 
+        'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
+
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
 
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
@@ -213,6 +216,7 @@ function getElementTextList() {
         DeepL: ['DeepL', 'DeepL', 'DeepL'],
         GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
+        Gemini: ['Gemini', 'Gemini', 'Gemini'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
@@ -255,6 +259,7 @@ function getElementTextList() {
       },
       p: {
         'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
+        'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
         'p-unoffcia-api': [

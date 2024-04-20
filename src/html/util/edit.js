@@ -199,7 +199,7 @@ function readLog(id = '') {
         if (targetLog?.translation?.engine) {
           document.getElementById('select-engine').value = fixLogValue(
             targetLog.translation.engine,
-            ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere'],
+            ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini'],
             config.translation.engine
           );
         }

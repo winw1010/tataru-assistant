@@ -12,10 +12,8 @@ const deepl = require('../translator/deepl');
 const google = require('../translator/google');
 const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
+const gemini = require('../translator/gemini');
 const zhConverter = require('../translator/zh-convert');
-
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
 
 // translate
 async function translate(text = '', translation = {}, table = []) {
@@ -36,7 +34,7 @@ async function translate(text = '', translation = {}, table = []) {
   try {
     const result = await translate2(text, translation, table);
 
-    if (aiEngine.includes(translation.engine)) {
+    if (engineModule.aiList.includes(translation.engine)) {
       return zhConvert(result, translation.to);
     } else {
       return zhConvert(clearCode(result, table), translation.to);
@@ -150,6 +148,10 @@ async function getTranslation(engine = '', option = {}, table = []) {
         result = await cohere.exec(option, table);
         break;
 
+      case 'Gemini':
+        result = await gemini.exec(option, table);
+        break;
+
       case 'Google':
         result = await google.exec(option);
         break;
@@ -161,9 +163,11 @@ async function getTranslation(engine = '', option = {}, table = []) {
     console.log(error);
   }
 
+  result = '' + result;
+
   console.log('After:', result);
 
-  return result || '';
+  return result;
 }
 
 // zh convert

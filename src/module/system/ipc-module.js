@@ -544,6 +544,11 @@ function setTranslateChannel() {
     event.returnValue = engineModule.getUISelect();
   });
 
+  // get AI list
+  ipcMain.on('get-ai-list', (event) => {
+    event.returnValue = engineModule.aiList;
+  });
+
   // add task
   ipcMain.on('add-task', (event, dialogData) => {
     addTask(dialogData);

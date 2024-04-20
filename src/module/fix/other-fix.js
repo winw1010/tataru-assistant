@@ -17,11 +17,11 @@ const { languageEnum } = require('../system/engine-module');
 // translate module
 const translateModule = require('../system/translate-module');
 
+// engine module
+const { aiList } = require('../system/engine-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
-
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
 
 // array
 const sourceArray = otherJson.getSourceArray();
@@ -50,7 +50,7 @@ async function start(dialogData = {}) {
     }
 
     // fix text
-    if (aiEngine.includes(translation.engine)) {
+    if (aiList.includes(translation.engine)) {
       translatedText = await fixTextAI(dialogData);
     } else {
       translatedText = await fixText(dialogData);
@@ -100,7 +100,7 @@ async function fixName(dialogData = {}) {
       ? jpFunction.replaceTextByCode(name, targetArray.combine)
       : enFunction.replaceTextByCode(name, targetArray.combine);
 
-  if (aiEngine.includes(translation.engine)) {
+  if (aiList.includes(translation.engine)) {
     translatedName = await translateModule.translate(name, translation, codeResult.gptTable);
   } else {
     translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);

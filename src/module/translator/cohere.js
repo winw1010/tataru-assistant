@@ -47,7 +47,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     console.log('prompt', prompt);
     console.log('Input Tokens:', response?.meta?.tokens.inputTokens);
     console.log('Output Tokens:', response?.meta?.tokens.outputTokens);
-    return response?.text?.replace(/^(翻译结果)|(翻譯結果)：/, '') || '';
+    return response?.text;
   } catch (error) {
     console.log(error.message);
     return error.message;

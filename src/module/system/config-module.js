@@ -70,6 +70,7 @@ const defaultConfig = {
     gptModel: 'please-select-gpt-model',
     gptApiKey: '',
     cohereToken: '',
+    geminiApiKey: '',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
     sslCertificate: true,

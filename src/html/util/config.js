@@ -118,6 +118,12 @@ function setButton() {
   };
 
   // set cohere api
+  document.getElementById('a-set-gemini-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gemini-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
+  // set cohere api
   document.getElementById('a-set-cohere-api').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
@@ -582,6 +588,10 @@ function getOptionList() {
     ],
 
     // api
+    [
+      ['input-gemini-api-key', 'value'],
+      ['system', 'geminiApiKey'],
+    ],
     [
       ['input-cohere-token', 'value'],
       ['system', 'cohereToken'],

@@ -13,11 +13,11 @@ const jsonFunction = require('./json-function');
 // translate module
 const translateModule = require('../system/translate-module');
 
+// engine module
+const { aiList } = require('../system/engine-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
-
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
 
 // text type list
 const textTypeList = {
@@ -66,7 +66,7 @@ async function start(dialogData = {}) {
     if (translation.skipChinese && jpFunction.isChinese(text)) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
-      if (aiEngine.includes(translation.engine)) {
+      if (aiList.includes(translation.engine)) {
         translatedText = await fixTextAI(dialogData);
       } else {
         translatedText = await fixText(dialogData);
@@ -143,7 +143,7 @@ async function fixName(dialogData = {}) {
   // get code result
   const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
-  if (aiEngine.includes(translation.engine)) {
+  if (aiList.includes(translation.engine)) {
     // skip check
     if (jpFunction.needTranslation(name, codeResult.gptTable)) {
       // translate
@@ -300,7 +300,7 @@ async function fixTextAI(dialogData = {}) {
   }
 
   // get text type
-  const textType = getTextType(name, text);
+  const textType = getTextType(name, text, false);
 
   // reverse text
   if (textType === textTypeList.reversed) {
@@ -312,6 +312,11 @@ async function fixTextAI(dialogData = {}) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
+
+  // convert to hira
+  if (textType === textTypeList.allKatakana) {
+    text2 = jpFunction.convertKana(text2, 'hira');
+  }
 
   // skip check
   if (jpFunction.needTranslation(text2, codeResult.gptTable)) {
@@ -439,12 +444,12 @@ function specialFix2(name = '', text = '') {
 }
 
 // get text type
-function getTextType(name = '', text = '') {
+function getTextType(name = '', text = '', checkList = true) {
   let type = textTypeList.normal;
 
   if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
     type = textTypeList.reversed;
-  } else if (isNoHiragana(name, text)) {
+  } else if (isNoHiragana(name, text, checkList)) {
     type = textTypeList.allKatakana;
   }
 
@@ -452,17 +457,18 @@ function getTextType(name = '', text = '') {
 }
 
 // check katakana
-function isNoHiragana(name = '', text = '') {
-  if (fixFunction.includesArrayItem(name, jpArray.listHira)) {
+function isNoHiragana(name = '', text = '', checkList = true) {
+  if (checkList && fixFunction.includesArrayItem(name, jpArray.listHira)) {
     return true;
   }
 
   const kanjiArray = text.match(/[\u3400-\u9FFF]/gi) || [];
+  const katakanaLength = text.match(/[ァ-ヺ]/gi) || [];
   const noHiragana = /^[^ぁ-ゖ]+$/gi.test(text);
   if (kanjiArray.length > 0) {
     return noHiragana;
   } else {
-    return noHiragana && text.length > 15;
+    return noHiragana && katakanaLength.length > 15;
   }
 }
 

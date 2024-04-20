@@ -113,7 +113,7 @@ function setButton() {
 
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 

@@ -163,9 +163,7 @@ function getElementTextList() {
         'select-to': ['翻譯語言', '翻译语言', 'Target lang'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
-
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
-
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
         'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT model'],
 

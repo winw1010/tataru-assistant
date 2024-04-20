@@ -81,6 +81,7 @@ function versionFix() {
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
     if (/(^.$)/.test(element) || removeList.includes(element)) {
+      console.log('Delete', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }
   }

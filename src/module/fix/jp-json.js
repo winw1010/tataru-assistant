@@ -80,17 +80,15 @@ function versionFix() {
   // same word in jp1, jp2 and delete list
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
-    if (/(^.{1}$)/.test(element) || removeList.includes(element)) {
+    if (/(^.$)/.test(element) || removeList.includes(element)) {
       chArray.combine.splice(index, 1);
-    } else {
-      chArray.combine[index][0] = element.replace('#', '');
     }
   }
 
   // clear temp name
   for (let index = userArray.tempName.length - 1; index >= 0; index--) {
     const element = userArray.tempName[index][0];
-    if (/(^.{1}$)/.test(element) || removeList.includes(element)) {
+    if (/(^.$)/.test(element) || removeList.includes(element)) {
       userArray.tempName.splice(index, 1);
     }
   }

@@ -39,8 +39,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
       preamble: prompt,
       message: sentence,
       maxTokens: 3000,
-      temperature: 0,
-      //temperature: 0.7,
+      temperature: 0.7,
       //top_p: 1,
     });
 

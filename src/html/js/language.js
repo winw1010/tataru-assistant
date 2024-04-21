@@ -97,7 +97,7 @@ function getElementTextList() {
       },
       button: {
         // config
-        'button-save-config': ['儲存', '储存', 'Save'],
+        'button-save-config': ['儲存變更', '储存变更', 'Save changes'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download table'],

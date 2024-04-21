@@ -43,7 +43,7 @@ const defaultConfig = {
     height: -1,
     type: 'tesseract-ocr',
     split: true,
-    edit: false,
+    edit: true,
   },
   channel: {
     '0039': '#CCCCCC',
@@ -56,7 +56,7 @@ const defaultConfig = {
     autoChange: true,
     fix: true,
     skip: true,
-    skipChinese: true,
+    skipChinese: false,
     replace: true,
     engine: 'Youdao',
     from: 'Japanese',
@@ -90,7 +90,7 @@ function loadConfig() {
 
     // fix old bug
     if (currentConfig === null || typeof currentConfig !== typeof defaultConfig || Array.isArray(currentConfig)) {
-      throw null;
+      throw 'Incorrect config type';
     }
 
     const mainNames = Object.getOwnPropertyNames(defaultConfig);

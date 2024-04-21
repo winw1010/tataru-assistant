@@ -19,7 +19,7 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini'];
+const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'GPT', 'Cohere', 'Gemini'];
 
 // AI list
 const aiList = ['GPT', 'Cohere', 'Gemini'];
@@ -157,7 +157,7 @@ function getSelect(list = []) {
   for (let index = 0; index < list.length; index++) {
     const name = list[index];
     if (name[0] === '#') {
-      innerHTML += `<option value="${name}" disabled></option>`;
+      innerHTML += `<option value="${name}" disabled>${name}</option>`;
     } else {
       innerHTML += `<option value="${name}"></option>`;
     }

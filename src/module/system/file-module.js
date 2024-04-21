@@ -86,7 +86,7 @@ function read(filePath = './', type = '') {
         break;
 
       case 'image':
-        fs.readFileSync(filePath, { encoding: 'base64' });
+        data = fs.readFileSync(filePath).toString('base64');
         break;
 
       default:

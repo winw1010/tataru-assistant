@@ -12,28 +12,21 @@ const katakana = getKatakanaString();
 
 // reg
 const regBrackets = /「|『|』|」/;
-const regAllKatakana = /^[ァ-ヺー・＝]+$/;
-//const regAllHiragana = /^[ぁ-ゖー・＝]+$/;
 
 const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
-//const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
-//const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+const regAllKatakanaName = /^[ァ-ヺー・＝]+$/;
+
+const regKatakanaFB = /^[ァ-ヺ].*[ァ-ヺー]$/;
+const regKatakanaF = /^[ァ-ヺ]/;
+const regKatakanaB = /[ァ-ヺー]$/;
 
 // remove ァィゥェォッャュョヮヵヶ
-const noKatakana =
-  'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ';
-const noKatakanaFront = `(?<![${noKatakana}])`;
-const noKatakanaBack = `(?![${noKatakana}])`;
+const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, '');
+const noKatakanaFront = `(?<![${getKatakanaString()}])`;
+const noKatakanaBack = `(?![${katakanaWithoutSmall}])`;
 
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
-
-/*
-const noHiragana =
-  'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゆよらりるれろわゐゑをんゔ';
-const noHiraganaFront = `(?<![${noHiragana}])`;
-const noHiraganaBack = `(?![${noHiragana}])`;
-*/
 
 // jp text function
 function replaceTextByCode(text = '', array = [], textType = 0) {
@@ -82,8 +75,18 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
 
       if (regBrackets.test(name)) {
         matchedWords.push(element);
-      } else if (regAllKatakana.test(name)) {
+      } else if (regKatakanaFB.test(name)) {
         const matchReg = new RegExp(noKatakanaFront + name + noKatakanaBack, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKatakanaF.test(name)) {
+        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKatakanaB.test(name)) {
+        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
@@ -92,26 +95,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
           matchedWords.push(element);
         }
       }
-
-      /*
-      else if (regAllHiragana.test(name)) {
-        const matchReg = new RegExp(noHiraganaFront + name + noHiraganaBack, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      }
-      else if (regKatakanaFront.test(name)) {
-        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      } else if (regKatakanaBack.test(name)) {
-        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      }
-      */
     }
   }
 
@@ -142,7 +125,7 @@ function findTempArray(text = '', array = []) {
       temp.push([`『${name}』`, `『${translatedName}』`]);
     }
 
-    if (name.length < 3 || !regAllKatakana.test(name)) {
+    if (name.length < 3 || !regAllKatakanaName.test(name)) {
       continue;
     }
 

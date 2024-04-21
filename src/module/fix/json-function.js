@@ -345,10 +345,10 @@ function importOldData() {
     if (chTemp[index][2].includes('temp')) chTemp.splice(index, 1);
   }
 
-  saveUserCustom('player-name.json', player);
   saveUserCustom('custom-source.json', jpTemp);
-  saveUserCustom('custom-target.json', chTemp);
   saveUserCustom('custom-overwrite.json', overwriteTemp);
+  saveUserCustom('custom-target.json', chTemp);
+  saveUserCustom('player-name.json', player);
 }
 
 // check array

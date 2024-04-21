@@ -106,11 +106,6 @@ function setButton() {
     ipcRenderer.send('version-check');
   };
 
-  // import old data
-  document.getElementById('button-import-old-settings').onclick = () => {
-    ipcRenderer.send('import-old-settings');
-  };
-
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');

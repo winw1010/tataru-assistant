@@ -100,6 +100,11 @@ function setButton() {
   document.getElementById('button-view-files').onclick = () => {
     ipcRenderer.send('execute-command', `start "" "${ipcRenderer.sendSync('get-user-data-path', 'text')}"`);
   };
+
+  // import old data
+  document.getElementById('button-import-old-data').onclick = () => {
+    ipcRenderer.send('import-old-data');
+  };
 }
 
 // create table

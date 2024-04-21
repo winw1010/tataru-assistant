@@ -510,7 +510,7 @@ function setJsonChannel() {
   });
 
   // import old data
-  ipcMain.on('import-old-settings', (event) => {
+  ipcMain.on('import-old-data', (event) => {
     jsonFunction.importOldData();
     jsonEntry.loadJSON();
     BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');

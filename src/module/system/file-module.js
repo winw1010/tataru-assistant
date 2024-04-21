@@ -14,11 +14,16 @@ const userPath = process.env.USERPROFILE;
 
 // app name
 const appName = 'Tataru Assistant';
-const appOldName = 'Tataru Helper Node';
+const oldName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
   const documentPath = getUserPath('Documents');
+
+  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, 'Tataru Helper Node'))) {
+    copyOldData();
+  }
+
   const subPath = [
     '',
     appName,
@@ -31,6 +36,7 @@ function directoryCheck() {
   subPath.forEach((value) => {
     try {
       const dir = getPath(documentPath, value);
+
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
@@ -38,6 +44,54 @@ function directoryCheck() {
       console.log(error);
     }
   });
+}
+
+// copy old data
+function copyOldData() {
+  try {
+    const oldPath = getUserPath('Documents', oldName);
+    const newPath = getUserPath('Documents', appName);
+    const renameList = [
+      [getPath(newPath, 'temp'), getPath(newPath, 'text')],
+      [getPath(newPath, 'text', 'jpTemp.json'), getPath(newPath, 'text', 'custom-source.json')],
+      [getPath(newPath, 'text', 'chTemp.json'), getPath(newPath, 'text', 'custom-target.json')],
+      [getPath(newPath, 'text', 'overwriteTemp.json'), getPath(newPath, 'text', 'custom-overwrite.json')],
+      [getPath(newPath, 'text', 'player.json'), getPath(newPath, 'text', 'player-name.json')],
+    ];
+    const tempList = [];
+
+    // copy files
+    fs.cpSync(oldPath, newPath, { recursive: true });
+
+    // rename files
+    for (let index = 0; index < renameList.length; index++) {
+      const element = renameList[index];
+
+      if (exists(element[0])) {
+        fs.renameSync(element[0], element[1]);
+      } else {
+        write(element[1], [], 'json');
+      }
+    }
+
+    // delete temp from custom-target.json
+    const customTarget = read(getPath(newPath, 'text', 'custom-target.json'), 'json') || [];
+    for (let index = customTarget.length - 1; index >= 0; index--) {
+      const element = customTarget[index];
+
+      if (element[2]?.includes('temp')) {
+        const tempElement = customTarget.splice(index, 1);
+        tempList.push(tempElement[0]);
+      }
+
+      // write files
+      write(getPath(newPath, 'text', 'custom-target.json'), customTarget, 'json');
+      write(getPath(newPath, 'text', 'temp-name.json'), [], 'json');
+      write(getPath(newPath, 'text', 'old-temp.json'), tempList, 'json');
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // readdir
@@ -158,7 +212,7 @@ function getUserDataPath(...args) {
 
 // get old user path
 function getOldUserDataPath(...args) {
-  return path.join(userPath, 'Documents', appOldName, ...args);
+  return path.join(userPath, 'Documents', oldName, ...args);
 }
 
 // module exports

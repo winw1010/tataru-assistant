@@ -508,13 +508,6 @@ function setJsonChannel() {
     jsonEntry.loadJSON();
     BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
   });
-
-  // import old data
-  ipcMain.on('import-old-data', (event) => {
-    jsonFunction.importOldData();
-    jsonEntry.loadJSON();
-    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
-  });
 }
 
 // set translate channel

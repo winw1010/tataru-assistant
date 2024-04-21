@@ -333,24 +333,6 @@ function editUserCustom(name = '', target = '', item = null) {
   writeUserText(name, array);
 }
 
-// import old data
-function importOldData() {
-  const player = readText(fileModule.getOldUserDataPath('temp', 'player.json'), false);
-  const chTemp = readText(fileModule.getOldUserDataPath('temp', 'chTemp.json'), false);
-  const overwriteTemp = readText(fileModule.getOldUserDataPath('temp', 'overwriteTemp.json'), false);
-  const jpTemp = readText(fileModule.getOldUserDataPath('temp', 'jpTemp.json'), false);
-
-  // remove temp from chTemp
-  for (let index = chTemp.length - 1; index >= 0; index--) {
-    if (chTemp[index][2].includes('temp')) chTemp.splice(index, 1);
-  }
-
-  saveUserCustom('custom-source.json', jpTemp);
-  saveUserCustom('custom-overwrite.json', overwriteTemp);
-  saveUserCustom('custom-target.json', chTemp);
-  saveUserCustom('player-name.json', player);
-}
-
 // check array
 function checkArray(array = []) {
   return Array.isArray(array) && array.length > 0;
@@ -374,5 +356,4 @@ module.exports = {
   createRegExpArray,
   saveUserCustom,
   editUserCustom,
-  importOldData,
 };

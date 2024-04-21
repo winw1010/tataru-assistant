@@ -115,7 +115,6 @@ function getElementTextList() {
         'button-search': ['查詢', '查询', 'Search'],
         'button-view-all': ['全部', '全部', 'All'],
         'button-view-files': ['檢視檔案', '检视档案', 'View files'],
-        'button-import-old-data': ['匯入舊詞彙', '汇入旧词彙', 'Import old data'],
 
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],

@@ -195,6 +195,7 @@ module.exports = {
 };
 
 /*
+findSequence(['003D'],['004D'],['005D'])
 function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
   for (let index = 0; index < address1.length; index++) {
     const element = address1[index];
@@ -218,10 +219,13 @@ function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
     for (let index = 0; index < address2.length; index++) {
       const element2 = address2[index];
       const value2 = parseInt(element2, 16);
-      const element3 = (value2 * 2 - value1).toString(16).toUpperCase().padStart(length, '0');
+      const diff = value2 - value1;
+      const element3 = (value2 + diff).toString(16).toUpperCase().padStart(length, '0');
 
       if (address3.includes(element3)) {
-        console.log(element1, element2, element3, (value2 - value1).toString(16));
+        console.log('Sequence:', element1, element2, element3);
+        console.log('Difference:', diff.toString(16));
+        console.log('Next:', (value2 + diff * 2).toString(16).toUpperCase().padStart(length, '0'));
       }
     }
   }

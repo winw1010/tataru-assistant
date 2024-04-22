@@ -195,47 +195,6 @@ module.exports = {
 };
 
 /*
-findSequence(['003D'], ['004D'], ['005D']);
-function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
-  for (let index = 0; index < address1.length; index++) {
-    const element = address1[index];
-    address1[index] = element.toUpperCase().padStart(length, '0');
-  }
-
-  for (let index = 0; index < address2.length; index++) {
-    const element = address2[index];
-    address2[index] = element.toUpperCase().padStart(length, '0');
-  }
-
-  for (let index = 0; index < address3.length; index++) {
-    const element = address3[index];
-    address3[index] = element.toUpperCase().padStart(length, '0');
-  }
-
-  for (let index = 0; index < address1.length; index++) {
-    const element1 = address1[index];
-    const value1 = parseInt(element1, 16);
-
-    for (let index = 0; index < address2.length; index++) {
-      const element2 = address2[index];
-      const value2 = parseInt(element2, 16);
-      const diff = value2 - value1;
-
-      if (diff === 0) continue;
-
-      const element3 = (value2 + diff).toString(16).toUpperCase().padStart(length, '0');
-
-      if (address3.includes(element3)) {
-        console.log('Sequence:', element1, element2, element3);
-        console.log('Difference:', diff.toString(16));
-        console.log('Next:', (value2 + diff * 2).toString(16).toUpperCase().padStart(length, '0'));
-      }
-    }
-  }
-}
-*/
-
-/*
 const exec = require('child_process').exec;
 
 const isRunning = (query, cb) => {

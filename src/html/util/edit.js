@@ -25,13 +25,6 @@ const logPath = fileModule.getUserDataPath('log');
 // target log
 let targetLog = null;
 
-// google form
-const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg';
-const entry1 = 'entry.195796166';
-const entry2 = 'entry.1834106335';
-const entry3 = 'entry.2057890818';
-const entry4 = 'entry.654133178';
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -121,7 +114,7 @@ function setButton() {
 
   // report translation
   document.getElementById('button-report-translation').onclick = () => {
-    reportTranslation();
+    ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
   };
 
   // save custom
@@ -268,8 +261,16 @@ function showText() {
     `${targetLog.translated_text}</span>`;
 }
 
+/*
 // report translation
 function reportTranslation() {
+  // google form
+  const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg';
+  const entry1 = 'entry.195796166';
+  const entry2 = 'entry.1834106335';
+  const entry3 = 'entry.2057890818';
+  const entry4 = 'entry.654133178';
+
   try {
     const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
     const text2 =
@@ -288,6 +289,7 @@ function reportTranslation() {
     ipcRenderer.send('show-message-box', error);
   }
 }
+*/
 
 // fix log value
 function fixLogValue(value = '', valueArray = [], defaultValue = '') {

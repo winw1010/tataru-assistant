@@ -286,10 +286,8 @@ function setWindowChannel() {
     });
   });
 
-  ipcMain.on('show-message-box', (event, message = '') => {
-    dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), {
-      message,
-    });
+  ipcMain.on('show-message-box', (event, option = {}) => {
+    dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), option);
   });
 }
 

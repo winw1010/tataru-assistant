@@ -19,10 +19,10 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'Gemini', 'Cohere', 'GPT'];
+const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'Gemini', 'GPT', 'Cohere'];
 
 // AI list
-const aiList = ['GPT', 'Cohere', 'Gemini'];
+const aiList = ['Gemini', 'GPT', 'Cohere'];
 
 // language enum
 const languageEnum = {
@@ -99,6 +99,14 @@ const engineTable = {
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN',
   },
+  Gemini: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+  },
   GPT: {
     Auto: 'any languages',
     Japanese: 'Japanese',
@@ -108,14 +116,6 @@ const engineTable = {
     'Simplified-Chinese': 'Chinese',
   },
   Cohere: {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-  },
-  Gemini: {
     Auto: 'any languages',
     Japanese: 'Japanese',
     English: 'English',

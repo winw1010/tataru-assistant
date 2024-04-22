@@ -63,18 +63,11 @@ function detectUserLanguage() {
     } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
       config.translation.to = languageEnum.zhs;
       config.system.appLanguage = languageEnum.zhs;
-    } else {
+    }
+    /*
+    else {
       config.translation.to = languageEnum.en;
       config.system.appLanguage = languageEnum.en;
-    }
-
-    /*
-    if (/zh-(CN|CHS|Hans)/i.test(locale)) {
-      config.translation.to = languageEnum.zhs;
-      config.system.appLanguage = languageEnum.zhs;
-    } else {
-      config.translation.to = languageEnum.zht;
-      config.system.appLanguage = languageEnum.zht;
     }
     */
 

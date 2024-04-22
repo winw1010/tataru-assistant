@@ -16,7 +16,7 @@ const fixSourceList = ['Japanese', 'English'];
 const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
-const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
+const uiList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
 const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'GPT', 'Cohere', 'Gemini'];

@@ -136,18 +136,23 @@ function loadConfig() {
     }
 
     // fix source
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.from)) {
+    if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
       currentConfig.translation.from = defaultConfig.translation.from;
     }
 
     // fix player
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.fromPlayer)) {
+    if (!engineModule.sourceList.includes(currentConfig.translation.fromPlayer)) {
       currentConfig.translation.fromPlayer = defaultConfig.translation.fromPlayer;
     }
 
     // fix target
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.to)) {
+    if (!engineModule.targetList.includes(currentConfig.translation.to)) {
       currentConfig.translation.to = defaultConfig.translation.to;
+    }
+
+    // fix app language
+    if (!engineModule.uiList.includes(currentConfig.system.appLanguage)) {
+      currentConfig.system.appLanguage = defaultConfig.system.appLanguage;
     }
 
     // fix text detect

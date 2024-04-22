@@ -64,16 +64,23 @@ function setText(language) {
 
 // get text index
 function getTextIndex(language) {
+  let index = 0;
+
   switch (language) {
     case 'Traditional-Chinese':
-      return 0;
+      index = 0;
+      break;
 
     case 'Simplified-Chinese':
-      return 1;
+      index = 1;
+      break;
 
     default:
-      return 2;
+      //index = 2;
+      break;
   }
+
+  return index;
 }
 
 // element text list

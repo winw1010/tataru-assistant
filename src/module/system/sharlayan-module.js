@@ -195,7 +195,7 @@ module.exports = {
 };
 
 /*
-findSequence(['003D'],['004D'],['005D'])
+findSequence(['003D'], ['004D'], ['005D'])
 function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
   for (let index = 0; index < address1.length; index++) {
     const element = address1[index];

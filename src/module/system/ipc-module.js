@@ -262,7 +262,7 @@ function setWindowChannel() {
 
   // mute window
   ipcMain.on('mute-window', (event, autoPlay) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
+    event.sender.setAudioMuted(!autoPlay);
   });
 
   // send index
@@ -272,8 +272,8 @@ function setWindowChannel() {
 
   // change UI text
   ipcMain.on('change-ui-text', () => {
-    windowModule.forEachWindow((myWindow) => {
-      myWindow.webContents.send('change-ui-text');
+    windowModule.forEachWindow((appWindow) => {
+      appWindow.webContents.send('change-ui-text');
     });
   });
 
@@ -482,7 +482,7 @@ function setJsonChannel() {
 
     jsonFunction.saveUserCustom(fileName, array);
     jsonEntry.loadJSON();
-    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
+    event.sender.send('create-table');
   });
 
   // delete user custom
@@ -504,7 +504,7 @@ function setJsonChannel() {
 
     jsonFunction.editUserCustom(fileName, textBefore2);
     jsonEntry.loadJSON();
-    BrowserWindow.fromWebContents(event.sender).webContents.send('create-table');
+    event.sender.send('create-table');
   });
 }
 

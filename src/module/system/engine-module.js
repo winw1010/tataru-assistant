@@ -19,7 +19,7 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'GPT', 'Cohere', 'Gemini'];
+const engineList = ['#Normal', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#LLM', 'Gemini', 'Cohere', 'GPT'];
 
 // AI list
 const aiList = ['GPT', 'Cohere', 'Gemini'];

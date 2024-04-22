@@ -47,7 +47,11 @@ function translateData(dialogData) {
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {
-    dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
+    if (dialogData.type === 'CUTSCENE') {
+      dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
+    } else {
+      dialogData.text = dialogData.text.replace(/\r/gi, '');
+    }
   } else {
     dialogData.text = dialogData.text.replace(/\r/gi, ' ');
   }

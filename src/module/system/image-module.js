@@ -73,7 +73,8 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
 
     let imagePath = cropPath;
 
-    let imageBuffer = await sharp(screenshotPath)
+    // save crop
+    await sharp(screenshotPath)
       .resize({
         width: newSize.width,
         height: newSize.height,
@@ -84,10 +85,7 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
         width: parseInt(rectangleSize.width * newSize.scaleRate),
         height: parseInt(rectangleSize.height * newSize.scaleRate),
       })
-      .toBuffer();
-
-    // save crop
-    fileModule.write(cropPath, imageBuffer, 'image');
+      .toFile(cropPath);
 
     // set image path
     if (config.captureWindow.type === 'tesseract-ocr') {

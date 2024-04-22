@@ -22,9 +22,6 @@ const textDetectModule = require('./text-detect-module');
 // window module
 const windowModule = require('./window-module');
 
-// image path
-const imagePath = fileModule.getRootPath('src', 'data', 'img');
-
 // start recognize
 async function startRecognize(rectangleSize, displayBounds, displayIndex) {
   dialogModule.showNotification('正在擷取螢幕畫面');
@@ -142,7 +139,7 @@ async function fixImage(cropPath = '') {
     }
 
     // save processed image
-    fileModule.write(processedPath, await imageSharp.toBuffer(), 'image');
+    await imageSharp.toFile(processedPath);
     return processedPath;
   } catch (error) {
     console.log(error);
@@ -162,7 +159,7 @@ function hsp(dominant) {
 
 // get image path
 function getImagePath(fileName) {
-  return fileModule.getPath(imagePath, fileName);
+  return fileModule.getRootPath('src', 'data', 'img', fileName);
 }
 
 // module exports

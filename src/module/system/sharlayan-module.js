@@ -195,7 +195,7 @@ module.exports = {
 };
 
 /*
-findSequence(['003D'], ['004D'], ['005D'])
+findSequence(['003D'], ['004D'], ['005D']);
 function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
   for (let index = 0; index < address1.length; index++) {
     const element = address1[index];
@@ -220,6 +220,9 @@ function findSequence(address1 = [], address2 = [], address3 = [], length = 5) {
       const element2 = address2[index];
       const value2 = parseInt(element2, 16);
       const diff = value2 - value1;
+
+      if (diff === 0) continue;
+
       const element3 = (value2 + diff).toString(16).toUpperCase().padStart(length, '0');
 
       if (address3.includes(element3)) {

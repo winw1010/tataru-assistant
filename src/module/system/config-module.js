@@ -63,16 +63,18 @@ const defaultConfig = {
     fromPlayer: 'Japanese',
     to: 'Traditional-Chinese',
   },
-  system: {
-    firstTime: true,
-    appLanguage: 'Traditional-Chinese',
-    autoDownloadJson: true,
+  api: {
     geminiApiKey: '',
     cohereToken: '',
     gptApiKey: '',
     gptModel: 'please-select-gpt-model',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
+  },
+  system: {
+    firstTime: true,
+    appLanguage: 'Traditional-Chinese',
+    autoDownloadJson: true,
     sslCertificate: true,
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:

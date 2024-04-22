@@ -23,10 +23,10 @@ async function exec(option, table = []) {
 function createCohereClient() {
   const config = configModule.getConfig();
 
-  if (config.system.cohereToken === '') throw '請至【API設定】輸入API key';
+  if (config.api.cohereToken === '') throw '請至【API設定】輸入API key';
 
   const cohere = new CohereClient({
-    token: config.system.cohereToken,
+    token: config.api.cohereToken,
   });
   return cohere;
 }

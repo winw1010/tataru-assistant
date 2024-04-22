@@ -42,9 +42,9 @@ async function exec(option, table = []) {
 function createOpenai() {
   const config = configModule.getConfig();
 
-  if (config.system.geminiApiKey === '') throw '請至【API設定】輸入API key';
+  if (config.api.geminiApiKey === '') throw '請至【API設定】輸入API key';
 
-  const genAI = new GoogleGenerativeAI(config.system.geminiApiKey);
+  const genAI = new GoogleGenerativeAI(config.api.geminiApiKey);
   return genAI;
 }
 

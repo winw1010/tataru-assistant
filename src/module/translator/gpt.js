@@ -26,15 +26,15 @@ async function exec(option, table = []) {
 function createOpenai(apiKey = null) {
   const config = configModule.getConfig();
 
-  if (config.system.gptApiKey === '') throw '請至【API設定】輸入API key';
+  if (config.api.gptApiKey === '') throw '請至【API設定】輸入API key';
 
-  const openai = !config.system.UnofficialApi
+  const openai = !config.api.UnofficialApi
     ? new OpenAI({
-        apiKey: apiKey ? apiKey : config.system.gptApiKey,
+        apiKey: apiKey ? apiKey : config.api.gptApiKey,
       })
     : new OpenAI({
-        apiKey: apiKey ? apiKey : config.system.gptApiKey,
-        baseURL: config.system.unofficialApiUrl,
+        apiKey: apiKey ? apiKey : config.api.gptApiKey,
+        baseURL: config.api.unofficialApiUrl,
       });
   return openai;
 }
@@ -49,7 +49,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
   try {
     response = await currentOpenAI.chat.completions.create({
-      model: config.system.gptModel,
+      model: config.api.gptModel,
       messages: [
         {
           role: 'system',

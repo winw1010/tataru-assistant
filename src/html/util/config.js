@@ -575,29 +575,29 @@ function getOptionList() {
     // api
     [
       ['input-gemini-api-key', 'value'],
-      ['system', 'geminiApiKey'],
+      ['api', 'geminiApiKey'],
     ],
     [
       ['input-cohere-token', 'value'],
-      ['system', 'cohereToken'],
+      ['api', 'cohereToken'],
     ],
     [
       ['input-gpt-api-key', 'value'],
-      ['system', 'gptApiKey'],
+      ['api', 'gptApiKey'],
     ],
     [
       ['select-gpt-model', 'value'],
-      ['system', 'gptModel'],
+      ['api', 'gptModel'],
     ],
 
     // unofficial api
     [
       ['checkbox-unofficial-api', 'checked'],
-      ['system', 'UnofficialApi'],
+      ['api', 'UnofficialApi'],
     ],
     [
       ['input-unofficial-api-url', 'value'],
-      ['system', 'unofficialApiUrl'],
+      ['api', 'unofficialApiUrl'],
     ],
 
     // system

@@ -1,7 +1,7 @@
 'use strict';
 
 // tesseract
-const { createWorker } = require('tesseract.js');
+const { createWorker, PSM } = require('tesseract.js');
 
 // google vision
 const vision = require('@google-cloud/vision');
@@ -26,6 +26,19 @@ const { addTask } = require('../fix/fix-entry');
 
 // image path
 const imagePath = fileModule.getRootPath('src', 'data', 'img');
+
+// start reconizing
+function startReconizing(imagePath) {
+  const config = configModule.getConfig();
+
+  if (config.captureWindow.type === 'google-vision') {
+    // google vision
+    googleVision(imagePath);
+  } else {
+    // tesseract ocr
+    tesseractOCR(imagePath);
+  }
+}
 
 // google vision
 async function googleVision(imagePath) {
@@ -54,14 +67,18 @@ async function googleVision(imagePath) {
 }
 
 // tesseract ocr
-async function tesseractOCR(imageBuffer) {
+async function tesseractOCR(imagePath = '') {
   try {
     const config = configModule.getConfig();
 
     // set worker
     let worker = null;
     if (config.translation.from === engineModule.languageEnum.ja) {
-      worker = await createWorker('jpn');
+      worker = await createWorker(['jpn', 'jpn_vert']);
+      worker.setParameters({
+        tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
+        preserve_interword_spaces: '1',
+      });
     } /*else if (config.translation.from === engineModule.languageEnum.en)*/ else {
       worker = await createWorker('eng');
     }
@@ -69,7 +86,7 @@ async function tesseractOCR(imageBuffer) {
     // recognize text
     const {
       data: { text },
-    } = await worker.recognize(imageBuffer, { rotateAuto: false });
+    } = await worker.recognize(imagePath);
 
     // fix or show error
     if (text.trim().length > 0) {
@@ -125,7 +142,8 @@ function fixImageText(text) {
       .replaceAll('ガンプレイカー', 'ガンブレイカー')
       .replaceAll('ガンプブレイカー', 'ガンブレイカー')
       .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
-      .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士');
+      .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士')
+      .replaceAll(/倫成/gi, '賛成');
   }
 
   // show notification
@@ -187,7 +205,6 @@ function deleteImages() {
 }
 
 module.exports = {
-  googleVision,
-  tesseractOCR,
+  startReconizing,
   translateImageText,
 };

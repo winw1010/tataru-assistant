@@ -71,6 +71,8 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
     const config = configModule.getConfig();
     const newSize = getNewSize(displayBounds);
 
+    let imagePath = cropPath;
+
     let imageBuffer = await sharp(screenshotPath)
       .resize({
         width: newSize.width,
@@ -87,15 +89,14 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
     // save crop
     fileModule.write(cropPath, imageBuffer, 'image');
 
-    // start reconize
-    dialogModule.showNotification('正在辨識圖片文字');
-    if (config.captureWindow.type === 'google-vision') {
-      // google vision
-      textDetectModule.googleVision(cropPath);
-    } else {
-      // tesseract ocr
-      textDetectModule.tesseractOCR(await fixImage(imageBuffer));
+    // set image path
+    if (config.captureWindow.type === 'tesseract-ocr') {
+      imagePath = await fixImage(cropPath);
     }
+
+    // start reconizing
+    dialogModule.showNotification('正在辨識圖片文字');
+    textDetectModule.startReconizing(imagePath);
   } catch (error) {
     console.log(error);
     dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
@@ -121,13 +122,15 @@ function getNewSize(displayBounds) {
 }
 
 // fix image
-async function fixImage(imageBuffer = Buffer.from('')) {
+async function fixImage(cropPath = '') {
   // adaptive thresholding?
   // Otsu thresholding?
 
+  const processedPath = getImagePath('processed.png');
+
   try {
     // greyscale
-    let imageSharp = sharp(imageBuffer).greyscale();
+    let imageSharp = sharp(cropPath).greyscale();
 
     // get dominant
     const { dominant } = await imageSharp.stats();
@@ -140,12 +143,13 @@ async function fixImage(imageBuffer = Buffer.from('')) {
       imageSharp = imageSharp.negate({ alpha: false });
     }
 
-    // to buffer
-    return await imageSharp.toBuffer();
+    // save processed image
+    fileModule.write(processedPath, await imageSharp.toBuffer(), 'image');
+    return processedPath;
   } catch (error) {
     console.log(error);
     dialogModule.showNotification('圖片處理發生錯誤: ' + error);
-    return imageBuffer;
+    return cropPath;
   }
 }
 

@@ -70,7 +70,7 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
 
     let imagePath = cropPath;
 
-    // save crop
+    // crop image
     await sharp(screenshotPath)
       .resize({
         width: newSize.width,
@@ -82,6 +82,7 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
         width: parseInt(rectangleSize.width * newSize.scaleRate),
         height: parseInt(rectangleSize.height * newSize.scaleRate),
       })
+      .greyscale()
       .toFile(cropPath);
 
     // set image path
@@ -124,8 +125,8 @@ async function fixImage(cropPath = '') {
   const processedPath = getImagePath('processed.png');
 
   try {
-    // greyscale
-    let imageSharp = sharp(cropPath).greyscale();
+    // read image
+    const imageSharp = sharp(cropPath);
 
     // get dominant
     const { dominant } = await imageSharp.stats();
@@ -135,7 +136,7 @@ async function fixImage(cropPath = '') {
       console.log('light background');
     } else {
       console.log('dark background');
-      imageSharp = imageSharp.negate({ alpha: false });
+      imageSharp.negate({ alpha: false });
     }
 
     // save processed image

@@ -149,6 +149,61 @@ async function fixImage(cropPath = '') {
   }
 }
 
+/*
+async function fixImage2(cropPath = '') {
+  // adaptive thresholding?
+  // Otsu thresholding?
+
+  const maskPath = getImagePath('mask.png');
+  const combinedPath = getImagePath('combined.png');
+  const processedPath = getImagePath('processed.png');
+  let isDark = false;
+
+  try {
+    // read image
+    const imageMask = sharp(cropPath).threshold(128, { greyscale: false });
+
+    // get dominant
+    const { dominant } = await imageMask.stats();
+
+    // negate image if background is dark
+    // hsp(dominant) >= 16256.25
+    if (dominant.r >= 128) {
+      console.log('light background');
+    } else {
+      console.log('dark background');
+      isDark = true;
+    }
+
+    imageMask.unflatten();
+    await imageMask.toFile(maskPath);
+
+    // save combined image
+    await sharp(cropPath)
+      .composite([
+        {
+          input: maskPath,
+        },
+      ])
+      .toFile(combinedPath);
+
+    // save processed image
+    const imageProcessed = sharp(combinedPath);
+
+    if (isDark) {
+      imageProcessed.negate({ alpha: false });
+    }
+
+    await imageProcessed.toFile(processedPath);
+    return processedPath;
+  } catch (error) {
+    console.log(error);
+    dialogModule.showNotification('圖片處理發生錯誤: ' + error);
+    return cropPath;
+  }
+}
+*/
+
 // hsp
 function hsp(dominant) {
   const red = dominant.r;

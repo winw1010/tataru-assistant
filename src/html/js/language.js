@@ -217,9 +217,9 @@ function getElementTextList() {
         Caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
         Papago: ['Papago', 'Papago', 'Papago'],
         DeepL: ['DeepL', 'DeepL', 'DeepL'],
-        GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
-        Cohere: ['Cohere', 'Cohere', 'Cohere'],
-        Gemini: ['Gemini', 'Gemini', 'Gemini'],
+        GPT: ['ChatGPT *', 'ChatGPT *', 'ChatGPT *'],
+        Cohere: ['Cohere *', 'Cohere *', 'Cohere *'],
+        Gemini: ['Gemini *', 'Gemini *', 'Gemini *'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
@@ -230,7 +230,7 @@ function getElementTextList() {
 
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
-        'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
+        'google-vision': ['Google Vision *', 'Google Vision *', 'Google Vision *'],
 
         // edit
         '#player-name': ['#玩家', '#玩家', '#Player'],
@@ -314,6 +314,7 @@ function getElementTextList() {
     placeholder: {
       input: {
         // config
+        'input-gemini-api-key': ['請輸入API key', '请输入API金钥', 'API key'],
         'input-cohere-token': ['請輸入API key', '请输入API金钥', 'API key'],
         'input-gpt-api-key': ['請輸入API key', '请输入API金钥', 'API key'],
 

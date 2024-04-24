@@ -337,8 +337,8 @@ function setCaptureChannel() {
     // fix y
     rectangleSize.y = rectangleSize.y - display.bounds.y;
 
-    // start recognize
-    imageModule.startRecognize(rectangleSize, display.bounds, displayIndex);
+    // take screenshot
+    imageModule.takeScreenshot(rectangleSize, display.bounds, displayIndex);
   });
 
   // get position

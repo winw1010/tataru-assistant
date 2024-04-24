@@ -20,7 +20,7 @@ const textDetectModule = require('./text-detect-module');
 const windowModule = require('./window-module');
 
 // start recognize
-async function startRecognize(rectangleSize, displayBounds, displayIndex) {
+async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
   dialogModule.showNotification('正在擷取螢幕畫面');
   console.log('rectangle size:', rectangleSize);
 
@@ -249,7 +249,7 @@ function getImagePath(fileName) {
 
 // module exports
 module.exports = {
-  startRecognize,
+  takeScreenshot,
 };
 
 /*

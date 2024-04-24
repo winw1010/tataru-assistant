@@ -4,9 +4,6 @@
 const sharp = require('sharp');
 sharp.cache(false);
 
-// config module
-const configModule = require('./config-module');
-
 // dialog module
 const dialogModule = require('./dialog-module');
 
@@ -64,11 +61,8 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex) {
 // crop image
 async function cropImage(rectangleSize, displayBounds, screenshotPath) {
   try {
-    const cropPath = getImagePath('crop.png');
-    const config = configModule.getConfig();
+    const croppedPath = getImagePath('cropped.png');
     const newSize = getNewSize(displayBounds);
-
-    let imagePath = cropPath;
 
     // crop image
     await sharp(screenshotPath)
@@ -83,16 +77,18 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
         height: parseInt(rectangleSize.height * newSize.scaleRate),
       })
       .greyscale()
-      .toFile(cropPath);
+      .toFile(croppedPath);
 
+    /*
     // set image path
     if (config.captureWindow.type === 'tesseract-ocr') {
-      imagePath = await fixImage(cropPath);
+      imagePath = await otsuFix(croppedPath);
     }
+    */
 
     // start reconizing
     dialogModule.showNotification('正在辨識圖片文字');
-    textDetectModule.startReconizing(imagePath);
+    textDetectModule.startReconizing(croppedPath);
   } catch (error) {
     console.log(error);
     dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
@@ -117,6 +113,7 @@ function getNewSize(displayBounds) {
   }
 }
 
+/*
 // fix image
 async function fixImage(cropPath = '') {
   // adaptive thresholding?
@@ -148,62 +145,79 @@ async function fixImage(cropPath = '') {
     return cropPath;
   }
 }
+*/
 
 /*
-async function fixImage2(cropPath = '') {
+async function otsuFix(croppedPath = '') {
   // adaptive thresholding?
   // Otsu thresholding?
 
   const maskPath = getImagePath('mask.png');
   const combinedPath = getImagePath('combined.png');
+  const textPath = getImagePath('text.png');
   const processedPath = getImagePath('processed.png');
+
+  const metaData = await sharp(croppedPath).metadata();
   let isDark = false;
 
   try {
-    // read image
-    const imageMask = sharp(cropPath).threshold(128, { greyscale: false });
+    // read cropped image
+    const maskImage = sharp(croppedPath).threshold(await getOstuValue(croppedPath), { greyscale: false });
 
     // get dominant
-    const { dominant } = await imageMask.stats();
+    const { dominant } = await maskImage.stats();
 
     // negate image if background is dark
-    // hsp(dominant) >= 16256.25
+    // hsp(dominant) >= 16256.25 : light background
     if (dominant.r >= 128) {
       console.log('light background');
     } else {
       console.log('dark background');
+      maskImage.negate({ alpha: false });
       isDark = true;
     }
 
-    imageMask.unflatten();
-    await imageMask.toFile(maskPath);
+    // save mask image
+    await maskImage.unflatten().toFile(maskPath);
 
     // save combined image
-    await sharp(cropPath)
+    await sharp(maskPath)
       .composite([
         {
-          input: maskPath,
+          input: croppedPath,
+          blend: 'in',
         },
       ])
       .toFile(combinedPath);
 
-    // save processed image
-    const imageProcessed = sharp(combinedPath);
-
+    // save text image
+    const textImage = sharp(combinedPath);
     if (isDark) {
-      imageProcessed.negate({ alpha: false });
+      textImage.negate({ alpha: false });
     }
+    await textImage.toFile(textPath);
 
-    await imageProcessed.toFile(processedPath);
+    // save processed image
+    await sharp({
+      create: {
+        width: metaData.width,
+        height: metaData.height,
+        channels: 4,
+        background: { r: 255, g: 255, b: 255, alpha: 255 },
+      },
+    })
+      .composite([{ input: textPath }])
+      .toFile(processedPath);
     return processedPath;
   } catch (error) {
     console.log(error);
     dialogModule.showNotification('圖片處理發生錯誤: ' + error);
-    return cropPath;
+    return croppedPath;
   }
 }
 */
 
+/*
 // hsp
 function hsp(dominant) {
   const red = dominant.r;
@@ -212,6 +226,21 @@ function hsp(dominant) {
 
   return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
+*/
+
+/*
+// otsu
+async function getOstuValue(croppedPath = '') {
+  const cropImageRawBuffer = await sharp(croppedPath).raw().toBuffer();
+  const intensity = [];
+
+  for (let index = 0; index < cropImageRawBuffer.length; index += 4) {
+    intensity.push(cropImageRawBuffer[index]);
+  }
+
+  return Math.min(255, otsu(intensity) + 1);
+}
+*/
 
 // get image path
 function getImagePath(fileName) {

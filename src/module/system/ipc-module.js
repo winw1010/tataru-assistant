@@ -503,6 +503,7 @@ function setJsonChannel() {
     }
 
     jsonFunction.editUserCustom(fileName, textBefore2);
+    jsonFunction.editUserCustom('temp-name.json', textBefore2);
     jsonEntry.loadJSON();
     event.sender.send('create-table');
   });

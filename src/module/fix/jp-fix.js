@@ -259,8 +259,8 @@ async function fixText(dialogData = {}) {
   // text2 = fixFunction.markFix(text2);
 
   // value fix before
-  const valueResult = fixFunction.valueFixBefore(text2);
-  text2 = valueResult.text;
+  // const valueResult = fixFunction.valueFixBefore(text2);
+  // text2 = valueResult.text;
 
   // skip check
   if (jpFunction.needTranslation(text2, codeResult.table)) {
@@ -269,7 +269,7 @@ async function fixText(dialogData = {}) {
   }
 
   // value fix after
-  translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
+  // translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
 
   // mark fix
   // translatedText = fixFunction.markFix(translatedText, true);

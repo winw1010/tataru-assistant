@@ -185,7 +185,7 @@ function getElementTextList() {
 
         // capture edit
         'input-capture-text': ['文字', '文字', 'Txt'],
-        'input-capture-image': ['图片', '图片', 'Img'],
+        'input-capture-image': ['圖片', '图片', 'Img'],
 
         // edit
         'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace'],

@@ -21,15 +21,15 @@ function directoryCheck() {
   const documentPath = getUserPath('Documents');
 
   if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, 'Tataru Helper Node'))) {
-    copyOldData();
+    copyData();
   }
 
   const subPath = [
     '',
     appName,
+    appName + '\\' + 'config',
     appName + '\\' + 'image',
     appName + '\\' + 'log',
-    appName + '\\' + 'setting',
     appName + '\\' + 'text',
   ];
 
@@ -46,12 +46,14 @@ function directoryCheck() {
   });
 }
 
-// copy old data
-function copyOldData() {
+// copy data
+function copyData() {
   try {
     const oldPath = getUserPath('Documents', oldName);
     const newPath = getUserPath('Documents', appName);
+
     const renameList = [
+      [getPath(newPath, 'setting'), getPath(newPath, 'config')],
       [getPath(newPath, 'temp'), getPath(newPath, 'text')],
       [getPath(newPath, 'text', 'jpTemp.json'), getPath(newPath, 'text', 'custom-source.json')],
       [getPath(newPath, 'text', 'chTemp.json'), getPath(newPath, 'text', 'custom-target.json')],
@@ -59,6 +61,9 @@ function copyOldData() {
       [getPath(newPath, 'text', 'player.json'), getPath(newPath, 'text', 'player-name.json')],
     ];
     const tempList = [];
+
+    const configPath = getPath(newPath, 'config', 'config.json');
+    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'gptModel', 'UnofficialApi', 'unofficialApiUrl'];
 
     // copy files
     fs.cpSync(oldPath, newPath, { recursive: true });
@@ -74,7 +79,7 @@ function copyOldData() {
       }
     }
 
-    // delete temp from custom-target.json
+    // delete temp element from custom-target.json
     const customTarget = read(getPath(newPath, 'text', 'custom-target.json'), 'json') || [];
     for (let index = customTarget.length - 1; index >= 0; index--) {
       const element = customTarget[index];
@@ -83,12 +88,25 @@ function copyOldData() {
         const tempElement = customTarget.splice(index, 1);
         tempList.push(tempElement[0]);
       }
-
-      // write files
-      write(getPath(newPath, 'text', 'custom-target.json'), customTarget, 'json');
-      write(getPath(newPath, 'text', 'temp-name.json'), [], 'json');
-      write(getPath(newPath, 'text', 'old-temp.json'), tempList, 'json');
     }
+
+    // write text files
+    write(getPath(newPath, 'text', 'custom-target.json'), customTarget, 'json');
+    write(getPath(newPath, 'text', 'temp-name.json'), [], 'json');
+    write(getPath(newPath, 'text', 'deprecated-temp-name.json'), tempList, 'json');
+
+    // fix config
+    const config = read(configPath, 'json');
+    config.api = {};
+    for (let index = 0; index < configList.length; index++) {
+      const name = configList[index];
+      const value = config?.system?.[name];
+
+      if (value) {
+        config.api[name] = value;
+      }
+    }
+    write(configPath, config, 'json');
   } catch (error) {
     console.log(error);
   }

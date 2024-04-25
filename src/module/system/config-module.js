@@ -7,7 +7,7 @@ const fileModule = require('./file-module');
 const engineModule = require('./engine-module');
 
 // config location
-const configLocation = fileModule.getUserDataPath('setting', 'config.json');
+const configLocation = fileModule.getUserDataPath('config', 'config.json');
 
 // default config
 const defaultConfig = {

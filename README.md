@@ -1,58 +1,22 @@
-# Tataru Helper Node V2 Source Code
+# Tataru Assistant
 
-## Tataru Helper Node 原始碼專案建置步驟
+- [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
 
-- 可使用[Visual Studio Code](https://code.visualstudio.com/)編輯程式碼
-- 使用專案前必須先安裝[Git](https://git-scm.com)和[Node.js(長期維護版)](https://nodejs.org/zh-tw/)
+- [下載 Tataru Assistant](https://drive.google.com/drive/folders/14zjoUNzZTKgn2mCiAx6YJ14-fsd8M_I_?usp=drive_link)
 
-```bash
-# 啟動命令提示字元(cmd)
-於左下搜尋欄位輸入cmd開啟
+## 安裝步驟
 
-# 複製專案
-git clone https://github.com/winw1010/tataru-helper-node-v2
+1. 從上方連結下載**Tataru Helper Node Setup.exe**
 
-# 進入專案資料夾
-cd tataru-helper-node-v2
+2. 執行**Tataru Helper Node Setup.exe**開始安裝，若跳出「Windows 已保護您的電腦」的訊息，請點選「其他資訊」，再點選下方的「仍要執行」
 
-# 安裝套件
-npm install
+3. 啟動後若顯示「這個作業系統不支援 .NET Framework 4.7.2」的訊息，請從上方連結下載**ndp472-kb4054531-web.exe**安裝 Microsoft .NET Framework 4.7.2
 
-# 啟動APP
-npm start
-```
+4. 點選視窗上的齒輪圖示開啟 Tataru Helper Node 的設定視窗，切換到「翻譯設定」設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
 
-## Tataru Helper Node 安裝檔建立步驟
+5. 若安裝後無法自動翻譯，請從上方連結下載**fix.bat**，對其右鍵使用管理員身分執行，執行後按下任意鍵開始修復，修復完畢重新開機即可
 
-- 安裝檔會建立在 build 資料夾裡
-- 安裝檔的設定位於 package.json 裡的 build 物件中，打包工具為 electron-builder
+## 什麼是 Tataru Assistant?
 
-```bash
-# 啟動命令提示字元(cmd)
-於左下搜尋欄位輸入cmd開啟
-
-# 進入專案資料夾
-cd (你的專案位置)
-
-# 建立安裝檔
-npm run dist
-```
-
-## License
-
-[MIT](https://github.com/winw1010/tataru-helper-node-v2/blob/main/LICENSE)
-
-## Credits
-
-- [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
-- [Electron](https://www.electronjs.org/)
-- [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
-- [axios](https://github.com/axios/axios)
-- [crypto-js](https://github.com/brix/crypto-js)
-- [sharp](https://github.com/lovell/sharp)
-- [temp](https://github.com/bruce/node-temp)
-- [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
-
-## Support
-
-[<img src="https://github.com/winw1010/tataru-helper-node-v2/blob/main/src/html/img/bmc/bmc-button.png" alt="Buy me a coffee" width="200"/>](https://www.buymeacoffee.com/winw1010)
+**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式
+可即時翻譯對話文本和過場字幕，且翻譯會根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)做校正，例如**タタル**在翻譯後會校正為**塔塔露**，如下圖

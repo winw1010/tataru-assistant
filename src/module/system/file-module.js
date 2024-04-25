@@ -20,7 +20,7 @@ const oldName = 'Tataru Helper Node';
 function directoryCheck() {
   const documentPath = getUserPath('Documents');
 
-  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, 'Tataru Helper Node'))) {
+  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, oldName))) {
     copyData();
   }
 

@@ -18,8 +18,8 @@
 
 ## 什麼是 Tataru Assistant?
 
-**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式
-可即時翻譯對話文本和過場字幕，且翻譯會根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)做校正，例如**タタル**在翻譯後會校正為**塔塔露**，如下圖
+**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式，
+可即時翻譯對話文字和過場字幕，且翻譯會根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)做校正，例如**タタル**在翻譯後會校正為**塔塔露**，如下圖
 
 ## Tataru Assistant 的主要功能
 

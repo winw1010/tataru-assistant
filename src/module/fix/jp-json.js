@@ -34,13 +34,6 @@ function load(targetLanguage) {
     srcIndex,
     rplIndex - 1
   );
-  chArray.sound = jsonFunction.readText(
-    jsonFunction.getTextPath('ch', 'sound.json'),
-    true,
-    true,
-    srcIndex,
-    rplIndex - 1
-  );
 
   // jp
   jpArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleJP());
@@ -57,6 +50,9 @@ function load(targetLanguage) {
 
   // main
   chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
+
+  // non AI
+  chArray.nonAI = jsonFunction.readNonAI(srcIndex, rplIndex);
 
   // overwrite
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);

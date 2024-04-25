@@ -9,6 +9,7 @@ const pathList = {
   en: 'src/data/text/en',
   jp: 'src/data/text/jp',
   main: 'src/data/text/main',
+  nonAI: 'src/data/text/non-ai',
 };
 
 // get text path
@@ -90,6 +91,11 @@ function readSubtitleJP() {
 // read main
 function readMain(srcIndex = 0, rplIndex = 1) {
   return readMultiFolder(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+}
+
+// read non AI
+function readNonAI(srcIndex = 0, rplIndex = 1) {
+  return readMultiText(fileModule.getRootPath(pathList.nonAI), srcIndex, rplIndex);
 }
 
 // read multi text
@@ -347,6 +353,7 @@ module.exports = {
   readSubtitleEN,
   readSubtitleJP,
   readMain,
+  readNonAI,
   readUserArray,
   readUserText,
   writeUserText,

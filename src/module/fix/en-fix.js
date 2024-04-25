@@ -195,7 +195,7 @@ async function fixText(dialogData = {}) {
   text2 = specialFix(name, text2);
 
   // combine
-  const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
+  const codeResult = enFunction.replaceTextByCode(text2, [].concat(chArray.combine, chArray.nonAI));
   text2 = codeResult.text;
 
   // en2
@@ -205,8 +205,8 @@ async function fixText(dialogData = {}) {
   // text2 = fixFunction.markFix(text2);
 
   // value fix before
-  const valueResult = fixFunction.valueFixBefore(text2);
-  text2 = valueResult.text;
+  // const valueResult = fixFunction.valueFixBefore(text2);
+  // text2 = valueResult.text;
 
   // skip check
   if (enFunction.needTranslation(text2, codeResult.table)) {
@@ -215,7 +215,7 @@ async function fixText(dialogData = {}) {
   }
 
   // value fix after
-  translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
+  // translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
 
   // mark fix
   // translatedText = fixFunction.markFix(translatedText, true);

@@ -38,6 +38,9 @@ function load(targetLanguage) {
   // main
   chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
 
+  // non AI
+  chArray.nonAI = jsonFunction.readNonAI(srcIndex, rplIndex);
+
   // overwrite
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 

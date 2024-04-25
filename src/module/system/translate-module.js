@@ -9,7 +9,7 @@ const youdao = require('../translator/youdao');
 const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
-const google = require('../translator/google');
+//const google = require('../translator/google');
 const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
@@ -152,9 +152,11 @@ async function getTranslation(engine = '', option = {}, table = []) {
         result = await gemini.exec(option, table);
         break;
 
+      /*
       case 'Google':
         result = await google.exec(option);
         break;
+      */
 
       default:
         break;

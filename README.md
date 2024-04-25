@@ -8,7 +8,7 @@
 
 1. 從上方連結下載**Tataru Helper Node Setup.exe**
 
-2. 執行**Tataru Helper Node Setup.exe**開始安裝，若跳出「Windows 已保護您的電腦」的訊息，請點選「其他資訊」，再點選下方的「仍要執行」
+2. 執行**Tataru Helper Node Setup.exe**開始安裝，若顯示「Windows 已保護您的電腦」的訊息，請點選「其他資訊」，再點選下方的「仍要執行」
 
 3. 啟動後若顯示「這個作業系統不支援 .NET Framework 4.7.2」的訊息，請從上方連結下載**ndp472-kb4054531-web.exe**安裝 Microsoft .NET Framework 4.7.2
 
@@ -20,3 +20,22 @@
 
 **Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式
 可即時翻譯對話文本和過場字幕，且翻譯會根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)做校正，例如**タタル**在翻譯後會校正為**塔塔露**，如下圖
+
+## Tataru Assistant 的主要功能
+
+## Tataru Assistant 的翻譯方式
+
+## Credits
+
+- [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
+- [Electron](https://www.electronjs.org/)
+- [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
+- [axios](https://github.com/axios/axios)
+- [crypto-js](https://github.com/brix/crypto-js)
+- [sharp](https://github.com/lovell/sharp)
+- [temp](https://github.com/bruce/node-temp)
+- [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
+
+## Support
+
+[<img src="https://github.com/winw1010/tataru-helper-node-v2/blob/main/src/html/img/bmc/bmc-button.png" alt="Buy me a coffee" width="200"/>](https://www.buymeacoffee.com/winw1010)

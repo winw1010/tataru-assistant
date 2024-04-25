@@ -18,11 +18,45 @@
 
 ## 什麼是 Tataru Assistant?
 
-**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式，可即時翻譯對話文字和過場字幕，且會根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)校正翻譯結果，例如**タタル**在翻譯後會校正為**塔塔露**，如下圖
+**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式，主要功能如下
 
-## Tataru Assistant 的主要功能
+- 即時翻譯對話文字
+
+- 即時翻譯過場字幕
+
+- 翻譯對話選項(使用螢幕擷取翻譯功能)
+
+- 根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**在修正為**塔塔露**
+
+- 自訂翻譯
+
+- 查詢翻譯
 
 ## Tataru Assistant 的翻譯方式
+
+**非 LLM**
+
+翻譯能力一般，但基本上可無限制使用
+
+- 有道翻譯
+
+- 百度翻譯
+
+- 彩雲小譯
+
+- Papago Naver
+
+- DeepL
+
+**LLM**
+
+翻譯能力較佳，可正確翻譯較艱深的句子，需申請 API key 才能使用
+
+- Gemini (有免費方案，免費的可用 Token 和請求量非常充裕，無課首選)
+
+- ChatGPT (只有流量計費方案，想使用最新的模型需月費)
+
+- Cohere (也有免費方案，但限制較大)
 
 ## Credits
 

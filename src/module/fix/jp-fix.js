@@ -241,7 +241,11 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, [].concat(chArray.combine, chArray.nonAI), textType);
+  const codeResult = jpFunction.replaceTextByCode(
+    text2,
+    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
+    textType
+  );
   text2 = codeResult.text;
 
   // jp2

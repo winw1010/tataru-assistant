@@ -37,22 +37,3 @@ cd (你的專案位置)
 # 建立安裝檔
 npm run dist
 ```
-
-## License
-
-[MIT](https://github.com/winw1010/tataru-helper-node-v2/blob/main/LICENSE)
-
-## Credits
-
-- [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
-- [Electron](https://www.electronjs.org/)
-- [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
-- [axios](https://github.com/axios/axios)
-- [crypto-js](https://github.com/brix/crypto-js)
-- [sharp](https://github.com/lovell/sharp)
-- [temp](https://github.com/bruce/node-temp)
-- [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
-
-## Support
-
-[<img src="https://github.com/winw1010/tataru-helper-node-v2/blob/main/src/html/img/bmc/bmc-button.png" alt="Buy me a coffee" width="200"/>](https://www.buymeacoffee.com/winw1010)

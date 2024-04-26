@@ -1,5 +1,14 @@
 'use strict';
 
+/*
+UPDATE NOTE
+use axios
+fix isch
+error log
+gemini vision
+change icon
+*/
+
 // electron
 const { app, BrowserWindow } = require('electron');
 app.commandLine.appendSwitch('disable-http-cache');

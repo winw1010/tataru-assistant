@@ -284,10 +284,10 @@ function reportTranslation() {
       `&${entry4}=${text2}`;
 
     ipcRenderer.send('post-form', encodeURI(path));
-    ipcRenderer.send('show-message-box', '回報完成');
+    ipcRenderer.send('show-info', '回報完成');
   } catch (error) {
     console.log(error);
-    ipcRenderer.send('show-message-box', error);
+    ipcRenderer.send('show-info', '' + error);
   }
 }
 */

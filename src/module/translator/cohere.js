@@ -22,9 +22,6 @@ async function exec(option, table = []) {
 
 function createCohereClient() {
   const config = configModule.getConfig();
-
-  if (config.api.cohereToken === '') throw '請至【API設定】輸入API key';
-
   const cohere = new CohereClient({
     token: config.api.cohereToken,
   });

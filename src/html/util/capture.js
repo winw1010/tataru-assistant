@@ -61,7 +61,7 @@ function setEvent() {
     let config = ipcRenderer.sendSync('get-config');
     config.captureWindow.type = document.getElementById('select-type').value;
     ipcRenderer.send('set-config', config);
-
+    ipcRenderer.send('check-api', document.getElementById('select-type').value);
     showScreenshotButton(config);
   };
 

@@ -1,5 +1,8 @@
 'use strict';
 
+// dialog
+const { BrowserWindow, dialog } = require('electron');
+
 // chat code module
 const chatCodeModule = require('./chat-code-module');
 
@@ -83,6 +86,17 @@ function showNotification(text) {
   setTimeout(() => {
     removeDialog(id);
   }, 7000 /*5000 + Math.min(text.length * 20, 5000)*/);
+}
+
+// show info
+function showInfo(webContents = null, message = '') {
+  if (!webContents) return;
+
+  dialog.showMessageBox(BrowserWindow.fromWebContents(webContents), {
+    type: 'info',
+    title: 'Tataru Assistant',
+    message: message,
+  });
 }
 
 // show dialog
@@ -179,6 +193,7 @@ module.exports = {
   updateDialog,
   removeDialog,
   showNotification,
+  showInfo,
   showDialog,
   getStyle,
   createLogName,

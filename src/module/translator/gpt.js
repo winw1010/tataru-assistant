@@ -25,9 +25,6 @@ async function exec(option, table = []) {
 
 function createOpenai(apiKey = null) {
   const config = configModule.getConfig();
-
-  if (config.api.gptApiKey === '') throw '請至【API設定】輸入API key';
-
   const openai = !config.api.UnofficialApi
     ? new OpenAI({
         apiKey: apiKey ? apiKey : config.api.gptApiKey,

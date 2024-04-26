@@ -69,6 +69,11 @@ function setEvent() {
   // dialog transparency
   setOnInputEvent('input-dialog-transparency', 'span-dialog-transparency');
 
+  // select-engine
+  document.getElementById('select-engine').addEventListener('change', () => {
+    ipcRenderer.send('check-api', document.getElementById('select-engine').value);
+  });
+
   // input-gpt-api-key
   document.getElementById('input-gpt-api-key').onchange = () => {
     readGptModelList();

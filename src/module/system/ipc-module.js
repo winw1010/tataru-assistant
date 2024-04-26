@@ -156,13 +156,10 @@ function setSystemChannel() {
       if (error && error.code === 740) {
         message = '修復失敗，請以系統管理員身分啟動本程式';
       } else {
-        message = '修復完畢，請重新啟動電腦以套用設定';
+        message = '修復完畢，請重新啟動電腦套用設定';
       }
 
-      dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), {
-        type: 'info',
-        message: message,
-      });
+      dialogModule.showInfo(event.sender, message);
     });
   });
 }
@@ -302,8 +299,8 @@ function setWindowChannel() {
     });
   });
 
-  ipcMain.on('show-message-box', (event, option = {}) => {
-    dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), option);
+  ipcMain.on('show-info', (event, message = '') => {
+    dialogModule.showInfo(event.sender, message);
   });
 }
 
@@ -382,7 +379,10 @@ function setCaptureChannel() {
   // set google credential
   ipcMain.on('set-google-credential', () => {
     dialog
-      .showOpenDialog({ filters: [{ name: 'JSON', extensions: ['json'] }] })
+      .showOpenDialog({
+        defaultPath: fileModule.getUserPath('Downloads'),
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+      })
       .then((value) => {
         if (!value.canceled && value.filePaths.length > 0 && value.filePaths[0].length > 0) {
           let data = fileModule.read(value.filePaths[0], 'json');
@@ -570,6 +570,31 @@ function setTranslateChannel() {
   // google tts
   ipcMain.on('google-tts', (event, text, from) => {
     event.returnValue = googleTTS.getAudioUrl(text, from);
+  });
+
+  // check API
+  ipcMain.on('check-api', (event, engine) => {
+    if ([].concat(engineModule.aiList, ['google-vision']).includes(engine)) {
+      const config = configModule.getConfig();
+      let message = '';
+
+      if (engine === 'Gemini') {
+        if (config.api.geminiApiKey === '') message = '請至【API設定】輸入API key';
+      } else if (engine === 'GPT') {
+        if (config.api.gptApiKey === '' || config.api.gptModel === '') message = '請至【API設定】輸入API key和模型';
+      } else if (engine === 'Cohere') {
+        if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
+      } else if (engine === 'google-vision') {
+        const keyPath = fileModule.getUserDataPath('setting', 'google-credential.json');
+        if (!fileModule.exists(keyPath)) {
+          message = '尚未設定Google憑證，請先至【設定】>【API設定】輸入憑證';
+        }
+      }
+
+      if (message !== '') {
+        dialogModule.showInfo(event.sender, message);
+      }
+    }
   });
 
   // get GPT model list

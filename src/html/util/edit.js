@@ -255,11 +255,10 @@ function showText() {
   const text1 = document.getElementById('div-text1');
   const text2 = document.getElementById('div-text2');
 
-  if (targetLog.name !== '') targetLog.name += '：<br>';
-  if (targetLog.translated_name !== '') targetLog.translated_name += '：<br>';
-
-  text1.innerHTML = `<span>${targetLog.name + targetLog.text}</span>`;
-  text2.innerHTML = `<span>${targetLog.translated_name + targetLog.translated_text}</span>`;
+  text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
+  text2.innerHTML =
+    `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
+    `${targetLog.translated_text}</span>`;
 }
 
 /*

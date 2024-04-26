@@ -1,5 +1,8 @@
 'use strict';
 
+// axios
+const axios = require('axios').default;
+
 // electron
 const { dialog } = require('electron');
 
@@ -26,9 +29,6 @@ const fileModule = require('./file-module');
 
 // image module
 const imageModule = require('./image-module');
-
-// request module
-const requestModule = require('./request-module');
 
 // sharlayan module
 const sharlayanModule = require('./sharlayan-module');
@@ -402,32 +402,38 @@ function setCaptureChannel() {
 // set request channel
 function setRequestChannel() {
   // version check
-  ipcMain.on('version-check', () => {
+  ipcMain.on('version-check', (event) => {
     let notificationText = '';
 
-    requestModule
-      .get({
-        protocol: 'https:',
-        hostname: 'raw.githubusercontent.com',
-        path: '/winw1010/tataru-assistant-text/main/version.json',
-      })
-      .then((data) => {
+    axios
+      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
+      .then((response) => {
         // set request config
-        if (data?.scu && data?.userAgent) {
+        if (response.data.scu && response.data.userAgent) {
           let config = configModule.getConfig();
-          config.system.scu = data.scu;
-          config.system.userAgent = data.userAgent;
+          config.system.scu = response.data.scu;
+          config.system.userAgent = response.data.userAgent;
           configModule.setConfig(config);
         }
 
+        // show info
+        if (response.data.info) {
+          dialogModule.showInfo(event.sender, '' + response.data.info);
+        }
+
         // compare app version
-        const latestVersion = data?.number;
-        if (versionModule.isLatest(appVersion, latestVersion)) {
-          windowModule.sendIndex('hide-update-button', true);
-          notificationText = '已安裝最新版本';
+        const latestVersion = response.data.number;
+
+        if (latestVersion) {
+          if (versionModule.isLatest(appVersion, latestVersion)) {
+            windowModule.sendIndex('hide-update-button', true);
+            notificationText = '已安裝最新版本';
+          } else {
+            windowModule.sendIndex('hide-update-button', false);
+            notificationText = `已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+          }
         } else {
-          windowModule.sendIndex('hide-update-button', false);
-          notificationText = `已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+          throw '無法取得版本資料';
         }
       })
       .catch((error) => {
@@ -443,11 +449,7 @@ function setRequestChannel() {
 
   // post form
   ipcMain.on('post-form', (event, path) => {
-    requestModule.post({
-      protocol: 'https:',
-      hostname: 'docs.google.com',
-      path: path,
-    });
+    axios.post('https://docs.google.com' + path);
   });
 }
 

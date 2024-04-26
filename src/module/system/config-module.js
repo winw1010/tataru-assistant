@@ -67,7 +67,7 @@ const defaultConfig = {
     geminiApiKey: '',
     cohereToken: '',
     gptApiKey: '',
-    gptModel: 'please-select-gpt-model',
+    gptModel: '',
     UnofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
   },
@@ -167,10 +167,12 @@ function loadConfig() {
     }
 
     // fix GPT model
-    if (currentConfig.system.gptModel === '3') {
-      currentConfig.system.gptModel = 'gpt-3.5-turbo';
-    } else if (currentConfig.system.gptModel === '4') {
-      currentConfig.system.gptModel = 'gpt-4-turbo';
+    if (currentConfig.api.gptModel === '3') {
+      currentConfig.api.gptModel = 'gpt-3.5-turbo';
+    } else if (currentConfig.api.gptModel === '4') {
+      currentConfig.api.gptModel = 'gpt-4-turbo';
+    } else if (!/gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i.test(currentConfig.api.gptModel)) {
+      currentConfig.api.gptModel = '';
     }
 
     // set first time off

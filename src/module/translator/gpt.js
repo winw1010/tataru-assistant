@@ -6,8 +6,8 @@ const { createPrompt } = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const regGptModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
-const regOtherGptModel = /gpt/i;
+const regGptModel = /gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
+//const regOtherGptModel = /gpt/i;
 
 let currentOpenAI = null;
 
@@ -78,8 +78,8 @@ async function getModelList(apiKey = null) {
   let list = [];
   try {
     const gptModelList = [];
-    const otherGptModelList = [];
-    const otherModelList = [];
+    //const otherGptModelList = [];
+    //const otherModelList = [];
     const openai = createOpenai(apiKey);
 
     const tempModelList = (await openai.models.list()).data.map((x) => x.id);
@@ -90,14 +90,17 @@ async function getModelList(apiKey = null) {
 
       if (regGptModel.test(modelId)) {
         gptModelList.push(modelId);
-      } else if (regOtherGptModel.test(modelId)) {
+      }
+      /*
+      else if (regOtherGptModel.test(modelId)) {
         otherGptModelList.push(modelId);
       } else {
         otherModelList.push(modelId);
       }
+      */
     }
 
-    list = [].concat(['# GPT'], gptModelList, ['# Other GPT'], otherGptModelList, ['# Other'], otherModelList);
+    list = gptModelList;
   } catch (error) {
     console.log(error?.error?.message || error);
   }

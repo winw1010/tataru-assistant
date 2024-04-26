@@ -212,25 +212,25 @@ function getElementTextList() {
         normal: ['細', '细', 'Normal'],
         bold: ['粗', '粗', 'Bold'],
 
+        '#Web-Translator': ['#線上翻譯', '#线上翻译', '#Web Translator'],
         Youdao: ['有道翻譯', '有道翻译', 'Youdao'],
         Baidu: ['百度翻譯', '百度翻译', 'Baidu'],
         Caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
         Papago: ['Papago', 'Papago', 'Papago'],
         DeepL: ['DeepL', 'DeepL', 'DeepL'],
-        GPT: ['ChatGPT *', 'ChatGPT *', 'ChatGPT *'],
-        Cohere: ['Cohere *', 'Cohere *', 'Cohere *'],
-        Gemini: ['Gemini *', 'Gemini *', 'Gemini *'],
+        '#AI-Translator': ['#AI翻譯', '#AI翻译', '#AI Translator'],
+        GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
+        Cohere: ['Cohere', 'Cohere', 'Cohere'],
+        Gemini: ['Gemini', 'Gemini', 'Gemini'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
         'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],
         'Simplified-Chinese': ['簡體中文', '简体中文', 'Simplified Chinese'],
 
-        'please-select-gpt-model': ['請選擇GPT模型', '请选择GPT模型', 'Please select GPT model'],
-
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
-        'google-vision': ['Google Vision *', 'Google Vision *', 'Google Vision *'],
+        'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
 
         // edit
         '#player-name': ['#玩家', '#玩家', '#Player'],

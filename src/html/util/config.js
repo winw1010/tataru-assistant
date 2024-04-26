@@ -320,8 +320,6 @@ async function readGptModelList() {
       if (config.system.gptModel.length > 0) {
         selectGptModel.value = config.system.gptModel;
       }
-    } else {
-      selectGptModel.innerHTML = '<option value="none" selected>None</option>';
     }
   }
 }

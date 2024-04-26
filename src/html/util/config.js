@@ -106,6 +106,11 @@ function setButton() {
     ipcRenderer.send('version-check');
   };
 
+  // fix reader
+  document.getElementById('button-fix-reader').onclick = () => {
+    ipcRenderer.send('fix-reader');
+  };
+
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');

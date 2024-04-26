@@ -4,7 +4,7 @@
 const { dialog } = require('electron');
 
 // child process
-const { exec } = require('child_process');
+const childProcess = require('child_process');
 
 // electron
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
@@ -147,6 +147,24 @@ function setSystemChannel() {
   ipcMain.on('restart-sharlayan-reader', () => {
     sharlayanModule.stop(true);
   });
+
+  // fix reader
+  ipcMain.on('fix-reader', (event) => {
+    childProcess.exec('secedit /configure /cfg %windir%\\inf\\defltbase.inf /db defltbase.sdb /verbose', (error) => {
+      let message = '';
+
+      if (error && error.code === 740) {
+        message = '修復失敗，請以系統管理員身分啟動本程式';
+      } else {
+        message = '修復完畢，請重新啟動電腦以套用設定';
+      }
+
+      dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), {
+        type: 'info',
+        message: message,
+      });
+    });
+  });
 }
 
 // set window channel
@@ -279,10 +297,8 @@ function setWindowChannel() {
 
   // execute command
   ipcMain.on('execute-command', (event, command) => {
-    exec(command, (error) => {
-      if (error) {
-        //console.log(error);
-      }
+    childProcess.exec(command, () => {
+      //console.log(error.message);
     });
   });
 

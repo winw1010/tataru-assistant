@@ -107,10 +107,12 @@ function getElementTextList() {
         'button-save-config': ['儲存變更', '储存变更', 'Save changes'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
+        'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
+
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download table'],
         'button-restart-sharlayan-reader': ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart chat reader'],
+        'button-fix-reader': ['修復字幕讀取器', '修復字幕读取器', 'Fix chat reader'],
         'button-version-check': ['檢查更新', '检查更新', 'Check for updates'],
-        'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
 
         // capture
         'button-screenshot': ['All', 'All', 'All'],

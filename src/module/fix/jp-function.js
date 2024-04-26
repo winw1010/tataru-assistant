@@ -73,6 +73,11 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       const element = temp[index];
       const name = element[0];
 
+      regBrackets.lastIndex = 0;
+      regKatakanaFB.lastIndex = 0;
+      regKatakanaF.lastIndex = 0;
+      regKatakanaB.lastIndex = 0;
+
       if (regBrackets.test(name)) {
         matchedWords.push(element);
       } else if (regKatakanaFB.test(name)) {
@@ -112,6 +117,8 @@ function findTempArray(text = '', array = []) {
     const translatedName = element[1];
     const hiraName1 = convertKana(element[0], 'hira');
     const hiraName2 = hiraFix(hiraName1);
+
+    regAllKatakanaName.lastIndex = 0;
 
     if (text.includes(name)) {
       temp.push([name, translatedName]);
@@ -445,6 +452,7 @@ function genderFix(originalText = '', translatedText = '') {
 }
 
 function isKatakanaName(name = '') {
+  regKatakanaName.lastIndex = 0;
   return regKatakanaName.test(name);
 }
 
@@ -458,6 +466,7 @@ function getKatakanaName(name = '') {
 }
 
 function isChinese(text = '') {
+  regKana.lastIndex = 0;
   return !regKana.test(text);
 }
 

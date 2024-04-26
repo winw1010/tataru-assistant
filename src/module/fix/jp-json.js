@@ -84,11 +84,12 @@ function versionFix() {
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
     if (/(^.$)/.test(element) || removeList.includes(element)) {
-      console.log('Delete', chArray.combine[index]);
-      chArray.combine.splice(index, 1);
+      console.log('duplicate word:', chArray.combine[index]);
+      //chArray.combine.splice(index, 1);
     }
   }
 
+  /*
   // clear temp name
   for (let index = userArray.tempName.length - 1; index >= 0; index--) {
     const element = userArray.tempName[index][0];
@@ -99,6 +100,7 @@ function versionFix() {
 
   // update temp name
   jsonFunction.writeUserText('temp-name.json', userArray.tempName);
+  */
 
   /*
   // jp2

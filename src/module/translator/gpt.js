@@ -73,7 +73,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   if (response.data?.choices[0]?.message?.content) {
     return response.data?.choices[0]?.message?.content;
   } else {
-    return '翻譯失敗';
+    return response.data;
   }
 }
 
@@ -93,6 +93,7 @@ async function getModelList(apiKey = null) {
 
     for (let index = 0; index < list.length; index++) {
       const element = list[index];
+      regGptModel.lastIndex = 0;
       if (regGptModel.test(element)) {
         gptList.push(element);
       }

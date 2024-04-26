@@ -26,7 +26,7 @@
 
 - 翻譯對話選項(使用螢幕擷取翻譯功能)
 
-- 根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**在修正為**塔塔露**
+- 根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**修正為**塔塔露**
 
 - 自訂翻譯
 

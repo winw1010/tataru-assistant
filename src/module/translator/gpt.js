@@ -22,8 +22,12 @@ async function exec(option, table = []) {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = createPrompt(source, target, table);
+  const apiUrl = config.api.unofficialApi
+    ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions'
+    : 'https://api.openai.com/v1/chat/completions';
+
   const response = await requestModule.post(
-    'https://api.openai.com/v1/chat/completions',
+    apiUrl,
     {
       model: config.api.gptModel,
       messages: [
@@ -55,7 +59,12 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
 async function getModelList(apiKey = null) {
   try {
-    const response = await requestModule.get('https://api.openai.com/v1/models', {
+    const config = configModule.getConfig();
+    const apiUrl = config.api.unofficialApi
+      ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/models'
+      : 'https://api.openai.com/v1/models';
+
+    const response = await requestModule.get(apiUrl, {
       timeout: 10000,
       headers: { Authorization: 'Bearer ' + apiKey },
     });

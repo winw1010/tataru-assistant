@@ -601,7 +601,7 @@ function getOptionList() {
     // unofficial api
     [
       ['checkbox-unofficial-api', 'checked'],
-      ['api', 'UnofficialApi'],
+      ['api', 'unofficialApi'],
     ],
     [
       ['input-unofficial-api-url', 'value'],

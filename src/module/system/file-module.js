@@ -103,7 +103,11 @@ function copyData() {
       const value = config?.system?.[name];
 
       if (value) {
-        config.api[name] = value;
+        if (name === 'UnofficialApi') {
+          config.api['unofficialApi'] = value;
+        } else {
+          config.api[name] = value;
+        }
       }
     }
     write(configPath, config, 'json');

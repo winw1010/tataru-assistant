@@ -68,7 +68,7 @@ const defaultConfig = {
     cohereToken: '',
     gptApiKey: '',
     gptModel: '',
-    UnofficialApi: false,
+    unofficialApi: false,
     unofficialApiUrl: 'https://api.openai.com/v1',
   },
   system: {

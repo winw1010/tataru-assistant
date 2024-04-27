@@ -25,7 +25,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.get(url, { timeout, headers });
+    response = await axios.get(url, { headers, timeout });
   } catch (error) {
     console.log(error);
   }
@@ -38,7 +38,7 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.post(url, data, { timeout, headers });
+    response = await axios.post(url, data, { headers, timeout });
   } catch (error) {
     console.log(error);
   }

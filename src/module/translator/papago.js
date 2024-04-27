@@ -39,12 +39,12 @@ async function exec(option) {
 
 // initialize
 async function initialize() {
-  // set cookie
-  await setCookieAndAuthentication();
+  // set authentication
+  await setAuthentication();
 }
 
 // set cookie
-async function setCookieAndAuthentication() {
+async function setAuthentication() {
   const response1 = await requestModule.get('https://papago.naver.com/');
 
   // set cookie

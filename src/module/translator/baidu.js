@@ -31,23 +31,14 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  const response = await requestModule.get('https://fanyi.baidu.com/');
-  const setCookie = response?.headers?.['set-cookie'];
-
-  if (setCookie) {
-    regBaiduId.lastIndex = 0;
-    const value = regBaiduId.exec(setCookie.join('; '))?.groups?.target;
-
-    authentication.cookie =
-      'BAIDUID=' +
-      value +
-      '; BAIDUID_BFESS=' +
-      value +
-      +'; ab_sr=1.0.1_MmMzZTM2NzE5ZWFjNjM5MTgyNzBiYWZlMWNjOWY3NjFlM2M2NDM4MTdmOWZiNWVkZjUwYzAzZTlkNGMzZmNkNzAwNWEwOWMyOWI1ZDUwNThlZDdiN2MyMWYyOWI2NDEzOTYyYTRkNzhkZTE0NTQ1ODg0YzlhMWNiNjk5ODExOWI4NWZmMzU5NTE3ZTBkNzI5ZWZkNjliZTU5ZTUzODc2OA==; RT="z=1&dm=baidu.com&si=bab82135-beab-443d-bcbe-16e83d734b9f&ss=lvhs1t1u&sl=1&tt=34k&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=4an"';
-    authentication.expireDate = requestModule.getExpiryDate();
-  } else {
-    throw 'set-cookie is undefined';
-  }
+  const cookie = await requestModule.getCookie('https://fanyi.baidu.com/', [regBaiduId]);
+  authentication.cookie =
+    'BAIDUID=' +
+    cookie[0] +
+    '; BAIDUID_BFESS=' +
+    cookie[0] +
+    +'; ab_sr=1.0.1_MmMzZTM2NzE5ZWFjNjM5MTgyNzBiYWZlMWNjOWY3NjFlM2M2NDM4MTdmOWZiNWVkZjUwYzAzZTlkNGMzZmNkNzAwNWEwOWMyOWI1ZDUwNThlZDdiN2MyMWYyOWI2NDEzOTYyYTRkNzhkZTE0NTQ1ODg0YzlhMWNiNjk5ODExOWI4NWZmMzU5NTE3ZTBkNzI5ZWZkNjliZTU5ZTUzODc2OA==; RT="z=1&dm=baidu.com&si=bab82135-beab-443d-bcbe-16e83d734b9f&ss=lvhs1t1u&sl=1&tt=34k&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=4an"';
+  authentication.expireDate = requestModule.getExpiryDate();
 }
 
 // translate

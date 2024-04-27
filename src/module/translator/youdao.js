@@ -38,18 +38,9 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  const response = await requestModule.get('https://fanyi.youdao.com/');
-  const setCookie = response?.headers?.['set-cookie'];
-
-  if (setCookie) {
-    regOUTFOX_SEARCH_USER_ID.lastIndex = 0;
-    const value = regOUTFOX_SEARCH_USER_ID.exec(setCookie.join('; '))?.groups?.target;
-
-    authentication.cookie = value + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
-    authentication.expireDate = requestModule.getExpiryDate();
-  } else {
-    throw 'set-cookie is undefined';
-  }
+  const cookie = await requestModule.getCookie('https://fanyi.youdao.com/', [regOUTFOX_SEARCH_USER_ID]);
+  authentication.cookie = cookie[0] + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+  authentication.expireDate = requestModule.getExpiryDate();
 }
 
 // set authentication

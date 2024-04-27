@@ -39,28 +39,23 @@ async function exec(option) {
 
 // initialize
 async function initialize() {
+  // set cookie
+  await setCookie();
+
   // set authentication
   await setAuthentication();
 }
 
 // set cookie
+async function setCookie() {
+  const cookie = await requestModule.getCookie('https://papago.naver.com/', [regJSESSIONID]);
+  authentication.cookie = cookie[0] + '; papago_skin_locale=en; NNB=DUY6W7XWYMWGM ';
+  authentication.expireDate = requestModule.getExpiryDate();
+}
+
+// set authentication
 async function setAuthentication() {
   const response1 = await requestModule.get('https://papago.naver.com/');
-
-  // set cookie
-  const setCookie = response1?.headers?.['set-cookie'];
-
-  if (setCookie) {
-    regJSESSIONID.lastIndex = 0;
-    const value = regJSESSIONID.exec(setCookie.join('; '))?.groups?.target;
-
-    authentication.cookie = value + '; papago_skin_locale=en; NNB=DUY6W7XWYMWGM ';
-    authentication.expireDate = requestModule.getExpiryDate();
-  } else {
-    throw 'set-cookie is undefined';
-  }
-
-  // set authentication
   const fileName = regFileName.exec(response1?.data)?.groups?.target;
 
   if (fileName) {

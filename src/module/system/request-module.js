@@ -46,6 +46,34 @@ function post(url = '', data = '', headers = {}, timeout = 10000) {
   return response;
 }
 
+// get cookie
+async function getCookie(url = '', regArray = []) {
+  const response = await get(url);
+  const setCookie = response?.headers?.['set-cookie']?.join('; ');
+
+  if (setCookie) {
+    const cookie = [];
+
+    for (let index = 0; index < regArray.length; index++) {
+      const reg = regArray[index];
+      reg.lastIndex = 0;
+      const target = reg.exec(setCookie)?.groups?.target;
+
+      if (target) {
+        cookie.push(target);
+      }
+    }
+
+    if (cookie.length > 0) {
+      return cookie;
+    } else {
+      throw 'target is undefined, set-cookie: ' + setCookie;
+    }
+  } else {
+    throw 'set-cookie is undefined';
+  }
+}
+
 // get expiry date
 function getExpiryDate() {
   return new Date().getTime() + 21600000;
@@ -80,6 +108,7 @@ function toParameters(data = {}) {
 module.exports = {
   get,
   post,
+  getCookie,
   getExpiryDate,
   getSCU,
   getUserAgent,

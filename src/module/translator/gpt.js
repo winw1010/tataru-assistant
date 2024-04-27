@@ -2,16 +2,11 @@
 
 const axios = require('axios').default;
 
-//const OpenAI = require('openai').default;
-
 const { createPrompt } = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
 const regGptModel = /gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
-//const regOtherGptModel = /gpt/i;
-
-//let currentOpenAI = null;
 
 // translate
 async function exec(option, table = []) {
@@ -20,25 +15,9 @@ async function exec(option, table = []) {
     return response;
   } catch (error) {
     console.log(error);
-    //currentOpenAI = null;
     return error;
   }
 }
-
-/*
-function createOpenai(apiKey = null) {
-  const config = configModule.getConfig();
-  const openai = !config.api.UnofficialApi
-    ? new OpenAI({
-        apiKey: apiKey ? apiKey : config.api.gptApiKey,
-      })
-    : new OpenAI({
-        apiKey: apiKey ? apiKey : config.api.gptApiKey,
-        baseURL: config.api.unofficialApiUrl,
-      });
-  return openai;
-}
-*/
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
@@ -104,77 +83,6 @@ async function getModelList(apiKey = null) {
     return [];
   }
 }
-
-/*
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
-  const config = configModule.getConfig();
-
-  if (!currentOpenAI) currentOpenAI = createOpenai();
-
-  let prompt = createPrompt(source, target, table);
-  let response = null;
-
-  try {
-    response = await currentOpenAI.chat.completions.create({
-      model: config.api.gptModel,
-      messages: [
-        {
-          role: 'system',
-          content: prompt,
-        },
-        {
-          role: 'user',
-          content: sentence,
-        },
-      ],
-      max_tokens: 3000,
-      temperature: 0.7,
-      //top_p: 1,
-    });
-
-    console.log('prompt:', prompt);
-    console.log('Total Tokens:', response?.usage?.total_tokens);
-    return response?.choices[0]?.message?.content;
-  } catch (error) {
-    console.log(error.message);
-    return error.message;
-  }
-}
-*/
-
-/*
-async function getModelList(apiKey = null) {
-  let list = [];
-  try {
-    const gptModelList = [];
-    //const otherGptModelList = [];
-    //const otherModelList = [];
-    const openai = createOpenai(apiKey);
-
-    const tempModelList = (await openai.models.list()).data.map((x) => x.id);
-    tempModelList.sort();
-
-    for (let index = 0; index < tempModelList.length; index++) {
-      const modelId = tempModelList[index];
-
-      if (regGptModel.test(modelId)) {
-        gptModelList.push(modelId);
-      }
-      
-      //else if (regOtherGptModel.test(modelId)) {
-      //  otherGptModelList.push(modelId);
-      //} else {
-      //  otherModelList.push(modelId);
-      //}
-    }
-
-    list = gptModelList;
-  } catch (error) {
-    console.log(error?.error?.message || error);
-  }
-  return list;
-}
-*/
 
 // module exports
 module.exports = {

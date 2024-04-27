@@ -1,8 +1,5 @@
 'use strict';
 
-// axios
-const axios = require('axios').default;
-
 // electron
 const { dialog } = require('electron');
 
@@ -29,6 +26,9 @@ const fileModule = require('./file-module');
 
 // image module
 const imageModule = require('./image-module');
+
+// request module
+const requestModule = require('./request-module');
 
 // sharlayan module
 const sharlayanModule = require('./sharlayan-module');
@@ -405,11 +405,11 @@ function setRequestChannel() {
   ipcMain.on('version-check', (event) => {
     let notificationText = '';
 
-    axios
+    requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
       .then((response) => {
-        // set request config
         if (response.data.scu && response.data.userAgent) {
+          // set request config
           let config = configModule.getConfig();
           config.system.scu = response.data.scu;
           config.system.userAgent = response.data.userAgent;
@@ -449,7 +449,7 @@ function setRequestChannel() {
 
   // post form
   ipcMain.on('post-form', (event, path) => {
-    axios.post('https://docs.google.com' + path);
+    requestModule.post('https://docs.google.com' + path).catch(console.log);
   });
 }
 

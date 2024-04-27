@@ -19,6 +19,18 @@ function setIPC() {
     const config = ipcRenderer.sendSync('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
+
+  // show translation
+  ipcRenderer.on('show-translation', (event, translatedText, target) => {
+    // show translated text
+    if (translatedText !== '') {
+      document.getElementById('span-translated-text').innerText = translatedText;
+      document.getElementById('div-audio').innerHTML = getAudioHtml(translatedText, target);
+    } else {
+      document.getElementById('span-translated-text').innerText = '';
+      document.getElementById('div-audio').innerHTML = '';
+    }
+  });
 }
 
 // set view
@@ -75,26 +87,10 @@ function setButton() {
       if (document.getElementById('checkbox-tataru').checked) {
         ipcRenderer.send('add-task', dialogData);
       } else {
-        // translate
-        ipcRenderer
-          .invoke('translate-text', dialogData.text, dialogData.translation)
-          .then((translatedText) => {
-            // show translated text
-            if (translatedText !== '') {
-              document.getElementById('span-translated-text').innerText = translatedText;
-              document.getElementById('div-audio').innerHTML = getAudioHtml(
-                translatedText,
-                document.getElementById('select-to').value
-              );
-            } else {
-              document.getElementById('span-translated-text').innerText = '翻譯失敗，請稍後再試';
-              document.getElementById('div-audio').innerHTML = '';
-            }
-          })
-          .catch(console.log);
+        ipcRenderer.send('translate-text', dialogData);
       }
     } else {
-      document.getElementById('span-translated-text').innerText = '翻譯文字不可空白';
+      document.getElementById('span-translated-text').innerText = '';
       document.getElementById('div-audio').innerHTML = '';
     }
   };

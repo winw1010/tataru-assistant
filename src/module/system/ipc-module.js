@@ -565,8 +565,12 @@ function setTranslateChannel() {
   });
 
   // get translation
-  ipcMain.handle('translate-text', (event, text, translation) => {
-    return translateModule.translate(text, translation);
+  ipcMain.on('translate-text', async (event, dialogData) => {
+    event.sender.send(
+      'show-translation',
+      await translateModule.translate(dialogData.text, dialogData.translation),
+      dialogData.translation.to
+    );
   });
 
   // google tts

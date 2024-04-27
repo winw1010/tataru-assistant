@@ -25,7 +25,6 @@ async function exec(option) {
     let result = await translate(option);
     return result;
   } catch (error) {
-    console.log(error);
     authentication.expireDate = 0;
     throw error;
   }

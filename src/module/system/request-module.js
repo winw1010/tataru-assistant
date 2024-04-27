@@ -34,11 +34,11 @@ async function get(url = '', headers = {}, timeout = 10000) {
 }
 
 // post
-function post(url = '', data = '', headers = {}, timeout = 10000) {
+async function post(url = '', data = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = axios.post(url, data, { timeout, headers });
+    response = await axios.post(url, data, { timeout, headers });
   } catch (error) {
     console.log(error);
   }

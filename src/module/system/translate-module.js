@@ -101,55 +101,56 @@ async function translate(text = '', translation = {}, table = []) {
 async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
-  let result = '';
+  let result = { isError: false, text: '' };
 
   do {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
     result = await getTranslation(engine, option, table);
-  } while (result === '' && autoChange && engineList.length > 0);
+  } while (result.isError && autoChange && engineList.length > 0);
 
-  return result;
+  return result.text;
 }
 
 // get translation
 async function getTranslation(engine = '', option = {}, table = []) {
   console.log('Before:', option?.text);
 
-  let result = '';
+  let isError = false;
+  let text = '';
 
   try {
     switch (engine) {
       case 'Baidu':
-        result = await baidu.exec(option);
+        text = await baidu.exec(option);
         break;
 
       case 'Youdao':
-        result = await youdao.exec(option);
+        text = await youdao.exec(option);
         break;
 
       case 'Caiyun':
-        result = await caiyun.exec(option);
+        text = await caiyun.exec(option);
         break;
 
       case 'Papago':
-        result = await papago.exec(option);
+        text = await papago.exec(option);
         break;
 
       case 'DeepL':
-        result = await deepl.exec(option);
+        text = await deepl.exec(option);
         break;
 
       case 'GPT':
-        result = await gpt.exec(option, table);
+        text = await gpt.exec(option, table);
         break;
 
       case 'Cohere':
-        result = await cohere.exec(option, table);
+        text = await cohere.exec(option, table);
         break;
 
       case 'Gemini':
-        result = await gemini.exec(option, table);
+        text = await gemini.exec(option, table);
         break;
 
       /*
@@ -163,13 +164,18 @@ async function getTranslation(engine = '', option = {}, table = []) {
     }
   } catch (error) {
     console.log(error);
+    text = error;
+    isError = true;
   }
 
-  result = '' + result;
+  text = '' + text;
 
-  console.log('After:', result);
+  console.log('After:', text);
 
-  return result;
+  return {
+    isError,
+    text,
+  };
 }
 
 // zh convert

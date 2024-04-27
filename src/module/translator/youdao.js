@@ -7,7 +7,7 @@ const youdaoFunction = require('./youdao-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-// const regOUTFOX_SEARCH_USER_ID = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
+const regOUTFOX_SEARCH_USER_ID = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
 
 // authentication
 let authentication = {
@@ -38,12 +38,18 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  //OUTFOX_SEARCH_USER_ID=-1846428029@10.108.162.139; OUTFOX_SEARCH_USER_ID_NCOO=1596094722.4516084
-  //OUTFOX_SEARCH_USER_ID=-2081303208@10.105.253.24; OUTFOX_SEARCH_USER_ID_NCOO=1836689713.990111
-  authentication.cookie = `OUTFOX_SEARCH_USER_ID=-${youdaoFunction.createUserID()}@10.105.253.24; OUTFOX_SEARCH_USER_ID_NCOO=${
-    2147483647 * Math.random()
-  }`;
-  authentication.expireDate = requestModule.getExpiryDate();
+  const response = await requestModule.get('https://fanyi.youdao.com/');
+  const setCookie = response?.headers?.['set-cookie'];
+
+  if (setCookie) {
+    regOUTFOX_SEARCH_USER_ID.lastIndex = 0;
+    const value = regOUTFOX_SEARCH_USER_ID.exec(setCookie.join('; '))?.groups?.target;
+
+    authentication.cookie = value + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+    authentication.expireDate = requestModule.getExpiryDate();
+  } else {
+    throw 'set-cookie is undefined';
+  }
 }
 
 // set authentication
@@ -58,15 +64,15 @@ async function setAuthentication() {
       ),
     {
       Accept: 'application/json, text/plain, */*',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
       'Accept-Language': 'zh-TW,zh;q=0.9',
       Connection: 'keep-alive',
       Cookie: authentication.cookie,
       Origin: 'https://fanyi.youdao.com',
       Referer: 'https://fanyi.youdao.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',
@@ -104,16 +110,16 @@ async function translate(option) {
     ),
     {
       Accept: 'application/json, text/plain, */*',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
       'Accept-Language': 'zh-TW,zh;q=0.9',
       Connection: 'keep-alive',
       'Content-Type': 'application/x-www-form-urlencoded',
       Cookie: authentication.cookie,
       Origin: 'https://fanyi.youdao.com',
       Referer: 'https://fanyi.youdao.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',

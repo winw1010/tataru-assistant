@@ -174,17 +174,19 @@ async function getTranslation(engine = '', option = {}, table = []) {
 
 // zh convert
 function zhConvert(text = '', languageTo = '') {
-  if (text === '') {
-    return text;
+  try {
+    if (text !== '') {
+      if (languageTo === engineModule.languageEnum.zht) {
+        text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
+      } else if (languageTo === engineModule.languageEnum.zhs) {
+        text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 
-  if (languageTo === engineModule.languageEnum.zht) {
-    return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
-  } else if (languageTo === engineModule.languageEnum.zhs) {
-    return zhConverter.exec({ text: text, tableName: 'zh2Hans' });
-  } else {
-    return text;
-  }
+  return text;
 }
 
 /*

@@ -11,38 +11,26 @@ const deeplFunction = require('./deepl-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-const dapUidRegExp = /(?<target>dapUid=[^;]+)/is;
-
-// expire date
-let expireDate = 0;
-
-// cookie
-let cookie = '';
+// const regINGRESSCOOKIE = /(?<target>INGRESSCOOKIE=[^;]+)/is;
+// const regUserCountry = /(?<target>userCountry=[^;]+)/is;
+// const regReleaseGroups = /(?<target>releaseGroups=[^;]+)/is;
+const regDapUid = /(?<target>dapUid=[^;]+)/is;
 
 // authentication
-let authentication = {};
+let authentication = {
+  id: 0,
+  cookie: '',
+  expireDate: 0,
+};
 
 // exec
 async function exec(option) {
   try {
-    let result = '';
-
-    // check expire date
-    if (new Date().getTime() >= expireDate) {
-      await initialize();
-    }
-
-    // split text
-    const chunks = await splitText(option.text);
-
-    // get result
-    chunks && (result = await translate(cookie, authentication, option, chunks));
-
+    let result = await translate(option);
     return result;
   } catch (error) {
-    console.log(error);
-    expireDate = 0;
-    return '';
+    authentication.expireDate = 0;
+    throw error;
   }
 }
 
@@ -57,73 +45,66 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  dapUidRegExp.lastIndex = 0;
+  const response = await requestModule.get('https://www.deepl.com/translator');
+  const setCookie = response?.headers?.['set-cookie'];
 
-  const response = await requestModule.getCookie(
-    {
-      protocol: 'https:',
-      hostname: 'www.deepl.com',
-      path: '/translator',
-    },
-    dapUidRegExp
-  );
-
-  if (response) {
-    cookie = response;
-    expireDate = requestModule.getExpiryDate();
+  if (setCookie) {
+    regDapUid.lastIndex = 0;
+    authentication.cookie = regDapUid.exec(setCookie.join('; '))?.groups?.target;
+    authentication.expireDate = requestModule.getExpiryDate();
   } else {
-    throw 'ERROR: setCookie';
+    throw 'set-cookie is undefined';
   }
 }
 
 // set authentication
 function setAuthentication() {
-  authentication = {
-    id: Math.floor(Math.random() * (100_000_000 - 1_000_000 + 1)) + 1_000_000,
-  };
+  authentication.id = Math.floor(Math.random() * (100_000_000 - 1_000_000 + 1)) + 1_000_000;
 }
 
 // split text
-async function splitText(text) {
+async function splitText(text = '') {
   let postData = deeplFunction.getSplitText();
   postData.id = authentication.id++;
   postData.params.texts = [text];
 
   const response = await requestModule.post(
-    {
-      protocol: 'https:',
-      hostname: 'www2.deepl.com',
-      path: '/jsonrpc?method=LMT_split_text',
-    },
+    'https://www2.deepl.com/jsonrpc?method=LMT_split_text',
     deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
     {
-      accept: '*/*',
-      'accept-encoding': 'gzip, deflate, br',
-      'accept-language': 'zh-TW,zh;q=0.9',
-      'content-type': 'application/json',
-      origin: 'https://www.deepl.com',
-      referer: 'https://www.deepl.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'same-site',
-      'user-agent': requestModule.getUserAgent(),
+      Accept: '*/*',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
+      'Accept-Language': 'zh-TW,zh;q=0.9',
+      'Content-Type': 'application/json',
+      Cookie: authentication.cookie,
+      Origin: 'https://www.deepl.com',
+      Referer: 'https://www.deepl.com/',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-site',
+      'User-Agent': requestModule.getUserAgent(),
     }
   );
 
-  console.log(response);
-
-  if (response?.result?.texts[0]?.chunks) {
-    return response.result.texts[0].chunks;
+  if (response?.data?.result?.texts[0]?.chunks) {
+    return response.data.result.texts[0].chunks;
   } else {
-    throw 'ERROR: splitText';
+    throw response?.data;
   }
 }
 
 // translate
-async function translate(cookie, authentication, option, chunks) {
+async function translate(option) {
+  // check expire date
+  if (new Date().getTime() >= authentication.expireDate) {
+    await initialize();
+  }
+
+  const chunks = await splitText(option.text);
+
   let postData = deeplFunction.getHandleJobs();
   postData.id = authentication.id++;
   postData.params.jobs = deeplFunction.generateJobs(chunks);
@@ -132,33 +113,29 @@ async function translate(cookie, authentication, option, chunks) {
   postData.params.timestamp = deeplFunction.generateTimestamp(postData.params.jobs);
 
   const response = await requestModule.post(
-    {
-      protocol: 'https:',
-      hostname: 'www2.deepl.com',
-      path: '/jsonrpc?method=LMT_handle_jobs',
-    },
+    'https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs',
     deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
     {
-      accept: '*/*',
-      'accept-encoding': 'gzip, deflate, br',
-      'accept-language': 'zh-TW,zh;q=0.9',
-      'content-type': 'application/json',
-      cookie: cookie,
-      origin: 'https://www.deepl.com',
-      referer: 'https://www.deepl.com/',
-      'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'same-site',
-      'user-agent': requestModule.getUserAgent(),
+      Accept: '*/*',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
+      'Accept-Language': 'zh-TW,zh;q=0.9',
+      'Content-Type': 'application/json',
+      Cookie: authentication.cookie,
+      Origin: 'https://www.deepl.com',
+      Referer: 'https://www.deepl.com/',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-site',
+      'User-Agent': requestModule.getUserAgent(),
     }
   );
 
-  if (response?.result?.translations) {
+  if (response?.data?.result?.translations) {
     let result = '';
-    const resultArray = response?.result.translations;
+    const resultArray = response?.data?.result?.translations;
 
     for (let index = 0; index < resultArray.length; index++) {
       result += resultArray[index]?.beams[0]?.sentences[0]?.text || '';
@@ -166,12 +143,7 @@ async function translate(cookie, authentication, option, chunks) {
 
     return result;
   } else {
-    console.log('cookie:', cookie);
-    console.log('authentication:', authentication);
-    console.log('option:', option);
-    console.log('chunks:', chunks);
-    console.log('data:', response);
-    throw 'ERROR: translate';
+    throw response?.data;
   }
 }
 

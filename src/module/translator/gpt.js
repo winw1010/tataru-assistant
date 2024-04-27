@@ -1,6 +1,6 @@
 'use strict';
 
-const axios = require('axios').default;
+const requestModule = require('../system/request-module');
 
 const { createPrompt } = require('./ai-function');
 
@@ -22,7 +22,7 @@ async function exec(option, table = []) {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = createPrompt(source, target, table);
-  const response = await axios.post(
+  const response = await requestModule.post(
     'https://api.openai.com/v1/chat/completions',
     {
       model: config.api.gptModel,
@@ -40,25 +40,22 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
       temperature: 0.7,
       //top_p: 1,
     },
-    {
-      timeout: 10000,
-      headers: { 'Content-Type': ' application/json', Authorization: 'Bearer ' + config.api.gptApiKey },
-    }
+    { 'Content-Type': ' application/json', Authorization: 'Bearer ' + config.api.gptApiKey }
   );
 
   console.log('prompt:', prompt);
-  console.log('Total Tokens:', response.data?.usage?.total_tokens);
+  console.log('Total Tokens:', response?.data?.usage?.total_tokens);
 
-  if (response.data?.choices[0]?.message?.content) {
-    return response.data?.choices[0]?.message?.content;
+  if (response?.data?.choices[0]?.message?.content) {
+    return response.data.choices[0].message.content;
   } else {
-    return response.data;
+    return response?.data;
   }
 }
 
 async function getModelList(apiKey = null) {
   try {
-    const response = await axios.get('https://api.openai.com/v1/models', {
+    const response = await requestModule.get('https://api.openai.com/v1/models', {
       timeout: 10000,
       headers: { Authorization: 'Bearer ' + apiKey },
     });
@@ -66,7 +63,7 @@ async function getModelList(apiKey = null) {
     let list = [];
     let gptList = [];
 
-    if (response.data.data) {
+    if (response?.data?.data) {
       list = response.data.data.map((x) => x.id);
     }
 

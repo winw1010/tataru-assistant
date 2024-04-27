@@ -1,8 +1,5 @@
 'use strict';
 
-// axios
-const axios = require('axios').default;
-
 // youdao function
 const youdaoFunction = require('./youdao-function');
 
@@ -10,7 +7,7 @@ const youdaoFunction = require('./youdao-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-// const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
+// const regOUTFOX_SEARCH_USER_ID = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
 
 // authentication
 let authentication = {
@@ -51,7 +48,7 @@ async function setCookie() {
 
 // set authentication
 async function setAuthentication() {
-  const response = await axios.get(
+  const response = await requestModule.get(
     'https://dict.youdao.com/webtranslate/key?' +
       encodeURI(
         requestModule.toParameters({
@@ -60,30 +57,27 @@ async function setAuthentication() {
         })
       ),
     {
-      timeout: 10000,
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-TW,zh;q=0.9',
-        Connection: 'keep-alive',
-        Cookie: authentication.cookie,
-        Origin: 'https://fanyi.youdao.com',
-        Referer: 'https://fanyi.youdao.com/',
-        'sec-ch-ua': requestModule.getSCU(),
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'User-Agent': requestModule.getUserAgent(),
-      },
+      Accept: 'application/json, text/plain, */*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Language': 'zh-TW,zh;q=0.9',
+      Connection: 'keep-alive',
+      Cookie: authentication.cookie,
+      Origin: 'https://fanyi.youdao.com',
+      Referer: 'https://fanyi.youdao.com/',
+      'sec-ch-ua': requestModule.getSCU(),
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-site',
+      'User-Agent': requestModule.getUserAgent(),
     }
   );
 
-  if (response.data?.data?.secretKey) {
+  if (response?.data?.data?.secretKey) {
     authentication.secretKey = response.data.data.secretKey;
   } else {
-    throw response.data;
+    throw response?.data;
   }
 }
 
@@ -94,7 +88,7 @@ async function translate(option) {
     await initialize();
   }
 
-  const response = await axios.post(
+  const response = await requestModule.post(
     'https://dict.youdao.com/webtranslate',
     encodeURI(
       requestModule.toParameters({
@@ -109,32 +103,27 @@ async function translate(option) {
       })
     ),
     {
-      timeout: 10000,
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-TW,zh;q=0.9',
-        Connection: 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: authentication.cookie,
-        Origin: 'https://fanyi.youdao.com',
-        Referer: 'https://fanyi.youdao.com/',
-        'sec-ch-ua': requestModule.getSCU(),
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'User-Agent': requestModule.getUserAgent(),
-      },
+      Accept: 'application/json, text/plain, */*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Language': 'zh-TW,zh;q=0.9',
+      Connection: 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Cookie: authentication.cookie,
+      Origin: 'https://fanyi.youdao.com',
+      Referer: 'https://fanyi.youdao.com/',
+      'sec-ch-ua': requestModule.getSCU(),
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-site',
+      'User-Agent': requestModule.getUserAgent(),
     }
   );
 
-  const data = JSON.parse(youdaoFunction.decodeData(response.data));
+  const data = JSON.parse(youdaoFunction.decodeData(response?.data));
 
   if (data?.translateResult?.[0]) {
-    // getKeyword(option);
-
     const resultArray = data.translateResult[0];
     let result = '';
 
@@ -144,7 +133,7 @@ async function translate(option) {
 
     return result;
   } else {
-    throw response.data;
+    throw response?.data;
   }
 }
 

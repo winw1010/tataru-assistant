@@ -42,59 +42,6 @@ async function translate(text = '', translation = {}, table = []) {
   } catch (error) {
     return zhConvert(error, translation.to);
   }
-
-  /*
-  // initialize
-  const maxCount = 3;
-  let count = 0;
-  let missingCode = [];
-  let result = '';
-  let previousResult = '';
-
-  try {
-    // clear table
-    table = clearTable(text, table);
-
-    // translate process
-    do {
-      // sleep
-      if (count > 0) {
-        console.log('Missing Code:', missingCode);
-        await engineModule.sleep();
-      }
-
-      // add count
-      count++;
-
-      // fix code
-      text = fixCode(text, missingCode);
-
-      // translate
-      result = await translate2(text, translation);
-
-      // check translated text
-      if (result === '') {
-        if (previousResult === '') {
-          result = '翻譯失敗';
-        } else {
-          result = previousResult;
-        }
-        break;
-      }
-
-      // check table
-      missingCode = checkTable(result, table);
-
-      // set previous translated text
-      previousResult = result;
-    } while (missingCode.length > 0 && count < maxCount);
-
-    return zhConvert(clearCode(result, table), translation.to);
-  } catch (error) {
-    console.log(error);
-    return 'Failed to get translation: ' + error;
-  }
-  */
 }
 
 // translate 2
@@ -164,11 +111,9 @@ async function getTranslation(engine = '', option = {}, table = []) {
     }
   } catch (error) {
     console.log(error);
-    text = error;
+    text = 'An error occured';
     isError = true;
   }
-
-  text = '' + text;
 
   console.log('After:', text);
 
@@ -180,61 +125,16 @@ async function getTranslation(engine = '', option = {}, table = []) {
 
 // zh convert
 function zhConvert(text = '', languageTo = '') {
-  try {
-    if (text !== '') {
-      if (languageTo === engineModule.languageEnum.zht) {
-        text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
-      } else if (languageTo === engineModule.languageEnum.zhs) {
-        text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-
-  return text;
-}
-
-/*
-// clear table
-function clearTable(text = '', table = []) {
-  for (let index = table.length - 1; index >= 0; index--) {
-    const code = table[index][0];
-    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
-      table.splice(index, 1);
-    }
-  }
-
-  return table;
-}
-
-// check table
-function checkTable(text = '', table = []) {
-  let missingCodes = [];
-
-  for (let index = 0; index < table.length; index++) {
-    const code = table[index][0];
-    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
-      missingCodes.push(code);
-    }
-  }
-
-  return missingCodes;
-}
-
-// fix code
-function fixCode(text = '', missingCode = []) {
-  if (missingCode.length > 0) {
-    for (let index = 0; index < missingCode.length; index++) {
-      const code = missingCode[index][0];
-      const codeRegExp = new RegExp(`(${code}+)`, 'gi');
-      text = text.replaceAll(codeRegExp, '$1' + code);
+  if (text !== '') {
+    if (languageTo === engineModule.languageEnum.zht) {
+      text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
+    } else if (languageTo === engineModule.languageEnum.zhs) {
+      text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
     }
   }
 
   return text;
 }
-*/
 
 // clear code
 function clearCode(text = '', table = []) {

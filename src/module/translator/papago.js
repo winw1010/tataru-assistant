@@ -4,6 +4,7 @@
 // https://papago.naver.com/main.7fb83b159297990e1b87.chunk.js
 // Authorization:"PPG "+t+":"+p.a.HmacMD5(t+"\n"+e.split("?")[0]+"\n"+n,"v1.7.2_9d7a38d925").toString(p.a.enc.Base64),Timestamp:n
 // v1.7.5_9b3c4db4fc
+// const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
 
 // papago function
 const papagoFunction = require('./papago-function');
@@ -12,111 +13,79 @@ const papagoFunction = require('./papago-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-const JSESSIONIDRegExp = /(?<target>JSESSIONID=[^;]+)/is;
-const fileNameRegExp = /src="\/(?<target>main\..+?\.chunk\.js)"/is;
-const ppgRegExp = /(?<target>PPG.+?HmacMD5.+?toString.+?Base64)/is;
-const versionRegExp = /"(?<target>v[^"]+)"/is;
-//const versionRegExp = /HmacMD5\(.+,"(?<target>.+)"\)\.toString\(.+?\.enc\.Base64\)/is;
-
-// expire date
-let expireDate = 0;
-
-// cookie
-let cookie = '';
+const regJSESSIONID = /(?<target>JSESSIONID=[^;]+)/is;
+const regFileName = /src="\/(?<target>main\..+?\.chunk\.js)"/is;
+const regPpg = /(?<target>PPG.+?HmacMD5.+?toString.+?Base64)/is;
+const regVersion = /"(?<target>v\d+\.\d+\.\d+_[^"]+)"/is;
 
 // authentication
-let authentication = {};
+let authentication = {
+  deviceId: '',
+  papagoVersion: '',
+  cookie: '',
+  expireDate: 0,
+};
 
 // exec
 async function exec(option) {
   try {
-    let result = '';
-
-    // check expire date
-    if (new Date().getTime() >= expireDate || !cookie || !authentication) {
-      await initialize();
-    }
-
-    // get result
-    result = await translate(cookie, authentication, option);
-
+    let result = await translate(option);
     return result;
   } catch (error) {
-    console.log(error);
-    expireDate = 0;
-    return '';
+    authentication.expireDate = 0;
+    throw error;
   }
 }
 
 // initialize
 async function initialize() {
   // set cookie
-  await setCookie();
-
-  // set authentication
-  await setAuthentication();
+  await setCookieAndAuthentication();
 }
 
 // set cookie
-async function setCookie() {
-  JSESSIONIDRegExp.lastIndex = 0;
+async function setCookieAndAuthentication() {
+  const response1 = await requestModule.get('https://papago.naver.com/');
 
-  const response = await requestModule.getCookie(
-    {
-      protocol: 'https:',
-      hostname: 'papago.naver.com',
-      path: '/',
-    },
-    JSESSIONIDRegExp
-  );
+  // set cookie
+  const setCookie = response1?.headers?.['set-cookie'];
 
-  if (response) {
-    cookie = response;
-    expireDate = requestModule.getExpiryDate();
+  if (setCookie) {
+    regJSESSIONID.lastIndex = 0;
+    const value = regJSESSIONID.exec(setCookie.join('; '))?.groups?.target;
+
+    authentication.cookie = value + '; papago_skin_locale=en; NNB=DUY6W7XWYMWGM ';
+    authentication.expireDate = requestModule.getExpiryDate();
   } else {
-    throw 'ERROR: setCookie';
+    throw 'set-cookie is undefined';
   }
-}
 
-// set authentication
-async function setAuthentication() {
-  fileNameRegExp.lastIndex = 0;
-  ppgRegExp.lastIndex = 0;
-  versionRegExp.lastIndex = 0;
-
-  const response1 = await requestModule.get({
-    protocol: 'https:',
-    hostname: 'papago.naver.com',
-    path: '/',
-  });
-
-  const fileName = fileNameRegExp.exec(response1)?.groups?.target;
+  // set authentication
+  const fileName = regFileName.exec(response1?.data)?.groups?.target;
 
   if (fileName) {
-    const response2 = await requestModule.get({
-      protocol: 'https:',
-      hostname: 'papago.naver.com',
-      path: '/' + fileName,
-    });
-
-    const ppg = ppgRegExp.exec(response2)?.groups?.target;
-    const version = versionRegExp.exec(ppg)?.groups?.target;
+    const response2 = await requestModule.get('https://papago.naver.com/' + fileName);
+    const ppg = regPpg.exec(response2?.data)?.groups?.target;
+    const version = regVersion.exec(ppg)?.groups?.target;
 
     if (version) {
-      authentication = {
-        deviceId: papagoFunction.generateDeviceId(),
-        papagoVersion: version,
-      };
+      authentication.deviceId = papagoFunction.generateDeviceId();
+      authentication.papagoVersion = version;
     } else {
-      throw 'ERROR: setAuthentication - version not found';
+      throw 'version is undefined';
     }
   } else {
-    throw 'ERROR: setAuthentication - fileName not found';
+    throw 'fileName is undefined';
   }
 }
 
 // translate
-async function translate(cookie, authentication, option) {
+async function translate(option) {
+  // check expire date
+  if (new Date().getTime() >= authentication.expireDate) {
+    await initialize();
+  }
+
   const currentTime = new Date().getTime();
   const authorization = `PPG ${authentication.deviceId}:${papagoFunction.generateSignature(
     authentication,
@@ -124,15 +93,12 @@ async function translate(cookie, authentication, option) {
   )}`;
 
   const response = await requestModule.post(
-    {
-      protocol: 'https:',
-      hostname: 'papago.naver.com',
-      path: '/apis/n2mt/translate',
-    },
+    'https://papago.naver.com/apis/n2mt/translate',
     encodeURI(
       requestModule.toParameters({
         deviceId: authentication.deviceId,
         locale: 'en-US',
+        agree: false,
         dict: 'true',
         dictDisplay: 30,
         honorific: false,
@@ -144,34 +110,30 @@ async function translate(cookie, authentication, option) {
       })
     ),
     {
-      accept: 'application/json',
-      'accept-encoding': 'gzip, deflate, br',
-      'accept-language': 'en-US',
-      authorization: authorization,
-      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      cookie: cookie,
-      origin: 'https://papago.naver.com',
-      referer: 'https://papago.naver.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'same-origin',
-      timestamp: currentTime,
-      'user-agent': requestModule.getUserAgent(),
-      'x-apigw-partnerid': 'papago',
+      Accept: 'application/json',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
+      'Accept-Language': 'en-US',
+      Authorization: authorization,
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      Cookie: authentication.cookie,
+      Origin: 'https://papago.naver.com',
+      Referer: 'https://papago.naver.com/',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-origin',
+      Timestamp: currentTime,
+      'User-Agent': requestModule.getUserAgent(),
+      'X-Apigw-Partnerid': 'papago',
     }
   );
 
-  if (response?.translatedText) {
-    return response.translatedText;
+  if (response?.data?.translatedText) {
+    return response.data.translatedText;
   } else {
-    console.log('cookie:', cookie);
-    console.log('authentication:', authentication);
-    console.log('option:', option);
-    console.log('data:', response);
-    throw 'ERROR: translate';
+    throw response?.data;
   }
 }
 

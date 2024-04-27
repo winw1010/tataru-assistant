@@ -1,13 +1,10 @@
 'use strict';
 
-// axios
-const axios = require('axios').default;
-
 // request module
 const requestModule = require('../system/request-module');
 
 // RegExp
-const baiduIdRegExp = /BAIDUID=(?<target>[^;]+)/is;
+const regBaiduId = /BAIDUID=(?<target>[^;]+)/is;
 
 // authentication
 let authentication = {
@@ -34,12 +31,12 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  const response = await axios.get('https://fanyi.baidu.com/');
-  const setCookie = response.headers['set-cookie'];
+  const response = await requestModule.get('https://fanyi.baidu.com/');
+  const setCookie = response?.headers?.['set-cookie'];
 
   if (setCookie) {
-    baiduIdRegExp.lastIndex = 0;
-    const value = baiduIdRegExp.exec(setCookie.join('; '))?.groups?.target;
+    regBaiduId.lastIndex = 0;
+    const value = regBaiduId.exec(setCookie.join('; '))?.groups?.target;
 
     authentication.cookie =
       'BAIDUID=' +
@@ -61,7 +58,7 @@ async function translate(option) {
   }
 
   const currentTime = new Date().getTime();
-  const response = await axios.post(
+  const response = await requestModule.post(
     'https://fanyi.baidu.com/ait/text/translate',
     JSON.stringify({
       query: option.text,
@@ -75,28 +72,25 @@ async function translate(option) {
       milliTimestamp: currentTime,
     }),
     {
-      timeout: 10000,
-      headers: {
-        Accept: 'text/event-stream',
-        'Accept-Encoding': 'gzip, deflate, br, zstd',
-        'Accept-Language': 'zh-CN,zh;q=0.9',
-        Connection: 'keep-alive',
-        'Content-Type': 'application/json',
-        Cookie: authentication.cookie,
-        Origin: 'https://fanyi.baidu.com',
-        //Referer: 'https://fanyi.baidu.com/',
-        'sec-ch-ua': requestModule.getSCU(),
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': requestModule.getUserAgent(),
-      },
+      Accept: 'text/event-stream',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
+      'Accept-Language': 'zh-CN,zh;q=0.9',
+      Connection: 'keep-alive',
+      'Content-Type': 'application/json',
+      Cookie: authentication.cookie,
+      Origin: 'https://fanyi.baidu.com',
+      //Referer: 'https://fanyi.baidu.com/',
+      'sec-ch-ua': requestModule.getSCU(),
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-origin',
+      'User-Agent': requestModule.getUserAgent(),
     }
   );
 
-  const responseArray = response.data.split('\n');
+  const responseArray = response?.data?.split('\n') || [];
   let list = [];
   let text = '';
 
@@ -120,7 +114,7 @@ async function translate(option) {
   if (text.length > 0) {
     return text;
   } else {
-    throw response.data;
+    throw response?.data;
   }
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const axios = require('axios').default;
+const requestModule = require('../system/request-module');
 
 const { createPrompt } = require('./ai-function');
 
@@ -20,7 +20,7 @@ async function exec(option, table = []) {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = createPrompt(source, target, table);
-  const response = await axios.post(
+  const response = await requestModule.post(
     'https://api.cohere.ai/v1/chat',
     {
       preamble: prompt,
@@ -30,22 +30,19 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
       //top_p: 1,
     },
     {
-      timeout: 10000,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'bearer ' + config.api.cohereToken,
-      },
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'bearer ' + config.api.cohereToken,
     }
   );
 
   console.log('prompt', prompt);
-  console.log('Tokens:', response.data?.meta?.tokens);
+  console.log('Tokens:', response?.data?.meta?.tokens);
 
-  if (response.data?.text) {
+  if (response?.data?.text) {
     return response.data.text;
   } else {
-    return response.data;
+    return response?.data;
   }
 }
 

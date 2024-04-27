@@ -1,16 +1,12 @@
 'use strict';
 
-/*
 // axios
 const axios = require('axios').default;
-*/
-
-// net
-const { net } = require('electron');
 
 // config module
 const configModule = require('./config-module');
 
+/*
 // restricted headers
 const restrictedHeaders = [
   'Content-Length',
@@ -22,180 +18,33 @@ const restrictedHeaders = [
   'Keep-Alive',
   'Transfer-Encoding',
 ];
+*/
 
 // get
-function get(options, headers = {}, timeout = 15000) {
-  return netRequest('GET', options, null, headers, timeout, 'data');
+async function get(url = '', headers = {}, timeout = 10000) {
+  let response = null;
+
+  try {
+    response = await axios.get(url, { timeout, headers });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return response;
 }
 
 // post
-function post(options, data = null, headers = {}, timeout = 15000) {
-  return netRequest('POST', options, data, headers, timeout, 'data');
-}
+function post(url = '', data = '', headers = {}, timeout = 10000) {
+  let response = null;
 
-// net request
-async function netRequest(method, options, data, headers, timeout, returnType = 'data') {
-  /*
-    try {
-        const axiosConfig = {
-            method: method.toLowerCase(),
-            url: options.protocol + '//' + options.hostname + options.path,
-            headers: fixHeaders(headers),
-            timeout: timeout,
-        };
-
-        if (data) {
-            axiosConfig.data = data;
-        }
-
-        const response = await axios(axiosConfig);
-
-        if (returnType === 'data') {
-            return response.data;
-        } else {
-            return response;
-        }
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-    */
-
-  // set request
-  options.method = method;
-  const request = net.request(options);
-
-  // set headers
-  const headerNameList = Object.getOwnPropertyNames(headers);
-  for (let index = 0; index < headerNameList.length; index++) {
-    const headerName = headerNameList[index];
-
-    if (!restrictedHeaders.includes(headerName)) {
-      if (headerName === 'Connection' && headers[headerName] === 'upgrade') {
-        continue;
-      } else {
-        request.setHeader(headerName, headers[headerName]);
-      }
-    }
+  try {
+    response = axios.post(url, data, { timeout, headers });
+  } catch (error) {
+    console.log(error);
   }
 
-  // return promise
-  return new Promise((resolve) => {
-    // set timeout
-    const requestTimeout = setTimeout(() => {
-      console.log('Request timeout');
-      request.abort();
-      resolve(null);
-    }, timeout);
-
-    // on request error
-    request.on('error', (error) => {
-      console.log(error);
-      resolve(null);
-    });
-
-    // on response
-    request.on('response', (response) => {
-      // clear timeout
-      clearTimeout(requestTimeout);
-
-      // set chunk array
-      let chunkArray = [];
-
-      // on response error
-      response.on('error', () => {
-        console.log(response.statusCode + ': ' + response.statusMessage);
-        resolve(null);
-      });
-
-      // on response end
-      response.on('end', () => {
-        // set chunk string
-        const chunkString = Buffer.concat(chunkArray).toString();
-
-        /*
-                // show chunk string
-                if (method === 'POST') {
-                    console.log('chunk string:', chunkString + '\r\n');
-                }
-                */
-
-        // resolve
-        if (returnType === 'data') {
-          try {
-            resolve(JSON.parse(chunkString));
-          } catch (error) {
-            resolve(chunkString);
-          }
-        } else {
-          resolve(response);
-        }
-      });
-
-      // on response data
-      response.on('data', (chunk) => {
-        if (response.statusCode === 200) {
-          chunkArray.push(chunk);
-        }
-      });
-    });
-
-    // write data
-    if (data) {
-      request.write(data);
-    }
-
-    // end request
-    request.end();
-  });
+  return response;
 }
-
-// get cookie
-async function getCookie(options, targetRegExp = /(?<target>.*)/, headers = {}, timeout = 15000) {
-  return new Promise((resolve) => {
-    netRequest('GET', options, null, headers, timeout, 'response').then((response) => {
-      //console.log('headers', response?.headers);
-      //console.log('set-cookie', response?.headers?.['set-cookie']);
-      const cookieString = response?.headers?.['set-cookie']?.join('; ') || '';
-
-      if (Array.isArray(targetRegExp)) {
-        const targetArray = [];
-        for (let index = 0; index < targetRegExp.length; index++) {
-          const regex = targetRegExp[index];
-          const target = regex.exec(cookieString)?.groups?.target;
-          if (target) {
-            targetArray.push(target);
-          }
-        }
-        resolve(targetArray.join('; '));
-      } else {
-        resolve(targetRegExp.exec(cookieString)?.groups?.target);
-      }
-    });
-  });
-}
-
-/*
-// fix headers
-function fixHeaders(headers = {}) {
-    const headerNameList = Object.getOwnPropertyNames(headers);
-    let fixedHeaders = {};
-
-    for (let index = 0; index < headerNameList.length; index++) {
-        const headerName = headerNameList[index];
-
-        if (!restrictedHeaders.includes(headerName)) {
-            if (headerName === 'Connection' && headers[headerName] === 'upgrade') {
-                continue;
-            } else {
-                fixedHeaders[headerName] = headers[headerName];
-            }
-        }
-    }
-
-    return fixedHeaders;
-}
-*/
 
 // get expiry date
 function getExpiryDate() {
@@ -231,7 +80,6 @@ function toParameters(data = {}) {
 module.exports = {
   get,
   post,
-  getCookie,
   getExpiryDate,
   getSCU,
   getUserAgent,

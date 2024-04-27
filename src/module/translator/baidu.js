@@ -39,7 +39,7 @@ async function setCookie() {
 
   if (setCookie) {
     baiduIdRegExp.lastIndex = 0;
-    const value = baiduIdRegExp.exec(setCookie.join(''))?.groups?.target;
+    const value = baiduIdRegExp.exec(setCookie.join('; '))?.groups?.target;
 
     authentication.cookie =
       'BAIDUID=' +
@@ -49,7 +49,7 @@ async function setCookie() {
       +'; ab_sr=1.0.1_MmMzZTM2NzE5ZWFjNjM5MTgyNzBiYWZlMWNjOWY3NjFlM2M2NDM4MTdmOWZiNWVkZjUwYzAzZTlkNGMzZmNkNzAwNWEwOWMyOWI1ZDUwNThlZDdiN2MyMWYyOWI2NDEzOTYyYTRkNzhkZTE0NTQ1ODg0YzlhMWNiNjk5ODExOWI4NWZmMzU5NTE3ZTBkNzI5ZWZkNjliZTU5ZTUzODc2OA==; RT="z=1&dm=baidu.com&si=bab82135-beab-443d-bcbe-16e83d734b9f&ss=lvhs1t1u&sl=1&tt=34k&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=4an"';
     authentication.expireDate = requestModule.getExpiryDate();
   } else {
-    throw 'ERROR: setCookie';
+    throw 'set-cookie is undefined';
   }
 }
 

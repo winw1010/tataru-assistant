@@ -591,7 +591,7 @@ function setTranslateChannel() {
       } else if (engine === 'Cohere') {
         if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
       } else if (engine === 'google-vision') {
-        const keyPath = fileModule.getUserDataPath('setting', 'google-credential.json');
+        const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
         if (!fileModule.exists(keyPath)) {
           message = '尚未設定Google憑證，請先至【設定】>【API設定】輸入憑證';
         }

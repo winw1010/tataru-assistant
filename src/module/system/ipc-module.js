@@ -388,7 +388,7 @@ function setCaptureChannel() {
           let data = fileModule.read(value.filePaths[0], 'json');
 
           if (data) {
-            fileModule.write(fileModule.getUserDataPath('setting', 'google-credential.json'), data, 'json');
+            fileModule.write(fileModule.getUserDataPath('config', 'google-credential.json'), data, 'json');
             dialogModule.showNotification('已儲存Google憑證');
           } else {
             dialogModule.showNotification('檔案格式不正確');

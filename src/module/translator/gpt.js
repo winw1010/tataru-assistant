@@ -64,10 +64,7 @@ async function getModelList(apiKey = null) {
       ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/models'
       : 'https://api.openai.com/v1/models';
 
-    const response = await requestModule.get(apiUrl, {
-      timeout: 10000,
-      headers: { Authorization: 'Bearer ' + apiKey },
-    });
+    const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
 
     let list = [];
     let gptList = [];

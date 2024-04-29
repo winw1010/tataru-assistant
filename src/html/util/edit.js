@@ -83,9 +83,8 @@ function setButton() {
   document.getElementById('button-restart-translate').onclick = () => {
     const config = ipcRenderer.sendSync('get-config');
 
-    let dialogData = {
+    const dialogData = {
       id: targetLog.id,
-      playerName: targetLog.player,
       code: targetLog.code,
       name: targetLog.name,
       text: targetLog.text,

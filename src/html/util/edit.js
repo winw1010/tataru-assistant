@@ -3,24 +3,8 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// file module
-const fileModule = {
-  getPath: (...args) => {
-    return ipcRenderer.sendSync('get-path', ...args);
-  },
-  getUserDataPath: (...args) => {
-    return ipcRenderer.sendSync('get-user-data-path', ...args);
-  },
-  readJson: (filePath, returnArray) => {
-    return ipcRenderer.sendSync('read-json', filePath, returnArray);
-  },
-  writeJson: (filePath, data) => {
-    ipcRenderer.send('write-json', filePath, data);
-  },
-};
-
 // log path
-const logPath = fileModule.getUserDataPath('log');
+const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
 
 // target log
 let targetLog = null;
@@ -159,8 +143,8 @@ function readLog(id = '') {
   try {
     const config = ipcRenderer.sendSync('get-config');
     const milliseconds = parseInt(id.slice(2));
-    const filePath = fileModule.getPath(logPath, createLogName(milliseconds));
-    const log = fileModule.readJson(filePath, false);
+    const filePath = ipcRenderer.sendSync('get-path', logPath, createLogName(milliseconds));
+    const log = ipcRenderer.sendSync('read-json', filePath, false);
 
     targetLog = log[id];
 

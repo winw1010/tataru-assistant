@@ -22,7 +22,7 @@ const defaultConfig = {
     hideButton: true,
     hideDialog: true,
     minSize: true,
-    hideDialogTimeout: '30',
+    hideDialogTimeout: '15',
     backgroundColor: '#00000034',
     clickThrough: false,
     lock: false,

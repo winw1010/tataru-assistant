@@ -58,9 +58,7 @@ function setIPC() {
       dialog = addDialog(dialogData.id, dialogData.code);
       dialog.style.display = 'none';
     } else {
-      const content = document.createElement('span');
-      content.innerText = '...';
-      dialog.innerHTML = content.outerHTML;
+      setDialogContent(dialog, '...');
     }
   });
 
@@ -81,9 +79,7 @@ function setIPC() {
       dialogData.translatedName += '：<br>';
     }
 
-    const content = document.createElement('span');
-    content.innerHTML = dialogData.translatedName + dialogData.translatedText;
-    dialog.innerHTML = content.outerHTML;
+    setDialogContent(dialog, dialogData.translatedName + dialogData.translatedText);
 
     // set dialog style
     setStyle(dialog, style);
@@ -116,9 +112,7 @@ function setIPC() {
     setStyle(dialog, style);
 
     // set notification content
-    const content = document.createElement('span');
-    content.innerText = text;
-    dialog.innerHTML = content.outerHTML;
+    setDialogContent(dialog, text);
 
     // set timeout
     setTimeout(() => {
@@ -349,6 +343,13 @@ function addDialog(id = '', code = '') {
   dialog.className = code;
   document.getElementById('div-dialog').append(dialog);
   return dialog;
+}
+
+// set dialog content
+function setDialogContent(dialog, text = '') {
+  const content = document.createElement('span');
+  content.innerHTML = text;
+  dialog.innerHTML = content.outerHTML;
 }
 
 // scroll into view

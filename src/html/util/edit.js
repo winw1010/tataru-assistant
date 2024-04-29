@@ -218,13 +218,16 @@ function showAudio() {
 
 // show text
 function showText() {
-  const text1 = document.getElementById('div-text1');
-  const text2 = document.getElementById('div-text2');
+  const divText1 = document.getElementById('div-text1');
+  const name1 = targetLog.name;
+  const text1 = targetLog.text;
 
-  text1.innerHTML = `<span>${targetLog.name !== '' ? targetLog.name + '：<br>' : ''}${targetLog.text}</span>`;
-  text2.innerHTML =
-    `<span>${targetLog.translated_name !== '' ? targetLog.translated_name + '：<br>' : ''}` +
-    `${targetLog.translated_text}</span>`;
+  const divText2 = document.getElementById('div-text2');
+  const name2 = targetLog.translated_name;
+  const text2 = targetLog.translated_text;
+
+  divText1.innerHTML = `<span>${name1 !== '' ? name1 + '：<br>' : ''}${text1}</span>`;
+  divText2.innerHTML = `<span>${name2 !== '' ? name2 + '：<br>' : ''}${text2}</span>`;
 }
 
 /*

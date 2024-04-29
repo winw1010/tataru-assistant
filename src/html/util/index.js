@@ -28,19 +28,19 @@ function setIPC() {
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
-  // clear dialog
-  ipcRenderer.on('clear-dialog', () => {
-    document.getElementById('div-dialog').innerHTML = '';
-  });
-
-  // move to bottom
-  ipcRenderer.on('move-to-bottom', () => {
-    moveToBottom();
-  });
-
   // reset view
   ipcRenderer.on('reset-view', (event, config) => {
     resetView(config);
+  });
+
+  // hide update button
+  ipcRenderer.on('hide-update-button', (event, isHidden) => {
+    document.getElementById('img-button-update').hidden = isHidden;
+  });
+
+  // add audio
+  ipcRenderer.on('add-to-playlist', (event, urlList) => {
+    document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
   });
 
   // console log
@@ -82,7 +82,7 @@ function setIPC() {
     setDialogContent(dialog, dialogData.translatedName + dialogData.translatedText);
 
     // set dialog style
-    setStyle(dialog, style);
+    setDialogStyle(dialog, style);
 
     // add click event
     if (dialog.className !== 'FFFF') {
@@ -109,7 +109,7 @@ function setIPC() {
     const dialog = addDialog(id, code);
 
     // set notification style
-    setStyle(dialog, style);
+    setDialogStyle(dialog, style);
 
     // set notification content
     setDialogContent(dialog, text);
@@ -127,19 +127,24 @@ function setIPC() {
     scrollIntoView(id);
   });
 
+  // reset dialog style
+  ipcRenderer.on('reset-dialog-style', (event, id, style = {}) => {
+    setDialogStyle(document.getElementById(id), style);
+  });
+
   // hide dialog
   ipcRenderer.on('hide-dialog', (event, isHidden) => {
     document.getElementById('div-dialog').hidden = isHidden;
   });
 
-  // hide update button
-  ipcRenderer.on('hide-update-button', (event, isHidden) => {
-    document.getElementById('img-button-update').hidden = isHidden;
+  // clear dialog
+  ipcRenderer.on('clear-dialog', () => {
+    document.getElementById('div-dialog').innerHTML = '';
   });
 
-  // add audio
-  ipcRenderer.on('add-to-playlist', (event, urlList) => {
-    document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
+  // move to bottom
+  ipcRenderer.on('move-to-bottom', () => {
+    moveToBottom();
   });
 }
 
@@ -347,27 +352,24 @@ function addDialog(id = '', code = '') {
 
 // set dialog content
 function setDialogContent(dialog, text = '') {
-  const content = document.createElement('span');
-  content.innerHTML = text;
-  dialog.innerHTML = content.outerHTML;
+  if (dialog) {
+    const content = document.createElement('span');
+    content.innerHTML = text;
+    dialog.innerHTML = content.outerHTML;
+  }
 }
 
-// scroll into view
-function scrollIntoView(id = '') {
-  setTimeout(() => {
-    document.getElementById(id).scrollIntoView();
-  }, 200);
-}
-
-// set style
-function setStyle(element, style = {}) {
-  Object.getOwnPropertyNames(style).forEach((key) => {
-    try {
-      element.style[key] = style[key];
-    } catch (error) {
-      console.log(error);
-    }
-  });
+// set dialog style
+function setDialogStyle(dialog = null, style = {}) {
+  if (dialog) {
+    Object.getOwnPropertyNames(style).forEach((key) => {
+      try {
+        dialog.style[key] = style[key];
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
 }
 
 // reset dialog style
@@ -375,10 +377,15 @@ function resetDialogStyle() {
   const dialogCollection = document.getElementById('div-dialog').children;
 
   for (let index = 0; index < dialogCollection.length; index++) {
-    const dialog = document.getElementById(dialogCollection[index].id);
-    const style = ipcRenderer.sendSync('get-style', dialog.className);
-    setStyle(dialog, style);
+    ipcRenderer.send('reset-dialog-style', dialogCollection[index].id, dialogCollection[index].className);
   }
+}
+
+// scroll into view
+function scrollIntoView(id = '') {
+  setTimeout(() => {
+    document.getElementById(id).scrollIntoView();
+  }, 200);
 }
 
 // move to bottom

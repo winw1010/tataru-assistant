@@ -317,8 +317,9 @@ function setDialogChannel() {
   });
 
   // get style
-  ipcMain.on('get-style', (event, code) => {
-    event.returnValue = dialogModule.getStyle(code);
+  ipcMain.on('reset-dialog-style', (event, id, code) => {
+    const style = dialogModule.getStyle(code);
+    event.sender.send('reset-dialog-style', id, style);
   });
 
   // show dialog

@@ -102,7 +102,7 @@ function copyData() {
       const name = configList[index];
       const value = config?.system?.[name];
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         if (name === 'UnofficialApi') {
           config.api['unofficialApi'] = value;
         } else {

@@ -220,7 +220,7 @@ function getElementTextList() {
         Caiyun: ['彩雲小譯', '彩云小译', 'Caiyun'],
         Papago: ['Papago', 'Papago', 'Papago'],
         DeepL: ['DeepL', 'DeepL', 'DeepL'],
-        '#AI-Translator': ['#LLM AI翻譯', '#LLM AI翻译', '#LLM AI'],
+        '#AI-Translator': ['#AI翻譯', '#AI翻译', '#AI'],
         GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],

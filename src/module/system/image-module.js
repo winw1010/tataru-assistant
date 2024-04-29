@@ -21,7 +21,7 @@ const windowModule = require('./window-module');
 
 // start recognize
 async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
-  dialogModule.showNotification('正在擷取螢幕畫面');
+  dialogModule.addNotification('正在擷取螢幕畫面');
   console.log('rectangle size:', rectangleSize);
 
   try {
@@ -54,7 +54,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
     cropImage(rectangleSize, displayBounds, screenshotPath);
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+    dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
   }
 }
 
@@ -87,11 +87,11 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
     */
 
     // start reconizing
-    dialogModule.showNotification('正在辨識圖片文字');
+    dialogModule.addNotification('正在辨識圖片文字');
     textDetectModule.startReconizing(croppedPath);
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+    dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
   }
 }
 
@@ -141,7 +141,7 @@ async function fixImage(cropPath = '') {
     return processedPath;
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('圖片處理發生錯誤: ' + error);
+    dialogModule.addNotification('圖片處理發生錯誤: ' + error);
     return cropPath;
   }
 }
@@ -211,7 +211,7 @@ async function otsuFix(croppedPath = '') {
     return processedPath;
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('圖片處理發生錯誤: ' + error);
+    dialogModule.addNotification('圖片處理發生錯誤: ' + error);
     return croppedPath;
   }
 }
@@ -301,7 +301,7 @@ async function fixImage(imageBuffer) {
         ipcRenderer.send('tesseract-ocr', resultImageBuffer);
     } catch (error) {
         console.log(error);
-        dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+        dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
     }
 }
 */

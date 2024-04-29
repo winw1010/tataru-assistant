@@ -307,14 +307,13 @@ function setWindowChannel() {
 // set dialog channel
 function setDialogChannel() {
   // add log
-  ipcMain.on('add-log', (event, id, code, name, text) => {
-    dialogModule.addDialog(id, code);
-    dialogModule.updateDialog(id, code, name, text, null, false);
+  ipcMain.on('add-log', (event, dialogData) => {
+    dialogModule.updateDialog(dialogData, false, false);
   });
 
-  // show notification
-  ipcMain.on('show-notification', (event, text) => {
-    dialogModule.showNotification(text);
+  // add notification
+  ipcMain.on('add-notification', (event, text) => {
+    dialogModule.addNotification(text);
   });
 
   // get style
@@ -389,9 +388,9 @@ function setCaptureChannel() {
 
           if (data) {
             fileModule.write(fileModule.getUserDataPath('config', 'google-credential.json'), data, 'json');
-            dialogModule.showNotification('已儲存Google憑證');
+            dialogModule.addNotification('已儲存Google憑證');
           } else {
-            dialogModule.showNotification('檔案格式不正確');
+            dialogModule.addNotification('檔案格式不正確');
           }
         }
       })
@@ -443,7 +442,7 @@ function setRequestChannel() {
       })
       .finally(() => {
         // show message
-        dialogModule.showNotification(notificationText);
+        dialogModule.addNotification(notificationText);
       });
   });
 

@@ -31,61 +31,43 @@ const logLocation = fileModule.getUserDataPath('log');
 let hideDialogTimeout = null;
 
 // add dialog
-function addDialog(id, code) {
-  windowModule.sendIndex('add-dialog', {
-    id,
-    code,
-    innerHTML: '<span>...</span>',
-    style: getStyle(code),
-    scroll: false,
-  });
+function addDialog(dialogData) {
+  windowModule.sendIndex('add-dialog', { dialogData });
 }
 
 // update dialog
-function updateDialog(id, code, name, text, dialogData = null, scroll = true) {
+function updateDialog(dialogData = {}, scroll = true, save = true) {
   // zh convert
   if (dialogData?.translation) {
-    name = translateModule.zhConvert(name, dialogData.translation.to);
-    text = translateModule.zhConvert(text, dialogData.translation.to);
+    dialogData.translatedName = translateModule.zhConvert(dialogData.translatedName, dialogData.translation.to);
+    dialogData.translatedText = translateModule.zhConvert(dialogData.translatedText, dialogData.translation.to);
   }
 
-  // add dialog
-  windowModule.sendIndex('add-dialog', {
-    id,
-    innerHTML: `<span>${name}</span>${name !== '' ? '：<br />' : ''}<span>${text}</span>`,
-    style: { ...getStyle(code), display: 'block' },
-    scroll: scroll,
+  // send
+  windowModule.sendIndex('update-dialog', {
+    dialogData,
+    style: getStyle(dialogData.code),
+    scroll,
   });
 
   // show dialog
   showDialog();
 
   // save dialog
-  if (dialogData) {
-    saveLog(id, name, text, dialogData);
+  if (save) {
+    saveDialog(dialogData);
   }
 }
 
-// remove dialog
-function removeDialog(id) {
-  windowModule.sendIndex('remove-dialog', id);
-}
-
-// show notification
-function showNotification(text) {
+// add notification
+function addNotification(text) {
   const config = configModule.getConfig();
-  const timestamp = new Date().getTime();
-  const id = 'sid' + timestamp;
-  const code = 'FFFF';
 
   // zh convert
   text = translateModule.zhConvert(text, config.system.appLanguage);
 
-  addDialog(id, code);
-  updateDialog(id, code, '', text);
-  setTimeout(() => {
-    removeDialog(id);
-  }, 7000 /*5000 + Math.min(text.length * 20, 5000)*/);
+  // add
+  windowModule.sendIndex('add-notification', { text, style: getStyle('FFFF') });
 }
 
 // show info
@@ -128,17 +110,17 @@ function getStyle(code = '003D') {
 }
 
 // save dialog
-function saveLog(id, name, text, dialogData) {
+function saveDialog(dialogData) {
   try {
     const item = {
-      id: id,
+      id: dialogData.id,
       code: dialogData.code,
       player: dialogData.playerName,
       name: dialogData.name,
       text: dialogData.text,
       audio_text: dialogData.audioText,
-      translated_name: name,
-      translated_text: text,
+      translated_name: dialogData.translatedName,
+      translated_text: dialogData.translatedText,
       timestamp: dialogData.timestamp,
       datetime: new Date(dialogData.timestamp).toLocaleString(),
       translation: dialogData.translation,
@@ -157,7 +139,7 @@ function saveLog(id, name, text, dialogData) {
       }
     }
 
-    // play speech at first time
+    // speech text at first time
     if (!log[item.id] && npcChannel.includes(dialogData.code) && dialogData.audioText !== '') {
       const urlList = googleTTS.getAudioUrl(dialogData.audioText, dialogData.translation.from);
       windowModule.sendIndex('add-to-playlist', urlList);
@@ -191,8 +173,7 @@ function createLogName(milliseconds = null) {
 module.exports = {
   addDialog,
   updateDialog,
-  removeDialog,
-  showNotification,
+  addNotification,
   showInfo,
   showDialog,
   getStyle,

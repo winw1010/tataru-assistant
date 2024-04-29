@@ -75,7 +75,7 @@ async function entry() {
   if (!dialogData) return;
 
   // add dialog
-  dialogModule.addDialog(dialogData.id, dialogData.code);
+  dialogModule.addDialog(dialogData);
 
   // clear content
   dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
@@ -112,17 +112,7 @@ async function entry() {
   }
 
   // update dialog
-  if (dialogData.translatedText !== '') {
-    dialogModule.updateDialog(
-      dialogData.id,
-      dialogData.code,
-      dialogData.translatedName,
-      dialogData.translatedText,
-      dialogData
-    );
-  } else {
-    dialogModule.removeDialog(dialogData.id);
-  }
+  dialogModule.updateDialog(dialogData);
 }
 
 // get language

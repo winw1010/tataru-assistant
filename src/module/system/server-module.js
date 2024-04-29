@@ -18,7 +18,7 @@ function dataProcess(dialogData) {
 
   if (checkData(dialogData)) {
     if (dialogData.type === 'CONSOLE') {
-      dialogModule.showNotification(dialogData.text);
+      dialogModule.addNotification(dialogData.text);
     } else {
       translateData(dialogData);
     }

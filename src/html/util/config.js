@@ -270,8 +270,8 @@ function saveConfig() {
   // reset config
   readConfig();
 
-  // show notification
-  ipcRenderer.send('show-notification', '設定已儲存');
+  // add notification
+  ipcRenderer.send('add-notification', '設定已儲存');
 }
 
 // save default config
@@ -288,8 +288,8 @@ function saveDefaultConfig() {
   // reset config
   readConfig();
 
-  // show notification
-  ipcRenderer.send('show-notification', '已恢復預設值');
+  // add notification
+  ipcRenderer.send('add-notification', '已恢復預設值');
 }
 
 // reset app

@@ -62,7 +62,7 @@ async function googleVision(imagePath) {
     }
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法辨識圖片文字: ' + error);
+    dialogModule.addNotification('無法辨識圖片文字: ' + error);
   }
 }
 
@@ -92,14 +92,14 @@ async function tesseractOCR(imagePath = '') {
     if (text.trim().length > 0) {
       fixImageText(text);
     } else {
-      dialogModule.showNotification('無法辨識圖片文字: 字串長度為0');
+      dialogModule.addNotification('無法辨識圖片文字: 字串長度為0');
     }
 
     // terminate worker
     await worker.terminate();
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法辨識圖片文字: ' + error);
+    dialogModule.addNotification('無法辨識圖片文字: ' + error);
   }
 }
 
@@ -146,8 +146,8 @@ function fixImageText(text) {
       .replaceAll(/倫成/gi, '賛成');
   }
 
-  // show notification
-  dialogModule.showNotification('辨識完成');
+  // add notification
+  dialogModule.addNotification('辨識完成');
 
   // return if edit is true
   if (config.captureWindow.edit) {

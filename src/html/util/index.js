@@ -49,54 +49,88 @@ function setIPC() {
   });
 
   // add dialog
-  ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = true }) => {
-    // div
-    const div = document.getElementById('div-dialog');
-
+  ipcRenderer.on('add-dialog', (event, { dialogData = {} }) => {
     // get dialog
-    let dialog = document.getElementById(id);
+    let dialog = document.getElementById(dialogData.id);
 
     // check dialog
     if (!dialog) {
-      dialog = document.createElement('div');
-      div.append(dialog);
-      dialog.id = id;
-      dialog.className = code;
+      dialog = addDialog(dialogData.id, dialogData.code);
       dialog.style.display = 'none';
+    } else {
+      const content = document.createElement('span');
+      content.innerText = '...';
+      dialog.innerHTML = content.outerHTML;
+    }
+  });
+
+  // update dialog
+  ipcRenderer.on('update-dialog', (event, { dialogData = {}, style = {}, scroll = true }) => {
+    // get dialog
+    let dialog = document.getElementById(dialogData.id);
+
+    // check dialog
+    if (!dialog) {
+      dialog = addDialog(dialogData.id, dialogData.code);
+    } else {
+      dialog.style.display = 'block';
     }
 
-    // set dialog
-    dialog.innerHTML = innerHTML;
+    // set dialog content
+    if (dialogData.translatedName !== '') {
+      dialogData.translatedName += '：<br>';
+    }
+
+    const content = document.createElement('span');
+    content.innerHTML = dialogData.translatedName + dialogData.translatedText;
+    dialog.innerHTML = content.outerHTML;
+
+    // set dialog style
     setStyle(dialog, style);
-
-    // set first dialog
-    if (div.firstElementChild) {
-      document.getElementById(div.firstElementChild.id).style.marginTop = '0';
-    }
 
     // add click event
     if (dialog.className !== 'FFFF') {
       dialog.style.cursor = 'pointer';
       dialog.onclick = () => {
-        ipcRenderer.send('restart-window', 'edit', id);
+        ipcRenderer.send('restart-window', 'edit', dialogData.id);
       };
     }
 
     // navigate dialog
     if (scroll) {
-      setTimeout(() => {
-        document.getElementById(id).scrollIntoView();
-      }, 200);
+      scrollIntoView(dialogData.id);
     }
   });
 
-  // remove dialog
-  ipcRenderer.on('remove-dialog', (event, id) => {
-    try {
-      document.getElementById(id).remove();
-    } catch (error) {
-      //console.log(error);
-    }
+  // add notification
+  ipcRenderer.on('add-notification', (event, { text, style = {} }) => {
+    // set notification
+    const timestamp = new Date().getTime();
+    const id = 'sid' + timestamp;
+    const code = 'FFFF';
+
+    // create notification
+    const dialog = addDialog(id, code);
+
+    // set notification style
+    setStyle(dialog, style);
+
+    // set notification content
+    const content = document.createElement('span');
+    content.innerText = text;
+    dialog.innerHTML = content.outerHTML;
+
+    // set timeout
+    setTimeout(() => {
+      try {
+        document.getElementById(id).remove();
+      } catch (error) {
+        //console.log(error);
+      }
+    }, 7000);
+
+    // navigate notification
+    scrollIntoView(id);
   });
 
   // hide dialog
@@ -211,7 +245,7 @@ function setButton() {
     if (config.indexWindow.focusable) {
       ipcRenderer.send('minimize-window');
     } else {
-      ipcRenderer.send('show-notification', '在不可選取的狀態下無法縮小視窗');
+      ipcRenderer.send('add-notification', '在不可選取的狀態下無法縮小視窗');
     }
   };
 
@@ -261,7 +295,7 @@ function setButton() {
 
 // start app
 function startApp() {
-  ipcRenderer.send('show-notification', '查看使用說明: CTRL+F9');
+  ipcRenderer.send('add-notification', '查看使用說明: CTRL+F9');
   ipcRenderer.send('version-check');
   ipcRenderer.send('initialize-json');
 }
@@ -306,6 +340,22 @@ function resetView(config) {
   }, 100);
 
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);
+}
+
+// add dialog
+function addDialog(id = '', code = '') {
+  const dialog = document.createElement('div');
+  dialog.id = id;
+  dialog.className = code;
+  document.getElementById('div-dialog').append(dialog);
+  return dialog;
+}
+
+// scroll into view
+function scrollIntoView(id = '') {
+  setTimeout(() => {
+    document.getElementById(id).scrollIntoView();
+  }, 200);
 }
 
 // set style

@@ -316,7 +316,7 @@ function setDialogChannel() {
     dialogModule.addNotification(text);
   });
 
-  // get style
+  // reset dialog style
   ipcMain.on('reset-dialog-style', (event, id, code) => {
     const style = dialogModule.getStyle(code);
     event.sender.send('reset-dialog-style', id, style);

@@ -378,10 +378,6 @@ function resetDialogStyle() {
     const dialog = document.getElementById(dialogCollection[index].id);
     const style = ipcRenderer.sendSync('get-style', dialog.className);
     setStyle(dialog, style);
-
-    if (index === 0) {
-      dialog.style.marginTop = '0';
-    }
   }
 }
 

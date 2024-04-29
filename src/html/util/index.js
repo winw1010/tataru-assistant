@@ -128,8 +128,11 @@ function setIPC() {
   });
 
   // reset dialog style
-  ipcRenderer.on('reset-dialog-style', (event, id, style = {}) => {
-    setDialogStyle(document.getElementById(id), style);
+  ipcRenderer.on('reset-dialog-style', (event, resetList = []) => {
+    for (let index = 0; index < resetList.length; index++) {
+      const element = resetList[index];
+      setDialogStyle(document.getElementById(element.id), element.style);
+    }
   });
 
   // hide dialog
@@ -375,10 +378,17 @@ function setDialogStyle(dialog = null, style = {}) {
 // reset dialog style
 function resetDialogStyle() {
   const dialogCollection = document.getElementById('div-dialog').children;
+  const resetList = [];
 
   for (let index = 0; index < dialogCollection.length; index++) {
-    ipcRenderer.send('reset-dialog-style', dialogCollection[index].id, dialogCollection[index].className);
+    const element = dialogCollection[index];
+    resetList.push({
+      id: element.id,
+      code: element.className,
+    });
   }
+
+  ipcRenderer.send('reset-dialog-style', resetList);
 }
 
 // scroll into view

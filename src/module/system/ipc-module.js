@@ -317,9 +317,13 @@ function setDialogChannel() {
   });
 
   // reset dialog style
-  ipcMain.on('reset-dialog-style', (event, id, code) => {
-    const style = dialogModule.getStyle(code);
-    event.sender.send('reset-dialog-style', id, style);
+  ipcMain.on('reset-dialog-style', (event, resetList = []) => {
+    for (let index = 0; index < resetList.length; index++) {
+      const element = resetList[index];
+      resetList[index].style = dialogModule.getStyle(element.code);
+    }
+
+    event.sender.send('reset-dialog-style', resetList);
   });
 
   // show dialog

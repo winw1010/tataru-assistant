@@ -159,60 +159,43 @@ function readLog(id = '') {
   try {
     const config = ipcRenderer.sendSync('get-config');
     const milliseconds = parseInt(id.slice(2));
-    const logFileList = [
-      createLogName(milliseconds),
-      createLogName(milliseconds + 86400000),
-      createLogName(milliseconds - 86400000),
-    ];
+    const filePath = fileModule.getPath(logPath, createLogName(milliseconds));
+    const log = fileModule.readJson(filePath, false);
 
-    if (logFileList.length > 0) {
-      for (let index = 0; index < logFileList.length; index++) {
-        try {
-          const filePath = fileModule.getPath(logPath, logFileList[index]);
-          const log = fileModule.readJson(filePath, false);
-          targetLog = log[id];
+    targetLog = log[id];
 
-          if (targetLog) {
-            break;
-          }
-        } catch (error) {
-          console.log(error);
-        }
+    if (targetLog) {
+      // show audio
+      showAudio();
+
+      // show text
+      showText();
+
+      // set select-engine
+      if (targetLog?.translation?.engine) {
+        document.getElementById('select-engine').value = fixLogValue(
+          targetLog.translation.engine,
+          ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini'],
+          config.translation.engine
+        );
       }
 
-      if (targetLog) {
-        // show audio
-        showAudio();
+      // set select-from
+      if (targetLog?.translation?.from) {
+        document.getElementById('select-from').value = fixLogValue(
+          targetLog.translation.from,
+          ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+          config.translation.from
+        );
+      }
 
-        // show text
-        showText();
-
-        // set select-engine
-        if (targetLog?.translation?.engine) {
-          document.getElementById('select-engine').value = fixLogValue(
-            targetLog.translation.engine,
-            ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini'],
-            config.translation.engine
-          );
-        }
-
-        // set select-from
-        if (targetLog?.translation?.from) {
-          document.getElementById('select-from').value = fixLogValue(
-            targetLog.translation.from,
-            ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
-            config.translation.from
-          );
-        }
-
-        // set select-to
-        if (targetLog?.translation?.to) {
-          document.getElementById('select-to').value = fixLogValue(
-            targetLog.translation.to,
-            ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
-            config.translation.to
-          );
-        }
+      // set select-to
+      if (targetLog?.translation?.to) {
+        document.getElementById('select-to').value = fixLogValue(
+          targetLog.translation.to,
+          ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+          config.translation.to
+        );
       }
     }
   } catch (error) {

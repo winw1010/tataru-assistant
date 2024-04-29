@@ -49,7 +49,7 @@ function setIPC() {
   });
 
   // add dialog
-  ipcRenderer.on('add-dialog', (event, { dialogData = {} }) => {
+  ipcRenderer.on('add-dialog', (event, dialogData = {}) => {
     // get dialog
     let dialog = document.getElementById(dialogData.id);
 
@@ -65,7 +65,7 @@ function setIPC() {
   });
 
   // update dialog
-  ipcRenderer.on('update-dialog', (event, { dialogData = {}, style = {}, scroll = true }) => {
+  ipcRenderer.on('update-dialog', (event, dialogData = {}, style = {}, scroll = true) => {
     // get dialog
     let dialog = document.getElementById(dialogData.id);
 
@@ -103,7 +103,7 @@ function setIPC() {
   });
 
   // add notification
-  ipcRenderer.on('add-notification', (event, { text, style = {} }) => {
+  ipcRenderer.on('add-notification', (event, text = '', style = {}) => {
     // set notification
     const timestamp = new Date().getTime();
     const id = 'sid' + timestamp;

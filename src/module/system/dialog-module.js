@@ -32,7 +32,7 @@ let hideDialogTimeout = null;
 
 // add dialog
 function addDialog(dialogData) {
-  windowModule.sendIndex('add-dialog', { dialogData });
+  windowModule.sendIndex('add-dialog', dialogData);
 }
 
 // update dialog
@@ -44,11 +44,7 @@ function updateDialog(dialogData = {}, scroll = true, save = true) {
   }
 
   // send
-  windowModule.sendIndex('update-dialog', {
-    dialogData,
-    style: getStyle(dialogData.code),
-    scroll,
-  });
+  windowModule.sendIndex('update-dialog', dialogData, getStyle(dialogData.code), scroll);
 
   // show dialog
   showDialog();
@@ -67,7 +63,7 @@ function addNotification(text) {
   text = translateModule.zhConvert(text, config.system.appLanguage);
 
   // add
-  windowModule.sendIndex('add-notification', { text, style: getStyle('FFFF') });
+  windowModule.sendIndex('add-notification', text, getStyle('FFFF'));
 }
 
 // show info

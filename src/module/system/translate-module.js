@@ -55,6 +55,8 @@ async function translate2(text = '', translation = {}, table = []) {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
 
+    console.log('\r\nEngine:', engine);
+
     if (option) {
       result = await getTranslation(engine, option, table);
     } else {

@@ -17,31 +17,32 @@ const zhConverter = require('../translator/zh-convert');
 
 // translate
 async function translate(text = '', translation = {}, table = []) {
-  // clear newline
-  text = text.replace(/\r|\n/g, '');
+  let result = '';
 
-  // check length
-  if (text === '') {
-    return '……';
-  }
-
-  // check target
-  if (translation.from === translation.to) {
-    return text;
-  }
-
-  // translate
   try {
-    const result = await translate2(text, translation, table);
+    // clear newline
+    text = text.replace(/\r|\n/g, '');
 
+    // check text
+    if (text === '' || translation.from === translation.to) {
+      return text;
+    }
+
+    // translate
+    result = await translate2(text, translation, table);
+
+    // zh convert
     if (engineModule.aiList.includes(translation.engine)) {
       return zhConvert(result, translation.to);
     } else {
       return zhConvert(clearCode(result, table), translation.to);
     }
   } catch (error) {
-    return zhConvert(error, translation.to);
+    console.log(error);
+    result = '' + error;
   }
+
+  return result;
 }
 
 // translate 2
@@ -53,7 +54,12 @@ async function translate2(text = '', translation = {}, table = []) {
   do {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
-    result = await getTranslation(engine, option, table);
+
+    if (option) {
+      result = await getTranslation(engine, option, table);
+    } else {
+      continue;
+    }
   } while (result.isError && autoChange && engineList.length > 0);
 
   return result.text;
@@ -111,12 +117,7 @@ async function getTranslation(engine = '', option = {}, table = []) {
     }
   } catch (error) {
     console.log(error);
-    text = 'An error occured';
-    isError = true;
-  }
-
-  if (typeof text !== 'string') {
-    text = 'An error occured';
+    text = '' + error;
     isError = true;
   }
 

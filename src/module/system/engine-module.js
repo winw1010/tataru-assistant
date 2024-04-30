@@ -191,11 +191,15 @@ function getEngineList(engine = 'Youdao') {
 function getTranslateOption(engine, from, to, text) {
   const table = engineTable[engine];
 
-  return {
-    from: table[from],
-    to: table[to],
-    text: text,
-  };
+  if (table) {
+    return {
+      from: table[from],
+      to: table[to],
+      text: text,
+    };
+  } else {
+    return null;
+  }
 }
 
 // get language code

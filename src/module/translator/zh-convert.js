@@ -13,12 +13,10 @@ function exec(option = { text: '', tableName: 'zh2Hant' }) {
 
 // replace text
 function replaceText(text = '', zhTable = []) {
-  if (typeof text === 'string') {
-    for (let index = 0; index < zhTable.length; index++) {
-      const table = zhTable[index];
-      if (!zhException.includes(table[0])) {
-        text = text.replaceAll(table[0], table[1]);
-      }
+  for (let index = 0; index < zhTable.length; index++) {
+    const table = zhTable[index];
+    if (!zhException.includes(table[0])) {
+      text = text.replaceAll(table[0], table[1]);
     }
   }
 

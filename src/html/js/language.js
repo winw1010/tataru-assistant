@@ -166,7 +166,7 @@ function getElementTextList() {
         'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore chinese text'],
         'select-engine': ['翻譯引擎', '翻译引擎', 'Engine'],
         'select-from': ['遊戲語言', '游戏语言', 'Game lang'],
-        'select-from-player': ['玩家頻道', '玩家频道', 'Player lang'],
+        'select-from-player': ['隊伍頻道', '队伍频道', 'Party lang'],
         'select-to': ['翻譯語言', '翻译语言', 'Target lang'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],

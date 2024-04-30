@@ -99,12 +99,7 @@ function setIPC() {
   });
 
   // add notification
-  ipcRenderer.on('add-notification', (event, text = '', style = {}) => {
-    // set notification
-    const timestamp = new Date().getTime();
-    const id = 'sid' + timestamp;
-    const code = 'FFFF';
-
+  ipcRenderer.on('add-notification', (event, id, code, text = '', style = {}) => {
     // create notification
     const dialog = addDialog(id, code);
 
@@ -114,17 +109,17 @@ function setIPC() {
     // set notification content
     setDialogContent(dialog, text);
 
-    // set timeout
-    setTimeout(() => {
-      try {
-        document.getElementById(id).remove();
-      } catch (error) {
-        //console.log(error);
-      }
-    }, 7000);
-
     // navigate notification
     scrollIntoView(id);
+  });
+
+  // remove dialog
+  ipcRenderer.on('remove-dialog', (event, id) => {
+    try {
+      document.getElementById(id).remove();
+    } catch (error) {
+      //console.log(error);
+    }
   });
 
   // reset dialog style

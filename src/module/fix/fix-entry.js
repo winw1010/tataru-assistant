@@ -112,7 +112,11 @@ async function entry() {
   }
 
   // update dialog
-  dialogModule.updateDialog(dialogData);
+  if (dialogData.translatedText !== '') {
+    dialogModule.updateDialog(dialogData);
+  } else {
+    dialogModule.removeDialog(dialogData.id);
+  }
 }
 
 // get language

@@ -58,12 +58,25 @@ function updateDialog(dialogData = {}, scroll = true, save = true) {
 // add notification
 function addNotification(text) {
   const config = configModule.getConfig();
+  const timestamp = new Date().getTime();
+  const id = 'sid' + timestamp;
+  const code = 'FFFF';
 
   // zh convert
   text = translateModule.zhConvert(text, config.system.appLanguage);
 
   // add
-  windowModule.sendIndex('add-notification', text, getStyle('FFFF'));
+  windowModule.sendIndex('add-notification', id, code, text, getStyle('FFFF'));
+
+  // set timeout
+  setTimeout(() => {
+    removeDialog(id);
+  }, 7000);
+}
+
+// remove dialog
+function removeDialog(id) {
+  windowModule.sendIndex('remove-dialog', id);
 }
 
 // show info
@@ -170,6 +183,7 @@ module.exports = {
   addDialog,
   updateDialog,
   addNotification,
+  removeDialog,
   showInfo,
   showDialog,
   getStyle,

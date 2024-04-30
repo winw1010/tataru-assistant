@@ -114,6 +114,7 @@ function createDialogData(name = '', text = '') {
   dialogData.translation.fromPlayer = document.getElementById('select-from').value;
   dialogData.translation.to = document.getElementById('select-to').value;
   dialogData.translation.engine = document.getElementById('select-engine').value;
+  dialogData.translation.autoChange = false;
 
   return dialogData;
 }

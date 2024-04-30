@@ -32,6 +32,9 @@ const engineList = [
   'Cohere',
 ];
 
+// change list
+const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
+
 // AI list
 const aiList = ['Gemini', 'GPT', 'Cohere'];
 
@@ -179,10 +182,12 @@ function getSelect(list = []) {
 
 // get engine list
 function getEngineList(engine = 'Youdao') {
-  const engineIndex = engineList.indexOf(engine);
+  const newEngineList = JSON.parse(JSON.stringify(changeList));
+  const index = newEngineList.indexOf(engine);
 
-  let newEngineList = JSON.parse(JSON.stringify(engineList));
-  newEngineList.splice(engineIndex, 1);
+  if (index >= 0) {
+    newEngineList.splice(index, 1);
+  }
 
   return [engine].concat(newEngineList);
 }

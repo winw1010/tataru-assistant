@@ -81,7 +81,7 @@ async function translate(option) {
     }
   );
 
-  const responseArray = response?.data?.split('\n') || [];
+  const responseArray = response.data.split('\n') || [];
   let list = [];
   let text = '';
 
@@ -90,7 +90,7 @@ async function translate(option) {
     if (/^data:/i.test(element)) {
       const data = JSON.parse(element.replace(/^data:/i, ''));
 
-      if (data?.data?.list) {
+      if (data.data.list) {
         list = data.data.list;
         break;
       }
@@ -99,14 +99,10 @@ async function translate(option) {
 
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
-    text += element?.dst || '';
+    text += element.dst || '';
   }
 
-  if (text.length > 0) {
-    return text;
-  } else {
-    throw response?.data;
-  }
+  return text;
 }
 
 // module exports

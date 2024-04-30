@@ -71,11 +71,7 @@ async function setAuthentication() {
     }
   );
 
-  if (response?.data?.data?.secretKey) {
-    authentication.secretKey = response.data.data.secretKey;
-  } else {
-    throw response?.data;
-  }
+  authentication.secretKey = response.data.data.secretKey;
 }
 
 // translate
@@ -118,20 +114,16 @@ async function translate(option) {
     }
   );
 
-  const data = JSON.parse(youdaoFunction.decodeData(response?.data));
+  const data = JSON.parse(youdaoFunction.decodeData(response.data));
+  const resultArray = data.translateResult[0];
 
-  if (data?.translateResult?.[0]) {
-    const resultArray = data.translateResult[0];
-    let result = '';
+  let result = '';
 
-    for (let index = 0; index < resultArray.length; index++) {
-      result += resultArray?.[index]?.tgt || '';
-    }
-
-    return result;
-  } else {
-    throw response?.data;
+  for (let index = 0; index < resultArray.length; index++) {
+    result += resultArray[index].tgt || '';
   }
+
+  return result;
 }
 
 // module exports

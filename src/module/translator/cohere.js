@@ -8,13 +8,8 @@ const configModule = require('../system/config-module');
 
 // translate
 async function exec(option, table = []) {
-  try {
-    const response = translate(option.text, option.from, option.to, table);
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  const response = translate(option.text, option.from, option.to, table);
+  return response;
 }
 
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
@@ -39,11 +34,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   console.log('prompt', prompt);
   console.log('Tokens:', response?.data?.meta?.tokens);
 
-  if (response?.data?.text) {
-    return response.data.text;
-  } else {
-    return response?.data;
-  }
+  return response.data.text;
 }
 
 // module exports

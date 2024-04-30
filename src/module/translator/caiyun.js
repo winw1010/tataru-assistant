@@ -21,11 +21,7 @@ async function exec(option) {
     }
   );
 
-  if (response?.data?.target) {
-    return response.data.target;
-  } else {
-    throw response?.data;
-  }
+  return response.data.target;
 }
 
 // module exports

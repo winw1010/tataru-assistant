@@ -115,6 +115,11 @@ async function getTranslation(engine = '', option = {}, table = []) {
     isError = true;
   }
 
+  if (typeof text !== 'string') {
+    text = 'An error occured';
+    isError = true;
+  }
+
   console.log('After:', text);
 
   return {
@@ -125,12 +130,10 @@ async function getTranslation(engine = '', option = {}, table = []) {
 
 // zh convert
 function zhConvert(text = '', languageTo = '') {
-  if (text !== '') {
-    if (languageTo === engineModule.languageEnum.zht) {
-      text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
-    } else if (languageTo === engineModule.languageEnum.zhs) {
-      text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
-    }
+  if (languageTo === engineModule.languageEnum.zht) {
+    text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
+  } else if (languageTo === engineModule.languageEnum.zhs) {
+    text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
   }
 
   return text;

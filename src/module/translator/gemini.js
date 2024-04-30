@@ -27,43 +27,39 @@ const safetySettings = [
 
 let currentGemini = null;
 
-// translate
+// exec
 async function exec(option, table = []) {
   try {
     const response = translate(option.text, option.from, option.to, table);
     return response;
   } catch (error) {
-    console.log(error);
     currentGemini = null;
-    return error;
+    throw error;
   }
 }
 
-function createOpenai() {
+// create AI
+function createAI() {
   const config = configModule.getConfig();
   const genAI = new GoogleGenerativeAI(config.api.geminiApiKey);
   return genAI;
 }
 
+// translate
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
-  if (!currentGemini) currentGemini = createOpenai();
+  if (!currentGemini) currentGemini = createAI();
 
   const model = currentGemini.getGenerativeModel({
     model: 'gemini-pro',
     safetySettings,
   });
 
-  let prompt = createPrompt(source, target, table) + '\r\nThe sentence:\r\n' + sentence;
-  let response = null;
+  const prompt = createPrompt(source, target, table) + '\r\nThe sentence:\r\n' + sentence;
+  const response = await model.generateContent(prompt);
 
-  try {
-    response = await model.generateContent(prompt);
-    console.log('prompt', prompt);
-    return response?.response?.text();
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  console.log('prompt', prompt);
+
+  return response.response.text();
 }
 
 // module exports

@@ -8,17 +8,13 @@ const configModule = require('../system/config-module');
 
 const regGptModel = /gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
 
-// translate
+// exec
 async function exec(option, table = []) {
-  try {
-    const response = translate(option.text, option.from, option.to, table);
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  const response = translate(option.text, option.from, option.to, table);
+  return response;
 }
 
+// translate
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = createPrompt(source, target, table);
@@ -50,13 +46,10 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   console.log('prompt:', prompt);
   console.log('Total Tokens:', response?.data?.usage?.total_tokens);
 
-  if (response?.data?.choices[0]?.message?.content) {
-    return response.data.choices[0].message.content;
-  } else {
-    return response?.data;
-  }
+  return response.data.choices[0].message.content;
 }
 
+// get model list
 async function getModelList(apiKey = null) {
   try {
     const config = configModule.getConfig();
@@ -66,12 +59,8 @@ async function getModelList(apiKey = null) {
 
     const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
 
-    let list = [];
+    let list = response.data.data.map((x) => x.id);
     let gptList = [];
-
-    if (response?.data?.data) {
-      list = response.data.data.map((x) => x.id);
-    }
 
     for (let index = 0; index < list.length; index++) {
       const element = list[index];

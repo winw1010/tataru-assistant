@@ -51,6 +51,7 @@ async function setCookie() {
     regReleaseGroups,
     regDapUid,
   ]);
+
   authentication.cookie = cookie.join('; ');
   authentication.expireDate = requestModule.getExpiryDate();
 }
@@ -87,11 +88,7 @@ async function splitText(text = '') {
     }
   );
 
-  if (response?.data?.result?.texts[0]?.chunks) {
-    return response.data.result.texts[0].chunks;
-  } else {
-    throw response?.data;
-  }
+  return response.data.result.texts[0].chunks;
 }
 
 // translate
@@ -131,18 +128,14 @@ async function translate(option) {
     }
   );
 
-  if (response?.data?.result?.translations) {
-    let result = '';
-    const resultArray = response?.data?.result?.translations;
+  const resultArray = response.data.result.translations;
+  let result = '';
 
-    for (let index = 0; index < resultArray.length; index++) {
-      result += resultArray[index]?.beams[0]?.sentences[0]?.text || '';
-    }
-
-    return result;
-  } else {
-    throw response?.data;
+  for (let index = 0; index < resultArray.length; index++) {
+    result += resultArray[index].beams[0].sentences[0].text || '';
   }
+
+  return result;
 }
 
 // module exports

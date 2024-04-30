@@ -56,22 +56,14 @@ async function setCookie() {
 // set authentication
 async function setAuthentication() {
   const response1 = await requestModule.get('https://papago.naver.com/');
-  const fileName = regFileName.exec(response1?.data)?.groups?.target;
+  const fileName = regFileName.exec(response1.data).groups.target;
 
-  if (fileName) {
-    const response2 = await requestModule.get('https://papago.naver.com/' + fileName);
-    const ppg = regPpg.exec(response2?.data)?.groups?.target;
-    const version = regVersion.exec(ppg)?.groups?.target;
+  const response2 = await requestModule.get('https://papago.naver.com/' + fileName);
+  const ppg = regPpg.exec(response2.data).groups.target;
+  const version = regVersion.exec(ppg).groups.target;
 
-    if (version) {
-      authentication.deviceId = papagoFunction.generateDeviceId();
-      authentication.papagoVersion = version;
-    } else {
-      throw 'version is undefined';
-    }
-  } else {
-    throw 'fileName is undefined';
-  }
+  authentication.deviceId = papagoFunction.generateDeviceId();
+  authentication.papagoVersion = version;
 }
 
 // translate
@@ -125,11 +117,7 @@ async function translate(option) {
     }
   );
 
-  if (response?.data?.translatedText) {
-    return response.data.translatedText;
-  } else {
-    throw response?.data;
-  }
+  return response.data.translatedText;
 }
 
 // module exports

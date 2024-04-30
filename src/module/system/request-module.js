@@ -6,8 +6,8 @@ const axios = require('axios').default;
 // config module
 const configModule = require('./config-module');
 
-/*
-// restricted headers
+// restricted headers of Chromium
+// Additionally, setting the Connection header to the value upgrade is also disallowed.
 const restrictedHeaders = [
   'Content-Length',
   'Host',
@@ -18,16 +18,15 @@ const restrictedHeaders = [
   'Keep-Alive',
   'Transfer-Encoding',
 ];
-*/
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.get(url, { headers, timeout });
+    response = await axios.get(url, { headers: clearHeaders(headers), timeout });
   } catch (error) {
-    console.log(error);
+    throw 'Request error: GET ' + url;
   }
 
   return response;
@@ -38,9 +37,10 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.post(url, data, { headers, timeout });
+    response = await axios.post(url, data, { headers: clearHeaders(headers), timeout });
+    console.log('Response data:', response.data);
   } catch (error) {
-    console.log(error);
+    throw 'Request error: POST ' + url;
   }
 
   return response;
@@ -49,29 +49,42 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
 // get cookie
 async function getCookie(url = '', regArray = []) {
   const response = await get(url);
-  const setCookie = response?.headers?.['set-cookie']?.join('; ');
+  const setCookie = response.headers['set-cookie'].join('; ');
+  const cookie = [];
 
-  if (setCookie) {
-    const cookie = [];
+  for (let index = 0; index < regArray.length; index++) {
+    const reg = regArray[index];
+    reg.lastIndex = 0;
+    const target = reg.exec(setCookie).groups.target;
 
-    for (let index = 0; index < regArray.length; index++) {
-      const reg = regArray[index];
-      reg.lastIndex = 0;
-      const target = reg.exec(setCookie)?.groups?.target;
-
-      if (target) {
-        cookie.push(target);
-      }
+    if (target) {
+      cookie.push(target);
     }
-
-    if (cookie.length > 0) {
-      return cookie;
-    } else {
-      throw 'target is undefined, set-cookie: ' + setCookie;
-    }
-  } else {
-    throw 'set-cookie is undefined';
   }
+
+  if (cookie.length > 0) {
+    return cookie;
+  } else {
+    throw 'Target cookie is undefined, set-cookie: ' + setCookie;
+  }
+}
+
+// clear headers
+function clearHeaders(headers = {}) {
+  const headerNames = Object.getOwnPropertyNames(headers);
+
+  for (let index = 0; index < headerNames.length; index++) {
+    const element = headerNames[index];
+    if (restrictedHeaders.includes(element)) {
+      delete headers[element];
+    }
+  }
+
+  if (headers['Connection'] === 'upgrade') {
+    delete headers['Connection'];
+  }
+
+  return headers;
 }
 
 // get expiry date

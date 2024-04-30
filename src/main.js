@@ -47,10 +47,12 @@ app.on('certificate-error', (event, webContents, url, error, certificate, callba
 
 // ignore uncaughtException
 process.on('uncaughtException', (error) => {
+  console.log('\r\nuncaughtException');
   console.log(error);
 });
 
 // ignore unhandledRejection
 process.on('unhandledRejection', (error) => {
+  console.log('\r\nunhandledRejection');
   console.log(error);
 });

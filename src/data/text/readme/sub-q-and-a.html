@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>常見問題&解答</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <ol>
+      <li>
+        <h5>這程式安全嗎</h5>
+        <span> 此程式無需修改FF14遊戲檔案，且翻譯功能皆使用API請求，請放心使用。 </span>
+      </li>
+
+      <li>
+        <h5>這程式怎麼運作的</h5>
+        <span>
+          此程式會擷取遊戲的對話字幕，然後使用API請求翻譯，最後將翻譯結果顯示在程式中。若有勾選【翻譯修正】，則會使用
+          <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">對照表</a>
+          修正詞彙。
+        </span>
+      </li>
+
+      <li>
+        <h5>名詞沒有被正確翻譯</h5>
+        <span>
+          此程式只會修正
+          <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">對照表</a>
+          內有的詞彙，若詞彙不在對照表裡將不會被程式修正，只能等對照表更新或是以【回報翻譯錯誤】功能來回報。
+        </span>
+      </li>
+
+      <li>
+        <h5>視窗無法變透明</h5>
+        <span>
+          【NVIDIA控制面板】的部分設定會影響本程式的透明度
+          <br />
+          請至【廣域設定】把造成不透明的設定恢復成預設，或是整個【廣域設定】恢復成預設值(感謝avbkopye沒牙提供解法)
+        </span>
+      </li>
+
+      <li>
+        <h5>這程式支援什麼語言</h5>
+        <span> 支援日文和英文，但翻譯以日文版為主。 </span>
+      </li>
+
+      <li>
+        <h5>能與漢化一起使用嗎</h5>
+        <span> 基本上可以，程式的【翻譯設定】有略過漢化字幕的功能，但請注意本功能無法完美迴避已漢化字幕。 </span>
+      </li>
+
+      <li>
+        <h5>如果遊戲是日文，隊伍頻道是英文，該如何設定</h5>
+        <span> 至【設定】>【翻譯設定】>將【遊戲語言】設定成日文，【隊伍頻道】設定成英文即可。 </span>
+      </li>
+
+      <li>
+        <h5>Node視窗無法維持在最上層</h5>
+        <span> 請在FF14的【系統設定】將【顯示模式】改為【無邊框全螢幕模式(Borderless Windowed)】。 </span>
+        <br />
+        <img class="img-fluid" src="./img/qa/qa4.png" alt="picture" />
+      </li>
+
+      <li>
+        <h5>每一句都要手動選取翻譯嗎</h5>
+        <span class="text-warning">不需要</span>
+        <span> ，一般對話和過場動畫都會自動翻譯，不能自動翻譯的部分也能使用【翻譯螢幕文字】功能來翻譯。 </span>
+      </li>
+
+      <li>
+        <h5>無法下載翻譯對照表</h5>
+        <span>
+          若使用加速器或VPN時無法存取Github，請至Tataru Assistant的【設定(齒輪按鈕)】>【系統設定】將SSL驗證關閉。
+        </span>
+      </li>
+
+      <li>
+        <h5>出現翻譯失敗的錯誤訊息</h5>
+        <span>
+          若使用加速器或VPN時無法翻譯字幕，請至Tataru Assistant的【設定(齒輪按鈕)】>【系統設定】將SSL驗證關閉。
+        </span>
+      </li>
+
+      <li>
+        <h5>啟動後顯示「這個作業系統不支援 .NET Framework 4.7.2」的訊息</h5>
+        <span>
+          請安裝
+          <a href="https://go.microsoft.com/fwlink/?LinkId=863262">Microsoft .NET Framework 4.7.2</a>
+        </span>
+      </li>
+
+      <li>
+        <h5>程式無法自動翻譯</h5>
+        <ul>
+          <li>至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可</li>
+          <li>
+            若無法修復請在左下搜尋輸入「cmd」，找到「命令提示字元」對其滑鼠右鍵，點選「以系統管理員身分執行」，然後執行以下指令
+            <br />
+            <span class="text-warning">
+              secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
+            </span>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <h5>如何翻譯對話選項和介面文字</h5>
+        <a href="sub-capture.html" target="_blank">詳見【翻譯螢幕畫面上的文字】說明頁</a>
+      </li>
+
+      <li>
+        <h5>如何重新翻譯</h5>
+        <span> 滑鼠點選程式的翻譯文字，再點選彈出視窗裡的【重新翻譯】按鈕即可 </span>
+        <br />
+        <img class="img-fluid" src="./img/qa/qa8.png" alt="picture" />
+      </li>
+
+      <li>
+        <h5>哪個翻譯引擎比較好</h5>
+        <span>
+          目前推薦使用【Gemini】、【ChatGPT】和【Cohere】等AI翻譯，其次為【有道翻譯】和【彩雲小譯】，但不論哪種都會有翻不好的時候，這時可點選翻譯文字改用其他翻譯引擎重新翻譯
+        </span>
+      </li>
+
+      <li>
+        <h5>要等很久才會顯示翻譯</h5>
+        <span>本應用程式是使用API請求翻譯， 因此翻譯速度取決於使用者的網路環境和API的伺服器狀況</span>
+      </li>
+
+      <li>
+        <h5>翻譯時跳出錯誤訊息</h5>
+        <span> 表示該翻譯方式目前無法連線，或是已經達到流量限制，只能等待解除限制，或是暫時使用別的翻譯方式 </span>
+      </li>
+
+      <li>
+        <h5>如何移動視窗</h5>
+        <span> 按住左上的 </span>
+        <img class="img-fluid img-ui" src="./img/ui/open_with_white_48dp.svg" alt="" />
+        <span> 按鈕即可移動視窗 </span>
+      </li>
+
+      <li>
+        <h5>旁白字幕無法自動翻譯</h5>
+        <span> 請安裝最新版本 </span>
+      </li>
+
+      <li>
+        <h5>無法套用變更後的設定</h5>
+        <span> 更改設定後需按下 <button class="btn btn-primary">儲存變更</button> 按鈕才會生效 </span>
+      </li>
+
+      <li>
+        <h5>如何隱藏按鈕</h5>
+        <span> 開啟【設定】視窗，將【隱藏按鈕】打勾，勾選後滑鼠離開視窗就會自動隱藏按鈕 </span>
+      </li>
+
+      <li>
+        <h5>如何重置設定</h5>
+        <span> 開啟【設定】視窗，點選【預設】按鈕 </span>
+      </li>
+
+      <li>
+        <h5>如何查看程式錯誤訊息</h5>
+        <span> Ctrl+F12 </span>
+      </li>
+
+      <li>
+        <h5>如何更新</h5>
+        <span>
+          <a
+            href="https://drive.google.com/drive/folders/14zjoUNzZTKgn2mCiAx6YJ14-fsd8M_I_?usp=drive_link"
+            target="_blank"
+          >
+            請至這裡下載最新版本
+          </a>
+        </span>
+      </li>
+
+      <li>
+        <h5>如何移除</h5>
+        <span> 在左下方的搜尋輸入【新增或移除程式】，找到本程式並點選移除 </span>
+      </li>
+
+      <li>
+        <h5>如何查看錯誤回報的回覆</h5>
+        <span>
+          <a
+            href="https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit#gid=1976543446"
+            target="_blank"
+          >
+            請至這裡查看
+          </a>
+        </span>
+      </li>
+    </ol>
+  </body>
+</html>

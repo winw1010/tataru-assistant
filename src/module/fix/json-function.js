@@ -9,19 +9,17 @@ const pathList = {
   en: 'src/data/text/en',
   jp: 'src/data/text/jp',
   main: 'src/data/text/main',
+  nonAI: 'src/data/text/non-ai',
 };
-
-// Not kanji
-const regNotKanji = /[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]/;
 
 // get text path
 function getTextPath(dir = '', ...args) {
   return fileModule.getRootPath(pathList[dir], ...args);
 }
 
-// get temp text path
-function getTempTextPath(...args) {
-  return fileModule.getUserDataPath('temp', ...args);
+// get user text path
+function getUserTextPath(...args) {
+  return fileModule.getUserDataPath('text', ...args);
 }
 
 // read text
@@ -33,9 +31,20 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     if (Array.isArray(data)) {
       array = data;
     } else {
-      console.log(path + ' is not an array.');
-      fileModule.write(path, '[]');
-      return array;
+      throw path + ' is not an array.';
+    }
+
+    // check length of array of main
+    if (path.includes('\\data\\text\\main\\')) {
+      for (let index = array.length - 1; index >= 0; index--) {
+        const element = array[index];
+
+        if (element.length !== 4) {
+          console.log('\r\nIncorrect data:', element);
+          console.log('Path:', path);
+          array.splice(index, 1);
+        }
+      }
     }
 
     // map array
@@ -54,6 +63,7 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     return array;
   } catch (error) {
     console.log(error);
+    fileModule.write(path, '[]');
     return [];
   }
 }
@@ -80,10 +90,15 @@ function readSubtitleJP() {
 
 // read main
 function readMain(srcIndex = 0, rplIndex = 1) {
-  return readMultiText(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+  return readMultiFolder(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
 }
 
-// read multi texts
+// read non AI
+function readNonAI(srcIndex = 0, rplIndex = 1) {
+  return readMultiText(fileModule.getRootPath(pathList.nonAI), srcIndex, rplIndex);
+}
+
+// read multi text
 function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   try {
     const fileList = fileModule.readdir(filePath);
@@ -104,14 +119,50 @@ function readMultiText(filePath = '', srcIndex = 0, rplIndex = 1) {
   }
 }
 
-// read temp
-function readTemp(name = '', sort = true) {
-  return readText(getTempTextPath(name), sort);
+// read multi folder
+function readMultiFolder(targetPath = '', srcIndex = 0, rplIndex = 1) {
+  try {
+    const folderList = fileModule.readdir(targetPath);
+    let array = [];
+
+    if (folderList.length > 0) {
+      folderList.forEach((folderName) => {
+        const folderPath = fileModule.getPath(targetPath, folderName);
+        const fileList = fileModule.readdir(folderPath);
+
+        if (fileList.length > 0) {
+          fileList.forEach((filename) => {
+            const filePath = fileModule.getPath(folderPath, filename);
+            array = array.concat(readText(filePath, false, true, srcIndex, rplIndex));
+          });
+        }
+      });
+    }
+
+    return sortArray(array);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
-// write temp
-function writeTemp(name = '', data = []) {
-  fileModule.write(getTempTextPath(name), data, 'json');
+// read user array
+function readUserArray(userArray = {}) {
+  userArray.customSource = readUserText('custom-source.json', false);
+  userArray.customTarget = readUserText('custom-target.json', false);
+  userArray.customOverwrite = readUserText('custom-overwrite.json', false);
+  userArray.playerName = readUserText('player-name.json', false);
+  userArray.tempName = readUserText('temp-name.json', false);
+}
+
+// read user text
+function readUserText(name = '', sort = true) {
+  return readText(getUserTextPath(name), sort);
+}
+
+// write user text
+function writeUserText(name = '', data = []) {
+  fileModule.write(getUserTextPath(name), data, 'json');
 }
 
 // map array
@@ -187,50 +238,105 @@ function combineArray(...args) {
   return sortArray([].concat(...args));
 }
 
-// combine array with temp
-function combineArrayWithTemp(temp = [], ...args) {
-  // array
-  const combine = combineArray(...args);
-  const combine0 = combine.map((x) => x[0]);
-  let snapTemp = [].concat(temp);
+// combine array with user
+function combineArray2(customArray = [], ...args) {
+  // arrays
+  const otherArrays = combineArray(...args);
+  const otherNames = otherArrays.map((x) => x[0]);
+  let customArray2 = [].concat(customArray).map((x) => [x[0], x[1]]);
 
-  // search same name in temp and add its index to delete list
-  for (let index = snapTemp.length - 1; index >= 0; index--) {
-    const tempElement = snapTemp[index];
-    const tempName = tempElement[0] || '';
-    const tempType = tempElement[2] || '';
-    const tempIndex = index;
-    const combineIndex = Math.max(
-      combine0.indexOf(tempName),
-      combine0.indexOf(tempName + '#'),
-      combine0.indexOf(tempName + '##')
+  // compare names
+  for (let index = customArray2.length - 1; index >= 0; index--) {
+    const customElement = customArray2[index];
+    const customName = customElement[0] || '';
+    const targetIndex = Math.max(
+      otherNames.indexOf(customName.replace(/#/g, '')),
+      otherNames.indexOf(customName + '#'),
+      otherNames.indexOf(customName + '##')
     );
 
-    // delete element
-    if (
-      tempType === 'temp' ||
-      (tempType !== '' && tempName.length < 3 && regNotKanji.test(tempName) && !tempName.length.includes('#'))
-    ) {
-      // delete element from temp
-      snapTemp.splice(tempIndex, 1);
-    } else if (tempType === 'temp-npc') {
-      // delete element from temp-npc
-      if (combineIndex >= 0) {
-        snapTemp.splice(tempIndex, 1);
-      }
-    } else {
-      // delete element from combine
-      if (combineIndex >= 0) {
-        combine.splice(combineIndex, 1);
-        combine0.splice(combineIndex, 1);
-      }
+    // remove elements from other array
+    if (targetIndex >= 0) {
+      otherArrays.splice(targetIndex, 1);
+      otherNames.splice(targetIndex, 1);
     }
   }
 
-  // sub snap temp
-  snapTemp = snapTemp.map((x) => [x[0], x[1]]);
+  return combineArray(customArray2, otherArrays);
+}
 
-  return combineArray(snapTemp, combine);
+// create RegExp array
+function createRegExpArray(array = []) {
+  let newArray = [];
+
+  for (let index = 0; index < array.length; index++) {
+    try {
+      newArray.push([new RegExp(array[index][0], 'gi'), array[index][1]]);
+    } catch (error) {
+      //console.log(error);
+    }
+  }
+
+  return newArray;
+}
+
+// save user custom
+function saveUserCustom(name = '', customArray = []) {
+  if (name === '') return;
+
+  // file names
+  const fileNames = [
+    'custom-source.json',
+    'custom-target.json',
+    'custom-overwrite.json',
+    'player-name.json',
+    'temp-name.json',
+  ];
+
+  // delete or replace item which has same source
+  for (let index = 0; index < customArray.length; index++) {
+    const element = customArray[index];
+
+    for (let index = 0; index < fileNames.length; index++) {
+      const fileName = fileNames[index];
+
+      if (fileName === name) {
+        editUserCustom(fileName, element[0], element);
+      } else {
+        editUserCustom(fileName, element[0]);
+      }
+    }
+  }
+}
+
+// edit user custom
+function editUserCustom(name = '', target = '', item = null) {
+  if (name === '') return;
+
+  const array = readUserText(name, false);
+  let isNotFound = true;
+
+  for (let index = array.length - 1; index >= 0; index--) {
+    const element = array[index];
+
+    if (target === element[0]) {
+      isNotFound = false;
+
+      if (item) {
+        array[index] = item;
+      } else {
+        array.splice(index, 1);
+      }
+
+      break;
+    }
+  }
+
+  if (item && isNotFound) {
+    array.push(item);
+  }
+
+  writeUserText(name, array);
 }
 
 // check array
@@ -241,16 +347,20 @@ function checkArray(array = []) {
 // module exports
 module.exports = {
   getTextPath,
-  getTempTextPath,
   readText,
   readOverwriteEN,
   readOverwriteJP,
   readSubtitleEN,
   readSubtitleJP,
   readMain,
-  readTemp,
-  writeTemp,
+  readNonAI,
+  readUserArray,
+  readUserText,
+  writeUserText,
   sortArray,
   combineArray,
-  combineArrayWithTemp,
+  combineArray2,
+  createRegExpArray,
+  saveUserCustom,
+  editUserCustom,
 };

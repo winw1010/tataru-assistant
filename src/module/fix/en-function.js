@@ -12,7 +12,7 @@ function replaceTextByCode(text = '', array = []) {
     return {
       text: text,
       table: [],
-      gptTable: [],
+      aiTable: [],
     };
   }
 
@@ -24,7 +24,7 @@ function replaceTextByCode(text = '', array = []) {
   let tempText = text;
   let tempTable = fixFunction.includesArrayItem(text, array, srcIndex, true) || [];
   let table = [];
-  let gptTable = [];
+  let aiTable = [];
 
   // sort temp table
   tempTable = tempTable.sort((a, b) => b[0].length - a[0].length);
@@ -63,7 +63,7 @@ function replaceTextByCode(text = '', array = []) {
     if (searchReg.test(text)) {
       text = text.replace(searchReg, codeString[codeIndex]);
       table.push([codeString[codeIndex], element[rplIndex]]);
-      gptTable.push([element[srcIndex], element[rplIndex]]);
+      aiTable.push([element[srcIndex], element[rplIndex]]);
       codeIndex++;
     }
   }
@@ -71,7 +71,7 @@ function replaceTextByCode(text = '', array = []) {
   const result = {
     text,
     table,
-    gptTable,
+    aiTable,
   };
 
   console.log('tempTable:', tempTable);
@@ -123,10 +123,9 @@ function getAdjectiveType(text = '') {
   return text + 'an';
 }
 
-function isChinese(text = '', translation = {}) {
+function isChinese(text = '') {
   const chLength = text.match(/[\u3400-\u9FFF]/gi)?.length || 0;
-  const enLength = text.match(/[a-z]/gi)?.length || 0;
-  return translation.skipChinese && chLength > enLength;
+  return chLength > 0;
 }
 
 // module exports

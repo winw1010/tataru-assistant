@@ -41,8 +41,8 @@
 
     <main class="container-fluid px-2">
       <!-- page button -->
-      <div class="row">
-        <div class="col">
+      <div class="row align-items-center">
+        <div class="col-auto">
           <div id="div-page-button" class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input
               type="radio"
@@ -66,6 +66,14 @@
             <label class="btn btn-outline-primary" for="input-capture-image"></label>
           </div>
         </div>
+
+        <div class="col-auto">
+          <button id="button-translate" class="btn btn-primary"></button>
+        </div>
+        <div class="col-auto">
+          <input type="checkbox" value="" id="checkbox-split" />
+          <label for="checkbox-split"></label>
+        </div>
       </div>
 
       <br />
@@ -73,19 +81,7 @@
       <div id="div-captured-text" class="div-page">
         <div class="row">
           <div class="col">
-            <textarea class="form-control" id="textarea-screen-text" rows="7"></textarea>
-          </div>
-        </div>
-
-        <br />
-
-        <div class="row align-items-center">
-          <div class="col-auto">
-            <button id="button-translate" class="btn btn-primary"></button>
-          </div>
-          <div class="col-auto">
-            <input type="checkbox" value="" id="checkbox-split" />
-            <label for="checkbox-split"></label>
+            <textarea class="form-control" id="textarea-screen-text" rows="10"></textarea>
           </div>
         </div>
       </div>
@@ -100,7 +96,7 @@
     </main>
 
     <!-- renderer -->
-    <script src="./renderer/drag.js"></script>
-    <script src="./renderer/language.js"></script>
+    <script src="./js/drag.js"></script>
+    <script src="./js/language.js"></script>
   </body>
 </html>

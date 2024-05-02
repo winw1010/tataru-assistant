@@ -13,11 +13,11 @@ const jsonFunction = require('./json-function');
 // translate module
 const translateModule = require('../system/translate-module');
 
+// engine module
+const { aiList } = require('../system/engine-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
-
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
 
 // text type list
 const textTypeList = {
@@ -27,81 +27,89 @@ const textTypeList = {
 };
 
 // array
-let jpArray = jpJson.getJpArray();
-let chArray = jpJson.getChArray();
+const jpArray = jpJson.getJpArray();
+const chArray = jpJson.getChArray();
+const userArray = jpJson.getUserArray();
 
-async function startFix(dialogData = {}) {
+/*
+fix start
+*/
+
+// start
+async function start(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+  let translatedText = '';
+  let audioText = '';
+
   try {
-    // get translation
-    const translation = dialogData.translation;
-
     // skip check
     if (translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore)) {
       throw '';
     }
 
-    // name translation
-    let translatedName = '';
-    if (jpFunction.isChinese(dialogData.name, translation)) {
-      translatedName = fixFunction.replaceText(dialogData.name, chArray.combine);
+    // fix name
+    if (translation.skipChinese && jpFunction.isChinese(name)) {
+      translatedName = fixFunction.replaceText(name, chArray.combine);
     } else {
       if (npcChannel.includes(dialogData.code)) {
-        if (translation.fix) {
-          translatedName = await nameFix(dialogData.name, translation);
-        } else {
-          translatedName = await translateModule.translate(dialogData.name, translation);
-        }
+        translatedName = await fixName(dialogData);
       } else {
-        translatedName = dialogData.name;
+        translatedName = name;
       }
     }
 
-    if (dialogData.name !== '') {
-      // sleep 1 second
-      await fixFunction.sleep();
-    }
-
-    // text translation
-    let translatedText = '';
-    if (jpFunction.isChinese(dialogData.text, translation)) {
-      translatedText = fixFunction.replaceText(dialogData.text, chArray.combine);
+    // fix text
+    if (translation.skipChinese && jpFunction.isChinese(text)) {
+      translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
-      if (translation.fix) {
-        if (aiEngine.includes(translation.engine)) {
-          translatedText = await textFixGPT(dialogData.name, dialogData.text, translation);
-        } else {
-          translatedText = await textFix(dialogData.name, dialogData.text, translation);
-        }
+      if (aiList.includes(translation.engine)) {
+        translatedText = await fixTextAI(dialogData);
       } else {
-        translatedText = await translateModule.translate(dialogData.text, translation);
+        translatedText = await fixText(dialogData);
       }
     }
 
-    // set audio text
+    // fix audio text
     const textType = getTextType(dialogData.name, dialogData.text);
     if (textType === textTypeList.reversed) {
       // reverse kana
-      dialogData.audioText = jpFunction.reverseKana(dialogData.text);
+      audioText = jpFunction.reverseKana(dialogData.text);
     } else if (textType === textTypeList.allKatakana) {
       // convert to hira
-      dialogData.audioText = jpFunction.convertKana(dialogData.text, 'hira');
+      audioText = jpFunction.convertKana(dialogData.text, 'hira');
+    } else {
+      audioText = text;
     }
-
-    // set translated text
-    dialogData.translatedName = translatedName;
-    dialogData.translatedText = translatedText;
   } catch (error) {
     console.log(error);
-
-    // set translated text
-    dialogData.translatedName = 'Error';
-    dialogData.translatedText = error;
+    translatedName = '';
+    translatedText = error;
   }
+
+  // set text
+  dialogData.translatedName = translatedName;
+  dialogData.translatedText = translatedText;
+  dialogData.audioText = audioText;
 
   return dialogData;
 }
 
-async function nameFix(name = '', translation = {}) {
+/*
+fix name
+*/
+
+// fix name
+async function fixName(dialogData = {}) {
+  const name = dialogData.name;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+  let katakanaName = jpFunction.getKatakanaName(name);
+
   if (name === '') {
     return '';
   }
@@ -117,10 +125,7 @@ async function nameFix(name = '', translation = {}) {
     return target[1];
   }
 
-  //const translatedName = translateName(name, getKatakanaName(name), translation);
-  let translatedName = '';
-  let katakanaName = getKatakanaName(name);
-
+  // check katakana name
   if (katakanaName.length > 0) {
     let translatedKatakanaName = '';
     const sameCheck =
@@ -131,40 +136,27 @@ async function nameFix(name = '', translation = {}) {
     // save translated katakanaName if not found
     if (!sameCheck) {
       translatedKatakanaName = createName(katakanaName);
-
-      if (katakanaName.length < 3) katakanaName += '#';
-
-      // add to combine
-      chArray.combine.push([katakanaName, translatedKatakanaName]);
-      chArray.combine = jsonFunction.sortArray(chArray.combine);
-
-      // add to chTemp
-      chArray.chTemp.push([katakanaName, translatedKatakanaName, 'temp-npc']);
-      jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+      saveName(katakanaName, translatedKatakanaName);
     }
   }
 
-  // get replace result
+  // get code result
   const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
 
-  if (aiEngine.includes(translation.engine)) {
-    translatedName = name;
-
+  if (aiList.includes(translation.engine)) {
     // skip check
-    if (jpFunction.needTranslation(translatedName, codeResult.gptTable)) {
+    if (jpFunction.needTranslation(name, codeResult.aiTable)) {
       // translate
-      translatedName = await translateModule.aiTranslate(translatedName, translation, codeResult.gptTable);
+      translatedName = await translateModule.translate(name, translation, codeResult.aiTable);
+    } else {
+      // table
+      translatedName = fixFunction.replaceText(name, codeResult.aiTable);
     }
-
-    // table
-    translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable);
   } else {
-    translatedName = codeResult.text;
-
     // skip check
-    if (jpFunction.needTranslation(translatedName, codeResult.table)) {
+    if (jpFunction.needTranslation(codeResult.text, codeResult.table)) {
       // translate
-      translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
+      translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
     }
 
     // table
@@ -176,26 +168,54 @@ async function nameFix(name = '', translation = {}) {
 
   // save translated name
   if (name !== katakanaName) {
-    if (name.length < 3) name += '#';
-
-    // add to combine
-    chArray.combine.push([name, translatedName]);
-    chArray.combine = jsonFunction.sortArray(chArray.combine);
-
-    // add to chTemp
-    chArray.chTemp.push([name, translatedName, 'temp-npc']);
-    jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+    saveName(name, translatedName);
   }
 
   return translatedName;
 }
 
-async function textFix(name = '', text = '', translation = {}) {
+// create name
+function createName(katakanaName = '') {
+  let name = fixFunction.replaceText(katakanaName, chArray.combine);
+  name = name.replace(/^ルル/, '路路');
+  name = name.replace(/^ル/, '路');
+  name = name.replace(/^ア(?!イ|ウ|ン)/, '阿');
+  return fixFunction.replaceText(name, chArray.chName);
+}
+
+// save name
+function saveName(name = '', translatedName = '') {
+  if (name === translatedName) {
+    return;
+  }
+
+  if (name.length < 3) name += '#';
+
+  // add to combine
+  chArray.combine.push([name, translatedName]);
+  chArray.combine = jsonFunction.sortArray(chArray.combine);
+
+  // add to tempName
+  userArray.tempName.push([name, translatedName]);
+  jsonFunction.writeUserText('temp-name.json', userArray.tempName);
+}
+
+/*
+fix text
+*/
+
+// fix text
+async function fixText(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = '';
+
   if (text === '') {
     return '';
   }
-
-  let originalText = text;
 
   // force overwrite
   const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
@@ -207,134 +227,115 @@ async function textFix(name = '', text = '', translation = {}) {
   const textType = getTextType(name, text);
 
   // subtitle
-  text = fixFunction.replaceText(text, jpArray.subtitle);
+  text2 = fixFunction.replaceText(text2, jpArray.subtitle);
 
   // reverse text
   if (textType === textTypeList.reversed) {
-    text = jpFunction.reverseKana(text);
+    text2 = jpFunction.reverseKana(text2);
   }
 
   // special fix 1
-  text = specialFix1(name, text);
+  text2 = specialFix1(name, text2);
 
   // jp1
-  text = fixFunction.replaceText(text, jpArray.jp1);
+  text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
-  text = codeResult.text;
+  const codeResult = jpFunction.replaceTextByCode(
+    text2,
+    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
+    textType
+  );
+  text2 = codeResult.text;
 
   // jp2
-  text = fixFunction.replaceText(text, jpArray.jp2);
+  text2 = fixFunction.replaceText(text2, jpArray.jp2);
 
   // special fix 2
-  text = specialFix2(name, text);
+  text2 = specialFix2(name, text2);
 
   // convert to hira
   if (textType === textTypeList.allKatakana) {
-    text = jpFunction.convertKana(text, 'hira');
+    text2 = jpFunction.convertKana(text2, 'hira');
   }
 
   // mark fix
-  text = fixFunction.markFix(text);
+  // text2 = fixFunction.markFix(text2);
 
   // value fix before
-  const valueResult = fixFunction.valueFixBefore(text);
-  text = valueResult.text;
+  // const valueResult = fixFunction.valueFixBefore(text2);
+  // text2 = valueResult.text;
 
   // skip check
-  if (jpFunction.needTranslation(text, codeResult.table)) {
+  if (jpFunction.needTranslation(text2, codeResult.table)) {
     // translate
-    text = await translateModule.translate(text, translation, codeResult.table);
+    translatedText = await translateModule.translate(text2, translation, codeResult.table);
   }
 
   // value fix after
-  text = fixFunction.valueFixAfter(text, valueResult.table);
+  // translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
 
   // mark fix
-  text = fixFunction.markFix(text, true);
+  // translatedText = fixFunction.markFix(translatedText, true);
 
   // gender fix
-  text = jpFunction.genderFix(originalText, text);
+  translatedText = jpFunction.genderFix(text, translatedText);
 
   // table
-  text = fixFunction.replaceWord(text, codeResult.table);
+  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
 
-  return text;
+  return translatedText;
 }
 
-async function textFixGPT(name = '', text = '', translation = {}) {
+// fix text ai
+async function fixTextAI(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = text;
+
   if (text === '') {
     return '';
   }
 
-  let originalText = text;
-
   // get text type
-  const textType = getTextType(name, text);
+  const textType = getTextType(name, text, false);
 
   // reverse text
   if (textType === textTypeList.reversed) {
-    text = jpFunction.reverseKana(text);
+    text2 = jpFunction.reverseKana(text2);
   }
 
   // special fix 1
-  text = specialFix1(name, text);
+  text2 = specialFix1(name, text2);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text, chArray.combine, textType);
+  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
 
-  // special fix 2
-  // text = specialFix2(name, text);
-
-  // mark fix
-  // text = fixFunction.markFix(text);
+  // convert to hira
+  if (textType === textTypeList.allKatakana) {
+    text2 = jpFunction.convertKana(text2, 'hira');
+  }
 
   // skip check
-  if (jpFunction.needTranslation(text, codeResult.gptTable)) {
+  if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    text = await translateModule.aiTranslate(text, translation, codeResult.gptTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
+  } else {
+    // table replace
+    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
   }
-
-  // mark fix
-  // text = fixFunction.markFix(text, true);
-
-  // gender fix
-  text = jpFunction.genderFix(originalText, text);
-
-  // table
-  text = fixFunction.replaceText(text, codeResult.gptTable);
 
   // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
 
-  return text;
+  return translatedText;
 }
-
-// get katakana name
-function getKatakanaName(name = '') {
-  if (jpFunction.isKatakanaName(name)) {
-    return /[ァ-ヺー・＝]+/.exec(name)[0];
-  } else {
-    // other
-    return '';
-  }
-}
-
-// create name
-function createName(katakanaName = '') {
-  let tempName = fixFunction.replaceText(katakanaName, chArray.combine);
-  tempName = tempName.replace(/^ルル/, '路路');
-  tempName = tempName.replace(/^ル/, '路');
-  tempName = tempName.replace(/^ア(?!イ|ウ|ン)/, '阿');
-  return fixFunction.replaceText(tempName, chArray.chName);
-}
-
-// create east name
-//function createEastName(katakanaName = '') {}
 
 // special fix 1
 function specialFix1(name = '', text = '') {
@@ -344,7 +345,7 @@ function specialFix1(name = '', text = '') {
   // タタル
   if (/タタル/gi.test(name)) {
     text = text.replace(/(?<=さ|ま|で)っす/gi, 'す');
-    text = text.replace(/(?<=ま)っし/gi, 'し');
+    text = text.replace(/(?<=ま)っした/gi, 'した');
   }
 
   // ヒエン
@@ -355,7 +356,7 @@ function specialFix1(name = '', text = '') {
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
     text = text.replace(
-      /(?<!水晶|貴)公(?!開|的|然|共|衆|民|園|安|界|家|営|印|暇|課|会|海|宴|害|刊|館|器|儀|議|企|義|案|益|演|稲)/gi,
+      /(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi,
       '水晶公'
     );
   }
@@ -403,31 +404,31 @@ function specialFix2(name = '', text = '') {
   let loopCount = 0;
 
   /*
-  // あ、あ(or 漢字)
-  // あ……あ(or 漢字)
-  // あ…あ(or 漢字)
-  loopCount = 0;
-  const RegExpCommaWords1 = /^([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\2|[一-龠])/gi;
-  const RegExpCommaWords2 = /([、。！？])([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\3|[一-龠])/gi;
-  while (loopCount < 10) {
-      const result1 = RegExpCommaWords1.test(text);
-      const result2 = RegExpCommaWords2.test(text);
-
-      if (result1) {
-          text = text.replace(RegExpCommaWords1, '$1$3');
-      }
-
-      if (result2) {
-          text = text.replace(RegExpCommaWords2, '$1$2$4');
-      }
-
-      if (!result1 && !result2) {
-          break;
-      }
-
-      loopCount++;
-  }
-  */
+    // あ、あ(or 漢字)
+    // あ……あ(or 漢字)
+    // あ…あ(or 漢字)
+    loopCount = 0;
+    const RegExpCommaWords1 = /^([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\2|[一-龠])/gi;
+    const RegExpCommaWords2 = /([、。！？])([…、]*)([ぁ-ゖァ-ヺ][ぁぃぅぇぉゃゅょっァィゥェォャュョッ]*)[…、]+(\3|[一-龠])/gi;
+    while (loopCount < 10) {
+        const result1 = RegExpCommaWords1.test(text);
+        const result2 = RegExpCommaWords2.test(text);
+  
+        if (result1) {
+            text = text.replace(RegExpCommaWords1, '$1$3');
+        }
+  
+        if (result2) {
+            text = text.replace(RegExpCommaWords2, '$1$2$4');
+        }
+  
+        if (!result1 && !result2) {
+            break;
+        }
+  
+        loopCount++;
+    }
+    */
 
   // あアあ => あああ
   loopCount = 0;
@@ -447,12 +448,12 @@ function specialFix2(name = '', text = '') {
 }
 
 // get text type
-function getTextType(name = '', text = '') {
+function getTextType(name = '', text = '', checkList = true) {
   let type = textTypeList.normal;
 
   if (fixFunction.includesArrayItem(name, jpArray.listReverse)) {
     type = textTypeList.reversed;
-  } else if (allKataCheck(name, text)) {
+  } else if (isNoHiragana(name, text, checkList)) {
     type = textTypeList.allKatakana;
   }
 
@@ -460,21 +461,21 @@ function getTextType(name = '', text = '') {
 }
 
 // check katakana
-function allKataCheck(name = '', text = '') {
-  if (fixFunction.includesArrayItem(name, jpArray.listHira)) {
+function isNoHiragana(name = '', text = '', checkList = true) {
+  if (checkList && fixFunction.includesArrayItem(name, jpArray.listHira)) {
     return true;
   }
 
-  //return /^[^ぁ-ゖ]+$/gi.test(text) && text.match(/[ァ-ヺ]/gi)?.length > 10;
-  const kanji = text.match(/[\u3400-\u9FFF]/gi);
-  if (kanji?.length > 0) {
-    return /^[^ぁ-ゖ]+$/gi.test(text);
+  const kanjiArray = text.match(/[\u3400-\u9FFF]/gi) || [];
+  const katakanaLength = text.match(/[ァ-ヺ]/gi) || [];
+  const noHiragana = /^[^ぁ-ゖ]+$/gi.test(text);
+  if (kanjiArray.length > 0) {
+    return noHiragana;
   } else {
-    return /^[^ぁ-ゖ]+$/gi.test(text) && text.length > 15;
+    return noHiragana && katakanaLength.length > 15;
   }
 }
 
-// module exports
 module.exports = {
-  startFix,
+  start,
 };

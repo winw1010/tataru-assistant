@@ -1,46 +1,25 @@
 'use strict';
 
-// baidu function
-const { getSign } = require('./baidu-function');
-
 // request module
 const requestModule = require('../system/request-module');
 
 // RegExp
-const baiduIdRegExp = /(?<target>BAIDUID=[^;]+)/is;
-const baiduBfessRegExp = /(?<target>BAIDUID_BFESS=[^;]+)/is;
-const tokenRegExp = /token:\s*'(?<target>[^']+)'/is;
-//const systimeRegExp = /systime:\s*'(?<target>\d+)'/is;
-const gtkRegExp = /window\.gtk\s*=\s*"(?<target>\d+\.\d+)";/is;
-//const appVersionRegExp = /"appVersion":"(?<target>\d+\.\d+\.\d+)",/is;
-
-// expire date
-let expireDate = 0;
-
-// cookie
-let cookie = '';
+const regBaiduId = /BAIDUID=(?<target>[^;]+)/is;
 
 // authentication
-let authentication = {};
+let authentication = {
+  cookie: '',
+  expireDate: 0,
+};
 
 // exec
 async function exec(option) {
   try {
-    let result = '';
-
-    // check expire date
-    if (new Date().getTime() >= expireDate) {
-      await initialize();
-    }
-
-    // get result
-    result = await translate(cookie, authentication, option);
-
+    let result = await translate(option);
     return result;
   } catch (error) {
-    console.log(error);
-    expireDate = 0;
-    return '';
+    authentication.expireDate = 0;
+    throw error;
   }
 }
 
@@ -48,121 +27,82 @@ async function exec(option) {
 async function initialize() {
   // set cookie
   await setCookie();
-
-  // set authentication
-  await setAuthentication();
 }
 
 // set cookie
 async function setCookie() {
-  baiduIdRegExp.lastIndex = 0;
-  baiduBfessRegExp.lastIndex = 0;
-
-  const currentTime = Math.floor(new Date().getTime() / 1000);
-  const response = await requestModule.getCookie(
-    {
-      protocol: 'https:',
-      hostname: 'fanyi.baidu.com',
-      path: '/',
-    },
-    [baiduIdRegExp, baiduBfessRegExp]
-  );
-
-  if (response) {
-    cookie =
-      response +
-      `; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}` +
-      `; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=${currentTime}` +
-      '; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1;';
-    expireDate = requestModule.getExpiryDate();
-  } else {
-    throw 'ERROR: setCookie';
-  }
-}
-
-// set authentication
-async function setAuthentication() {
-  tokenRegExp.lastIndex = 0;
-  gtkRegExp.lastIndex = 0;
-
-  const response = await requestModule.get(
-    {
-      protocol: 'https:',
-      hostname: 'fanyi.baidu.com',
-      path: '/',
-    },
-    { Cookie: cookie }
-  );
-
-  const token = tokenRegExp.exec(response)?.groups?.target;
-  const gtk = gtkRegExp.exec(response)?.groups?.target;
-
-  if (token && gtk) {
-    authentication.token = token;
-    authentication.gtk = gtk;
-  } else {
-    throw 'ERROR: setAuthentication';
-  }
+  const cookie = await requestModule.getCookie('https://fanyi.baidu.com/', [regBaiduId]);
+  authentication.cookie =
+    'BAIDUID=' +
+    cookie[0] +
+    '; BAIDUID_BFESS=' +
+    cookie[0] +
+    +'; ab_sr=1.0.1_MmMzZTM2NzE5ZWFjNjM5MTgyNzBiYWZlMWNjOWY3NjFlM2M2NDM4MTdmOWZiNWVkZjUwYzAzZTlkNGMzZmNkNzAwNWEwOWMyOWI1ZDUwNThlZDdiN2MyMWYyOWI2NDEzOTYyYTRkNzhkZTE0NTQ1ODg0YzlhMWNiNjk5ODExOWI4NWZmMzU5NTE3ZTBkNzI5ZWZkNjliZTU5ZTUzODc2OA==; RT="z=1&dm=baidu.com&si=bab82135-beab-443d-bcbe-16e83d734b9f&ss=lvhs1t1u&sl=1&tt=34k&bcn=https%3A%2F%2Ffclog.baidu.com%2Flog%2Fweirwood%3Ftype%3Dperf&ld=4an"';
+  authentication.expireDate = requestModule.getExpiryDate();
 }
 
 // translate
-async function translate(cookie, authentication, option) {
+async function translate(option) {
+  // check expire date
+  if (new Date().getTime() >= authentication.expireDate) {
+    await initialize();
+  }
+
+  const currentTime = new Date().getTime();
   const response = await requestModule.post(
+    'https://fanyi.baidu.com/ait/text/translate',
+    JSON.stringify({
+      query: option.text,
+      from: option.from,
+      to: option.to,
+      reference: '',
+      corpusIds: [],
+      qcSettings: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      needPhonetic: true,
+      domain: 'common',
+      milliTimestamp: currentTime,
+    }),
     {
-      protocol: 'https:',
-      hostname: 'fanyi.baidu.com',
-      path: `/v2transapi?from=${option.from}&to=${option.to}`,
-    },
-    encodeURI(
-      requestModule.toParameters({
-        from: option.from,
-        to: option.to,
-        query: option.text,
-        transtype: 'realtime',
-        simple_means_flag: 3,
-        sign: getSign(option.text, authentication.gtk),
-        token: authentication.token,
-        domain: 'common',
-        ts: new Date().getTime(),
-      })
-    ),
-    {
-      Accept: '*/*',
-      'Accept-Encoding': 'gzip, deflate, br',
+      Accept: 'text/event-stream',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
       'Accept-Language': 'zh-CN,zh;q=0.9',
       Connection: 'keep-alive',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Cookie: cookie,
+      'Content-Type': 'application/json',
+      Cookie: authentication.cookie,
       Origin: 'https://fanyi.baidu.com',
-      Referer: 'https://fanyi.baidu.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
+      //Referer: 'https://fanyi.baidu.com/',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-origin',
       'User-Agent': requestModule.getUserAgent(),
-      'X-Requested-With': 'XMLHttpRequest',
     }
   );
 
-  if (response?.trans_result?.data) {
-    let result = '';
-    const resultArray = response.trans_result.data;
+  const responseArray = response.data.split('\n') || [];
+  let list = [];
+  let text = '';
 
-    for (let index = 0; index < resultArray.length; index++) {
-      const element = resultArray[index];
-      result += element.dst || '';
+  for (let index = 0; index < responseArray.length; index++) {
+    const element = responseArray[index];
+    if (/^data:/i.test(element)) {
+      const data = JSON.parse(element.replace(/^data:/i, ''));
+
+      if (data.data.list) {
+        list = data.data.list;
+        break;
+      }
     }
-
-    return result;
-  } else {
-    console.log('cookie:', cookie);
-    console.log('authentication:', authentication);
-    console.log('option:', option);
-    console.log('data:', response);
-    throw 'ERROR: translate';
   }
+
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    text += element.dst || '';
+  }
+
+  return text;
 }
 
 // module exports

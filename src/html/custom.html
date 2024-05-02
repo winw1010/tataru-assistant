@@ -44,12 +44,26 @@
       <div class="row">
         <!-- Custom Before -->
         <div class="col">
-          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom Before"></textarea>
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-before"
+            cols="30"
+            rows="2"
+            placeholder="Custom Before"
+          ></textarea>
         </div>
 
         <!-- Custom After -->
         <div class="col">
-          <textarea class="form-control" name="" id="" cols="30" rows="2" placeholder="Custom After"></textarea>
+          <textarea
+            class="form-control"
+            name=""
+            id="textarea-after"
+            cols="30"
+            rows="2"
+            placeholder="Custom After"
+          ></textarea>
         </div>
       </div>
 
@@ -58,31 +72,33 @@
       <!-- Add -->
       <div class="row align-items-center">
         <div class="col-auto">
-          <span>類別</span>
+          <label for="select-type"></label>
         </div>
 
         <div class="col-auto">
-          <select class="form-select" name="" id="">
-            <option disabled>#原文->中文</option>
-            <option value="player">玩家名稱</option>
-            <option value="retainer">雇員名稱</option>
-            <option value="npc" selected>NPC名稱</option>
-            <option value="title">稱呼</option>
-            <option value="group">組織</option>
-            <option value="monster">魔物</option>
-            <option value="things">事物</option>
-            <option value="skill">技能</option>
-            <option value="map">地名</option>
-            <option value="other">其他</option>
-            <option disabled>#整句原文->整句中文</option>
-            <option value="overwrite">完全替換</option>
-            <option disabled>#原文->原文</option>
-            <option value="replace">原文替換</option>
+          <select class="form-select" id="select-type">
+            <option value="#player-name" disabled></option>
+            <option value="player"></option>
+            <option value="retainer"></option>
+            <option value="#custom-target" disabled></option>
+            <option value="npc" selected></option>
+            <option value="title"></option>
+            <option value="group"></option>
+            <option value="monster"></option>
+            <option value="things"></option>
+            <option value="skill"></option>
+            <option value="map"></option>
+            <option value="other"></option>
+            <option value="#custom-overwrite" disabled></option>
+            <option value="custom-overwrite"></option>
+            <option value="#custom-source" disabled></option>
+            <option value="custom-source"></option>
           </select>
         </div>
 
         <div class="col">
-          <button class="btn btn-primary">新增</button>
+          <button class="btn btn-primary" id="button-save-custom"></button>
+          <button class="btn btn-danger" id="button-delete-custom"></button>
         </div>
       </div>
 
@@ -92,35 +108,32 @@
         <!-- Select Table -->
         <div class="col-auto">
           <select class="form-select" name="" id="select-table-type">
-            <option value="custom-data" disabled>#自訂</option>
-            <option value="custom-chinese-table" selected>原文->中文</option>
-            <option value="custom-overwrite-table">整句原文->整句中文</option>
-            <option value="custom-replace-table">原文->原文</option>
-            <option value="tataru-data" disabled>#Tataru</option>
-            <option value="tataru-chinese-table">原文->中文</option>
-            <option value="tataru-overwrite-table">整句原文->整句中文</option>
-            <option value="tataru-replace-table">原文->原文</option>
-            <option value="tataru-temp-table">暫存</option>
-            <option value="tataru-old-temp-table">舊版暫存(不使用)</option>
+            <option value="player-name-table"></option>
+            <option value="custom-target-table" selected></option>
+            <option value="custom-overwrite-table"></option>
+            <option value="custom-source-table"></option>
+            <option value="temp-name-table"></option>
           </select>
         </div>
+      </div>
 
-        <!-- Select Search Type -->
-        <div class="col-auto">
-          <select class="form-select" name="" id="select-search-type">
-            <option value="all" selected>全部</option>
-            <option value="keyword">關鍵字</option>
-          </select>
-        </div>
+      <br />
 
+      <div class="row">
         <!-- Keyword -->
-        <div class="col-auto" id="div-input-keyword" hidden>
-          <input class="form-control" type="text" name="" id="input-Keyword" placeholder="Keyword" />
+        <div class="col-auto">
+          <input class="form-control" type="text" name="" id="input-Keyword" />
         </div>
 
-        <!-- Search Button -->
         <div class="col-auto">
-          <button class="btn btn-primary" id="button-search">查詢</button>
+          <!-- Search Button -->
+          <button class="btn btn-primary" id="button-search"></button>
+
+          <!-- View All Button -->
+          <button class="btn btn-primary" id="button-view-all"></button>
+
+          <!-- View Files Button -->
+          <button class="btn btn-secondary" id="button-view-files"></button>
         </div>
       </div>
 
@@ -129,36 +142,28 @@
       <!-- Table -->
       <div class="row" id="div-custom-table">
         <div class="col">
-          <table class="table table-bordered table-striped table-hover">
+          <table class="table table-hover">
             <thead class="sticky-top">
               <tr>
-                <th>替換前</th>
-                <th>替換後</th>
+                <th id="th-custom-before"></th>
+                <th id="th-custom-after"></th>
+                <th id="th-custom-type"></th>
+                <th id="th-custom-edit"></th>
               </tr>
             </thead>
 
             <tbody id="tbody-custom-table">
               <tr>
-                <td colspan="2">無資料</td>
+                <td colspan="4">No data</td>
               </tr>
-              <!--
-              <tr>
-                <td>TEST1</td>
-                <td>TEST2</td>
-                <td><a href="">編輯</a> <a class="text-danger" href="">刪除</a></td>
-              </tr>
-              -->
             </tbody>
           </table>
         </div>
       </div>
     </main>
 
-    <footer class="container-fluid p-2"></footer>
-
     <!-- renderer -->
-    <script src="./renderer/audio.js"></script>
-    <script src="./renderer/drag.js"></script>
-    <script src="./renderer/language.js"></script>
+    <script src="./js/drag.js"></script>
+    <script src="./js/language.js"></script>
   </body>
 </html>

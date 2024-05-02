@@ -13,24 +13,30 @@ const rootPath = process.cwd();
 const userPath = process.env.USERPROFILE;
 
 // app name
-// const appName = 'Tataru Assistant';
-const appName = 'Tataru Helper Node';
+const appName = 'Tataru Assistant';
+const oldName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
   const documentPath = getUserPath('Documents');
-  const subPath = ['', appName, appName + '\\image', appName + '\\log', appName + '\\setting', appName + '\\temp'];
 
-  /*
-  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, 'Tataru Helper Node'))) {
-    fs.cpSync(getPath(documentPath, 'Tataru Helper Node'), getPath(documentPath, appName), { recursive: true });
-    return;
+  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, oldName))) {
+    copyData();
   }
-  */
+
+  const subPath = [
+    '',
+    appName,
+    appName + '\\' + 'config',
+    appName + '\\' + 'image',
+    appName + '\\' + 'log',
+    appName + '\\' + 'text',
+  ];
 
   subPath.forEach((value) => {
     try {
       const dir = getPath(documentPath, value);
+
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
@@ -38,6 +44,76 @@ function directoryCheck() {
       console.log(error);
     }
   });
+}
+
+// copy data
+function copyData() {
+  try {
+    const oldPath = getUserPath('Documents', oldName);
+    const newPath = getUserPath('Documents', appName);
+
+    const renameList = [
+      [getPath(newPath, 'setting'), getPath(newPath, 'config')],
+      [getPath(newPath, 'temp'), getPath(newPath, 'text')],
+      [getPath(newPath, 'text', 'jpTemp.json'), getPath(newPath, 'text', 'custom-source.json')],
+      [getPath(newPath, 'text', 'chTemp.json'), getPath(newPath, 'text', 'custom-target.json')],
+      [getPath(newPath, 'text', 'overwriteTemp.json'), getPath(newPath, 'text', 'custom-overwrite.json')],
+      [getPath(newPath, 'text', 'player.json'), getPath(newPath, 'text', 'player-name.json')],
+    ];
+    const tempList = [];
+
+    const configPath = getPath(newPath, 'config', 'config.json');
+    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'gptModel', 'UnofficialApi', 'unofficialApiUrl'];
+
+    // copy files
+    fs.cpSync(oldPath, newPath, { recursive: true });
+
+    // rename files
+    for (let index = 0; index < renameList.length; index++) {
+      const element = renameList[index];
+
+      if (exists(element[0])) {
+        fs.renameSync(element[0], element[1]);
+      } else {
+        write(element[1], [], 'json');
+      }
+    }
+
+    // delete temp element from custom-target.json
+    const customTarget = read(getPath(newPath, 'text', 'custom-target.json'), 'json') || [];
+    for (let index = customTarget.length - 1; index >= 0; index--) {
+      const element = customTarget[index];
+
+      if (element[2]?.includes('temp')) {
+        const tempElement = customTarget.splice(index, 1);
+        tempList.push(tempElement[0]);
+      }
+    }
+
+    // write text files
+    write(getPath(newPath, 'text', 'custom-target.json'), customTarget, 'json');
+    write(getPath(newPath, 'text', 'temp-name.json'), [], 'json');
+    write(getPath(newPath, 'text', 'deprecated-temp-name.json'), tempList, 'json');
+
+    // fix config
+    const config = read(configPath, 'json');
+    config.api = {};
+    for (let index = 0; index < configList.length; index++) {
+      const name = configList[index];
+      const value = config?.system?.[name];
+
+      if (typeof value !== 'undefined') {
+        if (name === 'UnofficialApi') {
+          config.api['unofficialApi'] = value;
+        } else {
+          config.api[name] = value;
+        }
+      }
+    }
+    write(configPath, config, 'json');
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // readdir
@@ -86,7 +162,7 @@ function read(filePath = './', type = '') {
         break;
 
       case 'image':
-        fs.readFileSync(filePath, { encoding: 'base64' });
+        data = fs.readFileSync(filePath).toString('base64');
         break;
 
       default:
@@ -156,6 +232,11 @@ function getUserDataPath(...args) {
   return path.join(userPath, 'Documents', appName, ...args);
 }
 
+// get old user path
+function getOldUserDataPath(...args) {
+  return path.join(userPath, 'Documents', oldName, ...args);
+}
+
 // module exports
 module.exports = {
   directoryCheck,
@@ -171,4 +252,5 @@ module.exports = {
   getRootDataPath,
   getUserPath,
   getUserDataPath,
+  getOldUserDataPath,
 };

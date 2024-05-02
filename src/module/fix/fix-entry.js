@@ -7,7 +7,7 @@ const configModule = require('../system/config-module');
 const dialogModule = require('../system/dialog-module');
 
 // language table
-const { languageEnum } = require('../system/engine-module');
+const { languageEnum, fixSourceList, fixTargetList } = require('../system/engine-module');
 
 // translate module
 const translateModule = require('../system/translate-module');
@@ -15,6 +15,9 @@ const translateModule = require('../system/translate-module');
 // fix module
 const enFix = require('./en-fix');
 const jpFix = require('./jp-fix');
+
+// npc channel
+const npcChannel = ['003D', '0044', '2AB9'];
 
 // player channel
 const playerChannel = getPlayerChannel();
@@ -46,13 +49,7 @@ function addTask(dialogData) {
     dialogData.translation = configModule.getConfig().translation;
   }
 
-  // set audio text
-  dialogData.audioText = dialogData.text;
-
-  // set translated text
-  dialogData.translatedName = '';
-  dialogData.translatedText = '';
-
+  // push
   entryIntervalItem.push(dialogData);
 }
 
@@ -72,46 +69,58 @@ function getEntryInterval() {
 
 // entry
 async function entry() {
+  const config = configModule.getConfig();
   let dialogData = entryIntervalItem.shift();
-  if (dialogData) {
-    // add dialog
-    dialogModule.addDialog(dialogData.id, dialogData.code);
 
-    // start fix
-    const dataLanguage = getLanguage(dialogData);
+  if (!dialogData) return;
 
-    dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
-    dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
+  // add dialog
+  dialogModule.addDialog(dialogData);
 
-    dialogData.translatedName = dialogData.name;
-    dialogData.translatedText = dialogData.text;
-    dialogData.audioText = dialogData.text;
+  // clear content
+  dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
+  dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
 
-    if (dataLanguage === languageEnum.ja) {
+  // set translated content
+  dialogData.translatedName = '';
+  dialogData.translatedText = '';
+  dialogData.audioText = '';
+
+  // get true language
+  const trueLanguage = getLanguage(dialogData);
+
+  if (canFix(config, trueLanguage, dialogData)) {
+    // do XIV fix when JP/EN to CHT/CHS
+    if (trueLanguage === languageEnum.ja) {
       dialogData.translation.from = languageEnum.ja;
-      dialogData = await jpFix.startFix(dialogData);
-    } else if (dataLanguage === languageEnum.en) {
+      dialogData = await jpFix.start(dialogData);
+    } else if (trueLanguage === languageEnum.en) {
       dialogData.translation.from = languageEnum.en;
-      dialogData = await enFix.startFix(dialogData);
-    } else {
+      dialogData = await enFix.start(dialogData);
+    }
+  } else {
+    // normal translate
+    if (npcChannel.includes(dialogData.code)) {
       dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
-      dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
-      dialogData.audioText = dialogData.text;
     }
 
-    // update dialog
-    if (dialogData.translatedText !== '') {
-      dialogModule.updateDialog(
-        dialogData.id,
-        dialogData.code,
-        dialogData.translatedName,
-        dialogData.translatedText,
-        dialogData
-      );
-    } else {
-      dialogModule.removeDialog(dialogData.id);
-    }
+    dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+    dialogData.audioText = dialogData.text;
   }
+
+  // update dialog
+  if (dialogData.translatedText !== '') {
+    dialogModule.updateDialog(dialogData);
+  } else {
+    dialogModule.removeDialog(dialogData.id);
+  }
+}
+
+// can fix
+function canFix(config = {}, trueLanguage = '', dialogData = {}) {
+  return (
+    config.translation.fix && fixSourceList.includes(trueLanguage) && fixTargetList.includes(dialogData.translation.to)
+  );
 }
 
 // get language

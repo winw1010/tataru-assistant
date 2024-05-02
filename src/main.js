@@ -1,5 +1,16 @@
 'use strict';
 
+/*
+UPDATE NOTE
+- use axios
+- dialog update
+fix isch
+error log
+gemini vision
+change icon
+translate option
+*/
+
 // electron
 const { app, BrowserWindow } = require('electron');
 app.commandLine.appendSwitch('disable-http-cache');
@@ -36,10 +47,12 @@ app.on('certificate-error', (event, webContents, url, error, certificate, callba
 
 // ignore uncaughtException
 process.on('uncaughtException', (error) => {
+  console.log('\r\nuncaughtException');
   console.log(error);
 });
 
 // ignore unhandledRejection
 process.on('unhandledRejection', (error) => {
+  console.log('\r\nunhandledRejection');
   console.log(error);
 });

@@ -7,7 +7,7 @@ const fileModule = require('./file-module');
 const engineModule = require('./engine-module');
 
 // config location
-const configLocation = fileModule.getUserDataPath('setting', 'config.json');
+const configLocation = fileModule.getUserDataPath('config', 'config.json');
 
 // default config
 const defaultConfig = {
@@ -22,7 +22,7 @@ const defaultConfig = {
     hideButton: true,
     hideDialog: true,
     minSize: true,
-    hideDialogTimeout: '30',
+    hideDialogTimeout: '15',
     backgroundColor: '#00000034',
     clickThrough: false,
     lock: false,
@@ -41,9 +41,9 @@ const defaultConfig = {
     y: -1,
     width: -1,
     height: -1,
-    type: 'tesseract',
+    type: 'tesseract-ocr',
     split: true,
-    edit: false,
+    edit: true,
   },
   channel: {
     '0039': '#CCCCCC',
@@ -56,22 +56,25 @@ const defaultConfig = {
     autoChange: true,
     fix: true,
     skip: true,
-    skipChinese: true,
+    skipChinese: false,
     replace: true,
     engine: 'Youdao',
     from: 'Japanese',
     fromPlayer: 'Japanese',
     to: 'Traditional-Chinese',
   },
+  api: {
+    geminiApiKey: '',
+    cohereToken: '',
+    gptApiKey: '',
+    gptModel: '',
+    unofficialApi: false,
+    unofficialApiUrl: 'https://api.openai.com/v1',
+  },
   system: {
     firstTime: true,
     appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
-    gptModel: 'please-select-gpt-model',
-    gptApiKey: '',
-    cohereToken: '',
-    UnofficialApi: false,
-    unofficialApiUrl: 'https://api.openai.com/v1',
     sslCertificate: true,
     scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
     userAgent:
@@ -89,7 +92,7 @@ function loadConfig() {
 
     // fix old bug
     if (currentConfig === null || typeof currentConfig !== typeof defaultConfig || Array.isArray(currentConfig)) {
-      throw null;
+      throw 'Incorrect config type';
     }
 
     const mainNames = Object.getOwnPropertyNames(defaultConfig);
@@ -135,18 +138,23 @@ function loadConfig() {
     }
 
     // fix source
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.from)) {
+    if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
       currentConfig.translation.from = defaultConfig.translation.from;
     }
 
     // fix player
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.fromPlayer)) {
+    if (!engineModule.sourceList.includes(currentConfig.translation.fromPlayer)) {
       currentConfig.translation.fromPlayer = defaultConfig.translation.fromPlayer;
     }
 
     // fix target
-    if (!engineModule.allLanguageList.includes(currentConfig.translation.to)) {
+    if (!engineModule.targetList.includes(currentConfig.translation.to)) {
       currentConfig.translation.to = defaultConfig.translation.to;
+    }
+
+    // fix app language
+    if (!engineModule.uiList.includes(currentConfig.system.appLanguage)) {
+      currentConfig.system.appLanguage = defaultConfig.system.appLanguage;
     }
 
     // fix text detect
@@ -159,10 +167,12 @@ function loadConfig() {
     }
 
     // fix GPT model
-    if (currentConfig.system.gptModel === '3') {
-      currentConfig.system.gptModel = 'gpt-3.5-turbo';
-    } else if (currentConfig.system.gptModel === '4') {
-      currentConfig.system.gptModel = 'gpt-4-turbo';
+    if (currentConfig.api.gptModel === '3') {
+      currentConfig.api.gptModel = 'gpt-3.5-turbo';
+    } else if (currentConfig.api.gptModel === '4') {
+      currentConfig.api.gptModel = 'gpt-4-turbo';
+    } else if (!/gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i.test(currentConfig.api.gptModel)) {
+      currentConfig.api.gptModel = '';
     }
 
     // set first time off

@@ -33,7 +33,9 @@ function setIPC() {
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
-  document.getElementById('img-captured').setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'crop.png'));
+  document
+    .getElementById('img-captured')
+    .setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'cropped.png'));
 }
 
 // set event

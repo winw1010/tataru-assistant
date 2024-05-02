@@ -1,59 +1,31 @@
 'use strict';
 
-const OpenAI = require('openai').default;
+const requestModule = require('../system/request-module');
+
+const { createPrompt } = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const regGptModel = /^gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
-const regOtherGptModel = /gpt/i;
+const regGptModel = /gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
 
-let currentOpenAI = null;
+// exec
+async function exec(option, table = []) {
+  const response = translate(option.text, option.from, option.to, table);
+  return response;
+}
 
 // translate
-async function exec(option, table = []) {
-  try {
-    const response = translate(option.text, option.from, option.to, table);
-    return response;
-  } catch (error) {
-    console.log(error);
-    currentOpenAI = null;
-    return error;
-  }
-}
-
-function createOpenai(apiKey = null) {
-  const config = configModule.getConfig();
-  const openai = !config.system.UnofficialApi
-    ? new OpenAI({
-        apiKey: apiKey ? apiKey : config.system.gptApiKey,
-      })
-    : new OpenAI({
-        apiKey: apiKey ? apiKey : config.system.gptApiKey,
-        baseURL: config.system.unofficialApiUrl,
-      });
-  return openai;
-}
-
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
+  const prompt = createPrompt(source, target, table);
+  const apiUrl = config.api.unofficialApi
+    ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions'
+    : 'https://api.openai.com/v1/chat/completions';
 
-  if (!currentOpenAI) currentOpenAI = createOpenai();
-
-  let prompt = `I want you to act as an expert translator. You will be provided with a sentence in ${source}, and your task is to translate it into ${target}.`;
-  let response = null;
-
-  if (table.length > 0) {
-    prompt += ' And';
-    for (let index = 0; index < table.length; index++) {
-      const element = table[index];
-      prompt += ` replace ${element[0]} with ${element[1]},`;
-    }
-    prompt = prompt.slice(0, prompt.lastIndexOf(',')) + '.';
-  }
-
-  try {
-    response = await currentOpenAI.chat.completions.create({
-      model: config.system.gptModel,
+  const response = await requestModule.post(
+    apiUrl,
+    {
+      model: config.api.gptModel,
       messages: [
         {
           role: 'system',
@@ -64,49 +36,44 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
           content: sentence,
         },
       ],
-      max_tokens: 4000,
-      temperature: 0,
-      //temperature: 0.7,
+      max_tokens: 3000,
+      temperature: 0.7,
       //top_p: 1,
-    });
+    },
+    { 'Content-Type': ' application/json', Authorization: 'Bearer ' + config.api.gptApiKey }
+  );
 
-    console.log('prompt', prompt);
-    console.log('Total Tokens:', response?.usage?.total_tokens);
-    return response?.choices[0]?.message?.content || '';
-  } catch (error) {
-    console.log(error.message);
-    return error.message;
-  }
+  console.log('prompt:', prompt);
+  console.log('Total Tokens:', response?.data?.usage?.total_tokens);
+
+  return response.data.choices[0].message.content;
 }
 
+// get model list
 async function getModelList(apiKey = null) {
-  let list = [];
   try {
-    const gptModelList = [];
-    const otherGptModelList = [];
-    const otherModelList = [];
-    const openai = createOpenai(apiKey);
+    const config = configModule.getConfig();
+    const apiUrl = config.api.unofficialApi
+      ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/models'
+      : 'https://api.openai.com/v1/models';
 
-    const tempModelList = (await openai.models.list()).data.map((x) => x.id);
-    tempModelList.sort();
+    const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
 
-    for (let index = 0; index < tempModelList.length; index++) {
-      const modelId = tempModelList[index];
+    let list = response.data.data.map((x) => x.id);
+    let gptList = [];
 
-      if (regGptModel.test(modelId)) {
-        gptModelList.push(modelId);
-      } else if (regOtherGptModel.test(modelId)) {
-        otherGptModelList.push(modelId);
-      } else {
-        otherModelList.push(modelId);
+    for (let index = 0; index < list.length; index++) {
+      const element = list[index];
+      regGptModel.lastIndex = 0;
+      if (regGptModel.test(element)) {
+        gptList.push(element);
       }
     }
 
-    list = [].concat(['# GPT'], gptModelList, ['# Other GPT'], otherGptModelList, ['# Other'], otherModelList);
+    return gptList.sort();
   } catch (error) {
-    console.log(error?.error?.message || error);
+    return [];
   }
-  return list;
 }
 
 // module exports

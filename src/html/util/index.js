@@ -28,19 +28,19 @@ function setIPC() {
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
-  // clear dialog
-  ipcRenderer.on('clear-dialog', () => {
-    document.getElementById('div-dialog').innerHTML = '';
-  });
-
-  // move to bottom
-  ipcRenderer.on('move-to-bottom', () => {
-    moveToBottom();
-  });
-
   // reset view
   ipcRenderer.on('reset-view', (event, config) => {
     resetView(config);
+  });
+
+  // hide update button
+  ipcRenderer.on('hide-update-button', (event, isHidden) => {
+    document.getElementById('img-button-update').hidden = isHidden;
+  });
+
+  // add audio
+  ipcRenderer.on('add-to-playlist', (event, urlList) => {
+    document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
   });
 
   // console log
@@ -49,45 +49,68 @@ function setIPC() {
   });
 
   // add dialog
-  ipcRenderer.on('add-dialog', (event, { id = '', code = '', innerHTML = '', style = {}, scroll = true }) => {
-    // div
-    const div = document.getElementById('div-dialog');
-
+  ipcRenderer.on('add-dialog', (event, dialogData = {}) => {
     // get dialog
-    let dialog = document.getElementById(id);
+    let dialog = document.getElementById(dialogData.id);
 
     // check dialog
     if (!dialog) {
-      dialog = document.createElement('div');
-      div.append(dialog);
-      dialog.id = id;
-      dialog.className = code;
+      dialog = addDialog(dialogData.id, dialogData.code);
       dialog.style.display = 'none';
+    } else {
+      setDialogContent(dialog, '...');
+    }
+  });
+
+  // update dialog
+  ipcRenderer.on('update-dialog', (event, dialogData = {}, style = {}, scroll = true) => {
+    // get dialog
+    let dialog = document.getElementById(dialogData.id);
+
+    // check dialog
+    if (!dialog) {
+      dialog = addDialog(dialogData.id, dialogData.code);
+    } else {
+      dialog.style.display = 'block';
     }
 
-    // set dialog
-    dialog.innerHTML = innerHTML;
-    setStyle(dialog, style);
-
-    // set first dialog
-    if (div.firstElementChild) {
-      document.getElementById(div.firstElementChild.id).style.marginTop = '0';
+    // set dialog content
+    if (dialogData.translatedName !== '') {
+      dialogData.translatedName += '：<br>';
     }
+
+    setDialogContent(dialog, dialogData.translatedName + dialogData.translatedText);
+
+    // set dialog style
+    setDialogStyle(dialog, style);
 
     // add click event
     if (dialog.className !== 'FFFF') {
       dialog.style.cursor = 'pointer';
       dialog.onclick = () => {
-        ipcRenderer.send('restart-window', 'edit', id);
+        ipcRenderer.send('restart-window', 'edit', dialogData.id);
       };
     }
 
     // navigate dialog
     if (scroll) {
-      setTimeout(() => {
-        document.getElementById(id).scrollIntoView();
-      }, 200);
+      scrollIntoView(dialogData.id);
     }
+  });
+
+  // add notification
+  ipcRenderer.on('add-notification', (event, id, code, text = '', style = {}) => {
+    // create notification
+    const dialog = addDialog(id, code);
+
+    // set notification style
+    setDialogStyle(dialog, style);
+
+    // set notification content
+    setDialogContent(dialog, text);
+
+    // navigate notification
+    scrollIntoView(id);
   });
 
   // remove dialog
@@ -99,19 +122,27 @@ function setIPC() {
     }
   });
 
+  // reset dialog style
+  ipcRenderer.on('reset-dialog-style', (event, resetList = []) => {
+    for (let index = 0; index < resetList.length; index++) {
+      const element = resetList[index];
+      setDialogStyle(document.getElementById(element.id), element.style);
+    }
+  });
+
   // hide dialog
   ipcRenderer.on('hide-dialog', (event, isHidden) => {
     document.getElementById('div-dialog').hidden = isHidden;
   });
 
-  // hide update button
-  ipcRenderer.on('hide-update-button', (event, isHidden) => {
-    document.getElementById('img-button-update').hidden = isHidden;
+  // clear dialog
+  ipcRenderer.on('clear-dialog', () => {
+    document.getElementById('div-dialog').innerHTML = '';
   });
 
-  // add audio
-  ipcRenderer.on('add-to-playlist', (event, urlList) => {
-    document.dispatchEvent(new CustomEvent('add-to-playlist', { detail: urlList }));
+  // move to bottom
+  ipcRenderer.on('move-to-bottom', () => {
+    moveToBottom();
   });
 }
 
@@ -211,7 +242,7 @@ function setButton() {
     if (config.indexWindow.focusable) {
       ipcRenderer.send('minimize-window');
     } else {
-      ipcRenderer.send('show-notification', '在不可選取的狀態下無法縮小視窗');
+      ipcRenderer.send('add-notification', '在不可選取的狀態下無法縮小視窗');
     }
   };
 
@@ -227,6 +258,11 @@ function setButton() {
     ipcRenderer.send('set-config', config);
     ipcRenderer.send('mute-window', config.indexWindow.speech);
     setSpeech(config.indexWindow.speech);
+  };
+
+  // custom
+  document.getElementById('img-button-custom').onclick = () => {
+    ipcRenderer.send('create-window', 'custom');
   };
 
   // read log
@@ -256,7 +292,7 @@ function setButton() {
 
 // start app
 function startApp() {
-  ipcRenderer.send('show-notification', '查看使用說明: CTRL+F9');
+  ipcRenderer.send('add-notification', '查看使用說明: CTRL+F9');
   ipcRenderer.send('version-check');
   ipcRenderer.send('initialize-json');
 }
@@ -303,30 +339,58 @@ function resetView(config) {
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 }
 
-// set style
-function setStyle(element, style = {}) {
-  Object.getOwnPropertyNames(style).forEach((key) => {
-    try {
-      element.style[key] = style[key];
-    } catch (error) {
-      console.log(error);
-    }
-  });
+// add dialog
+function addDialog(id = '', code = '') {
+  const dialog = document.createElement('div');
+  dialog.id = id;
+  dialog.className = code;
+  document.getElementById('div-dialog').append(dialog);
+  return dialog;
+}
+
+// set dialog content
+function setDialogContent(dialog, text = '') {
+  if (dialog) {
+    const content = document.createElement('span');
+    content.innerHTML = text;
+    dialog.innerHTML = content.outerHTML;
+  }
+}
+
+// set dialog style
+function setDialogStyle(dialog = null, style = {}) {
+  if (dialog) {
+    Object.getOwnPropertyNames(style).forEach((key) => {
+      try {
+        dialog.style[key] = style[key];
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
 }
 
 // reset dialog style
 function resetDialogStyle() {
   const dialogCollection = document.getElementById('div-dialog').children;
+  const resetList = [];
 
   for (let index = 0; index < dialogCollection.length; index++) {
-    const dialog = document.getElementById(dialogCollection[index].id);
-    const style = ipcRenderer.sendSync('get-style', dialog.className);
-    setStyle(dialog, style);
-
-    if (index === 0) {
-      dialog.style.marginTop = '0';
-    }
+    const element = dialogCollection[index];
+    resetList.push({
+      id: element.id,
+      code: element.className,
+    });
   }
+
+  ipcRenderer.send('reset-dialog-style', resetList);
+}
+
+// scroll into view
+function scrollIntoView(id = '') {
+  setTimeout(() => {
+    document.getElementById(id).scrollIntoView();
+  }, 200);
 }
 
 // move to bottom

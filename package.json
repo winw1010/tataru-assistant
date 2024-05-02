@@ -1,36 +1,35 @@
 {
-  "name": "tataru-helper-node",
-  "version": "2.5.14",
-  "description": "tataru-helper-node",
+  "name": "tataru-assistant",
+  "version": "2.6.0",
+  "description": "A translator for FFXIV with word-fixing function.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "repository": "https://github.com/winw1010/tataru-helper-node",
+  "repository": "https://github.com/winw1010/tataru-assistant",
   "keywords": [],
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^29.2.0",
+    "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0"
   },
   "dependencies": {
     "@google-cloud/vision": "^4.1.0",
+    "@google/generative-ai": "^0.7.1",
     "axios": "^1.6.8",
-    "cohere-ai": "^7.9.3",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
-    "openai": "^4.31.0",
     "sharp": "^0.33.2",
     "temp": "^0.9.4",
     "tesseract.js": "^5.0.5"
   },
   "build": {
-    "appId": "com.app.tataru.helper.node",
-    "productName": "Tataru Helper Node",
+    "appId": "com.app.tataru.assistant",
+    "productName": "Tataru Assistant",
     "directories": {
       "output": "build"
     },

@@ -1,46 +1,62 @@
-# Tataru Helper Node V2 Source Code
+# Tataru Assistant
 
-## Tataru Helper Node 原始碼專案建置步驟
+- [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
 
-- 可使用[Visual Studio Code](https://code.visualstudio.com/)編輯程式碼
-- 使用專案前必須先安裝[Git](https://git-scm.com)和[Node.js(長期維護版)](https://nodejs.org/zh-tw/)
+- [下載 Tataru Assistant](https://drive.google.com/drive/folders/14zjoUNzZTKgn2mCiAx6YJ14-fsd8M_I_?usp=drive_link)
 
-```bash
-# 啟動命令提示字元(cmd)
-於左下搜尋欄位輸入cmd開啟
+## 安裝步驟
 
-# 複製專案
-git clone https://github.com/winw1010/tataru-helper-node-v2
+1. 從上方連結下載【Tataru Assistant Setup.exe】
 
-# 進入專案資料夾
-cd tataru-helper-node-v2
+2. 執行【Tataru Assistant Setup.exe】開始安裝，若顯示【Windows 已保護您的電腦】的訊息，請點選【其他資訊】，再點選下方的【仍要執行】
 
-# 安裝套件
-npm install
+3. 啟動後若顯示【這個作業系統不支援 .NET Framework 4.7.2】的訊息，請從上方連結下載【ndp472-kb4054531-web.exe】安裝 Microsoft .NET Framework 4.7.2
 
-# 啟動APP
-npm start
-```
+4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
 
-## Tataru Helper Node 安裝檔建立步驟
+5. 若安裝後無法自動翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
 
-- 安裝檔會建立在 build 資料夾裡
-- 安裝檔的設定位於 package.json 裡的 build 物件中，打包工具為 electron-builder
+## 什麼是 Tataru Assistant?
 
-```bash
-# 啟動命令提示字元(cmd)
-於左下搜尋欄位輸入cmd開啟
+**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式，主要功能如下
 
-# 進入專案資料夾
-cd (你的專案位置)
+- 即時翻譯對話文字
 
-# 建立安裝檔
-npm run dist
-```
+- 即時翻譯過場字幕
 
-## License
+- 翻譯對話選項(使用螢幕擷取翻譯功能)
 
-[MIT](https://github.com/winw1010/tataru-helper-node-v2/blob/main/LICENSE)
+- 根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**修正為**塔塔露**
+
+- 自訂翻譯
+
+- 查詢翻譯
+
+## Tataru Assistant 的翻譯方式
+
+### 線上翻譯機
+
+翻譯能力一般，但基本上無使用限制
+
+- 有道翻譯
+
+- 百度翻譯
+
+- 彩雲小譯
+
+- Papago Naver
+
+- DeepL
+
+### AI 翻譯
+
+翻譯能力較佳，可正確翻譯較艱深的句子，需申請 API key 才能使用
+
+- Gemini (有免費方案，免費每日可翻譯 1500 次，無課首選)
+
+- ChatGPT (只有流量計費方案，想使用 GPT-4 需額外付月費)
+
+- Cohere (也有免費方案，但免費每月僅能翻譯 1000 次)
 
 ## Credits
 

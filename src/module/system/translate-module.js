@@ -9,217 +9,134 @@ const youdao = require('../translator/youdao');
 const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
-const google = require('../translator/google');
+//const google = require('../translator/google');
 const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
+const gemini = require('../translator/gemini');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
 async function translate(text = '', translation = {}, table = []) {
-  // clear newline
-  text = text.replace(/\r|\n/g, '');
-
-  // check length
-  if (text === '') {
-    return '……';
-  }
-
-  // check target
-  if (translation.from === translation.to) {
-    return text;
-  }
-
-  // initialize
-  const maxCount = 3;
-  let count = 0;
-  let missingCode = [];
   let result = '';
-  let previousResult = '';
 
   try {
-    // clear table
-    table = clearTable(text, table);
+    // clear newline
+    text = text.replace(/\r|\n/g, '');
 
-    // translate process
-    do {
-      // sleep
-      if (count > 0) {
-        console.log('Missing Code:', missingCode);
-        await engineModule.sleep();
-      }
+    // check text
+    if (text === '' || translation.from === translation.to) {
+      return text;
+    }
 
-      // add count
-      count++;
+    // translate
+    result = await translate2(text, translation, table);
 
-      // fix code
-      text = fixCode(text, missingCode);
-
-      // translate
-      result = await translate2(text, translation);
-
-      // check translated text
-      if (result === '') {
-        if (previousResult === '') {
-          result = '翻譯失敗';
-        } else {
-          result = previousResult;
-        }
-        break;
-      }
-
-      // check table
-      missingCode = checkTable(result, table);
-
-      // set previous translated text
-      previousResult = result;
-    } while (missingCode.length > 0 && count < maxCount);
-
-    return zhConvert(clearCode(result, table), translation.to);
+    // zh convert
+    if (engineModule.aiList.includes(translation.engine)) {
+      return zhConvert(result, translation.to);
+    } else {
+      return zhConvert(clearCode(result, table), translation.to);
+    }
   } catch (error) {
     console.log(error);
-    return 'Failed to get translation: ' + error;
-  }
-}
-
-async function aiTranslate(text = '', translation = {}, table = []) {
-  // clear newline
-  text = text.replace(/\r|\n/g, '');
-
-  // check length
-  if (text === '') {
-    return '……';
+    result = '' + error;
   }
 
-  // check target
-  if (translation.from === translation.to) {
-    return text;
-  }
-
-  let result = await translate2(text, translation, table);
-
-  if (result === '') {
-    result = '翻譯失敗';
-  }
-
-  return zhConvert(result, translation.to);
+  return result;
 }
 
 // translate 2
 async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
-  let result = '';
+  let result = { isError: false, text: '' };
 
   do {
     const engine = engineList.shift();
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
-    result = await getTranslation(engine, option, table);
-  } while (result === '' && autoChange && engineList.length > 0);
 
-  return result;
+    console.log('\r\nEngine:', engine);
+
+    if (option) {
+      result = await getTranslation(engine, option, table);
+    } else {
+      continue;
+    }
+  } while (result.isError && autoChange && engineList.length > 0);
+
+  return result.text;
 }
 
 // get translation
 async function getTranslation(engine = '', option = {}, table = []) {
   console.log('Before:', option?.text);
 
-  let result = '';
+  let isError = false;
+  let text = '';
 
   try {
     switch (engine) {
       case 'Baidu':
-        result = await baidu.exec(option);
+        text = await baidu.exec(option);
         break;
 
       case 'Youdao':
-        result = await youdao.exec(option);
+        text = await youdao.exec(option);
         break;
 
       case 'Caiyun':
-        result = await caiyun.exec(option);
+        text = await caiyun.exec(option);
         break;
 
       case 'Papago':
-        result = await papago.exec(option);
+        text = await papago.exec(option);
         break;
 
       case 'DeepL':
-        result = await deepl.exec(option);
+        text = await deepl.exec(option);
         break;
 
       case 'GPT':
-        result = await gpt.exec(option, table);
+        text = await gpt.exec(option, table);
         break;
 
       case 'Cohere':
-        result = await cohere.exec(option, table);
+        text = await cohere.exec(option, table);
         break;
 
+      case 'Gemini':
+        text = await gemini.exec(option, table);
+        break;
+
+      /*
       case 'Google':
         result = await google.exec(option);
         break;
+      */
 
       default:
         break;
     }
   } catch (error) {
     console.log(error);
+    text = '' + error;
+    isError = true;
   }
 
-  console.log('After:', result);
+  console.log('After:', text);
 
-  return result || '';
+  return {
+    isError,
+    text,
+  };
 }
 
 // zh convert
 function zhConvert(text = '', languageTo = '') {
-  if (text === '') {
-    return text;
-  }
-
   if (languageTo === engineModule.languageEnum.zht) {
-    return zhConverter.exec({ text: text, tableName: 'zh2Hant' });
+    text = zhConverter.exec({ text: text, tableName: 'zh2Hant' });
   } else if (languageTo === engineModule.languageEnum.zhs) {
-    return zhConverter.exec({ text: text, tableName: 'zh2Hans' });
-  } else {
-    return text;
-  }
-}
-
-// clear table
-function clearTable(text = '', table = []) {
-  for (let index = table.length - 1; index >= 0; index--) {
-    const code = table[index][0];
-    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
-      table.splice(index, 1);
-    }
-  }
-
-  return table;
-}
-
-// check table
-function checkTable(text = '', table = []) {
-  let missingCodes = [];
-
-  for (let index = 0; index < table.length; index++) {
-    const code = table[index][0];
-    if (!text.includes(code.toUpperCase()) && !text.includes(code.toLowerCase())) {
-      missingCodes.push(code);
-    }
-  }
-
-  return missingCodes;
-}
-
-// fix code
-function fixCode(text = '', missingCode = []) {
-  if (missingCode.length > 0) {
-    for (let index = 0; index < missingCode.length; index++) {
-      const code = missingCode[index][0];
-      const codeRegExp = new RegExp(`(${code}+)`, 'gi');
-      text = text.replaceAll(codeRegExp, '$1' + code);
-    }
+    text = zhConverter.exec({ text: text, tableName: 'zh2Hans' });
   }
 
   return text;
@@ -240,7 +157,6 @@ function clearCode(text = '', table = []) {
 // module exports
 module.exports = {
   translate,
-  aiTranslate,
   getTranslation,
   zhConvert,
 };

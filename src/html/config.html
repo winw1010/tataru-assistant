@@ -160,7 +160,7 @@
             <span id="span-speech-speed"></span>
           </div>
           <div class="col-auto">
-            <input type="range" class="form-range" min="0.1" max="3" step="0.01" id="input-speech-speed" />
+            <input type="range" class="form-range" min="0.1" max="3" step="0.1" id="input-speech-speed" />
           </div>
         </div>
       </div>
@@ -360,7 +360,16 @@
       <!-- api page -->
       <div id="div-api" class="config-page" hidden>
         <!-- set google vision -->
-        <p id="p-google-vision"></p>
+
+        <div class="row">
+          <div class="col-auto">
+            <p id="p-google-vision"></p>
+          </div>
+
+          <div class="col-auto">
+            <a href="#" id="a-set-google-vision"></a>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-auto">
@@ -368,18 +377,49 @@
           </div>
         </div>
 
-        <br />
+        <hr />
 
+        <!-- set Gemini -->
         <div class="row">
           <div class="col-auto">
-            <a href="#" id="a-get-credential"></a>
+            <p id="p-gemini"></p>
+          </div>
+
+          <div class="col-auto">
+            <a href="#" id="a-set-gemini-api"></a>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-gemini-api-key"></label>
+          </div>
+          <div class="col-auto">
+            <img
+              class="img-fluid img-visibility"
+              src="./img/ui/visibility_off_white_48dp.svg"
+              alt=""
+              style="width: 1.5rem"
+              id="img-visibility-gemini-api-key"
+            />
+          </div>
+          <div class="col-auto">
+            <input type="password" class="form-control" name="" id="input-gemini-api-key" />
           </div>
         </div>
 
         <hr />
 
         <!-- set Cohere -->
-        <p id="p-cohere"></p>
+        <div class="row">
+          <div class="col-auto">
+            <p id="p-cohere"></p>
+          </div>
+
+          <div class="col-auto">
+            <a href="#" id="a-set-cohere-api"></a>
+          </div>
+        </div>
 
         <div class="row align-items-center">
           <div class="col">
@@ -402,7 +442,15 @@
         <hr />
 
         <!-- set GPT -->
-        <p id="p-chat-gpt"></p>
+        <div class="row">
+          <div class="col-auto">
+            <p id="p-chat-gpt"></p>
+          </div>
+
+          <div class="col-auto">
+            <a href="#" id="a-set-gpt-api"></a>
+          </div>
+        </div>
 
         <div class="row align-items-center">
           <div class="col">
@@ -429,17 +477,7 @@
             <label for="select-gpt-model"></label>
           </div>
           <div class="col-auto">
-            <select class="form-select" name="" id="select-gpt-model">
-              <option value="please-select-gpt-model" selected></option>
-            </select>
-          </div>
-        </div>
-
-        <br />
-
-        <div class="row">
-          <div class="col-auto">
-            <a href="#" id="a-set-gpt-api"></a>
+            <select class="form-select" name="" id="select-gpt-model"></select>
           </div>
         </div>
 
@@ -548,8 +586,17 @@
 
         <br />
 
-        <!-- version check -->
+        <!-- fix reader -->
         <div class="row">
+          <div class="col">
+            <button id="button-fix-reader" class="btn btn-danger"></button>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- version check -->
+        <div class="row" hidden>
           <div class="col">
             <button id="button-version-check" class="btn btn-primary"></button>
           </div>
@@ -607,12 +654,8 @@
       </div>
     </main>
 
-    <footer class="container-fluid p-2">
-      <div class="row align-items-center text-end"></div>
-    </footer>
-
     <!-- renderer -->
-    <script src="./renderer/drag.js"></script>
-    <script src="./renderer/language.js"></script>
+    <script src="./js/drag.js"></script>
+    <script src="./js/language.js"></script>
   </body>
 </html>

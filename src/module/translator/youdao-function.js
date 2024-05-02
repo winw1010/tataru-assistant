@@ -1,8 +1,8 @@
 'use strict';
 
 // axios
-const axios = require('axios').default;
-axios.defaults.withCredentials = !0;
+// const axios = require('axios').default;
+// axios.defaults.withCredentials = !0;
 
 // crypto
 const crypto = require('node:crypto');
@@ -74,6 +74,7 @@ function decodeData(responseString) {
   return (s += i.final('utf-8')), s;
 }
 
+/*
 // get keyword
 function getKeyword(option) {
   const data = { text: option.text, lang: option.from, to: option.to };
@@ -92,11 +93,12 @@ function getKeyword(option) {
       console.log(error);
     });
 }
+*/
 
 // module exports
 module.exports = {
   createUserID,
   createParams,
   decodeData,
-  getKeyword,
+  //getKeyword,
 };

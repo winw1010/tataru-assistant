@@ -3,12 +3,10 @@ const splitText = {
   method: 'LMT_split_text',
   params: {
     texts: [],
+    commonJobParams: { mode: 'translate' },
     lang: {
       lang_user_selected: 'auto',
-      preference: {
-        weight: {},
-        default: 'default',
-      },
+      preference: { weight: {}, default: 'default' },
     },
   },
   id: 50920014,
@@ -25,7 +23,7 @@ const handleJobs = {
       target_lang: 'ZH',
     },
     priority: 1,
-    commonJobParams: { browserType: 1, formality: null },
+    commonJobParams: { mode: 'translate', textType: 'plaintext', browserType: 1 },
     timestamp: 1658461983751,
   },
   id: 50920016,
@@ -52,7 +50,7 @@ function generateJobs(chunks) {
       sentences: [
         {
           text: newChunks[index].text,
-          id: index,
+          id: index + 1,
           prefix: newChunks[index].prefix,
         },
       ],

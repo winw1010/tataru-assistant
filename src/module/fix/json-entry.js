@@ -34,7 +34,7 @@ const fileModule = require('../system/file-module');
 const sharlayanModule = require('../system/sharlayan-module');
 
 // table URL
-const tableURL = 'https://codeload.github.com/winw1010/tataru-helper-node-text-v2/zip/refs/heads/main';
+const tableURL = 'https://codeload.github.com/winw1010/tataru-assistant-text/zip/refs/heads/main';
 
 // table name
 const tableName = 'table.zip';
@@ -67,12 +67,12 @@ function downloadJSON() {
 
     if (file.errored) {
       console.log('Download Failed: ' + file.errored.message);
-      dialogModule.showNotification('對照表下載失敗: ' + file.errored.message);
+      dialogModule.addNotification('對照表下載失敗: ' + file.errored.message);
     } else {
       deleteTable();
       await decompress(tableTempPath, tablePath, { strip: 1 });
       fileModule.unlink(tableTempPath);
-      dialogModule.showNotification('對照表下載完畢');
+      dialogModule.addNotification('對照表下載完畢');
     }
 
     loadJSON();
@@ -108,7 +108,7 @@ function loadJSON() {
   const targetLanguage = config.translation.to;
   enJson.load(targetLanguage);
   jpJson.load(targetLanguage);
-  dialogModule.showNotification('對照表讀取完畢');
+  dialogModule.addNotification('對照表讀取完畢');
   fixEntry.setRunning(true);
 
   // start sharlayan reader
@@ -119,23 +119,8 @@ function loadJSON() {
 }
 
 // get array
-function getArray(language = '', type = '', name = '') {
-  let array = [];
-
-  if (language === 'jp') {
-    if (type === 'ch') {
-      array = jpJson.getChArray()[name];
-    } else {
-      array = jpJson.getJpArray()[name];
-    }
-  } else if (language === 'en') {
-    if (type === 'ch') {
-      array = enJson.getChArray()[name];
-    } else {
-      array = enJson.getEnArray()[name];
-    }
-  }
-
+function getUserArray(arrayName = '') {
+  let array = jpJson.getUserArray()[arrayName];
   return array || [];
 }
 
@@ -144,5 +129,5 @@ module.exports = {
   initializeJSON,
   downloadJSON,
   loadJSON,
-  getArray,
+  getUserArray,
 };

@@ -4,9 +4,6 @@
 const sharp = require('sharp');
 sharp.cache(false);
 
-// config module
-const configModule = require('./config-module');
-
 // dialog module
 const dialogModule = require('./dialog-module');
 
@@ -22,12 +19,9 @@ const textDetectModule = require('./text-detect-module');
 // window module
 const windowModule = require('./window-module');
 
-// image path
-const imagePath = fileModule.getRootPath('src', 'data', 'img');
-
 // start recognize
-async function startRecognize(rectangleSize, displayBounds, displayIndex) {
-  dialogModule.showNotification('正在擷取螢幕畫面');
+async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+  dialogModule.addNotification('正在擷取螢幕畫面');
   console.log('rectangle size:', rectangleSize);
 
   try {
@@ -60,18 +54,18 @@ async function startRecognize(rectangleSize, displayBounds, displayIndex) {
     cropImage(rectangleSize, displayBounds, screenshotPath);
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+    dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
   }
 }
 
 // crop image
 async function cropImage(rectangleSize, displayBounds, screenshotPath) {
   try {
-    const cropPath = getImagePath('crop.png');
-    const config = configModule.getConfig();
+    const croppedPath = getImagePath('cropped.png');
     const newSize = getNewSize(displayBounds);
 
-    let imageBuffer = await sharp(screenshotPath)
+    // crop image
+    await sharp(screenshotPath)
       .resize({
         width: newSize.width,
         height: newSize.height,
@@ -82,23 +76,22 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
         width: parseInt(rectangleSize.width * newSize.scaleRate),
         height: parseInt(rectangleSize.height * newSize.scaleRate),
       })
-      .toBuffer();
+      .greyscale()
+      .toFile(croppedPath);
 
-    // save crop
-    fileModule.write(cropPath, imageBuffer, 'image');
-
-    // start reconize
-    dialogModule.showNotification('正在辨識圖片文字');
-    if (config.captureWindow.type === 'google-vision') {
-      // google vision
-      textDetectModule.googleVision(cropPath);
-    } else {
-      // tesseract ocr
-      textDetectModule.tesseractOCR(await fixImage(imageBuffer));
+    /*
+    // set image path
+    if (config.captureWindow.type === 'tesseract-ocr') {
+      imagePath = await otsuFix(croppedPath);
     }
+    */
+
+    // start reconizing
+    dialogModule.addNotification('正在辨識圖片文字');
+    textDetectModule.startReconizing(croppedPath);
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+    dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
   }
 }
 
@@ -120,14 +113,17 @@ function getNewSize(displayBounds) {
   }
 }
 
+/*
 // fix image
-async function fixImage(imageBuffer = Buffer.from('')) {
+async function fixImage(cropPath = '') {
   // adaptive thresholding?
   // Otsu thresholding?
 
+  const processedPath = getImagePath('processed.png');
+
   try {
-    // greyscale
-    let imageSharp = sharp(imageBuffer).greyscale();
+    // read image
+    const imageSharp = sharp(cropPath);
 
     // get dominant
     const { dominant } = await imageSharp.stats();
@@ -137,18 +133,91 @@ async function fixImage(imageBuffer = Buffer.from('')) {
       console.log('light background');
     } else {
       console.log('dark background');
-      imageSharp = imageSharp.negate({ alpha: false });
+      imageSharp.negate({ alpha: false });
     }
 
-    // to buffer
-    return await imageSharp.toBuffer();
+    // save processed image
+    await imageSharp.toFile(processedPath);
+    return processedPath;
   } catch (error) {
     console.log(error);
-    dialogModule.showNotification('圖片處理發生錯誤: ' + error);
-    return imageBuffer;
+    dialogModule.addNotification('圖片處理發生錯誤: ' + error);
+    return cropPath;
   }
 }
+*/
 
+/*
+async function otsuFix(croppedPath = '') {
+  // adaptive thresholding?
+  // Otsu thresholding?
+
+  const maskPath = getImagePath('mask.png');
+  const combinedPath = getImagePath('combined.png');
+  const textPath = getImagePath('text.png');
+  const processedPath = getImagePath('processed.png');
+
+  const metaData = await sharp(croppedPath).metadata();
+  let isDark = false;
+
+  try {
+    // read cropped image
+    const maskImage = sharp(croppedPath).threshold(await getOstuValue(croppedPath), { greyscale: false });
+
+    // get dominant
+    const { dominant } = await maskImage.stats();
+
+    // negate image if background is dark
+    // hsp(dominant) >= 16256.25 : light background
+    if (dominant.r >= 128) {
+      console.log('light background');
+    } else {
+      console.log('dark background');
+      maskImage.negate({ alpha: false });
+      isDark = true;
+    }
+
+    // save mask image
+    await maskImage.unflatten().toFile(maskPath);
+
+    // save combined image
+    await sharp(maskPath)
+      .composite([
+        {
+          input: croppedPath,
+          blend: 'in',
+        },
+      ])
+      .toFile(combinedPath);
+
+    // save text image
+    const textImage = sharp(combinedPath);
+    if (isDark) {
+      textImage.negate({ alpha: false });
+    }
+    await textImage.toFile(textPath);
+
+    // save processed image
+    await sharp({
+      create: {
+        width: metaData.width,
+        height: metaData.height,
+        channels: 4,
+        background: { r: 255, g: 255, b: 255, alpha: 255 },
+      },
+    })
+      .composite([{ input: textPath }])
+      .toFile(processedPath);
+    return processedPath;
+  } catch (error) {
+    console.log(error);
+    dialogModule.addNotification('圖片處理發生錯誤: ' + error);
+    return croppedPath;
+  }
+}
+*/
+
+/*
 // hsp
 function hsp(dominant) {
   const red = dominant.r;
@@ -157,15 +226,30 @@ function hsp(dominant) {
 
   return 0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue);
 }
+*/
+
+/*
+// otsu
+async function getOstuValue(croppedPath = '') {
+  const cropImageRawBuffer = await sharp(croppedPath).raw().toBuffer();
+  const intensity = [];
+
+  for (let index = 0; index < cropImageRawBuffer.length; index += 4) {
+    intensity.push(cropImageRawBuffer[index]);
+  }
+
+  return Math.min(255, otsu(intensity) + 1);
+}
+*/
 
 // get image path
 function getImagePath(fileName) {
-  return fileModule.getPath(imagePath, fileName);
+  return fileModule.getRootPath('src', 'data', 'img', fileName);
 }
 
 // module exports
 module.exports = {
-  startRecognize,
+  takeScreenshot,
 };
 
 /*
@@ -217,7 +301,7 @@ async function fixImage(imageBuffer) {
         ipcRenderer.send('tesseract-ocr', resultImageBuffer);
     } catch (error) {
         console.log(error);
-        dialogModule.showNotification('無法擷取螢幕畫面: ' + error);
+        dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
     }
 }
 */

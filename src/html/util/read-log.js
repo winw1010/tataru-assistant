@@ -79,7 +79,7 @@ function readLogList() {
 
 function readLog(fileName) {
   if (fileName === 'none') {
-    ipcRenderer.send('show-notification', '檔案不存在');
+    ipcRenderer.send('add-notification', '檔案不存在');
     return;
   }
 
@@ -92,16 +92,18 @@ function readLog(fileName) {
       ipcRenderer.send('send-index', 'clear-dialog');
 
       for (let index = 0; index < logNames.length; index++) {
-        const logElement = log[logNames[index]];
+        const logItem = log[logNames[index]];
 
-        if (logElement.code !== 'FFFF') {
-          ipcRenderer.send(
-            'add-log',
-            logElement.id,
-            logElement.code,
-            logElement.translated_name,
-            logElement.translated_text
-          );
+        if (logItem.code !== 'FFFF') {
+          const dialogData = {
+            id: logItem.id,
+            code: logItem.code,
+            translatedName: logItem.translated_name,
+            translatedText: logItem.translated_text,
+            translation: logItem.translation,
+          };
+
+          ipcRenderer.send('add-log', dialogData);
         }
       }
 
@@ -109,6 +111,6 @@ function readLog(fileName) {
     }
   } catch (error) {
     console.log(error);
-    ipcRenderer.send('show-notification', '無法讀取檔案');
+    ipcRenderer.send('add-notification', '無法讀取檔案');
   }
 }

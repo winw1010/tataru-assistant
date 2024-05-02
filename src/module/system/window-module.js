@@ -35,7 +35,7 @@ function createWindow(windowName, data = null) {
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
-        preload: fileModule.getPath(__dirname, `../../html/preload/${windowName}.js`),
+        preload: fileModule.getPath(__dirname, `../../html/util/${windowName}.js`),
       },
     });
 
@@ -43,7 +43,7 @@ function createWindow(windowName, data = null) {
     window.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
 
     // set always on top
-    window.setAlwaysOnTop(!['edit', 'dictionary'].includes(windowName), 'screen-saver');
+    window.setAlwaysOnTop(true, 'screen-saver');
 
     // set minimizable
     window.setMinimizable(false);
@@ -136,6 +136,12 @@ function getWindowSize(windowName, config) {
 
   // get display bounds nearest cursor
   const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
+  const displaySizeRate = displayBounds.width >= 1920 ? 0.9 : 1;
+  const displayLength =
+    displayBounds.width > displayBounds.height
+      ? Math.min(parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9), displayBounds.width) *
+        displaySizeRate
+      : displayBounds.width * displaySizeRate;
 
   switch (windowName) {
     case 'index':
@@ -146,8 +152,8 @@ function getWindowSize(windowName, config) {
         if (boundsValidCheck(indexBounds)) {
           bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.7);
           bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.2);
-          bounds.width = parseInt(displayBounds.width * 0.16);
-          bounds.height = parseInt(displayBounds.width * 0.32);
+          bounds.width = parseInt(displayLength * 0.16);
+          bounds.height = parseInt(displayLength * 0.32);
         } else {
           bounds.x = indexBounds.x;
           bounds.y = indexBounds.y;
@@ -156,8 +162,8 @@ function getWindowSize(windowName, config) {
         }
 
         if (configModule.getConfig().indexWindow.minSize) {
-          bounds.minWidth = 300;
-          bounds.minHeight = 300;
+          bounds.minWidth = 200;
+          bounds.minHeight = 200;
         }
 
         bounds = boundsSizeCheck(bounds);
@@ -172,8 +178,8 @@ function getWindowSize(windowName, config) {
         if (boundsValidCheck(captureBounds)) {
           bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
           bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
-          bounds.width = parseInt(displayBounds.width * 0.32);
-          bounds.height = parseInt(displayBounds.width * 0.19);
+          bounds.width = parseInt(displayLength * 0.4);
+          bounds.height = parseInt(displayLength * 0.19);
         } else {
           bounds.x = captureBounds.x;
           bounds.y = captureBounds.y;
@@ -182,8 +188,8 @@ function getWindowSize(windowName, config) {
         }
 
         if (configModule.getConfig().indexWindow.minSize) {
-          bounds.minWidth = 600;
-          bounds.minHeight = 350;
+          bounds.minWidth = 200;
+          bounds.minHeight = 200;
         }
 
         bounds = boundsSizeCheck(bounds);
@@ -193,10 +199,10 @@ function getWindowSize(windowName, config) {
     case 'capture-edit':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.32);
-        bounds.height = parseInt(displayBounds.width * 0.21);
-        bounds.minWidth = 600;
-        bounds.minHeight = 400;
+        bounds.width = parseInt(displayLength * 0.32);
+        bounds.height = parseInt(displayLength * 0.32);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
@@ -204,10 +210,10 @@ function getWindowSize(windowName, config) {
     case 'config':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.21);
-        bounds.height = parseInt(displayBounds.width * 0.32);
-        bounds.minWidth = 400;
-        bounds.minHeight = 600;
+        bounds.width = parseInt(displayLength * 0.26);
+        bounds.height = parseInt(displayLength * 0.4);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
@@ -215,10 +221,10 @@ function getWindowSize(windowName, config) {
     case 'dictionary':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.27);
-        bounds.height = parseInt(displayBounds.width * 0.32);
-        bounds.minWidth = 500;
-        bounds.minHeight = 600;
+        bounds.width = parseInt(displayLength * 0.27);
+        bounds.height = parseInt(displayLength * 0.4);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
@@ -226,10 +232,10 @@ function getWindowSize(windowName, config) {
     case 'edit':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.42);
-        bounds.height = parseInt(displayBounds.width * 0.34);
-        bounds.minWidth = 800;
-        bounds.minHeight = 640;
+        bounds.width = parseInt(displayLength * 0.45);
+        bounds.height = parseInt(displayLength * 0.45);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
@@ -237,10 +243,10 @@ function getWindowSize(windowName, config) {
     case 'custom':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.42);
-        bounds.height = parseInt(displayBounds.width * 0.34);
-        bounds.minWidth = 800;
-        bounds.minHeight = 640;
+        bounds.width = parseInt(displayLength * 0.4);
+        bounds.height = parseInt(displayLength * 0.4);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
@@ -248,10 +254,10 @@ function getWindowSize(windowName, config) {
     case 'read-log':
       {
         const indexBounds = windowList['index'].getBounds();
-        bounds.width = parseInt(displayBounds.width * 0.16);
-        bounds.height = parseInt(displayBounds.width * 0.11);
-        bounds.minWidth = 300;
-        bounds.minHeight = 200;
+        bounds.width = parseInt(displayLength * 0.25);
+        bounds.height = parseInt(displayLength * 0.15);
+        bounds.minWidth = bounds.width;
+        bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;

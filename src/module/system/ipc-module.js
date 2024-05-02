@@ -4,7 +4,7 @@
 const { dialog } = require('electron');
 
 // child process
-const { exec } = require('child_process');
+const childProcess = require('child_process');
 
 // electron
 const { app, ipcMain, screen, BrowserWindow } = require('electron');
@@ -51,6 +51,9 @@ const { addTask } = require('../fix/fix-entry');
 // json entry
 const jsonEntry = require('../fix/json-entry');
 
+// json function
+const jsonFunction = require('../fix/json-function');
+
 // google tts
 const googleTTS = require('../translator/google-tts');
 
@@ -62,6 +65,9 @@ const appVersion = app.getVersion();
 
 // update button
 const updateButton = '<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">';
+
+// No kanji
+const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
 
 // set ipc
 function setIPC() {
@@ -140,6 +146,21 @@ function setSystemChannel() {
   // restart sharlayan reader
   ipcMain.on('restart-sharlayan-reader', () => {
     sharlayanModule.stop(true);
+  });
+
+  // fix reader
+  ipcMain.on('fix-reader', (event) => {
+    childProcess.exec('secedit /configure /cfg %windir%\\inf\\defltbase.inf /db defltbase.sdb /verbose', (error) => {
+      let message = '';
+
+      if (error && error.code === 740) {
+        message = '修復失敗，請以系統管理員身分啟動本程式';
+      } else {
+        message = '修復完畢，請重新啟動電腦套用設定';
+      }
+
+      dialogModule.showInfo(event.sender, message);
+    });
   });
 }
 
@@ -256,7 +277,7 @@ function setWindowChannel() {
 
   // mute window
   ipcMain.on('mute-window', (event, autoPlay) => {
-    BrowserWindow.fromWebContents(event.sender).webContents.setAudioMuted(!autoPlay);
+    event.sender.setAudioMuted(!autoPlay);
   });
 
   // send index
@@ -266,43 +287,43 @@ function setWindowChannel() {
 
   // change UI text
   ipcMain.on('change-ui-text', () => {
-    windowModule.forEachWindow((myWindow) => {
-      myWindow.webContents.send('change-ui-text');
+    windowModule.forEachWindow((appWindow) => {
+      appWindow.webContents.send('change-ui-text');
     });
   });
 
   // execute command
   ipcMain.on('execute-command', (event, command) => {
-    exec(command, (error) => {
-      if (error) {
-        //console.log(error);
-      }
+    childProcess.exec(command, () => {
+      //console.log(error.message);
     });
   });
 
-  ipcMain.on('show-message-box', (event, message = '') => {
-    dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), {
-      message,
-    });
+  ipcMain.on('show-info', (event, message = '') => {
+    dialogModule.showInfo(event.sender, message);
   });
 }
 
 // set dialog channel
 function setDialogChannel() {
   // add log
-  ipcMain.on('add-log', (event, id, code, name, text) => {
-    dialogModule.addDialog(id, code);
-    dialogModule.updateDialog(id, code, name, text, null, false);
+  ipcMain.on('add-log', (event, dialogData) => {
+    dialogModule.updateDialog(dialogData, false, false);
   });
 
-  // show notification
-  ipcMain.on('show-notification', (event, text) => {
-    dialogModule.showNotification(text);
+  // add notification
+  ipcMain.on('add-notification', (event, text) => {
+    dialogModule.addNotification(text);
   });
 
-  // get style
-  ipcMain.on('get-style', (event, code) => {
-    event.returnValue = dialogModule.getStyle(code);
+  // reset dialog style
+  ipcMain.on('reset-dialog-style', (event, resetList = []) => {
+    for (let index = 0; index < resetList.length; index++) {
+      const element = resetList[index];
+      resetList[index].style = dialogModule.getStyle(element.code);
+    }
+
+    event.sender.send('reset-dialog-style', resetList);
   });
 
   // show dialog
@@ -333,8 +354,8 @@ function setCaptureChannel() {
     // fix y
     rectangleSize.y = rectangleSize.y - display.bounds.y;
 
-    // start recognize
-    imageModule.startRecognize(rectangleSize, display.bounds, displayIndex);
+    // take screenshot
+    imageModule.takeScreenshot(rectangleSize, display.bounds, displayIndex);
   });
 
   // get position
@@ -362,16 +383,19 @@ function setCaptureChannel() {
   // set google credential
   ipcMain.on('set-google-credential', () => {
     dialog
-      .showOpenDialog({ filters: [{ name: 'JSON', extensions: ['json'] }] })
+      .showOpenDialog({
+        defaultPath: fileModule.getUserPath('Downloads'),
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+      })
       .then((value) => {
         if (!value.canceled && value.filePaths.length > 0 && value.filePaths[0].length > 0) {
           let data = fileModule.read(value.filePaths[0], 'json');
 
           if (data) {
-            fileModule.write(fileModule.getUserDataPath('setting', 'google-credential.json'), data, 'json');
-            dialogModule.showNotification('已儲存Google憑證');
+            fileModule.write(fileModule.getUserDataPath('config', 'google-credential.json'), data, 'json');
+            dialogModule.addNotification('已儲存Google憑證');
           } else {
-            dialogModule.showNotification('檔案格式不正確');
+            dialogModule.addNotification('檔案格式不正確');
           }
         }
       })
@@ -382,32 +406,38 @@ function setCaptureChannel() {
 // set request channel
 function setRequestChannel() {
   // version check
-  ipcMain.on('version-check', () => {
+  ipcMain.on('version-check', (event) => {
     let notificationText = '';
 
     requestModule
-      .get({
-        protocol: 'https:',
-        hostname: 'raw.githubusercontent.com',
-        path: '/winw1010/tataru-helper-node-text-v2/main/version.json',
-      })
-      .then((data) => {
-        // set request config
-        if (data?.scu && data?.userAgent) {
+      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
+      .then((response) => {
+        if (response.data.scu && response.data.userAgent) {
+          // set request config
           let config = configModule.getConfig();
-          config.system.scu = data.scu;
-          config.system.userAgent = data.userAgent;
+          config.system.scu = response.data.scu;
+          config.system.userAgent = response.data.userAgent;
           configModule.setConfig(config);
         }
 
+        // show info
+        if (response.data.info) {
+          dialogModule.showInfo(event.sender, '' + response.data.info);
+        }
+
         // compare app version
-        const latestVersion = data?.number;
-        if (versionModule.isLatest(appVersion, latestVersion)) {
-          windowModule.sendIndex('hide-update-button', true);
-          notificationText = '已安裝最新版本';
+        const latestVersion = response.data.number;
+
+        if (latestVersion) {
+          if (versionModule.isLatest(appVersion, latestVersion)) {
+            windowModule.sendIndex('hide-update-button', true);
+            notificationText = '已安裝最新版本';
+          } else {
+            windowModule.sendIndex('hide-update-button', false);
+            notificationText = `已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+          }
         } else {
-          windowModule.sendIndex('hide-update-button', false);
-          notificationText = `已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+          throw '無法取得版本資料';
         }
       })
       .catch((error) => {
@@ -417,17 +447,13 @@ function setRequestChannel() {
       })
       .finally(() => {
         // show message
-        dialogModule.showNotification(notificationText);
+        dialogModule.addNotification(notificationText);
       });
   });
 
   // post form
   ipcMain.on('post-form', (event, path) => {
-    requestModule.post({
-      protocol: 'https:',
-      hostname: 'docs.google.com',
-      path: path,
-    });
+    requestModule.post('https://docs.google.com' + path).catch(console.log);
   });
 }
 
@@ -449,17 +475,59 @@ function setJsonChannel() {
   });
 
   // get array
-  ipcMain.on('get-array', (event, type = '', name = '') => {
-    const config = configModule.getConfig();
+  ipcMain.on('get-user-array', (event, name = '') => {
+    let array = jsonEntry.getUserArray(name);
+    event.returnValue = array;
+  });
+
+  // save user custom
+  ipcMain.on('save-user-custom', (event, textBefore = '', textAfter = '', type = '') => {
+    let fileName = '';
+    let textBefore2 = textBefore;
     let array = [];
 
-    if (config.translation.from === engineModule.languageEnum.ja) {
-      array = jsonEntry.getArray('jp', type, name);
-    } else if (config.translation.from === engineModule.languageEnum.en) {
-      array = jsonEntry.getArray('en', type, name);
+    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+
+    if (type === 'custom-source') {
+      fileName = 'custom-source.json';
+      array.push([textBefore2, textAfter]);
+    } else if (type === 'custom-overwrite') {
+      fileName = 'custom-overwrite.json';
+      array.push([textBefore2, textAfter]);
+    } else if (type === 'player' || type === 'retainer') {
+      fileName = 'player-name.json';
+      array.push([textBefore2, textAfter, type]);
+    } else {
+      fileName = 'custom-target.json';
+      array.push([textBefore2, textAfter, type]);
     }
 
-    event.returnValue = array;
+    jsonFunction.saveUserCustom(fileName, array);
+    jsonEntry.loadJSON();
+    event.sender.send('create-table');
+  });
+
+  // delete user custom
+  ipcMain.on('delete-user-custom', (event, textBefore = '', type = '') => {
+    let fileName = '';
+    let textBefore2 = textBefore;
+
+    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+
+    if (type === 'custom-source') {
+      fileName = 'custom-source.json';
+    } else if (type === 'custom-overwrite') {
+      fileName = 'custom-overwrite.json';
+    } else if (type === 'player' || type === 'retainer') {
+      fileName = 'player-name.json';
+    } else {
+      fileName = 'custom-target.json';
+    }
+
+    jsonFunction.editUserCustom(fileName, textBefore2);
+    jsonFunction.editUserCustom('temp-name.json', textBefore2);
+    jsonEntry.loadJSON();
+    event.sender.send('create-table');
   });
 }
 
@@ -490,19 +558,53 @@ function setTranslateChannel() {
     event.returnValue = engineModule.getUISelect();
   });
 
+  // get AI list
+  ipcMain.on('get-ai-list', (event) => {
+    event.returnValue = engineModule.aiList;
+  });
+
   // add task
   ipcMain.on('add-task', (event, dialogData) => {
     addTask(dialogData);
   });
 
   // get translation
-  ipcMain.handle('translate-text', (event, text, translation) => {
-    return translateModule.translate(text, translation);
+  ipcMain.on('translate-text', async (event, dialogData) => {
+    event.sender.send(
+      'show-translation',
+      await translateModule.translate(dialogData.text, dialogData.translation),
+      dialogData.translation.to
+    );
   });
 
   // google tts
   ipcMain.on('google-tts', (event, text, from) => {
     event.returnValue = googleTTS.getAudioUrl(text, from);
+  });
+
+  // check API
+  ipcMain.on('check-api', (event, engine) => {
+    if ([].concat(engineModule.aiList, ['google-vision']).includes(engine)) {
+      const config = configModule.getConfig();
+      let message = '';
+
+      if (engine === 'Gemini') {
+        if (config.api.geminiApiKey === '') message = '請至【API設定】輸入API key';
+      } else if (engine === 'GPT') {
+        if (config.api.gptApiKey === '' || config.api.gptModel === '') message = '請至【API設定】輸入API key和模型';
+      } else if (engine === 'Cohere') {
+        if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
+      } else if (engine === 'google-vision') {
+        const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
+        if (!fileModule.exists(keyPath)) {
+          message = '尚未設定Google憑證，請先至【設定】>【API設定】輸入憑證';
+        }
+      }
+
+      if (message !== '') {
+        dialogModule.showInfo(event.sender, message);
+      }
+    }
   });
 
   // get GPT model list

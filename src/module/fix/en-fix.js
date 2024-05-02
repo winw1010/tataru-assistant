@@ -13,78 +13,97 @@ const jsonFunction = require('./json-function');
 // translate module
 const translateModule = require('../system/translate-module');
 
+// engine module
+const { aiList } = require('../system/engine-module');
+
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
 
-// ai engine
-const aiEngine = ['GPT', 'Cohere'];
-
 // array
-let enArray = enJson.getEnArray();
-let chArray = enJson.getChArray();
+const enArray = enJson.getEnArray();
+const chArray = enJson.getChArray();
+const userArray = enJson.getUserArray();
 
-async function startFix(dialogData = {}) {
+/*
+fix start
+*/
+
+// start
+async function start(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+  let translatedText = '';
+  let audioText = '';
+
   try {
-    // get translation
-    const translation = dialogData.translation;
-
     // skip check
     if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
       throw '';
     }
 
-    // name translation
-    let translatedName = '';
-    if (enFunction.isChinese(dialogData.name, translation)) {
-      translatedName = fixFunction.replaceText(dialogData.name, chArray.combine, true);
+    // fix name
+    if (translation.skipChinese && enFunction.isChinese(name)) {
+      translatedName = fixFunction.replaceText(name, chArray.combine);
     } else {
       if (npcChannel.includes(dialogData.code)) {
-        if (translation.fix) {
-          translatedName = await nameFix(dialogData.name, translation);
-        } else {
-          translatedName = await translateModule.translate(dialogData.name, translation);
-        }
+        translatedName = await fixName(dialogData);
       } else {
-        translatedName = dialogData.name;
+        translatedName = name;
       }
     }
 
-    if (dialogData.name !== '') {
-      // sleep 1 second
-      await fixFunction.sleep();
-    }
-
-    // text translation
-    let translatedText = '';
-    if (enFunction.isChinese(dialogData.text, translation)) {
-      translatedText = fixFunction.replaceText(dialogData.text, chArray.combine, true);
+    // fix text
+    if (translation.skipChinese && enFunction.isChinese(text)) {
+      translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
-      if (translation.fix) {
-        if (aiEngine.includes(translation.engine)) {
-          translatedText = await textFixGPT(dialogData.name, dialogData.text, translation);
-        } else {
-          translatedText = await textFix(dialogData.name, dialogData.text, translation);
-        }
+      if (aiList.includes(translation.engine)) {
+        translatedText = await fixTextAI(dialogData);
       } else {
-        translatedText = await translateModule.translate(dialogData.text, translation);
+        translatedText = await fixText(dialogData);
       }
     }
 
-    // set translated text
-    dialogData.translatedName = translatedName;
-    dialogData.translatedText = translatedText;
+    // fix audio text
+    if (/(?<=[a-z])[A-Z](?=[a-z\b])/g.test(text)) {
+      const audioTextArray = text.split(' ');
+
+      for (let index = 0; index < audioTextArray.length; index++) {
+        const word = audioTextArray[index];
+        audioTextArray[index] = word[0].toUpperCase + word.slice(1).toLowerCase();
+      }
+
+      audioText = audioTextArray.join(' ');
+    } else {
+      audioText = text;
+    }
   } catch (error) {
     console.log(error);
-
-    // set translated text
-    dialogData.translatedName = 'Error';
-    dialogData.translatedText = error;
+    translatedName = '';
+    translatedText = error;
   }
+
+  // set text
+  dialogData.translatedName = translatedName;
+  dialogData.translatedText = translatedText;
+  dialogData.audioText = audioText;
 
   return dialogData;
 }
 
-async function nameFix(name = '', translation = {}) {
+/*
+fix name
+*/
+
+// fix name
+async function fixName(dialogData = {}) {
+  const name = dialogData.name;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+
   if (name === '') {
     return '';
   }
@@ -99,30 +118,23 @@ async function nameFix(name = '', translation = {}) {
     return target[1];
   }
 
-  // translate name
-  let translatedName = '';
-
-  // code
+  // code result
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-  if (aiEngine.includes(translation.engine)) {
-    translatedName = name;
-
+  if (aiList.includes(translation.engine)) {
     // skip check
-    if (enFunction.needTranslation(translatedName, codeResult.gptTable)) {
+    if (enFunction.needTranslation(name, codeResult.aiTable)) {
       // translate
-      translatedName = await translateModule.aiTranslate(translatedName, translation, codeResult.gptTable);
+      translatedName = await translateModule.translate(name, translation, codeResult.aiTable);
+    } else {
+      // table
+      translatedName = fixFunction.replaceText(name, codeResult.aiTable, true);
     }
-
-    // table
-    translatedName = fixFunction.replaceText(translatedName, codeResult.gptTable, true);
   } else {
-    translatedName = codeResult.text;
-
     // skip check
-    if (enFunction.needTranslation(translatedName, codeResult.table)) {
+    if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
       // translate
-      translatedName = await translateModule.translate(translatedName, translation, codeResult.table);
+      translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
     }
 
     // table
@@ -138,84 +150,6 @@ async function nameFix(name = '', translation = {}) {
   return translatedName;
 }
 
-async function textFix(name = '', text = '', translation = {}) {
-  if (text === '') {
-    return '';
-  }
-
-  // force overwrite
-  const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
-  if (target) {
-    return fixFunction.replaceText(target[1], chArray.combine, true);
-  }
-
-  // en1
-  text = fixFunction.replaceText(text, enArray.en1, true);
-
-  // special fix
-  text = specialFix(name, text);
-
-  // combine
-  const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-  text = codeResult.text;
-
-  // en2
-  text = fixFunction.replaceText(text, enArray.en2, true);
-
-  // mark fix
-  text = fixFunction.markFix(text);
-
-  // value fix before
-  const valueResult = fixFunction.valueFixBefore(text);
-  text = valueResult.text;
-
-  // skip check
-  if (enFunction.needTranslation(text, codeResult.table)) {
-    // translate
-    text = await translateModule.translate(text, translation, codeResult.table);
-  }
-
-  // value fix after
-  text = fixFunction.valueFixAfter(text, valueResult.table);
-
-  // mark fix
-  text = fixFunction.markFix(text, true);
-
-  // table
-  text = fixFunction.replaceWord(text, codeResult.table);
-
-  // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-  return text;
-}
-
-async function textFixGPT(name = '', text = '', translation = {}) {
-  if (text === '') {
-    return '';
-  }
-
-  // special fix
-  text = specialFix(name, text);
-
-  // combine
-  const codeResult = enFunction.replaceTextByCode(text, chArray.combine);
-
-  // skip check
-  if (enFunction.needTranslation(text, codeResult.gptTable)) {
-    // translate
-    text = await translateModule.aiTranslate(text, translation, codeResult.gptTable);
-  }
-
-  // table
-  text = fixFunction.replaceText(text, codeResult.gptTable, true);
-
-  // after translation
-  text = fixFunction.replaceText(text, chArray.afterTranslation);
-
-  return text;
-}
-
 // save name
 function saveName(name = '', translatedName = '') {
   if (name === translatedName) {
@@ -228,9 +162,106 @@ function saveName(name = '', translatedName = '') {
   chArray.combine.push([name, translatedName]);
   chArray.combine = jsonFunction.sortArray(chArray.combine);
 
-  // add to chTemp
-  chArray.chTemp.push([name, translatedName, 'temp-npc']);
-  jsonFunction.writeTemp('chTemp.json', chArray.chTemp);
+  // add to tempName
+  userArray.tempName.push([name, translatedName]);
+  jsonFunction.writeUserText('temp-name.json', userArray.tempName);
+}
+
+/*
+fix text
+*/
+
+// fix text
+async function fixText(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = '';
+
+  if (text === '') {
+    return '';
+  }
+
+  // force overwrite
+  const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
+  if (target) {
+    return fixFunction.replaceText(target[1], chArray.combine, true);
+  }
+
+  // en1
+  text2 = fixFunction.replaceText(text2, enArray.en1, true);
+
+  // special fix
+  text2 = specialFix(name, text2);
+
+  // combine
+  const codeResult = enFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI));
+  text2 = codeResult.text;
+
+  // en2
+  text2 = fixFunction.replaceText(text2, enArray.en2, true);
+
+  // mark fix
+  // text2 = fixFunction.markFix(text2);
+
+  // value fix before
+  // const valueResult = fixFunction.valueFixBefore(text2);
+  // text2 = valueResult.text;
+
+  // skip check
+  if (enFunction.needTranslation(text2, codeResult.table)) {
+    // translate
+    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+  }
+
+  // value fix after
+  // translatedText = fixFunction.valueFixAfter(translatedText, valueResult.table);
+
+  // mark fix
+  // translatedText = fixFunction.markFix(translatedText, true);
+
+  // table
+  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
+
+  // after translation
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
+
+  return translatedText;
+}
+
+async function fixTextAI(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = '';
+
+  if (text === '') {
+    return '';
+  }
+
+  // special fix
+  text2 = specialFix(name, text2);
+
+  // combine
+  const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
+
+  // skip check
+  if (enFunction.needTranslation(text2, codeResult.aiTable)) {
+    // translate
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
+  } else {
+    // table
+    translatedText = fixFunction.replaceText(text2, codeResult.aiTable, true);
+  }
+
+  // after translation
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
+
+  return translatedText;
 }
 
 // special fix
@@ -269,7 +300,6 @@ function specialFix(name = '', text = '') {
   return text;
 }
 
-// module exports
 module.exports = {
-  startFix,
+  start,
 };

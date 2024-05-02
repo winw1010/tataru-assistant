@@ -69,6 +69,11 @@ function setEvent() {
   // dialog transparency
   setOnInputEvent('input-dialog-transparency', 'span-dialog-transparency');
 
+  // select-engine
+  document.getElementById('select-engine').addEventListener('change', () => {
+    ipcRenderer.send('check-api', document.getElementById('select-engine').value);
+  });
+
   // input-gpt-api-key
   document.getElementById('input-gpt-api-key').onchange = () => {
     readGptModelList();
@@ -96,19 +101,36 @@ function setButton() {
     ipcRenderer.send('download-json');
   };
 
-  // version check
-  document.getElementById('button-version-check').onclick = () => {
-    ipcRenderer.send('version-check');
-  };
-
   // restart sharlayan reader
   document.getElementById('button-restart-sharlayan-reader').onclick = () => {
     ipcRenderer.send('restart-sharlayan-reader');
   };
 
-  // get google credential
-  document.getElementById('a-get-credential').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-api.html');
+  // version check
+  document.getElementById('button-version-check').onclick = () => {
+    ipcRenderer.send('version-check');
+  };
+
+  // fix reader
+  document.getElementById('button-fix-reader').onclick = () => {
+    ipcRenderer.send('fix-reader');
+  };
+
+  // get set google vision
+  document.getElementById('a-set-google-vision').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
+  // set cohere api
+  document.getElementById('a-set-gemini-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gemini-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
+  // set cohere api
+  document.getElementById('a-set-cohere-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -151,6 +173,7 @@ function setButton() {
   // set unofficial api toggle button
   document.getElementById('p-unoffcia-api').onclick = () => {
     document.getElementById('div-unoffcia-api').classList.toggle('hide-toggle');
+    document.getElementById('input-unofficial-api-url').scrollIntoView();
   };
 
   // readme
@@ -172,19 +195,9 @@ function setButton() {
     );
   };
 
-  /*
-  // translation report
-  document.getElementById('a-translation-report').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://github.com/winw1010/tataru-helper-node-text-v2#%E7%BF%BB%E8%AD%AF%E9%8C%AF%E8%AA%A4%E5%9B%9E%E5%A0%B1%E6%96%B9%E5%BC%8F"'
-    );
-  };
-  */
-
   // github
   document.getElementById('a-github').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-helper-node-v2"');
+    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-assistant"');
   };
 
   // author
@@ -257,8 +270,8 @@ function saveConfig() {
   // reset config
   readConfig();
 
-  // show notification
-  ipcRenderer.send('show-notification', '設定已儲存');
+  // add notification
+  ipcRenderer.send('add-notification', '設定已儲存');
 }
 
 // save default config
@@ -275,8 +288,8 @@ function saveDefaultConfig() {
   // reset config
   readConfig();
 
-  // show notification
-  ipcRenderer.send('show-notification', '已恢復預設值');
+  // add notification
+  ipcRenderer.send('add-notification', '已恢復預設值');
 }
 
 // reset app
@@ -317,8 +330,6 @@ async function readGptModelList() {
       if (config.system.gptModel.length > 0) {
         selectGptModel.value = config.system.gptModel;
       }
-    } else {
-      selectGptModel.innerHTML = '<option value="none" selected>None</option>';
     }
   }
 }
@@ -571,26 +582,30 @@ function getOptionList() {
 
     // api
     [
+      ['input-gemini-api-key', 'value'],
+      ['api', 'geminiApiKey'],
+    ],
+    [
       ['input-cohere-token', 'value'],
-      ['system', 'cohereToken'],
+      ['api', 'cohereToken'],
     ],
     [
       ['input-gpt-api-key', 'value'],
-      ['system', 'gptApiKey'],
+      ['api', 'gptApiKey'],
     ],
     [
       ['select-gpt-model', 'value'],
-      ['system', 'gptModel'],
+      ['api', 'gptModel'],
     ],
 
     // unofficial api
     [
       ['checkbox-unofficial-api', 'checked'],
-      ['system', 'UnofficialApi'],
+      ['api', 'unofficialApi'],
     ],
     [
       ['input-unofficial-api-url', 'value'],
-      ['system', 'unofficialApiUrl'],
+      ['api', 'unofficialApiUrl'],
     ],
 
     // system

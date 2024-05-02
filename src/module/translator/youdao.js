@@ -7,38 +7,23 @@ const youdaoFunction = require('./youdao-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
-// const userIdRegExp = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
-
-// expire date
-let expireDate = 0;
-
-// cookie
-let cookie = '';
+const regOUTFOX_SEARCH_USER_ID = /(?<target>OUTFOX_SEARCH_USER_ID=[^;]+)/is;
 
 // authentication
-let authentication = {};
+let authentication = {
+  secretKey: '',
+  cookie: '',
+  expireDate: 0,
+};
 
 // exec
 async function exec(option) {
   try {
-    let result = '';
-
-    // check expire date
-    if (new Date().getTime() >= expireDate) {
-      await initialize();
-    }
-
-    // get result
-    result = await translate(cookie, authentication, option);
-
-    // get keyword
-    // youdaoFunction.getKeyword(option);
-
+    let result = await translate(option);
     return result;
   } catch (error) {
-    console.log(error);
-    expireDate = 0;
-    return '';
+    authentication.expireDate = 0;
+    throw error;
   }
 }
 
@@ -53,40 +38,32 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
-  //OUTFOX_SEARCH_USER_ID=-1846428029@10.108.162.139; OUTFOX_SEARCH_USER_ID_NCOO=1596094722.4516084
-  //OUTFOX_SEARCH_USER_ID=-2081303208@10.105.253.24; OUTFOX_SEARCH_USER_ID_NCOO=1836689713.990111
-  cookie = `OUTFOX_SEARCH_USER_ID=-${youdaoFunction.createUserID()}@10.105.253.24; OUTFOX_SEARCH_USER_ID_NCOO=${
-    2147483647 * Math.random()
-  }`;
-  expireDate = requestModule.getExpiryDate();
+  const cookie = await requestModule.getCookie('https://fanyi.youdao.com/', [regOUTFOX_SEARCH_USER_ID]);
+  authentication.cookie = cookie[0] + `; OUTFOX_SEARCH_USER_ID_NCOO=${2147483647 * Math.random()}`;
+  authentication.expireDate = requestModule.getExpiryDate();
 }
 
 // set authentication
 async function setAuthentication() {
   const response = await requestModule.get(
-    {
-      protocol: 'https:',
-      hostname: 'dict.youdao.com',
-      path:
-        '/webtranslate/key?' +
-        encodeURI(
-          requestModule.toParameters({
-            ...{ keyid: 'webfanyi-key-getter' },
-            ...youdaoFunction.createParams('asdjnjfenknafdfsdfsd'),
-          })
-        ),
-    },
+    'https://dict.youdao.com/webtranslate/key?' +
+      encodeURI(
+        requestModule.toParameters({
+          ...{ keyid: 'webfanyi-key-getter' },
+          ...youdaoFunction.createParams('asdjnjfenknafdfsdfsd'),
+        })
+      ),
     {
       Accept: 'application/json, text/plain, */*',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
       'Accept-Language': 'zh-TW,zh;q=0.9',
       Connection: 'keep-alive',
-      Cookie: cookie,
+      Cookie: authentication.cookie,
       Origin: 'https://fanyi.youdao.com',
       Referer: 'https://fanyi.youdao.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',
@@ -94,21 +71,18 @@ async function setAuthentication() {
     }
   );
 
-  if (response?.data?.secretKey) {
-    authentication.secretKey = response.data.secretKey;
-  } else {
-    throw 'ERROR: setAuthentication';
-  }
+  authentication.secretKey = response.data.data.secretKey;
 }
 
 // translate
-async function translate(cookie, authentication, option) {
+async function translate(option) {
+  // check expire date
+  if (new Date().getTime() >= authentication.expireDate) {
+    await initialize();
+  }
+
   const response = await requestModule.post(
-    {
-      protocol: 'https:',
-      hostname: 'dict.youdao.com',
-      path: '/webtranslate',
-    },
+    'https://dict.youdao.com/webtranslate',
     encodeURI(
       requestModule.toParameters({
         ...{
@@ -123,16 +97,16 @@ async function translate(cookie, authentication, option) {
     ),
     {
       Accept: 'application/json, text/plain, */*',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate, br, zstd',
       'Accept-Language': 'zh-TW,zh;q=0.9',
       Connection: 'keep-alive',
       'Content-Type': 'application/x-www-form-urlencoded',
-      Cookie: cookie,
+      Cookie: authentication.cookie,
       Origin: 'https://fanyi.youdao.com',
       Referer: 'https://fanyi.youdao.com/',
-      'sec-ch-ua': requestModule.getSCU(),
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
+      'Sec-Ch-Ua': requestModule.getSCU(),
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"Windows"',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',
@@ -140,34 +114,16 @@ async function translate(cookie, authentication, option) {
     }
   );
 
-  if (response) {
-    const jsonString = youdaoFunction.decodeData(response);
-    const data = JSON.parse(jsonString);
+  const data = JSON.parse(youdaoFunction.decodeData(response.data));
+  const resultArray = data.translateResult[0];
 
-    if (data?.translateResult?.[0]) {
-      // getKeyword(option);
+  let result = '';
 
-      const resultArray = data.translateResult[0];
-      let result = '';
-
-      for (let index = 0; index < resultArray.length; index++) {
-        result += resultArray?.[index]?.tgt || '';
-      }
-
-      return result;
-    } else {
-      console.log('cookie:', cookie);
-      console.log('authentication:', authentication);
-      console.log('option:', option);
-      console.log('data:', data);
-      throw 'ERROR: translate';
-    }
-  } else {
-    console.log('cookie:', cookie);
-    console.log('authentication:', authentication);
-    console.log('option:', option);
-    throw 'ERROR: translate';
+  for (let index = 0; index < resultArray.length; index++) {
+    result += resultArray[index].tgt || '';
   }
+
+  return result;
 }
 
 // module exports

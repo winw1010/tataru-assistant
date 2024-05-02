@@ -9,11 +9,34 @@ const sourceList = ['Japanese', 'English'];
 // target list
 const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
+// fix source list
+const fixSourceList = ['Japanese', 'English'];
+
+// fix target list
+const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
+
 // ui list
-const uiList = ['English', 'Traditional-Chinese', 'Simplified-Chinese'];
+const uiList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // engine list
-const engineList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere'];
+const engineList = [
+  '#Web-Translator',
+  'Youdao',
+  'Baidu',
+  'Caiyun',
+  'Papago',
+  'DeepL',
+  '#AI-Translator',
+  'Gemini',
+  'GPT',
+  'Cohere',
+];
+
+// change list
+const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
+
+// AI list
+const aiList = ['Gemini', 'GPT', 'Cohere'];
 
 // language enum
 const languageEnum = {
@@ -30,27 +53,6 @@ const languageIndex = {
   English: 1,
   'Traditional-Chinese': 2,
   'Simplified-Chinese': 3,
-};
-
-// language name
-const languageName = {
-  Japanese: '日文',
-  English: '英文',
-  German: '德文',
-  French: '法文',
-  'Traditional-Chinese': '繁體中文',
-  'Simplified-Chinese': '簡體中文',
-};
-
-// engine name
-const engineName = {
-  Youdao: 'Youdao',
-  Baidu: 'Baidu',
-  Caiyun: 'Caiyun',
-  Papago: 'Papago',
-  DeepL: 'DeepL',
-  GPT: 'ChatGPT',
-  Cohere: 'Cohere',
 };
 
 // engine table
@@ -111,6 +113,14 @@ const engineTable = {
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN',
   },
+  Gemini: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+  },
   GPT: {
     Auto: 'any languages',
     Japanese: 'Japanese',
@@ -131,47 +141,53 @@ const engineTable = {
 
 // get engine select
 function getEngineSelect() {
-  return getSelect(engineList, engineName);
+  return getSelect(engineList);
 }
 
 // get all language select
 function getAllLanguageSelect() {
-  return getSelect(allLanguageList, languageName);
+  return getSelect(allLanguageList);
 }
 
 // get source select
 function getSourceSelect() {
-  return getSelect(sourceList, languageName);
+  return getSelect(sourceList);
 }
 
 // get target select
 function getTargetSelect() {
-  return getSelect(targetList, languageName);
+  return getSelect(targetList);
 }
 
 // get UI select
 function getUISelect() {
-  return getSelect(uiList, engineName);
+  return getSelect(uiList);
 }
 
 // get select
-function getSelect(list = [], names = {}) {
+function getSelect(list = []) {
   let innerHTML = '';
 
   for (let index = 0; index < list.length; index++) {
     const name = list[index];
-    innerHTML += `<option value="${name}">${names[name]}</option>`;
+    if (name[0] === '#') {
+      innerHTML += `<option value="${name}" disabled></option>`;
+    } else {
+      innerHTML += `<option value="${name}"></option>`;
+    }
   }
 
   return innerHTML;
 }
 
 // get engine list
-function getEngineList(engine = 'Youdao') {
-  const engineIndex = engineList.indexOf(engine);
+function getEngineList(engine = engineList[0]) {
+  const newEngineList = JSON.parse(JSON.stringify(changeList));
+  const index = newEngineList.indexOf(engine);
 
-  let newEngineList = JSON.parse(JSON.stringify(engineList));
-  newEngineList.splice(engineIndex, 1);
+  if (index >= 0) {
+    newEngineList.splice(index, 1);
+  }
 
   return [engine].concat(newEngineList);
 }
@@ -180,11 +196,15 @@ function getEngineList(engine = 'Youdao') {
 function getTranslateOption(engine, from, to, text) {
   const table = engineTable[engine];
 
-  return {
-    from: table[from],
-    to: table[to],
-    text: text,
-  };
+  if (table) {
+    return {
+      from: table[from],
+      to: table[to],
+      text: text,
+    };
+  } else {
+    return null;
+  }
 }
 
 // get language code
@@ -203,8 +223,11 @@ module.exports = {
   allLanguageList,
   sourceList,
   targetList,
+  fixSourceList,
+  fixTargetList,
   uiList,
   engineList,
+  aiList,
 
   languageEnum,
   languageIndex,

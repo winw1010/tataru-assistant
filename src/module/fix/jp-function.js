@@ -12,26 +12,21 @@ const katakana = getKatakanaString();
 
 // reg
 const regBrackets = /「|『|』|」/;
-const regAllKatakana = /^[ァ-ヺー・＝]+$/;
-//const regAllHiragana = /^[ぁ-ゖー・＝]+$/;
 
 const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
-//const regKatakanaFront = /^[ァ-ヺー・＝].*[^ァ-ヺー・＝]$/;
-//const regKatakanaBack = /^[^ァ-ヺー・＝].*[ァ-ヺー・＝]$/;
+const regAllKatakanaName = /^[ァ-ヺー・＝]+$/;
+
+const regKatakanaFB = /^[ァ-ヺ].*[ァ-ヺー]$/;
+const regKatakanaF = /^[ァ-ヺ]/;
+const regKatakanaB = /[ァ-ヺー]$/;
 
 // remove ァィゥェォッャュョヮヵヶ
-const noKatakana =
-  'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ';
-const noKatakanaFront = `(?<![${noKatakana}])`;
-const noKatakanaBack = `(?![${noKatakana}])`;
+const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, '');
+const noKatakanaFront = `(?<![${getKatakanaString()}])`;
+const noKatakanaBack = `(?![${katakanaWithoutSmall}])`;
 
-/*
-const noHiragana =
-  'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞただちぢつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゆよらりるれろわゐゑをんゔ';
-const noHiraganaFront = `(?<![${noHiragana}])`;
-const noHiraganaBack = `(?![${noHiragana}])`;
-*/
+const regKana = /[ぁ-ゖァ-ヺー]/gi;
 
 // jp text function
 function replaceTextByCode(text = '', array = [], textType = 0) {
@@ -39,7 +34,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
     return {
       text: text,
       table: [],
-      gptTable: [],
+      aiTable: [],
     };
   }
 
@@ -78,10 +73,25 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       const element = temp[index];
       const name = element[0];
 
+      regBrackets.lastIndex = 0;
+      regKatakanaFB.lastIndex = 0;
+      regKatakanaF.lastIndex = 0;
+      regKatakanaB.lastIndex = 0;
+
       if (regBrackets.test(name)) {
         matchedWords.push(element);
-      } else if (regAllKatakana.test(name)) {
+      } else if (regKatakanaFB.test(name)) {
         const matchReg = new RegExp(noKatakanaFront + name + noKatakanaBack, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKatakanaF.test(name)) {
+        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKatakanaB.test(name)) {
+        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
@@ -90,26 +100,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
           matchedWords.push(element);
         }
       }
-
-      /*
-      else if (regAllHiragana.test(name)) {
-        const matchReg = new RegExp(noHiraganaFront + name + noHiraganaBack, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      }
-      else if (regKatakanaFront.test(name)) {
-        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      } else if (regKatakanaBack.test(name)) {
-        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
-        if (matchReg.test(text)) {
-          matchedWords.push(element);
-        }
-      }
-      */
     }
   }
 
@@ -128,6 +118,8 @@ function findTempArray(text = '', array = []) {
     const hiraName1 = convertKana(element[0], 'hira');
     const hiraName2 = hiraFix(hiraName1);
 
+    regAllKatakanaName.lastIndex = 0;
+
     if (text.includes(name)) {
       temp.push([name, translatedName]);
     }
@@ -140,7 +132,7 @@ function findTempArray(text = '', array = []) {
       temp.push([`『${name}』`, `『${translatedName}』`]);
     }
 
-    if (name.length < 3 || !regAllKatakana.test(name)) {
+    if (name.length < 3 || !regAllKatakanaName.test(name)) {
       continue;
     }
 
@@ -186,7 +178,7 @@ function findTable(text = '', matchedWords = []) {
   let codeIndex = 0;
   let codeString = 'BCFGJLMNPRSTVWXYZ';
   let table = [];
-  let gptTable = [];
+  let aiTable = [];
 
   // clear code
   const characters = text.match(/[a-z]/gi);
@@ -213,14 +205,14 @@ function findTable(text = '', matchedWords = []) {
           if (text.includes(sorceName) && !text.includes(exceptionName)) {
             text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
-            gptTable.push([sorceName, replaceName]);
+            aiTable.push([sorceName, replaceName]);
             codeIndex++;
           }
         } else {
           if (text.includes(sorceName)) {
             text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
-            gptTable.push([sorceName, replaceName]);
+            aiTable.push([sorceName, replaceName]);
             codeIndex++;
           }
         }
@@ -233,7 +225,7 @@ function findTable(text = '', matchedWords = []) {
   return {
     text,
     table,
-    gptTable,
+    aiTable,
   };
 }
 
@@ -460,11 +452,22 @@ function genderFix(originalText = '', translatedText = '') {
 }
 
 function isKatakanaName(name = '') {
+  regKatakanaName.lastIndex = 0;
   return regKatakanaName.test(name);
 }
 
-function isChinese(text = '', translation = {}) {
-  return translation.skipChinese && /^[^ぁ-ゖァ-ヺ]+$/gi.test(text);
+function getKatakanaName(name = '') {
+  if (isKatakanaName(name)) {
+    return /[ァ-ヺー・＝]+/.exec(name)[0];
+  } else {
+    // other
+    return '';
+  }
+}
+
+function isChinese(text = '') {
+  regKana.lastIndex = 0;
+  return !regKana.test(text);
 }
 
 function getFemaleWords() {
@@ -488,5 +491,6 @@ module.exports = {
   needTranslation,
   genderFix,
   isKatakanaName,
+  getKatakanaName,
   isChinese,
 };

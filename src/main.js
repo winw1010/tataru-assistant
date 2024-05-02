@@ -6,7 +6,6 @@ UPDATE NOTE
 - dialog update
 - error log
 fix isch
-gemini vision
 change icon
 */
 

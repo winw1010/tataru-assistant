@@ -36,7 +36,6 @@
     "extraFiles": [
       "src/data",
       "!src/data/img/*.png",
-      "!src/data/sharlayan-reader/history.json",
       "eng.traineddata",
       "jpn.traineddata",
       "actions-latest.json",

@@ -10,10 +10,10 @@
 於左下搜尋欄位輸入cmd開啟
 
 # 複製專案
-git clone https://github.com/winw1010/tataru-helper-node-v2
+git clone https://github.com/winw1010/tataru-assistant
 
 # 進入專案資料夾
-cd tataru-helper-node-v2
+cd tataru-assistant
 
 # 安裝套件
 npm install

@@ -282,8 +282,6 @@ function getElementTextList() {
           '若您使用VPN或加速器时无法翻译字幕，请至【系统设定】关闭SSL验证',
           'Set SSL certificate off in "System Config" if your VPN can\'t access translator',
         ],
-
-        'p-donate': ['贊助作者', '赞助作者', 'Donate'],
       },
       span: {
         // window title

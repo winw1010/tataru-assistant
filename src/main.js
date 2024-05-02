@@ -66,5 +66,5 @@ process.on('unhandledRejection', (error) => {
   console.log(error);
 
   // write log
-  appModule.wirteLog('uncaughtException', error);
+  appModule.wirteLog('unhandledRejection', error);
 });

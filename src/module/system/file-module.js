@@ -41,7 +41,7 @@ function directoryCheck() {
         fs.mkdirSync(dir);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   });
 }
@@ -112,7 +112,7 @@ function copyData() {
     }
     write(configPath, config, 'json');
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -123,7 +123,7 @@ function readdir(path) {
   try {
     result = fs.readdirSync(path);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 
   return result;
@@ -136,7 +136,7 @@ function exists(filePath = './') {
   try {
     result = fs.existsSync(filePath);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 
   return result;
@@ -147,7 +147,7 @@ function unlink(filePath = './') {
   try {
     fs.unlinkSync(filePath);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -170,7 +170,7 @@ function read(filePath = './', type = '') {
         break;
     }
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 
   return data;
@@ -203,7 +203,7 @@ function write(filePath = './', data = '', type = '') {
         break;
     }
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 

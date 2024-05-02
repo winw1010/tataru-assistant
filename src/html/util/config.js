@@ -349,17 +349,11 @@ function readChannel(config, chatCode) {
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
     const checkboxId = `checkbox-${element.ChatCode}`;
-    const colorId = `input-${element.ChatCode}-color`;
-    const spanId = `span-${element.ChatCode}-color`;
-    let checked, color;
-
-    if (config.channel[element.ChatCode]) {
-      checked = 'checked';
-      color = config.channel[element.ChatCode];
-    } else {
-      checked = '';
-      color = element.Color;
-    }
+    const labelId = `label-${element.ChatCode}`;
+    const spanId = `span-${element.ChatCode}`;
+    const inputId = `input-${element.ChatCode}`;
+    const checked = config.channel[element.ChatCode] ? 'checked' : '';
+    const color = element.Color;
 
     newInnerHTML += `
             <hr />
@@ -367,14 +361,14 @@ function readChannel(config, chatCode) {
                 <div class="col">
                     <div class="form-check form-switch">
                         <input type="checkbox" class="form-check-input" role="switch" value="" id="${checkboxId}" ${checked} />
-                        <label class="form-check-label" for="${checkboxId}">${element.Name}</label>
+                        <label class="form-check-label" for="${checkboxId}" id="${labelId}">${element.Name}</label>
                     </div>
                 </div>
                 <div class="col-auto">
                     <span id="${spanId}" style="color:${color};">${color}</span>
                 </div>
                 <div class="col-auto">
-                    <input type="color" class="form-control form-control-color" value="${color}" id="${colorId}" />
+                    <input type="color" class="form-control form-control-color" value="${color}" id="${inputId}" />
                 </div>
             </div>
         `;
@@ -384,25 +378,33 @@ function readChannel(config, chatCode) {
 
   for (let index = 0; index < chatCode.length; index++) {
     const element = chatCode[index];
-    setOnInputEvent(`input-${element.ChatCode}-color`, `span-${element.ChatCode}-color`);
+    setOnInputEvent(`input-${element.ChatCode}`, `span-${element.ChatCode}`);
   }
 }
 
 function saveChannel(config = {}, chatCode = {}) {
   config.channel = {};
 
-  // checked color
+  // save checked name
   const checkedArray = document.querySelectorAll('#div-channel input[type="checkbox"]:checked');
   for (let index = 0; index < checkedArray.length; index++) {
     const code = checkedArray[index].id.replaceAll('checkbox-', '');
-    config.channel[code] = document.getElementById(`input-${code}-color`).value;
+    const label = document.getElementById(`label-${code}`);
+
+    if (label) {
+      config.channel[code] = label.innerText;
+    }
   }
 
-  // all color
+  // save color
   const channelArray = document.querySelectorAll('#div-channel input[type="checkbox"]');
   for (let index = 0; index < channelArray.length; index++) {
     const code = channelArray[index].id.replaceAll('checkbox-', '');
-    chatCode[index].Color = document.getElementById(`input-${code}-color`).value;
+    const input = document.getElementById(`input-${code}`);
+
+    if (input) {
+      chatCode[index].Color = input.value;
+    }
   }
 }
 

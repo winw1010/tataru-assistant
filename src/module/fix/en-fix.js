@@ -76,6 +76,8 @@ async function start(dialogData = {}) {
       }
 
       audioText = audioTextArray.join(' ');
+    } else {
+      audioText = text;
     }
   } catch (error) {
     console.log(error);

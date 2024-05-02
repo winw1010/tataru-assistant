@@ -82,23 +82,19 @@ async function entry() {
   dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
 
   // set translated content
-  dialogData.translatedName = dialogData.name;
-  dialogData.translatedText = dialogData.text;
-  dialogData.audioText = dialogData.text;
+  dialogData.translatedName = '';
+  dialogData.translatedText = '';
+  dialogData.audioText = '';
 
-  // get language
-  const dataLanguage = getLanguage(dialogData);
+  // get true language
+  const trueLanguage = getLanguage(dialogData);
 
-  if (
-    config.translation.fix &&
-    fixSourceList.includes(dataLanguage) &&
-    fixTargetList.includes(dialogData.translation.to)
-  ) {
+  if (canFix(config, trueLanguage, dialogData)) {
     // do XIV fix when JP/EN to CHT/CHS
-    if (dataLanguage === languageEnum.ja) {
+    if (trueLanguage === languageEnum.ja) {
       dialogData.translation.from = languageEnum.ja;
       dialogData = await jpFix.start(dialogData);
-    } else if (dataLanguage === languageEnum.en) {
+    } else if (trueLanguage === languageEnum.en) {
       dialogData.translation.from = languageEnum.en;
       dialogData = await enFix.start(dialogData);
     }
@@ -109,6 +105,7 @@ async function entry() {
     }
 
     dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+    dialogData.audioText = dialogData.text;
   }
 
   // update dialog
@@ -117,6 +114,13 @@ async function entry() {
   } else {
     dialogModule.removeDialog(dialogData.id);
   }
+}
+
+// can fix
+function canFix(config = {}, trueLanguage = '', dialogData = {}) {
+  return (
+    config.translation.fix && fixSourceList.includes(trueLanguage) && fixTargetList.includes(dialogData.translation.to)
+  );
 }
 
 // get language

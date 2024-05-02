@@ -207,6 +207,15 @@ function write(filePath = './', data = '', type = '') {
   }
 }
 
+// write log
+function writeLog(text) {
+  const logPath = getUserDataPath('config', 'log.txt');
+  const currentTime = new Date().toLocaleString();
+  let log = read(logPath, 'json') || '';
+  log += '\r\n' + currentTime + '\r\n' + text + '\r\n';
+  write(logPath, log);
+}
+
 // get path
 function getPath(...args) {
   return path.join(...args);
@@ -246,6 +255,7 @@ module.exports = {
   unlink,
   read,
   write,
+  writeLog,
 
   getPath,
   getRootPath,

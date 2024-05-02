@@ -50,6 +50,11 @@ function startApp() {
   });
 }
 
+// write log
+function wirteLog(type = '', message = '') {
+  fileModule.writeLog(type, message);
+}
+
 // detect user language
 function detectUserLanguage() {
   const config = configModule.getConfig();
@@ -126,4 +131,7 @@ function unregisterGlobalShortcut() {
 }
 
 // module exports
-module.exports = { startApp };
+module.exports = {
+  startApp,
+  wirteLog,
+};

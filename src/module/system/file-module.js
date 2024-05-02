@@ -208,12 +208,16 @@ function write(filePath = './', data = '', type = '') {
 }
 
 // write log
-function writeLog(text) {
-  const logPath = getUserDataPath('config', 'log.txt');
-  const currentTime = new Date().toLocaleString();
-  let log = read(logPath, 'json') || '';
-  log += '\r\n' + currentTime + '\r\n' + text + '\r\n';
-  write(logPath, log);
+function writeLog(type = '', message = '') {
+  try {
+    const logPath = getUserDataPath('config', 'log.txt');
+    const currentTime = new Date().toLocaleString();
+    let log = read(logPath, 'json') || '';
+    log += '\r\n' + currentTime + '\r\n' + type + '\r\n' + message + '\r\n';
+    write(logPath, log);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // get path

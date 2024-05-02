@@ -2,5 +2,3 @@ build
 node_modules
 src/data/img/*.png
 src/data/text
-src/data/text2
-src/data/sharlayan-reader/history.json

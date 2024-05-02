@@ -158,11 +158,15 @@ function read(filePath = './', type = '') {
   try {
     switch (type) {
       case 'json':
-        data = JSON.parse(fs.readFileSync(filePath));
+        data = JSON.parse(fs.readFileSync(filePath).toString());
         break;
 
       case 'image':
         data = fs.readFileSync(filePath).toString('base64');
+        break;
+
+      case 'txt':
+        data = fs.readFileSync(filePath).toString();
         break;
 
       default:
@@ -212,8 +216,8 @@ function writeLog(type = '', message = '') {
   try {
     const logPath = getUserDataPath('config', 'log.txt');
     const currentTime = new Date().toLocaleString();
-    let log = read(logPath, 'json') || '';
-    log += '\r\n' + currentTime + '\r\n' + type + '\r\n' + message + '\r\n';
+    let log = read(logPath, 'txt') || '';
+    log += '\r\n' + currentTime + '\r\n' + type + '\r\n' + message + '\r\n\r\n';
     write(logPath, log);
   } catch (error) {
     console.log(error);

@@ -4,11 +4,10 @@
 UPDATE NOTE
 - use axios
 - dialog update
+- error log
 fix isch
-error log
 gemini vision
 change icon
-translate option
 */
 
 // electron

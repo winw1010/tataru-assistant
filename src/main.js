@@ -39,8 +39,15 @@ app.on('activate', () => {
 
 // ignore certificate error
 app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+  console.log('\r\ncertificate-error');
+  console.log(error);
+
+  // write log
+  appModule.wirteLog('certificate-error', error);
+
   // Prevent having error
   event.preventDefault();
+
   // and continue
   callback(true);
 });
@@ -49,10 +56,16 @@ app.on('certificate-error', (event, webContents, url, error, certificate, callba
 process.on('uncaughtException', (error) => {
   console.log('\r\nuncaughtException');
   console.log(error);
+
+  // write log
+  appModule.wirteLog('uncaughtException', error);
 });
 
 // ignore unhandledRejection
 process.on('unhandledRejection', (error) => {
   console.log('\r\nunhandledRejection');
   console.log(error);
+
+  // write log
+  appModule.wirteLog('uncaughtException', error);
 });

@@ -36,11 +36,8 @@ const sharlayanModule = require('../system/sharlayan-module');
 // table URL
 const tableURL = 'https://codeload.github.com/winw1010/tataru-assistant-text/zip/refs/heads/main';
 
-// table name
-const tableName = 'table.zip';
-
-// table temp path
-const tableTempPath = fileModule.getRootDataPath(tableName);
+// temp table path
+const tempTablePath = fileModule.getRootDataPath('tempTable.zip');
 
 // table path
 const tablePath = fileModule.getRootDataPath('text');
@@ -61,35 +58,36 @@ function initializeJSON() {
 
 // download json
 function downloadJSON() {
-  download(tableURL, tableTempPath, async (file) => {
-    file.close();
-    console.log('Download Completed. (URL: ' + tableURL + ')');
+  const tempTableStream = fs.createWriteStream(tempTablePath);
+  https
+    .get(tableURL)
+    .on('response', (response) => {
+      // pipe to table temp stream
+      response.pipe(tempTableStream);
 
-    if (file.errored) {
-      console.log('Download Failed: ' + file.errored.message);
-      dialogModule.addNotification('對照表下載失敗: ' + file.errored.message);
-    } else {
-      deleteTable();
-      await decompress(tableTempPath, tablePath, { strip: 1 });
-      fileModule.unlink(tableTempPath);
-      dialogModule.addNotification('對照表下載完畢');
-    }
+      // after download completed close filestream
+      tempTableStream.on('finish', async () => {
+        tempTableStream.close();
+        console.log('Download Completed. (URL: ' + tableURL + ')');
 
-    loadJSON();
-  });
-}
+        if (tempTableStream.errored) {
+          console.log('Download Failed: ' + tempTableStream.errored.message);
+          dialogModule.addNotification('對照表下載失敗: ' + tempTableStream.errored.message);
+        } else {
+          deleteTable();
+          await decompress(tempTablePath, tablePath, { strip: 1 });
+          fileModule.unlink(tempTablePath);
+          dialogModule.addNotification('對照表下載完畢');
+        }
 
-// download
-function download(URL = '', disc = '', callback = function () {}) {
-  const file = fs.createWriteStream(disc);
-  https.get(URL, function (response) {
-    response.pipe(file);
-
-    // after download completed close filestream
-    file.on('finish', () => {
-      callback(file);
+        loadJSON();
+      });
+    })
+    .on('error', (e) => {
+      console.error(e);
+      dialogModule.addNotification('對照表下載失敗: ' + e.message);
+      loadJSON();
     });
-  });
 }
 
 // delete table

@@ -62,19 +62,14 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 async function cropImage(rectangleSize, displayBounds, screenshotPath) {
   try {
     const croppedPath = getImagePath('cropped.png');
-    const newSize = getNewSize(displayBounds);
 
     // crop image
     await sharp(screenshotPath)
-      .resize({
-        width: newSize.width,
-        height: newSize.height,
-      })
       .extract({
-        left: parseInt(rectangleSize.x * newSize.scaleRate),
-        top: parseInt(rectangleSize.y * newSize.scaleRate),
-        width: parseInt(rectangleSize.width * newSize.scaleRate),
-        height: parseInt(rectangleSize.height * newSize.scaleRate),
+        left: parseInt(rectangleSize.x),
+        top: parseInt(rectangleSize.y),
+        width: parseInt(rectangleSize.width),
+        height: parseInt(rectangleSize.height),
       })
       .greyscale()
       .toFile(croppedPath);

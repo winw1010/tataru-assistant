@@ -90,24 +90,6 @@ async function cropImage(rectangleSize, displayBounds, screenshotPath) {
   }
 }
 
-// get new size
-function getNewSize(displayBounds) {
-  if (displayBounds.width > 1920) {
-    const scaleRate = 1920 / displayBounds.width;
-    return {
-      width: 1920,
-      height: parseInt(displayBounds.height * scaleRate),
-      scaleRate: scaleRate,
-    };
-  } else {
-    return {
-      width: displayBounds.width,
-      height: displayBounds.height,
-      scaleRate: 1,
-    };
-  }
-}
-
 /*
 // fix image
 async function fixImage(cropPath = '') {

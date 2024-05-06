@@ -28,9 +28,9 @@ const safetySettings = [
 let currentGemini = null;
 
 // exec
-async function exec(option, table = []) {
+async function exec(option, table = [], type = 'sentence') {
   try {
-    const response = translate(option.text, option.from, option.to, table);
+    const response = translate(option.text, option.from, option.to, table, type);
     return response;
   } catch (error) {
     currentGemini = null;
@@ -46,7 +46,7 @@ function createAI() {
 }
 
 // translate
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
+async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   if (!currentGemini) currentGemini = createAI();
 
   const model = currentGemini.getGenerativeModel({
@@ -54,7 +54,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     safetySettings,
   });
 
-  const prompt = createPrompt(source, target, table) + '\r\nThe sentence:\r\n' + sentence;
+  const prompt = createPrompt(source, target, table, type) + '\r\nThe sentence:\r\n' + sentence;
   const response = await model.generateContent(prompt);
 
   console.log('prompt', prompt);

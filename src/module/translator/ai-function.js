@@ -1,8 +1,8 @@
 'use strict';
 
-function createPrompt(source = 'Japanese', target = 'Chinese', table = []) {
+function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   // `I want you to act as an expert translator.
-  let prompt = `You will be provided with a sentence in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
+  let prompt = `You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
 
   if (table.length > 0) {
     prompt += ` Also`;

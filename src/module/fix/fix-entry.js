@@ -96,18 +96,20 @@ async function entry() {
   ) {
     // JP/EN to CHT/CHS => XIV fix
     if (trueLanguage === languageEnum.ja) {
+      // start JP fix
       dialogData.translation.from = languageEnum.ja;
       dialogData = await jpFix.start(dialogData);
     } else if (trueLanguage === languageEnum.en) {
+      // start EN fix
       dialogData.translation.from = languageEnum.en;
       dialogData = await enFix.start(dialogData);
     }
   } else {
     // else => normal translation
 
-    // translate name(JP NPC only)
-    if (npcChannel.includes(dialogData.code) && trueLanguage === languageEnum.ja) {
-      dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
+    // translate name
+    if (npcChannel.includes(dialogData.code)) {
+      dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation, [], 'name');
     }
 
     // translate text

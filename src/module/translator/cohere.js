@@ -7,14 +7,14 @@ const { createPrompt } = require('./ai-function');
 const configModule = require('../system/config-module');
 
 // translate
-async function exec(option, table = []) {
-  const response = translate(option.text, option.from, option.to, table);
+async function exec(option, table = [], type = 'sentence') {
+  const response = translate(option.text, option.from, option.to, table, type);
   return response;
 }
 
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = []) {
+async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   const config = configModule.getConfig();
-  const prompt = createPrompt(source, target, table);
+  const prompt = createPrompt(source, target, table, type);
   const response = await requestModule.post(
     'https://api.cohere.ai/v1/chat',
     {

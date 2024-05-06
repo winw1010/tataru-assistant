@@ -16,7 +16,7 @@ const gemini = require('../translator/gemini');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
-async function translate(text = '', translation = {}, table = []) {
+async function translate(text = '', translation = {}, table = [], type = 'sentence') {
   let result = '';
 
   try {
@@ -29,7 +29,7 @@ async function translate(text = '', translation = {}, table = []) {
     }
 
     // translate
-    result = await translate2(text, translation, table);
+    result = await translate2(text, translation, table, type);
 
     // zh convert
     if (engineModule.aiList.includes(translation.engine)) {
@@ -46,7 +46,7 @@ async function translate(text = '', translation = {}, table = []) {
 }
 
 // translate 2
-async function translate2(text = '', translation = {}, table = []) {
+async function translate2(text = '', translation = {}, table = [], type = 'sentence') {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
   let result = { isError: false, text: '' };
@@ -58,7 +58,7 @@ async function translate2(text = '', translation = {}, table = []) {
     console.log('\r\nEngine:', engine);
 
     if (option) {
-      result = await getTranslation(engine, option, table);
+      result = await getTranslation(engine, option, table, type);
     } else {
       continue;
     }
@@ -68,7 +68,7 @@ async function translate2(text = '', translation = {}, table = []) {
 }
 
 // get translation
-async function getTranslation(engine = '', option = {}, table = []) {
+async function getTranslation(engine = '', option = {}, table = [], type = 'sentence') {
   console.log('Before:', option?.text);
 
   let isError = false;
@@ -97,15 +97,15 @@ async function getTranslation(engine = '', option = {}, table = []) {
         break;
 
       case 'GPT':
-        text = await gpt.exec(option, table);
+        text = await gpt.exec(option, table, type);
         break;
 
       case 'Cohere':
-        text = await cohere.exec(option, table);
+        text = await cohere.exec(option, table, type);
         break;
 
       case 'Gemini':
-        text = await gemini.exec(option, table);
+        text = await gemini.exec(option, table, type);
         break;
 
       /*

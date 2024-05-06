@@ -118,6 +118,7 @@ async function fixName(dialogData = {}) {
     return target[1];
   }
 
+  // no translation
   translatedName = name;
 
   /*

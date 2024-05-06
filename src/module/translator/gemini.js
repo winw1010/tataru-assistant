@@ -52,6 +52,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   const model = currentGemini.getGenerativeModel({
     model: 'gemini-pro',
     safetySettings,
+    generationConfig: { temperature: 0.7 },
   });
 
   const prompt = createPrompt(source, target, table, type) + '\r\nThe sentence:\r\n' + sentence;

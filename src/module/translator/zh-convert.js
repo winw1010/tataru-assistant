@@ -13,6 +13,11 @@ function exec(option = { text: '', tableName: 'zh2Hant' }) {
 
 // replace text
 function replaceText(text = '', zhTable = []) {
+  if (typeof text !== 'string') {
+    console.log(text);
+    return 'Convert error: Type is not string.';
+  }
+
   for (let index = 0; index < zhTable.length; index++) {
     const table = zhTable[index];
     if (!zhException.includes(table[0])) {

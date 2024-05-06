@@ -100,7 +100,7 @@ fix name
 // fix name
 async function fixName(dialogData = {}) {
   const name = dialogData.name;
-  const translation = dialogData.translation;
+  // const translation = dialogData.translation;
 
   let translatedName = '';
 
@@ -118,6 +118,9 @@ async function fixName(dialogData = {}) {
     return target[1];
   }
 
+  translatedName = name;
+
+  /*
   // code result
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
@@ -143,6 +146,7 @@ async function fixName(dialogData = {}) {
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+  */
 
   // save to temp
   saveName(name, translatedName);

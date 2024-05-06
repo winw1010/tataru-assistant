@@ -89,8 +89,12 @@ async function entry() {
   // get true language
   const trueLanguage = getLanguage(dialogData);
 
-  if (canFix(config, trueLanguage, dialogData)) {
-    // do XIV fix when JP/EN to CHT/CHS
+  if (
+    config.translation.fix &&
+    fixSourceList.includes(trueLanguage) &&
+    fixTargetList.includes(dialogData.translation.to)
+  ) {
+    // JP/EN to CHT/CHS => do XIV fix
     if (trueLanguage === languageEnum.ja) {
       dialogData.translation.from = languageEnum.ja;
       dialogData = await jpFix.start(dialogData);
@@ -99,12 +103,17 @@ async function entry() {
       dialogData = await enFix.start(dialogData);
     }
   } else {
-    // normal translate
-    if (npcChannel.includes(dialogData.code)) {
+    // else => normal translate
+
+    // translate name(JP NPC only)
+    if (npcChannel.includes(dialogData.code) && trueLanguage === languageEnum.ja) {
       dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation);
     }
 
+    // translate text
     dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+
+    // set audio text
     dialogData.audioText = dialogData.text;
   }
 
@@ -114,13 +123,6 @@ async function entry() {
   } else {
     dialogModule.removeDialog(dialogData.id);
   }
-}
-
-// can fix
-function canFix(config = {}, trueLanguage = '', dialogData = {}) {
-  return (
-    config.translation.fix && fixSourceList.includes(trueLanguage) && fixTargetList.includes(dialogData.translation.to)
-  );
 }
 
 // get language

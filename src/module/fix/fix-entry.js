@@ -109,11 +109,11 @@ async function entry() {
 
     // translate name
     if (npcChannel.includes(dialogData.code)) {
-      dialogData.translatedName = translateModule.translate(dialogData.name, dialogData.translation, [], 'name');
+      dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation, [], 'name');
     }
 
     // translate text
-    dialogData.translatedText = translateModule.translate(dialogData.text, dialogData.translation);
+    dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
 
     // set audio text
     dialogData.audioText = dialogData.text;

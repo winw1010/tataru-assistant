@@ -31,7 +31,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     }
   );
 
-  console.log('prompt', prompt);
+  console.log('prompt:', prompt);
   console.log('Tokens:', response?.data?.meta?.tokens);
 
   return response.data.text;

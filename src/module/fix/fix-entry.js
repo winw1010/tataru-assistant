@@ -94,7 +94,7 @@ async function entry() {
     fixSourceList.includes(trueLanguage) &&
     fixTargetList.includes(dialogData.translation.to)
   ) {
-    // JP/EN to CHT/CHS => do XIV fix
+    // JP/EN to CHT/CHS => XIV fix
     if (trueLanguage === languageEnum.ja) {
       dialogData.translation.from = languageEnum.ja;
       dialogData = await jpFix.start(dialogData);
@@ -103,7 +103,7 @@ async function entry() {
       dialogData = await enFix.start(dialogData);
     }
   } else {
-    // else => normal translate
+    // else => normal translation
 
     // translate name(JP NPC only)
     if (npcChannel.includes(dialogData.code) && trueLanguage === languageEnum.ja) {

@@ -181,7 +181,7 @@ function getSelect(list = []) {
 }
 
 // get engine list
-function getEngineList(engine = engineList[0]) {
+function getEngineList(engine = changeList[0]) {
   const newEngineList = JSON.parse(JSON.stringify(changeList));
   const index = newEngineList.indexOf(engine);
 
@@ -227,6 +227,7 @@ module.exports = {
   fixTargetList,
   uiList,
   engineList,
+  changeList,
   aiList,
 
   languageEnum,

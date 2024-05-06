@@ -37,12 +37,6 @@ function addDialog(dialogData) {
 
 // update dialog
 function updateDialog(dialogData = {}, scroll = true, save = true) {
-  // zh convert
-  if (dialogData?.translation) {
-    dialogData.translatedName = translateModule.zhConvert(dialogData.translatedName, dialogData.translation.to);
-    dialogData.translatedText = translateModule.zhConvert(dialogData.translatedText, dialogData.translation.to);
-  }
-
   // send
   windowModule.sendIndex('update-dialog', dialogData, getStyle(dialogData.code), scroll);
 

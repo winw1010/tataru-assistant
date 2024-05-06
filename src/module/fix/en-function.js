@@ -125,7 +125,8 @@ function getAdjectiveType(text = '') {
 
 function isChinese(text = '') {
   const chLength = text.match(/[\u3400-\u9FFF]/gi)?.length || 0;
-  return chLength > 0;
+  const enLength = text.match(/[A-Z]/gi)?.length || 0;
+  return chLength > enLength;
 }
 
 // module exports

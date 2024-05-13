@@ -2,7 +2,7 @@
 
 function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   // `I want you to act as an expert translator.
-  // let prompt = `Translate the following ${type} from ${source} to ${target}.`;
+  // let prompt = `Translate the following ${type} from ${source} to ${target}. Your response should not be in ${source}.`;
   let prompt = `You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
 
   if (table.length > 0) {

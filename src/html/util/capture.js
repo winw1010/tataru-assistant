@@ -76,17 +76,16 @@ function setButton() {
     // minimize all windows
     ipcRenderer.send('minimize-all-windows');
 
-    // start full screen recognize
-    const displayBounds = ipcRenderer.sendSync('get-dispaly-bounds');
-    ipcRenderer.send(
-      'start-recognize',
-      getRectangleSize(
-        displayBounds.x,
-        displayBounds.y,
-        displayBounds.x + displayBounds.width,
-        displayBounds.y + displayBounds.height
-      )
-    );
+    // get screen size
+    const screenSize = getScreenSize();
+
+    // start recognize
+    ipcRenderer.send('start-recognize', screenSize, {
+      x: 0,
+      y: 0,
+      width: screenSize.width,
+      height: screenSize.height,
+    });
   };
 
   // close
@@ -169,7 +168,7 @@ function setCanvasEvent() {
 
       // start recognize
       if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-        ipcRenderer.send('start-recognize', rectangleSize);
+        ipcRenderer.send('start-recognize', getScreenSize(), rectangleSize);
       }
     };
   };
@@ -190,6 +189,14 @@ function setCanvasEvent() {
       ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
     }
   }
+}
+
+// get screen size
+function getScreenSize() {
+  return {
+    width: window.screen.width,
+    height: window.screen.height,
+  };
 }
 
 // get rectangle size

@@ -162,6 +162,11 @@ function setSystemChannel() {
       dialogModule.showInfo(event.sender, message);
     });
   });
+
+  // console log
+  ipcMain.on('console-log', (event, text) => {
+    console.log(text);
+  });
 }
 
 // set window channel
@@ -340,7 +345,7 @@ function setDialogChannel() {
 // set capture channel
 function setCaptureChannel() {
   // start recognize
-  ipcMain.on('start-recognize', (event, rectangleSize) => {
+  ipcMain.on('start-recognize', (event, screenSize, rectangleSize) => {
     // get display matching the rectangle
     const display = screen.getDisplayMatching(rectangleSize);
 
@@ -348,14 +353,8 @@ function setCaptureChannel() {
     const displayIDs = screen.getAllDisplays().map((x) => x.id);
     const displayIndex = displayIDs.indexOf(display.id);
 
-    // fix x
-    rectangleSize.x = rectangleSize.x - display.bounds.x;
-
-    // fix y
-    rectangleSize.y = rectangleSize.y - display.bounds.y;
-
     // take screenshot
-    imageModule.takeScreenshot(rectangleSize, display.bounds, displayIndex);
+    imageModule.takeScreenshot(screenSize, rectangleSize, displayIndex);
   });
 
   // get position

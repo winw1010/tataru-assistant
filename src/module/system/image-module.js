@@ -20,8 +20,10 @@ const textDetectModule = require('./text-detect-module');
 const windowModule = require('./window-module');
 
 // start recognize
-async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
+async function takeScreenshot(screenSize, rectangleSize, displayIndex) {
   dialogModule.addNotification('正在擷取螢幕畫面');
+
+  console.log('screen size:', screenSize);
   console.log('rectangle size:', rectangleSize);
 
   try {
@@ -39,6 +41,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
         format: 'png',
       });
     } catch (error) {
+      console.log('error:', error);
       await screenshotModule({
         filename: screenshotPath,
         format: 'png',
@@ -51,7 +54,7 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
     });
 
     // crop image
-    cropImage(rectangleSize, displayBounds, screenshotPath);
+    cropImage(screenSize, rectangleSize, screenshotPath);
   } catch (error) {
     console.log(error);
     dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
@@ -59,12 +62,13 @@ async function takeScreenshot(rectangleSize, displayBounds, displayIndex) {
 }
 
 // crop image
-async function cropImage(rectangleSize, displayBounds, screenshotPath) {
+async function cropImage(screenSize, rectangleSize, screenshotPath) {
   try {
     const croppedPath = getImagePath('cropped.png');
 
     // crop image
     await sharp(screenshotPath)
+      .resize(screenSize.width, screenSize.height) // resize image to screen size
       .extract({
         left: parseInt(rectangleSize.x),
         top: parseInt(rectangleSize.y),

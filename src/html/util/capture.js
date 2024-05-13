@@ -123,20 +123,19 @@ function setCanvasEvent() {
   }
 
   // set mouse position
-  let mousedownScreenPosition = { x: 0, y: 0 };
-  let mouseupScreenPosition = { x: 0, y: 0 };
-  let mousedownClientPosition = { x: 0, y: 0 };
+  const mousedownScreenPosition = { x: 0, y: 0 };
+  const mouseupScreenPosition = { x: 0, y: 0 };
+  const mousedownClientPosition = { x: 0, y: 0 };
 
   // on mouse down
   canvas.onmousedown = (event) => {
     // get mousedown screen position
-    mousedownScreenPosition = ipcRenderer.sendSync('get-screen-position');
+    mousedownScreenPosition.x = event.screenX;
+    mousedownScreenPosition.y = event.screenY;
 
     // get mousedown client position
-    mousedownClientPosition = {
-      x: event.clientX,
-      y: event.clientY,
-    };
+    mousedownClientPosition.x = event.clientX;
+    mousedownClientPosition.y = event.clientY;
 
     // on mouse move
     canvas.onmousemove = (event) => {
@@ -144,7 +143,7 @@ function setCanvasEvent() {
     };
 
     // on mouse up
-    canvas.onmouseup = () => {
+    canvas.onmouseup = (event) => {
       // stop drawing
       canvas.onmouseup = null;
       canvas.onmousemove = null;
@@ -156,7 +155,8 @@ function setCanvasEvent() {
       }
 
       // get mouseup screen position
-      mouseupScreenPosition = ipcRenderer.sendSync('get-screen-position');
+      mouseupScreenPosition.x = event.screenX;
+      mouseupScreenPosition.y = event.screenY;
 
       // get rectangle size
       let rectangleSize = getRectangleSize(

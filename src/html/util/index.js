@@ -305,9 +305,6 @@ function resetView(config) {
   // set always on top
   ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
 
-  // set focusable
-  ipcRenderer.send('set-focusable', config.indexWindow.focusable);
-
   // set speech speed
   document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));
 

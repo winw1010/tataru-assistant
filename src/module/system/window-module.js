@@ -67,16 +67,6 @@ function createWindow(windowName, data = null) {
     // set event
     switch (windowName) {
       case 'index':
-        // set foucusable
-        window.setFocusable(config.indexWindow.focusable);
-        window.on('restore', () => {
-          const config = configModule.getConfig();
-          window.setFocusable(config.indexWindow.focusable);
-        });
-        window.on('minimize', () => {
-          window.setFocusable(true);
-        });
-
         // set close event
         window.once('close', () => {
           // save position

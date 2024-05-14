@@ -225,15 +225,6 @@ function setWindowChannel() {
     }
   });
 
-  // set focusable
-  ipcMain.on('set-focusable', (event, isFocusable) => {
-    try {
-      BrowserWindow.fromWebContents(event.sender).setFocusable(isFocusable);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
   // set min size
   ipcMain.on('set-min-size', (event, minSize) => {
     if (minSize) {
@@ -355,16 +346,6 @@ function setCaptureChannel() {
 
     // take screenshot
     imageModule.takeScreenshot(screenSize, rectangleSize, displayIndex);
-  });
-
-  // get position
-  ipcMain.on('get-screen-position', (event) => {
-    event.returnValue = screen.getCursorScreenPoint();
-  });
-
-  // get dispaly bounds
-  ipcMain.on('get-dispaly-bounds', (event) => {
-    event.returnValue = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
   });
 
   // minimize all windows
@@ -610,16 +591,6 @@ function setTranslateChannel() {
   ipcMain.handle('get-gpt-model-list', (event, apiKey) => {
     return gpt.getModelList(apiKey);
   });
-
-  /*
-  // record
-  ipcMain.on('change-reccord-icon', (event) => {
-      let config = configModule.getConfig();
-      config.translation.getCutsceneText = !config.translation.getCutsceneText;
-      configModule.setConfig(config);
-      event.sender.send('change-reccord-icon', config.translation.getCutsceneText);
-  });
-  */
 }
 
 // set file channel
@@ -632,11 +603,6 @@ function setFileChannel() {
   // read json
   ipcMain.on('read-json', (event, filePath, returnArray) => {
     event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
-  });
-
-  // write json
-  ipcMain.on('write-json', (event, filePath, data) => {
-    fileModule.write(filePath, data, 'json');
   });
 
   // get path

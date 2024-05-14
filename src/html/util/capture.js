@@ -119,10 +119,15 @@ function setCanvasEvent() {
 
   // set line width
   let lineWidth = 1;
+
   try {
     lineWidth = 0.1 * parseInt(getComputedStyle(document.documentElement).fontSize);
   } catch (error) {
     console.log(error);
+  }
+
+  if (isNaN(lineWidth)) {
+    lineWidth = 1;
   }
 
   // set mouse position

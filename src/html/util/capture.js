@@ -121,23 +121,23 @@ function setCanvasEvent() {
   const lineWidth = getLineWidth();
 
   // set mouse position
-  const mousedownScreenPosition = { x: 0, y: 0 };
-  const mouseupScreenPosition = { x: 0, y: 0 };
-  const mousedownClientPosition = { x: 0, y: 0 };
+  const screenMouseDown = { x: 0, y: 0 };
+  const screenMouseUp = { x: 0, y: 0 };
+  const clientMouseDown = { x: 0, y: 0 };
 
   // on mouse down
   canvas.onmousedown = (event) => {
     // set mousedown screen position
-    mousedownScreenPosition.x = event.screenX;
-    mousedownScreenPosition.y = event.screenY;
+    screenMouseDown.x = event.screenX;
+    screenMouseDown.y = event.screenY;
 
     // set mousedown client position
-    mousedownClientPosition.x = event.clientX;
-    mousedownClientPosition.y = event.clientY;
+    clientMouseDown.x = event.clientX;
+    clientMouseDown.y = event.clientY;
 
     // on mouse move
     canvas.onmousemove = (event) => {
-      drawRectangle(mousedownClientPosition.x, mousedownClientPosition.y, event.clientX, event.clientY);
+      drawRectangle(clientMouseDown.x, clientMouseDown.y, event.clientX, event.clientY);
     };
 
     // on mouse up
@@ -150,19 +150,14 @@ function setCanvasEvent() {
       clearRectangle();
 
       // set mouseup screen position
-      mouseupScreenPosition.x = event.screenX;
-      mouseupScreenPosition.y = event.screenY;
+      screenMouseUp.x = event.screenX;
+      screenMouseUp.y = event.screenY;
 
       // set screen size
       const screenSize = getScreenSize();
 
       // set rectangle size
-      const rectangleSize = getRectangleSize(
-        mousedownScreenPosition.x,
-        mousedownScreenPosition.y,
-        mouseupScreenPosition.x,
-        mouseupScreenPosition.y
-      );
+      const rectangleSize = getRectangleSize(screenMouseDown.x, screenMouseDown.y, screenMouseUp.x, screenMouseUp.y);
 
       // start recognize
       if (rectangleSize.width > 0 && rectangleSize.height > 0) {

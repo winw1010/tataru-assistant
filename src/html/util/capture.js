@@ -45,20 +45,20 @@ function setEvent() {
 
   // checkbox
   document.getElementById('checkbox-split').oninput = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.captureWindow.split = document.getElementById('checkbox-split').checked;
     ipcRenderer.send('set-config', config);
   };
 
   document.getElementById('checkbox-edit').oninput = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.captureWindow.edit = document.getElementById('checkbox-edit').checked;
     ipcRenderer.send('set-config', config);
   };
 
   // select
   document.getElementById('select-type').onchange = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.captureWindow.type = document.getElementById('select-type').value;
     ipcRenderer.send('set-config', config);
     ipcRenderer.send('check-api', document.getElementById('select-type').value);
@@ -79,13 +79,16 @@ function setButton() {
     // get screen size
     const screenSize = getScreenSize();
 
-    // start recognize
-    ipcRenderer.send('start-recognize', screenSize, {
+    // get rectangle size
+    const rectangleSize = {
       x: 0,
       y: 0,
       width: screenSize.width,
       height: screenSize.height,
-    });
+    };
+
+    // start recognize
+    ipcRenderer.send('start-recognize', screenSize, rectangleSize);
   };
 
   // close
@@ -117,7 +120,7 @@ function setCanvasEvent() {
   // set line width
   let lineWidth = 1;
   try {
-    lineWidth = 0.1 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    lineWidth = 0.1 * parseInt(getComputedStyle(document.documentElement).fontSize);
   } catch (error) {
     console.log(error);
   }
@@ -149,17 +152,17 @@ function setCanvasEvent() {
       canvas.onmousemove = null;
 
       // clear rectangle
-      if (canvas.getContext) {
-        let ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      clearRectangle();
 
       // get mouseup screen position
       mouseupScreenPosition.x = event.screenX;
       mouseupScreenPosition.y = event.screenY;
 
+      // get screen size
+      const screenSize = getScreenSize();
+
       // get rectangle size
-      let rectangleSize = getRectangleSize(
+      const rectangleSize = getRectangleSize(
         mousedownScreenPosition.x,
         mousedownScreenPosition.y,
         mouseupScreenPosition.x,
@@ -168,7 +171,7 @@ function setCanvasEvent() {
 
       // start recognize
       if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-        ipcRenderer.send('start-recognize', getScreenSize(), rectangleSize);
+        ipcRenderer.send('start-recognize', screenSize, rectangleSize);
       }
     };
   };
@@ -177,16 +180,24 @@ function setCanvasEvent() {
   function drawRectangle(startX, startY, endX, endY) {
     if (canvas.getContext) {
       // get rectangle size
-      let rectangleSize = getRectangleSize(startX, startY, endX, endY);
-      let ctx = canvas.getContext('2d');
+      const rectangleSize = getRectangleSize(startX, startY, endX, endY);
+      const ctx = canvas.getContext('2d');
 
       // clear rectangle
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      clearRectangle();
 
       // draw rectangle
       ctx.strokeStyle = '#808080';
       ctx.lineWidth = lineWidth;
       ctx.strokeRect(rectangleSize.x, rectangleSize.y, rectangleSize.width, rectangleSize.height);
+    }
+  }
+
+  // clear rectangle
+  function clearRectangle() {
+    if (canvas.getContext) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
 }

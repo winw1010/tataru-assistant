@@ -6,7 +6,7 @@ const { createPrompt } = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const regGptModel = /gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i;
+const regGptModel = /gpt.*[^0-9]$/i;
 
 // exec
 async function exec(option, table = [], type = 'sentence') {

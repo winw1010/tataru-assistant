@@ -346,8 +346,8 @@ function setDialogChannel() {
 function setCaptureChannel() {
   // start recognize
   ipcMain.on('start-recognize', (event, screenSize, rectangleSize) => {
-    // get display matching the rectangle
-    const display = screen.getDisplayMatching(rectangleSize);
+    // get display nearest point
+    const display = screen.getDisplayNearestPoint();
 
     // find display's index
     const displayIDs = screen.getAllDisplays().map((x) => x.id);

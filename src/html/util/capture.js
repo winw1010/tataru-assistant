@@ -76,10 +76,10 @@ function setButton() {
     // minimize all windows
     ipcRenderer.send('minimize-all-windows');
 
-    // get screen size
+    // set screen size
     const screenSize = getScreenSize();
 
-    // get rectangle size
+    // set rectangle size
     const rectangleSize = {
       x: 0,
       y: 0,
@@ -104,7 +104,7 @@ function showScreenshotButton(config) {
 
 // set canvas size
 function setCanvasSize() {
-  // get canvas
+  // set canvas
   const canvas = document.getElementById('canvas-select');
 
   // set size
@@ -114,21 +114,11 @@ function setCanvasSize() {
 
 // set canvas event
 function setCanvasEvent() {
-  // get canvas
+  // set canvas
   const canvas = document.getElementById('canvas-select');
 
   // set line width
-  let lineWidth = 1;
-
-  try {
-    lineWidth = 0.1 * parseInt(getComputedStyle(document.documentElement).fontSize);
-  } catch (error) {
-    console.log(error);
-  }
-
-  if (isNaN(lineWidth)) {
-    lineWidth = 1;
-  }
+  const lineWidth = getLineWidth();
 
   // set mouse position
   const mousedownScreenPosition = { x: 0, y: 0 };
@@ -137,11 +127,11 @@ function setCanvasEvent() {
 
   // on mouse down
   canvas.onmousedown = (event) => {
-    // get mousedown screen position
+    // set mousedown screen position
     mousedownScreenPosition.x = event.screenX;
     mousedownScreenPosition.y = event.screenY;
 
-    // get mousedown client position
+    // set mousedown client position
     mousedownClientPosition.x = event.clientX;
     mousedownClientPosition.y = event.clientY;
 
@@ -159,14 +149,14 @@ function setCanvasEvent() {
       // clear rectangle
       clearRectangle();
 
-      // get mouseup screen position
+      // set mouseup screen position
       mouseupScreenPosition.x = event.screenX;
       mouseupScreenPosition.y = event.screenY;
 
-      // get screen size
+      // set screen size
       const screenSize = getScreenSize();
 
-      // get rectangle size
+      // set rectangle size
       const rectangleSize = getRectangleSize(
         mousedownScreenPosition.x,
         mousedownScreenPosition.y,
@@ -184,7 +174,7 @@ function setCanvasEvent() {
   // draw rectangle
   function drawRectangle(startX, startY, endX, endY) {
     if (canvas.getContext) {
-      // get rectangle size
+      // set rectangle size
       const rectangleSize = getRectangleSize(startX, startY, endX, endY);
       const ctx = canvas.getContext('2d');
 
@@ -205,6 +195,23 @@ function setCanvasEvent() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
+}
+
+// get line width
+function getLineWidth() {
+  let lineWidth = 1;
+
+  try {
+    lineWidth = 0.1 * parseInt(getComputedStyle(document.documentElement).fontSize);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (isNaN(lineWidth)) {
+    lineWidth = 1;
+  }
+
+  return lineWidth;
 }
 
 // get screen size

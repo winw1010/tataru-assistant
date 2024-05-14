@@ -338,7 +338,7 @@ function setCaptureChannel() {
   // start recognize
   ipcMain.on('start-recognize', (event, screenSize, rectangleSize) => {
     // get display nearest point
-    const display = screen.getDisplayNearestPoint();
+    const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
 
     // find display's index
     const displayIDs = screen.getAllDisplays().map((x) => x.id);

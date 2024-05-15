@@ -577,7 +577,7 @@ function setTranslateChannel() {
       } else if (engine === 'google-vision') {
         const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
         if (!fileModule.exists(keyPath)) {
-          message = '尚未設定Google憑證，請先至【設定】>【API設定】輸入憑證';
+          message = '尚未設定Google憑證，請至【設定】>【API設定】輸入憑證';
         }
       }
 

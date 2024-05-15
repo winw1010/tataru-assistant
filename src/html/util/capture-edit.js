@@ -6,6 +6,9 @@ const { ipcRenderer } = require('electron');
 // image path
 const imagePath = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'img');
 
+// capture data
+let captureData = {};
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -24,8 +27,9 @@ function setIPC() {
   });
 
   // send data
-  ipcRenderer.on('send-data', (event, text) => {
-    document.getElementById('textarea-screen-text').value = text;
+  ipcRenderer.on('send-data', (event, data) => {
+    captureData = data;
+    document.getElementById('textarea-screen-text').value = captureData.text;
   });
 }
 
@@ -72,6 +76,8 @@ function setButton() {
 
   // translate
   document.getElementById('button-translate').onclick = () => {
-    ipcRenderer.send('translate-image-text', document.getElementById('textarea-screen-text').value);
+    captureData.text = document.getElementById('textarea-screen-text').value;
+    captureData.split = document.getElementById('checkbox-split').checked;
+    ipcRenderer.send('translate-image-text', captureData);
   };
 }

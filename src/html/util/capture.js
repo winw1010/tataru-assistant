@@ -24,9 +24,11 @@ function setIPC() {
 // set view
 function setView() {
   const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('select-type').value = config.captureWindow.type;
+  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from').value = config.translation.from;
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
   document.getElementById('checkbox-edit').checked = config.captureWindow.edit;
-  document.getElementById('select-type').value = config.captureWindow.type;
   showScreenshotButton(config);
   setCanvasSize();
 }
@@ -76,19 +78,11 @@ function setButton() {
     // minimize all windows
     ipcRenderer.send('minimize-all-windows');
 
-    // set screen size
-    const screenSize = getScreenSize();
-
-    // set rectangle size
-    const rectangleSize = {
-      x: 0,
-      y: 0,
-      width: screenSize.width,
-      height: screenSize.height,
-    };
+    // set capture data
+    const captureData = createData();
 
     // start recognize
-    ipcRenderer.send('start-recognize', screenSize, rectangleSize);
+    ipcRenderer.send('start-recognize', captureData);
   };
 
   // close
@@ -153,15 +147,20 @@ function setCanvasEvent() {
       screenMouseUp.x = event.screenX;
       screenMouseUp.y = event.screenY;
 
-      // set screen size
-      const screenSize = getScreenSize();
+      // set capture data
+      const captureData = createData();
 
       // set rectangle size
-      const rectangleSize = getRectangleSize(screenMouseDown.x, screenMouseDown.y, screenMouseUp.x, screenMouseUp.y);
+      captureData.rectangleSize = getRectangleSize(
+        screenMouseDown.x,
+        screenMouseDown.y,
+        screenMouseUp.x,
+        screenMouseUp.y
+      );
 
       // start recognize
-      if (rectangleSize.width > 0 && rectangleSize.height > 0) {
-        ipcRenderer.send('start-recognize', screenSize, rectangleSize);
+      if (captureData.rectangleSize.width > 0 && captureData.rectangleSize.height > 0) {
+        ipcRenderer.send('start-recognize', captureData);
       }
     };
   };
@@ -209,11 +208,23 @@ function getLineWidth() {
   return lineWidth;
 }
 
-// get screen size
-function getScreenSize() {
+// create data
+function createData() {
   return {
-    width: window.screen.width,
-    height: window.screen.height,
+    type: document.getElementById('select-type').value,
+    from: document.getElementById('select-from').value,
+    split: document.getElementById('checkbox-split').checked,
+    edit: document.getElementById('checkbox-edit').checked,
+    screenSize: {
+      width: window.screen.width,
+      height: window.screen.height,
+    },
+    rectangleSize: {
+      x: 0,
+      y: 0,
+      width: window.screen.width,
+      height: window.screen.height,
+    },
   };
 }
 

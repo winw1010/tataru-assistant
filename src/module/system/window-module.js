@@ -129,8 +129,7 @@ function getWindowSize(windowName, config) {
   const displaySizeRate = displayBounds.width >= 1920 ? 0.9 : 1;
   const displayLength =
     displayBounds.width > displayBounds.height
-      ? Math.min(parseInt((Math.min(displayBounds.width, displayBounds.height) * 16) / 9), displayBounds.width) *
-        displaySizeRate
+      ? Math.min(parseInt((displayBounds.height * 16) / 9), displayBounds.width) * displaySizeRate
       : displayBounds.width * displaySizeRate;
 
   switch (windowName) {
@@ -166,9 +165,9 @@ function getWindowSize(windowName, config) {
 
         // first time
         if (boundsValidCheck(captureBounds)) {
-          bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.33);
-          bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.63);
-          bounds.width = parseInt(displayLength * 0.4);
+          bounds.x = displayBounds.x + parseInt(displayBounds.width * 0.3);
+          bounds.y = displayBounds.y + parseInt(displayBounds.height * 0.6);
+          bounds.width = parseInt(displayLength * 0.5);
           bounds.height = parseInt(displayLength * 0.19);
         } else {
           bounds.x = captureBounds.x;
@@ -178,7 +177,7 @@ function getWindowSize(windowName, config) {
         }
 
         if (configModule.getConfig().indexWindow.minSize) {
-          bounds.minWidth = 200;
+          bounds.minWidth = parseInt(displayLength * 0.5);
           bounds.minHeight = 200;
         }
 

@@ -336,16 +336,16 @@ function setDialogChannel() {
 // set capture channel
 function setCaptureChannel() {
   // start recognize
-  ipcMain.on('start-recognize', (event, screenSize, rectangleSize) => {
+  ipcMain.on('start-recognize', (event, captureData) => {
     // get display nearest point
     const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
 
     // find display's index
     const displayIDs = screen.getAllDisplays().map((x) => x.id);
-    const displayIndex = displayIDs.indexOf(display.id);
+    captureData.displayIndex = displayIDs.indexOf(display.id);
 
     // take screenshot
-    imageModule.takeScreenshot(screenSize, rectangleSize, displayIndex);
+    imageModule.takeScreenshot(captureData);
   });
 
   // minimize all windows
@@ -356,8 +356,8 @@ function setCaptureChannel() {
   });
 
   // translate image text
-  ipcMain.on('translate-image-text', (event, text) => {
-    textDetectModule.translateImageText(text);
+  ipcMain.on('translate-image-text', (event, captureData) => {
+    textDetectModule.translateImageText(captureData);
   });
 
   // set google credential

@@ -6,9 +6,6 @@ const { createWorker, PSM } = require('tesseract.js');
 // google vision
 const vision = require('@google-cloud/vision');
 
-// config module
-const configModule = require('./config-module');
-
 // dialog module
 const dialogModule = require('./dialog-module');
 
@@ -28,20 +25,39 @@ const { addTask } = require('../fix/fix-entry');
 const imageDir = fileModule.getRootPath('src', 'data', 'img');
 
 // start reconizing
-function startReconizing(imagePath) {
-  const config = configModule.getConfig();
+async function startReconizing(captureData) {
+  captureData.text = '';
 
-  if (config.captureWindow.type === 'google-vision') {
+  if (captureData.type === 'google-vision') {
     // google vision
-    googleVision(imagePath);
+    captureData.text = await googleVision(captureData);
   } else {
     // tesseract ocr
-    tesseractOCR(imagePath);
+    captureData.text = await tesseractOCR(captureData);
   }
+
+  // check text length
+  if (captureData.text === '') {
+    return;
+  }
+
+  // fix text
+  captureData.text = fixText(captureData);
+
+  // open edit window if edit is true
+  if (captureData.edit) {
+    windowModule.restartWindow('capture-edit', captureData);
+    return;
+  }
+
+  // translate image text
+  translateImageText(captureData);
 }
 
 // google vision
-async function googleVision(imagePath) {
+async function googleVision(captureData) {
+  let text = '';
+
   try {
     const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
 
@@ -52,28 +68,30 @@ async function googleVision(imagePath) {
     const client = new vision.ImageAnnotatorClient({
       keyFilename: keyPath,
     });
-    const [result] = await client.textDetection(imagePath);
+    const [result] = await client.textDetection(captureData.imagePath);
     const detections = result.textAnnotations[0];
 
     if (detections?.description) {
-      fixImageText(detections.description);
+      text = detections.description;
     } else {
       throw result.error;
     }
   } catch (error) {
     console.log(error);
-    dialogModule.addNotification('無法辨識圖片文字: ' + error);
+    dialogModule.addNotification(error);
   }
+
+  return text;
 }
 
 // tesseract ocr
-async function tesseractOCR(imagePath = '') {
-  try {
-    const config = configModule.getConfig();
+async function tesseractOCR(captureData) {
+  let text = '';
 
+  try {
     // set worker
     let worker = null;
-    if (config.translation.from === engineModule.languageEnum.ja) {
+    if (captureData.from === engineModule.languageEnum.ja) {
       worker = await createWorker(['jpn', 'jpn_vert']);
       worker.setParameters({
         tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
@@ -85,36 +103,38 @@ async function tesseractOCR(imagePath = '') {
 
     // recognize text
     const {
-      data: { text },
-    } = await worker.recognize(imagePath);
+      data: { text: imageText },
+    } = await worker.recognize(captureData.imagePath);
 
     // fix or show error
-    if (text.trim().length > 0) {
-      fixImageText(text);
+    if (imageText.trim().length > 0) {
+      text = imageText;
     } else {
-      dialogModule.addNotification('無法辨識圖片文字: 字串長度為0');
+      throw '字串長度為0，請重新擷取';
     }
 
     // terminate worker
     await worker.terminate();
   } catch (error) {
     console.log(error);
-    dialogModule.addNotification('無法辨識圖片文字: ' + error);
+    dialogModule.addNotification(error);
   }
+
+  return text;
 }
 
 // fix image text
-function fixImageText(text) {
-  console.log(text);
+function fixText(captureData) {
+  let text = '';
+  text = captureData.text;
 
-  // get config
-  const config = configModule.getConfig();
+  console.log(text);
 
   // fix new line
   text = text.replaceAll('\n\n', '\n');
 
   // fix jp
-  if (config.translation.from === engineModule.languageEnum.ja) {
+  if (captureData.from === engineModule.languageEnum.ja) {
     text = text
       .replaceAll(' ', '')
       .replaceAll('...', '…')
@@ -135,7 +155,7 @@ function fixImageText(text) {
   }
 
   // fix tesseract
-  if (config.captureWindow.type !== 'google') {
+  if (captureData.type !== 'google-vision') {
     text = text
       .replaceAll('`', '「')
       .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
@@ -149,29 +169,21 @@ function fixImageText(text) {
   // add notification
   dialogModule.addNotification('辨識完成');
 
-  // return if edit is true
-  if (config.captureWindow.edit) {
-    windowModule.restartWindow('capture-edit', text);
-    return;
-  }
-
-  // translate image text
-  translateImageText(text);
+  return text;
 }
 
 // translate image text
-async function translateImageText(text) {
-  const config = configModule.getConfig();
-
+async function translateImageText(captureData) {
   // set string array
   let stringArray = [];
-  if (config.captureWindow.split) {
-    stringArray = text.split('\n');
+
+  if (captureData.split) {
+    stringArray = captureData.text.split('\n');
   } else {
-    if (config.translation.from === engineModule.languageEnum.ja) {
-      stringArray = [text.replaceAll('\n', '')];
+    if (captureData.from === engineModule.languageEnum.ja) {
+      stringArray = [captureData.text.replaceAll('\n', '')];
     } else {
-      stringArray = [text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
+      stringArray = [captureData.text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
     }
   }
 
@@ -180,13 +192,12 @@ async function translateImageText(text) {
 
   // start translate
   for (let index = 0; index < stringArray.length; index++) {
-    const element = stringArray[index];
-    if (element !== '') {
+    const text = stringArray[index];
+    if (text !== '') {
       const dialogData = {
         code: '003D',
         name: '',
-        text: element,
-        translation: config.translation,
+        text: text,
       };
 
       await engineModule.sleep(100);

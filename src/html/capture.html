@@ -27,27 +27,41 @@
   <body>
     <header class="container-fluid p-2">
       <div class="row align-items-center">
+        <!-- drag -->
         <div class="col-auto">
           <img id="img-button-drag" class="img-button" src="./img/ui/open_with_white_48dp.svg" />
         </div>
+
+        <!-- type -->
         <div class="col-auto">
           <select class="form-select" name="" id="select-type">
             <option value="tesseract-ocr"></option>
             <option value="google-vision"></option>
           </select>
         </div>
+
+        <!-- from -->
+        <div class="col-auto">
+          <select class="form-select" name="" id="select-from"></select>
+        </div>
+
+        <!-- split -->
         <div class="col-auto">
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-split" />
             <label class="form-check-label" for="checkbox-split"></label>
           </div>
         </div>
+
+        <!-- edit -->
         <div class="col">
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-edit" />
             <label class="form-check-label" for="checkbox-edit"></label>
           </div>
         </div>
+
+        <!-- close -->
         <div class="col-auto">
           <img id="img-button-close" class="img-button" src="./img/ui/close_white_48dp.svg" />
         </div>

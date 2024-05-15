@@ -20,30 +20,30 @@ const textDetectModule = require('./text-detect-module');
 const windowModule = require('./window-module');
 
 // start recognize
-async function takeScreenshot(screenSize, rectangleSize, displayIndex) {
+async function takeScreenshot(captureData) {
   dialogModule.addNotification('正在擷取螢幕畫面');
 
-  console.log('screen size:', screenSize);
-  console.log('rectangle size:', rectangleSize);
+  console.log('screen size:', captureData.screenSize);
+  console.log('rectangle size:', captureData.rectangleSize);
 
   try {
-    // screenshot path
-    const screenshotPath = getImagePath('screenshot.png');
-
     // get displays
     const displays = await screenshotModule.listDisplays();
+
+    // set screenshot path
+    captureData.screenshotPath = getImagePath('screenshot.png');
 
     // take screenshot
     try {
       await screenshotModule({
-        screen: displays[displayIndex].id,
-        filename: screenshotPath,
+        screen: displays[captureData.displayIndex].id,
+        filename: captureData.screenshotPath,
         format: 'png',
       });
     } catch (error) {
       console.log('error:', error);
       await screenshotModule({
-        filename: screenshotPath,
+        filename: captureData.screenshotPath,
         format: 'png',
       });
     }
@@ -54,7 +54,7 @@ async function takeScreenshot(screenSize, rectangleSize, displayIndex) {
     });
 
     // crop image
-    cropImage(screenSize, rectangleSize, screenshotPath);
+    cropImage(captureData);
   } catch (error) {
     console.log(error);
     dialogModule.addNotification('無法擷取螢幕畫面: ' + error);
@@ -62,32 +62,26 @@ async function takeScreenshot(screenSize, rectangleSize, displayIndex) {
 }
 
 // crop image
-async function cropImage(screenSize, rectangleSize, screenshotPath) {
+async function cropImage(captureData) {
   try {
-    const croppedPath = getImagePath('cropped.png');
+    // set image path
+    captureData.imagePath = getImagePath('cropped.png');
 
     // crop image
-    await sharp(screenshotPath)
-      .resize(screenSize.width, screenSize.height) // resize image to screen size
+    await sharp(captureData.screenshotPath)
+      .resize(captureData.screenSize) // resize image to screen size
       .extract({
-        left: parseInt(rectangleSize.x),
-        top: parseInt(rectangleSize.y),
-        width: parseInt(rectangleSize.width),
-        height: parseInt(rectangleSize.height),
+        left: parseInt(captureData.rectangleSize.x),
+        top: parseInt(captureData.rectangleSize.y),
+        width: parseInt(captureData.rectangleSize.width),
+        height: parseInt(captureData.rectangleSize.height),
       })
       .greyscale()
-      .toFile(croppedPath);
-
-    /*
-    // set image path
-    if (config.captureWindow.type === 'tesseract-ocr') {
-      imagePath = await otsuFix(croppedPath);
-    }
-    */
+      .toFile(captureData.imagePath);
 
     // start reconizing
     dialogModule.addNotification('正在辨識圖片文字');
-    textDetectModule.startReconizing(croppedPath);
+    textDetectModule.startReconizing(captureData);
   } catch (error) {
     console.log(error);
     dialogModule.addNotification('無法擷取螢幕畫面: ' + error);

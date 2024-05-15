@@ -24,8 +24,8 @@ const engineModule = require('./engine-module');
 // fix entry
 const { addTask } = require('../fix/fix-entry');
 
-// image path
-const imagePath = fileModule.getRootPath('src', 'data', 'img');
+// image dir
+const imageDir = fileModule.getRootPath('src', 'data', 'img');
 
 // start reconizing
 function startReconizing(imagePath) {
@@ -197,9 +197,9 @@ async function translateImageText(text) {
 
 // delete images
 function deleteImages() {
-  fileModule.readdir(imagePath).forEach((fileName) => {
+  fileModule.readdir(imageDir).forEach((fileName) => {
     if (fileName.includes('.png')) {
-      fileModule.unlink(fileModule.getPath(imagePath, fileName));
+      fileModule.unlink(fileModule.getPath(imageDir, fileName));
     }
   });
 }

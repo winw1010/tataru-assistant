@@ -237,13 +237,7 @@ function setButton() {
 
   // minimize
   document.getElementById('img-button-minimize').onclick = () => {
-    let config = ipcRenderer.sendSync('get-config');
-
-    if (config.indexWindow.focusable) {
-      ipcRenderer.send('minimize-window');
-    } else {
-      ipcRenderer.send('add-notification', '在不可選取的狀態下無法縮小視窗');
-    }
+    ipcRenderer.send('minimize-window');
   };
 
   // close

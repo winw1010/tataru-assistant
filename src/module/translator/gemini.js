@@ -54,7 +54,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     safetySettings,
   });
 
-  const prompt = createPrompt(source, target, table, type) + '\r\nThe sentence:\r\n' + sentence;
+  const prompt = createPrompt(source, target, table, type) + `\r\nThe ${type}:\r\n` + sentence;
   const response = await model.generateContent(prompt);
 
   console.log('prompt:', prompt);

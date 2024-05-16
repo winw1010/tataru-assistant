@@ -23,8 +23,8 @@ const regKatakanaB = /[ァ-ヺー]$/;
 
 // remove ァィゥェォッャュョヮヵヶ
 const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, '');
-const noKatakanaFront = `(?<![${getKatakanaString()}])`;
-const noKatakanaBack = `(?![${katakanaWithoutSmall}])`;
+const noKatakanaFront = `(?<![${getKatakanaString()}ー])`;
+const noKatakanaBack = `(?![${katakanaWithoutSmall}ー])`;
 
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
 

@@ -170,8 +170,6 @@ function loadConfig() {
       currentConfig.api.gptModel = 'gpt-3.5-turbo';
     } else if (currentConfig.api.gptModel === '4') {
       currentConfig.api.gptModel = 'gpt-4-turbo';
-    } else if (!/gpt-\d+(\.\d+)?(-turbo)?(-preview)?$/i.test(currentConfig.api.gptModel)) {
-      currentConfig.api.gptModel = '';
     }
 
     // set first time off

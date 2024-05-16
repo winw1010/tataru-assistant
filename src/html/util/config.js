@@ -327,8 +327,8 @@ async function readGptModelList() {
 
       selectGptModel.innerHTML = innerHTML;
 
-      if (config.system.gptModel.length > 0) {
-        selectGptModel.value = config.system.gptModel;
+      if (config.api.gptModel !== '') {
+        selectGptModel.value = config.api.gptModel;
       }
     }
   }

@@ -247,7 +247,7 @@ function setButton() {
 
   // auto play
   document.getElementById('img-button-speech').onclick = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.indexWindow.speech = !config.indexWindow.speech;
     ipcRenderer.send('set-config', config);
     ipcRenderer.send('mute-window', config.indexWindow.speech);

@@ -55,7 +55,7 @@ function setEvent() {
   });
 
   document.getElementById('checkbox-replace').oninput = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.translation.replace = document.getElementById('checkbox-replace').checked;
     ipcRenderer.send('set-config', config);
   };

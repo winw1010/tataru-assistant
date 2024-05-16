@@ -51,7 +51,7 @@ function setEvent() {
 
   // checkbox
   document.getElementById('checkbox-split').oninput = () => {
-    let config = ipcRenderer.sendSync('get-config');
+    const config = ipcRenderer.sendSync('get-config');
     config.captureWindow.split = document.getElementById('checkbox-split').checked;
     ipcRenderer.send('set-config', config);
   };

@@ -239,20 +239,20 @@ function readConfig() {
 
 // save config
 function saveConfig() {
-  let config = ipcRenderer.sendSync('get-config');
-  let chatCode = ipcRenderer.sendSync('get-chat-code');
+  const config = ipcRenderer.sendSync('get-config');
+  const chatCode = ipcRenderer.sendSync('get-chat-code');
 
   // save options
   saveOptions(config);
 
   // window backgroundColor
-  let windowColor = document.getElementById('input-background-color').value;
-  let windowTransparent = parseInt(document.getElementById('input-background-transparency').value).toString(16);
+  const windowColor = document.getElementById('input-background-color').value;
+  const windowTransparent = parseInt(document.getElementById('input-background-transparency').value).toString(16);
   config.indexWindow.backgroundColor = windowColor + windowTransparent.padStart(2, '0');
 
   // dialog backgroundColor
-  let dialogColor = document.getElementById('input-dialog-color').value;
-  let dialogTransparent = parseInt(document.getElementById('input-dialog-transparency').value).toString(16);
+  const dialogColor = document.getElementById('input-dialog-color').value;
+  const dialogTransparent = parseInt(document.getElementById('input-dialog-transparency').value).toString(16);
   config.dialog.backgroundColor = dialogColor + dialogTransparent.padStart(2, '0');
 
   // save channel

@@ -238,7 +238,7 @@ function getElementTextList() {
         '#player-name': ['#玩家', '#玩家', '#Player'],
         player: ['玩家名稱', '玩家名称', 'Player'],
         retainer: ['雇員名稱', '雇员名称', 'Retainer'],
-        '#custom-target': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
+        '#custom-target': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Custom'],
         npc: ['NPC名稱', 'NPC名称', 'NPC'],
         title: ['稱呼', '称呼', 'Title'],
         group: ['組織', '组织', 'Group'],
@@ -247,17 +247,17 @@ function getElementTextList() {
         skill: ['技能', '技能', 'Skill'],
         map: ['地名', '地名', 'Map'],
         other: ['其他', '其他', 'Other'],
-        '#custom-overwrite': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite source'],
-        'custom-overwrite': ['自訂整句翻譯', '自订整句翻译', 'Custom overwrite'],
+        '#custom-overwrite': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(full text)'],
+        'custom-overwrite': ['自訂翻譯(整句)', '自订翻译(整句)', 'Custom(full text)'],
         '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'custom-source': ['原文替換', '原文替换', 'Custom source'],
+        'custom-source': ['原文替換', '原文替换', 'Edit source'],
 
         // custom
         'player-name-table': ['#玩家', '#玩家', '#Player'],
         'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
-        'custom-overwrite-table': ['#整句原文->自訂整句翻譯', '#整句原文->自订整句翻译', '#Overwrite source'],
+        'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Custom(full text)'],
         'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'temp-name-table': ['#系統暫存', '#系統暫存', '#Cache'],
+        'temp-name-table': ['#系統暫存', '#系統暫存', '#Temp'],
 
         // read log
         none: ['無', '无', 'None'],

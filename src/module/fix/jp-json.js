@@ -82,7 +82,7 @@ function versionFix() {
     const element = chArray.combine[index][0];
 
     // 1 character words
-    if (/(^[^一-龯]$)/.test(element)) {
+    if (/(^.$)/.test(element)) {
       console.log('Illegal single word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }

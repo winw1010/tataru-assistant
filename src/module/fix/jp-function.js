@@ -80,7 +80,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
     }
   } else {
     // find temp array
-    let temp = findTempArray(text, array);
+    const temp = findTempArray(text, array);
 
     // find match words from temp array
     for (let index = 0; index < temp.length; index++) {

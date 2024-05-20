@@ -13,19 +13,31 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 
+// katakana name
 const regKatakanaName =
   /^[の\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*[ァ-ヺー・＝]+[の？\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]*$/;
 const regAllKatakanaName = /^[ァ-ヺー・＝]+$/;
 
+// katakana front and back
 const regKatakanaFB = /^[ァ-ヺ].*[ァ-ヺー]$/;
 const regKatakanaF = /^[ァ-ヺ]/;
 const regKatakanaB = /[ァ-ヺー]$/;
 
-// remove ァィゥェォッャュョヮヵヶ
-const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, '');
-const noKatakanaFront = `(?<![${getKatakanaString()}ー])`;
-const noKatakanaBack = `(?![${katakanaWithoutSmall}ー])`;
+// no katakana
+const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, ''); // remove ァィゥェォッャュョヮヵヶ
+const regNoKatakanaF = `(?<![${getKatakanaString()}ー])`;
+const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
+// kanji front and back
+const regKanjiFB = /^[一-龯].*[一-龯]$/;
+const regKanjiF = /^[一-龯]/;
+const regKanjiB = /[一-龯]$/;
+
+// no kanji
+const regNoKanjiF = '(?<![一-龯])';
+const regNoKanjiB = '(?![一-龯])';
+
+// kana
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
 
 // jp text function
@@ -81,17 +93,32 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       if (regBrackets.test(name)) {
         matchedWords.push(element);
       } else if (regKatakanaFB.test(name)) {
-        const matchReg = new RegExp(noKatakanaFront + name + noKatakanaBack, 'gi');
+        const matchReg = new RegExp(regNoKatakanaF + name + regNoKatakanaB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
       } else if (regKatakanaF.test(name)) {
-        const matchReg = new RegExp(noKatakanaFront + name, 'gi');
+        const matchReg = new RegExp(regNoKatakanaF + name, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
       } else if (regKatakanaB.test(name)) {
-        const matchReg = new RegExp(name + noKatakanaBack, 'gi');
+        const matchReg = new RegExp(name + regNoKatakanaB, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKanjiFB) {
+        const matchReg = new RegExp(regNoKanjiF + name + regNoKanjiB, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKanjiF) {
+        const matchReg = new RegExp(regNoKanjiF + name, 'gi');
+        if (matchReg.test(text)) {
+          matchedWords.push(element);
+        }
+      } else if (regKanjiB) {
+        const matchReg = new RegExp(name + regNoKanjiB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }

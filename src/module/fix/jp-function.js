@@ -32,6 +32,7 @@ const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
 // kanji front and back
 const regKanjiFB = /^[一-龯].*[一-龯]$/;
+const regKanjiFB2 = /^[一-龯]$/;
 const regKanjiF = /^[一-龯]/;
 const regKanjiB = /[一-龯]$/;
 
@@ -114,17 +115,17 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         }
       }
       // kanji
-      else if (regKanjiFB) {
+      else if (regKanjiFB.test(name) || regKanjiFB2.test(name)) {
         const matchReg = new RegExp(regNoKanjiF + name + regNoKanjiB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else if (regKanjiF) {
+      } else if (regKanjiF.test(name)) {
         const matchReg = new RegExp(regNoKanjiF + name, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else if (regKanjiB) {
+      } else if (regKanjiB.test(name)) {
         const matchReg = new RegExp(name + regNoKanjiB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);

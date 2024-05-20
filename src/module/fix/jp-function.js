@@ -14,7 +14,7 @@ const katakana = getKatakanaString();
 const regBrackets = /「|『|』|」/;
 
 // Kanji: 一-龯
-// Kanji + Chinese: \u3400-\u9FFF
+// Chinese: \u3400-\u9FFF
 
 // katakana name
 const regKatakanaName = /^[一-龯の]*[ァ-ヺー・＝]+[一-龯の？]*$/;

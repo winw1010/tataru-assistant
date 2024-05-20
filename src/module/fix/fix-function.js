@@ -1,6 +1,7 @@
 'use strict';
 
-const regNoRegSymbol = /[.*+?^${}()|[\]\\]/g;
+// reg symbols
+const regRegSymbol = /[.*+?^${}()|[\]\\]/g;
 
 // skip check
 function skipCheck(dialogData, ignoreArray = []) {
@@ -19,7 +20,7 @@ function replaceText(text = '', array = [], useRegExp = false) {
   if (useRegExp) {
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      const element0 = element[0].replace(regNoRegSymbol, '\\$&');
+      const element0 = removeRegSymbol(element[0]);
       const name0 = new RegExp(element0, 'gi');
       const name1 = element[1];
       text = text.replaceAll(name0, name1);
@@ -122,7 +123,7 @@ function includesArrayItem(text = '', array = [], searchIndex = 0, useRegex = fa
 
   if (useRegex) {
     for (let index = 0; index < searchArray.length; index++) {
-      const element = searchArray[index].replace(regNoRegSymbol, '\\$&');
+      const element = removeRegSymbol(searchArray[index]);
       if (new RegExp(element, 'gi').test(text)) {
         text = text.replaceAll(element, '');
         temp.push(array[index]);
@@ -162,7 +163,7 @@ function sameAsArrayItem(text = '', array = [], searchIndex = 0) {
 
   // match
   for (let index = 0; index < searchArray.length; index++) {
-    const element = searchArray[index].replace(regNoRegSymbol, '\\$&');
+    const element = removeRegSymbol(searchArray[index]);
 
     if (new RegExp('^' + element + '$', 'gi').test(text)) {
       target = array[index];
@@ -234,6 +235,11 @@ function valueFixAfter(text = '', valueTable = []) {
   return text;
 }
 
+// remove reg symbol
+function removeRegSymbol(text = '') {
+  return text.replace(regRegSymbol, '\\$&');
+}
+
 // sleep
 function sleep(ms = 1000) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -248,5 +254,6 @@ module.exports = {
   markFix,
   valueFixBefore,
   valueFixAfter,
+  removeRegSymbol,
   sleep,
 };

@@ -59,9 +59,6 @@ function versionFix() {
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
 
-    // remove regex
-    chArray.combine[index][0] = element.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
     // 1 character words
     if (/(^.$)/.test(element)) {
       console.log('Illegal single word:', chArray.combine[index]);

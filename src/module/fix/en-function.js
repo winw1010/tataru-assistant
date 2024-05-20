@@ -49,7 +49,7 @@ function replaceTextByCode(text = '', array = []) {
   // search and replace
   for (let index = 0; index < tempTable.length && codeIndex < codeString.length; index++) {
     const element = tempTable[index];
-    const searchElement = element[srcIndex].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const searchElement = fixFunction.removeRegSymbol(element[srcIndex]);
     const searchElementPlural = getPluralType(searchElement);
     const searchElementAdjective = getAdjectiveType(searchElement);
     let searchReg = null;

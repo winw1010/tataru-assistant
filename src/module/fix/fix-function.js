@@ -8,6 +8,23 @@ function skipCheck(dialogData, ignoreArray = []) {
   return ['0039', '0839'].includes(dialogData.code) && canIgnore(dialogData.text, ignoreArray);
 }
 
+// can ignore
+function canIgnore(text = '', ignoreArray = []) {
+  if (text === '' || !Array.isArray(ignoreArray) || !ignoreArray.length > 0) {
+    return false;
+  }
+
+  for (let index = 0; index < ignoreArray.length; index++) {
+    const element = ignoreArray[index];
+    const regIgnore = new RegExp(element, 'gi');
+    if (regIgnore.test(text)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 // replace text
 function replaceText(text = '', array = [], useRegExp = false) {
   const srcIndex = 0;
@@ -82,23 +99,6 @@ function codeTest(text = '', code = []) {
   text = text.replace(/[IVXLCDMHQ]/gi, '');
 
   return text.trim() === '';
-}
-
-// can ignore
-function canIgnore(text = '', ignoreArray = []) {
-  if (text === '' || !Array.isArray(ignoreArray) || !ignoreArray.length > 0) {
-    return false;
-  }
-
-  for (let index = 0; index < ignoreArray.length; index++) {
-    const element = ignoreArray[index];
-    const regIgnore = new RegExp(element, 'gi');
-    if (regIgnore.test(text)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 // includes array item

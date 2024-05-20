@@ -74,8 +74,7 @@ function load(targetLanguage) {
 function versionFix() {
   // remove list
   const removeList = []
-    .concat(jpArray.jp1, jpArray.jp2)
-    .map((x) => x[0])
+    //.concat(jpArray.jp1, jpArray.jp2).map((x) => x[0])
     .concat(jpArray.listDelete);
 
   // clear combine
@@ -83,9 +82,12 @@ function versionFix() {
   // same word in jp1, jp2 and delete list
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
-    if (/(^.$)/.test(element) || removeList.includes(element)) {
-      console.log('duplicate word:', chArray.combine[index]);
-      //chArray.combine.splice(index, 1);
+    if (/(^[^一-龯]$)/.test(element)) {
+      console.log('Illegal single word:', chArray.combine[index]);
+      chArray.combine.splice(index, 1);
+    } else if (removeList.includes(element)) {
+      console.log('Remove word:', chArray.combine[index]);
+      chArray.combine.splice(index, 1);
     }
   }
 

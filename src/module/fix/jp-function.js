@@ -92,9 +92,12 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       regKatakanaF.lastIndex = 0;
       regKatakanaB.lastIndex = 0;
 
+      // brackets
       if (regBrackets.test(name)) {
         matchedWords.push(element);
-      } else if (regKatakanaFB.test(name)) {
+      }
+      // katakana
+      else if (regKatakanaFB.test(name)) {
         const matchReg = new RegExp(regNoKatakanaF + name + regNoKatakanaB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
@@ -109,7 +112,9 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else if (regKanjiFB) {
+      }
+      // kanji
+      else if (regKanjiFB) {
         const matchReg = new RegExp(regNoKanjiF + name + regNoKanjiB, 'gi');
         if (matchReg.test(text)) {
           matchedWords.push(element);
@@ -124,7 +129,9 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }
-      } else {
+      }
+      // else
+      else {
         if (text.includes(name)) {
           matchedWords.push(element);
         }

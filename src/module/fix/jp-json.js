@@ -78,14 +78,16 @@ function versionFix() {
     .concat(jpArray.listDelete);
 
   // clear combine
-  // 1 word
-  // same word in jp1, jp2 and delete list
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
     const element = chArray.combine[index][0];
+
+    // 1 character words
     if (/(^[^一-龯]$)/.test(element)) {
       console.log('Illegal single word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
-    } else if (removeList.includes(element)) {
+    }
+    // words in delete list
+    else if (removeList.includes(element)) {
       console.log('Remove word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }

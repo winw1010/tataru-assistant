@@ -325,7 +325,7 @@ function resetView(config) {
         hideButton(value.isMouseOut, value.hideButton);
       })
       .catch(console.log);
-  }, 100);
+  }, 500);
 
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 }

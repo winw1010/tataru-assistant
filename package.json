@@ -13,19 +13,19 @@
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^30.0.6",
+    "electron": "^30.0.9",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^4.1.0",
-    "@google/generative-ai": "^0.7.1",
-    "axios": "^1.6.8",
+    "@google-cloud/vision": "^4.3.0",
+    "@google/generative-ai": "^0.12.0",
+    "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "sharp": "^0.33.2",
     "temp": "^0.9.4",
-    "tesseract.js": "^5.0.5"
+    "tesseract.js": "^5.1.0"
   },
   "build": {
     "appId": "com.app.tataru.assistant",

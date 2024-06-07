@@ -29,7 +29,8 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
     }
 
     // translate
-    result = await translate2(text, translation, table, type);
+    //result = await translate2(text, translation, table, type);
+    result = await translate2(text, translation, [], type);
 
     // zh convert
     if (engineModule.aiList.includes(translation.engine)) {

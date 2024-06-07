@@ -60,7 +60,7 @@ async function start(dialogData = {}) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
       if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI(dialogData);
+        translatedText = await fixTextAI2(dialogData);
       } else {
         translatedText = await fixText(dialogData);
       }
@@ -231,6 +231,7 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
+// fix text with AI
 async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
   const text = dialogData.text;
@@ -257,6 +258,41 @@ async function fixTextAI(dialogData = {}) {
     // table
     translatedText = fixFunction.replaceText(text2, codeResult.aiTable, true);
   }
+
+  // after translation
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
+
+  return translatedText;
+}
+
+// fix text with AI 2 (TESTING)
+async function fixTextAI2(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = '';
+
+  if (text === '') {
+    return '';
+  }
+
+  // special fix
+  text2 = specialFix(name, text2);
+
+  // combine
+  const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
+  text2 = codeResult.text;
+
+  // skip check
+  if (enFunction.needTranslation(text2, codeResult.table)) {
+    // translate
+    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+  }
+
+  // table replace
+  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
   translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);

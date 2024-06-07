@@ -67,7 +67,7 @@ async function start(dialogData = {}) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
       if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI(dialogData);
+        translatedText = await fixTextAI2(dialogData);
       } else {
         translatedText = await fixText(dialogData);
       }
@@ -290,7 +290,7 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
-// fix text ai
+// fix text with AI
 async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
   const text = dialogData.text;
@@ -330,6 +330,54 @@ async function fixTextAI(dialogData = {}) {
     // table replace
     translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
   }
+
+  // after translation
+  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
+
+  return translatedText;
+}
+
+// fix text with AI 2 (TESTING)
+async function fixTextAI2(dialogData = {}) {
+  const name = dialogData.name;
+  const text = dialogData.text;
+  const translation = dialogData.translation;
+
+  let text2 = text;
+  let translatedText = text;
+
+  if (text === '') {
+    return '';
+  }
+
+  // get text type
+  const textType = getTextType(name, text, false);
+
+  // reverse text
+  if (textType === textTypeList.reversed) {
+    text2 = jpFunction.reverseKana(text2);
+  }
+
+  // special fix 1
+  text2 = specialFix1(name, text2);
+
+  // combine
+  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
+  text2 = codeResult.text;
+
+  // convert to hira
+  if (textType === textTypeList.allKatakana) {
+    text2 = jpFunction.convertKana(text2, 'hira');
+  }
+
+  // skip check
+  if (jpFunction.needTranslation(text2, codeResult.table)) {
+    // translate
+    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+  }
+
+  // table replcae
+  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
   translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);

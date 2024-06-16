@@ -102,6 +102,7 @@ function codeTest(text = '' /*, code = []*/) {
   */
 
   text = text.replace(/[BCFGJLMNPRSTVWXYZ]/gi, '');
+  text = text.replace(/[A-Z]/g, '');
 
   return !/[A-Z]/i.test(text);
 }

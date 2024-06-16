@@ -88,9 +88,9 @@ function replaceWord(text = '', table = []) {
 
 // code test
 function codeTest(text = '' /*, code = []*/) {
+  /*
   if (text === '') return false;
 
-  /*
   // remove table code from text
   for (let index = 0; index < code.length; index++) {
     text = text.replaceAll(code[index], '');
@@ -98,11 +98,12 @@ function codeTest(text = '' /*, code = []*/) {
 
   // remove Roman numeral and HQ from text
   text = text.replace(/[IVXLCDMHQ]/gi, '');
-  text = text.replace(/[A-Z]/g, '');
   */
 
-  text = text.replace(/[BCFGJLMNPRSTVWXYZ]/gi, '');
-  text = text.replace(/[A-Z]/g, '');
+  text = text.replace(/[BCFGJLMNPRSTVWXYZ]/gi, ''); // Replace code
+  text = text.replace(/[IVXLCDM]/gi, ''); // Roman numeral
+  text = text.replace(/[HQ]/gi, ''); // HQ
+  text = text.replace(/[A-Z]/g, ''); // Uppercase
 
   return !/[A-Z]/i.test(text);
 }

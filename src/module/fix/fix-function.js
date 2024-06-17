@@ -205,6 +205,8 @@ function markFix(text = '', isTranslated = false) {
 
     // fix .
     // text = text.replaceAll(/([^.0-9])\.([^.0-9])/gi, '$1・$2');
+
+    // ["(?<=[^-,.\\w]|^)0(?=[^-,.\\w/%]|$)", "零"]
   }
 
   return text;

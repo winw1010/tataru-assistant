@@ -121,25 +121,14 @@ async function fixName(dialogData = {}) {
   // code result
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
 
-  if (aiList.includes(translation.engine)) {
-    // skip check
-    if (enFunction.needTranslation(name, codeResult.aiTable)) {
-      // translate
-      translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'name');
-    } else {
-      // table
-      translatedName = fixFunction.replaceText(name, codeResult.aiTable, true);
-    }
-  } else {
-    // skip check
-    if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
-      // translate
-      translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
-    }
-
-    // table
-    translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+  // skip check
+  if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
+    // translate
+    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
   }
+
+  // table
+  translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);

@@ -75,7 +75,7 @@ function setEvent() {
   });
 
   // input-gpt-api-key
-  document.getElementById('input-gpt-api-key').onchange = () => {
+  document.getElementById('input-gpt-api-key').oninput = () => {
     readGptModelList();
   };
 }
@@ -310,27 +310,27 @@ function resetApp(config) {
 // read GPT model list
 async function readGptModelList() {
   const apiKey = document.getElementById('input-gpt-api-key').value;
+  const selectGptModel = document.getElementById('select-gpt-model');
 
   if (apiKey.length > 0) {
     const config = ipcRenderer.sendSync('get-config');
     const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
-    const selectGptModel = document.getElementById('select-gpt-model');
 
-    if (array.length > 0) {
-      let innerHTML = '';
+    let innerHTML = '';
 
-      for (let index = 0; index < array.length; index++) {
-        const modelId = array[index];
-        const isDisabled = modelId.includes('#');
-        innerHTML += `<option value="${modelId}" ${isDisabled ? 'disabled' : ''}>${modelId}</option>`;
-      }
-
-      selectGptModel.innerHTML = innerHTML;
-
-      if (config.api.gptModel !== '') {
-        selectGptModel.value = config.api.gptModel;
-      }
+    for (let index = 0; index < array.length; index++) {
+      const modelId = array[index];
+      const isDisabled = modelId.includes('#');
+      innerHTML += `<option value="${modelId}" ${isDisabled ? 'disabled' : ''}>${modelId}</option>`;
     }
+
+    selectGptModel.innerHTML = innerHTML;
+
+    if (config.api.gptModel !== '') {
+      selectGptModel.value = config.api.gptModel;
+    }
+  } else {
+    selectGptModel.innerHTML = '';
   }
 }
 

@@ -120,6 +120,7 @@ async function fixName(dialogData = {}) {
 
   // code result
   const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
+  translatedName = codeResult.text;
 
   // skip check
   if (enFunction.needTranslation(codeResult.text, codeResult.table)) {

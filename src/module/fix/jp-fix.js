@@ -142,6 +142,7 @@ async function fixName(dialogData = {}) {
 
   // get code result
   const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
+  translatedName = codeResult.text;
 
   // skip check
   if (jpFunction.needTranslation(codeResult.text, codeResult.table)) {

@@ -79,32 +79,50 @@ function versionFix() {
 
   // clear combine
   for (let index = chArray.combine.length - 1; index >= 0; index--) {
-    const element = chArray.combine[index][0];
+    const element0 = chArray.combine[index][0];
+    const element1 = chArray.combine[index][1];
 
     // 1 character words
-    if (/(^.$)/.test(element)) {
+    if (/(^.$)/.test(element0)) {
       console.log('Illegal single word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }
     // words in delete list
-    else if (removeList.includes(element)) {
+    else if (removeList.includes(element0)) {
       console.log('Remove word:', chArray.combine[index]);
+      chArray.combine.splice(index, 1);
+    }
+    // blank word
+    else if (element0 === '' || element1 === '') {
+      console.log('blank word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }
   }
 
-  /*
   // clear temp name
-  for (let index = userArray.tempName.length - 1; index >= 0; index--) {
-    const element = userArray.tempName[index][0];
-    if (/(^.$)/.test(element) || removeList.includes(element)) {
+  for (let index = 0; index < userArray.tempName.length; index++) {
+    const element0 = userArray.tempName[index][0];
+    const element1 = userArray.tempName[index][1];
+
+    // 1 character words
+    if (/(^.$)/.test(element0)) {
+      console.log('Illegal single word:', userArray.tempName[index]);
       userArray.tempName.splice(index, 1);
+    }
+    // words in delete list
+    else if (removeList.includes(element0)) {
+      console.log('Remove word:', userArray.tempName[index]);
+      userArray.tempName.splice(index, 1);
+    }
+    // blank word
+    else if (element0 === '' || element1 === '') {
+      console.log('blank word:', userArray.tempName[index]);
+      cuserArray.tempName.splice(index, 1);
     }
   }
 
   // update temp name
   jsonFunction.writeUserText('temp-name.json', userArray.tempName);
-  */
 
   /*
   // jp2

@@ -1,6 +1,6 @@
 {
   "name": "tataru-assistant",
-  "version": "2.6.9",
+  "version": "2.6.10",
   "description": "A translator for FFXIV with word-fixing function.",
   "main": "src/main.js",
   "scripts": {

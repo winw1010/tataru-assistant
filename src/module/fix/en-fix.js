@@ -125,7 +125,7 @@ async function fixName(dialogData = {}) {
   // skip check
   if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table);
+    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table, 'name');
   }
 
   // table

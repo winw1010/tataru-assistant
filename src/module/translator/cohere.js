@@ -20,7 +20,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     {
       preamble: prompt,
       message: sentence,
-      maxTokens: 3000,
+      maxTokens: 4096,
       temperature: 0.7,
       //top_p: 1,
     },

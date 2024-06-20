@@ -94,7 +94,7 @@ function versionFix() {
     }
     // blank word
     else if (element0 === '' || element1 === '') {
-      console.log('blank word:', chArray.combine[index]);
+      //console.log('blank word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }
   }
@@ -116,8 +116,8 @@ function versionFix() {
     }
     // blank word
     else if (element0 === '' || element1 === '') {
-      console.log('blank word:', userArray.tempName[index]);
-      cuserArray.tempName.splice(index, 1);
+      //console.log('blank word:', userArray.tempName[index]);
+      userArray.tempName.splice(index, 1);
     }
   }
 

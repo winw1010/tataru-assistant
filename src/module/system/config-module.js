@@ -157,7 +157,7 @@ function loadConfig() {
     }
 
     // fix text detect
-    if (!['tesseract-ocr', 'google-vision'].includes(currentConfig.captureWindow.type)) {
+    if (!engineModule.visionList.includes(currentConfig.captureWindow.type)) {
       if (currentConfig.captureWindow.type === 'google') {
         currentConfig.captureWindow.type = 'google-vision';
       } else {

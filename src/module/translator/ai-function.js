@@ -30,6 +30,11 @@ function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type 
   return prompt;
 }
 
+function createImagePrompt() {
+  return 'Copy text from this image. Just reply text to me';
+}
+
 module.exports = {
   createPrompt,
+  createImagePrompt,
 };

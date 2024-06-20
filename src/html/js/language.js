@@ -233,6 +233,7 @@ function getElementTextList() {
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
+        'gpt-vision': ['ChatGPT Vision', 'ChatGPT Vision', 'ChatGPT Vision'],
 
         // edit
         '#player-name': ['#玩家', '#玩家', '#Player'],

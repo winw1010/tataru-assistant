@@ -21,6 +21,9 @@ const engineModule = require('./engine-module');
 // fix entry
 const { addTask } = require('../fix/fix-entry');
 
+// gpt module
+const gptModule = require('../translator/gpt');
+
 // image dir
 const imageDir = fileModule.getRootPath('src', 'data', 'img');
 
@@ -28,11 +31,17 @@ const imageDir = fileModule.getRootPath('src', 'data', 'img');
 async function startReconizing(captureData) {
   captureData.text = '';
 
-  if (captureData.type === 'google-vision') {
-    // google vision
+  // gpt vision
+  if (captureData.type === 'gpt-vision') {
+    const imageBase64 = fileModule.read(captureData.imagePath, 'image');
+    captureData.text = await gptModule.getImageText(imageBase64);
+  }
+  // google vision
+  else if (captureData.type === 'google-vision') {
     captureData.text = await googleVision(captureData);
-  } else {
-    // tesseract ocr
+  }
+  // tesseract ocr
+  else {
     captureData.text = await tesseractOCR(captureData);
   }
 

@@ -38,6 +38,9 @@ const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
 // AI list
 const aiList = ['Gemini', 'GPT', 'Cohere'];
 
+// vision list
+const visionList = ['tesseract-ocr', 'google-vision', 'gpt-vision'];
+
 // language enum
 const languageEnum = {
   auto: 'Auto',
@@ -229,6 +232,7 @@ module.exports = {
   engineList,
   changeList,
   aiList,
+  visionList,
 
   languageEnum,
   languageIndex,

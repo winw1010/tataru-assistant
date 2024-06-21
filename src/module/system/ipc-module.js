@@ -303,8 +303,8 @@ function setWindowChannel() {
 // set dialog channel
 function setDialogChannel() {
   // add log
-  ipcMain.on('add-log', (event, dialogData) => {
-    dialogModule.updateDialog(dialogData, false, false);
+  ipcMain.on('add-log', (event, dialogData = {}, scroll = false) => {
+    dialogModule.updateDialog(dialogData, scroll, false);
   });
 
   // add notification

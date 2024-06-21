@@ -388,8 +388,10 @@ function scrollIntoView(id = '') {
 function moveToBottom() {
   setTimeout(() => {
     clearSelection();
-    let div = document.getElementById('div-dialog') || document.scrollingElement || document.body;
-    div.scrollTop = div.scrollHeight;
+    const div = document.getElementById('div-dialog');
+    if (div) {
+      div.scrollTop = div.scrollHeight;
+    }
   }, 200);
 }
 

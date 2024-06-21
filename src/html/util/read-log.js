@@ -103,11 +103,9 @@ function readLog(fileName) {
             translation: logItem.translation,
           };
 
-          ipcRenderer.send('add-log', dialogData);
+          ipcRenderer.send('add-log', dialogData, index === logNames.length - 1);
         }
       }
-
-      ipcRenderer.send('send-index', 'move-to-bottom');
     }
   } catch (error) {
     console.log(error);

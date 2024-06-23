@@ -2,7 +2,7 @@
 
 - [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
 
-- [下載 Tataru Assistant](https://drive.google.com/drive/folders/14zjoUNzZTKgn2mCiAx6YJ14-fsd8M_I_?usp=drive_link)
+- [下載 Tataru Assistant](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
 
 ## 安裝步驟
 

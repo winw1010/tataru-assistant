@@ -50,7 +50,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   if (!currentGemini) currentGemini = createAI();
 
   const model = currentGemini.getGenerativeModel({
-    model: 'gemini-1.5-flash',
+    model: 'gemini-pro',
     safetySettings,
   });
 

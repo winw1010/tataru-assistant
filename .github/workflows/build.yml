@@ -1,0 +1,62 @@
+name: Build and deploy Tataru Assistant
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */2 * * *'
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Execute version check script
+        id: auto-check
+        run: bash .github/workflows/autocheck.sh
+
+      - name: Build and package
+        if: steps.auto-check.outputs.status == 'ready'
+        run: |
+          npm install
+          npm run dist
+          npx electron-builder --win --x64
+
+      - name: Create release
+        id: create_release
+        if: steps.auto-check.outputs.status == 'ready'
+        uses: comnoco/create-release-action@v2
+        env:
+          RELEASE_VERSION: ${{ steps.auto-check.outputs.release_tag }}
+        with:
+          tag_name: v${{ env.RELEASE_VERSION }}
+          release_name: Release v${{ env.RELEASE_VERSION }}
+
+      - name: Upload artifact
+        if: steps.auto-check.outputs.status == 'ready'
+        uses: actions/upload-release-asset@v1
+        env:
+          RELEASE_VERSION: ${{ steps.auto-check.outputs.release_tag }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/Tataru Assistant Setup ${{ steps.auto-check.outputs.release_tag }}.exe
+          asset_name: Tataru_Assistant_Setup.exe
+          asset_content_type: application/octet-stream
+
+  del_runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 6

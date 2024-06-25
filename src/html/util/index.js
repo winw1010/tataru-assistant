@@ -232,7 +232,7 @@ function setButton() {
 
   // update
   document.getElementById('img-button-update').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
+    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe"');
   };
 
   // minimize

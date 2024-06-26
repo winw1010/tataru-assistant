@@ -232,12 +232,18 @@ function setButton() {
 
   // update
   document.getElementById('img-button-update').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe"');
+    ipcRenderer.send(
+      'execute-command',
+      'explorer "https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe"'
+    );
   };
 
   // minimize
   document.getElementById('img-button-minimize').onclick = () => {
-    ipcRenderer.send('minimize-window');
+    const config = ipcRenderer.sendSync('get-config');
+    if (config.indexWindow.focusable) {
+      ipcRenderer.send('minimize-window');
+    }
   };
 
   // close
@@ -298,6 +304,9 @@ function resetView(config) {
 
   // set always on top
   ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
+
+  // set focusable
+  ipcRenderer.send('set-focusable', config.indexWindow.focusable);
 
   // set speech speed
   document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));

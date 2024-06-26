@@ -144,6 +144,7 @@ function getElementTextList() {
       label: {
         // config
         'checkbox-top': ['顯示在最上層', '显示在最上层', 'Always on top'],
+        'checkbox-focusable': ['可被選取', '可被选取', 'Focusable'],
         'checkbox-shortcut': ['啟用快捷鍵', '启用快捷键', 'Shortcut'],
         'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum size limit'],
         'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide buttons automatically'],

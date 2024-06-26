@@ -25,7 +25,7 @@ function createWindow(windowName, data = null) {
     const windowSize = getWindowSize(windowName, config);
 
     // create new window
-    const window = new BrowserWindow({
+    const appWindow = new BrowserWindow({
       ...windowSize,
       show: false,
       frame: false,
@@ -40,27 +40,27 @@ function createWindow(windowName, data = null) {
     });
 
     // load html
-    window.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
+    appWindow.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
 
     // set always on top
-    window.setAlwaysOnTop(true, 'screen-saver');
+    appWindow.setAlwaysOnTop(true, 'screen-saver');
 
     // set minimizable
-    window.setMinimizable(false);
+    appWindow.setMinimizable(false);
 
     // show window
-    window.once('ready-to-show', () => {
-      window.show();
+    appWindow.once('ready-to-show', () => {
+      appWindow.show();
     });
 
     // did-finish-load
-    window.webContents.once('did-finish-load', () => {
+    appWindow.webContents.once('did-finish-load', () => {
       // change language
-      window.webContents.send('change-ui-text');
+      appWindow.webContents.send('change-ui-text');
 
       // send data
       if (data) {
-        window.webContents.send('send-data', data);
+        appWindow.webContents.send('send-data', data);
       }
     });
 
@@ -68,13 +68,13 @@ function createWindow(windowName, data = null) {
     switch (windowName) {
       case 'index':
         // set close event
-        window.once('close', () => {
+        appWindow.once('close', () => {
           // save position
           const config = configModule.getConfig();
-          config.indexWindow.x = window.getPosition()[0];
-          config.indexWindow.y = window.getPosition()[1];
-          config.indexWindow.width = window.getSize()[0];
-          config.indexWindow.height = window.getSize()[1];
+          config.indexWindow.x = appWindow.getPosition()[0];
+          config.indexWindow.y = appWindow.getPosition()[1];
+          config.indexWindow.width = appWindow.getSize()[0];
+          config.indexWindow.height = appWindow.getSize()[1];
           configModule.setConfig(config);
 
           // save config
@@ -87,13 +87,13 @@ function createWindow(windowName, data = null) {
 
       case 'capture':
         // set close event
-        window.once('close', () => {
+        appWindow.once('close', () => {
           // save position
           const config = configModule.getConfig();
-          config.captureWindow.x = window.getPosition()[0];
-          config.captureWindow.y = window.getPosition()[1];
-          config.captureWindow.width = window.getSize()[0];
-          config.captureWindow.height = window.getSize()[1];
+          config.captureWindow.x = appWindow.getPosition()[0];
+          config.captureWindow.y = appWindow.getPosition()[1];
+          config.captureWindow.width = appWindow.getSize()[0];
+          config.captureWindow.height = appWindow.getSize()[1];
           configModule.setConfig(config);
         });
         break;
@@ -106,7 +106,7 @@ function createWindow(windowName, data = null) {
     //window.webContents.openDevTools({ mode: 'detach' });
 
     // save window
-    setWindow(windowName, window);
+    setWindow(windowName, appWindow);
   } catch (error) {
     console.log(error);
   }
@@ -317,6 +317,11 @@ function boundsPositionCheck(bounds) {
   return bounds;
 }
 
+// set focusable
+function setFocusable(value = true) {
+  windowList['index']?.setFocusable(value);
+}
+
 // restart window
 function restartWindow(windowName, data) {
   try {
@@ -327,6 +332,12 @@ function restartWindow(windowName, data) {
   }
 }
 
+// close window
+function closeWindow(windowName) {
+  windowList[windowName].close();
+  windowList[windowName] = null;
+}
+
 // get window
 function getWindow(windowName) {
   return windowList[windowName];
@@ -335,12 +346,6 @@ function getWindow(windowName) {
 // set window
 function setWindow(windowName, myWindow) {
   windowList[windowName] = myWindow;
-}
-
-// close window
-function closeWindow(windowName) {
-  windowList[windowName].close();
-  windowList[windowName] = null;
 }
 
 // send window
@@ -383,13 +388,16 @@ function consoleLog(text) {
 module.exports = {
   createWindow,
   getWindowSize,
+  setFocusable,
   restartWindow,
+  closeWindow,
+
   setWindow,
   getWindow,
-  closeWindow,
   sendWindow,
   sendIndex,
   forEachWindow,
+
   openDevTools,
   consoleLog,
 };

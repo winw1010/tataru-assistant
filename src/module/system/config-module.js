@@ -17,6 +17,7 @@ const defaultConfig = {
     width: -1,
     height: -1,
     alwaysOnTop: true,
+    focusable: true,
     shortcut: true,
     hideButton: true,
     hideDialog: true,

@@ -225,6 +225,11 @@ function setWindowChannel() {
     }
   });
 
+  // focusable
+  ipcMain.on('set-focusable', (event, value = true) => {
+    windowModule.setFocusable(value);
+  });
+
   // set min size
   ipcMain.on('set-min-size', (event, minSize) => {
     if (minSize) {

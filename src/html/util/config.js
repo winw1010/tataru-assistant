@@ -446,6 +446,10 @@ function getOptionList() {
       ['indexWindow', 'alwaysOnTop'],
     ],
     [
+      ['checkbox-focusable', 'checked'],
+      ['indexWindow', 'focusable'],
+    ],
+    [
       ['checkbox-shortcut', 'checked'],
       ['indexWindow', 'shortcut'],
     ],

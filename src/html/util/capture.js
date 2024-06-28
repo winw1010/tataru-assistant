@@ -231,14 +231,9 @@ function createData() {
 // get rectangle size
 function getRectangleSize(startX, startY, endX, endY) {
   return {
-    x: startX > endX ? endX : startX,
-    y: startY > endY ? endY : startY,
-    width: mathAbs(endX - startX),
-    height: mathAbs(endY - startY),
+    x: Math.min(startX, endX),
+    y: Math.min(startY, endY),
+    width: Math.abs(startX - endX),
+    height: Math.abs(startY - endY),
   };
-}
-
-// get abs
-function mathAbs(number) {
-  return number > 0 ? number : -number;
 }

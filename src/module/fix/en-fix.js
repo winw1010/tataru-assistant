@@ -123,9 +123,9 @@ async function fixName(dialogData = {}) {
   translatedName = codeResult.text;
 
   // skip check
-  if (enFunction.needTranslation(codeResult.text, codeResult.table)) {
+  if (enFunction.needTranslation(translatedName, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table, 'name');
+    translatedName = await translateModule.translate(translatedName, translation, codeResult.table, 'name');
   }
 
   // table
@@ -273,12 +273,12 @@ async function fixTextAI2(dialogData = {}) {
 
   // combine
   const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
-  text2 = codeResult.text;
+  translatedText = codeResult.text;
 
   // skip check
-  if (enFunction.needTranslation(text2, codeResult.table)) {
+  if (enFunction.needTranslation(translatedText, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+    translatedText = await translateModule.translate(translatedText, translation, codeResult.table);
   }
 
   // table replace

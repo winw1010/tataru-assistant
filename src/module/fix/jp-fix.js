@@ -145,9 +145,9 @@ async function fixName(dialogData = {}) {
   translatedName = codeResult.text;
 
   // skip check
-  if (jpFunction.needTranslation(codeResult.text, codeResult.table)) {
+  if (jpFunction.needTranslation(translatedName, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(codeResult.text, translation, codeResult.table, 'name');
+    translatedName = await translateModule.translate(translatedName, translation, codeResult.table, 'name');
   }
 
   // table
@@ -353,17 +353,17 @@ async function fixTextAI2(dialogData = {}) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
-  text2 = codeResult.text;
+  translatedText = codeResult.text;
 
   // convert to hira
   if (textType === textTypeList.allKatakana) {
-    text2 = jpFunction.convertKana(text2, 'hira');
+    translatedText = jpFunction.convertKana(translatedText, 'hira');
   }
 
   // skip check
-  if (jpFunction.needTranslation(text2, codeResult.table)) {
+  if (jpFunction.needTranslation(translatedText, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table);
+    translatedText = await translateModule.translate(translatedText, translation, codeResult.table);
   }
 
   // table replcae

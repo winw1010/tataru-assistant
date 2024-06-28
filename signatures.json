@@ -13,35 +13,34 @@
 	{
 		"Key": "PANEL_NAME",
 		"ASMSignature": true,
-		"Value": "488B4708498B5D00498B7728488B3D",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,
 			32,
 			14504,
-			544,
-			192,
-			0
+			560,
+			226
 		]
 	},
 	{
 		"Key": "PANEL_TEXT",
 		"ASMSignature": true,
-		"Value": "488B4708498B5D00498B7728488B3D",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,
 			32,
 			14504,
-			552,
-			192,
+			3664,
+			944,
 			0
 		]
 	},
 	{
 		"Key": "CUTSCENE_TEXT",
 		"ASMSignature": true,
-		"Value": "488B4708498B5D00498B7728488B3D",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,

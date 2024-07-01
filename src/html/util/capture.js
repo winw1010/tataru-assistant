@@ -122,8 +122,9 @@ function setCanvasEvent() {
   // on mouse down
   canvas.onmousedown = (event) => {
     // set mousedown screen position
-    screenMouseDown.x = event.screenX;
-    screenMouseDown.y = event.screenY;
+    const mousePosition = ipcRenderer.sendSync('get-mouse-position');
+    screenMouseDown.x = mousePosition.x;
+    screenMouseDown.y = mousePosition.y;
 
     // set mousedown client position
     clientMouseDown.x = event.clientX;
@@ -135,7 +136,7 @@ function setCanvasEvent() {
     };
 
     // on mouse up
-    canvas.onmouseup = (event) => {
+    canvas.onmouseup = () => {
       // stop drawing
       canvas.onmouseup = null;
       canvas.onmousemove = null;
@@ -144,8 +145,9 @@ function setCanvasEvent() {
       clearRectangle();
 
       // set mouseup screen position
-      screenMouseUp.x = event.screenX;
-      screenMouseUp.y = event.screenY;
+      const mousePosition = ipcRenderer.sendSync('get-mouse-position');
+      screenMouseUp.x = mousePosition.x;
+      screenMouseUp.y = mousePosition.y;
 
       // set capture data
       const captureData = createData();
@@ -157,6 +159,10 @@ function setCanvasEvent() {
         screenMouseUp.x,
         screenMouseUp.y
       );
+
+      // fix position
+      captureData.rectangleSize.x -= captureData.screenSize.x;
+      captureData.rectangleSize.y -= captureData.screenSize.y;
 
       // start recognize
       if (captureData.rectangleSize.width > 0 && captureData.rectangleSize.height > 0) {
@@ -215,10 +221,7 @@ function createData() {
     from: document.getElementById('select-from').value,
     split: document.getElementById('checkbox-split').checked,
     edit: document.getElementById('checkbox-edit').checked,
-    screenSize: {
-      width: window.screen.width,
-      height: window.screen.height,
-    },
+    screenSize: ipcRenderer.sendSync('get-screen-bounds'),
     rectangleSize: {
       x: 0,
       y: 0,

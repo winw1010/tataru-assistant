@@ -340,6 +340,16 @@ function setDialogChannel() {
 
 // set capture channel
 function setCaptureChannel() {
+  // get screen bounds
+  ipcMain.on('get-screen-bounds', (event) => {
+    event.returnValue = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
+  });
+
+  // get mouse position
+  ipcMain.on('get-mouse-position', (event) => {
+    event.returnValue = screen.getCursorScreenPoint();
+  });
+
   // start recognize
   ipcMain.on('start-recognize', (event, captureData) => {
     // get display nearest point

@@ -319,7 +319,7 @@ function editUserCustom(name = '', target = '', item = null) {
   for (let index = array.length - 1; index >= 0; index--) {
     const element = array[index];
 
-    if (target === element[0]) {
+    if (target.replace(/#+$/g, '') === element[0].replace(/#+$/g, '')) {
       isNotFound = false;
 
       if (item) {

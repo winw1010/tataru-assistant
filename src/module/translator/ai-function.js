@@ -16,6 +16,10 @@ function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type 
     prompt += `.`;
   }
 
+  if (source === 'Japanese') {
+    prompt += ` Also, Retain the English letters.`;
+  }
+
   /*
   if (table.length > 0) {
     prompt += ` You are given the following table of translation of ${source} to ${target} terms that you must use every time you encounter one of the ${source} terms from the table in the text to translate:\r\n|${source}|${target}|`;

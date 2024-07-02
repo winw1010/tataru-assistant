@@ -419,9 +419,16 @@ function setRequestChannel() {
         if (response.data.info) {
           dialogModule.showInfo(event.sender, '' + response.data.info);
         }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+    requestModule
+      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant/main/package.json')
+      .then((response) => {
         // compare app version
-        const latestVersion = response.data.number;
+        const latestVersion = response.data.version;
 
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {

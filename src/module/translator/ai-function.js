@@ -16,9 +16,11 @@ function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type 
     prompt += `.`;
   }
 
+  /*
   if (source === 'Japanese') {
     prompt += ` Also, Retain the English letters.`;
   }
+  */
 
   /*
   if (table.length > 0) {

@@ -140,9 +140,9 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
-  // set unofficial api
-  document.getElementById('a-set-unofficial-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-unofficial-api.html');
+  // set LLM API
+  document.getElementById('a-set-llm-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-llm-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -169,12 +169,6 @@ function setButton() {
       }
     };
   }
-
-  // set unofficial api toggle button
-  document.getElementById('p-unoffcia-api').onclick = () => {
-    document.getElementById('div-unoffcia-api').classList.toggle('hide-toggle');
-    document.getElementById('input-unofficial-api-url').scrollIntoView();
-  };
 
   // readme
   document.getElementById('a-readme').onclick = () => {
@@ -421,7 +415,11 @@ function readOptions(config = {}) {
       configValue = valueFunction(configValue);
     }
 
-    document.getElementById(elementId)[elementProperty] = configValue;
+    try {
+      document.getElementById(elementId)[elementProperty] = configValue;
+    } catch (error) {
+      console.log(error);
+    }
   });
 }
 
@@ -433,7 +431,11 @@ function saveOptions(config = {}) {
     const configIndex2 = value[1][1];
 
     if (configIndex2 !== 'backgroundColor') {
-      config[configIndex1][configIndex2] = document.getElementById(elementId)[elementProperty];
+      try {
+        config[configIndex1][configIndex2] = document.getElementById(elementId)[elementProperty];
+      } catch (error) {
+        console.log(error);
+      }
     }
   });
 }
@@ -604,14 +606,18 @@ function getOptionList() {
       ['api', 'gptModel'],
     ],
 
-    // unofficial api
+    // LLM API
     [
-      ['checkbox-unofficial-api', 'checked'],
-      ['api', 'unofficialApi'],
+      ['input-llm-api-url', 'value'],
+      ['api', 'llmApiUrl'],
     ],
     [
-      ['input-unofficial-api-url', 'value'],
-      ['api', 'unofficialApiUrl'],
+      ['input-llm-api-key', 'value'],
+      ['api', 'llmApiKey'],
+    ],
+    [
+      ['input-llm-model', 'value'],
+      ['api', 'llmApiModel'],
     ],
 
     // system

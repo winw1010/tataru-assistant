@@ -93,7 +93,7 @@ function getElementTextList() {
         'a-set-gemini-api': ['說明', '说明', 'Guide'],
         'a-set-cohere-api': ['說明', '说明', 'Guide'],
         'a-set-gpt-api': ['說明', '说明', 'Guide'],
-        'a-set-unofficial-api': ['說明', '说明', 'Guide'],
+        'a-set-llm-api': ['說明', '说明', 'Guide'],
 
         'a-readme': ['使用說明書', '使用说明书', 'Readme'],
         'a-bug-report': ['問題回報', '问题回报', 'Bug report'],
@@ -171,12 +171,15 @@ function getElementTextList() {
         'select-to': ['翻譯語言', '翻译语言', 'Target lang'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
+
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
+
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
         'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT model'],
 
-        'checkbox-unofficial-api': ['使用反向代理API', '使用反向代理API', 'Enable unoffcial API'],
-        'input-unofficial-api-url': ['反向代理API網址', '反向代理API地址', 'Unoffcial API URL'],
+        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
+        'input-llm-model': ['模型', '模型', 'Model'],
+        'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 
         'select-app-language': ['語言', '语言', 'Language'],
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
@@ -225,6 +228,7 @@ function getElementTextList() {
         GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
+        'LLM-API': ['LLM API', 'LLM API', 'LLM API'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
@@ -269,6 +273,7 @@ function getElementTextList() {
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
+        'p-llm-api': ['LLM API設定', 'LLM API设定', 'LLM API'],
         'p-unoffcia-api': [
           '若您的位置無法使用ChatGPT，請點此設定反向代理',
           '若您的位置无法使用ChatGPT，请点此设定反向代理',
@@ -316,9 +321,13 @@ function getElementTextList() {
     placeholder: {
       input: {
         // config
-        'input-gemini-api-key': ['請輸入API key', '请输入API金钥', 'API key'],
-        'input-cohere-token': ['請輸入API key', '请输入API金钥', 'API key'],
-        'input-gpt-api-key': ['請輸入API key', '请输入API金钥', 'API key'],
+        'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
+        'input-cohere-token': ['API key', 'API金钥', 'API key'],
+        'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
+        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
+
+        'input-llm-model': ['LLM Model', 'LLM Model', 'LLM Model'],
+        'input-llm-api-url': ['LLM API URL', 'LLM API URL', 'LLM API URL'],
 
         // custom
         'input-Keyword': ['關鍵字', '关键字', 'Keyword'],

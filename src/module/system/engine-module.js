@@ -30,13 +30,14 @@ const engineList = [
   'Gemini',
   'GPT',
   'Cohere',
+  'LLM-API',
 ];
 
 // change list
 const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
 
 // AI list
-const aiList = ['Gemini', 'GPT', 'Cohere'];
+const aiList = ['Gemini', 'GPT', 'Cohere', 'LLM-API'];
 
 // vision list
 const visionList = ['tesseract-ocr', 'google-vision', 'gpt-vision'];

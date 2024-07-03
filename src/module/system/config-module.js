@@ -68,8 +68,9 @@ const defaultConfig = {
     cohereToken: '',
     gptApiKey: '',
     gptModel: '',
-    unofficialApi: false,
-    unofficialApiUrl: 'https://api.openai.com/v1',
+    llmApiUrl: '',
+    llmApiKey: '',
+    llmApiModel: '',
   },
   system: {
     firstTime: true,
@@ -95,6 +96,10 @@ function loadConfig() {
       throw 'Incorrect config type';
     }
 
+    // fix config 1
+    fixConfig1(currentConfig);
+
+    // fix options
     const mainNames = Object.getOwnPropertyNames(defaultConfig);
     mainNames.forEach((mainName) => {
       if (
@@ -132,46 +137,8 @@ function loadConfig() {
       }
     });
 
-    // fix engine
-    if (!engineModule.engineList.includes(currentConfig.translation.engine)) {
-      currentConfig.translation.engine = defaultConfig.translation.engine;
-    }
-
-    // fix source
-    if (!engineModule.sourceList.includes(currentConfig.translation.from)) {
-      currentConfig.translation.from = defaultConfig.translation.from;
-    }
-
-    // fix player
-    if (!engineModule.sourceList.includes(currentConfig.translation.fromPlayer)) {
-      currentConfig.translation.fromPlayer = defaultConfig.translation.fromPlayer;
-    }
-
-    // fix target
-    if (!engineModule.targetList.includes(currentConfig.translation.to)) {
-      currentConfig.translation.to = defaultConfig.translation.to;
-    }
-
-    // fix app language
-    if (!engineModule.uiList.includes(currentConfig.system.appLanguage)) {
-      currentConfig.system.appLanguage = defaultConfig.system.appLanguage;
-    }
-
-    // fix text detect
-    if (!engineModule.visionList.includes(currentConfig.captureWindow.type)) {
-      if (currentConfig.captureWindow.type === 'google') {
-        currentConfig.captureWindow.type = 'google-vision';
-      } else {
-        currentConfig.captureWindow.type = 'tesseract-ocr';
-      }
-    }
-
-    // fix GPT model
-    if (currentConfig.api.gptModel === '3') {
-      currentConfig.api.gptModel = 'gpt-3.5-turbo';
-    } else if (currentConfig.api.gptModel === '4') {
-      currentConfig.api.gptModel = 'gpt-4-turbo';
-    }
+    // fix config 2
+    fixConfig2(currentConfig);
 
     // set first time off
     currentConfig.system.firstTime = false;
@@ -223,6 +190,74 @@ function setSSLCertificate() {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
   } else {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+  }
+}
+
+// fix config 1
+function fixConfig1(config) {
+  try {
+    // fix custom API
+    if (config?.api?.unofficialApi) {
+      // set LLM API
+      config.translation.engine = 'LLM-API';
+      config.api.llmApiUrl = config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions';
+      config.api.llmApiKey = config.api.gptApiKey;
+      config.api.llmApiModel = config.api.gptModel;
+
+      // reset GPT
+      config.api.gptApiKey = '';
+      config.api.gptModel = '';
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// fix config 2
+function fixConfig2(config) {
+  try {
+    // fix engine
+    if (!engineModule.engineList.includes(config.translation.engine)) {
+      config.translation.engine = defaultConfig.translation.engine;
+    }
+
+    // fix source
+    if (!engineModule.sourceList.includes(config.translation.from)) {
+      config.translation.from = defaultConfig.translation.from;
+    }
+
+    // fix player
+    if (!engineModule.sourceList.includes(config.translation.fromPlayer)) {
+      config.translation.fromPlayer = defaultConfig.translation.fromPlayer;
+    }
+
+    // fix target
+    if (!engineModule.targetList.includes(config.translation.to)) {
+      config.translation.to = defaultConfig.translation.to;
+    }
+
+    // fix app language
+    if (!engineModule.uiList.includes(config.system.appLanguage)) {
+      config.system.appLanguage = defaultConfig.system.appLanguage;
+    }
+
+    // fix text detect
+    if (!engineModule.visionList.includes(config.captureWindow.type)) {
+      if (config.captureWindow.type === 'google') {
+        config.captureWindow.type = 'google-vision';
+      } else {
+        config.captureWindow.type = 'tesseract-ocr';
+      }
+    }
+
+    // fix GPT model
+    if (config.api.gptModel === '3') {
+      config.api.gptModel = 'gpt-3.5-turbo';
+    } else if (config.api.gptModel === '4') {
+      config.api.gptModel = 'gpt-4-turbo';
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 

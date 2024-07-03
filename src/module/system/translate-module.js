@@ -11,6 +11,7 @@ const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 //const google = require('../translator/google');
 const gpt = require('../translator/gpt');
+const llmApi = require('../translator/llm-api');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
 const zhConverter = require('../translator/zh-convert');
@@ -99,6 +100,10 @@ async function getTranslation(engine = '', option = {}, table = [], type = 'sent
 
       case 'GPT':
         text = await gpt.exec(option, table, type);
+        break;
+
+      case 'LLM-API':
+        text = await llmApi.exec(option, table, type);
         break;
 
       case 'Cohere':

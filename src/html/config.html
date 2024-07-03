@@ -372,7 +372,6 @@
       <!-- api page -->
       <div id="div-api" class="config-page" hidden>
         <!-- set google vision -->
-
         <div class="row">
           <div class="col-auto">
             <p id="p-google-vision"></p>
@@ -493,39 +492,58 @@
           </div>
         </div>
 
+        <hr />
+
+        <!-- set LLM API -->
+        <div class="row">
+          <div class="col-auto">
+            <p id="p-llm-api"></p>
+          </div>
+
+          <div class="col-auto">
+            <a href="#" id="a-set-llm-api"></a>
+          </div>
+        </div>
+
+        <p id="p-ssl-warning" class="text-warning"></p>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-llm-api-url"></label>
+          </div>
+          <div class="col-auto">
+            <input class="form-control" type="text" name="" id="input-llm-api-url" />
+          </div>
+        </div>
+
         <br />
 
-        <p id="p-unoffcia-api" class="text-warning"></p>
-
-        <div class="hide-toggle" id="div-unoffcia-api">
-          <p id="p-ssl-warning" class="text-warning"></p>
-
-          <div class="row">
-            <div class="col-auto">
-              <a href="#" id="a-set-unofficial-api"></a>
-            </div>
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-llm-api-key"></label>
           </div>
-
-          <br />
-
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-unofficial-api" />
-                <label class="form-check-label" for="checkbox-unofficial-api"></label>
-              </div>
-            </div>
+          <div class="col-auto">
+            <img
+              class="img-fluid img-visibility"
+              src="./img/ui/visibility_off_white_48dp.svg"
+              alt=""
+              style="width: 1.5rem"
+              id="img-visibility-llm-api-key"
+            />
           </div>
+          <div class="col-auto">
+            <input type="password" class="form-control" name="" id="input-llm-api-key" />
+          </div>
+        </div>
 
-          <br />
+        <br />
 
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <label for="input-unofficial-api-url"></label>
-            </div>
-            <div class="col">
-              <input class="form-control" type="text" name="" id="input-unofficial-api-url" />
-            </div>
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-llm-model"></label>
+          </div>
+          <div class="col-auto">
+            <input class="form-control" type="text" name="" id="input-llm-model" />
           </div>
         </div>
       </div>

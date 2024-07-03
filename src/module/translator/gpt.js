@@ -20,10 +20,7 @@ async function exec(option, table = [], type = 'sentence') {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   const config = configModule.getConfig();
   const prompt = aiFunction.createPrompt(source, target, table, type);
-  const apiUrl = config.api.unofficialApi
-    ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions'
-    : 'https://api.openai.com/v1/chat/completions';
-
+  const apiUrl = 'https://api.openai.com/v1/chat/completions';
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${config.api.gptApiKey}`,
@@ -62,10 +59,7 @@ async function getImageText(imageBase64 = '') {
 
   try {
     const config = configModule.getConfig();
-    const apiUrl = config.api.unofficialApi
-      ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions'
-      : 'https://api.openai.com/v1/chat/completions';
-
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${config.api.gptApiKey}`,
@@ -103,11 +97,7 @@ async function getImageText(imageBase64 = '') {
 // get model list
 async function getModelList(apiKey = null) {
   try {
-    const config = configModule.getConfig();
-    const apiUrl = config.api.unofficialApi
-      ? config.api.unofficialApiUrl.replace(/\/$/, '') + '/models'
-      : 'https://api.openai.com/v1/models';
-
+    const apiUrl = 'https://api.openai.com/v1/models';
     const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
 
     let list = response.data.data.map((x) => x.id);

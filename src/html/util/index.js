@@ -9,6 +9,9 @@ let clickThrough = false;
 // mouse out check interval
 let mouseOutCheckInterval = null;
 
+// hide update button
+let hideUpdateButton = true;
+
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -35,7 +38,7 @@ function setIPC() {
 
   // hide update button
   ipcRenderer.on('hide-update-button', (event, isHidden) => {
-    document.getElementById('img-button-update').hidden = isHidden;
+    hideUpdateButton = isHidden;
   });
 
   // add audio
@@ -422,6 +425,9 @@ function hideButton(isMouseOut, hideButton) {
     document.querySelectorAll('.img-hidden').forEach((value) => {
       document.getElementById(value.id).hidden = false;
     });
+
+    // update button
+    document.getElementById('img-button-update').hidden = hideUpdateButton;
 
     // show dialog
     ipcRenderer.send('show-dialog');

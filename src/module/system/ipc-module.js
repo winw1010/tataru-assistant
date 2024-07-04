@@ -436,7 +436,7 @@ function setRequestChannel() {
             notificationText = '已安裝最新版本';
           } else {
             windowModule.sendIndex('hide-update-button', false);
-            notificationText = `已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})`;
+            notificationText = `<span class="text-warning">已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})</span>`;
           }
         } else {
           throw '無法取得版本資料';

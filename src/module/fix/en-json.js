@@ -17,8 +17,8 @@ const userArray = {};
 
 // load
 function load(targetLanguage) {
-  const srcIndex = languageIndex[languageEnum.en];
-  const rplIndex = languageIndex[targetLanguage];
+  const srcIndex = languageIndex[languageEnum.en] || -1;
+  const rplIndex = languageIndex[targetLanguage] || -1;
   const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
   // user array

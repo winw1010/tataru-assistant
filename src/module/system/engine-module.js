@@ -1,22 +1,22 @@
 'use strict';
 
 // all list
-const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'];
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian'];
 
 // source list
 const sourceList = ['Japanese', 'English'];
 
 // target list
-const targetList = ['Traditional-Chinese', 'Simplified-Chinese'];
+const targetList = allLanguageList;
 
 // fix source list
 const fixSourceList = ['Japanese', 'English'];
 
 // fix target list
-const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
+const fixTargetList = allLanguageList;
 
 // ui list
-const uiList = ['Traditional-Chinese', 'Simplified-Chinese'];
+const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];
 
 // engine list
 const engineList = [
@@ -68,6 +68,8 @@ const engineTable = {
     Chinese: 'zh',
     'Traditional-Chinese': 'zh',
     'Simplified-Chinese': 'zh',
+    Korean: 'kor',
+    Russian: 'ru',
   },
   Caiyun: {
     Auto: 'auto',
@@ -76,6 +78,8 @@ const engineTable = {
     Chinese: 'zh',
     'Traditional-Chinese': 'zh',
     'Simplified-Chinese': 'zh',
+    Korean: 'ko',
+    Russian: 'ru',
   },
   Youdao: {
     Auto: 'auto',
@@ -84,6 +88,8 @@ const engineTable = {
     Chinese: 'zh-CHS',
     'Traditional-Chinese': 'zh-CHS',
     'Simplified-Chinese': 'zh-CHS',
+    Korean: 'ko',
+    Russian: 'ru',
   },
   Tencent: {
     Auto: 'auto',
@@ -92,6 +98,8 @@ const engineTable = {
     Chinese: 'zh',
     'Traditional-Chinese': 'zh',
     'Simplified-Chinese': 'zh',
+    Korean: 'ko',
+    Russian: 'ru',
   },
   Papago: {
     Auto: 'detect',
@@ -100,6 +108,8 @@ const engineTable = {
     Chinese: 'zh-CN',
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN',
+    Korean: 'ko',
+    Russian: 'ru',
   },
   DeepL: {
     Auto: 'auto',
@@ -108,6 +118,8 @@ const engineTable = {
     Chinese: 'ZH',
     'Traditional-Chinese': 'ZH',
     'Simplified-Chinese': 'ZH',
+    Korean: 'KO',
+    Russian: 'RU',
   },
   Google: {
     Auto: 'auto',
@@ -116,6 +128,8 @@ const engineTable = {
     Chinese: 'zh-CN',
     'Traditional-Chinese': 'zh-CN',
     'Simplified-Chinese': 'zh-CN',
+    Korean: 'ko',
+    Russian: 'ru',
   },
   Gemini: {
     Auto: 'any languages',
@@ -124,6 +138,8 @@ const engineTable = {
     Chinese: 'Chinese',
     'Traditional-Chinese': 'Chinese',
     'Simplified-Chinese': 'Chinese',
+    Korean: 'Korean',
+    Russian: 'Russian',
   },
   GPT: {
     Auto: 'any languages',
@@ -132,6 +148,8 @@ const engineTable = {
     Chinese: 'Chinese',
     'Traditional-Chinese': 'Chinese',
     'Simplified-Chinese': 'Chinese',
+    Korean: 'Korean',
+    Russian: 'Russian',
   },
   Cohere: {
     Auto: 'any languages',
@@ -140,6 +158,18 @@ const engineTable = {
     Chinese: 'Chinese',
     'Traditional-Chinese': 'Chinese',
     'Simplified-Chinese': 'Chinese',
+    Korean: 'Korean',
+    Russian: 'Russian',
+  },
+  'LLM-API': {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+    Korean: 'Korean',
+    Russian: 'Russian',
   },
 };
 

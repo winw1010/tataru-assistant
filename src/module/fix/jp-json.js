@@ -17,8 +17,8 @@ const userArray = {};
 
 // load
 function load(targetLanguage) {
-  const srcIndex = languageIndex[languageEnum.ja];
-  const rplIndex = languageIndex[targetLanguage];
+  const srcIndex = languageIndex[languageEnum.ja] || -1;
+  const rplIndex = languageIndex[targetLanguage] || -1;
   const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
   // user array
@@ -27,7 +27,13 @@ function load(targetLanguage) {
   // ch
   chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
   chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
-  chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1);
+  chArray.chName = jsonFunction.readText(
+    jsonFunction.getTextPath('ch', 'jp-ch-name.json'),
+    true,
+    true,
+    srcIndex,
+    rplIndex - 1
+  );
 
   // jp
   jpArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleJP());

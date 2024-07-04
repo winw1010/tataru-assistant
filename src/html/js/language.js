@@ -76,7 +76,7 @@ function getTextIndex(language) {
       break;
 
     default:
-      //index = 2;
+      index = 2;
       break;
   }
 
@@ -104,7 +104,7 @@ function getElementTextList() {
       },
       button: {
         // config
-        'button-save-config': ['儲存變更', '储存变更', 'Save changes'],
+        'button-save-config': ['儲存變更', '储存变更', 'Save'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
@@ -156,19 +156,19 @@ function getElementTextList() {
 
         'select-font-weight': ['文字粗細', '文字粗细', 'Font weight'],
         'input-font-size': ['文字大小(rem)', '文字大小(rem)', 'Font size(rem)'],
-        'input-dialog-spacing': ['對話框間隔(rem)', '对话框间隔(rem)', 'Spacing(rem)'],
-        'input-dialog-radius': ['對話框圓角(rem)', '对话框圆角(rem)', 'Radius(rem)'],
-        'input-dialog-color': ['對話框顏色', '对话框颜色', 'Color'],
-        'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Transparency'],
+        'input-dialog-spacing': ['對話框間隔(rem)', '对话框间隔(rem)', 'Dialog Spacing(rem)'],
+        'input-dialog-radius': ['對話框圓角(rem)', '对话框圆角(rem)', 'Dialog Radius(rem)'],
+        'input-dialog-color': ['對話框顏色', '对话框颜色', 'Dialog Color'],
+        'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Dialog Transparency'],
 
         'checkbox-auto-change': ['翻譯失敗時切換翻譯方式', '翻译失败时切换翻译方式', 'Change method automatically'],
         'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix translation'],
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore system message'],
         'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore chinese text'],
         'select-engine': ['翻譯方式', '翻译方式', 'Method'],
-        'select-from': ['遊戲語言', '游戏语言', 'Game lang'],
-        'select-from-player': ['隊伍頻道', '队伍频道', 'Party lang'],
-        'select-to': ['翻譯語言', '翻译语言', 'Target lang'],
+        'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
+        'select-from-player': ['隊伍頻道', '队伍频道', 'Party Language'],
+        'select-to': ['翻譯語言', '翻译语言', 'Target Language'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
 
@@ -228,12 +228,15 @@ function getElementTextList() {
         GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
-        'LLM-API': ['LLM API', 'LLM API', 'LLM API'],
+        'LLM-API': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
 
         Japanese: ['日文', '日文', 'Japanese'],
         English: ['英文', '英文', 'English'],
         'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],
         'Simplified-Chinese': ['簡體中文', '简体中文', 'Simplified Chinese'],
+
+        Korean: ['韓文', '韩文', 'Korean'],
+        Russian: ['俄文', '俄文', 'Russian'],
 
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
@@ -260,10 +263,10 @@ function getElementTextList() {
 
         // custom
         'player-name-table': ['#玩家', '#玩家', '#Player'],
-        'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Target'],
-        'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Custom(full text)'],
+        'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Custom'],
+        'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(full text)'],
         'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'temp-name-table': ['#系統暫存', '#系統暫存', '#Temp'],
+        'temp-name-table': ['#系統暫存', '#系統暫存', '#System Cache'],
 
         // read log
         none: ['無', '无', 'None'],
@@ -273,7 +276,7 @@ function getElementTextList() {
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
-        'p-llm-api': ['LLM API設定', 'LLM API设定', 'LLM API'],
+        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
         'p-unoffcia-api': [
           '若您的位置無法使用ChatGPT，請點此設定反向代理',
           '若您的位置无法使用ChatGPT，请点此设定反向代理',

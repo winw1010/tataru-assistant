@@ -3,6 +3,9 @@
 // electron
 const { ipcRenderer } = require('electron');
 
+// all list
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian'];
+
 // log path
 const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
 
@@ -168,7 +171,7 @@ function readLog(id = '') {
       if (targetLog?.translation?.from) {
         document.getElementById('select-from').value = fixLogValue(
           targetLog.translation.from,
-          ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+          allLanguageList,
           config.translation.from
         );
       }
@@ -177,7 +180,7 @@ function readLog(id = '') {
       if (targetLog?.translation?.to) {
         document.getElementById('select-to').value = fixLogValue(
           targetLog.translation.to,
-          ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese'],
+          allLanguageList,
           config.translation.to
         );
       }

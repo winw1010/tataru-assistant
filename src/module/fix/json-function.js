@@ -24,6 +24,10 @@ function getUserTextPath(...args) {
 
 // read text
 function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 1) {
+  if (srcIndex === -1 || rplIndex === -1) {
+    return [];
+  }
+
   try {
     let array = [];
     let data = fileModule.read(path, 'json');
@@ -31,6 +35,7 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     if (Array.isArray(data)) {
       array = data;
     } else {
+      fileModule.write(path, '[]');
       throw path + ' is not an array.';
     }
 
@@ -63,7 +68,6 @@ function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 
     return array;
   } catch (error) {
     console.log(error);
-    fileModule.write(path, '[]');
     return [];
   }
 }
@@ -188,14 +192,14 @@ function clearArray(array = []) {
     // 2d
     for (let index = array.length - 1; index >= 0; index--) {
       const element = array[index];
-      const text = element[0];
-      const translatedText = element[1];
+      const element0 = element[0];
+      const element1 = element[1];
 
       if (
-        typeof text === 'undefined' ||
-        typeof translatedText === 'undefined' ||
-        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(text) ||
-        /(\/\/comment)|(^N\/A$)/gi.test(translatedText)
+        typeof element0 === 'undefined' ||
+        typeof element1 === 'undefined' ||
+        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element0) ||
+        /(\/\/comment)|(^N\/A$)/gi.test(element1)
       ) {
         array.splice(index, 1);
       }

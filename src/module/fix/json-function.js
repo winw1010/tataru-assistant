@@ -24,7 +24,7 @@ function getUserTextPath(...args) {
 
 // read text
 function readText(path = '', sort = true, map = false, srcIndex = 0, rplIndex = 1) {
-  if (typeof srcIndex === 'undefined' || typeof rplIndex === 'undefined') {
+  if (srcIndex === -1 || rplIndex === -1) {
     return [];
   }
 

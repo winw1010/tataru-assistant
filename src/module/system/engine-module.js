@@ -57,6 +57,8 @@ const languageIndex = {
   English: 1,
   'Traditional-Chinese': 2,
   'Simplified-Chinese': 3,
+  Korean: -1,
+  Russian: -1,
 };
 
 // engine table

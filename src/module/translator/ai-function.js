@@ -3,7 +3,7 @@
 function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
   // `I want you to act as an expert translator.
   //let prompt = `You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
-  let prompt = `Translate the following ${type} from ${source} to ${target}. Just reply ${target} to me.`;
+  let prompt = `Translate the following ${type} from ${source} to ${target}. Translation only.`;
 
   if (table.length > 0) {
     prompt += ` Also`;
@@ -37,7 +37,7 @@ function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type 
 }
 
 function createImagePrompt() {
-  return 'Copy text from this image. Just reply text to me';
+  return 'Copy text from this image. Result only';
 }
 
 module.exports = {

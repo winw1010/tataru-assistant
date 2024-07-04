@@ -240,10 +240,14 @@ function setButton() {
 
   // minimize
   document.getElementById('img-button-minimize').onclick = () => {
+    /*
     const config = ipcRenderer.sendSync('get-config');
     if (config.indexWindow.focusable) {
       ipcRenderer.send('minimize-window');
     }
+    */
+
+    ipcRenderer.send('minimize-window');
   };
 
   // close

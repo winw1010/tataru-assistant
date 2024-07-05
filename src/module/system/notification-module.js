@@ -46,7 +46,7 @@ function getMessage(text = '', languageTo = '') {
       break;
 
     case 'Simplified-Chinese':
-      languageIndex = 0;
+      languageIndex = 1;
       break;
 
     default:

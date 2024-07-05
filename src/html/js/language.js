@@ -195,8 +195,8 @@ function getElementTextList() {
 
         // edit
         'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace'],
-        'textarea-before': ['原文', '原文', 'Before'],
-        'textarea-after': ['取代為', '取代为', 'After'],
+        'textarea-before': ['原文', '原文', 'Original text'],
+        'textarea-after': ['取代為', '取代为', 'Replace with'],
         'select-type': ['類別', '类别', 'type'],
 
         // dictionary
@@ -301,7 +301,7 @@ function getElementTextList() {
         'span-title-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
         'span-title-edit': ['重新翻譯', '重新翻译', 'Translate again'],
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'View chat logs'],
-        'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom word'],
+        'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
 
         // config
         'span-channel-comment': [
@@ -316,8 +316,8 @@ function getElementTextList() {
         ],
       },
       th: {
-        'th-custom-before': ['替換前', '替换前', 'Before'],
-        'th-custom-after': ['替換後', '替换后', 'After'],
+        'th-custom-before': ['原文', '原文', 'Original text'],
+        'th-custom-after': ['取代為', '取代为', 'Replace with'],
         'th-custom-type': ['類別', '类别', 'Type'],
         'th-custom-edit': ['編輯', '编辑', 'Edit'],
       },
@@ -344,8 +344,8 @@ function getElementTextList() {
         'textarea-original-text': ['Text', 'Text', 'Text'],
 
         // edit
-        'textarea-before': ['原文', '原文', 'Before'],
-        'textarea-after': ['取代為', '取代为', 'After'],
+        'textarea-before': ['原文', '原文', 'Original text'],
+        'textarea-after': ['取代為', '取代为', 'Replace with'],
       },
     },
     title: {

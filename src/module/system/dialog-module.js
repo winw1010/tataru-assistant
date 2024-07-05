@@ -12,11 +12,11 @@ const configModule = require('./config-module');
 // file module
 const fileModule = require('./file-module');
 
+// notification module
+const notificationModule = require('./notification-module');
+
 // google tts
 const googleTTS = require('../translator/google-tts');
-
-// translate module
-const translateModule = require('./translate-module');
 
 // window module
 const windowModule = require('./window-module');
@@ -50,14 +50,14 @@ function updateDialog(dialogData = {}, scroll = true, save = true) {
 }
 
 // add notification
-function addNotification(text) {
+function addNotification(text = '') {
   const config = configModule.getConfig();
   const timestamp = new Date().getTime();
   const id = 'sid' + timestamp;
   const code = 'FFFF';
 
-  // zh convert
-  text = translateModule.zhConvert(text, config.system.appLanguage);
+  // get message
+  text = notificationModule.getMessage(text, config.system.appLanguage);
 
   // add
   windowModule.sendIndex('add-notification', id, code, text, getStyle('FFFF'));

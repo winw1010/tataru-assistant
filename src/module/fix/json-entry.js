@@ -72,12 +72,12 @@ function downloadJSON() {
 
         if (tempTableStream.errored) {
           console.log('Download Failed: ' + tempTableStream.errored.message);
-          dialogModule.addNotification('對照表下載失敗: ' + tempTableStream.errored.message);
+          dialogModule.addNotification(tempTableStream.errored.message);
         } else {
           deleteTable();
           await decompress(tempTablePath, tablePath, { strip: 1 });
           fileModule.unlink(tempTablePath);
-          dialogModule.addNotification('對照表下載完畢');
+          dialogModule.addNotification('DOWNLOAD_COMPLETED');
         }
 
         loadJSON();
@@ -85,7 +85,7 @@ function downloadJSON() {
     })
     .on('error', (e) => {
       console.error(e);
-      dialogModule.addNotification('對照表下載失敗: ' + e.message);
+      dialogModule.addNotification(e.message);
       loadJSON();
     });
 }
@@ -106,7 +106,7 @@ function loadJSON() {
   const targetLanguage = config.translation.to;
   enJson.load(targetLanguage);
   jpJson.load(targetLanguage);
-  dialogModule.addNotification('對照表讀取完畢');
+  dialogModule.addNotification('LOAD_COMPLETED');
   fixEntry.setRunning(true);
 
   // start sharlayan reader

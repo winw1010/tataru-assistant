@@ -66,9 +66,9 @@ function setButton() {
 
     if (textBefore.length > 1) {
       ipcRenderer.send('save-user-custom', textBefore, textAfter, type);
-      ipcRenderer.send('add-notification', '已儲存自訂翻譯');
+      ipcRenderer.send('add-notification', 'WORD_SAVED');
     } else {
-      ipcRenderer.send('add-notification', '原文字數不足');
+      ipcRenderer.send('add-notification', 'LENGTH_TOO_SHORT');
     }
   };
 
@@ -79,9 +79,9 @@ function setButton() {
 
     if (textBefore.length > 1) {
       ipcRenderer.send('delete-user-custom', textBefore, type);
-      ipcRenderer.send('add-notification', '已刪除自訂翻譯');
+      ipcRenderer.send('add-notification', 'WORD_DELETED');
     } else {
-      ipcRenderer.send('add-notification', '原文字數不足');
+      ipcRenderer.send('add-notification', 'LENGTH_TOO_SHORT');
     }
   };
 

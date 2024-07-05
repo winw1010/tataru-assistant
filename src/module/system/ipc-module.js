@@ -63,9 +63,6 @@ const gpt = require('../translator/gpt');
 // app version
 const appVersion = app.getVersion();
 
-// update button
-const updateButton = '<img src="./img/ui/download_white_48dp.svg" style="width: 1.5rem; height: 1.5rem;">';
-
 // No kanji
 const regNoKanji = /^[^\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF]+$/;
 
@@ -313,7 +310,7 @@ function setDialogChannel() {
   });
 
   // add notification
-  ipcMain.on('add-notification', (event, text) => {
+  ipcMain.on('add-notification', (event, text = '') => {
     dialogModule.addNotification(text);
   });
 
@@ -388,9 +385,9 @@ function setCaptureChannel() {
 
           if (data) {
             fileModule.write(fileModule.getUserDataPath('config', 'google-credential.json'), data, 'json');
-            dialogModule.addNotification('已儲存Google憑證');
+            dialogModule.addNotification('GOOGLE_CREDENTIAL_SAVED');
           } else {
-            dialogModule.addNotification('檔案格式不正確');
+            dialogModule.addNotification('INCORRECT_FILE');
           }
         }
       })
@@ -402,8 +399,7 @@ function setCaptureChannel() {
 function setRequestChannel() {
   // version check
   ipcMain.on('version-check', (event) => {
-    let notificationText = '';
-
+    // download request settings
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
       .then((response) => {
@@ -424,6 +420,7 @@ function setRequestChannel() {
         console.log(error);
       });
 
+    // download version data
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant/main/package.json')
       .then((response) => {
@@ -433,23 +430,18 @@ function setRequestChannel() {
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {
             windowModule.sendIndex('hide-update-button', true);
-            notificationText = '已安裝最新版本';
           } else {
             windowModule.sendIndex('hide-update-button', false);
-            notificationText = `<span class="text-warning">已有可用的更新<br />請點選上方的${updateButton}按鈕下載最新版本<br />(目前版本: v${appVersion}，最新版本: v${latestVersion})</span>`;
+            dialogModule.addNotification('UPDATE_AVAILABLE');
           }
         } else {
-          throw '無法取得版本資料';
+          throw 'VERSION_CHECK_ERRORED';
         }
       })
       .catch((error) => {
         console.log(error);
         windowModule.sendIndex('hide-update-button', false);
-        notificationText = '版本檢查失敗: ' + error;
-      })
-      .finally(() => {
-        // show message
-        dialogModule.addNotification(notificationText);
+        dialogModule.addNotification(error);
       });
   });
 

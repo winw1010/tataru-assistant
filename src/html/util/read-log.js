@@ -79,7 +79,7 @@ function readLogList() {
 
 function readLog(fileName) {
   if (fileName === 'none') {
-    ipcRenderer.send('add-notification', '檔案不存在');
+    ipcRenderer.send('add-notification', 'FILE_NOT_FOUND');
     return;
   }
 
@@ -111,6 +111,6 @@ function readLog(fileName) {
     }
   } catch (error) {
     console.log(error);
-    ipcRenderer.send('add-notification', '無法讀取檔案');
+    ipcRenderer.send('add-notification', 'UNABLE_TO_READ_THE_FILE');
   }
 }

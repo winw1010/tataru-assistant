@@ -265,7 +265,7 @@ function saveConfig() {
   readConfig();
 
   // add notification
-  ipcRenderer.send('add-notification', '設定已儲存');
+  ipcRenderer.send('add-notification', 'SETTINGS_SAVED');
 }
 
 // save default config
@@ -283,7 +283,7 @@ function saveDefaultConfig() {
   readConfig();
 
   // add notification
-  ipcRenderer.send('add-notification', '已恢復預設值');
+  ipcRenderer.send('add-notification', 'RESTORED_TO_DEFAULT_SETTINGS');
 }
 
 // reset app

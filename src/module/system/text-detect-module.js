@@ -69,11 +69,6 @@ async function googleVision(captureData) {
 
   try {
     const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
-
-    if (!fileModule.exists(keyPath)) {
-      throw '尚未設定Google憑證，請先至【設定】>【API設定】輸入憑證';
-    }
-
     const client = new vision.ImageAnnotatorClient({
       keyFilename: keyPath,
     });
@@ -116,11 +111,7 @@ async function tesseractOCR(captureData) {
     } = await worker.recognize(captureData.imagePath);
 
     // fix or show error
-    if (imageText.trim().length > 0) {
-      text = imageText;
-    } else {
-      throw '字串長度為0，請重新擷取';
-    }
+    text = imageText;
 
     // terminate worker
     await worker.terminate();
@@ -176,7 +167,7 @@ function fixText(captureData) {
   }
 
   // add notification
-  dialogModule.addNotification('辨識完成');
+  dialogModule.addNotification('RECOGNITION_COMPLETED');
 
   return text;
 }

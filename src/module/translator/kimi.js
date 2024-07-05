@@ -29,17 +29,9 @@ const prompt_history_mgr = {
     reset: function (customizedKimiPrompt, source, target, table, type) {
         this.source = source;
         this.target = target;
-        if (!customizedKimiPrompt) {
-            console.log("Use default prompt");
-            this.prompt_history = [
-                {"role": "system", "content": createPrompt(source, target, table, type)},
-            ];
-        } else {
-            console.log("Use customized prompt");
-            this.prompt_history = [
-                {"role": "system", "content": customizedKimiPrompt},
-            ];
-        }
+        this.prompt_history = [
+            {"role": "system", "content": createPrompt(source, target, table, type, customizedKimiPrompt)},
+        ];
     },
 
     should_reset: function (source, target) {

@@ -588,6 +588,8 @@ function setTranslateChannel() {
         if (config.api.gptApiKey === '' || config.api.gptModel === '') message = '請至【API設定】輸入API key和模型';
       } else if (engine === 'Cohere') {
         if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
+      } else if (engine === "Kimi") {
+        if (config.api.kimiToken === '') message = '請至【API設定】輸入API key';
       } else if (engine === 'google-vision') {
         const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
         if (!fileModule.exists(keyPath)) {

@@ -38,6 +38,7 @@ const engineList = [
   'Gemini',
   'GPT',
   'Cohere',
+  'Kimi',
   'LLM-API',
 ];
 
@@ -45,7 +46,7 @@ const engineList = [
 const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
 
 // AI list
-const aiList = ['Gemini', 'GPT', 'Cohere', 'LLM-API'];
+const aiList = ['Gemini', 'GPT', 'Cohere', 'Kimi', 'LLM-API'];
 
 // vision list
 const visionList = ['tesseract-ocr', 'google-vision', 'gpt-vision'];
@@ -172,6 +173,17 @@ const engineTable = {
     Italian: 'Italian',
   },
   Cohere: {
+    Auto: 'any languages',
+    Japanese: 'Japanese',
+    English: 'English',
+    Chinese: 'Chinese',
+    'Traditional-Chinese': 'Chinese',
+    'Simplified-Chinese': 'Chinese',
+    Korean: 'Korean',
+    Russian: 'Russian',
+    Italian: 'Italian',
+  },
+  Kimi: {
     Auto: 'any languages',
     Japanese: 'Japanese',
     English: 'English',

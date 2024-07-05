@@ -602,6 +602,14 @@ function getOptionList() {
       ['api', 'gptApiKey'],
     ],
     [
+      ['input-kimi-token', 'value'],
+      ['api', 'kimiToken'],
+    ],
+    [
+      ['customized-kimi-prompt', 'value'],
+      ['api', 'customizedKimiPrompt'],
+    ],
+    [
       ['select-gpt-model', 'value'],
       ['api', 'gptModel'],
     ],

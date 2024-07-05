@@ -40,6 +40,7 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
     response = await axios.post(url, data, { headers: clearHeaders(headers), timeout });
     console.log('Response data:', response.data);
   } catch (error) {
+    console.log(error);
     throw 'Request error: POST ' + url;
   }
 

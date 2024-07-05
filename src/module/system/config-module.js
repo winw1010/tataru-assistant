@@ -66,6 +66,8 @@ const defaultConfig = {
   api: {
     geminiApiKey: '',
     cohereToken: '',
+    kimiToken: '',
+    customizedKimiPrompt: '',
     gptApiKey: '',
     gptModel: '',
     llmApiUrl: '',

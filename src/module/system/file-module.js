@@ -63,7 +63,7 @@ function copyData() {
     const tempList = [];
 
     const configPath = getPath(newPath, 'config', 'config.json');
-    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'gptModel', 'UnofficialApi', 'unofficialApiUrl'];
+    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'kimiToken', 'customizedKimiPrompt','gptModel', 'UnofficialApi', 'unofficialApiUrl'];
 
     // copy files
     fs.cpSync(oldPath, newPath, { recursive: true });

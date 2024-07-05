@@ -14,8 +14,8 @@ const message = {
   ],
   VERSION_CHECK_ERRORED: ['無法取得版本資訊', '无法取得版本资讯', 'Failed to get version file'],
 
-  DOWNLOAD_COMPLETED: ['對照表下載完畢', '对照表下载完毕', 'Download completed'],
-  LOAD_COMPLETED: ['對照表讀取完畢', '对照表读取完毕', 'Load completed'],
+  DOWNLOAD_COMPLETED: ['對照表下載完畢', '对照表下载完毕', 'NO_MESSAGE'],
+  LOAD_COMPLETED: ['對照表讀取完畢', '对照表读取完毕', 'NO_MESSAGE'],
 
   SETTINGS_SAVED: ['設定已儲存', '设定已储存', 'Settings saved'],
   RESTORED_TO_DEFAULT_SETTINGS: ['已恢復預設值', '已恢復预设值', 'Restored to default settings'],

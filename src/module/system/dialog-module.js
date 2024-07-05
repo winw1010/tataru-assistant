@@ -58,6 +58,7 @@ function addNotification(text = '') {
 
   // get message
   text = notificationModule.getMessage(text, config.system.appLanguage);
+  if (text === 'NO_MESSAGE') return;
 
   // add
   windowModule.sendIndex('add-notification', id, code, text, getStyle('FFFF'));

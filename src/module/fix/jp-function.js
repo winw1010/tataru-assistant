@@ -17,7 +17,7 @@ const regBrackets = /「|『|』|」/;
 // Chinese: \u3400-\u9FFF
 
 // katakana name
-const regKatakanaName = /^[一-龯]*[ァ-ヺー・＝]+[一-龯？]*$/;
+const regKatakanaName = /^[ 一-龯]*[ァ-ヺー・＝]+[ 一-龯？]*$/;
 const regAllKatakanaName = /^[ァ-ヺー・＝]+$/;
 
 // katakana front and back

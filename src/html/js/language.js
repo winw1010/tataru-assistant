@@ -355,7 +355,7 @@ function getElementTextList() {
         'img-button-config': ['設定', '设定', 'Config'],
         'img-button-capture': ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
         'img-button-through': ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
-        'img-button-update': ['下載最新版本', '下载最新版本', 'Download Latest Version'],
+        'img-button-update': ['下載最新版本', '下载最新版本', 'Download the latest version'],
         'img-button-minimize': ['縮小', '缩小', 'Minimize'],
         'img-button-close': ['關閉', '关闭', 'Close'],
 

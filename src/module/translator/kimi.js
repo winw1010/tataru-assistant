@@ -10,20 +10,20 @@ const maxTokens = 4096;
 
 const maxHistory = 8;
 
-const prompt_history_mgr = {
+const promptHistoryMgr = {
     soruce: '',
     target: '',
-    prompt_history: [],
+    promptHistory: [],
 
-    add: function(prompt_content) {
-        this.prompt_history.push({"role": "user", "content": prompt_content});
-        if (this.prompt_history.length > maxHistory) {
-            this.prompt_history.splice(1, 1);
+    add: function(promptContent) {
+        this.promptHistory.push({"role": "user", "content": promptContent});
+        if (this.promptHistory.length > maxHistory) {
+            this.promptHistory.splice(1, 1);
         }
     },
 
     get: function() {
-        return this.prompt_history;
+        return this.promptHistory;
     },
 
     reset: function (customizedKimiPrompt, source, target, table, type) {
@@ -48,16 +48,16 @@ async function exec(option, table = [], type = 'sentence') {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
     const config = configModule.getConfig();
     // const prompt = createPrompt(source, target, table, type);
-    if (prompt_history_mgr.should_reset(source, target)) {
-        prompt_history_mgr.reset(config.api.customizedKimiPrompt, source, target, table, type);
+    if (promptHistoryMgr.should_reset(source, target)) {
+        promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target, table, type);
     }
 
-    prompt_history_mgr.add(sentence);
+    promptHistoryMgr.add(sentence);
 
     const response = await requestModule.post(
         'https://api.moonshot.cn/v1/chat/completions',
         {
-          messages: prompt_history_mgr.get(),
+          messages: promptHistoryMgr.get(),
           model: 'moonshot-v1-8k',
           maxTokens: maxTokens,
           temperature: 0.3,
@@ -68,7 +68,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
         }
       );
     
-    console.log('prompt_history_mgr', prompt_history_mgr.get());
+    console.log('prompt_history_mgr', promptHistoryMgr.get());
 
     return response?.data?.choices[0]?.message?.content;
 }

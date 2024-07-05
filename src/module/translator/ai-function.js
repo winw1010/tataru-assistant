@@ -1,11 +1,11 @@
 'use strict';
 
-function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type = 'sentence', default_prompt = '') {
+function createPrompt(source = 'Japanese', target = 'Chinese', table = [], type = 'sentence', defaultPrompt = '') {
   // `I want you to act as an expert translator.
   //let prompt = `You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
   let prompt;
-  if (default_prompt) {
-    prompt = default_prompt;
+  if (defaultPrompt) {
+    prompt = defaultPrompt;
   } else {
     prompt = `Translate the following ${type} from ${source} to ${target}. Translation only.`;
   }

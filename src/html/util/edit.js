@@ -3,8 +3,16 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// all list
-const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian'];
+// all language list
+const allLanguageList = [
+  'Japanese',
+  'English',
+  'Traditional-Chinese',
+  'Simplified-Chinese',
+  'Korean',
+  'Russian',
+  'Italian',
+];
 
 // log path
 const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');

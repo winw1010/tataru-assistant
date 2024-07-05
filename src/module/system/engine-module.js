@@ -1,7 +1,15 @@
 'use strict';
 
-// all list
-const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian'];
+// all language list
+const allLanguageList = [
+  'Japanese',
+  'English',
+  'Traditional-Chinese',
+  'Simplified-Chinese',
+  'Korean',
+  'Russian',
+  'Italian',
+];
 
 // source list
 const sourceList = ['Japanese', 'English'];
@@ -59,6 +67,7 @@ const languageIndex = {
   'Simplified-Chinese': 3,
   Korean: -1,
   Russian: -1,
+  Italian: -1,
 };
 
 // engine table
@@ -72,6 +81,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh',
     Korean: 'kor',
     Russian: 'ru',
+    Italian: 'it',
   },
   Caiyun: {
     Auto: 'auto',
@@ -82,6 +92,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh',
     Korean: 'ko',
     Russian: 'ru',
+    Italian: 'it',
   },
   Youdao: {
     Auto: 'auto',
@@ -92,6 +103,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh-CHS',
     Korean: 'ko',
     Russian: 'ru',
+    Italian: 'it',
   },
   Tencent: {
     Auto: 'auto',
@@ -102,6 +114,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh',
     Korean: 'ko',
     Russian: 'ru',
+    Italian: 'it',
   },
   Papago: {
     Auto: 'detect',
@@ -112,6 +125,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh-CN',
     Korean: 'ko',
     Russian: 'ru',
+    Italian: 'it',
   },
   DeepL: {
     Auto: 'auto',
@@ -122,6 +136,7 @@ const engineTable = {
     'Simplified-Chinese': 'ZH',
     Korean: 'KO',
     Russian: 'RU',
+    Italian: 'IT',
   },
   Google: {
     Auto: 'auto',
@@ -132,6 +147,7 @@ const engineTable = {
     'Simplified-Chinese': 'zh-CN',
     Korean: 'ko',
     Russian: 'ru',
+    Italian: 'it',
   },
   Gemini: {
     Auto: 'any languages',
@@ -142,6 +158,7 @@ const engineTable = {
     'Simplified-Chinese': 'Chinese',
     Korean: 'Korean',
     Russian: 'Russian',
+    Italian: 'Italian',
   },
   GPT: {
     Auto: 'any languages',
@@ -152,6 +169,7 @@ const engineTable = {
     'Simplified-Chinese': 'Chinese',
     Korean: 'Korean',
     Russian: 'Russian',
+    Italian: 'Italian',
   },
   Cohere: {
     Auto: 'any languages',
@@ -162,6 +180,7 @@ const engineTable = {
     'Simplified-Chinese': 'Chinese',
     Korean: 'Korean',
     Russian: 'Russian',
+    Italian: 'Italian',
   },
   'LLM-API': {
     Auto: 'any languages',
@@ -172,6 +191,7 @@ const engineTable = {
     'Simplified-Chinese': 'Chinese',
     Korean: 'Korean',
     Russian: 'Russian',
+    Italian: 'Italian',
   },
 };
 

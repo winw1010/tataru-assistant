@@ -230,13 +230,14 @@ function getElementTextList() {
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
         'LLM-API': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
 
-        Japanese: ['日文', '日文', 'Japanese'],
-        English: ['英文', '英文', 'English'],
+        Japanese: ['日文', '日语', 'Japanese'],
+        English: ['英文', '英语', 'English'],
         'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],
         'Simplified-Chinese': ['簡體中文', '简体中文', 'Simplified Chinese'],
 
-        Korean: ['韓文', '韩文', 'Korean'],
-        Russian: ['俄文', '俄文', 'Russian'],
+        Korean: ['韓文', '韩語', 'Korean'],
+        Russian: ['俄文', '俄语', 'Russian'],
+        Italian: ['義大利文', '意大利语', 'Italian'],
 
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],

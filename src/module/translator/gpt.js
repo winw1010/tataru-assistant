@@ -31,11 +31,11 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     messages: [
       {
         role: 'system',
-        content: prompt,
+        content: 'You are a professional translator.',
       },
       {
         role: 'user',
-        content: sentence,
+        content: prompt + `\r\nThe ${type}:\r\n` + sentence,
       },
     ],
     max_tokens: maxTokens,

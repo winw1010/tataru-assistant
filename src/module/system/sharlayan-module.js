@@ -171,11 +171,7 @@ function stop(restart = true) {
 // fix text
 function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
-    dialogData.text = dialogData.text
-      .replaceAll(/^#/gi, '')
-      .replaceAll(')*', '')
-      .replaceAll('%&', '')
-      .replaceAll('「+,', '「');
+    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
   }
   return dialogData;
 }

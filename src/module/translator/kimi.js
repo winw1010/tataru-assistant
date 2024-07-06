@@ -15,8 +15,15 @@ const promptHistoryMgr = {
     target: '',
     promptHistory: [],
 
-    add: function(promptContent) {
+    addUser: function(promptContent) {
         this.promptHistory.push({"role": "user", "content": promptContent});
+        if (this.promptHistory.length > maxHistory) {
+            this.promptHistory.splice(1, 1);
+        }
+    },
+
+    addAssistant: function(promptResponse) {
+        this.promptHistory.push(promptResponse);
         if (this.promptHistory.length > maxHistory) {
             this.promptHistory.splice(1, 1);
         }
@@ -52,7 +59,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
         promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target, table, type);
     }
 
-    promptHistoryMgr.add(sentence);
+    promptHistoryMgr.addUser(sentence);
 
     const response = await requestModule.post(
         'https://api.moonshot.cn/v1/chat/completions',
@@ -69,6 +76,11 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
       );
     
     console.log('prompt_history_mgr', promptHistoryMgr.get());
+
+    const respContent = response?.data?.choices[0]?.message;
+    if (respContent) {
+        promptHistoryMgr.addAssistant(respContent);
+    }
 
     return response?.data?.choices[0]?.message?.content;
 }

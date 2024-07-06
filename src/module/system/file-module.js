@@ -63,7 +63,7 @@ function copyData() {
     const tempList = [];
 
     const configPath = getPath(newPath, 'config', 'config.json');
-    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'kimiToken', 'customizedKimiPrompt','gptModel', 'UnofficialApi', 'unofficialApiUrl'];
+    const configList = ['geminiApiKey', 'cohereToken', 'gptApiKey', 'gptModel'];
 
     // copy files
     fs.cpSync(oldPath, newPath, { recursive: true });
@@ -103,11 +103,7 @@ function copyData() {
       const value = config?.system?.[name];
 
       if (typeof value !== 'undefined') {
-        if (name === 'UnofficialApi') {
-          config.api['unofficialApi'] = value;
-        } else {
           config.api[name] = value;
-        }
       }
     }
     write(configPath, config, 'json');

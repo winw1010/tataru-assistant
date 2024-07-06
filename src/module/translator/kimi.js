@@ -36,7 +36,7 @@ const promptHistoryMgr = {
     reset: function (customizedKimiPrompt, source, target, table, type) {
         this.source = source;
         this.target = target;
-        this.prompt_history = [
+        this.promptHistory = [
             {"role": "system", "content": createPrompt(source, target, table, type, customizedKimiPrompt)},
         ];
     },

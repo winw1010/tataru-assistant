@@ -18,8 +18,8 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
   const response = await requestModule.post(
     'https://api.cohere.ai/v1/chat',
     {
-      preamble: prompt,
-      message: sentence,
+      preamble: 'You are a professional translator.',
+      message: prompt + `\r\nThe ${type}:\r\n` + sentence,
       maxTokens: 4096,
       temperature: 0.7,
       //top_p: 1,

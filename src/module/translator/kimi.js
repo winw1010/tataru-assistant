@@ -13,6 +13,7 @@ const maxHistory = 5*2+1; // 5 pairs of user and assistant, plus the initial pro
 const promptHistoryMgr = {
     soruce: '',
     target: '',
+    promptContent: '',
     promptHistory: [],
 
     addUser: function(promptContent) {
@@ -36,13 +37,14 @@ const promptHistoryMgr = {
     reset: function (customizedKimiPrompt, source, target, table, type) {
         this.source = source;
         this.target = target;
+        this.promptContent = customizedKimiPrompt;
         this.promptHistory = [
             {"role": "system", "content": createPrompt(source, target, table, type, customizedKimiPrompt)},
         ];
     },
 
-    should_reset: function (source, target) {
-        return source !== this.source || target !== this.target;
+    shouldReset: function (source, target, promptContent) {
+        return source !== this.source || target !== this.target || this.promptContent !== promptContent;
     }
 };
 
@@ -55,7 +57,7 @@ async function exec(option, table = [], type = 'sentence') {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
     const config = configModule.getConfig();
     // const prompt = createPrompt(source, target, table, type);
-    if (promptHistoryMgr.should_reset(source, target)) {
+    if (promptHistoryMgr.shouldReset(source, target, config.api.customizedKimiPrompt)) {
         promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target, table, type);
     }
 

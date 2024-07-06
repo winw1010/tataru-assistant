@@ -8,7 +8,7 @@ const configModule = require('../system/config-module');
 
 const maxTokens = 4096;
 
-const maxHistory = 8;
+const maxHistory = 5*2+1; // 5 pairs of user and assistant, plus the initial prompt
 
 const promptHistoryMgr = {
     soruce: '',
@@ -75,8 +75,6 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
         }
       );
     
-    console.log('prompt_history_mgr', promptHistoryMgr.get());
-
     const respContent = response?.data?.choices[0]?.message;
     if (respContent) {
         promptHistoryMgr.addAssistant(respContent);

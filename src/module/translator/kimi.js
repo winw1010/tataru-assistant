@@ -8,7 +8,7 @@ const configModule = require('../system/config-module');
 
 const maxTokens = 4096;
 
-const maxHistory = 5*2+1; // 5 pairs of user and assistant, plus the initial prompt
+const maxHistory = 10*2+1; // 5 pairs of user and assistant, plus the initial prompt
 
 const promptHistoryMgr = {
     soruce: '',
@@ -34,12 +34,12 @@ const promptHistoryMgr = {
         return this.promptHistory;
     },
 
-    reset: function (customizedKimiPrompt, source, target, table, type) {
+    reset: function (customizedKimiPrompt, source, target) {
         this.source = source;
         this.target = target;
         this.promptContent = customizedKimiPrompt;
         this.promptHistory = [
-            {"role": "system", "content": createPrompt(source, target, table, type, customizedKimiPrompt)},
+            {"role": "system", "content": createPrompt(source, target, customizedKimiPrompt)},
         ];
     },
 
@@ -54,11 +54,11 @@ async function exec(option, table = [], type = 'sentence') {
     return response;
 }
 
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
+async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
     const config = configModule.getConfig();
     // const prompt = createPrompt(source, target, table, type);
     if (promptHistoryMgr.shouldReset(source, target, config.api.customizedKimiPrompt)) {
-        promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target, table, type);
+        promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target);
     }
 
     promptHistoryMgr.addUser(sentence);
@@ -85,8 +85,8 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     return response?.data?.choices[0]?.message?.content;
 }
   
-  // module exports
-  module.exports = {
+// module exports
+module.exports = {
     exec,
-  };
+};
   

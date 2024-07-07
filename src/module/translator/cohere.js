@@ -20,7 +20,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
       preamble: aiFunction.createSystemContent(source, target),
       message: text,
       maxTokens: 4096,
-      temperature: 0.7,
+      temperature: 0.3,
       //top_p: 1,
     },
     {

@@ -9,15 +9,14 @@ const configModule = require('../system/config-module');
 const maxTokens = 4096;
 
 // exec
-async function exec(option, table = [], type = 'sentence') {
-  const response = translate(option.text, option.from, option.to, table, type);
+async function exec(option) {
+  const response = translate(option.text, option.from, option.to);
   return response;
 }
 
 // translate
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
+async function translate(text = '', source = 'Japanese', target = 'Chinese') {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createPrompt(source, target, table, type);
   const apiUrl = config.api.llmApiUrl;
   const headers = {
     'Content-Type': 'application/json',
@@ -29,11 +28,11 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     messages: [
       {
         role: 'system',
-        content: 'You are a professional translator.',
+        content: aiFunction.createSystemContent(source, target),
       },
       {
         role: 'user',
-        content: prompt + `\r\nThe ${type}:\r\n` + sentence,
+        content: text,
       },
     ],
     max_tokens: maxTokens,
@@ -43,7 +42,6 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
 
   const response = await requestModule.post(apiUrl, payload, headers);
 
-  console.log('prompt:', prompt);
   console.log('Total Tokens:', response?.data?.usage?.total_tokens);
 
   return response.data.choices[0].message.content;

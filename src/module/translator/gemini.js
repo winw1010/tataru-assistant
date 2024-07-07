@@ -2,7 +2,7 @@
 
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 
-const { createPrompt } = require('./ai-function');
+const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
@@ -28,9 +28,9 @@ const safetySettings = [
 let currentGemini = null;
 
 // exec
-async function exec(option, table = [], type = 'sentence') {
+async function exec(option) {
   try {
-    const response = translate(option.text, option.from, option.to, table, type);
+    const response = translate(option.text, option.from, option.to);
     return response;
   } catch (error) {
     currentGemini = null;
@@ -46,8 +46,9 @@ function createAI() {
 }
 
 // translate
-async function translate(sentence = '', source = 'Japanese', target = 'Chinese', table = [], type = 'sentence') {
+async function translate(text = '', source = 'Japanese', target = 'Chinese') {
   if (!currentGemini) currentGemini = createAI();
+  currentGemini = createAI();
 
   const model = currentGemini.getGenerativeModel({
     //model: 'gemini-pro',
@@ -55,10 +56,7 @@ async function translate(sentence = '', source = 'Japanese', target = 'Chinese',
     safetySettings,
   });
 
-  const prompt = createPrompt(source, target, table, type) + `\r\nThe ${type}:\r\n` + sentence;
-  const response = await model.generateContent(prompt);
-
-  console.log('prompt:', prompt);
+  const response = await model.generateContent([aiFunction.createSystemContent(source, target), text]);
 
   return response.response.text();
 }

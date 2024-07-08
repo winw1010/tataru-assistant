@@ -56,7 +56,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
     safetySettings,
   });
 
-  const response = await model.generateContent([aiFunction.createSystemContent(source, target), 'The text: ' + text]);
+  const response = await model.generateContent([aiFunction.createSystemContent(source, target), text]);
 
   return response.response.text();
 }

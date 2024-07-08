@@ -32,7 +32,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
       },
       {
         role: 'user',
-        content: 'The text: ' + text,
+        content: text,
       },
     ],
     max_tokens: maxTokens,

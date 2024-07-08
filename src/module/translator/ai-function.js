@@ -1,7 +1,7 @@
 'use strict';
 
 function createSystemContent(source = 'Japanese', target = 'Chinese') {
-  return `You are a professional translator. Your job is translating the ${source} name or sentence into ${target}. Do not include any explanation.`;
+  return `You are a professional translation machine, your job is to translate the ${source} name or sentence provided by the user into ${target} and do not include any explanation and comment in response.`;
 }
 
 function createPrompt(source = 'Japanese', target = 'Chinese') {

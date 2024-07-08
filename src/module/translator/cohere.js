@@ -18,7 +18,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
     'https://api.cohere.ai/v1/chat',
     {
       preamble: aiFunction.createSystemContent(source, target),
-      message: 'The text: ' + text,
+      message: text,
       maxTokens: 4096,
       temperature: 0.3,
       //top_p: 1,

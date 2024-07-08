@@ -11,7 +11,7 @@ function createPrompt(source = 'Japanese', target = 'Chinese') {
 }
 
 function createImagePrompt() {
-  return 'Copy the text from this image. Do not include any explanation.';
+  return 'Copy the text from this image and do not include any explanation and comment in response.';
 }
 
 module.exports = {

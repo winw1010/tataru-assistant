@@ -1,7 +1,7 @@
 'use strict';
 
 function createSystemContent(source = 'Japanese', target = 'Chinese') {
-  return `You are a professional translation machine, your job is to translate the ${source} name or sentence provided by the user into ${target} and do not include any explanation and comment in response.`;
+  return `You are a professional translation machine, your job is to translate the ${source} text provided by the user into ${target} and do not include any explanation and comment in response. Use homophonic translation if the text is not a word or phrase in ${source}.`;
 }
 
 function createPrompt(source = 'Japanese', target = 'Chinese') {

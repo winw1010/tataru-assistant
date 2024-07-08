@@ -468,6 +468,13 @@ function setJsonChannel() {
     jsonEntry.loadJSON();
   });
 
+  // delete temp
+  ipcMain.on('delete-temp', () => {
+    jsonFunction.deleteTemp();
+    jsonEntry.loadJSON();
+    dialogModule.addNotification('TEMP_DELETED');
+  });
+
   // get array
   ipcMain.on('get-user-array', (event, name = '') => {
     let array = jsonEntry.getUserArray(name);

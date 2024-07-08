@@ -343,6 +343,11 @@ function editUserCustom(name = '', target = '', item = null) {
   writeUserText(name, array);
 }
 
+// delete temp-name.json
+function deleteTemp() {
+  fileModule.unlink(getUserTextPath('temp-name.json'));
+}
+
 // check array
 function checkArray(array = []) {
   return Array.isArray(array) && array.length > 0;
@@ -367,4 +372,5 @@ module.exports = {
   createRegExpArray,
   saveUserCustom,
   editUserCustom,
+  deleteTemp,
 };

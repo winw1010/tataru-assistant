@@ -16,6 +16,7 @@ const message = {
 
   DOWNLOAD_COMPLETED: ['對照表下載完畢', '对照表下载完毕', 'NO_MESSAGE'],
   LOAD_COMPLETED: ['對照表讀取完畢', '对照表读取完毕', 'NO_MESSAGE'],
+  TEMP_DELETED: ['暫存清除完畢', '暂存清除完毕', 'Temp file deleted'],
 
   SETTINGS_SAVED: ['設定已儲存', '设定已储存', 'Settings saved'],
   RESTORED_TO_DEFAULT_SETTINGS: ['已恢復預設值', '已恢復预设值', 'Restored to default settings'],

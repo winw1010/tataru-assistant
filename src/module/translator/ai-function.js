@@ -1,7 +1,7 @@
 'use strict';
 
 function createSystemContent(source = 'Japanese', target = 'Chinese') {
-  return `You are a professional translator. Your job is translating anything from ${source} to ${target} and just return translation to user.`;
+  return `You are a professional translation machine, your job is to translate the ${source} text provided by the user into ${target} and do not include any explanation and comment in response. Use homophonic translation if the text is not a word or phrase in ${source}.`;
 }
 
 function createPrompt(source = 'Japanese', target = 'Chinese', defaultPrompt = '') {
@@ -10,11 +10,11 @@ function createPrompt(source = 'Japanese', target = 'Chinese', defaultPrompt = '
   if (defaultPrompt) {
     return defaultPrompt;
   }
-  return `Translate the following text from ${source} to ${target}. Just return translation.`;
+  return `Translate the following text from ${source} to ${target} and do not include any explanation and comment in response.`;
 }
 
 function createImagePrompt() {
-  return 'Copy text from this image. Just return the text.';
+  return 'Copy the text from this image and do not include any explanation and comment in response.';
 }
 
 module.exports = {

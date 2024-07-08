@@ -101,6 +101,11 @@ function setButton() {
     ipcRenderer.send('download-json');
   };
 
+  // delete temp
+  document.getElementById('button-delete-temp').onclick = () => {
+    ipcRenderer.send('delete-temp');
+  };
+
   // restart sharlayan reader
   document.getElementById('button-restart-sharlayan-reader').onclick = () => {
     ipcRenderer.send('restart-sharlayan-reader');

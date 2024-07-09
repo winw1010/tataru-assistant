@@ -417,7 +417,7 @@ function setRequestChannel() {
         }
 
         // compare app version
-        const latestVersion = response.data.version;
+        const latestVersion = response.data.number;
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {
             windowModule.sendIndex('hide-update-button', true);

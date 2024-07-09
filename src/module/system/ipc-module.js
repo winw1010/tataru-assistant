@@ -399,7 +399,7 @@ function setCaptureChannel() {
 function setRequestChannel() {
   // version check
   ipcMain.on('version-check', (event) => {
-    // download request settings
+    // download version data
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
       .then((response) => {
@@ -415,18 +415,9 @@ function setRequestChannel() {
         if (response.data.info) {
           dialogModule.showInfo(event.sender, '' + response.data.info);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 
-    // download version data
-    requestModule
-      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant/main/package.json')
-      .then((response) => {
         // compare app version
-        const latestVersion = response.data.version;
-
+        const latestVersion = response.data.number;
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {
             windowModule.sendIndex('hide-update-button', true);

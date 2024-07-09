@@ -31,15 +31,10 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
     }
 
     // translate
-    //result = await translate2(text, translation, table, type);
-    result = await translate2(text, translation, [], type);
+    result = await translate2(text, translation, type);
 
     // zh convert
-    if (engineModule.aiList.includes(translation.engine)) {
-      return zhConvert(result, translation.to);
-    } else {
-      return zhConvert(clearCode(result, table), translation.to);
-    }
+    return zhConvert(clearCode(result, table), translation.to);
   } catch (error) {
     console.log(error);
     result = '' + error;
@@ -49,7 +44,7 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
 }
 
 // translate 2
-async function translate2(text = '', translation = {}, table = [], type = 'sentence') {
+async function translate2(text = '', translation = {}, type = 'sentence') {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
   let result = { isError: false, text: '' };
@@ -61,7 +56,7 @@ async function translate2(text = '', translation = {}, table = [], type = 'sente
     console.log('\r\nEngine:', engine);
 
     if (option) {
-      result = await getTranslation(engine, option, table, type);
+      result = await getTranslation(engine, option, type);
     } else {
       continue;
     }
@@ -71,7 +66,7 @@ async function translate2(text = '', translation = {}, table = [], type = 'sente
 }
 
 // get translation
-async function getTranslation(engine = '', option = {}, table = [], type = 'sentence') {
+async function getTranslation(engine = '', option = {}, type = 'sentence') {
   console.log('Before:', option?.text);
 
   let isError = false;
@@ -100,19 +95,19 @@ async function getTranslation(engine = '', option = {}, table = [], type = 'sent
         break;
 
       case 'GPT':
-        text = await gpt.exec(option, table, type);
+        text = await gpt.exec(option, type);
         break;
 
       case 'LLM-API':
-        text = await llmApi.exec(option, table, type);
+        text = await llmApi.exec(option, type);
         break;
 
       case 'Cohere':
-        text = await cohere.exec(option, table, type);
+        text = await cohere.exec(option, type);
         break;
 
       case 'Gemini':
-        text = await gemini.exec(option, table, type);
+        text = await gemini.exec(option, type);
         break;
       case 'Kimi':
         text = await kimi.exec(option, table, type);

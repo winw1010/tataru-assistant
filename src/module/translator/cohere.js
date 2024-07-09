@@ -14,13 +14,14 @@ async function exec(option) {
 
 async function translate(text = '', source = 'Japanese', target = 'Chinese') {
   const config = configModule.getConfig();
+  const prompt = aiFunction.createTranslatePrompt(source, target);
   const response = await requestModule.post(
     'https://api.cohere.ai/v1/chat',
     {
-      preamble: aiFunction.createSystemContent(source, target),
+      preamble: prompt,
       message: text,
       maxTokens: 4096,
-      temperature: 0.3,
+      temperature: 0.7,
       //top_p: 1,
     },
     {
@@ -31,6 +32,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
   );
 
   console.log('Tokens:', response?.data?.meta?.tokens);
+  console.log('Prompt:', prompt);
 
   return response.data.text;
 }

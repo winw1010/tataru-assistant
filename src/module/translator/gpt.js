@@ -19,6 +19,7 @@ async function exec(option) {
 // translate
 async function translate(text = '', source = 'Japanese', target = 'Chinese') {
   const config = configModule.getConfig();
+  const prompt = aiFunction.createTranslatePrompt(source, target);
   const apiUrl = 'https://api.openai.com/v1/chat/completions';
   const headers = {
     'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
     messages: [
       {
         role: 'system',
-        content: aiFunction.createSystemContent(source, target),
+        content: prompt,
       },
       {
         role: 'user',
@@ -38,13 +39,14 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
       },
     ],
     max_tokens: maxTokens,
-    temperature: 0.3,
+    temperature: 0.7,
     //top_p: 1,
   };
 
   const response = await requestModule.post(apiUrl, payload, headers);
 
   console.log('Total Tokens:', response?.data?.usage?.total_tokens);
+  console.log('Prompt:', prompt);
 
   return response.data.choices[0].message.content;
 }

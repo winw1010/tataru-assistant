@@ -196,7 +196,7 @@ function checkRepetition(dialogData) {
   }
 
   // check text history
-  if (compareString(text, textHistory[code])) {
+  if (compareString(textHistory[code], text)) {
     return false;
   }
 

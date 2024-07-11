@@ -110,7 +110,7 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
         text = await gemini.exec(option, type);
         break;
       case 'Kimi':
-        text = await kimi.exec(option, table, type);
+        text = await kimi.exec(option, type);
         break;
 
       /*

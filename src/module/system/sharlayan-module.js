@@ -196,12 +196,22 @@ function checkRepetition(dialogData) {
   }
 
   // check text history
-  if (text === textHistory[code]) {
+  if (compareString(textHistory[code], text)) {
     return false;
   }
 
   textHistory[code] = text;
   return true;
+}
+
+// compare string
+function compareString(str1 = '', str2 = '') {
+  for (let index = 0; index < str1.length; index++) {
+    const str = str1[index];
+    str2 = str2.replace(str, '');
+  }
+
+  return !/[0-9a-zぁ-ゖァ-ヺ一-龯]/gi.test(str2);
 }
 
 // module exports

@@ -13,7 +13,7 @@
 	{
 		"Key": "PANEL_NAME",
 		"ASMSignature": true,
-		"Value": "4D8973D033DB4C8B35",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,
@@ -27,7 +27,7 @@
 	{
 		"Key": "PANEL_TEXT",
 		"ASMSignature": true,
-		"Value": "4D8973D033DB4C8B35",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,
@@ -41,7 +41,7 @@
 	{
 		"Key": "CUTSCENE_TEXT",
 		"ASMSignature": true,
-		"Value": "4D8973D033DB4C8B35",
+		"Value": "4D896BD84D8973D033DB4C8B35",
 		"PointerPath": [
 			0,
 			0,

@@ -72,14 +72,21 @@ const defaultConfig = {
     llmApiKey: '',
     llmApiModel: '',
   },
+  proxy: {
+    enable: false,
+    protoco: '',
+    host: '',
+    port: '',
+    username: '',
+    password: '',
+  },
   system: {
     firstTime: true,
     appLanguage: 'Traditional-Chinese',
     autoDownloadJson: true,
     sslCertificate: true,
-    scu: '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+    scu: '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
   },
 };
 
@@ -102,11 +109,7 @@ function loadConfig() {
     // fix options
     const mainNames = Object.getOwnPropertyNames(defaultConfig);
     mainNames.forEach((mainName) => {
-      if (
-        typeof currentConfig[mainName] === 'undefined' ||
-        typeof currentConfig[mainName] !== typeof defaultConfig[mainName] ||
-        Array.isArray(currentConfig[mainName])
-      ) {
+      if (typeof currentConfig[mainName] === 'undefined' || typeof currentConfig[mainName] !== typeof defaultConfig[mainName] || Array.isArray(currentConfig[mainName])) {
         currentConfig[mainName] = defaultConfig[mainName];
       } else {
         // skip channel
@@ -117,10 +120,7 @@ function loadConfig() {
         // add property
         const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
         subNames.forEach((subName) => {
-          if (
-            typeof currentConfig[mainName][subName] === 'undefined' ||
-            typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]
-          ) {
+          if (typeof currentConfig[mainName][subName] === 'undefined' || typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]) {
             currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });

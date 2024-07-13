@@ -188,10 +188,7 @@ function setButton() {
 
   // view response
   document.getElementById('a-view-response').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"'
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"');
   };
 
   // github
@@ -637,6 +634,32 @@ function getOptionList() {
     [
       ['checkbox-ssl-certificate', 'checked'],
       ['system', 'sslCertificate'],
+    ],
+
+    // proxy
+    [
+      ['input-proxy-enable', 'checked'],
+      ['proxy', 'enable'],
+    ],
+    [
+      ['input-proxy-protoco', 'value'],
+      ['proxy', 'protoco'],
+    ],
+    [
+      ['input-proxy-host', 'value'],
+      ['proxy', 'host'],
+    ],
+    [
+      ['input-proxy-port', 'value'],
+      ['proxy', 'port'],
+    ],
+    [
+      ['input-proxy-username', 'value'],
+      ['proxy', 'username'],
+    ],
+    [
+      ['input-proxy-password', 'value'],
+      ['proxy', 'password'],
     ],
   ];
 }

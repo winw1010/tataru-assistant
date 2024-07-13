@@ -68,6 +68,7 @@ function downloadJSON() {
         port: parseInt(config.proxy.port),
         username: proxyAuth ? config.proxy.username : undefined,
         password: proxyAuth ? config.proxy.password : undefined,
+        path: tableURL,
       }
     : tableURL;
 

@@ -59,8 +59,21 @@ function initializeJSON() {
 // download json
 function downloadJSON() {
   const tempTableStream = fs.createWriteStream(tempTablePath);
+  const config = configModule.getConfig();
+  const proxyAuth = config.proxy.username && config.proxy.password;
+  const requestOption = config?.proxy?.enable
+    ? {
+        protocol: config.proxy.protocol,
+        host: config.proxy.host,
+        port: parseInt(config.proxy.port),
+        username: proxyAuth ? config.proxy.username : undefined,
+        password: proxyAuth ? config.proxy.password : undefined,
+        path: tableURL,
+      }
+    : tableURL;
+
   https
-    .get(tableURL)
+    .get(requestOption)
     .on('response', (response) => {
       // pipe to table temp stream
       response.pipe(tempTableStream);

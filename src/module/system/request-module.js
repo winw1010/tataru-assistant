@@ -8,23 +8,30 @@ const configModule = require('./config-module');
 
 // restricted headers of Chromium
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
-const restrictedHeaders = [
-  'Content-Length',
-  'Host',
-  'Trailer',
-  'Te',
-  'Upgrade',
-  'Cookie2',
-  'Keep-Alive',
-  'Transfer-Encoding',
-];
+const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
+  const config = configModule.getConfig();
+  const proxyAuth = config.proxy.username && config.proxy.password;
+  const proxy = config?.proxy?.enable
+    ? {
+        protocol: config.proxy.protocol,
+        host: config.proxy.host,
+        port: parseInt(config.proxy.port),
+        auth: proxyAuth
+          ? {
+              username: config.proxy.username,
+              password: config.proxy.password,
+            }
+          : undefined,
+      }
+    : undefined;
+
   let response = null;
 
   try {
-    response = await axios.get(url, { headers: clearHeaders(headers), timeout });
+    response = await axios.get(url, { headers: clearHeaders(headers), timeout, proxy });
   } catch (error) {
     throw 'Request error: GET ' + url;
   }
@@ -34,10 +41,26 @@ async function get(url = '', headers = {}, timeout = 10000) {
 
 // post
 async function post(url = '', data = '', headers = {}, timeout = 10000) {
+  const config = configModule.getConfig();
+  const proxy = config?.proxy?.enable
+    ? {
+        protocol: config.proxy.protocol,
+        host: config.proxy.host,
+        port: parseInt(config.proxy.port),
+        auth:
+          config.proxy.username && config.proxy.password
+            ? {
+                username: config.proxy.username,
+                password: config.proxy.password,
+              }
+            : undefined,
+      }
+    : undefined;
+
   let response = null;
 
   try {
-    response = await axios.post(url, data, { headers: clearHeaders(headers), timeout });
+    response = await axios.post(url, data, { headers: clearHeaders(headers), timeout, proxy });
     console.log('Response data:', response.data);
   } catch (error) {
     throw 'Request error: POST ' + url;

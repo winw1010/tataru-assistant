@@ -186,6 +186,13 @@ function getElementTextList() {
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 
+        'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Use Proxy'],
+        'input-proxy-protoco': ['Proxy Protoco', 'Proxy Protoco', 'Proxy Protoco'],
+        'input-proxy-host': ['Proxy Host', 'Proxy Host', 'Proxy Host'],
+        'input-proxy-port': ['Proxy Port', 'Proxy Port', 'Proxy Port'],
+        'input-proxy-username': ['Proxy Username', 'Proxy Username', 'Proxy Username'],
+        'input-proxy-password': ['Proxy Password', 'Proxy Password', 'Proxy Password'],
+
         // capture
         'checkbox-split': ['換行切割', '换行切割', 'New line'],
         'checkbox-edit': ['編輯文字', '编辑文字', 'Edit'],
@@ -214,6 +221,7 @@ function getElementTextList() {
         'div-translation': ['翻譯設定', '翻译设定', 'Translate'],
         'div-api': ['API設定', 'API设定', 'API'],
         'div-system': ['系統設定', '系统设定', 'System'],
+        'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
         'div-about': ['關於', '关于', 'About'],
 
         normal: ['細', '细', 'Normal'],
@@ -279,11 +287,7 @@ function getElementTextList() {
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
         'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
-        'p-unoffcia-api': [
-          '若您的位置無法使用ChatGPT，請點此設定反向代理',
-          '若您的位置无法使用ChatGPT，请点此设定反向代理',
-          "Click here to set reverse proxy if your location can't access ChatGPT",
-        ],
+        'p-unoffcia-api': ['若您的位置無法使用ChatGPT，請點此設定反向代理', '若您的位置无法使用ChatGPT，请点此设定反向代理', "Click here to set reverse proxy if your location can't access ChatGPT"],
         'p-ssl-warning': [
           '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
           '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
@@ -305,16 +309,8 @@ function getElementTextList() {
         'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
 
         // config
-        'span-channel-comment': [
-          '滾動滑鼠中鍵可以滑動頻道清單',
-          '滚动鼠标中键可以滑动频道清单',
-          'Use middle mouse button to sroll the page',
-        ],
-        'span-author': [
-          '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
-          '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
-          'Author: winw1010',
-        ],
+        'span-channel-comment': ['滾動滑鼠中鍵可以滑動頻道清單', '滚动鼠标中键可以滑动频道清单', 'Use middle mouse button to sroll the page'],
+        'span-author': ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)', 'Author: winw1010'],
       },
       th: {
         'th-custom-before': ['原文', '原文', 'Original text'],

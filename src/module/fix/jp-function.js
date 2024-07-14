@@ -13,6 +13,10 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 
+// Hiragana: ぁ-ゖ
+// Katakana: ァ-ヺ
+// Name: ー・＝
+// Kanji: 一-龯
 // Kanji: 一-龯
 // Chinese: \u3400-\u9FFF
 

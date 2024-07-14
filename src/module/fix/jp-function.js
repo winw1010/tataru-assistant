@@ -481,9 +481,11 @@ function genderFix(originalText = '', translatedText = '') {
     translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
   }
 
+  /*
   if (!originalText.includes('娘')) {
     translatedText = translatedText.replaceAll('女兒', '女孩');
   }
+  */
 
   return translatedText;
 }

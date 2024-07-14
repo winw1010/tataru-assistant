@@ -104,7 +104,6 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
       // katakana
       else if (regKatakanaFB.test(name)) {
         const matchReg = new RegExp(regNoKatakanaF + name + regNoKatakanaB, 'gi');
-        console.log('source', matchReg.source);
         if (matchReg.test(text)) {
           matchedWords.push(element);
         }

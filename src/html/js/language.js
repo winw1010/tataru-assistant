@@ -187,7 +187,7 @@ function getElementTextList() {
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Use Proxy'],
-        'input-proxy-protoco': ['Proxy Protoco', 'Proxy Protoco', 'Proxy Protoco'],
+        'input-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
         'input-proxy-host': ['Proxy Host', 'Proxy Host', 'Proxy Host'],
         'input-proxy-port': ['Proxy Port', 'Proxy Port', 'Proxy Port'],
         'input-proxy-username': ['Proxy Username', 'Proxy Username', 'Proxy Username'],

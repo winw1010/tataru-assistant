@@ -3,11 +3,14 @@
 // child process
 const { execSync } = require('child_process');
 
+// downloader
+const { Downloader } = require('nodejs-file-downloader');
+
 // https
-const https = require('https');
+// const https = require('https');
 
 // fs
-const fs = require('fs');
+// const fs = require('fs');
 
 // decompress
 const decompress = require('decompress');
@@ -33,14 +36,17 @@ const fileModule = require('../system/file-module');
 // sharlayan module
 const sharlayanModule = require('../system/sharlayan-module');
 
-// table URL
-const tableURL = 'https://codeload.github.com/winw1010/tataru-assistant-text/zip/refs/heads/main';
+// text URL
+const textURL = 'https://codeload.github.com/winw1010/tataru-assistant-text/zip/refs/heads/main';
 
 // temp table path
-const tempTablePath = fileModule.getRootDataPath('tempTable.zip');
+// const tempTablePath = fileModule.getRootDataPath('tempTable.zip');
 
-// table path
-const tablePath = fileModule.getRootDataPath('text');
+// data path
+const dataPath = fileModule.getRootDataPath();
+
+// text path
+const textPath = fileModule.getRootDataPath('text');
 
 // first time
 let firstTime = true;
@@ -57,7 +63,8 @@ function initializeJSON() {
 }
 
 // download json
-function downloadJSON() {
+async function downloadJSON() {
+  /*
   const tempTableStream = fs.createWriteStream(tempTablePath);
   const config = configModule.getConfig();
   const proxyAuth = config.proxy.username && config.proxy.password;
@@ -101,12 +108,60 @@ function downloadJSON() {
       dialogModule.addNotification(e.message);
       loadJSON();
     });
+  */
+
+  const proxy = getProxyString();
+
+  const downloader = new Downloader({
+    proxy: proxy,
+    url: textURL,
+    directory: dataPath,
+    fileName: 'text.zip',
+  });
+
+  try {
+    const { filePath, downloadStatus } = await downloader.download();
+    console.log('All done');
+
+    if (downloadStatus === 'COMPLETE') {
+      deleteTable();
+      await decompress(filePath, textPath, { strip: 1 });
+      fileModule.unlink(filePath);
+      dialogModule.addNotification('DOWNLOAD_COMPLETED');
+    } else {
+      throw downloadStatus;
+    }
+  } catch (error) {
+    console.log('Download failed', error);
+    dialogModule.addNotification(error);
+  }
+}
+
+// get proxy string
+function getProxyString() {
+  const config = configModule.getConfig();
+
+  let proxy = undefined;
+
+  if (config?.proxy?.enable) {
+    const proxyAuth = config.proxy.username && config.proxy.password;
+
+    proxy = `${config.proxy.protocol}://`;
+
+    if (proxyAuth) {
+      proxy += `${config.proxy.username}:${config.proxy.password}@`;
+    }
+
+    proxy += `${config.proxy.host}:${parseInt(config.proxy.port)}`;
+  }
+
+  return proxy;
 }
 
 // delete table
 function deleteTable() {
   try {
-    execSync(`rmdir /Q /S ${tablePath}`);
+    execSync(`rmdir /Q /S ${textPath}`);
   } catch (error) {
     //console.log(error);
   }

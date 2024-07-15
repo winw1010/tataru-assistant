@@ -16,7 +16,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
   const proxyAuth = config.proxy.username && config.proxy.password;
   const proxy = config?.proxy?.enable
     ? {
-        protocol: config.proxy.protocol,
+        protocol: config.proxy.protocol + ':',
         host: config.proxy.host,
         port: parseInt(config.proxy.port),
         auth: proxyAuth
@@ -44,7 +44,7 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
   const config = configModule.getConfig();
   const proxy = config?.proxy?.enable
     ? {
-        protocol: config.proxy.protocol,
+        protocol: config.proxy.protocol + ':',
         host: config.proxy.host,
         port: parseInt(config.proxy.port),
         auth:

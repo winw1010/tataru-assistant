@@ -63,7 +63,7 @@ function downloadJSON() {
   const proxyAuth = config.proxy.username && config.proxy.password;
   const requestOption = config?.proxy?.enable
     ? {
-        protocol: config.proxy.protocol,
+        protocol: config.proxy.protocol + ':',
         host: config.proxy.host,
         port: parseInt(config.proxy.port),
         username: proxyAuth ? config.proxy.username : undefined,

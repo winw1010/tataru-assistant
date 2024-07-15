@@ -127,9 +127,9 @@ async function downloadJSON() {
       await decompress(filePath, textPath, { strip: 1 });
       fileModule.unlink(filePath);
       dialogModule.addNotification('DOWNLOAD_COMPLETED');
-    } else {
-      throw downloadStatus;
     }
+
+    loadJSON();
   } catch (error) {
     console.log('Download failed', error);
     dialogModule.addNotification(error);

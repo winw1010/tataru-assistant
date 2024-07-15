@@ -128,12 +128,12 @@ async function downloadJSON() {
       fileModule.unlink(filePath);
       dialogModule.addNotification('DOWNLOAD_COMPLETED');
     }
-
-    loadJSON();
   } catch (error) {
     console.log('Download failed', error);
     dialogModule.addNotification(error);
   }
+
+  loadJSON();
 }
 
 // get proxy string

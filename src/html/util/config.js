@@ -616,8 +616,8 @@ function getOptionList() {
       ['api', 'kimiToken'],
     ],
     [
-      ['customized-kimi-prompt', 'value'],
-      ['api', 'customizedKimiPrompt'],
+      ['input-kimi-custom-prompt', 'value'],
+      ['api', 'kimiCustomPrompt'],
     ],
     [
       ['select-gpt-model', 'value'],

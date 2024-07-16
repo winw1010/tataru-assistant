@@ -177,7 +177,7 @@ function getElementTextList() {
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
 
         'input-kimi-token': ['API key', 'API金钥', 'API key'],
-        'customized-kimi-prompt': ['自訂Prompt', '自订Prompt', 'Customized prompt'],
+        'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom prompt'],
 
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
         'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT model'],

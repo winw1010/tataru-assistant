@@ -149,7 +149,7 @@ function getProxyOption() {
       proxyOption.proxy += `${config.proxy.username}:${config.proxy.password}@`;
     }
 
-    proxyOption.proxy += `${config.proxy.host}:${parseInt(config.proxy.port)}`;
+    proxyOption.proxy += `${config.proxy.host}:${config.proxy.port}`;
   }
 
   return proxyOption;

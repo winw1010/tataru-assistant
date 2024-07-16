@@ -139,6 +139,11 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
+  document.getElementById('a-set-kimi-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-kimi-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
   // set gpt api
   document.getElementById('a-set-gpt-api').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
@@ -602,6 +607,14 @@ function getOptionList() {
     [
       ['input-gpt-api-key', 'value'],
       ['api', 'gptApiKey'],
+    ],
+    [
+      ['input-kimi-token', 'value'],
+      ['api', 'kimiToken'],
+    ],
+    [
+      ['input-kimi-custom-prompt', 'value'],
+      ['api', 'kimiCustomPrompt'],
     ],
     [
       ['select-gpt-model', 'value'],

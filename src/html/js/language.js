@@ -92,6 +92,7 @@ function getElementTextList() {
         'a-set-google-vision': ['說明', '说明', 'Guide'],
         'a-set-gemini-api': ['說明', '说明', 'Guide'],
         'a-set-cohere-api': ['說明', '说明', 'Guide'],
+        'a-set-kimi-api': ['說明', '说明', 'Guide'],
         'a-set-gpt-api': ['說明', '说明', 'Guide'],
         'a-set-llm-api': ['說明', '说明', 'Guide'],
 
@@ -175,6 +176,9 @@ function getElementTextList() {
 
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
 
+        'input-kimi-token': ['API key', 'API金钥', 'API key'],
+        'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom prompt'],
+
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
         'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT model'],
 
@@ -237,6 +241,7 @@ function getElementTextList() {
         GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
+        Kimi: ['Kimi', 'Kimi', 'Kimi'],
         'LLM-API': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
 
         Japanese: ['日文', '日语', 'Japanese'],
@@ -286,6 +291,7 @@ function getElementTextList() {
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
+        'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
         'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
         'p-unoffcia-api': ['若您的位置無法使用ChatGPT，請點此設定反向代理', '若您的位置无法使用ChatGPT，请点此设定反向代理', "Click here to set reverse proxy if your location can't access ChatGPT"],
         'p-ssl-warning': [
@@ -325,6 +331,7 @@ function getElementTextList() {
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
+        'input-kimi-token': ['API key', 'API金钥', 'API key'],
         'input-llm-api-key': ['API key', 'API金钥', 'API key'],
 
         'input-llm-model': ['LLM Model', 'LLM Model', 'LLM Model'],

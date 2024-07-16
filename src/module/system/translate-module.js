@@ -14,6 +14,7 @@ const gpt = require('../translator/gpt');
 const llmApi = require('../translator/llm-api');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
+const kimi = require('../translator/kimi');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
@@ -107,6 +108,9 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
 
       case 'Gemini':
         text = await gemini.exec(option, type);
+        break;
+      case 'Kimi':
+        text = await kimi.exec(option, type);
         break;
 
       /*

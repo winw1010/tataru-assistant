@@ -8,8 +8,12 @@ function createPrompt(source = 'Japanese', target = 'Chinese') {
 }
 */
 
-function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = 'sentence') {
+function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = 'sentence', customPrompt = '') {
   //return `You are a professional translation machine, your job is to translate the ${source} name and sentence provided by the user into ${target} and do not include any explanation. Use homophonic translation if it is not a word or phrase in ${source}.`;
+  if (customPrompt) {
+    return defaultPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
+  }
+
   return `Translate the following ${type} from ${source} to ${target} and do not include any explanation.`;
 }
 

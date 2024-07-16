@@ -34,7 +34,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
     response = await axios({ method: 'get', url, headers: clearHeaders(headers), timeout, proxy });
   } catch (error) {
     console.log(error);
-    throw 'Request error: GET ' + url;
+    throw 'GET error: ' + url;
   }
 
   return response;
@@ -65,7 +65,7 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
     console.log('Response data:', response.data);
   } catch (error) {
     console.log(error);
-    throw 'Request error: POST ' + url;
+    throw 'POST error: ' + url;
   }
 
   return response;

@@ -152,7 +152,7 @@ function clearCode(text = '', table = []) {
   if (table.length > 0) {
     table.forEach((value) => {
       const code = value[0];
-      text = text.replaceAll(new RegExp(`${code}+`, 'gi'), code.toUpperCase());
+      text = text.replaceAll(new RegExp(`「*${code}+」*`, 'gi'), code.toUpperCase());
     });
   }
 

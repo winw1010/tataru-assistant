@@ -149,6 +149,13 @@ function zhConvert(text = '', languageTo = '') {
 
 // clear code
 function clearCode(text = '', table = []) {
+  let halfText = '';
+  for (let index = 0; index < text.length; index++) {
+    const ch = text[index];
+    halfText += fullToHalf(ch);
+  }
+  text = halfText;
+
   if (table.length > 0) {
     table.forEach((value) => {
       const code = value[0];
@@ -157,6 +164,16 @@ function clearCode(text = '', table = []) {
   }
 
   return text;
+}
+
+function fullToHalf(str = '') {
+  // full-width English letters: [\uff21-\uff3a\uff41-\uff5a]
+  // full-width characters: [\uff01-\uff5e]
+  return str
+    .replace(/[\uff21-\uff3a\uff41-\uff5a]/g, function (ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 0xfee0);
+    })
+    .replace(/\u3000/g, ' ');
 }
 
 // module exports

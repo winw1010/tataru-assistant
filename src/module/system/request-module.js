@@ -26,6 +26,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
   try {
     response = await axios.get(url, { headers: clearHeaders(headers), timeout });
   } catch (error) {
+    console.log(error);
     throw 'Request error: GET ' + url;
   }
 

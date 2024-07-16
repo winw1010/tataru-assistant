@@ -244,14 +244,14 @@ function findTable(text = '', matchedWords = []) {
         if (title[2]) {
           const exceptionName = title[2][1] === 0 ? title[2][0] + element[srcIndex] : element[srcIndex] + title[2][0];
           if (text.includes(sorceName) && !text.includes(exceptionName)) {
-            text = text.replaceAll(sorceName, `「${codeString[codeIndex]}」`);
+            text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
             aiTable.push([sorceName, replaceName]);
             codeIndex++;
           }
         } else {
           if (text.includes(sorceName)) {
-            text = text.replaceAll(sorceName, `「${codeString[codeIndex]}」`);
+            text = text.replaceAll(sorceName, codeString[codeIndex]);
             table.push([codeString[codeIndex], replaceName]);
             aiTable.push([sorceName, replaceName]);
             codeIndex++;

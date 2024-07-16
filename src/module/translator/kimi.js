@@ -34,12 +34,12 @@ const promptHistoryMgr = {
         return this.promptHistory;
     },
 
-    reset: function (customizedKimiPrompt, source, target) {
+    reset: function (kimiCustomPrompt, source, target) {
         this.source = source;
         this.target = target;
-        this.promptContent = customizedKimiPrompt;
+        this.promptContent = kimiCustomPrompt;
         this.promptHistory = [
-            {"role": "system", "content": createTranslatePrompt(source, target, 'sentence', customizedKimiPrompt)},
+            {"role": "system", "content": createTranslatePrompt(source, target, 'sentence', kimiCustomPrompt)},
         ];
     },
 
@@ -57,8 +57,8 @@ async function exec(option, table = [], type = 'sentence') {
 async function translate(sentence = '', source = 'Japanese', target = 'Chinese') {
     const config = configModule.getConfig();
     // const prompt = createPrompt(source, target, table, type);
-    if (promptHistoryMgr.shouldReset(source, target, config.api.customizedKimiPrompt)) {
-        promptHistoryMgr.reset(config.api.customizedKimiPrompt, source, target);
+    if (promptHistoryMgr.shouldReset(source, target, config.api.kimiCustomPrompt)) {
+        promptHistoryMgr.reset(config.api.kimiCustomPrompt, source, target);
     }
 
     promptHistoryMgr.addUser(sentence);

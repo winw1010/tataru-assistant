@@ -8,6 +8,9 @@ const configModule = require('../system/config-module');
 
 const regGptModel = /gpt-\d.*[^0-9]$/i;
 
+const chatHistory = [];
+const chatHistoryMaxLength = 6;
+
 const maxTokens = 4096;
 
 // exec
@@ -33,6 +36,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
         role: 'system',
         content: prompt,
       },
+      ...chatHistory,
       {
         role: 'user',
         content: text,
@@ -43,12 +47,19 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
     //top_p: 1,
   };
 
+  // get response
   const response = await requestModule.post(apiUrl, payload, headers);
+  const responseText = response.data.choices[0].message.content;
+  const totalTokens = response?.data?.usage?.total_tokens;
 
-  console.log('Total Tokens:', response?.data?.usage?.total_tokens);
+  // push history
+  pushHistory(text, responseText);
+
+  // log
+  console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
 
-  return response.data.choices[0].message.content;
+  return responseText;
 }
 
 // get image text
@@ -114,6 +125,25 @@ async function getModelList(apiKey = null) {
     return gptList.sort();
   } catch (error) {
     return [];
+  }
+}
+
+// push history
+function pushHistory(text, responseText) {
+  chatHistory.push(
+    {
+      role: 'user',
+      content: text,
+    },
+    {
+      role: 'assistant',
+      content: responseText,
+    }
+  );
+
+  if (chatHistory.length > chatHistoryMaxLength) {
+    chatHistory.shift();
+    chatHistory.shift();
   }
 }
 

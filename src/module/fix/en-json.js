@@ -60,15 +60,6 @@ function versionFix() {
     const element0 = chArray.combine[index][0];
     const element1 = chArray.combine[index][1];
 
-    // delete temp name
-    for (let index = userArray.tempName.length - 1; index >= 0; index--) {
-      const element0temp = userArray.tempName[index][0];
-
-      if (element0 === element0temp) {
-        userArray.tempName.splice(index, 1);
-      }
-    }
-
     // 1 character words
     if (/(^.$)/.test(element0)) {
       console.log('Illegal single word:', chArray.combine[index]);
@@ -84,7 +75,7 @@ function versionFix() {
       chArray.combine.splice(index, 1);
     }
     // wrong AI translation (ex: Sorry Message)
-    else if (/sorry/gi.test(element0) || element1.length >= element0 * 3) {
+    else if (/sorry/gi.test(element0) || element1.length >= element0.length * 3) {
       chArray.combine.splice(index, 1);
     }
   }

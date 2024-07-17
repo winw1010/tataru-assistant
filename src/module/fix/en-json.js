@@ -70,8 +70,8 @@ function versionFix() {
       //console.log('blank word:', chArray.combine[index]);
       chArray.combine.splice(index, 1);
     }
-    // error word
-    else if (/request error/gi.test(element0)) {
+    // error message
+    else if (/error/gi.test(element0)) {
       chArray.combine.splice(index, 1);
     }
   }
@@ -91,9 +91,9 @@ function versionFix() {
       //console.log('blank word:', userArray.tempName[index]);
       userArray.tempName.splice(index, 1);
     }
-    // error word
-    else if (/request error/gi.test(element0)) {
-      userArray.combine.splice(index, 1);
+    // error message
+    else if (/error/gi.test(element0)) {
+      userArray.tempName.splice(index, 1);
     }
   }
 

@@ -28,9 +28,9 @@ const safetySettings = [
 let currentGemini = null;
 
 // exec
-async function exec(option) {
+async function exec(option, type) {
   try {
-    const response = translate(option.text, option.from, option.to);
+    const response = translate(option.text, option.from, option.to, type);
     return response;
   } catch (error) {
     currentGemini = null;
@@ -46,7 +46,7 @@ function createAI() {
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese') {
+async function translate(text, source, target, type) {
   if (!currentGemini) currentGemini = createAI();
   currentGemini = createAI();
 
@@ -56,7 +56,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
     safetySettings,
   });
 
-  const prompt = aiFunction.createTranslatePrompt(source, target);
+  const prompt = aiFunction.createTranslatePrompt(source, target, type);
   const response = await model.generateContent([prompt, text]);
 
   console.log('Prompt:', prompt);

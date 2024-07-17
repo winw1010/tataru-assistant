@@ -14,15 +14,15 @@ const chatHistoryMaxLength = 6;
 const maxTokens = 4096;
 
 // exec
-async function exec(option) {
-  const response = translate(option.text, option.from, option.to);
+async function exec(option, type) {
+  const response = translate(option.text, option.from, option.to, type);
   return response;
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese') {
+async function translate(text, source, target, type) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslatePrompt(source, target);
+  const prompt = aiFunction.createTranslatePrompt(source, target, type);
   const apiUrl = 'https://api.openai.com/v1/chat/completions';
   const headers = {
     'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese') {
         role: 'system',
         content: prompt,
       },
-      ...chatHistory,
+      //...chatHistory,
       {
         role: 'user',
         content: text,

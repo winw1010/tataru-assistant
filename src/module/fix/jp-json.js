@@ -76,6 +76,15 @@ function versionFix() {
     const element0 = chArray.combine[index][0];
     const element1 = chArray.combine[index][1];
 
+    // delete temp name
+    for (let index = userArray.tempName.length - 1; index >= 0; index--) {
+      const element0temp = userArray.tempName[index][0];
+
+      if (element0 === element0temp) {
+        userArray.tempName.splice(index, 1);
+      }
+    }
+
     // 1 character words
     if (/(^.$)/.test(element0)) {
       console.log('Illegal single word:', chArray.combine[index]);
@@ -95,44 +104,9 @@ function versionFix() {
     else if (/error/gi.test(element0)) {
       chArray.combine.splice(index, 1);
     }
-  }
-
-  // clear temp name
-  for (let index = userArray.tempName.length - 1; index >= 0; index--) {
-    const element0 = userArray.tempName[index][0];
-    const element1 = userArray.tempName[index][1];
-
-    // 1 character words
-    if (/(^.$)/.test(element0)) {
-      console.log('Illegal single word:', userArray.tempName[index]);
-      userArray.tempName.splice(index, 1);
-    }
-    // words in delete list
-    else if (removeList.includes(element0)) {
-      console.log('Remove word:', userArray.tempName[index]);
-      userArray.tempName.splice(index, 1);
-    }
-    // blank word
-    else if (element0 === '' || element1 === '') {
-      //console.log('blank word:', userArray.tempName[index]);
-      userArray.tempName.splice(index, 1);
-    }
-    // error message
-    else if (/error/gi.test(element0)) {
-      userArray.tempName.splice(index, 1);
-    }
-  }
-
-  // delete temp name
-  for (let index = 0; index < chArray.combine.length; index++) {
-    const element0c = chArray.combine[index][0];
-
-    for (let index = userArray.tempName.length - 1; index >= 0; index--) {
-      const element0u = userArray.tempName[index][0];
-
-      if (element0c === element0u) {
-        userArray.tempName.splice(index, 1);
-      }
+    // wrong AI translation (ex: Sorry Message)
+    else if (/sorry/gi.test(element0) || element1.length >= element0 * 3) {
+      chArray.combine.splice(index, 1);
     }
   }
 

@@ -635,18 +635,13 @@ function getOptionList() {
       ['api', 'llmApiModel'],
     ],
 
-    // system
     [
-      ['select-app-language', 'value'],
-      ['system', 'appLanguage'],
+      ['input-ai-chat-enable', 'checked'],
+      ['ai', 'useChat'],
     ],
     [
-      ['checkbox-auto-download-json', 'checked'],
-      ['system', 'autoDownloadJson'],
-    ],
-    [
-      ['checkbox-ssl-certificate', 'checked'],
-      ['system', 'sslCertificate'],
+      ['input-ai-chat-length', 'value'],
+      ['ai', 'chatLength'],
     ],
 
     // proxy
@@ -673,6 +668,20 @@ function getOptionList() {
     [
       ['input-proxy-password', 'value'],
       ['proxy', 'password'],
+    ],
+
+    // system
+    [
+      ['select-app-language', 'value'],
+      ['system', 'appLanguage'],
+    ],
+    [
+      ['checkbox-auto-download-json', 'checked'],
+      ['system', 'autoDownloadJson'],
+    ],
+    [
+      ['checkbox-ssl-certificate', 'checked'],
+      ['system', 'sslCertificate'],
     ],
   ];
 }

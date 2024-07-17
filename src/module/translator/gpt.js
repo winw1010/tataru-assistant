@@ -6,10 +6,9 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const regGptModel = /gpt-\d.*[^0-9]$/i;
-
 const chatHistory = [];
-const chatHistoryMaxLength = 6;
+
+const regGptModel = /gpt-\d.*[^0-9]$/i;
 
 const maxTokens = 4096;
 
@@ -36,7 +35,7 @@ async function translate(text, source, target, type) {
         role: 'system',
         content: prompt,
       },
-      //...chatHistory,
+      ...chatHistory,
       {
         role: 'user',
         content: text,
@@ -53,7 +52,9 @@ async function translate(text, source, target, type) {
   const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
-  pushHistory(text, responseText);
+  if (config.ai.useChat && type !== 'name') {
+    pushChatHistory(text, responseText, config.ai.chatLength);
+  }
 
   // log
   console.log('Total Tokens:', totalTokens);
@@ -128,8 +129,11 @@ async function getModelList(apiKey = null) {
   }
 }
 
-// push history
-function pushHistory(text, responseText) {
+function pushChatHistory(text, responseText, chatLength = 0) {
+  chatLength = parseInt(chatLength);
+
+  if (chatLength <= 0) return;
+
   chatHistory.push(
     {
       role: 'user',
@@ -141,8 +145,7 @@ function pushHistory(text, responseText) {
     }
   );
 
-  if (chatHistory.length > chatHistoryMaxLength) {
-    chatHistory.shift();
+  while (chatHistory.length > chatLength * 2) {
     chatHistory.shift();
   }
 }

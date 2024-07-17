@@ -190,6 +190,9 @@ function getElementTextList() {
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 
+        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Use conversation'],
+        'input-ai-chat-length': ['對話長度', '对话长度', 'Conversation length'],
+
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Use Proxy'],
         'input-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
         'input-proxy-host': ['Proxy Host', 'Proxy Host', 'Proxy Host'],
@@ -224,8 +227,9 @@ function getElementTextList() {
         'div-channel': ['頻道設定', '频道设定', 'Channel'],
         'div-translation': ['翻譯設定', '翻译设定', 'Translate'],
         'div-api': ['API設定', 'API设定', 'API'],
-        'div-system': ['系統設定', '系统设定', 'System'],
+        'div-ai': ['AI翻譯設定', 'AI翻译设定', 'AI Config'],
         'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
+        'div-system': ['系統設定', '系统设定', 'System'],
         'div-about': ['關於', '关于', 'About'],
 
         normal: ['細', '细', 'Normal'],
@@ -242,7 +246,7 @@ function getElementTextList() {
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
-        'LLM-API': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
+        'LLM-API': ['自訂OpenAI', '自订OpenAI', 'Custom OpenAI'],
 
         Japanese: ['日文', '日语', 'Japanese'],
         English: ['英文', '英语', 'English'],
@@ -292,7 +296,7 @@ function getElementTextList() {
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
-        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
+        'p-llm-api': ['自訂OpenAI設定', '自订OpenAI设定', 'Custom OpenAI'],
         'p-unoffcia-api': ['若您的位置無法使用ChatGPT，請點此設定反向代理', '若您的位置无法使用ChatGPT，请点此设定反向代理', "Click here to set reverse proxy if your location can't access ChatGPT"],
         'p-ssl-warning': [
           '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
@@ -334,8 +338,8 @@ function getElementTextList() {
         'input-kimi-token': ['API key', 'API金钥', 'API key'],
         'input-llm-api-key': ['API key', 'API金钥', 'API key'],
 
-        'input-llm-model': ['LLM Model', 'LLM Model', 'LLM Model'],
-        'input-llm-api-url': ['LLM API URL', 'LLM API URL', 'LLM API URL'],
+        'input-llm-model': ['Model', 'Model', 'Model'],
+        'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 
         // custom
         'input-Keyword': ['關鍵字', '关键字', 'Keyword'],

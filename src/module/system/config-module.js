@@ -74,6 +74,11 @@ const defaultConfig = {
     llmApiKey: '',
     llmApiModel: '',
   },
+  ai: {
+    useChat: false,
+    chatLength: 0,
+    temperature: 0.7,
+  },
   proxy: {
     enable: false,
     protocol: '',

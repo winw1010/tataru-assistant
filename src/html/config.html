@@ -46,6 +46,7 @@
             <option value="div-channel"></option>
             <option value="div-translation"></option>
             <option value="div-api"></option>
+            <option value="div-ai"></option>
             <option value="div-proxy"></option>
             <option value="div-system"></option>
             <option value="div-about"></option>
@@ -407,7 +408,7 @@
             <label for="input-gemini-api-key"></label>
           </div>
           <div class="col-auto">
-            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-gemini-api-key" />
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem;" id="img-visibility-gemini-api-key" />
           </div>
           <div class="col-auto">
             <input type="password" class="form-control" name="" id="input-gemini-api-key" />
@@ -432,7 +433,7 @@
             <label for="input-cohere-token"></label>
           </div>
           <div class="col-auto">
-            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-cohere-token" />
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem;" id="img-visibility-cohere-token" />
           </div>
           <div class="col-auto">
             <input type="password" class="form-control" name="" id="input-cohere-token" />
@@ -457,7 +458,7 @@
             <label for="input-gpt-api-key"></label>
           </div>
           <div class="col-auto">
-            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-gpt-api-key" />
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem;" id="img-visibility-gpt-api-key" />
           </div>
           <div class="col-auto">
             <input type="password" class="form-control" name="" id="input-gpt-api-key" />
@@ -493,7 +494,7 @@
             <label for="input-kimi-token"></label>
           </div>
           <div class="col-auto">
-            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-kimi-token" />
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem;" id="img-visibility-kimi-token" />
           </div>
           <div class="col-auto">
             <input type="password" class="form-control" name="" id="input-kimi-token" />
@@ -542,7 +543,7 @@
             <label for="input-llm-api-key"></label>
           </div>
           <div class="col-auto">
-            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-llm-api-key" />
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem;" id="img-visibility-llm-api-key" />
           </div>
           <div class="col-auto">
             <input type="password" class="form-control" name="" id="input-llm-api-key" />
@@ -557,6 +558,29 @@
           </div>
           <div class="col-auto">
             <input class="form-control" type="text" name="" id="input-llm-model" />
+          </div>
+        </div>
+      </div>
+
+      <!-- AI -->
+      <div id="div-ai" class="config-page" hidden>
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="input-ai-chat-enable" />
+              <label class="form-check-label" for="input-ai-chat-enable"></label>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-ai-chat-length"></label>
+          </div>
+          <div class="col-auto">
+            <input class="form-control" type="number" name="" min="0" step="1" id="input-ai-chat-length" />
           </div>
         </div>
       </div>
@@ -771,7 +795,7 @@
         <hr />
 
         <a id="a-donate" href="#">
-          <img class="img-fluid" src="./img/bmc/bmc-button.png" style="width: 10rem" alt="" />
+          <img class="img-fluid" src="./img/bmc/bmc-button.png" style="width: 10rem;" alt="" />
         </a>
       </div>
     </main>

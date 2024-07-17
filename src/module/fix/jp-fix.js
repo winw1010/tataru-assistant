@@ -115,10 +115,7 @@ async function fixName(dialogData = {}) {
   }
 
   // find same name
-  const target =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine) || fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
   // return if found
   if (target) {
@@ -231,11 +228,7 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(
-    text2,
-    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
-    textType
-  );
+  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType);
   text2 = codeResult.text;
 
   // jp2
@@ -342,6 +335,7 @@ async function fixTextAI2(dialogData = {}) {
 
   // get text type
   const textType = getTextType(name, text, false);
+  console.log(textType);
 
   // reverse text
   if (textType === textTypeList.reversed) {
@@ -393,10 +387,7 @@ function specialFix1(name = '', text = '') {
 
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-    text = text.replace(
-      /(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi,
-      '水晶公'
-    );
+    text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
   }
 
   // 暗黒騎士
@@ -499,8 +490,8 @@ function getTextType(name = '', text = '', checkList = true) {
 }
 
 // check katakana
-function isNoHiragana(name = '', text = '', checkList = true) {
-  if (checkList && fixFunction.includesArrayItem(name, jpArray.listHira)) {
+function isNoHiragana(name = '', text = '' /*, checkList = true*/) {
+  if (/*checkList && */ fixFunction.includesArrayItem(name, jpArray.listHira)) {
     return true;
   }
 

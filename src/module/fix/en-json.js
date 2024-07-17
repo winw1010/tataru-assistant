@@ -75,7 +75,7 @@ function versionFix() {
       chArray.combine.splice(index, 1);
     }
     // wrong AI translation (ex: Sorry Message)
-    else if (/sorry/gi.test(element0) || element1.length >= element0.length * 3) {
+    else if (/sorry/gi.test(element0) || element1.length > element0.length * 2) {
       chArray.combine.splice(index, 1);
     }
   }

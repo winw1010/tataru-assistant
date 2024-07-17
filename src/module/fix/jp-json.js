@@ -98,7 +98,7 @@ function versionFix() {
   }
 
   // clear temp name
-  for (let index = 0; index < userArray.tempName.length; index++) {
+  for (let index = userArray.tempName.length - 1; index >= 0; index--) {
     const element0 = userArray.tempName[index][0];
     const element1 = userArray.tempName[index][1];
 
@@ -120,6 +120,19 @@ function versionFix() {
     // error message
     else if (/error/gi.test(element0)) {
       userArray.tempName.splice(index, 1);
+    }
+  }
+
+  // delete temp name
+  for (let index = 0; index < chArray.combine.length; index++) {
+    const element0c = chArray.combine[index][0];
+
+    for (let index = userArray.tempName.length - 1; index >= 0; index--) {
+      const element0u = userArray.tempName[index][0];
+
+      if (element0c === element0u) {
+        userArray.tempName.splice(index, 1);
+      }
     }
   }
 

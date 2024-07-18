@@ -28,6 +28,11 @@ const userArray = enJson.getUserArray();
 fix start
 */
 
+// skip translation
+function skipTranslation(dialogData) {
+  return dialogData.translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore);
+}
+
 // start
 async function start(dialogData = {}) {
   const name = dialogData.name;
@@ -39,11 +44,6 @@ async function start(dialogData = {}) {
   let audioText = '';
 
   try {
-    // skip check
-    if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
-      throw '';
-    }
-
     // fix name
     if (translation.skipChinese && enFunction.isChinese(name)) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
@@ -109,10 +109,7 @@ async function fixName(dialogData = {}) {
   }
 
   // same check
-  const target =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine) || fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
   if (target) {
     return target[1];
@@ -327,5 +324,6 @@ function specialFix(name = '', text = '') {
 }
 
 module.exports = {
+  skipTranslation,
   start,
 };

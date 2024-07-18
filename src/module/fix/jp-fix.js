@@ -35,6 +35,11 @@ const userArray = jpJson.getUserArray();
 fix start
 */
 
+// skip translation
+function skipTranslation(dialogData) {
+  return dialogData.translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore);
+}
+
 // start
 async function start(dialogData = {}) {
   const name = dialogData.name;
@@ -46,11 +51,6 @@ async function start(dialogData = {}) {
   let audioText = '';
 
   try {
-    // skip check
-    if (translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore)) {
-      throw '';
-    }
-
     // fix name
     if (translation.skipChinese && jpFunction.isChinese(name)) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
@@ -506,5 +506,6 @@ function isNoHiragana(name = '', text = '' /*, checkList = true*/) {
 }
 
 module.exports = {
+  skipTranslation,
   start,
 };

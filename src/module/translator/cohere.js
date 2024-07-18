@@ -6,6 +6,8 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 // translate
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, type);
@@ -15,26 +17,66 @@ async function exec(option, type) {
 async function translate(text, source, target, type) {
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslatePrompt(source, target, type);
-  const response = await requestModule.post(
-    'https://api.cohere.ai/v1/chat',
+
+  // initialize chat history
+  if (!chatHistoryList[prompt]) {
+    chatHistoryList[prompt] = [];
+  }
+
+  const payload = {
+    preamble: prompt,
+    message: text,
+    maxTokens: 4096,
+    temperature: 0.7,
+    //top_p: 1,
+  };
+
+  if (config.ai.useChat) {
+    payload.chat_history = chatHistoryList[prompt];
+  }
+
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: 'bearer ' + config.api.cohereToken,
+  };
+
+  // get response
+  const response = await requestModule.post('https://api.cohere.ai/v1/chat', payload, headers);
+  const responseText = response.data.text;
+  const totalTokens = response?.data?.meta?.tokens;
+
+  // push history
+  if (config.ai.useChat && type !== 'name') {
+    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
+  }
+
+  console.log('Tokens:', totalTokens);
+  console.log('Prompt:', prompt);
+
+  return responseText;
+}
+
+// psuh chat history
+function pushChatHistory(prompt, text, responseText, chatLength = 0) {
+  chatLength = parseInt(chatLength);
+
+  if (chatLength <= 0) return;
+
+  chatHistoryList[prompt].push(
     {
-      preamble: prompt,
-      message: text,
-      maxTokens: 4096,
-      temperature: 0.7,
-      //top_p: 1,
+      role: 'USER',
+      content: text,
     },
     {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'bearer ' + config.api.cohereToken,
+      role: 'CHATBOT',
+      content: responseText,
     }
   );
 
-  console.log('Tokens:', response?.data?.meta?.tokens);
-  console.log('Prompt:', prompt);
-
-  return response.data.text;
+  while (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].shift();
+  }
 }
 
 // module exports

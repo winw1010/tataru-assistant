@@ -6,7 +6,7 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const chatHistory = [];
+const chatHistoryList = {};
 
 const regGptModel = /gpt-\d.*[^0-9]$/i;
 
@@ -28,6 +28,11 @@ async function translate(text, source, target, type) {
     Authorization: `Bearer ${config.api.gptApiKey}`,
   };
 
+  // initialize chat history
+  if (!chatHistoryList[prompt]) {
+    chatHistoryList[prompt] = [];
+  }
+
   const payload = {
     model: config.api.gptModel,
     messages: [
@@ -35,7 +40,7 @@ async function translate(text, source, target, type) {
         role: 'system',
         content: prompt,
       },
-      ...chatHistory,
+      ...chatHistoryList[prompt],
       {
         role: 'user',
         content: text,
@@ -53,7 +58,7 @@ async function translate(text, source, target, type) {
 
   // push history
   if (config.ai.useChat && type !== 'name') {
-    pushChatHistory(text, responseText, config.ai.chatLength);
+    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
   }
 
   // log
@@ -113,28 +118,28 @@ async function getModelList(apiKey = null) {
     const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
 
     let list = response.data.data.map((x) => x.id);
-    let gptList = [];
+    let modelList = [];
 
     for (let index = 0; index < list.length; index++) {
       const element = list[index];
       regGptModel.lastIndex = 0;
       if (regGptModel.test(element)) {
-        gptList.push(element);
+        modelList.push(element);
       }
     }
 
-    return gptList.sort();
+    return modelList.sort();
   } catch (error) {
     return [];
   }
 }
 
-function pushChatHistory(text, responseText, chatLength = 0) {
+function pushChatHistory(prompt, text, responseText, chatLength = 0) {
   chatLength = parseInt(chatLength);
 
   if (chatLength <= 0) return;
 
-  chatHistory.push(
+  chatHistoryList[prompt].push(
     {
       role: 'user',
       content: text,
@@ -145,8 +150,8 @@ function pushChatHistory(text, responseText, chatLength = 0) {
     }
   );
 
-  while (chatHistory.length > chatLength * 2) {
-    chatHistory.shift();
+  while (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].shift();
   }
 }
 

@@ -6,6 +6,8 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 const maxTokens = 4096;
 
 // exec
@@ -24,6 +26,11 @@ async function translate(text, source, target, type) {
     Authorization: `Bearer ${config.api.llmApiKey}`,
   };
 
+  // initialize chat history
+  if (!chatHistoryList[prompt]) {
+    chatHistoryList[prompt] = [];
+  }
+
   const payload = {
     model: config.api.llmApiModel,
     messages: [
@@ -31,6 +38,7 @@ async function translate(text, source, target, type) {
         role: 'system',
         content: prompt,
       },
+      ...chatHistoryList[prompt],
       {
         role: 'user',
         content: text,
@@ -41,12 +49,42 @@ async function translate(text, source, target, type) {
     //top_p: 1,
   };
 
+  // get response
   const response = await requestModule.post(apiUrl, payload, headers);
+  const responseText = response.data.choices[0].message.content;
+  const totalTokens = response?.data?.usage?.total_tokens;
 
-  console.log('Total Tokens:', response?.data?.usage?.total_tokens);
+  // push history
+  if (config.ai.useChat && type !== 'name') {
+    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
+  }
+
+  // log
+  console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
 
-  return response.data.choices[0].message.content;
+  return responseText;
+}
+
+function pushChatHistory(prompt, text, responseText, chatLength = 0) {
+  chatLength = parseInt(chatLength);
+
+  if (chatLength <= 0) return;
+
+  chatHistoryList[prompt].push(
+    {
+      role: 'user',
+      content: text,
+    },
+    {
+      role: 'assistant',
+      content: responseText,
+    }
+  );
+
+  while (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].shift();
+  }
 }
 
 // module exports

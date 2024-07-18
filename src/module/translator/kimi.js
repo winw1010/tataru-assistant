@@ -2,85 +2,89 @@
 
 const requestModule = require('../system/request-module');
 
-const { createTranslatePrompt } = require('./ai-function');
+const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 const maxTokens = 4096;
 
-const maxHistory = 10 * 2 + 1; // 5 pairs of user and assistant, plus the initial prompt
-
-const promptHistoryMgr = {
-  soruce: '',
-  target: '',
-  promptContent: '',
-  promptHistory: [],
-
-  addUser: function (promptContent) {
-    this.promptHistory.push({ role: 'user', content: promptContent });
-    if (this.promptHistory.length > maxHistory) {
-      this.promptHistory.splice(1, 1);
-    }
-  },
-
-  addAssistant: function (promptResponse) {
-    this.promptHistory.push(promptResponse);
-    if (this.promptHistory.length > maxHistory) {
-      this.promptHistory.splice(1, 1);
-    }
-  },
-
-  get: function () {
-    return this.promptHistory;
-  },
-
-  reset: function (kimiCustomPrompt, source, target, type) {
-    this.source = source;
-    this.target = target;
-    this.promptContent = kimiCustomPrompt;
-    this.promptHistory = [{ role: 'system', content: createTranslatePrompt(source, target, type, kimiCustomPrompt) }];
-  },
-
-  shouldReset: function (source, target, promptContent) {
-    return source !== this.source || target !== this.target || this.promptContent !== promptContent;
-  },
-};
-
-// translate
+// exec
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, type);
   return response;
 }
 
-async function translate(sentence, source, target, type) {
+// translate
+async function translate(text, source, target, type) {
   const config = configModule.getConfig();
-  // const prompt = createPrompt(source, target, table, type);
-  if (promptHistoryMgr.shouldReset(source, target, config.api.kimiCustomPrompt)) {
-    promptHistoryMgr.reset(config.api.kimiCustomPrompt, source, target, type);
+  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const apiUrl = 'https://api.moonshot.cn/v1/chat/completions';
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${config.api.kimiToken}`,
+  };
+
+  // initialize chat history
+  if (!chatHistoryList[prompt]) {
+    chatHistoryList[prompt] = [];
   }
 
-  promptHistoryMgr.addUser(sentence);
+  const payload = {
+    model: 'moonshot-v1-8k',
+    messages: [
+      {
+        role: 'system',
+        content: prompt,
+      },
+      ...chatHistoryList[prompt],
+      {
+        role: 'user',
+        content: text,
+      },
+    ],
+    max_tokens: maxTokens,
+    temperature: 0.7,
+    //top_p: 1,
+  };
 
-  const response = await requestModule.post(
-    'https://api.moonshot.cn/v1/chat/completions',
+  // get response
+  const response = await requestModule.post(apiUrl, payload, headers);
+  const responseText = response.data.choices[0].message.content;
+  const totalTokens = response?.data?.usage?.total_tokens;
+
+  // push history
+  if (config.ai.useChat && type !== 'name') {
+    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
+  }
+
+  // log
+  console.log('Total Tokens:', totalTokens);
+  console.log('Prompt:', prompt);
+
+  return responseText;
+}
+
+function pushChatHistory(prompt, text, responseText, chatLength = 0) {
+  chatLength = parseInt(chatLength);
+
+  if (chatLength <= 0) return;
+
+  chatHistoryList[prompt].push(
     {
-      messages: promptHistoryMgr.get(),
-      model: 'moonshot-v1-8k',
-      maxTokens: maxTokens,
-      temperature: 0.3,
+      role: 'user',
+      content: text,
     },
     {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + config.api.kimiToken,
+      role: 'assistant',
+      content: responseText,
     }
   );
 
-  const respContent = response?.data?.choices[0]?.message;
-  if (respContent) {
-    promptHistoryMgr.addAssistant(respContent);
+  while (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].shift();
   }
-
-  return response?.data?.choices[0]?.message?.content;
 }
 
 // module exports

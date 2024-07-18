@@ -134,6 +134,7 @@ async function getModelList(apiKey = null) {
   }
 }
 
+// psuh chat history
 function pushChatHistory(prompt, text, responseText, chatLength = 0) {
   chatLength = parseInt(chatLength);
 

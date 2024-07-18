@@ -66,6 +66,7 @@ async function translate(text, source, target, type) {
   return responseText;
 }
 
+// psuh chat history
 function pushChatHistory(prompt, text, responseText, chatLength = 0) {
   chatLength = parseInt(chatLength);
 

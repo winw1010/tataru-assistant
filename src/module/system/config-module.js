@@ -76,8 +76,8 @@ const defaultConfig = {
   },
   ai: {
     useChat: false,
-    chatLength: 0,
-    temperature: 0.7,
+    chatLength: '0',
+    temperature: '0.7',
   },
   proxy: {
     enable: false,

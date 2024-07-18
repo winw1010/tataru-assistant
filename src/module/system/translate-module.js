@@ -11,7 +11,7 @@ const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 //const google = require('../translator/google');
 const gpt = require('../translator/gpt');
-const llmApi = require('../translator/llm-api');
+const openai = require('../translator/openai');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
 const kimi = require('../translator/kimi');
@@ -99,7 +99,7 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
         break;
 
       case 'LLM-API':
-        text = await llmApi.exec(option, type);
+        text = await openai.exec(option, type);
         break;
 
       case 'Cohere':

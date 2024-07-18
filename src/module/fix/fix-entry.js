@@ -120,11 +120,11 @@ async function entry() {
   }
 
   // update dialog
-  if (dialogData.translatedText !== '') {
-    dialogModule.updateDialog(dialogData);
-  } else {
-    dialogModule.removeDialog(dialogData.id);
+  if (dialogData.translatedText === '') {
+    dialogData.translatedText = 'ERROR';
   }
+
+  dialogModule.updateDialog(dialogData);
 }
 
 // get language

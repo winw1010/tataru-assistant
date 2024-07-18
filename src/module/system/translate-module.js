@@ -1,5 +1,8 @@
 'use strict';
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // engine module
 const engineModule = require('./engine-module');
 
@@ -124,7 +127,8 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
     }
   } catch (error) {
     console.log(error);
-    text = '' + error;
+    dialogModule.addNotification(error);
+    text = '';
     isError = true;
   }
 

@@ -48,35 +48,13 @@ async function translate(text, source, target, type) {
 
   // push history
   if (config.ai.useChat && type !== 'name') {
-    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
+    aiFunction.pushChatHistory(chatHistoryList[prompt], text, responseText, config.ai.chatLength, 'USER', 'CHATBOT');
   }
 
   console.log('Tokens:', totalTokens);
   console.log('Prompt:', prompt);
 
   return responseText;
-}
-
-// psuh chat history
-function pushChatHistory(prompt, text, responseText, chatLength = 0) {
-  chatLength = parseInt(chatLength);
-
-  if (chatLength <= 0) return;
-
-  chatHistoryList[prompt].push(
-    {
-      role: 'USER',
-      content: text,
-    },
-    {
-      role: 'CHATBOT',
-      content: responseText,
-    }
-  );
-
-  while (chatHistoryList[prompt].length > chatLength * 2) {
-    chatHistoryList[prompt].shift();
-  }
 }
 
 // module exports

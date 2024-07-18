@@ -58,7 +58,7 @@ async function translate(text, source, target, type) {
 
   // push history
   if (config.ai.useChat && type !== 'name') {
-    pushChatHistory(prompt, text, responseText, config.ai.chatLength);
+    aiFunction.pushChatHistory(chatHistoryList[prompt], text, responseText, config.ai.chatLength);
   }
 
   // log
@@ -131,28 +131,6 @@ async function getModelList(apiKey = null) {
     return modelList.sort();
   } catch (error) {
     return [];
-  }
-}
-
-// psuh chat history
-function pushChatHistory(prompt, text, responseText, chatLength = 0) {
-  chatLength = parseInt(chatLength);
-
-  if (chatLength <= 0) return;
-
-  chatHistoryList[prompt].push(
-    {
-      role: 'user',
-      content: text,
-    },
-    {
-      role: 'assistant',
-      content: responseText,
-    }
-  );
-
-  while (chatHistoryList[prompt].length > chatLength * 2) {
-    chatHistoryList[prompt].shift();
   }
 }
 

@@ -24,13 +24,13 @@ function createImagePrompt() {
   return 'Copy the text from this image and do not include any explanation.';
 }
 
-// psuh chat history
-function pushChatHistory(chatHistory = [], chatLength = 0, userContent = {}, assistantContent = {}) {
+// initialize chat history
+function initializeChatHistory(chatHistory, chatLength = 0) {
   chatLength = parseInt(chatLength);
 
-  if (chatLength <= 0) return;
-
-  chatHistory.push(userContent, assistantContent);
+  if (!Array.isArray(chatHistory)) {
+    chatHistory = [];
+  }
 
   while (chatHistory.length > chatLength * 2) {
     chatHistory.shift();
@@ -40,5 +40,5 @@ function pushChatHistory(chatHistory = [], chatLength = 0, userContent = {}, ass
 module.exports = {
   createTranslatePrompt,
   createImagePrompt,
-  pushChatHistory,
+  initializeChatHistory,
 };

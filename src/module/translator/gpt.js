@@ -29,9 +29,7 @@ async function translate(text, source, target, type) {
   };
 
   // initialize chat history
-  if (!chatHistoryList[prompt]) {
-    chatHistoryList[prompt] = [];
-  }
+  aiFunction.initializeChatHistory(chatHistoryList[prompt], config.ai.chatLength);
 
   const payload = {
     model: config.api.gptModel,
@@ -58,9 +56,7 @@ async function translate(text, source, target, type) {
 
   // push history
   if (config.ai.useChat && type !== 'name') {
-    aiFunction.pushChatHistory(
-      chatHistoryList[prompt],
-      config.ai.chatLength,
+    chatHistoryList[prompt].push(
       {
         role: 'user',
         content: text,

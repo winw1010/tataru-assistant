@@ -6,6 +6,8 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 const safetySettings = [
   {
     category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -50,6 +52,7 @@ async function translate(text, source, target, type) {
   if (!currentGemini) currentGemini = createAI();
   currentGemini = createAI();
 
+  const config = configModule.getConfig();
   const model = currentGemini.getGenerativeModel({
     //model: 'gemini-pro',
     model: 'gemini-1.5-flash',
@@ -57,7 +60,48 @@ async function translate(text, source, target, type) {
   });
 
   const prompt = aiFunction.createTranslatePrompt(source, target, type);
-  const response = await model.generateContent([prompt, text]);
+
+  // initialize chat history
+  if (!chatHistoryList[prompt]) {
+    chatHistoryList[prompt] = [];
+  }
+
+  const payload = {
+    contents: [
+      ...chatHistoryList[prompt],
+      {
+        role: 'user',
+        parts: [{ text: text }],
+      },
+    ],
+    systemInstruction: {
+      parts: [
+        {
+          text: prompt,
+        },
+      ],
+    },
+  };
+
+  // const response = await model.generateContent([prompt, text]);
+  const response = await model.generateContent(payload);
+  const responseText = response.response.text();
+
+  // push history
+  if (config.ai.useChat && type !== 'name') {
+    aiFunction.pushChatHistory(
+      chatHistoryList[prompt],
+      config.ai.chatLength,
+      {
+        role: 'user',
+        parts: [{ text: text }],
+      },
+      {
+        role: 'model',
+        parts: [{ text: responseText }],
+      }
+    );
+  }
 
   console.log('Prompt:', prompt);
 

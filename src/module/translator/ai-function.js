@@ -21,7 +21,7 @@ function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = '
 }
 
 function createImagePrompt() {
-  return 'Copy the text from this image and do not include any explanation.';
+  return 'Copy the text from the image and do not include any explanation.';
 }
 
 // initialize chat history

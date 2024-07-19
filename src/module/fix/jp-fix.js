@@ -273,6 +273,7 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
+/*
 // fix text with AI
 async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
@@ -308,7 +309,7 @@ async function fixTextAI(dialogData = {}) {
   // skip check
   if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'sentence');
   } else {
     // table replace
     translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
@@ -319,6 +320,7 @@ async function fixTextAI(dialogData = {}) {
 
   return translatedText;
 }
+*/
 
 // fix text with AI 2 (TESTING)
 async function fixTextAI2(dialogData = {}) {
@@ -357,7 +359,7 @@ async function fixTextAI2(dialogData = {}) {
   // skip check
   if (jpFunction.needTranslation(translatedText, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(translatedText, translation, codeResult.table);
+    translatedText = await translateModule.translate(translatedText, translation, codeResult.table, 'sentence');
   }
 
   // table replcae

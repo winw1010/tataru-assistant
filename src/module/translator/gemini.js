@@ -75,11 +75,7 @@ async function translate(text, source, target, type) {
       },
     ],
     systemInstruction: {
-      parts: [
-        {
-          text: prompt,
-        },
-      ],
+      parts: [{ text: prompt }],
     },
   };
 

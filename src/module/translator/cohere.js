@@ -26,7 +26,7 @@ async function translate(text, source, target, type) {
     preamble: prompt,
     message: text,
     maxTokens: 4096,
-    temperature: Math.min(1, parseFloat(config.ai.temperature)),
+    temperature: parseFloat(config.ai.temperature) / 2,
     //top_p: 1,
   };
 

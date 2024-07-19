@@ -25,8 +25,8 @@ function createImagePrompt() {
 }
 
 // initialize chat history
-function initializeChatHistory(chatHistoryList = {}, prompt = '', chatLength = 0) {
-  chatLength = parseInt(chatLength);
+function initializeChatHistory(chatHistoryList = {}, prompt = '', config = {}) {
+  const chatLength = parseInt(config.ai.useChat ? config.ai.chatLength : '0');
 
   if (!Array.isArray(chatHistoryList[prompt])) {
     chatHistoryList[prompt] = [];

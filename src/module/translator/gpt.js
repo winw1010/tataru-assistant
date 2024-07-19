@@ -29,7 +29,7 @@ async function translate(text, source, target, type) {
   };
 
   // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, prompt, config.ai.chatLength);
+  aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload = {
     model: config.api.gptModel,

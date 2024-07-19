@@ -256,16 +256,6 @@ function fixConfig2(config) {
         config.captureWindow.type = 'tesseract-ocr';
       }
     }
-
-    // fix GPT model
-    if (config.api.gptModel === '3') {
-      config.api.gptModel = 'gpt-3.5-turbo';
-    } else if (config.api.gptModel === '4') {
-      config.api.gptModel = 'gpt-4-turbo';
-    }
-
-    // fix history length
-    config.ai.chatLength = config.ai.useChat ? config.ai.chatLength : '0';
   } catch (error) {
     console.log(error);
   }

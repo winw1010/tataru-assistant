@@ -263,6 +263,9 @@ function fixConfig2(config) {
     } else if (config.api.gptModel === '4') {
       config.api.gptModel = 'gpt-4-turbo';
     }
+
+    // fix history length
+    config.ai.chatLength = config.ai.useChat ? config.ai.chatLength : '0';
   } catch (error) {
     console.log(error);
   }

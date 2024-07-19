@@ -25,21 +25,12 @@ function createImagePrompt() {
 }
 
 // psuh chat history
-function pushChatHistory(chatHistory = [], text = '', responseText = '', chatLength = 0, userName = 'user', assistantName = 'assistant') {
+function pushChatHistory(chatHistory = [], chatLength = 0, userContent = {}, assistantContent = {}) {
   chatLength = parseInt(chatLength);
 
   if (chatLength <= 0) return;
 
-  chatHistory.push(
-    {
-      role: userName,
-      content: text,
-    },
-    {
-      role: assistantName,
-      content: responseText,
-    }
-  );
+  chatHistory.push(userContent, assistantContent);
 
   while (chatHistory.length > chatLength * 2) {
     chatHistory.shift();

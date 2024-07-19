@@ -56,7 +56,18 @@ async function translate(text, source, target, type) {
 
   // push history
   if (config.ai.useChat && type !== 'name') {
-    aiFunction.pushChatHistory(chatHistoryList[prompt], text, responseText, config.ai.chatLength);
+    aiFunction.pushChatHistory(
+      chatHistoryList[prompt],
+      config.ai.chatLength,
+      {
+        role: 'user',
+        content: text,
+      },
+      {
+        role: 'assistant',
+        content: responseText,
+      }
+    );
   }
 
   // log

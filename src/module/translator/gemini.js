@@ -62,7 +62,7 @@ async function translate(text, source, target, type) {
   const prompt = aiFunction.createTranslatePrompt(source, target, type);
 
   // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList[prompt], config.ai.chatLength);
+  aiFunction.initializeChatHistory(chatHistoryList, prompt, config.ai.chatLength);
 
   const payload = {
     contents: [

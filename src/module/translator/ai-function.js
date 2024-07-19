@@ -25,15 +25,15 @@ function createImagePrompt() {
 }
 
 // initialize chat history
-function initializeChatHistory(chatHistory, chatLength = 0) {
+function initializeChatHistory(chatHistoryList = {}, prompt = '', chatLength = 0) {
   chatLength = parseInt(chatLength);
 
-  if (!Array.isArray(chatHistory)) {
-    chatHistory = [];
+  if (!Array.isArray(chatHistoryList[prompt])) {
+    chatHistoryList[prompt] = [];
   }
 
-  while (chatHistory.length > chatLength * 2) {
-    chatHistory.shift();
+  while (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].shift();
   }
 }
 

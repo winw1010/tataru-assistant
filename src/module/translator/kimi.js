@@ -45,7 +45,7 @@ async function translate(text, source, target, type) {
       },
     ],
     max_tokens: maxTokens,
-    temperature: 0.7,
+    temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };
 

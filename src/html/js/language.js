@@ -192,6 +192,7 @@ function getElementTextList() {
 
         'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Use conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Conversation length'],
+        'input-ai-temperature': ['溫度', '温度', 'Temperature'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Use Proxy'],
         'input-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
@@ -227,7 +228,7 @@ function getElementTextList() {
         'div-channel': ['頻道設定', '频道设定', 'Channel'],
         'div-translation': ['翻譯設定', '翻译设定', 'Translate'],
         'div-api': ['API設定', 'API设定', 'API'],
-        'div-ai': ['AI翻譯設定', 'AI翻译设定', 'AI Config'],
+        'div-ai': ['AI設定', 'AI设定', 'AI Settings'],
         'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
         'div-system': ['系統設定', '系统设定', 'System'],
         'div-about': ['關於', '关于', 'About'],

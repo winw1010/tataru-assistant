@@ -643,6 +643,10 @@ function getOptionList() {
       ['input-ai-chat-length', 'value'],
       ['ai', 'chatLength'],
     ],
+    [
+      ['input-ai-temperature', 'value'],
+      ['ai', 'temperature'],
+    ],
 
     // proxy
     [

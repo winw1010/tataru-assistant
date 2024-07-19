@@ -190,11 +190,11 @@ function getElementTextList() {
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 
-        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Use conversation'],
-        'input-ai-chat-length': ['對話長度', '对话长度', 'Conversation length'],
+        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-turn Chat'],
+        'input-ai-chat-length': ['對話長度', '对话长度', 'Turn length'],
         'input-ai-temperature': ['溫度', '温度', 'Temperature'],
 
-        'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Use Proxy'],
+        'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'input-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
         'input-proxy-host': ['Proxy Host', 'Proxy Host', 'Proxy Host'],
         'input-proxy-port': ['Proxy Port', 'Proxy Port', 'Proxy Port'],

@@ -139,6 +139,11 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
+  document.getElementById('a-set-kimi-api').onclick = () => {
+    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-kimi-api.html');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
+  };
+
   // set gpt api
   document.getElementById('a-set-gpt-api').onclick = () => {
     const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
@@ -604,6 +609,14 @@ function getOptionList() {
       ['api', 'gptApiKey'],
     ],
     [
+      ['input-kimi-token', 'value'],
+      ['api', 'kimiToken'],
+    ],
+    [
+      ['input-kimi-custom-prompt', 'value'],
+      ['api', 'kimiCustomPrompt'],
+    ],
+    [
       ['select-gpt-model', 'value'],
       ['api', 'gptModel'],
     ],
@@ -622,18 +635,17 @@ function getOptionList() {
       ['api', 'llmApiModel'],
     ],
 
-    // system
     [
-      ['select-app-language', 'value'],
-      ['system', 'appLanguage'],
+      ['input-ai-chat-enable', 'checked'],
+      ['ai', 'useChat'],
     ],
     [
-      ['checkbox-auto-download-json', 'checked'],
-      ['system', 'autoDownloadJson'],
+      ['input-ai-chat-length', 'value'],
+      ['ai', 'chatLength'],
     ],
     [
-      ['checkbox-ssl-certificate', 'checked'],
-      ['system', 'sslCertificate'],
+      ['input-ai-temperature', 'value'],
+      ['ai', 'temperature'],
     ],
 
     // proxy
@@ -642,8 +654,8 @@ function getOptionList() {
       ['proxy', 'enable'],
     ],
     [
-      ['input-proxy-protoco', 'value'],
-      ['proxy', 'protoco'],
+      ['input-proxy-protocol', 'value'],
+      ['proxy', 'protocol'],
     ],
     [
       ['input-proxy-host', 'value'],
@@ -660,6 +672,20 @@ function getOptionList() {
     [
       ['input-proxy-password', 'value'],
       ['proxy', 'password'],
+    ],
+
+    // system
+    [
+      ['select-app-language', 'value'],
+      ['system', 'appLanguage'],
+    ],
+    [
+      ['checkbox-auto-download-json', 'checked'],
+      ['system', 'autoDownloadJson'],
+    ],
+    [
+      ['checkbox-ssl-certificate', 'checked'],
+      ['system', 'sslCertificate'],
     ],
   ];
 }

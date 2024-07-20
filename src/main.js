@@ -12,6 +12,7 @@ change icon
 // electron
 const { app, BrowserWindow } = require('electron');
 app.disableHardwareAcceleration();
+app.commandLine.appendSwitch('disable-http-cache');
 
 // app module
 const appModule = require('./module/system/app-module');

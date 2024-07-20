@@ -8,54 +8,66 @@ const configModule = require('../system/config-module');
 
 const chatHistoryList = {};
 
-// translate
+const maxTokens = 4096;
+
+// exec
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, type);
   return response;
 }
 
+// translate
 async function translate(text, source, target, type) {
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const apiUrl = 'https://api.moonshot.cn/v1/chat/completions';
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${config.api.kimiToken}`,
+  };
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload = {
-    chat_history: chatHistoryList[prompt],
-    preamble: prompt,
-    message: text,
-    maxTokens: 4096,
-    temperature: parseFloat(config.ai.temperature) / 2,
+    model: 'moonshot-v1-8k',
+    messages: [
+      {
+        role: 'system',
+        content: prompt,
+      },
+      ...chatHistoryList[prompt],
+      {
+        role: 'user',
+        content: text,
+      },
+    ],
+    max_tokens: maxTokens,
+    temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };
 
-  const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    Authorization: 'bearer ' + config.api.cohereToken,
-  };
-
   // get response
-  const response = await requestModule.post('https://api.cohere.ai/v1/chat', payload, headers);
-  const responseText = response.data.text;
-  const totalTokens = response?.data?.meta?.tokens;
+  const response = await requestModule.post(apiUrl, payload, headers);
+  const responseText = response.data.choices[0].message.content;
+  const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
   if (config.ai.useChat && type !== 'name') {
     chatHistoryList[prompt].push(
       {
-        role: 'USER',
-        message: text,
+        role: 'user',
+        content: text,
       },
       {
-        role: 'CHATBOT',
-        message: responseText,
+        role: 'assistant',
+        content: responseText,
       }
     );
   }
 
-  console.log('Tokens:', totalTokens);
+  // log
+  console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
 
   return responseText;

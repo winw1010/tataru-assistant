@@ -58,6 +58,8 @@
 
 - Cohere (也有免費方案，但每月僅能免費翻譯 1000 次)
 
+- Kimi（對 CN IP 友好，但免費方案 1 分鐘只能請求 3 次翻譯，基本需要付費使用）
+
 ## Credits
 
 - [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)

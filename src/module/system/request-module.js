@@ -16,7 +16,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
   const proxyAuth = config.proxy.username && config.proxy.password;
   const proxy = config?.proxy?.enable
     ? {
-        protocol: config.proxy.protocol,
+        protocol: config.proxy.protocol + ':',
         host: config.proxy.host,
         port: parseInt(config.proxy.port),
         auth: proxyAuth
@@ -31,9 +31,10 @@ async function get(url = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.get(url, { headers: clearHeaders(headers), timeout, proxy });
+    response = await axios({ method: 'get', url, headers: clearHeaders(headers), timeout, proxy });
   } catch (error) {
-    throw 'Request error: GET ' + url;
+    console.log(error);
+    throw 'GET error: ' + url;
   }
 
   return response;
@@ -44,7 +45,7 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
   const config = configModule.getConfig();
   const proxy = config?.proxy?.enable
     ? {
-        protocol: config.proxy.protocol,
+        protocol: config.proxy.protocol + ':',
         host: config.proxy.host,
         port: parseInt(config.proxy.port),
         auth:
@@ -60,10 +61,11 @@ async function post(url = '', data = '', headers = {}, timeout = 10000) {
   let response = null;
 
   try {
-    response = await axios.post(url, data, { headers: clearHeaders(headers), timeout, proxy });
+    response = await axios({ method: 'post', url, data, headers: clearHeaders(headers), timeout, proxy });
     console.log('Response data:', response.data);
   } catch (error) {
-    throw 'Request error: POST ' + url;
+    console.log(error);
+    throw 'POST error: ' + url;
   }
 
   return response;

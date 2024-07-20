@@ -35,6 +35,11 @@ const userArray = jpJson.getUserArray();
 fix start
 */
 
+// skip translation
+function skipTranslation(dialogData) {
+  return dialogData.translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore);
+}
+
 // start
 async function start(dialogData = {}) {
   const name = dialogData.name;
@@ -46,11 +51,6 @@ async function start(dialogData = {}) {
   let audioText = '';
 
   try {
-    // skip check
-    if (translation.skip && fixFunction.skipCheck(dialogData, jpArray.ignore)) {
-      throw '';
-    }
-
     // fix name
     if (translation.skipChinese && jpFunction.isChinese(name)) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
@@ -115,10 +115,7 @@ async function fixName(dialogData = {}) {
   }
 
   // find same name
-  const target =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine) || fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
   // return if found
   if (target) {
@@ -231,11 +228,7 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(
-    text2,
-    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
-    textType
-  );
+  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType);
   text2 = codeResult.text;
 
   // jp2
@@ -280,6 +273,7 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
+/*
 // fix text with AI
 async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
@@ -315,7 +309,7 @@ async function fixTextAI(dialogData = {}) {
   // skip check
   if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'sentence');
   } else {
     // table replace
     translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
@@ -326,6 +320,7 @@ async function fixTextAI(dialogData = {}) {
 
   return translatedText;
 }
+*/
 
 // fix text with AI 2 (TESTING)
 async function fixTextAI2(dialogData = {}) {
@@ -342,6 +337,7 @@ async function fixTextAI2(dialogData = {}) {
 
   // get text type
   const textType = getTextType(name, text, false);
+  console.log(textType);
 
   // reverse text
   if (textType === textTypeList.reversed) {
@@ -363,7 +359,7 @@ async function fixTextAI2(dialogData = {}) {
   // skip check
   if (jpFunction.needTranslation(translatedText, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(translatedText, translation, codeResult.table);
+    translatedText = await translateModule.translate(translatedText, translation, codeResult.table, 'sentence');
   }
 
   // table replcae
@@ -393,10 +389,7 @@ function specialFix1(name = '', text = '') {
 
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-    text = text.replace(
-      /(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi,
-      '水晶公'
-    );
+    text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
   }
 
   // 暗黒騎士
@@ -499,8 +492,8 @@ function getTextType(name = '', text = '', checkList = true) {
 }
 
 // check katakana
-function isNoHiragana(name = '', text = '', checkList = true) {
-  if (checkList && fixFunction.includesArrayItem(name, jpArray.listHira)) {
+function isNoHiragana(name = '', text = '' /*, checkList = true*/) {
+  if (/*checkList && */ fixFunction.includesArrayItem(name, jpArray.listHira)) {
     return true;
   }
 
@@ -515,5 +508,6 @@ function isNoHiragana(name = '', text = '', checkList = true) {
 }
 
 module.exports = {
+  skipTranslation,
   start,
 };

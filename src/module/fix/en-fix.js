@@ -28,6 +28,11 @@ const userArray = enJson.getUserArray();
 fix start
 */
 
+// skip translation
+function skipTranslation(dialogData) {
+  return dialogData.translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore);
+}
+
 // start
 async function start(dialogData = {}) {
   const name = dialogData.name;
@@ -39,11 +44,6 @@ async function start(dialogData = {}) {
   let audioText = '';
 
   try {
-    // skip check
-    if (translation.skip && fixFunction.skipCheck(dialogData, enArray.ignore)) {
-      throw '';
-    }
-
     // fix name
     if (translation.skipChinese && enFunction.isChinese(name)) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
@@ -109,10 +109,7 @@ async function fixName(dialogData = {}) {
   }
 
   // same check
-  const target =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine) || fixFunction.sameAsArrayItem(name + '##', chArray.combine);
 
   if (target) {
     return target[1];
@@ -221,6 +218,7 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
+/*
 // fix text with AI
 async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
@@ -243,7 +241,7 @@ async function fixTextAI(dialogData = {}) {
   // skip check
   if (enFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable);
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'sentence');
   } else {
     // table
     translatedText = fixFunction.replaceText(text2, codeResult.aiTable, true);
@@ -254,6 +252,7 @@ async function fixTextAI(dialogData = {}) {
 
   return translatedText;
 }
+*/
 
 // fix text with AI 2 (TESTING)
 async function fixTextAI2(dialogData = {}) {
@@ -278,7 +277,7 @@ async function fixTextAI2(dialogData = {}) {
   // skip check
   if (enFunction.needTranslation(translatedText, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(translatedText, translation, codeResult.table);
+    translatedText = await translateModule.translate(translatedText, translation, codeResult.table, 'sentence');
   }
 
   // table replace
@@ -327,5 +326,6 @@ function specialFix(name = '', text = '') {
 }
 
 module.exports = {
+  skipTranslation,
   start,
 };

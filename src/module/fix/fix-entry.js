@@ -70,7 +70,7 @@ function getEntryInterval() {
 // entry
 async function entry() {
   const config = configModule.getConfig();
-  let dialogData = entryIntervalItem.shift();
+  const dialogData = entryIntervalItem.shift();
 
   if (!dialogData) return;
 
@@ -96,13 +96,25 @@ async function entry() {
   ) {
     // JP/EN to CHT/CHS => XIV fix
     if (trueLanguage === languageEnum.ja) {
+      if (jpFix.skipTranslation(dialogData)) {
+        console.log('Skip translation');
+        dialogModule.removeDialog(dialogData.id);
+        return;
+      }
+
       // start JP fix
       dialogData.translation.from = languageEnum.ja;
-      dialogData = await jpFix.start(dialogData);
+      await jpFix.start(dialogData);
     } else if (trueLanguage === languageEnum.en) {
+      if (enFix.skipTranslation(dialogData)) {
+        console.log('Skip translation');
+        dialogModule.removeDialog(dialogData.id);
+        return;
+      }
+
       // start EN fix
       dialogData.translation.from = languageEnum.en;
-      dialogData = await enFix.start(dialogData);
+      await enFix.start(dialogData);
     }
   } else {
     // else => normal translation
@@ -120,11 +132,11 @@ async function entry() {
   }
 
   // update dialog
-  if (dialogData.translatedText !== '') {
-    dialogModule.updateDialog(dialogData);
-  } else {
-    dialogModule.removeDialog(dialogData.id);
+  if (dialogData.translatedText === '') {
+    dialogData.translatedText = 'ERROR';
   }
+
+  dialogModule.updateDialog(dialogData);
 }
 
 // get language

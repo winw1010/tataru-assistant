@@ -1,5 +1,8 @@
 'use strict';
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // engine module
 const engineModule = require('./engine-module');
 
@@ -11,9 +14,10 @@ const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 //const google = require('../translator/google');
 const gpt = require('../translator/gpt');
-const llmApi = require('../translator/llm-api');
+const openai = require('../translator/openai');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
+const kimi = require('../translator/kimi');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
@@ -98,7 +102,7 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
         break;
 
       case 'LLM-API':
-        text = await llmApi.exec(option, type);
+        text = await openai.exec(option, type);
         break;
 
       case 'Cohere':
@@ -107,6 +111,9 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
 
       case 'Gemini':
         text = await gemini.exec(option, type);
+        break;
+      case 'Kimi':
+        text = await kimi.exec(option, type);
         break;
 
       /*
@@ -120,7 +127,8 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
     }
   } catch (error) {
     console.log(error);
-    text = '' + error;
+    dialogModule.addNotification(error);
+    text = '';
     isError = true;
   }
 
@@ -145,6 +153,13 @@ function zhConvert(text = '', languageTo = '') {
 
 // clear code
 function clearCode(text = '', table = []) {
+  let halfText = '';
+  for (let index = 0; index < text.length; index++) {
+    const ch = text[index];
+    halfText += fullToHalf(ch);
+  }
+  text = halfText;
+
   if (table.length > 0) {
     table.forEach((value) => {
       const code = value[0];
@@ -153,6 +168,16 @@ function clearCode(text = '', table = []) {
   }
 
   return text;
+}
+
+function fullToHalf(str = '') {
+  // full-width English letters: [\uff21-\uff3a\uff41-\uff5a]
+  // full-width characters: [\uff01-\uff5e]
+  return str
+    .replace(/[\uff21-\uff3a\uff41-\uff5a]/g, function (ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 0xfee0);
+    })
+    .replace(/\u3000/g, ' ');
 }
 
 // module exports

@@ -136,8 +136,10 @@ function readMultiFolder(targetPath = '', srcIndex = 0, rplIndex = 1) {
 
         if (fileList.length > 0) {
           fileList.forEach((filename) => {
-            const filePath = fileModule.getPath(folderPath, filename);
-            array = array.concat(readText(filePath, false, true, srcIndex, rplIndex));
+            if (filename !== 'hidden.json') {
+              const filePath = fileModule.getPath(folderPath, filename);
+              array = array.concat(readText(filePath, false, true, srcIndex, rplIndex));
+            }
           });
         }
       });
@@ -195,12 +197,7 @@ function clearArray(array = []) {
       const element0 = element[0];
       const element1 = element[1];
 
-      if (
-        typeof element0 === 'undefined' ||
-        typeof element1 === 'undefined' ||
-        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element0) ||
-        /(\/\/comment)|(^N\/A$)/gi.test(element1)
-      ) {
+      if (typeof element0 === 'undefined' || typeof element1 === 'undefined' || /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element0) || /(\/\/comment)|(^N\/A$)/gi.test(element1)) {
         array.splice(index, 1);
       }
     }
@@ -253,11 +250,7 @@ function combineArray2(customArray = [], ...args) {
   for (let index = customArray2.length - 1; index >= 0; index--) {
     const customElement = customArray2[index];
     const customName = customElement[0] || '';
-    const targetIndex = Math.max(
-      otherNames.indexOf(customName.replace(/#/g, '')),
-      otherNames.indexOf(customName + '#'),
-      otherNames.indexOf(customName + '##')
-    );
+    const targetIndex = Math.max(otherNames.indexOf(customName.replace(/#/g, '')), otherNames.indexOf(customName + '#'), otherNames.indexOf(customName + '##'));
 
     // remove elements from other array
     if (targetIndex >= 0) {
@@ -289,13 +282,7 @@ function saveUserCustom(name = '', customArray = []) {
   if (name === '') return;
 
   // file names
-  const fileNames = [
-    'custom-source.json',
-    'custom-target.json',
-    'custom-overwrite.json',
-    'player-name.json',
-    'temp-name.json',
-  ];
+  const fileNames = ['custom-source.json', 'custom-target.json', 'custom-overwrite.json', 'player-name.json', 'temp-name.json'];
 
   // delete or replace item which has same source
   for (let index = 0; index < customArray.length; index++) {

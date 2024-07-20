@@ -6,6 +6,8 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 const safetySettings = [
   {
     category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -28,9 +30,9 @@ const safetySettings = [
 let currentGemini = null;
 
 // exec
-async function exec(option) {
+async function exec(option, type) {
   try {
-    const response = translate(option.text, option.from, option.to);
+    const response = translate(option.text, option.from, option.to, type);
     return response;
   } catch (error) {
     currentGemini = null;
@@ -46,18 +48,52 @@ function createAI() {
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese') {
+async function translate(text, source, target, type) {
   if (!currentGemini) currentGemini = createAI();
   currentGemini = createAI();
 
+  const config = configModule.getConfig();
   const model = currentGemini.getGenerativeModel({
     //model: 'gemini-pro',
     model: 'gemini-1.5-flash',
     safetySettings,
   });
 
-  const prompt = aiFunction.createTranslatePrompt(source, target);
-  const response = await model.generateContent([prompt, text]);
+  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+
+  // initialize chat history
+  aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
+
+  const payload = {
+    contents: [
+      ...chatHistoryList[prompt],
+      {
+        role: 'user',
+        parts: [{ text: text }],
+      },
+    ],
+    systemInstruction: {
+      parts: [{ text: prompt }],
+    },
+  };
+
+  // const response = await model.generateContent([prompt, text]);
+  const response = await model.generateContent(payload);
+  const responseText = response.response.text();
+
+  // push history
+  if (config.ai.useChat && type !== 'name') {
+    chatHistoryList[prompt].push(
+      {
+        role: 'user',
+        parts: [{ text: text }],
+      },
+      {
+        role: 'model',
+        parts: [{ text: responseText }],
+      }
+    );
+  }
 
   console.log('Prompt:', prompt);
 

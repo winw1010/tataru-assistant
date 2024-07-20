@@ -13,6 +13,10 @@ const katakana = getKatakanaString();
 // reg
 const regBrackets = /「|『|』|」/;
 
+// Hiragana: ぁ-ゖ
+// Katakana: ァ-ヺ
+// Name: ー・＝
+// Kanji: 一-龯
 // Kanji: 一-龯
 // Chinese: \u3400-\u9FFF
 
@@ -26,7 +30,7 @@ const regKatakanaF = /^[ァ-ヺ]/;
 const regKatakanaB = /[ァ-ヺー]$/;
 
 // no katakana
-const katakanaWithoutSmall = getKatakanaString().replace(/ァィゥェォッャュョヮヵヶ/g, ''); // remove ァィゥェォッャュョヮヵヶ
+const katakanaWithoutSmall = 'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ'; // remove ァィゥェォッャュョヮヵヶ
 const regNoKatakanaF = `(?<![${getKatakanaString()}ー])`;
 const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
@@ -481,9 +485,11 @@ function genderFix(originalText = '', translatedText = '') {
     translatedText = translatedText.replaceAll('她', '他').replaceAll('小姐', '').replaceAll('女王', '王');
   }
 
+  /*
   if (!originalText.includes('娘')) {
     translatedText = translatedText.replaceAll('女兒', '女孩');
   }
+  */
 
   return translatedText;
 }

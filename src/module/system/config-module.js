@@ -66,15 +66,22 @@ const defaultConfig = {
   api: {
     geminiApiKey: '',
     cohereToken: '',
+    kimiToken: '',
+    kimiCustomPrompt: '',
     gptApiKey: '',
     gptModel: '',
     llmApiUrl: '',
     llmApiKey: '',
     llmApiModel: '',
   },
+  ai: {
+    useChat: false,
+    chatLength: '0',
+    temperature: '0.7',
+  },
   proxy: {
     enable: false,
-    protoco: '',
+    protocol: '',
     host: '',
     port: '',
     username: '',
@@ -248,13 +255,6 @@ function fixConfig2(config) {
       } else {
         config.captureWindow.type = 'tesseract-ocr';
       }
-    }
-
-    // fix GPT model
-    if (config.api.gptModel === '3') {
-      config.api.gptModel = 'gpt-3.5-turbo';
-    } else if (config.api.gptModel === '4') {
-      config.api.gptModel = 'gpt-4-turbo';
     }
   } catch (error) {
     console.log(error);

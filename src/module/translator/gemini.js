@@ -65,7 +65,7 @@ async function translate(text, source, target, type) {
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload =
-    config.ai.useChat && chatHistoryList[prompt].length > 0
+    chatHistoryList[prompt].length > 0
       ? {
           contents: [
             ...chatHistoryList[prompt],

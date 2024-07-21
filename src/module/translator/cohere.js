@@ -22,13 +22,16 @@ async function translate(text, source, target, type) {
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload = {
-    chat_history: chatHistoryList[prompt],
     preamble: prompt,
     message: text,
     maxTokens: 4096,
     temperature: parseFloat(config.ai.temperature) / 2,
     //top_p: 1,
   };
+
+  if (chatHistoryList[prompt].length > 0) {
+    payload.chat_history = chatHistoryList[prompt];
+  }
 
   const headers = {
     Accept: 'application/json',

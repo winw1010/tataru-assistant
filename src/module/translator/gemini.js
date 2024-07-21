@@ -64,18 +64,21 @@ async function translate(text, source, target, type) {
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
-  const payload = {
-    contents: [
-      ...chatHistoryList[prompt],
-      {
-        role: 'user',
-        parts: [{ text: text }],
-      },
-    ],
-    systemInstruction: {
-      parts: [{ text: prompt }],
-    },
-  };
+  const payload =
+    config.ai.useChat && chatHistoryList[prompt].length > 0
+      ? {
+          contents: [
+            ...chatHistoryList[prompt],
+            {
+              role: 'user',
+              parts: [{ text: text }],
+            },
+          ],
+          systemInstruction: {
+            parts: [{ text: prompt }],
+          },
+        }
+      : [prompt, text];
 
   // const response = await model.generateContent([prompt, text]);
   const response = await model.generateContent(payload);

@@ -17,7 +17,8 @@ function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = '
       .replace(/\$\{type\}/g, type);
   }
 
-  return `Translate the following ${type} from ${source} to ${target} and do not include any explanation.`;
+  // return `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
+  return `Translate ${source} ${type} provided by user into ${target} and do not include any explanation.`;
 }
 
 function createImagePrompt() {

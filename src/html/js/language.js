@@ -16,8 +16,8 @@ function setText(language) {
   const textIndex = getTextIndex(language);
 
   // set title
-  const title = document.getElementsByTagName('title').item(0);
-  if (title) title.innerText = 'Tataru Assistant';
+  // const title = document.getElementsByTagName('title').item(0);
+  // if (title) title.innerText = 'Tataru Assistant';
 
   // set UI text
   // loop of property names
@@ -314,14 +314,24 @@ function getElementTextList() {
         // window title
         'span-title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit detected text'],
         'span-title-config': ['設定', '设定', 'Config'],
-        'span-title-dictionary': ['翻譯查詢', '翻译查询', 'Translate'],
-        'span-title-edit': ['重新翻譯', '重新翻译', 'Translate again'],
-        'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'View chat logs'],
         'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
+        'span-title-dictionary': ['翻譯查詢', '翻译查询', 'Translator'],
+        'span-title-edit': ['編輯翻譯', '编辑翻译', 'Edit Translation'],
+        'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
         'span-channel-comment': ['滾動滑鼠中鍵可以滑動頻道清單', '滚动鼠标中键可以滑动频道清单', 'Use middle mouse button to sroll the page'],
         'span-author': ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)', 'Author: winw1010'],
+      },
+      title: {
+        'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit detected text'],
+        'title-capture': ['擷取文字', '撷取文字', 'Detect screen text'],
+        'title-config': ['設定', '设定', 'Config'],
+        'title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
+        'title-dictionary': ['翻譯查詢', '翻译查询', 'Translator'],
+        'title-edit': ['編輯翻譯', '编辑翻译', 'Edit Translation'],
+        'title-index': ['Tataru Assistant', 'Tataru Assistant', 'Tataru Assistant'],
+        'title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
       },
       th: {
         'th-custom-before': ['原文', '原文', 'Original text'],

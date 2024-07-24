@@ -211,7 +211,7 @@ function compareString(str1 = '', str2 = '') {
     str2 = str2.replace(str, '');
   }
 
-  return !/[0-9a-zぁ-ゖァ-ヺ一-龯]/gi.test(str2);
+  return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
 }
 
 // module exports

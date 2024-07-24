@@ -14,6 +14,9 @@ const fixEntryModule = require('../fix/fix-entry');
 
 // data process
 function dataProcess(dialogData) {
+  console.log();
+  console.log();
+  console.log();
   console.log('\r\nDialog Data:', dialogData);
 
   if (checkData(dialogData)) {

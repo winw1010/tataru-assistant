@@ -17,7 +17,7 @@ function dataProcess(dialogData) {
   console.log();
   console.log();
   console.log();
-  console.log('\r\nDialog Data:', dialogData);
+  console.log('Dialog Data:', dialogData);
 
   if (checkData(dialogData)) {
     if (dialogData.type === 'CONSOLE') {

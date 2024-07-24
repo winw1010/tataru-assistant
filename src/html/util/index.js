@@ -79,7 +79,7 @@ function setIPC() {
 
     // set dialog content
     if (dialogData.translatedName !== '') {
-      dialogData.translatedName += '：<br>';
+      dialogData.translatedName += '：</br>';
     }
 
     setDialogContent(dialog, dialogData.translatedName + dialogData.translatedText);

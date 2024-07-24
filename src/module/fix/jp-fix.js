@@ -337,7 +337,6 @@ async function fixTextAI2(dialogData = {}) {
 
   // get text type
   const textType = getTextType(name, text, false);
-  console.log(textType);
 
   // reverse text
   if (textType === textTypeList.reversed) {

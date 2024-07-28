@@ -315,16 +315,15 @@ function setFocusable(value = true) {
 function restartWindow(windowName, data) {
   try {
     closeWindow(windowName);
+    throw null;
   } catch (error) {
-    //
+    createWindow(windowName, data);
   }
-
-  createWindow(windowName, data);
 }
 
 // close window
 function closeWindow(windowName) {
-  windowList[windowName].webContents.close();
+  windowList[windowName].close();
 }
 
 // get window

@@ -36,21 +36,6 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) windowModule.createWindow('index');
 });
 
-// ignore certificate error
-app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
-  console.log('\r\ncertificate-error');
-  console.log(error);
-
-  // write log
-  appModule.wirteLog('certificate-error', error);
-
-  // Prevent having error
-  event.preventDefault();
-
-  // and continue
-  callback(true);
-});
-
 // ignore uncaughtException
 process.on('uncaughtException', (error) => {
   console.log('\r\nuncaughtException');
@@ -68,3 +53,20 @@ process.on('unhandledRejection', (error) => {
   // write log
   appModule.wirteLog('unhandledRejection', error);
 });
+
+/*
+// ignore certificate error
+app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+  console.log('\r\ncertificate-error');
+  console.log(error);
+
+  // write log
+  appModule.wirteLog('certificate-error', error);
+
+  // Prevent having error
+  event.preventDefault();
+
+  // and continue
+  callback(true);
+});
+*/

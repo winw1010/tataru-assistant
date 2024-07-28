@@ -307,24 +307,24 @@ function boundsPositionCheck(bounds) {
 }
 
 // set focusable
-function setFocusable(/*value = true*/) {
-  //windowList['index']?.setFocusable(value);
+function setFocusable(value = true) {
+  windowList['index']?.setFocusable(value);
 }
 
 // restart window
 function restartWindow(windowName, data) {
   try {
     closeWindow(windowName);
-    throw null;
   } catch (error) {
-    createWindow(windowName, data);
+    //
   }
+
+  createWindow(windowName, data);
 }
 
 // close window
 function closeWindow(windowName) {
-  windowList[windowName].close();
-  windowList[windowName] = null;
+  windowList[windowName].webContents.close();
 }
 
 // get window

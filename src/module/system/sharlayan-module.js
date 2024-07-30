@@ -146,7 +146,11 @@ function start() {
             dialogData = fixText(dialogData);
 
             // check repetition
-            if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
+            if (isNotRepeated(dialogData)) {
+              serverModule.dataProcess(dialogData);
+            } else {
+              console.log('Repeated text');
+            }
           }
         } catch (error) {
           console.log(error);
@@ -185,7 +189,7 @@ function fixText2(text = '') {
 }
 
 // check repetition
-function checkRepetition(dialogData) {
+function isNotRepeated(dialogData) {
   const code = dialogData.code;
   const text = fixText2(dialogData.text);
 

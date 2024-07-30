@@ -77,10 +77,10 @@ let readerProcess = null;
 let restartReader = true;
 
 // dialog history
-let dialogHistory = [];
+//let dialogHistory = [];
 
 // text history
-let textHistory = {};
+//let textHistory = {};
 
 // start
 function start() {
@@ -143,10 +143,10 @@ function start() {
             let dialogData = JSON.parse(jsonString.toString());
 
             // fix  dialog data text
-            dialogData = fixText(dialogData);
+            //dialogData = fixText(dialogData);
 
             // check repetition
-            if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
+            /*if (checkRepetition(dialogData))*/ serverModule.dataProcess(dialogData);
           }
         } catch (error) {
           console.log(error);
@@ -168,6 +168,7 @@ function stop(restart = true) {
   }
 }
 
+/*
 // fix text
 function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
@@ -213,6 +214,7 @@ function compareString(str1 = '', str2 = '') {
 
   return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
 }
+*/
 
 // module exports
 module.exports = {

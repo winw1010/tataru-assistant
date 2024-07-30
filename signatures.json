@@ -27,15 +27,16 @@
 	{
 		"Key": "PANEL_TEXT",
 		"ASMSignature": true,
-		"Value": "4D896BD84D8973D033DB4C8B35",
+		"Value": "4883C428C383FAFF74F1488B0D",
 		"PointerPath": [
 			0,
 			0,
 			32,
-			14504,
-			3664,
-			944,
-			0
+			40,
+			119992,
+			1040,
+			1032,
+			456704
 		]
 	},
 	{

@@ -177,7 +177,7 @@ function fixText(dialogData) {
 }
 
 // fix text 2
-function fixText2(text) {
+function fixText2(text = '') {
   return text
     .replace(/\r/gi, '')
     .replace(/（.*?）/gi, '')

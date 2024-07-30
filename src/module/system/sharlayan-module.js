@@ -77,10 +77,10 @@ let readerProcess = null;
 let restartReader = true;
 
 // dialog history
-//let dialogHistory = [];
+let dialogHistory = [];
 
 // text history
-//let textHistory = {};
+let textHistory = {};
 
 // start
 function start() {
@@ -142,11 +142,11 @@ function start() {
             // get dialog data
             let dialogData = JSON.parse(jsonString.toString());
 
-            // fix  dialog data text
-            //dialogData = fixText(dialogData);
+            // fix dialog data text
+            dialogData = fixText(dialogData);
 
             // check repetition
-            /*if (checkRepetition(dialogData))*/ serverModule.dataProcess(dialogData);
+            if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
           }
         } catch (error) {
           console.log(error);
@@ -168,7 +168,6 @@ function stop(restart = true) {
   }
 }
 
-/*
 // fix text
 function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
@@ -181,27 +180,37 @@ function fixText(dialogData) {
 function checkRepetition(dialogData) {
   const code = dialogData.code;
   const text = dialogData.text
-    .replaceAll('\r', '')
-    .replaceAll(/（.*?）/gi, '')
-    .replaceAll(/\(.*?\)/gi, '');
+    .replace(/\r/gi, '')
+    .replace(/（.*?）/gi, '')
+    .replace(/\(.*?\)/gi, '');
 
   // check dialog history (DIALOG and CHAT_LOG)
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
-  } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
-    const targetIndex = dialogHistory.lastIndexOf(text);
-    if (targetIndex >= 0 && dialogHistory.length - targetIndex <= 3) {
+  }
+  // other 003D
+  else if (dialogData.code === '003D') {
+    for (let index = 0; index < dialogHistory.length; index++) {
+      const dialogText = dialogHistory[index]
+        .replace(/\r/gi, '')
+        .replace(/（.*?）/gi, '')
+        .replace(/\(.*?\)/gi, '');
+
+      if (compareString(dialogText, text)) {
+        return false;
+      }
+    }
+  }
+  // other code
+  else {
+    if (textHistory[code] === text) {
       return false;
+    } else {
+      textHistory[code] = text;
     }
   }
 
-  // check text history
-  if (compareString(textHistory[code], text)) {
-    return false;
-  }
-
-  textHistory[code] = text;
   return true;
 }
 
@@ -214,7 +223,6 @@ function compareString(str1 = '', str2 = '') {
 
   return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
 }
-*/
 
 // module exports
 module.exports = {

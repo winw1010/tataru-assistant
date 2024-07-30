@@ -189,7 +189,7 @@ function checkRepetition(dialogData) {
   const code = dialogData.code;
   const text = fixText2(dialogData.text);
 
-  // check dialog history (DIALOG and CHAT_LOG)
+  // DIALOG 003D
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);

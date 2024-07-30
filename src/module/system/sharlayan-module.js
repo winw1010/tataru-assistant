@@ -176,13 +176,18 @@ function fixText(dialogData) {
   return dialogData;
 }
 
-// check repetition
-function checkRepetition(dialogData) {
-  const code = dialogData.code;
-  const text = dialogData.text
+// fix text 2
+function fixText2(text) {
+  return text
     .replace(/\r/gi, '')
     .replace(/（.*?）/gi, '')
     .replace(/\(.*?\)/gi, '');
+}
+
+// check repetition
+function checkRepetition(dialogData) {
+  const code = dialogData.code;
+  const text = fixText2(dialogData.text);
 
   // check dialog history (DIALOG and CHAT_LOG)
   if (dialogData.type === 'DIALOG') {
@@ -192,10 +197,7 @@ function checkRepetition(dialogData) {
   // other 003D
   else if (dialogData.code === '003D') {
     for (let index = 0; index < dialogHistory.length; index++) {
-      const dialogText = dialogHistory[index]
-        .replace(/\r/gi, '')
-        .replace(/（.*?）/gi, '')
-        .replace(/\(.*?\)/gi, '');
+      const dialogText = fixText2(dialogHistory[index]);
 
       if (compareString(dialogText, text)) {
         return false;

@@ -2,7 +2,9 @@
 
 - [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
 
-- [下載 Tataru Assistant](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
+- [Tataru Assistant](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
+
+- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer)
 
 ## 安裝步驟
 
@@ -10,7 +12,7 @@
 
 2. 執行【Tataru Assistant Setup.exe】開始安裝，若顯示【Windows 已保護您的電腦】的訊息，請點選【其他資訊】，再點選下方的【仍要執行】
 
-3. 啟動後若顯示【這個作業系統不支援 .NET Framework 4.7.2】的訊息，請從上方連結下載【ndp472-kb4054531-web.exe】安裝 Microsoft .NET Framework 4.7.2
+3. 啟動後若顯示【這個作業系統不支援 .NET Framework 4.8】的訊息，請從上方連結下載安裝 Microsoft .NET Framework 4.8
 
 4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
 

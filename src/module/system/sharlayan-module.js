@@ -137,18 +137,19 @@ function start() {
       // read data
       for (let index = 0; index < dataArray.length; index++) {
         try {
-          let jsonString = dataArray[index];
+          const jsonString = dataArray[index];
+
           if (jsonString.length > 0) {
             // get dialog data
-            let dialogData = JSON.parse(jsonString.toString());
+            const dialogData = JSON.parse(jsonString.toString());
 
-            // skip invalid text
+            // skip invalid text(EF BF BD)
             if (/\uFFFD/.test(dialogData.text)) {
               continue;
             }
 
             // fix dialog data text
-            dialogData = fixText(dialogData);
+            fixText(dialogData);
 
             // check repetition
             if (isNotRepeated(dialogData)) {
@@ -182,7 +183,6 @@ function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
     dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
   }
-  return dialogData;
 }
 
 // fix text 2

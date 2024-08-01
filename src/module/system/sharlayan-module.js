@@ -77,10 +77,10 @@ let readerProcess = null;
 let restartReader = true;
 
 // dialog history
-let dialogHistory = [];
+const dialogHistory = [];
 
 // text history
-let textHistory = {};
+const textHistory = {};
 
 // start
 function start() {
@@ -132,7 +132,7 @@ function start() {
     // on reader stdout data
     readerProcess.stdout.on('data', (data) => {
       // split data string by \r\n
-      let dataArray = data.toString().split('\r\n');
+      const dataArray = data.toString().split('\r\n');
 
       // read data
       for (let index = 0; index < dataArray.length; index++) {
@@ -141,6 +141,11 @@ function start() {
           if (jsonString.length > 0) {
             // get dialog data
             let dialogData = JSON.parse(jsonString.toString());
+
+            // skip invalid text
+            if (/\uFFFD/.test(dialogData.text)) {
+              continue;
+            }
 
             // fix dialog data text
             dialogData = fixText(dialogData);

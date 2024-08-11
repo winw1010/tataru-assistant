@@ -79,7 +79,7 @@ function setIPC() {
 
     // set dialog content
     if (dialogData.translatedName !== '') {
-      dialogData.translatedName += '：<br>';
+      dialogData.translatedName += '：</br>';
     }
 
     setDialogContent(dialog, dialogData.translatedName + dialogData.translatedText);
@@ -310,7 +310,7 @@ function resetView(config) {
   ipcRenderer.send('set-always-on-top', config.indexWindow.alwaysOnTop);
 
   // set focusable
-  // ipcRenderer.send('set-focusable', config.indexWindow.focusable);
+  ipcRenderer.send('set-focusable', config.indexWindow.focusable);
 
   // set speech speed
   document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));

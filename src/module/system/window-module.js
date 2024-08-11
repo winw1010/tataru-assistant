@@ -307,8 +307,8 @@ function boundsPositionCheck(bounds) {
 }
 
 // set focusable
-function setFocusable(/*value = true*/) {
-  //windowList['index']?.setFocusable(value);
+function setFocusable(value = true) {
+  windowList['index']?.setFocusable(value);
 }
 
 // restart window
@@ -324,7 +324,6 @@ function restartWindow(windowName, data) {
 // close window
 function closeWindow(windowName) {
   windowList[windowName].close();
-  windowList[windowName] = null;
 }
 
 // get window

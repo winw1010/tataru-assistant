@@ -4,7 +4,7 @@
 // 1. FINDOUT TARGET'S BASE ADDRESS, THEN FIND OUT WHAT ACCESS TO THIS ADDRESS
 // 2. SELECT ONE OF THE INSTRUCTIONS, THEN CLICK 'SHOW DISASSEMBLER'
 // 3. IF BYTE NOT LONG ENOUGH, SELECT OTHER INSTRUCTION
-// 4. COPY THE BYTES, ATLEAST 3 ROWS, AND DON'T COPY TARGET'S BASE ADDRESS(8 CONTINUOUS BYTES)
+// 4. COPY THE BYTES, ATLEAST 3 ROWS, AND DON'T COPY CONTINUOUS 8 BYTES
 
 // CHECK ASMSignature:
 // 1. SCAN OPTION: ARRAY OF BYTE/ HEX/ CHECK 'EXECUTABLE'
@@ -12,15 +12,15 @@
 // 3. ONLY 1 RESULT = CORRECT BYTES
 
 // FIND POINTER PATH
-// 1. LOG IN THE GAME, AND SCAN THE STRING BELOW, AND DON'T TELEPORT, RIGHT CLICK THE ADDRESS, SELECT 'GENERATE POINTERMAP'
-// 2. RESTART THE GAME, AND SCAN THE STRING BELOW AGAIN, THEN RIGHT CLICK THE ADDRESS, SELECT 'POINTER SCAN FOR THIS ADDRESS'
+// 1. LOG IN THE GAME, AND CHANGE MAP ATLEAST ONE TIME, AND SCAN THE STRING BELOW, RIGHT CLICK THE ADDRESS, SELECT 'GENERATE POINTERMAP'
+// 2. RESTART THE GAME, AND CHANGE MAP ATLEAST ONE TIME, AND SCAN THE STRING BELOW AGAIN, THEN RIGHT CLICK THE ADDRESS, SELECT 'POINTER SCAN FOR THIS ADDRESS'
 // 3. TEST THE PROBABLY RESULT
 
 // ASMSignature path[0,0]: TARGET'S BASE ADDRESS(VALUE OF ["ffxiv_dx11.exe"+XXXXXXX])
 // DIALOG AND CUTSCENE HAVE SAME BASE ADDRESS
 
-// MAX DIFFERENT OFFSETS PER NODE: 4
-// MAXIUM OFFSET VALUE: 65535
+// MAX DIFFERENT OFFSETS PER NODE: 5
+// MAXIUM OFFSET VALUE: 1048575
 // MAX LEVEL: 5
 
 // DIALOG NAME
@@ -31,8 +31,8 @@
 
 // DIALOG TEXT
 // PATH: 20 38A8 ...OTHER
-// NOT ACTION, NOT OBJECT, NOT SKILL, WITH NEW LINE
-// STEP 100 OR 200, FIRST ONE
+// NOT ACTION, NOT OBJECT, NOT SKILL, NO NEW LINE
+// STEP 100, FIRST ONE
 // LEVEL: 5
 
 // CUTSCENE
@@ -77,10 +77,10 @@ let readerProcess = null;
 let restartReader = true;
 
 // dialog history
-let dialogHistory = [];
+const dialogHistory = [];
 
 // text history
-let textHistory = {};
+const textHistory = {};
 
 // start
 function start() {
@@ -132,21 +132,31 @@ function start() {
     // on reader stdout data
     readerProcess.stdout.on('data', (data) => {
       // split data string by \r\n
-      let dataArray = data.toString().split('\r\n');
+      const dataArray = data.toString().split('\r\n');
 
       // read data
       for (let index = 0; index < dataArray.length; index++) {
         try {
-          let jsonString = dataArray[index];
+          const jsonString = dataArray[index];
+
           if (jsonString.length > 0) {
             // get dialog data
-            let dialogData = JSON.parse(jsonString.toString());
+            const dialogData = JSON.parse(jsonString.toString());
 
-            // fix  dialog data text
-            dialogData = fixText(dialogData);
+            // skip invalid text(EF BF BD)
+            if (/\uFFFD/.test(dialogData.text)) {
+              continue;
+            }
+
+            // fix dialog data text
+            fixText(dialogData);
 
             // check repetition
-            if (checkRepetition(dialogData)) serverModule.dataProcess(dialogData);
+            if (isNotRepeated(dialogData)) {
+              serverModule.dataProcess(dialogData);
+            } else {
+              console.log('Repeated text');
+            }
           }
         } catch (error) {
           console.log(error);
@@ -173,34 +183,45 @@ function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
     dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
   }
-  return dialogData;
+}
+
+// fix text 2
+function fixText2(text = '') {
+  return text
+    .replace(/\r/gi, '')
+    .replace(/（.*?）/gi, '')
+    .replace(/\(.*?\)/gi, '');
 }
 
 // check repetition
-function checkRepetition(dialogData) {
+function isNotRepeated(dialogData) {
   const code = dialogData.code;
-  const text = dialogData.text
-    .replaceAll('\r', '')
-    .replaceAll(/（.*?）/gi, '')
-    .replaceAll(/\(.*?\)/gi, '');
+  const text = fixText2(dialogData.text);
 
-  // check dialog history (DIALOG and CHAT_LOG)
+  // DIALOG 003D
   if (dialogData.type === 'DIALOG') {
     dialogHistory.push(text);
     if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
-  } else if (dialogData.type === 'CHAT_LOG' && dialogData.code === '003D') {
-    const targetIndex = dialogHistory.lastIndexOf(text);
-    if (targetIndex >= 0 && dialogHistory.length - targetIndex <= 3) {
+  }
+  // other 003D
+  else if (dialogData.code === '003D') {
+    for (let index = 0; index < dialogHistory.length; index++) {
+      const dialogText = fixText2(dialogHistory[index]);
+
+      if (compareString(dialogText, text)) {
+        return false;
+      }
+    }
+  }
+  // other code
+  else {
+    if (textHistory[code] === text) {
       return false;
+    } else {
+      textHistory[code] = text;
     }
   }
 
-  // check text history
-  if (compareString(textHistory[code], text)) {
-    return false;
-  }
-
-  textHistory[code] = text;
   return true;
 }
 
@@ -211,7 +232,7 @@ function compareString(str1 = '', str2 = '') {
     str2 = str2.replace(str, '');
   }
 
-  return !/[0-9a-zぁ-ゖァ-ヺ一-龯]/gi.test(str2);
+  return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
 }
 
 // module exports

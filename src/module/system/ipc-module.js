@@ -161,8 +161,8 @@ function setSystemChannel() {
   });
 
   // console log
-  ipcMain.on('console-log', (event, text) => {
-    console.log(text);
+  ipcMain.on('console-log', (event, ...args) => {
+    console.log(...args);
   });
 }
 
@@ -397,20 +397,17 @@ function setCaptureChannel() {
 
 // set request channel
 function setRequestChannel() {
+  // set UA
+  ipcMain.on('set-ua', (event, scuValue, uaValue) => {
+    requestModule.setUA(scuValue, uaValue);
+  });
+
   // version check
   ipcMain.on('version-check', (event) => {
     // download version data
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
       .then((response) => {
-        if (response.data.scu && response.data.userAgent) {
-          // set request config
-          let config = configModule.getConfig();
-          config.system.scu = response.data.scu;
-          config.system.userAgent = response.data.userAgent;
-          configModule.setConfig(config);
-        }
-
         // show info
         if (response.data.info) {
           dialogModule.showInfo(event.sender, '' + response.data.info);
@@ -562,11 +559,7 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send(
-      'show-translation',
-      await translateModule.translate(dialogData.text, dialogData.translation),
-      dialogData.translation.to
-    );
+    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
   });
 
   // google tts
@@ -586,7 +579,7 @@ function setTranslateChannel() {
         if (config.api.gptApiKey === '' || config.api.gptModel === '') message = '請至【API設定】輸入API key和模型';
       } else if (engine === 'Cohere') {
         if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
-      } else if (engine === "Kimi") {
+      } else if (engine === 'Kimi') {
         if (config.api.kimiToken === '') message = '請至【API設定】輸入API key';
       } else if (engine === 'google-vision') {
         const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');

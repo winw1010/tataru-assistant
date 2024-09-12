@@ -10,6 +10,12 @@ const configModule = require('./config-module');
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
 const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
 
+// sec-ch-ua
+let scu = '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"';
+
+// user agent
+let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
+
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
   const config = configModule.getConfig();
@@ -119,14 +125,58 @@ function getExpiryDate() {
 
 // get sec-ch-ua
 function getSCU() {
-  const scu = configModule.getConfig()?.system?.scu;
-  return scu ? scu : configModule.getDefaultConfig().system.scu;
+  return scu;
+}
+
+// set sec-ch-ua
+function setSCU(value = []) {
+  let notA = null;
+  let chromium = null;
+
+  for (let index = 0; index < value.length; index++) {
+    const element = value[index];
+    if (element.brand !== 'Chromium') {
+      notA = element;
+    } else {
+      chromium = element;
+    }
+  }
+
+  if (notA && chromium) {
+    scu = `"${chromium.brand}";v="${chromium.version}", "${notA.brand}";v="${notA.version}", "Google Chrome";v="${chromium.version}"`;
+  }
+
+  return Boolean(notA && chromium);
 }
 
 // get user agent
 function getUserAgent() {
-  const userAgent = configModule.getConfig()?.system?.userAgent;
-  return userAgent ? userAgent : configModule.getDefaultConfig().system.userAgent;
+  return userAgent;
+}
+
+// set user agent
+function setUserAgent(value = '') {
+  userAgent = value
+    .replace(/\s+tataru-assistant\/\d+\.\d+\.\d+\s+/gi, ' ')
+    .replace(/\s+Electron\/\d+\.\d+\.\d+\s+/gi, ' ')
+    .replace(/(Chrome\/\d+)\.\d+\.\d+.\d+/gi, '$1.0.0.0');
+}
+
+// set UA
+function setUA(scuValue = [], uaValue = '') {
+  try {
+    if (!(Array.isArray(scuValue) && scuValue.length > 0 && typeof uaValue === 'string' && uaValue.length > 0)) {
+      return;
+    }
+
+    if (setSCU(scuValue)) {
+      setUserAgent(uaValue);
+      console.log(scu);
+      console.log(userAgent);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // to parameters
@@ -150,5 +200,6 @@ module.exports = {
   getExpiryDate,
   getSCU,
   getUserAgent,
+  setUA,
   toParameters,
 };

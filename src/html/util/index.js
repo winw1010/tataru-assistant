@@ -296,6 +296,7 @@ function setButton() {
 
 // start app
 function startApp() {
+  ipcRenderer.send('set-ua', navigator?.userAgentData?.brands, navigator?.userAgent);
   ipcRenderer.send('add-notification', 'VIEW_README');
   ipcRenderer.send('version-check');
   ipcRenderer.send('initialize-json');

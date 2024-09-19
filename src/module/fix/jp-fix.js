@@ -253,6 +253,8 @@ async function fixText(dialogData = {}) {
   if (jpFunction.needTranslation(text2, codeResult.table)) {
     // translate
     translatedText = await translateModule.translate(text2, translation, codeResult.table);
+  } else {
+    translatedText = text2;
   }
 
   // value fix after

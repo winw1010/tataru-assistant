@@ -107,15 +107,16 @@ async function fixName(dialogData = {}) {
   const name = dialogData.name;
   const translation = dialogData.translation;
 
+  let name2 = name;
   let translatedName = '';
-  let katakanaName = jpFunction.getKatakanaName(name);
+  let katakanaName = jpFunction.getKatakanaName(name2);
 
-  if (name === '') {
+  if (name2 === '') {
     return '';
   }
 
   // find same name
-  const target = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine) || fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
   // return if found
   if (target) {
@@ -138,13 +139,15 @@ async function fixName(dialogData = {}) {
   }
 
   // get code result
-  const codeResult = jpFunction.replaceTextByCode(name, chArray.combine);
-  translatedName = codeResult.text;
+  const codeResult = jpFunction.replaceTextByCode(name2, chArray.combine);
+  name2 = codeResult.text;
 
   // skip check
   if (jpFunction.needTranslation(translatedName, codeResult.table)) {
     // translate
     translatedName = await translateModule.translate(translatedName, translation, codeResult.table, 'name');
+  } else {
+    translatedName = name2;
   }
 
   // table
@@ -275,55 +278,6 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
-/*
-// fix text with AI
-async function fixTextAI(dialogData = {}) {
-  const name = dialogData.name;
-  const text = dialogData.text;
-  const translation = dialogData.translation;
-
-  let text2 = text;
-  let translatedText = text;
-
-  if (text === '') {
-    return '';
-  }
-
-  // get text type
-  const textType = getTextType(name, text, false);
-
-  // reverse text
-  if (textType === textTypeList.reversed) {
-    text2 = jpFunction.reverseKana(text2);
-  }
-
-  // special fix 1
-  text2 = specialFix1(name, text2);
-
-  // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
-
-  // convert to hira
-  if (textType === textTypeList.allKatakana) {
-    text2 = jpFunction.convertKana(text2, 'hira');
-  }
-
-  // skip check
-  if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
-    // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'sentence');
-  } else {
-    // table replace
-    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
-  }
-
-  // after translation
-  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
-
-  return translatedText;
-}
-*/
-
 // fix text with AI 2 (TESTING)
 async function fixTextAI2(dialogData = {}) {
   const name = dialogData.name;
@@ -350,17 +304,19 @@ async function fixTextAI2(dialogData = {}) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
-  translatedText = codeResult.text;
+  text2 = codeResult.text;
 
   // convert to hira
   if (textType === textTypeList.allKatakana) {
-    translatedText = jpFunction.convertKana(translatedText, 'hira');
+    text2 = jpFunction.convertKana(text2, 'hira');
   }
 
   // skip check
-  if (jpFunction.needTranslation(translatedText, codeResult.table)) {
+  if (jpFunction.needTranslation(text2, codeResult.table)) {
     // translate
-    translatedText = await translateModule.translate(translatedText, translation, codeResult.table, 'sentence');
+    translatedText = await translateModule.translate(text2, translation, codeResult.table, 'sentence');
+  } else {
+    translatedText = text2;
   }
 
   // table replcae

@@ -336,7 +336,7 @@ function setWindow(windowName, myWindow) {
   windowList[windowName] = myWindow;
 }
 
-// send window
+// send
 function send(windowName, channel, ...args) {
   windowList[windowName]?.webContents?.send(channel, ...args);
 }

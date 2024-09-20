@@ -13,8 +13,8 @@
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^32.0.2",
-    "electron-builder": "^24.13.3",
+    "electron": "^32.1.1",
+    "electron-builder": "^25.0.5",
     "eslint": "^8.57.0"
   },
   "dependencies": {

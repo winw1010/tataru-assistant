@@ -404,20 +404,17 @@ function setRequestChannel() {
 
   // version check
   ipcMain.on('version-check', (event) => {
-    // download version data
+    // get lastest version
     requestModule
-      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
+      .get('https://api.github.com/repos/winw1010/tataru-assistant/releases/latest')
       .then((response) => {
-        // show info
-        if (response.data.info) {
-          dialogModule.showInfo(event.sender, '' + response.data.info);
-        }
+        // compare with app version
+        const latestVersion = response?.data?.tag_name;
 
-        // compare app version
-        const latestVersion = response.data.number;
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {
             windowModule.sendIndex('hide-update-button', true);
+            console.log('latest version');
           } else {
             windowModule.sendIndex('hide-update-button', false);
             dialogModule.addNotification('UPDATE_AVAILABLE');
@@ -429,6 +426,20 @@ function setRequestChannel() {
       .catch((error) => {
         console.log(error);
         windowModule.sendIndex('hide-update-button', false);
+        dialogModule.addNotification(error);
+      });
+
+    // get info
+    requestModule
+      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/info.json')
+      .then((response) => {
+        if (response.data.show) {
+          // show info
+          dialogModule.showInfo(event.sender, '' + response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
         dialogModule.addNotification(error);
       });
   });

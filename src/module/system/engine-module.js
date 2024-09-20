@@ -50,7 +50,8 @@ const languageIndex = {
   Italian: -1,
 };
 
-const aiTable = {
+// LLM table
+const llmTable = {
   Auto: 'any languages',
   Japanese: 'Japanese',
   English: 'English',
@@ -130,11 +131,11 @@ const engineTable = {
     Russian: 'ru',
     Italian: 'it',
   },
-  GPT: aiTable,
-  Gemini: aiTable,
-  Cohere: aiTable,
-  Kimi: aiTable,
-  'LLM-API': aiTable,
+  GPT: llmTable,
+  Gemini: llmTable,
+  Cohere: llmTable,
+  Kimi: llmTable,
+  'LLM-API': llmTable,
 };
 
 // get engine select

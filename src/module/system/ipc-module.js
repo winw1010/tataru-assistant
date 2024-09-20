@@ -433,7 +433,7 @@ function setRequestChannel() {
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/info.json')
       .then((response) => {
-        if (response.data.show) {
+        if (response?.data?.show) {
           // show info
           dialogModule.showInfo(event.sender, '' + response.data.message);
         }

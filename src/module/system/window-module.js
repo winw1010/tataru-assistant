@@ -337,13 +337,13 @@ function setWindow(windowName, myWindow) {
 }
 
 // send window
-function sendWindow(windowName, channel, ...args) {
+function send(windowName, channel, ...args) {
   windowList[windowName]?.webContents?.send(channel, ...args);
 }
 
 // send index
 function sendIndex(channel, ...args) {
-  windowList['index']?.webContents?.send(channel, ...args);
+  send('index', channel, ...args);
 }
 
 // for each window
@@ -382,7 +382,7 @@ module.exports = {
 
   setWindow,
   getWindow,
-  sendWindow,
+  send,
   sendIndex,
   forEachWindow,
 

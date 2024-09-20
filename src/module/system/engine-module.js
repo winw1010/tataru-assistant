@@ -1,15 +1,7 @@
 'use strict';
 
 // all language list
-const allLanguageList = [
-  'Japanese',
-  'English',
-  'Traditional-Chinese',
-  'Simplified-Chinese',
-  'Korean',
-  'Russian',
-  'Italian',
-];
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian', 'Italian'];
 
 // source list
 const sourceList = ['Japanese', 'English'];
@@ -27,20 +19,7 @@ const fixTargetList = allLanguageList;
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];
 
 // engine list
-const engineList = [
-  '#Web-Translator',
-  'Youdao',
-  'Baidu',
-  'Caiyun',
-  'Papago',
-  'DeepL',
-  '#AI-Translator',
-  'Gemini',
-  'GPT',
-  'Cohere',
-  'Kimi',
-  'LLM-API',
-];
+const engineList = ['#Web-Translator', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#AI-Translator', 'Gemini', 'GPT', 'Cohere', 'Kimi', 'LLM-API'];
 
 // change list
 const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
@@ -69,6 +48,18 @@ const languageIndex = {
   Korean: -1,
   Russian: -1,
   Italian: -1,
+};
+
+const aiTable = {
+  Auto: 'any languages',
+  Japanese: 'Japanese',
+  English: 'English',
+  Chinese: 'Chinese',
+  'Traditional-Chinese': 'Chinese',
+  'Simplified-Chinese': 'Chinese',
+  Korean: 'Korean',
+  Russian: 'Russian',
+  Italian: 'Italian',
 };
 
 // engine table
@@ -106,17 +97,6 @@ const engineTable = {
     Russian: 'ru',
     Italian: 'it',
   },
-  Tencent: {
-    Auto: 'auto',
-    Japanese: 'jp',
-    English: 'en',
-    Chinese: 'zh',
-    'Traditional-Chinese': 'zh',
-    'Simplified-Chinese': 'zh',
-    Korean: 'ko',
-    Russian: 'ru',
-    Italian: 'it',
-  },
   Papago: {
     Auto: 'detect',
     Japanese: 'ja',
@@ -150,61 +130,11 @@ const engineTable = {
     Russian: 'ru',
     Italian: 'it',
   },
-  Gemini: {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-    Korean: 'Korean',
-    Russian: 'Russian',
-    Italian: 'Italian',
-  },
-  GPT: {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-    Korean: 'Korean',
-    Russian: 'Russian',
-    Italian: 'Italian',
-  },
-  Cohere: {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-    Korean: 'Korean',
-    Russian: 'Russian',
-    Italian: 'Italian',
-  },
-  Kimi: {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-    Korean: 'Korean',
-    Russian: 'Russian',
-    Italian: 'Italian',
-  },
-  'LLM-API': {
-    Auto: 'any languages',
-    Japanese: 'Japanese',
-    English: 'English',
-    Chinese: 'Chinese',
-    'Traditional-Chinese': 'Chinese',
-    'Simplified-Chinese': 'Chinese',
-    Korean: 'Korean',
-    Russian: 'Russian',
-    Italian: 'Italian',
-  },
+  GPT: aiTable,
+  Gemini: aiTable,
+  Cohere: aiTable,
+  Kimi: aiTable,
+  'LLM-API': aiTable,
 };
 
 // get engine select

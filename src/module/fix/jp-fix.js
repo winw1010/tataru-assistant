@@ -143,9 +143,9 @@ async function fixName(dialogData = {}) {
   name2 = codeResult.text;
 
   // skip check
-  if (jpFunction.needTranslation(translatedName, codeResult.table)) {
+  if (jpFunction.needTranslation(name2, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(translatedName, translation, codeResult.table, 'name');
+    translatedName = await translateModule.translate(name2, translation, codeResult.table, 'name');
   } else {
     translatedName = name2;
   }

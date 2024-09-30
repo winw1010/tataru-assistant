@@ -14,7 +14,7 @@ const jsonFunction = require('./json-function');
 const translateModule = require('../system/translate-module');
 
 // engine module
-const { aiList } = require('../system/engine-module');
+const { aiList, fixTargetList } = require('../system/engine-module');
 
 // npc channel
 const npcChannel = ['003D', '0044', '2AB9'];
@@ -116,24 +116,34 @@ async function fixName(dialogData = {}) {
   }
 
   // find same name
-  const target = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
+  const sameName = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
-  // return if found
-  if (target) {
-    return target[1];
+  // return saved name if found
+  if (sameName) {
+    return sameName[1];
   }
 
   // check katakana name
   if (katakanaName.length > 0) {
     let translatedKatakanaName = '';
-    const sameCheck =
+
+    // find same katakana name
+    const sameKatakanaName =
       fixFunction.sameAsArrayItem(katakanaName, chArray.combine) ||
       fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine) ||
       fixFunction.sameAsArrayItem(katakanaName + '##', chArray.combine);
 
-    // save translated katakanaName if not found
-    if (!sameCheck) {
-      translatedKatakanaName = createName(katakanaName);
+    // use saved name
+    if (sameKatakanaName) {
+      translatedKatakanaName = sameKatakanaName[1];
+    }
+    // create and save translated katakanaName if not found
+    else {
+      if (fixTargetList.includes(translation.to)) {
+        translatedKatakanaName = createName(katakanaName);
+      } else {
+        translatedKatakanaName = await translateModule.translate(name2, translation, [], 'name');
+      }
       saveName(katakanaName, translatedKatakanaName);
     }
   }

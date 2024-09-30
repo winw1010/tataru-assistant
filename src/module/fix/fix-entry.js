@@ -91,7 +91,7 @@ async function entry() {
 
   // JP/EN => XIV fix
   if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
-    // start JP fix
+    // JP fix
     if (trueLanguage === languageEnum.ja) {
       if (jpFix.skipTranslation(dialogData)) {
         console.log('Skip translation');
@@ -102,7 +102,7 @@ async function entry() {
       dialogData.translation.from = languageEnum.ja;
       await jpFix.start(dialogData);
     }
-    // start EN fix
+    // EN fix
     else {
       if (enFix.skipTranslation(dialogData)) {
         console.log('Skip translation');
@@ -113,9 +113,9 @@ async function entry() {
       dialogData.translation.from = languageEnum.en;
       await enFix.start(dialogData);
     }
-  } else {
-    // else => normal translation
-
+  }
+  // normal translation
+  else {
     // translate name
     if (npcChannel.includes(dialogData.code)) {
       dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation, [], 'name');

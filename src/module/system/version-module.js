@@ -1,6 +1,7 @@
 'use strict';
 
 function isLatest(appVersion = '', latestVersion = '') {
+  /*
   try {
     if (appVersion && latestVersion) {
       const appVersionArray = appVersion.split('.');
@@ -28,8 +29,12 @@ function isLatest(appVersion = '', latestVersion = '') {
   }
 
   return false;
+  */
+
+  return appVersion === latestVersion;
 }
 
+/*
 function tryParseInt(text = '') {
   let number = parseInt(text);
 
@@ -39,6 +44,7 @@ function tryParseInt(text = '') {
 
   return number;
 }
+*/
 
 module.exports = {
   isLatest,

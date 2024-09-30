@@ -163,11 +163,11 @@ function getElementTextList() {
         'input-dialog-color': ['對話框顏色', '对话框颜色', 'Dialog Color'],
         'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Dialog Transparency'],
 
-        'checkbox-auto-change': ['翻譯失敗時切換翻譯方式', '翻译失败时切换翻译方式', 'Change method automatically'],
+        'checkbox-auto-change': ['翻譯失敗時切換翻譯器', '翻译失败时切换翻译器', 'Change translator automatically'],
         'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix translation'],
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore system message'],
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
-        'select-engine': ['翻譯方式', '翻译方式', 'Method'],
+        'select-engine': ['翻譯器', '翻译器', 'Translator'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
         'select-from-player': ['隊伍頻道', '队伍频道', 'Party Language'],
         'select-to': ['翻譯語言', '翻译语言', 'Target Language'],

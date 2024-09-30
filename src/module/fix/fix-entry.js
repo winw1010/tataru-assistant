@@ -7,7 +7,7 @@ const configModule = require('../system/config-module');
 const dialogModule = require('../system/dialog-module');
 
 // language table
-const { languageEnum, fixSourceList /*fixTargetList*/ } = require('../system/engine-module');
+const { languageEnum, fixSourceList } = require('../system/engine-module');
 
 // translate module
 const translateModule = require('../system/translate-module');
@@ -89,12 +89,9 @@ async function entry() {
   // get true language
   const trueLanguage = getLanguage(dialogData);
 
-  if (
-    config.translation.fix &&
-    fixSourceList.includes(trueLanguage)
-    //&& fixTargetList.includes(dialogData.translation.to)
-  ) {
-    // JP/EN to CHT/CHS => XIV fix
+  // JP/EN => XIV fix
+  if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
+    // start JP fix
     if (trueLanguage === languageEnum.ja) {
       if (jpFix.skipTranslation(dialogData)) {
         console.log('Skip translation');
@@ -102,17 +99,17 @@ async function entry() {
         return;
       }
 
-      // start JP fix
       dialogData.translation.from = languageEnum.ja;
       await jpFix.start(dialogData);
-    } else if (trueLanguage === languageEnum.en) {
+    }
+    // start EN fix
+    else {
       if (enFix.skipTranslation(dialogData)) {
         console.log('Skip translation');
         dialogModule.removeDialog(dialogData.id);
         return;
       }
 
-      // start EN fix
       dialogData.translation.from = languageEnum.en;
       await enFix.start(dialogData);
     }

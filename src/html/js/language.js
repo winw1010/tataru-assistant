@@ -123,9 +123,10 @@ function getElementTextList() {
         'button-translate': ['翻譯', '翻译', 'Translate'],
 
         // custom
+        'button-view-files': ['檢視檔案', '检视档案', 'View files'],
+        'button-clear-cache': ['清除快取', '清除快取', 'Clear cache'],
         'button-search': ['查詢', '查询', 'Search'],
         'button-view-all': ['全部', '全部', 'All'],
-        'button-view-files': ['檢視檔案', '检视档案', 'View files'],
 
         // dictionary
         'button-switch': ['切換', '切换', 'Exchange'],

@@ -151,9 +151,9 @@ function setSystemChannel() {
       let message = '';
 
       if (error && error.code === 740) {
-        message = '修復失敗，請以系統管理員身分啟動本程式';
+        message = 'You must run Tataru Assistant as administrator. (Error 740)';
       } else {
-        message = '修復完畢，請重新啟動電腦套用設定';
+        message = 'Completed.';
       }
 
       dialogModule.showInfo(event.sender, message);
@@ -636,6 +636,14 @@ function setFileChannel() {
   // get user data path
   ipcMain.on('get-user-data-path', (event, ...args) => {
     event.returnValue = fileModule.getUserDataPath(...args);
+  });
+
+  ipcMain.on('clear-cache', async (event) => {
+    const response = await dialogModule.showInfo(event.sender, 'Delete cache file?', ['YES', 'NO'], 1);
+    if (response === 0) {
+      fileModule.unlink(fileModule.getUserDataPath('text', 'temp-name.json'));
+      jsonEntry.loadJSON();
+    }
   });
 }
 

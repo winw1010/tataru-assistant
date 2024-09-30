@@ -75,14 +75,18 @@ function removeDialog(id) {
 }
 
 // show info
-function showInfo(webContents = null, message = '') {
-  if (!webContents) return;
+async function showInfo(webContents = null, message = '', buttons = ['OK'], cancelId = 0) {
+  if (!webContents) return 0;
 
-  dialog.showMessageBox(BrowserWindow.fromWebContents(webContents), {
-    type: 'info',
-    title: 'Tataru Assistant',
-    message: message,
-  });
+  return (
+    await dialog.showMessageBox(BrowserWindow.fromWebContents(webContents), {
+      type: 'info',
+      title: 'Tataru Assistant',
+      message: message,
+      buttons: buttons,
+      cancelId: cancelId,
+    })
+  ).response;
 }
 
 // show dialog
@@ -163,14 +167,7 @@ function saveDialog(dialogData) {
 function createLogName(milliseconds = null) {
   const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
 
-  return (
-    date.getFullYear().toString() +
-    '-' +
-    (date.getMonth() + 1).toString().padStart(2, '0') +
-    '-' +
-    date.getDate().toString().padStart(2, '0') +
-    '.json'
-  );
+  return date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0') + '.json';
 }
 
 // module exports

@@ -166,7 +166,7 @@ function getElementTextList() {
         'checkbox-auto-change': ['翻譯失敗時切換翻譯方式', '翻译失败时切换翻译方式', 'Change method automatically'],
         'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix translation'],
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore system message'],
-        'checkbox-skip-chinese': ['忽略漢化字幕', '忽略汉化字幕', 'Ignore chinese text'],
+        'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
         'select-engine': ['翻譯方式', '翻译方式', 'Method'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
         'select-from-player': ['隊伍頻道', '队伍频道', 'Party Language'],

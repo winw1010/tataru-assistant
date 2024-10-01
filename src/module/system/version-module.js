@@ -1,6 +1,9 @@
 'use strict';
 
 function isLatest(appVersion = '', latestVersion = '') {
+  appVersion = appVersion.replace(/[^0-9.]/gi, '');
+  latestVersion = latestVersion.replace(/[^0-9.]/gi, '');
+
   try {
     if (appVersion && latestVersion) {
       const appVersionArray = appVersion.split('.');

@@ -8,7 +8,7 @@ const configModule = require('../system/config-module');
 
 const chatHistoryList = {};
 
-const regGptModel = /gpt|strawberry/i; ///gpt-\d.*[^0-9]$/i
+const regGptModel = /gpt|o1/i; ///gpt-\d.*[^0-9]$/i
 
 const maxTokens = 4096;
 

@@ -151,9 +151,9 @@ function setSystemChannel() {
       let message = '';
 
       if (error && error.code === 740) {
-        message = '修復失敗，請以系統管理員身分啟動本程式';
+        message = 'You must run Tataru Assistant as administrator. (Error 740)';
       } else {
-        message = '修復完畢，請重新啟動電腦套用設定';
+        message = 'Completed.';
       }
 
       dialogModule.showInfo(event.sender, message);
@@ -404,20 +404,17 @@ function setRequestChannel() {
 
   // version check
   ipcMain.on('version-check', (event) => {
-    // download version data
+    // get lastest version
     requestModule
-      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/version.json')
+      .get('https://api.github.com/repos/winw1010/tataru-assistant/releases/latest')
       .then((response) => {
-        // show info
-        if (response.data.info) {
-          dialogModule.showInfo(event.sender, '' + response.data.info);
-        }
+        // compare with app version
+        const latestVersion = response?.data?.tag_name;
 
-        // compare app version
-        const latestVersion = response.data.number;
         if (latestVersion) {
           if (versionModule.isLatest(appVersion, latestVersion)) {
             windowModule.sendIndex('hide-update-button', true);
+            console.log('latest version');
           } else {
             windowModule.sendIndex('hide-update-button', false);
             dialogModule.addNotification('UPDATE_AVAILABLE');
@@ -429,6 +426,20 @@ function setRequestChannel() {
       .catch((error) => {
         console.log(error);
         windowModule.sendIndex('hide-update-button', false);
+        dialogModule.addNotification(error);
+      });
+
+    // get info
+    requestModule
+      .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/info.json')
+      .then((response) => {
+        if (response?.data?.show) {
+          // show info
+          dialogModule.showInfo(event.sender, '' + response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
         dialogModule.addNotification(error);
       });
   });
@@ -625,6 +636,14 @@ function setFileChannel() {
   // get user data path
   ipcMain.on('get-user-data-path', (event, ...args) => {
     event.returnValue = fileModule.getUserDataPath(...args);
+  });
+
+  ipcMain.on('clear-cache', async (event) => {
+    const response = await dialogModule.showInfo(event.sender, 'Delete cache file?', ['YES', 'NO'], 1);
+    if (response === 0) {
+      fileModule.unlink(fileModule.getUserDataPath('text', 'temp-name.json'));
+      jsonEntry.loadJSON();
+    }
   });
 }
 

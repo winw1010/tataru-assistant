@@ -90,13 +90,6 @@ function setGlobalShortcut() {
 function registerGlobalShortcut() {
   globalShortcut.unregisterAll();
 
-  globalShortcut.register('CommandOrControl+F8', () => {
-    let config = configModule.getConfig();
-    config.translation.getCutsceneText = !config.translation.getCutsceneText;
-    configModule.setConfig(config);
-    windowModule.sendIndex('change-reccord-icon', config.translation.getCutsceneText);
-  });
-
   globalShortcut.register('CommandOrControl+F9', () => {
     exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'index.html')}"`);
   });

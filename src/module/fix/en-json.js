@@ -4,7 +4,7 @@
 const jsonFunction = require('./json-function');
 
 // language table
-const { languageEnum, languageIndex } = require('../system/engine-module');
+const { languageEnum, languageIndex, fixTargetList } = require('../system/engine-module');
 
 // ch array
 const chArray = {};
@@ -19,14 +19,15 @@ const userArray = {};
 function load(targetLanguage) {
   const srcIndex = languageIndex[languageEnum.en];
   const rplIndex = languageIndex[targetLanguage];
-  const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
+  const isChinese = fixTargetList.includes(targetLanguage);
+  const ch = isChinese ? (targetLanguage === languageEnum.zht ? 'cht' : 'chs') : 'other';
 
   // user array
   jsonFunction.readUserArray(userArray);
 
   // ch
-  chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);
-  chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
+  chArray.overwrite = isChinese ? jsonFunction.readOverwriteEN(rplIndex - 1) : [];
+  chArray.afterTranslation = isChinese ? jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`)) : [];
 
   // en
   enArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleEN());
@@ -36,10 +37,10 @@ function load(targetLanguage) {
   enArray.uncountable = jsonFunction.readText(jsonFunction.getTextPath('en', 'uncountable.json'));
 
   // main
-  chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
+  chArray.main = isChinese ? jsonFunction.readMain(srcIndex, rplIndex) : [];
 
   // non AI
-  chArray.nonAI = jsonFunction.readNonAI(srcIndex, rplIndex);
+  chArray.nonAI = isChinese ? jsonFunction.readNonAI(srcIndex, rplIndex) : [];
 
   // overwrite
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);

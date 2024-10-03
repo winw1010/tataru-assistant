@@ -149,7 +149,7 @@ async function fixName(dialogData = {}) {
   }
 
   // get code result
-  const codeResult = jpFunction.replaceTextByCode(name2, chArray.combine);
+  const codeResult = jpFunction.replaceTextByCode(name2, chArray.combine, 0, fixTargetList.includes(translation.to));
   name2 = codeResult.text;
 
   // skip check
@@ -241,7 +241,7 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType);
+  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType, fixTargetList.includes(translation.to));
   text2 = codeResult.text;
 
   // jp2
@@ -313,7 +313,7 @@ async function fixTextAI2(dialogData = {}) {
   text2 = specialFix1(name, text2);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType);
+  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType, fixTargetList.includes(translation.to));
   text2 = codeResult.text;
 
   // convert to hira

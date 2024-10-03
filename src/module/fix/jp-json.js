@@ -69,7 +69,7 @@ function load(targetLanguage) {
   jpArray.special2 = jsonFunction.createRegExpArray(jpArray.special2);
 
   // version fix
-  versionFix();
+  if (isChinese) versionFix();
 }
 
 // version fix

@@ -4,7 +4,7 @@
 const jsonFunction = require('./json-function');
 
 // language table
-const { languageEnum, languageIndex } = require('../system/engine-module');
+const { languageEnum, languageIndex, fixTargetList } = require('../system/engine-module');
 
 // ch array
 const chArray = {};
@@ -19,15 +19,16 @@ const userArray = {};
 function load(targetLanguage) {
   const srcIndex = languageIndex[languageEnum.ja];
   const rplIndex = languageIndex[targetLanguage];
-  const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
+  const isChinese = fixTargetList.includes(targetLanguage);
+  const ch = isChinese ? (targetLanguage === languageEnum.zht ? 'cht' : 'chs') : 'other';
 
   // user array
   jsonFunction.readUserArray(userArray);
 
   // ch
-  chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
-  chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
-  chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1);
+  chArray.overwrite = isChinese ? jsonFunction.readOverwriteJP(rplIndex - 1) : [];
+  chArray.afterTranslation = isChinese ? jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`)) : [];
+  chArray.chName = isChinese ? jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1) : [];
 
   // jp
   jpArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleJP());
@@ -40,16 +41,23 @@ function load(targetLanguage) {
   jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
   jpArray.special1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special1.json'));
   jpArray.special2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special2.json'));
-  jpArray.title = jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'));
+  jpArray.title = isChinese
+    ? jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'))
+    : [
+        [
+          ['', 0],
+          ['', 0],
+        ],
+      ];
 
   // main
-  chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
+  chArray.main = isChinese ? jsonFunction.readMain(srcIndex, rplIndex) : [];
 
   // non AI
-  chArray.nonAI = jsonFunction.readNonAI(srcIndex, rplIndex);
+  chArray.nonAI = isChinese ? jsonFunction.readNonAI(srcIndex, rplIndex) : [];
 
   // overwrite
-  chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
+  chArray.overwrite = isChinese ? jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite) : [];
 
   // combine
   chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempName);

@@ -57,7 +57,7 @@ function load(targetLanguage) {
   chArray.nonAI = isChinese ? jsonFunction.readNonAI(srcIndex, rplIndex) : [];
 
   // overwrite
-  chArray.overwrite = isChinese ? jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite) : [];
+  chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
   chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempName);

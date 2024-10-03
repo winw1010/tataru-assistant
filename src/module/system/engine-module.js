@@ -13,7 +13,7 @@ const targetList = allLanguageList;
 const fixSourceList = ['Japanese', 'English'];
 
 // fix target list
-const fixTargetList = allLanguageList;
+const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 
 // ui list
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];

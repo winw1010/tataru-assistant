@@ -51,7 +51,7 @@ function load(targetLanguage) {
   chArray.combine = jsonFunction.combineArray2(userArray.playerName, chArray.combine);
 
   // version fix
-  versionFix();
+  if (isChinese) versionFix();
 }
 
 // version fix

@@ -48,7 +48,7 @@ const regNoKanjiB = '(?![一-龯])';
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
 
 // jp text function
-function replaceTextByCode(text = '', array = [], textType = 0) {
+function replaceTextByCode(text = '', array = [], textType = 0, isChinese = true) {
   if (text === '' || !Array.isArray(array) || !array.length > 0) {
     return {
       text: text,
@@ -144,7 +144,7 @@ function replaceTextByCode(text = '', array = [], textType = 0) {
     }
   }
 
-  const result = findTable(text, matchedWords);
+  const result = isChinese ? findTable(text, matchedWords) : findTableOther(text, matchedWords);
   console.log('Result:', result);
   return result;
 }
@@ -260,6 +260,64 @@ function findTable(text = '', matchedWords = []) {
       } catch (error) {
         console.log(error);
       }
+    }
+  }
+
+  // AのB
+  let result = mergeCode(text, table, codeIndex, codeString, 'の', '的');
+  text = result.text;
+  codeIndex = result.codeIndex;
+
+  // A：B
+  result = mergeCode(text, table, codeIndex, codeString, '：', '：');
+  text = result.text;
+  codeIndex = result.codeIndex;
+
+  // AB
+  result = mergeCode(text, table, codeIndex, codeString);
+  text = result.text;
+  codeIndex = result.codeIndex;
+
+  return {
+    text,
+    table,
+    aiTable,
+  };
+}
+
+function findTableOther(text = '', matchedWords = []) {
+  const srcIndex = 0;
+  const rplIndex = 1;
+  let codeIndex = 0;
+  let codeString = 'BCFGJLMNPRSTVWXYZ';
+  let table = [];
+  let aiTable = [];
+
+  // clear code
+  const characters = text.match(/[a-z]/gi);
+  if (characters) {
+    for (let index = 0; index < characters.length; index++) {
+      codeString = codeString.replace(characters[index].toUpperCase(), '');
+    }
+  }
+
+  console.log('Remain Codes:', codeString);
+
+  // search and replace
+  for (let eleIndex = 0; eleIndex < matchedWords.length && codeIndex < codeString.length; eleIndex++) {
+    try {
+      const element = matchedWords[eleIndex];
+      const sorceName = element[srcIndex];
+      const replaceName = element[rplIndex];
+
+      if (text.includes(sorceName)) {
+        text = text.replaceAll(sorceName, codeString[codeIndex]);
+        table.push([codeString[codeIndex], replaceName]);
+        aiTable.push([sorceName, replaceName]);
+        codeIndex++;
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -413,6 +471,26 @@ function specialReplace(text = '', array = []) {
     element[0].lastIndex = 0;
   }
   return text;
+}
+
+function mergeCode(text = '', table = [], codeIndex = 0, codeString = '', middle1 = '', middle2 = '') {
+  for (let index1 = 0; index1 < table.length && codeIndex < codeString.length; index1++) {
+    const element1 = table[index1];
+
+    for (let index2 = 0; index2 < table.length && codeIndex < codeString.length; index2++) {
+      const element2 = table[index2];
+      const name1 = element1[0] + middle1 + element2[0];
+      const name2 = element1[1] + middle2 + element2[1];
+
+      if (text.includes(name1)) {
+        text = text.replaceAll(name1, codeString[codeIndex]);
+        table.push([codeString[codeIndex], name2]);
+        codeIndex++;
+      }
+    }
+  }
+
+  return { text, codeIndex };
 }
 
 function convertKana(text = '', type = '') {

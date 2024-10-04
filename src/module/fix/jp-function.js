@@ -263,20 +263,18 @@ function findTable(text = '', matchedWords = []) {
     }
   }
 
-  // AのB
-  let result = mergeCode(text, table, codeIndex, codeString, 'の', '的');
-  text = result.text;
-  codeIndex = result.codeIndex;
+  const middleArray = [
+    ['の', '的'], // AのB
+    ['：', '：'], // A：B
+    ['', ''], // AB
+  ];
 
-  // A：B
-  result = mergeCode(text, table, codeIndex, codeString, '：', '：');
-  text = result.text;
-  codeIndex = result.codeIndex;
-
-  // AB
-  result = mergeCode(text, table, codeIndex, codeString);
-  text = result.text;
-  codeIndex = result.codeIndex;
+  for (let index = 0; index < middleArray.length && codeIndex < codeString.length; index++) {
+    const element = middleArray[index];
+    const result = mergeCode(text, table, codeIndex, codeString, element[0], element[1]);
+    text = result.text;
+    codeIndex = result.codeIndex;
+  }
 
   return {
     text,

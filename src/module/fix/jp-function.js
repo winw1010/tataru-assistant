@@ -48,7 +48,7 @@ const regNoKanjiB = '(?![一-龯])';
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
 
 // jp text function
-function replaceTextByCode(text = '', array = [], textType = 0, isChinese = true) {
+function replaceTextByCode(text = '', array = [], textType = 0, isTargetChinese = true) {
   if (text === '' || !Array.isArray(array) || !array.length > 0) {
     return {
       text: text,
@@ -144,7 +144,7 @@ function replaceTextByCode(text = '', array = [], textType = 0, isChinese = true
     }
   }
 
-  const result = isChinese ? findTable(text, matchedWords) : findTableOther(text, matchedWords);
+  const result = isTargetChinese ? findTable(text, matchedWords) : findTableOther(text, matchedWords);
   console.log('Result:', result);
   return result;
 }

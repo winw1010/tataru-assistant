@@ -45,6 +45,7 @@ async function start(dialogData = {}) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
+  const isTargetChinese = fixTargetList.includes(translation.to);
 
   let translatedName = '';
   let translatedText = '';
@@ -56,7 +57,7 @@ async function start(dialogData = {}) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
     } else {
       if (npcChannel.includes(dialogData.code)) {
-        translatedName = await fixName(dialogData);
+        translatedName = await fixName(dialogData, isTargetChinese);
       } else {
         translatedName = name;
       }
@@ -67,9 +68,9 @@ async function start(dialogData = {}) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
       if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI2(dialogData);
+        translatedText = await fixTextAI(dialogData, isTargetChinese);
       } else {
-        translatedText = await fixText(dialogData);
+        translatedText = await fixText(dialogData, isTargetChinese);
       }
     }
 
@@ -103,7 +104,7 @@ fix name
 */
 
 // fix name
-async function fixName(dialogData = {}) {
+async function fixName(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const translation = dialogData.translation;
 
@@ -139,7 +140,7 @@ async function fixName(dialogData = {}) {
     }
     // create and save translated katakanaName if not found
     else {
-      if (fixTargetList.includes(translation.to)) {
+      if (isTargetChinese) {
         translatedKatakanaName = createName(katakanaName);
       } else {
         translatedKatakanaName = await translateModule.translate(name2, translation, [], 'name');
@@ -149,7 +150,7 @@ async function fixName(dialogData = {}) {
   }
 
   // get code result
-  const codeResult = jpFunction.replaceTextByCode(name2, chArray.combine, 0, fixTargetList.includes(translation.to));
+  const codeResult = jpFunction.replaceTextByCode(name2, chArray.combine, 0, isTargetChinese);
   name2 = codeResult.text;
 
   // skip check
@@ -205,7 +206,7 @@ fix text
 */
 
 // fix text
-async function fixText(dialogData = {}) {
+async function fixText(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
@@ -241,7 +242,7 @@ async function fixText(dialogData = {}) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType, fixTargetList.includes(translation.to));
+  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType, isTargetChinese);
   text2 = codeResult.text;
 
   // jp2
@@ -288,8 +289,8 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
-// fix text with AI 2 (TESTING)
-async function fixTextAI2(dialogData = {}) {
+// fix text with AI
+async function fixTextAI(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
@@ -313,7 +314,7 @@ async function fixTextAI2(dialogData = {}) {
   text2 = specialFix1(name, text2);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType, fixTargetList.includes(translation.to));
+  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType, isTargetChinese);
   text2 = codeResult.text;
 
   // convert to hira

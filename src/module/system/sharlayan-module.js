@@ -19,21 +19,19 @@
 // ASMSignature path[0,0]: TARGET'S BASE ADDRESS(VALUE OF ["ffxiv_dx11.exe"+XXXXXXX])
 // DIALOG AND CUTSCENE HAVE SAME BASE ADDRESS
 
-// MAX DIFFERENT OFFSETS PER NODE: 5
-// MAXIUM OFFSET VALUE: 1048575
-// MAX LEVEL: 5
+// MAX DIFFERENT OFFSETS PER NODE: 4
+// MAXIUM OFFSET VALUE: 65535
+// MAX LEVEL: 7
 
 // DIALOG NAME
 // PATH: 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL
 // REMEMBER ADD 2 TO LAST OFFSET
-// LEVEL: 5
 
 // DIALOG TEXT
 // PATH: 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL, NO NEW LINE
 // STEP 100, FIRST ONE
-// LEVEL: 5
 
 // CUTSCENE
 // PATH: 68 250 0
@@ -62,7 +60,7 @@ const sharlayanReader = 'sharlayan-reader'; // SharlayanReader
 // const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', sharlayanReader, 'history.json');
 
 // sharlayan.exe path
-const sharlayanExePath = fileModule.getRootPath('src', 'data', sharlayanReader, sharlayanReader + '.exe');
+const sharlayanExePath = fileModule.getRootPath('src', 'data', sharlayanReader, 'SharlayanReader.exe');
 
 // data signatures path
 const dataSignaturesPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');

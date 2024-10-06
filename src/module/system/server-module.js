@@ -50,7 +50,7 @@ function translateData(dialogData) {
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {
-    if (dialogData.type === 'CUTSCENE') {
+    if (['CUTSCENE1', 'CUTSCENE2'].includes(dialogData.type)) {
       dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
     } else {
       dialogData.text = dialogData.text.replace(/\r/gi, '');

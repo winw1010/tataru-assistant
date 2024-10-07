@@ -53,14 +53,11 @@ const fileModule = require('./file-module');
 // server module
 const serverModule = require('./server-module');
 
-// sharlayan reader
-const sharlayanReader = 'sharlayan-reader'; // SharlayanReader
-
 // sharlayan history path
 // const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', sharlayanReader, 'history.json');
 
 // sharlayan.exe path
-const sharlayanExePath = fileModule.getRootPath('src', 'data', sharlayanReader, 'SharlayanReader.exe');
+const sharlayanExePath = fileModule.getRootPath('src', 'data', 'sharlayan-reader', 'SharlayanReader.exe');
 
 // data signatures path
 const dataSignaturesPath = fileModule.getRootPath('src', 'data', 'text', 'signatures.json');
@@ -106,7 +103,7 @@ function start() {
 
     // on reader close
     readerProcess.on('close', (code) => {
-      console.log(`${sharlayanReader}.exe closed (code: ${code})`);
+      console.log(`SharlayanReader.exe closed (code: ${code})`);
 
       // write history
       // fileModule.write(sharlayanHistoryPath, { dialogHistory, textHistory }, 'json');

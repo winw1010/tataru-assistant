@@ -58,7 +58,7 @@ const fileModule = require('./file-module');
 const serverModule = require('./server-module');
 
 // sharlayan history path
-// const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', sharlayanReader, 'history.json');
+// const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', readerName, 'history.json');
 
 // reader name
 const readerName = 'sharlayan-reader';

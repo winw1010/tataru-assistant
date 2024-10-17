@@ -3,6 +3,9 @@
 // jp json
 const jpJson = require('./jp-json');
 
+// config module
+const configModule = require('../system/config-module');
+
 // female words
 const femaleWords = getFemaleWords();
 
@@ -263,11 +266,13 @@ function findTable(text = '', matchedWords = []) {
     }
   }
 
-  const middleArray = [
-    ['の', '的'], // AのB
-    ['：', '：'], // A：B
-    ['', ''], // AB
-  ];
+  const middleArray = ['Traditional-Chinese', 'Simplified-Chinese'].includes(configModule.getConfig().translation.to)
+    ? [
+        ['の', '的'], // AのB
+        ['：', '：'], // A：B
+        ['', ''], // AB
+      ]
+    : [];
 
   for (let index = 0; index < middleArray.length && codeIndex < codeString.length; index++) {
     const element = middleArray[index];

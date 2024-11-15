@@ -18,11 +18,11 @@ function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = '
   }
 
   // return `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
-  return `Translate ${source} ${type} provided by user into ${target} and do not include any explanation.`;
+  return `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
 }
 
 function createImagePrompt() {
-  return 'Copy the text from the image and do not include any explanation.';
+  return 'Copy the text from the image and do not make any explanation.';
 }
 
 // initialize chat history

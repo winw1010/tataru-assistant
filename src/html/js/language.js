@@ -377,7 +377,7 @@ function getElementTextList() {
         // index
         'img-button-drag': ['拖曳', '拖曳', 'Drag'],
         'img-button-config': ['設定', '设定', 'Config'],
-        'img-button-capture': ['翻譯螢幕文字', '翻译萤幕文字', 'Translate Screen Text'],
+        'img-button-capture': ['螢幕截圖翻譯', '萤幕截图翻译', 'Screenshot Translation'],
         'img-button-through': ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
         'img-button-update': ['下載最新版本', '下载最新版本', 'Download the latest version'],
         'img-button-minimize': ['縮小', '缩小', 'Minimize'],

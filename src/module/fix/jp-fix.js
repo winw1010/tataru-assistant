@@ -350,9 +350,15 @@ function specialFix1(name = '', text = '') {
     text = text.replace(/(?<=ま)っした/gi, 'した');
   }
 
+  // モブリン
+  if (/モブリン|(ク$)/gi.test(name)) {
+    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?=[。！？…～])/gi, 'です');
+    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?![ァ-ヺー・＝])/gi, '私');
+  }
+
   // ヒエン
   if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
-    text = text.replace(/若(?!若|々|い|し|様)/gi, '若様');
+    //text = text.replace(/若(?!若|々|い|し|様)/gi, '若様');
   }
 
   // 水晶公
@@ -375,7 +381,7 @@ function specialFix2(name = '', text = '') {
 
   // コボルド族
   if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
-    text = text.replace(/ー/gi, '');
+    //text = text.replace(/ー/gi, '');
   }
 
   // マムージャ族 & 強化グリーンワート
@@ -387,7 +393,7 @@ function specialFix2(name = '', text = '') {
   if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
     // 長老さま、長老さま！
     // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-    text = text.replace(/(.{3,}?)、\1/gi, '$1');
+    //text = text.replace(/(.{3,}?)、\1/gi, '$1');
   }
 
   // 異邦の詩人

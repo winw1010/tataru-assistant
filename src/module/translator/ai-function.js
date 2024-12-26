@@ -18,7 +18,8 @@ function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = '
   }
 
   // return `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
-  return `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
+  //return `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
+  return `Translate ${source} text provided by user into ${target} and do not make any explanation.`;
 }
 
 function createImagePrompt() {

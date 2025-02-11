@@ -65,11 +65,14 @@ const defaultConfig = {
   },
   api: {
     geminiApiKey: '',
+    geminiModel: 'gemini-2.0-flash',
     cohereToken: '',
+    cohereModel: 'command-r',
     kimiToken: '',
+    kimiModel: 'moonshot-v1-8k',
     kimiCustomPrompt: '',
     gptApiKey: '',
-    gptModel: '',
+    gptModel: 'gpt-4o',
     llmApiUrl: '',
     llmApiKey: '',
     llmApiModel: '',
@@ -114,7 +117,11 @@ function loadConfig() {
     // fix options
     const mainNames = Object.getOwnPropertyNames(defaultConfig);
     mainNames.forEach((mainName) => {
-      if (typeof currentConfig[mainName] === 'undefined' || typeof currentConfig[mainName] !== typeof defaultConfig[mainName] || Array.isArray(currentConfig[mainName])) {
+      if (
+        typeof currentConfig[mainName] === 'undefined' ||
+        typeof currentConfig[mainName] !== typeof defaultConfig[mainName] ||
+        Array.isArray(currentConfig[mainName])
+      ) {
         currentConfig[mainName] = defaultConfig[mainName];
       } else {
         // skip channel
@@ -125,7 +132,10 @@ function loadConfig() {
         // add property
         const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
         subNames.forEach((subName) => {
-          if (typeof currentConfig[mainName][subName] === 'undefined' || typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]) {
+          if (
+            typeof currentConfig[mainName][subName] === 'undefined' ||
+            typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]
+          ) {
             currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });

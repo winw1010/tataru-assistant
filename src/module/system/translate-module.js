@@ -1,5 +1,8 @@
 'use strict';
 
+// dialog module
+const dialogModule = require('./dialog-module');
+
 // engine module
 const engineModule = require('./engine-module');
 
@@ -54,6 +57,10 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
 
     console.log('\r\nEngine:', engine);
+
+    if (result.isError) {
+      dialogModule.addNotification(`Change to ${engine}.`);
+    }
 
     if (option) {
       result = await getTranslation(engine, option, type);
@@ -124,6 +131,7 @@ async function getTranslation(engine = '', option = {}, type = 'sentence') {
     }
   } catch (error) {
     console.log(error);
+    dialogModule.addNotification(error);
     text = '';
     isError = true;
   }

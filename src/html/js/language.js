@@ -374,6 +374,7 @@ function getElementTextList() {
 
         'input-kimi-token': ['API key', 'API金钥', 'API key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],
+        'input-kimi-custom-prompt': ['Custom Prompt', 'Custom Prompt', 'Custom Prompt'],
 
         'input-llm-api-key': ['API key', 'API金钥', 'API key'],
         'input-llm-model': ['Model', 'Model', 'Model'],

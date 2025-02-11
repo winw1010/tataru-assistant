@@ -8,16 +8,26 @@ const configModule = require('./config-module');
 
 // restricted headers of Chromium
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
-const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
+const restrictedHeaders = [
+  'Content-Length',
+  'Host',
+  'Trailer',
+  'Te',
+  'Upgrade',
+  'Cookie2',
+  'Keep-Alive',
+  'Transfer-Encoding',
+];
 
 // sec-ch-ua
 let scu = '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"';
 
 // user agent
-let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
+let userAgent =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 // get
-async function get(url = '', headers = {}, timeout = 10000) {
+async function get(url = '', headers = {}, timeout = 30000) {
   const config = configModule.getConfig();
   const proxyAuth = config.proxy.username && config.proxy.password;
   const proxy = config?.proxy?.enable
@@ -47,7 +57,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
 }
 
 // post
-async function post(url = '', data = '', headers = {}, timeout = 10000) {
+async function post(url = '', data = '', headers = {}, timeout = 30000) {
   const config = configModule.getConfig();
   const proxy = config?.proxy?.enable
     ? {

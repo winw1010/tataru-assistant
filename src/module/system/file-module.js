@@ -103,7 +103,7 @@ function copyData() {
       const value = config?.system?.[name];
 
       if (typeof value !== 'undefined') {
-          config.api[name] = value;
+        config.api[name] = value;
       }
     }
     write(configPath, config, 'json');

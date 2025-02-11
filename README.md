@@ -52,15 +52,17 @@
 
 ### AI 翻譯
 
-翻譯能力較佳，可正確翻譯較艱深的句子，需申請 API key 才能使用
+翻譯能力較佳，可正確翻譯較艱深的句子，需申請 API key 才能使用，目前支援以下方案
 
-- Gemini (有免費方案，每日可翻譯 1500 次，免費 AI 首選)
+- Gemini
 
-- ChatGPT (只有流量計費方案，想使用 GPT-4 需額外付月費)
+- ChatGPT
 
-- Cohere (也有免費方案，但每月僅能免費翻譯 1000 次)
+- Cohere
 
-- Kimi（對 CN IP 友好，但免費方案 1 分鐘只能請求 3 次翻譯，基本需要付費使用）
+- Kimi
+
+- 自訂 OpenAI(自訂模式，可自行輸入 POST URL 和 API KEY 使用與 OpenAI 相容的 AI 模型)
 
 ## Credits
 

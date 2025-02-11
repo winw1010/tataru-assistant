@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自訂LLM API設定教學</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body>
+    <br />
+
+    <div>
+      <div id="google_translate_element"></div>
+      <script type="text/javascript" src="./js/google-tranlate.js"></script>
+      <script
+        type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      ></script>
+    </div>
+
+    <br />
+
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>開啟【設定】視窗，選擇【API設定】，然後往下移動到【自訂LLM設定】</li>
+
+      <li>
+        於【API
+        URL】輸入您的API網址(例：https://api.openai.com/v1/chat/completions)，網址必須包含/chat/completions等文字，或輸入該LLM說明文件的chat(對話)功能頁面提供的POST網址
+      </li>
+
+      <li>於【API key】輸入您的API金鑰</li>
+
+      <li>於【模型】輸入您的AI模型，輸入的值請查詢API供應商的說明文件</li>
+
+      <li>於【API key】輸入您的API金鑰</li>
+
+      <li>儲存完畢後請回到【翻譯設定】將【翻譯引擎】更改為【自訂LLM API】，並按下【儲存變更】，儲存後即可開始使用</li>
+    </ol>
+
+    <ul hidden>
+      <li>
+        <h3>OpenAI提示詞</h3>
+        <span>
+          默認值：You will be provided with a sentence in $source, and your task is to translate it into $target.
+        </span>
+        <br />
+        <span> 儅用戶設置該值時，使用用戶輸入的提示詞；儅該值爲空時，默認使用内置提示詞</span>
+        <br />
+        <span> 提示詞必須包含 $source 和 $target，分別表示需要翻譯的語言和翻譯後的語言。</span>
+        <br />
+        <span>
+          提示詞舉例：我希望你擔任語言翻譯進行拼寫糾正和改進。我會用$source與你交談，你需要檢測該語言，將其翻譯為$target並用該文本的更正和改進版本（$target）進行回答。我希望你將名詞或句子替換為更漂亮、優雅、更高水平的$target名詞和句子。保持含義相同，但使它們更具文學性。我希望你只回復更正、改進，不要寫任何其他內容，不要寫解釋。</span
+        >
+        <br />
+      </li>
+    </ul>
+  </body>
+</html>

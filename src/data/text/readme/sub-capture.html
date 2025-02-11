@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>翻譯螢幕畫面上的文字</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <br />
+
+    <div>
+      <div id="google_translate_element"></div>
+      <script type="text/javascript" src="./js/google-tranlate.js"></script>
+      <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </div>
+
+    <br />
+
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <ul>
+      <li>
+        <h3>使用時機</h3>
+        遊戲介面和對話選項並不會自動翻譯，需手動選擇擷取
+      </li>
+
+      <li>
+        <h3>使用方法</h3>
+        <span> 點選 </span>
+        <img class="img-fluid img-ui" src="./img/ui/desktop_windows_white_24dp.svg" alt="picture" style="margin: 0" />
+        <span> 按鈕或是按下Ctrl+F11開啟【翻譯螢幕文字】視窗，然後在擷取視窗中選取欲翻譯的文字(如下方影片所示) </span>
+        <br />
+        <br />
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/yzQVAexpFDA"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </li>
+
+      <li>
+        <h3>功能說明</h3>
+        <img class="img-fluid" src="./img/capture/cpature-method.png" alt="picture" style="margin: 0" />
+        <ol>
+          <li>最左邊可選擇擷取方式，有Tesseract OCR和Google Vision兩種</li>
+          <li>換行切割：勾選後會以【行】為單位逐行翻譯(用來翻譯過場的選擇項目)，不勾選的話會將所有文字合併成一行再翻譯(翻譯整篇文章時使用)</li>
+          <li>編輯文字：勾選後會在擷取文字後顯示編輯視窗，可先在此手動修正文字再按【翻譯】提交，不勾選的話則會直接提交翻譯，若提交的文字有誤也不會修正</li>
+        </ol>
+      </li>
+
+      <li>
+        <h3>擷取方式</h3>
+        <ul>
+          <li>
+            <h4>Tesseract OCR</h4>
+            <span> 大致上沒有問題，但偶爾會有錯字，需手動編輯修正 </span>
+          </li>
+
+          <li>
+            <h4>Google Vision</h4>
+            <span>
+              文字辨識能力較為精準，幾乎不會有錯字，需在GCP建立API憑證才能使用(
+              <a href="./sub-google-vision-api.html" target="_blank">查看設定教學</a>
+              )
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>

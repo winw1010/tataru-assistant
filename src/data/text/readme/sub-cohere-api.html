@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cohere設定教學</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <br />
+
+    <div>
+      <div id="google_translate_element"></div>
+      <script type="text/javascript" src="./js/google-tranlate.js"></script>
+      <script
+        type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      ></script>
+    </div>
+
+    <br />
+
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>註冊一個Cohere帳號，也可以使用Google或Github帳號登入</li>
+
+      <li>
+        登入Cohere後進入Dashboard的
+        <a href="https://dashboard.cohere.com/api-keys">API keys頁面</a>
+        即可在下方的Trial keys看到一組金鑰，將其顯示(點選眼睛圖示)後可按眼睛圖示旁的複製按鈕複製金鑰
+      </li>
+
+      <li>
+        複製之後貼到【Tataru Assistant】裡的【API設定】>【Cohere設定】的API
+        KEY欄位裡(按下Ctrl+V可貼上)，設定完畢後請記得儲存您的設定
+        <br /><img class="img-fluid" src="./img/cohere/cohere-api-key.png" alt="" />
+      </li>
+
+      <li>
+        模型預設為【command-r】，若要更改請從
+        <a href="https://docs.cohere.com/v2/docs/models" target="_blank"> https://docs.cohere.com/v2/docs/models </a>
+        複製Model代號
+      </li>
+
+      <li>
+        儲存完畢後請回到【翻譯設定】將【翻譯引擎】更改為【Cohere】即可開始使用
+        <br /><img class="img-fluid" src="./img/cohere/change-engine-cohere.png" alt="" />
+      </li>
+
+      <li>
+        若想要使用流量計費方案，請至
+        <a href="https://dashboard.cohere.com/api-keys">API keys頁面</a>
+        點選【Get your Production key】，填入相關資料即可取得Production key
+      </li>
+    </ol>
+  </body>
+</html>

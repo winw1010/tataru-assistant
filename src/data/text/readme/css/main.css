@@ -1,0 +1,39 @@
+body {
+  padding: 1.4rem;
+  padding-top: 0rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+li {
+  padding: 1.4rem;
+}
+
+img {
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  /*border: 0.1rem solid #808080;*/
+}
+
+.img-ui {
+  width: 2rem;
+  height: 2rem;
+}
+
+p {
+  font-weight: bolder;
+}
+
+.div-return {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: fit-content;
+  padding-top: 0.7rem;
+}

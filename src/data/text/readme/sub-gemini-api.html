@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <br />
+
+    <div>
+      <div id="google_translate_element"></div>
+      <script type="text/javascript" src="./js/google-tranlate.js"></script>
+      <script
+        type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      ></script>
+    </div>
+
+    <br />
+
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <br />
+
+    <p>
+      本功能需綁定付款資訊，但免費方案不會扣款
+      <a href="https://ai.google.dev/pricing" target="_blank">查看付費規則</a>
+    </p>
+
+    <p>
+      使用此功能前需啟用Google Cloud Platform功能，請至
+      <a href="https://cloud.google.com/" target="_blank">Google Colud Platform</a>
+      啟用
+    </p>
+
+    <ol>
+      <li>
+        至
+        <a href="https://makersuite.google.com/app/apikey">API keys頁面</a>
+        按照以下步驟建立一個API key
+      </li>
+
+      <li>
+        初次使用會顯示注意事項，選第一項按Continue即可
+        <br /><img class="img-fluid" src="./img/gemini/gemini_1.png" alt="" />
+      </li>
+
+      <li>
+        選擇Get API key
+        <br /><img class="img-fluid" src="./img/gemini/gemini_2.png" alt="" />
+      </li>
+
+      <li>
+        選擇Create API key
+        <br /><img class="img-fluid" src="./img/gemini/gemini_3.png" alt="" />
+      </li>
+
+      <li>
+        隱私條款，選擇Got it
+        <br /><img class="img-fluid" src="./img/gemini/gemini_4.png" alt="" />
+      </li>
+
+      <li>
+        如果Google Cloud裡沒有專案，請點選上方的【Create API key in new project】。
+        <br />
+        若已有專案可從下方選擇已建立的專案，然後點選下方的【Create API key in existing project】繼續。
+        <br /><img class="img-fluid" src="./img/gemini/gemini_5.png" alt="" />
+      </li>
+
+      <li>
+        API key建立完成後，點選Copy複製
+        <br /><img class="img-fluid" src="./img/gemini/gemini_6.png" alt="" />
+      </li>
+
+      <li>
+        複製之後貼到【Tataru Assistant】裡的【API設定】>【Gemini設定】的API KEY欄位裡(按下Ctrl+V可貼上)，
+        <span class="text-warning">設定完畢後請記得儲存您的設定</span>
+        <br /><img class="img-fluid" src="./img/gemini/paste-api-key.png" alt="" />
+      </li>
+
+      <li>
+        模型預設為【gemini-2.0-flash】，若要更改請從
+        <a href="https://ai.google.dev/gemini-api/docs/models/gemini" target="_blank">
+          https://ai.google.dev/gemini-api/docs/models/gemini
+        </a>
+        複製Model代號
+      </li>
+
+      <li>
+        儲存完畢後請回到【翻譯設定】將【翻譯引擎】更改為【Gemini】即可開始使用
+        <br /><img class="img-fluid" src="./img/gemini/change-engine.png" alt="" />
+      </li>
+    </ol>
+  </body>
+</html>

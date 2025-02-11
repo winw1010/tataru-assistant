@@ -611,6 +611,16 @@ function getOptionList() {
       ['input-gemini-model', 'value'],
       ['api', 'geminiModel'],
     ],
+
+    [
+      ['input-gpt-api-key', 'value'],
+      ['api', 'gptApiKey'],
+    ],
+    [
+      ['input-gpt-model', 'value'],
+      ['api', 'gptModel'],
+    ],
+
     [
       ['input-cohere-token', 'value'],
       ['api', 'cohereToken'],
@@ -619,6 +629,7 @@ function getOptionList() {
       ['input-cohere-model', 'value'],
       ['api', 'cohereModel'],
     ],
+
     [
       ['input-kimi-token', 'value'],
       ['api', 'kimiToken'],
@@ -631,16 +642,7 @@ function getOptionList() {
       ['input-kimi-custom-prompt', 'value'],
       ['api', 'kimiCustomPrompt'],
     ],
-    [
-      ['input-gpt-api-key', 'value'],
-      ['api', 'gptApiKey'],
-    ],
-    [
-      ['input-gpt-model', 'value'],
-      ['api', 'gptModel'],
-    ],
 
-    // LLM API
     [
       ['input-llm-api-url', 'value'],
       ['api', 'llmApiUrl'],

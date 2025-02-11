@@ -44,7 +44,7 @@ function setView() {
 
   readConfig();
 
-  readGptModelList();
+  //readGptModelList();
 }
 
 // set event
@@ -75,9 +75,11 @@ function setEvent() {
   });
 
   // input-gpt-api-key
+  /*
   document.getElementById('input-gpt-api-key').oninput = () => {
     readGptModelList();
   };
+  */
 }
 
 // set button
@@ -193,7 +195,10 @@ function setButton() {
 
   // view response
   document.getElementById('a-view-response').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"');
+    ipcRenderer.send(
+      'execute-command',
+      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"'
+    );
   };
 
   // github
@@ -308,6 +313,7 @@ function resetApp(config) {
   ipcRenderer.send('set-global-shortcut');
 }
 
+/*
 // read GPT model list
 async function readGptModelList() {
   const apiKey = document.getElementById('input-gpt-api-key').value;
@@ -334,6 +340,7 @@ async function readGptModelList() {
     selectGptModel.innerHTML = '';
   }
 }
+*/
 
 // set on input event
 function setOnInputEvent(inputId = '', spanId = '') {
@@ -601,23 +608,35 @@ function getOptionList() {
       ['api', 'geminiApiKey'],
     ],
     [
+      ['input-gemini-model', 'value'],
+      ['api', 'geminiModel'],
+    ],
+    [
       ['input-cohere-token', 'value'],
       ['api', 'cohereToken'],
     ],
     [
-      ['input-gpt-api-key', 'value'],
-      ['api', 'gptApiKey'],
+      ['input-cohere-model', 'value'],
+      ['api', 'cohereModel'],
     ],
     [
       ['input-kimi-token', 'value'],
       ['api', 'kimiToken'],
     ],
     [
+      ['input-kimi-model', 'value'],
+      ['api', 'kimiModel'],
+    ],
+    [
       ['input-kimi-custom-prompt', 'value'],
       ['api', 'kimiCustomPrompt'],
     ],
     [
-      ['select-gpt-model', 'value'],
+      ['input-gpt-api-key', 'value'],
+      ['api', 'gptApiKey'],
+    ],
+    [
+      ['input-gpt-model', 'value'],
       ['api', 'gptModel'],
     ],
 

@@ -10,8 +10,6 @@ const chatHistoryList = {};
 
 const regGptModel = /gpt|o1/i; ///gpt-\d.*[^0-9]$/i
 
-const maxTokens = 4096;
-
 // exec
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, type);
@@ -44,7 +42,6 @@ async function translate(text, source, target, type) {
         content: text,
       },
     ],
-    max_tokens: maxTokens,
     temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };
@@ -108,7 +105,6 @@ async function getImageText(imageBase64 = '') {
           ],
         },
       ],
-      max_tokens: maxTokens,
     };
 
     const response = await requestModule.post(apiUrl, payload, headers);

@@ -8,8 +8,6 @@ const configModule = require('../system/config-module');
 
 const chatHistoryList = {};
 
-const maxTokens = 4096;
-
 // exec
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, type);
@@ -30,7 +28,7 @@ async function translate(text, source, target, type) {
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload = {
-    model: 'moonshot-v1-8k',
+    model: config.api.kimiModel,
     messages: [
       {
         role: 'system',
@@ -42,7 +40,6 @@ async function translate(text, source, target, type) {
         content: text,
       },
     ],
-    max_tokens: maxTokens,
     temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };

@@ -174,14 +174,17 @@ function getElementTextList() {
         'select-to': ['翻譯語言', '翻译语言', 'Target Language'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
+        'input-gemini-model': ['模型', '模型', 'model'],
 
         'input-cohere-token': ['API key', 'API金钥', 'API key'],
+        'input-cohere-model': ['模型', '模型', 'model'],
 
         'input-kimi-token': ['API key', 'API金钥', 'API key'],
+        'input-kimi-model': ['模型', '模型', 'model'],
         'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom prompt'],
 
         'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
-        'select-gpt-model': ['GPT模型', 'GPT模型', 'GPT model'],
+        'input-gpt-model': ['模型', '模型', 'model'],
 
         'input-llm-api-key': ['API key', 'API金钥', 'API key'],
         'input-llm-model': ['模型', '模型', 'Model'],
@@ -303,7 +306,11 @@ function getElementTextList() {
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
         'p-llm-api': ['自訂OpenAI設定', '自订OpenAI设定', 'Custom OpenAI'],
-        'p-unoffcia-api': ['若您的位置無法使用ChatGPT，請點此設定反向代理', '若您的位置无法使用ChatGPT，请点此设定反向代理', "Click here to set reverse proxy if your location can't access ChatGPT"],
+        'p-unoffcia-api': [
+          '若您的位置無法使用ChatGPT，請點此設定反向代理',
+          '若您的位置无法使用ChatGPT，请点此设定反向代理',
+          "Click here to set reverse proxy if your location can't access ChatGPT",
+        ],
         'p-ssl-warning': [
           '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
           '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
@@ -325,8 +332,16 @@ function getElementTextList() {
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
-        'span-channel-comment': ['滾動滑鼠中鍵可以滑動頻道清單', '滚动鼠标中键可以滑动频道清单', 'Use middle mouse button to sroll the page'],
-        'span-author': ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)', 'Author: winw1010'],
+        'span-channel-comment': [
+          '滾動滑鼠中鍵可以滑動頻道清單',
+          '滚动鼠标中键可以滑动频道清单',
+          'Use middle mouse button to sroll the page',
+        ],
+        'span-author': [
+          '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
+          '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
+          'Author: winw1010 in www.gamer.com.tw',
+        ],
       },
       title: {
         'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit detected text'],
@@ -349,11 +364,18 @@ function getElementTextList() {
       input: {
         // config
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
-        'input-cohere-token': ['API key', 'API金钥', 'API key'],
-        'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
-        'input-kimi-token': ['API key', 'API金钥', 'API key'],
-        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
+        'input-gemini-model': ['Model', 'Model', 'Model'],
 
+        'input-cohere-token': ['API key', 'API金钥', 'API key'],
+        'input-cohere-model': ['Model', 'Model', 'Model'],
+
+        'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
+        'input-gpt-model': ['Model', 'Model', 'Model'],
+
+        'input-kimi-token': ['API key', 'API金钥', 'API key'],
+        'input-kimi-model': ['Model', 'Model', 'Model'],
+
+        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
         'input-llm-model': ['Model', 'Model', 'Model'],
         'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 

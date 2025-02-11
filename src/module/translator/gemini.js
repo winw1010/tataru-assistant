@@ -54,8 +54,7 @@ async function translate(text, source, target, type) {
 
   const config = configModule.getConfig();
   const model = currentGemini.getGenerativeModel({
-    //model: 'gemini-pro',
-    model: 'gemini-1.5-flash',
+    model: config.api.geminiModel,
     safetySettings,
   });
 

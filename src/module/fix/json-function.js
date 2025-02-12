@@ -181,6 +181,20 @@ function writeUserText(name = '', data = []) {
   fileModule.write(getUserTextPath(name), data, 'json');
 }
 
+// write temp name
+function writeTempName(userArray = {}, name = '', translatedName = '') {
+  const tempNameIndex = userArray.tempName.map((x) => x[0]).includes(name);
+  const element = [name, translatedName, new Date().getTime()];
+
+  if (tempNameIndex >= 0) {
+    userArray.tempName[tempNameIndex] = element;
+  } else {
+    userArray.tempName.push(element);
+  }
+
+  writeUserText('temp-name.json', userArray.tempName);
+}
+
 // map array
 function mapArray(array = [], index0 = 0, index1 = 1) {
   if (!checkArray(array)) {
@@ -378,6 +392,7 @@ module.exports = {
   readUserArray,
   readUserText,
   writeUserText,
+  writeTempName,
   sortArray,
   combineArray,
   combineArray2,

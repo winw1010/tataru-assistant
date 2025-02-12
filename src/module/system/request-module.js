@@ -28,63 +28,26 @@ let userAgent =
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
-  const config = configModule.getConfig();
-  const proxyAuth = config.proxy.username && config.proxy.password;
-  const proxy = config?.proxy?.enable
-    ? {
-        protocol: config.proxy.protocol + ':',
-        host: config.proxy.host,
-        port: parseInt(config.proxy.port),
-        auth: proxyAuth
-          ? {
-              username: config.proxy.username,
-              password: config.proxy.password,
-            }
-          : undefined,
-      }
-    : undefined;
+  const option = { method: 'get', url, headers: clearHeaders(headers), timeout };
+  const proxy = getProxy();
 
-  let response = null;
-
-  try {
-    response = await axios({ method: 'get', url, headers: clearHeaders(headers), timeout, proxy });
-  } catch (error) {
-    console.log(error);
-    throw 'GET error: ' + url;
+  if (proxy) {
+    option.proxy = proxy;
   }
 
-  return response;
+  return await axios(option);
 }
 
 // post
 async function post(url = '', data = '', headers = {}, timeout = 10000) {
-  const config = configModule.getConfig();
-  const proxy = config?.proxy?.enable
-    ? {
-        protocol: config.proxy.protocol + ':',
-        host: config.proxy.host,
-        port: parseInt(config.proxy.port),
-        auth:
-          config.proxy.username && config.proxy.password
-            ? {
-                username: config.proxy.username,
-                password: config.proxy.password,
-              }
-            : undefined,
-      }
-    : undefined;
+  const option = { method: 'post', url, data, headers: clearHeaders(headers), timeout };
+  const proxy = getProxy();
 
-  let response = null;
-
-  try {
-    response = await axios({ method: 'post', url, data, headers: clearHeaders(headers), timeout, proxy });
-    console.log('Response data:', response.data);
-  } catch (error) {
-    console.log(error);
-    throw 'POST error: ' + url;
+  if (proxy) {
+    option.proxy = proxy;
   }
 
-  return response;
+  return await axios(option);
 }
 
 // get cookie
@@ -186,6 +149,30 @@ function setUA(scuValue = [], uaValue = '') {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+// get proxy
+function getProxy() {
+  const config = configModule.getConfig();
+
+  if (config.proxy.enable) {
+    const proxy = {
+      protocol: config.proxy.protocol + ':',
+      host: config.proxy.host,
+      port: parseInt(config.proxy.port),
+    };
+
+    if (config.proxy.username && config.proxy.password) {
+      proxy.auth = {
+        username: config.proxy.username,
+        password: config.proxy.password,
+      };
+    }
+
+    return proxy;
+  } else {
+    return null;
   }
 }
 

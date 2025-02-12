@@ -73,9 +73,10 @@ function setIPC() {
     // check dialog
     if (!dialog) {
       dialog = addDialog(dialogData.id, dialogData.code);
-    } else {
-      dialog.style.display = 'block';
     }
+
+    // display dialog
+    dialog.style.display = 'block';
 
     // set dialog content
     if (dialogData.translatedName !== '') {

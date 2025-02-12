@@ -183,7 +183,7 @@ function writeUserText(name = '', data = []) {
 
 // write temp name
 function writeTempName(userArray = {}, name = '', translatedName = '') {
-  const tempNameIndex = userArray.tempName.map((x) => x[0]).includes(name);
+  const tempNameIndex = userArray.tempName.map((x) => x[0]).indexOf(name);
   const element = [name, translatedName, new Date().getTime()];
 
   if (tempNameIndex >= 0) {

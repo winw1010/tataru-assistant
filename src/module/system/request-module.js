@@ -27,7 +27,7 @@ let userAgent =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 // get
-async function get(url = '', headers = {}, timeout = 30000) {
+async function get(url = '', headers = {}, timeout = 10000) {
   const config = configModule.getConfig();
   const proxyAuth = config.proxy.username && config.proxy.password;
   const proxy = config?.proxy?.enable
@@ -57,7 +57,7 @@ async function get(url = '', headers = {}, timeout = 30000) {
 }
 
 // post
-async function post(url = '', data = '', headers = {}, timeout = 30000) {
+async function post(url = '', data = '', headers = {}, timeout = 10000) {
   const config = configModule.getConfig();
   const proxy = config?.proxy?.enable
     ? {

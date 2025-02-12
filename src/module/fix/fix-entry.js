@@ -89,7 +89,7 @@ async function entry() {
   // get true language
   const trueLanguage = getLanguage(dialogData);
 
-  // JP/EN => XIV fix
+  // JP/EN => fix translation
   if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
     // JP fix
     if (trueLanguage === languageEnum.ja) {

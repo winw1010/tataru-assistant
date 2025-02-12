@@ -153,7 +153,7 @@ function saveDialog(dialogData) {
       windowModule.sendIndex('add-to-playlist', urlList);
     }
 
-    // add/replcae log
+    // update log
     log[item.id] = item;
 
     // write log file

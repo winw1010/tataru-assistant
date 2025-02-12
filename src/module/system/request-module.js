@@ -28,7 +28,7 @@ let userAgent =
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
-  const option = { method: 'get', url, headers: clearHeaders(headers), timeout };
+  const option = { method: 'get', url, headers: checkHeaders(headers), timeout };
   const proxy = getProxy();
 
   if (proxy) {
@@ -40,7 +40,7 @@ async function get(url = '', headers = {}, timeout = 10000) {
 
 // post
 async function post(url = '', data = '', headers = {}, timeout = 10000) {
-  const option = { method: 'post', url, data, headers: clearHeaders(headers), timeout };
+  const option = { method: 'post', url, data, headers: checkHeaders(headers), timeout };
   const proxy = getProxy();
 
   if (proxy) {
@@ -74,7 +74,7 @@ async function getCookie(url = '', regArray = []) {
 }
 
 // clear headers
-function clearHeaders(headers = {}) {
+function checkHeaders(headers = {}) {
   const headerNames = Object.getOwnPropertyNames(headers);
 
   for (let index = 0; index < headerNames.length; index++) {

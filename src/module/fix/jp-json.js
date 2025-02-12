@@ -20,7 +20,6 @@ function load(targetLanguage) {
   const srcIndex = languageIndex[languageEnum.ja];
   const rplIndex = languageIndex[targetLanguage];
   const isChinese = fixTargetList.includes(targetLanguage);
-  const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
   // user array
   jsonFunction.readUserArray(userArray);
@@ -56,6 +55,8 @@ function load(targetLanguage) {
 
   // chinese
   if (isChinese) {
+    const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
+
     // ch
     chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
     chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));

@@ -60,8 +60,6 @@ function setIPC() {
     if (!dialog) {
       dialog = addDialog(dialogData.id, dialogData.code);
       dialog.style.display = 'none';
-    } else {
-      setDialogContent(dialog, '...');
     }
   });
 

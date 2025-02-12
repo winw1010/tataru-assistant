@@ -77,14 +77,14 @@ async function entry() {
   // add dialog
   dialogModule.addDialog(dialogData);
 
-  // clear content
+  // clear newline
   dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
   dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
 
-  // set translated content
-  dialogData.translatedName = '';
-  dialogData.translatedText = '';
-  dialogData.audioText = '';
+  // reset translated content
+  dialogData.translatedName = dialogData.name;
+  dialogData.translatedText = dialogData.text;
+  dialogData.audioText = dialogData.text;
 
   // get true language
   const trueLanguage = getLanguage(dialogData);
@@ -99,6 +99,7 @@ async function entry() {
         return;
       }
 
+      dialogModule.updateDialog(dialogData);
       dialogData.translation.from = languageEnum.ja;
       await jpFix.start(dialogData);
     }
@@ -110,6 +111,7 @@ async function entry() {
         return;
       }
 
+      dialogModule.updateDialog(dialogData);
       dialogData.translation.from = languageEnum.en;
       await enFix.start(dialogData);
     }

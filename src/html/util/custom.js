@@ -9,6 +9,7 @@ const arrayParameters = {
   'custom-overwrite-table': { type: 'user', name: 'customOverwrite' },
   'custom-source-table': { type: 'user', name: 'customSource' },
   'temp-name-table': { type: 'user', name: 'tempName' },
+  'temp-name-table-valid': { type: 'user', name: 'tempNameValid' },
 };
 
 // DOMContentLoaded

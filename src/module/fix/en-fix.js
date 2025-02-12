@@ -110,7 +110,10 @@ async function fixName(dialogData = {}) {
   }
 
   // same check
-  const target = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
+  const target =
+    fixFunction.sameAsArrayItem(name2, chArray.combine) ||
+    fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) ||
+    fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
   if (target) {
     return target[1];
@@ -153,7 +156,7 @@ function saveName(name = '', translatedName = '') {
   chArray.combine = jsonFunction.sortArray(chArray.combine);
 
   // add to tempName
-  userArray.tempName.push([name, translatedName]);
+  userArray.tempName.push([name, translatedName, new Date().getTime()]);
   jsonFunction.writeUserText('temp-name.json', userArray.tempName);
 }
 

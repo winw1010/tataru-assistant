@@ -294,7 +294,8 @@ function getElementTextList() {
         'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Custom'],
         'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(full text)'],
         'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'temp-name-table': ['#系統暫存', '#系統暫存', '#System Cache'],
+        'temp-name-table': ['#暫存(全)', '#暂存(全)', '#Cache(all)'],
+        'temp-name-table-valid': ['#暫存(有效)', '#暂存(有效)', '#Cache(valid)'],
 
         // read log
         none: ['無', '无', 'None'],

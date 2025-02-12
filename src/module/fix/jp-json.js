@@ -82,7 +82,7 @@ function load(targetLanguage) {
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
-  chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempName);
+  chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempNameValid);
   chArray.combine = jsonFunction.combineArray2(userArray.customTarget, chArray.combine);
   chArray.combine = jsonFunction.combineArray2(userArray.playerName, chArray.combine);
 
@@ -132,7 +132,7 @@ function versionFix() {
   }
 
   // update temp name
-  jsonFunction.writeUserText('temp-name.json', userArray.tempName);
+  // jsonFunction.writeUserText('temp-name.json', userArray.tempName);
 
   /*
   // jp2

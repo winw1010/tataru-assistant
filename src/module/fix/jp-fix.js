@@ -117,7 +117,10 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   }
 
   // find same name
-  const sameName = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
+  const sameName =
+    fixFunction.sameAsArrayItem(name2, chArray.combine) ||
+    fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) ||
+    fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
   // return saved name if found
   if (sameName) {
@@ -197,7 +200,7 @@ function saveName(name = '', translatedName = '') {
   chArray.combine = jsonFunction.sortArray(chArray.combine);
 
   // add to tempName
-  userArray.tempName.push([name, translatedName]);
+  userArray.tempName.push([name, translatedName, new Date().getTime()]);
   jsonFunction.writeUserText('temp-name.json', userArray.tempName);
 }
 
@@ -242,7 +245,12 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI), textType, isTargetChinese);
+  const codeResult = jpFunction.replaceTextByCode(
+    text2,
+    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
+    textType,
+    isTargetChinese
+  );
   text2 = codeResult.text;
 
   // jp2
@@ -363,7 +371,10 @@ function specialFix1(name = '', text = '') {
 
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-    text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
+    text = text.replace(
+      /(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi,
+      '水晶公'
+    );
   }
 
   // 暗黒騎士

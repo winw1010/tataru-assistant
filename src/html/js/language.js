@@ -190,7 +190,7 @@ function getElementTextList() {
         'input-llm-model': ['模型', '模型', 'Model'],
         'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 
-        'select-app-language': ['語言', '语言', 'Language'],
+        'select-app-language': ['語言(Language)', '语言(Language)', 'Language'],
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
 

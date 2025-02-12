@@ -182,17 +182,17 @@ function writeUserText(name = '', data = []) {
 }
 
 // write temp name
-function writeTempName(tempName = [], name = '', translatedName = '') {
-  const tempNameIndex = tempName.map((x) => x[0]).includes(name);
+function writeTempName(userArray = {}, name = '', translatedName = '') {
+  const tempNameIndex = userArray.tempName.map((x) => x[0]).includes(name);
   const element = [name, translatedName, new Date().getTime()];
 
   if (tempNameIndex >= 0) {
-    tempName[tempNameIndex] = element;
+    userArray.tempName[tempNameIndex] = element;
   } else {
-    tempName.push(element);
+    userArray.tempName.push(element);
   }
 
-  writeUserText('temp-name.json', tempName);
+  writeUserText('temp-name.json', userArray.tempName);
 }
 
 // map array

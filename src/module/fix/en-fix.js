@@ -156,7 +156,7 @@ function saveName(name = '', translatedName = '') {
   chArray.combine = jsonFunction.sortArray(chArray.combine);
 
   // add to tempName
-  jsonFunction.writeTempName(userArray, name, translatedName);
+  jsonFunction.writeTempName(userArray.tempName, name, translatedName);
 }
 
 /*

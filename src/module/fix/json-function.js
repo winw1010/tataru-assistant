@@ -188,6 +188,7 @@ function writeTempName(userArray = {}, name = '', translatedName = '') {
 
   if (tempNameIndex >= 0) {
     userArray.tempName[tempNameIndex] = element;
+    userArray.tempNameValid.push(element);
   } else {
     userArray.tempName.push(element);
   }

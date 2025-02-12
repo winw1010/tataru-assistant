@@ -279,7 +279,7 @@ function getElementTextList() {
         npc: ['NPC名稱', 'NPC名称', 'NPC'],
         title: ['稱呼', '称呼', 'Title'],
         group: ['組織', '组织', 'Group'],
-        monster: ['魔物', '魔物', 'Monster'],
+        monster: ['魔物', '魔物', 'Foe'],
         things: ['事物', '事物', 'Things'],
         skill: ['技能', '技能', 'Skill'],
         map: ['地名', '地名', 'Map'],

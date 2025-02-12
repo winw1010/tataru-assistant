@@ -85,15 +85,15 @@ function copyData() {
       const element = customTarget[index];
 
       if (element[2]?.includes('temp')) {
-        const tempElement = customTarget.splice(index, 1);
-        tempList.push(tempElement[0]);
+        element[2] = 0;
+        tempList.push(element);
+        customTarget.splice(index, 1);
       }
     }
 
     // write text files
     write(getPath(newPath, 'text', 'custom-target.json'), customTarget, 'json');
     write(getPath(newPath, 'text', 'temp-name.json'), [], 'json');
-    write(getPath(newPath, 'text', 'deprecated-temp-name.json'), tempList, 'json');
 
     // fix config
     const config = read(configPath, 'json');

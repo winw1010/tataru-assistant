@@ -7,13 +7,13 @@ document.addEventListener('change-ui-text', (e) => {
 });
 
 // set text
-function setText(language) {
+function setText(appLanguage) {
   // get element text list
   const elementTextList = getElementTextList();
   const propertyNames = Object.getOwnPropertyNames(elementTextList);
 
   // get text index
-  const textIndex = getTextIndex(language);
+  const textIndex = getTextIndex(appLanguage);
 
   // set title
   // const title = document.getElementsByTagName('title').item(0);
@@ -63,15 +63,15 @@ function setText(language) {
 }
 
 // get text index
-function getTextIndex(language) {
+function getTextIndex(appLanguage) {
   let index = 0;
 
-  switch (language) {
-    case 'Traditional-Chinese':
+  switch (appLanguage) {
+    case 'app-zht':
       index = 0;
       break;
 
-    case 'Simplified-Chinese':
+    case 'app-zhs':
       index = 1;
       break;
 
@@ -105,7 +105,7 @@ function getElementTextList() {
       },
       button: {
         // config
-        'button-save-config': ['儲存變更', '储存变更', 'Save'],
+        'button-save-config': ['儲存', '储存', 'Save'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],

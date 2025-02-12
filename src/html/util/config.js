@@ -40,7 +40,7 @@ function setView() {
 
   document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
-  document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
+  //document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
 
   readConfig();
 

@@ -4,7 +4,7 @@
 const { exec } = require('child_process');
 
 // electron
-const { app, globalShortcut, ipcMain } = require('electron');
+const { globalShortcut, ipcMain } = require('electron');
 
 // file module
 const fileModule = require('./file-module');
@@ -14,9 +14,6 @@ const configModule = require('./config-module');
 
 // chat code module
 const chatCodeModule = require('./chat-code-module');
-
-// engine module
-const { languageEnum } = require('./engine-module');
 
 // window module
 const windowModule = require('./window-module');
@@ -59,21 +56,8 @@ function wirteLog(type = '', message = '') {
 function detectUserLanguage() {
   const config = configModule.getConfig();
 
-  if (config.system.firstTime) {
-    const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
-
-    if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
-      config.translation.to = languageEnum.zht;
-      config.system.appLanguage = languageEnum.zht;
-    } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
-      config.translation.to = languageEnum.zhs;
-      config.system.appLanguage = languageEnum.zhs;
-    } else {
-      config.translation.to = languageEnum.en;
-      config.system.appLanguage = languageEnum.en;
-    }
-
-    configModule.setConfig(config);
+  if (!config.system.appLanguage.includes('app')) {
+    configModule.setAppLanguage();
   }
 }
 

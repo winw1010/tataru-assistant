@@ -37,16 +37,16 @@ const message = {
 };
 
 // get message
-function getMessage(text = '', languageTo = '') {
+function getMessage(text = '', appLanguage = '') {
   let languageIndex = 0;
   text += '';
 
-  switch (languageTo) {
-    case 'Traditional-Chinese':
+  switch (appLanguage) {
+    case 'app-zht':
       languageIndex = 0;
       break;
 
-    case 'Simplified-Chinese':
+    case 'app-zhs':
       languageIndex = 1;
       break;
 

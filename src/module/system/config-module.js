@@ -1,5 +1,8 @@
 'use strict';
 
+// electron
+const { app } = require('electron');
+
 // file module
 const fileModule = require('./file-module');
 
@@ -92,7 +95,7 @@ const defaultConfig = {
   },
   system: {
     firstTime: true,
-    appLanguage: 'Traditional-Chinese',
+    appLanguage: '',
     autoDownloadJson: true,
     sslCertificate: true,
   },
@@ -197,6 +200,7 @@ function getDefaultConfig() {
 function setDefaultConfig() {
   currentConfig = getDefaultConfig();
   setSSLCertificate();
+  setAppLanguage();
 }
 
 // set SSL certificate
@@ -251,11 +255,6 @@ function fixConfig2(config) {
       config.translation.to = defaultConfig.translation.to;
     }
 
-    // fix app language
-    if (!engineModule.uiList.includes(config.system.appLanguage)) {
-      config.system.appLanguage = defaultConfig.system.appLanguage;
-    }
-
     // fix text detect
     if (!engineModule.visionList.includes(config.captureWindow.type)) {
       if (config.captureWindow.type === 'google') {
@@ -269,6 +268,25 @@ function fixConfig2(config) {
   }
 }
 
+// set app language
+function setAppLanguage() {
+  const config = getConfig();
+  const locale = app.getSystemLocale(); //Intl.DateTimeFormat().resolvedOptions().locale;
+
+  if (/zh-(TW|HK|MO|CHT|Hant)/i.test(locale)) {
+    config.translation.to = engineModule.languageEnum.zht;
+    config.system.appLanguage = 'app-zht';
+  } else if (/zh-(CN|CHS|Hans)/i.test(locale)) {
+    config.translation.to = engineModule.languageEnum.zhs;
+    config.system.appLanguage = 'app-zhs';
+  } else {
+    config.translation.to = engineModule.languageEnum.en;
+    config.system.appLanguage = 'app-en';
+  }
+
+  setConfig(config);
+}
+
 // module exports
 module.exports = {
   loadConfig,
@@ -277,4 +295,5 @@ module.exports = {
   setConfig,
   getDefaultConfig,
   setDefaultConfig,
+  setAppLanguage,
 };

@@ -1,7 +1,15 @@
 'use strict';
 
 // all language list
-const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian', 'Italian'];
+const allLanguageList = [
+  'Japanese',
+  'English',
+  'Traditional-Chinese',
+  'Simplified-Chinese',
+  'Korean',
+  'Russian',
+  'Italian',
+];
 
 // source list
 const sourceList = ['Japanese', 'English'];
@@ -19,7 +27,20 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];
 
 // engine list
-const engineList = ['#Web-Translator', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', '#AI-Translator', 'Gemini', 'GPT', 'Cohere', 'Kimi', 'LLM-API'];
+const engineList = [
+  '#Web-Translator',
+  'Youdao',
+  'Baidu',
+  'Caiyun',
+  'Papago',
+  'DeepL',
+  '#AI-Translator',
+  'Gemini',
+  'GPT',
+  'Cohere',
+  'Kimi',
+  'LLM-API',
+];
 
 // change list
 const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];

@@ -20,15 +20,15 @@ function load(targetLanguage) {
   const srcIndex = languageIndex[languageEnum.ja];
   const rplIndex = languageIndex[targetLanguage];
   const isChinese = fixTargetList.includes(targetLanguage);
-  const ch = isChinese ? (targetLanguage === languageEnum.zht ? 'cht' : 'chs') : 'other';
+  const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
   // user array
   jsonFunction.readUserArray(userArray);
 
   // ch
-  chArray.overwrite = isChinese ? jsonFunction.readOverwriteJP(rplIndex - 1) : [];
-  chArray.afterTranslation = isChinese ? jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`)) : [];
-  chArray.chName = isChinese ? jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1) : [];
+  chArray.overwrite = [];
+  chArray.afterTranslation = [];
+  chArray.chName = [];
 
   // jp
   jpArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleJP());
@@ -41,20 +41,41 @@ function load(targetLanguage) {
   jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
   jpArray.special1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special1.json'));
   jpArray.special2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special2.json'));
-  jpArray.title = isChinese
-    ? jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'))
-    : [
-        [
-          ['', 0],
-          ['', 0],
-        ],
-      ];
+  jpArray.title = [
+    [
+      ['', 0],
+      ['', 0],
+    ],
+  ];
 
   // main
-  chArray.main = isChinese ? jsonFunction.readMain(srcIndex, rplIndex) : [];
+  chArray.main = [];
 
   // non AI
-  chArray.nonAI = isChinese ? jsonFunction.readNonAI(srcIndex, rplIndex) : [];
+  chArray.nonAI = [];
+
+  // chinese
+  if (isChinese) {
+    // ch
+    chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
+    chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
+    chArray.chName = jsonFunction.readText(
+      jsonFunction.getTextPath('ch', 'jp-ch-name.json'),
+      true,
+      true,
+      srcIndex,
+      rplIndex - 1
+    );
+
+    // jp
+    jpArray.title = jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'));
+
+    // main
+    chArray.main = jsonFunction.readMain(srcIndex, rplIndex);
+
+    // non AI
+    chArray.nonAI = jsonFunction.readNonAI(srcIndex, rplIndex);
+  }
 
   // overwrite
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);

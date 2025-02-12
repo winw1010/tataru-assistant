@@ -171,9 +171,9 @@ function getProxy() {
     }
 
     return proxy;
-  } else {
-    return null;
   }
+
+  return null;
 }
 
 // to parameters

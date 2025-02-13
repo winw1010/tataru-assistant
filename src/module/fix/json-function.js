@@ -290,7 +290,7 @@ function combineArray(...args) {
   return sortArray([].concat(...args));
 }
 
-// combine array with user
+// combine array 2
 function combineArray2(array1 = [], ...args) {
   const array1_0 = array1.map((x) => x[0]);
   const array2 = combineArray(...args);

@@ -189,7 +189,7 @@ async function fixText(dialogData = {}) {
   text2 = specialFix(name, text2);
 
   // combine
-  const codeResult = enFunction.replaceTextByCode(text2, jsonFunction.combineArray(chArray.combine, chArray.nonAI));
+  const codeResult = enFunction.replaceTextByCode(text2, jsonFunction.combineArray2(chArray.combine, chArray.nonAI));
   text2 = codeResult.text;
 
   // en2

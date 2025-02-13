@@ -20,15 +20,15 @@
     "globals": "^15.15.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^4.3.0",
-    "@google/generative-ai": "^0.15.0",
-    "axios": "^1.7.2",
+    "@google-cloud/vision": "^4.3.2",
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.5",
     "temp": "^0.9.4",
-    "tesseract.js": "^5.1.0"
+    "tesseract.js": "^6.0.0"
   },
   "build": {
     "appId": "com.app.tataru.assistant",

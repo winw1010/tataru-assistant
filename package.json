@@ -13,9 +13,11 @@
   "author": "https://github.com/winw1010",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^32.1.2",
-    "electron-builder": "^24.13.3",
-    "eslint": "^8.57.0"
+    "@eslint/js": "^9.20.0",
+    "electron": "^34.1.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.20.1",
+    "globals": "^15.15.0"
   },
   "dependencies": {
     "@google-cloud/vision": "^4.3.0",

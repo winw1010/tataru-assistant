@@ -181,8 +181,8 @@ function writeUserText(name = '', data = []) {
   fileModule.write(getUserTextPath(name), data, 'json');
 }
 
-// write temp name
-function writeTempName(userArray = {}, name = '', translatedName = '') {
+// update temp name
+function updateTempName(userArray = {}, name = '', translatedName = '') {
   const tempNameIndex = userArray.tempName.map((x) => x[0]).indexOf(name);
   const element = [name, translatedName, new Date().getTime()];
 
@@ -194,6 +194,27 @@ function writeTempName(userArray = {}, name = '', translatedName = '') {
   }
 
   writeUserText('temp-name.json', userArray.tempName);
+}
+
+// clear temp name
+function clearTempName(combine = [], tempName = []) {
+  const combine0 = combine.map((x) => x[0]);
+
+  for (let index = tempName.length - 1; index >= 0; index--) {
+    const element = tempName[index];
+    const name = element[0];
+
+    if (
+      combine0.includes(name) ||
+      combine0.includes(name + '#') ||
+      combine0.includes(name + '##') ||
+      combine0.includes(name.replaceAll('#', ''))
+    ) {
+      tempName.splice(index, 1);
+    }
+  }
+
+  writeUserText('temp-name.json', tempName);
 }
 
 // map array
@@ -270,30 +291,27 @@ function combineArray(...args) {
 }
 
 // combine array with user
-function combineArray2(customArray = [], ...args) {
-  // arrays
-  const otherArrays = combineArray(...args);
-  const otherNames = otherArrays.map((x) => x[0]);
-  let customArray2 = [].concat(customArray).map((x) => [x[0], x[1]]);
+function combineArray2(array1 = [], ...args) {
+  const array1_0 = array1.map((x) => x[0]);
+  const array2 = combineArray(...args);
 
-  // compare names
-  for (let index = customArray2.length - 1; index >= 0; index--) {
-    const customElement = customArray2[index];
-    const customName = customElement[0] || '';
-    const targetIndex = Math.max(
-      otherNames.indexOf(customName.replace(/#/g, '')),
-      otherNames.indexOf(customName + '#'),
-      otherNames.indexOf(customName + '##')
-    );
+  for (let index = 0; index < array2.length; index++) {
+    const element = array2[index];
+    const name = element[0];
 
-    // remove elements from other array
-    if (targetIndex >= 0) {
-      otherArrays.splice(targetIndex, 1);
-      otherNames.splice(targetIndex, 1);
+    if (
+      array1_0.includes(name) ||
+      array1_0.includes(name + '#') ||
+      array1_0.includes(name + '##') ||
+      array1_0.includes(name.replaceAll('#', ''))
+    ) {
+      continue;
+    } else {
+      array1.push(element);
     }
   }
 
-  return combineArray(customArray2, otherArrays);
+  return sortArray(array1);
 }
 
 // create RegExp array
@@ -304,7 +322,7 @@ function createRegExpArray(array = []) {
     try {
       newArray.push([new RegExp(array[index][0], 'gi'), array[index][1]]);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 
@@ -393,7 +411,8 @@ module.exports = {
   readUserArray,
   readUserText,
   writeUserText,
-  writeTempName,
+  updateTempName,
+  clearTempName,
   sortArray,
   combineArray,
   combineArray2,

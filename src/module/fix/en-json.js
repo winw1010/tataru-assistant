@@ -60,9 +60,12 @@ function load(targetLanguage) {
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
-  chArray.combine = jsonFunction.combineArray2(chArray.main, userArray.tempNameValid);
-  chArray.combine = jsonFunction.combineArray2(userArray.customTarget, chArray.combine);
-  chArray.combine = jsonFunction.combineArray2(userArray.playerName, chArray.combine);
+  chArray.combine = jsonFunction.combineArray2(
+    userArray.playerName,
+    userArray.customTarget,
+    chArray.main,
+    userArray.tempNameValid
+  );
 
   // clear temp name
   jsonFunction.clearTempName(jsonFunction.combineArray2(userArray.customTarget, chArray.main), userArray.tempName);

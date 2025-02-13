@@ -293,7 +293,7 @@ function combineArray(...args) {
 // combine array 2
 function combineArray2(array1 = [], ...args) {
   const array1_0 = array1.map((x) => x[0]);
-  const array2 = combineArray(...args);
+  const array2 = args.length > 0 ? combineArray2(...args) : [];
 
   for (let index = 0; index < array2.length; index++) {
     const element = array2[index];

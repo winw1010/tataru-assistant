@@ -307,11 +307,6 @@ function getElementTextList() {
         'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
         'p-llm-api': ['自訂OpenAI設定', '自订OpenAI设定', 'Custom OpenAI'],
-        'p-unoffcia-api': [
-          '若您的位置無法使用ChatGPT，請點此設定反向代理',
-          '若您的位置无法使用ChatGPT，请点此设定反向代理',
-          "Click here to set reverse proxy if your location can't access ChatGPT",
-        ],
         'p-ssl-warning': [
           '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
           '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',

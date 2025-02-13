@@ -55,7 +55,7 @@ function setText(appLanguage) {
           // set text
           element[propertyName] = elementTextList[propertyName][elementName][elementId][textIndex];
         } catch (error) {
-          //console.log(error);
+          console.log(error);
         }
       }
     }

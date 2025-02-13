@@ -291,7 +291,8 @@ function combineArray(...args) {
 }
 
 // combine array 2
-function combineArray2(array1 = [], ...args) {
+function combineArray2(array = [], ...args) {
+  const array1 = [].concat(array);
   const array1_0 = array1.map((x) => x[0]);
   const array2 = args.length > 0 ? combineArray2(...args) : [];
 

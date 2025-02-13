@@ -242,7 +242,7 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   // combine
   const codeResult = jpFunction.replaceTextByCode(
     text2,
-    jsonFunction.combineArray(chArray.combine, chArray.nonAI),
+    jsonFunction.combineArray2(chArray.combine, chArray.nonAI),
     textType,
     isTargetChinese
   );

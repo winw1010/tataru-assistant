@@ -1,7 +1,7 @@
 'use strict';
 
 // tesseract
-const { createWorker, PSM } = require('tesseract.js');
+const { createWorker } = require('tesseract.js');
 
 // google vision
 const vision = require('@google-cloud/vision');
@@ -97,21 +97,15 @@ async function tesseractOCR(captureData) {
     let worker = null;
     if (captureData.from === engineModule.languageEnum.ja) {
       worker = await createWorker(['jpn', 'jpn_vert']);
-      worker.setParameters({
-        tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-        preserve_interword_spaces: '1',
-      });
     } /*else if (config.translation.from === engineModule.languageEnum.en)*/ else {
       worker = await createWorker('eng');
     }
 
     // recognize text
-    const {
-      data: { text: imageText },
-    } = await worker.recognize(captureData.imagePath);
+    const ret = await worker.recognize(captureData.imagePath);
 
     // fix or show error
-    text = imageText;
+    text = ret.data.text;
 
     // terminate worker
     await worker.terminate();

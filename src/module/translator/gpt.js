@@ -133,6 +133,7 @@ async function getModelList(apiKey = null) {
 
     return modelList.sort();
   } catch (error) {
+    console.log(error);
     return [];
   }
 }

@@ -26,7 +26,7 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
 
   try {
     // clear newline
-    text = text.replace(/\r|\n/g, '');
+    text = text.replace(/[\r\n]/g, '');
 
     // check text
     if (text === '' || translation.from === translation.to) {

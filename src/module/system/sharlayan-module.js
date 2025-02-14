@@ -176,21 +176,25 @@ function stop(restart = true) {
   try {
     readerProcess.kill('SIGINT');
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 }
 
 // fix text
 function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
-    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
+    dialogData.text = dialogData.text
+      .replaceAll(/^#/gi, '')
+      .replaceAll(')*', '')
+      .replaceAll('%&', '')
+      .replaceAll('「+,', '「');
   }
 }
 
 // fix text 2
 function fixText2(text = '') {
   return text
-    .replace(/\r/gi, '')
+    .replaceAll('\r', '')
     .replace(/（.*?）/gi, '')
     .replace(/\(.*?\)/gi, '');
 }

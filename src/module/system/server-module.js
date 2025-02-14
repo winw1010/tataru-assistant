@@ -50,13 +50,13 @@ function translateData(dialogData) {
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {
-    if (['CUTSCENE1', 'CUTSCENE2'].includes(dialogData.type)) {
-      dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replace(/\r/gi, '、');
+    if (dialogData.type.includes('CUTSCENE')) {
+      dialogData.text = dialogData.text.replace(/(?<=[…、。？！])\r/gi, '').replaceAll('\r', '、');
     } else {
-      dialogData.text = dialogData.text.replace(/\r/gi, '');
+      dialogData.text = dialogData.text.replaceAll('\r', '');
     }
   } else {
-    dialogData.text = dialogData.text.replace(/\r/gi, ' ');
+    dialogData.text = dialogData.text.replaceAll('\r', ' ');
   }
 
   // set translation

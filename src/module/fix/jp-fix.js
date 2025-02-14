@@ -374,7 +374,7 @@ function specialFix1(name = '', text = '') {
 
   // 暗黒騎士
   if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
-    text = text.replace(/ミスト/gi, 'ミスト#');
+    text = text.replaceAll('ミスト', 'ミスト#');
   }
 
   return text;
@@ -385,14 +385,16 @@ function specialFix2(name = '', text = '') {
   // special replace
   text = jpFunction.specialReplace(text, jpArray.special2);
 
+  /*
   // コボルド族
   if (/コボルド|\d{1,3}.*?・.*?|(^[ァ-ヺ]{1}・[ァ-ヺ]{1}$)/gi.test(name) && !name.includes('マメット')) {
-    //text = text.replace(/ー/gi, '');
+    text = text.replaceAll('ー', '');
   }
+  */
 
   // マムージャ族 & 強化グリーンワート
   if (/マムージャ|[ァ-ヺ]{2}ージャジャ$|[ァ-ヺ]{2}ージャ$|強化グリーンワート/gi.test(name)) {
-    text = text.replace(/、/gi, '');
+    text = text.replaceAll('、', '');
   }
 
   // バヌバヌ族
@@ -409,7 +411,7 @@ function specialFix2(name = '', text = '') {
 
   // ライアン
   if (/^ライアン/gi.test(name)) {
-    text = text.replace(/あーた/gi, '貴方');
+    text = text.replaceAll('あーた', '貴方');
   }
 
   let loopCount = 0;

@@ -33,7 +33,8 @@ const regKatakanaF = /^[ァ-ヺ]/;
 const regKatakanaB = /[ァ-ヺー]$/;
 
 // no katakana
-const katakanaWithoutSmall = 'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ'; // remove ァィゥェォッャュョヮヵヶ
+const katakanaWithoutSmall =
+  'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ'; // remove ァィゥェォッャュョヮヵヶ
 const regNoKatakanaF = `(?<![${getKatakanaString()}ー])`;
 const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
@@ -541,11 +542,11 @@ function hiraFix(text = '') {
   text = text.replace(/([えけせてねへめれげぜでべぺ])ー/gi, '$1え');
   text = text.replace(/([おこそとのほもろごぞどぼぽよを])ー/gi, '$1お');
 
-  text = text.replace(/ゔぁ/gi, 'ば');
-  text = text.replace(/ゔぃ/gi, 'び');
-  text = text.replace(/ゔ/gi, 'ぶ');
-  text = text.replace(/ゔぇ/gi, 'べ');
-  text = text.replace(/ゔぉ/gi, 'ぼ');
+  text = text.replaceAll('ゔぁ', 'ば');
+  text = text.replaceAll('ゔぃ', 'び');
+  text = text.replaceAll('ゔぇ', 'べ');
+  text = text.replaceAll('ゔぉ', 'ぼ');
+  text = text.replaceAll('ゔ', 'ぶ');
 
   return text;
 }

@@ -273,9 +273,9 @@ function specialFix(name = '', text = '') {
   // Clive
   if (/^Clive$/gi.test(name)) {
     text = text
-      .replace(/Dominant/gi, 'Dominant#')
-      .replace(/Bearer/gi, 'Bearer#')
-      .replace(/The Fallen/gi, 'The Fallen#');
+      .replaceAll('Dominant', 'Dominant#')
+      .replaceAll('Bearer', 'Bearer#')
+      .replaceAll('The Fallen', 'The Fallen#');
   }
 
   // ApPlE => Apple

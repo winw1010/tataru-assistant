@@ -160,7 +160,7 @@ function deleteTable() {
   try {
     execSync(`rmdir /Q /S ${textPath}`);
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 }
 

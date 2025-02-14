@@ -41,7 +41,7 @@ function directoryCheck() {
         fs.mkdirSync(dir);
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   });
 }
@@ -108,7 +108,7 @@ function copyData() {
     }
     write(configPath, config, 'json');
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 }
 

@@ -570,7 +570,11 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
+    event.sender.send(
+      'show-translation',
+      await translateModule.translate(dialogData.text, dialogData.translation),
+      dialogData.translation.to
+    );
   });
 
   // google tts

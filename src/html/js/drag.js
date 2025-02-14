@@ -1,5 +1,4 @@
 'use strict';
-/* eslint-disable */
 
 // set drag element
 document.getElementById('img-button-drag').onmousedown = (event) => {

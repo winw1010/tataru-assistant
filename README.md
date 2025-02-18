@@ -66,7 +66,7 @@
 
 ## Credits
 
-- [NightlyRevenger/TataruHelper](https://github.com/NightlyRevenger/TataruHelper)
+- [FFXIVAPP/sharlayan](https://github.com/FFXIVAPP/sharlayan)
 - [Electron](https://www.electronjs.org/)
 - [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
 - [axios](https://github.com/axios/axios)

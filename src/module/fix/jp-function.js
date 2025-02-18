@@ -269,7 +269,7 @@ function findTable(text = '', matchedWords = []) {
 
   const middleArray = ['Traditional-Chinese', 'Simplified-Chinese'].includes(configModule.getConfig().translation.to)
     ? [
-        //['の', '的'], // AのB
+        ['の', '的'], // AのB
         ['：', '：'], // A：B
         ['', ''], // AB
       ]

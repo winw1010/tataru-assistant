@@ -194,7 +194,7 @@ function fixText(dialogData) {
 // fix text 2
 function fixText2(text = '') {
   return text
-    .replaceAll('\r', '')
+    .replaceAll('[r]', '')
     .replace(/（.*?）/gi, '')
     .replace(/\(.*?\)/gi, '');
 }

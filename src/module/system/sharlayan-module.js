@@ -61,7 +61,7 @@ const serverModule = require('./server-module');
 // const sharlayanHistoryPath = fileModule.getRootPath('src', 'data', readerName, 'history.json');
 
 // reader name
-const readerName = 'sharlayan-reader';
+const readerName = 'tataru-assistant-reader';
 
 // sharlayan.exe path
 const sharlayanExePath = fileModule.getRootPath('src', 'data', readerName, readerName + '.exe');

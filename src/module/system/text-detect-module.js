@@ -6,6 +6,9 @@ const { createWorker } = require('tesseract.js');
 // google vision
 const vision = require('@google-cloud/vision');
 
+// config module
+const configModule = require('./config-module');
+
 // dialog module
 const dialogModule = require('./dialog-module');
 
@@ -168,35 +171,41 @@ function fixText(captureData) {
 
 // translate image text
 async function translateImageText(captureData) {
-  // set string array
-  let stringArray = [];
+  // set translation
+  const translation = configModule.getConfig().translation;
+  translation.from = captureData.from;
+
+  // set text array
+  const textArray = [];
 
   if (captureData.split) {
-    stringArray = captureData.text.split('\n');
+    textArray.concat(captureData.text.split(/[\r\n]/));
   } else {
     if (captureData.from === engineModule.languageEnum.ja) {
-      stringArray = [captureData.text.replaceAll('\n', '')];
+      textArray.push(captureData.text.replace(/[\r\n]/g, ''));
     } else {
-      stringArray = [captureData.text.replaceAll('\n', ' ').replaceAll('  ', ' ')];
+      textArray.push(captureData.text.replace(/[\r\n]/g, ' ').replaceAll('  ', ' '));
     }
   }
 
   // delete images
   deleteImages();
 
-  // start translate
-  for (let index = 0; index < stringArray.length; index++) {
-    const text = stringArray[index];
-    if (text !== '') {
-      const dialogData = {
-        code: '003D',
-        name: '',
-        text: text,
-      };
+  // start translation
+  for (let index = 0; index < textArray.length; index++) {
+    const text = textArray[index];
 
-      await engineModule.sleep(100);
-      addTask(dialogData);
-    }
+    if (text === '') continue;
+
+    const dialogData = {
+      code: '003D',
+      name: '',
+      text: text,
+      translation,
+    };
+
+    await engineModule.sleep(100);
+    addTask(dialogData);
   }
 }
 

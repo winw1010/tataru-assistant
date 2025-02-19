@@ -14,11 +14,6 @@ const fixEntryModule = require('../fix/fix-entry');
 
 // data process
 function dataProcess(dialogData) {
-  console.log();
-  console.log();
-  console.log();
-  console.log('Dialog Data:', dialogData);
-
   if (checkData(dialogData)) {
     if (dialogData.type === 'SYSTEM') {
       dialogModule.addNotification(dialogData.text);

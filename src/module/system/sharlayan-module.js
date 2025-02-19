@@ -78,6 +78,9 @@ let readerProcess = null;
 // do restart
 let restartReader = true;
 
+// listening mode
+let battleCutsceneMode = false;
+
 // dialog history
 const dialogHistory = [];
 
@@ -144,9 +147,22 @@ function start() {
           if (jsonString.length > 0) {
             // get dialog data
             const dialogData = JSON.parse(jsonString.toString());
+            console.log('\r\nDialog Data:', dialogData);
+
+            battleCutsceneCheck(dialogData);
 
             // skip invalid text(EF BF BD)
             if (/\uFFFD/.test(dialogData.text)) {
+              continue;
+            }
+
+            // skip invalid cutscene
+            if (dialogData.type === 'CUTSCENE1' && !battleCutsceneMode) {
+              continue;
+            }
+
+            // skip DEL
+            if (/\u007F/.test(dialogData.text)) {
               continue;
             }
 
@@ -206,15 +222,19 @@ function isNotRepeated(dialogData) {
 
   // DIALOG 003D
   if (dialogData.type === 'DIALOG') {
-    dialogHistory.push(text);
-    if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
+    if (text !== dialogHistory.slice(-1)[0]) {
+      dialogHistory.push(text);
+      if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
+    } else {
+      return false;
+    }
   }
   // other 003D
   else if (dialogData.code === '003D') {
     for (let index = 0; index < dialogHistory.length; index++) {
-      const dialogText = fixText2(dialogHistory[index]);
+      const dialogText = dialogHistory[index];
 
-      if (compareString(dialogText, text)) {
+      if (isSameText(dialogText, text)) {
         return false;
       }
     }
@@ -232,13 +252,49 @@ function isNotRepeated(dialogData) {
 }
 
 // compare string
-function compareString(str1 = '', str2 = '') {
+function isSameText(str1 = '', str2 = '') {
   for (let index = 0; index < str1.length; index++) {
     const str = str1[index];
     str2 = str2.replace(str, '');
   }
 
   return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
+}
+
+// battle cutscene check
+function battleCutsceneCheck(dialogData = {}) {
+  const statusArray = [
+    ['ノックダウン', 'Down for the Count'],
+    //['行動中', 'Preoccupied'],
+  ];
+
+  for (let index = 0; index < statusArray.length; index++) {
+    const status = statusArray[index];
+    const statusJP = status[0];
+    const statusEN = status[1];
+
+    // ○○○ に「ノックダウン」の効果。 You suffer the effect of Down for the Count. (Someone) suffers the effect of Down for the Count.
+    // ○○○ に「行動中」の効果。 You gain the effect of Preoccupied. (Someone) gains the effect of Preoccupied.
+    if (
+      dialogData.text.includes(`に「${statusJP}」の効果。`) ||
+      dialogData.text.includes(`You suffer the effect of ${statusEN}.`) ||
+      dialogData.text.includes(`You sgain the effect of ${statusEN}.`)
+    ) {
+      battleCutsceneMode = true;
+      continue;
+    }
+
+    // ○○○ の「ノックダウン」が切れた。You recover from the effect of Down for the Count. (Someone) recovers from the effect of Down for the Count.
+    // ○○○ の「行動中」が切れた。You lose the effect of Preoccupied. (Someone) loses the effect of Preoccupied.
+    if (
+      dialogData.text.includes(`の「${statusJP}」が切れた。`) ||
+      dialogData.text.includes(`You recover from the effect of ${statusEN}.`) ||
+      dialogData.text.includes(`You lose the effect of ${statusEN}.`)
+    ) {
+      battleCutsceneMode = false;
+      continue;
+    }
+  }
 }
 
 // module exports

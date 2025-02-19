@@ -87,6 +87,9 @@ const dialogHistory = [];
 // text history
 const textHistory = {};
 
+// pure text
+const regexPureText = /[^0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi;
+
 // start
 function start() {
   try {
@@ -253,12 +256,10 @@ function isNotRepeated(dialogData) {
 
 // compare string
 function isSameText(str1 = '', str2 = '') {
-  for (let index = 0; index < str1.length; index++) {
-    const str = str1[index];
-    str2 = str2.replace(str, '');
-  }
+  str1 = str1.replace(regexPureText, '');
+  str2 = str2.replace(regexPureText, '');
 
-  return !/[0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi.test(str2);
+  return str1 === str2;
 }
 
 // battle cutscene check

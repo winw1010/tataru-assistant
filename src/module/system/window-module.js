@@ -35,7 +35,7 @@ function createWindow(windowName, data = null) {
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
-        preload: fileModule.getAppPath(`src/html/util/${windowName}.js`),
+        preload: fileModule.getAppPath(`src/html/${windowName}.js`),
       },
     });
 

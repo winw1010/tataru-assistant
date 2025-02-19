@@ -1,16 +1,25 @@
 'use strict';
 
+// electron
+const { app } = require('electron');
+
 // fs
 const fs = require('fs');
 
 // path
 const path = require('path');
 
+// app path
+const appPath = app.getAppPath();
+
 // root path
 const rootPath = process.cwd();
 
-// user path
-const userPath = process.env.USERPROFILE;
+// documents path
+const documentsPath = app.getPath('documents');
+
+// downloads path
+const downloadsPath = app.getPath('downloads');
 
 // app name
 const appName = 'Tataru Assistant';
@@ -18,9 +27,7 @@ const oldName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
-  const documentPath = getUserPath('Documents');
-
-  if (!fs.existsSync(getPath(documentPath, appName)) && fs.existsSync(getPath(documentPath, oldName))) {
+  if (!fs.existsSync(getUserDataPath()) && fs.existsSync(getOldUserDataPath())) {
     copyData();
   }
 
@@ -35,7 +42,7 @@ function directoryCheck() {
 
   subPath.forEach((value) => {
     try {
-      const dir = getPath(documentPath, value);
+      const dir = getPath(documentsPath, value);
 
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
@@ -49,8 +56,8 @@ function directoryCheck() {
 // copy data
 function copyData() {
   try {
-    const oldPath = getUserPath('Documents', oldName);
-    const newPath = getUserPath('Documents', appName);
+    const oldPath = getOldUserDataPath();
+    const newPath = getUserDataPath();
 
     const renameList = [
       [getPath(newPath, 'setting'), getPath(newPath, 'config')],
@@ -119,7 +126,7 @@ function readdir(path) {
   try {
     result = fs.readdirSync(path);
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 
   return result;
@@ -132,7 +139,7 @@ function exists(filePath = './') {
   try {
     result = fs.existsSync(filePath);
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 
   return result;
@@ -143,7 +150,7 @@ function unlink(filePath = './') {
   try {
     fs.unlinkSync(filePath);
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 }
 
@@ -170,7 +177,7 @@ function read(filePath = './', type = '') {
         break;
     }
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 
   return data;
@@ -203,7 +210,7 @@ function write(filePath = './', data = '', type = '') {
         break;
     }
   } catch (error) {
-    //console.log(error);
+    console.log(error);
   }
 }
 
@@ -225,6 +232,11 @@ function getPath(...args) {
   return path.join(...args);
 }
 
+// get app path
+function getAppPath(...args) {
+  return path.join(appPath, ...args);
+}
+
 // get root path
 function getRootPath(...args) {
   return path.join(rootPath, ...args);
@@ -235,19 +247,19 @@ function getRootDataPath(...args) {
   return path.join(rootPath, 'src', 'data', ...args);
 }
 
-// get user path
-function getUserPath(...args) {
-  return path.join(userPath, ...args);
-}
-
-// get user path
+// get user data path
 function getUserDataPath(...args) {
-  return path.join(userPath, 'Documents', appName, ...args);
+  return path.join(documentsPath, appName, ...args);
 }
 
-// get old user path
+// get old user data path
 function getOldUserDataPath(...args) {
-  return path.join(userPath, 'Documents', oldName, ...args);
+  return path.join(documentsPath, oldName, ...args);
+}
+
+// get downloads path
+function getDownloadsPath(...args) {
+  return path.join(downloadsPath, ...args);
 }
 
 // module exports
@@ -262,9 +274,10 @@ module.exports = {
   writeLog,
 
   getPath,
+  getAppPath,
   getRootPath,
   getRootDataPath,
-  getUserPath,
   getUserDataPath,
   getOldUserDataPath,
+  getDownloadsPath,
 };

@@ -376,7 +376,7 @@ function setCaptureChannel() {
   ipcMain.on('set-google-credential', () => {
     dialog
       .showOpenDialog({
-        defaultPath: fileModule.getUserPath('Downloads'),
+        defaultPath: fileModule.getDownloadsPath(),
         filters: [{ name: 'JSON', extensions: ['json'] }],
       })
       .then((value) => {

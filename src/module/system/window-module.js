@@ -35,12 +35,12 @@ function createWindow(windowName, data = null) {
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true,
-        preload: fileModule.getPath(__dirname, `../../html/util/${windowName}.js`),
+        preload: fileModule.getAppPath(`src/html/util/${windowName}.js`),
       },
     });
 
     // load html
-    appWindow.loadFile(fileModule.getPath(__dirname, `../../html/${windowName}.html`));
+    appWindow.loadFile(fileModule.getAppPath(`src/html/${windowName}.html`));
 
     // set always on top
     appWindow.setAlwaysOnTop(true, 'screen-saver');

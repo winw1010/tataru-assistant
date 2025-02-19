@@ -24,12 +24,6 @@
     "PointerPath": [0, 0, 104, 592, 0]
   },
   {
-    "Key": "CUTSCENE_TEXT_2",
-    "ASMSignature": true,
-    "Value": "4D896BD84D8973D033DB4C8B35",
-    "PointerPath": [0, 0, 88, 416, 48, 38344, 48, 0]
-  },
-  {
     "Key": "CUTSCENE_DETECTOR",
     "ASMSignature": true,
     "Value": "488B0D********881D",

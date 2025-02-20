@@ -78,9 +78,6 @@ let readerProcess = null;
 // do restart
 let restartReader = true;
 
-// listening mode
-let battleCutsceneMode = false;
-
 // dialog history
 const dialogHistory = [];
 
@@ -152,20 +149,14 @@ function start() {
             const dialogData = JSON.parse(jsonString.toString());
             console.log('\r\nDialog Data:', dialogData);
 
-            battleCutsceneCheck(dialogData);
-
-            // skip invalid text(EF BF BD)
-            if (/\uFFFD/.test(dialogData.text)) {
+            // skip invalid characters(EF BF BD, DEL)
+            if (/[\uFFFD\u007F]/.test(dialogData.name) || /[\uFFFD\u007F]/.test(dialogData.text)) {
               continue;
             }
 
-            // skip invalid cutscene
-            if (dialogData.type === 'CUTSCENE1' && !battleCutsceneMode) {
-              continue;
-            }
-
-            // skip DEL
-            if (/\u007F/.test(dialogData.text)) {
+            // player name
+            if (dialogData.type === 'PLAYER_NAME') {
+              console.log('PLAYER NAME: ' + dialogData.text);
               continue;
             }
 
@@ -260,42 +251,6 @@ function isSameText(str1 = '', str2 = '') {
   str2 = str2.replace(regexPureText, '');
 
   return str1 === str2;
-}
-
-// battle cutscene check
-function battleCutsceneCheck(dialogData = {}) {
-  const statusArray = [
-    ['ノックダウン', 'Down for the Count'],
-    //['行動中', 'Preoccupied'],
-  ];
-
-  for (let index = 0; index < statusArray.length; index++) {
-    const status = statusArray[index];
-    const statusJP = status[0];
-    const statusEN = status[1];
-
-    // ○○○ に「ノックダウン」の効果。 You suffer the effect of Down for the Count. (Someone) suffers the effect of Down for the Count.
-    // ○○○ に「行動中」の効果。 You gain the effect of Preoccupied. (Someone) gains the effect of Preoccupied.
-    if (
-      dialogData.text.includes(`に「${statusJP}」の効果。`) ||
-      dialogData.text.includes(`You suffer the effect of ${statusEN}.`) ||
-      dialogData.text.includes(`You sgain the effect of ${statusEN}.`)
-    ) {
-      battleCutsceneMode = true;
-      continue;
-    }
-
-    // ○○○ の「ノックダウン」が切れた。You recover from the effect of Down for the Count. (Someone) recovers from the effect of Down for the Count.
-    // ○○○ の「行動中」が切れた。You lose the effect of Preoccupied. (Someone) loses the effect of Preoccupied.
-    if (
-      dialogData.text.includes(`の「${statusJP}」が切れた。`) ||
-      dialogData.text.includes(`You recover from the effect of ${statusEN}.`) ||
-      dialogData.text.includes(`You lose the effect of ${statusEN}.`)
-    ) {
-      battleCutsceneMode = false;
-      continue;
-    }
-  }
 }
 
 // module exports

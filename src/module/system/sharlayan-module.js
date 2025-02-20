@@ -154,12 +154,6 @@ function start() {
               continue;
             }
 
-            // player name
-            if (dialogData.type === 'PLAYER_NAME') {
-              console.log('PLAYER NAME: ' + dialogData.text);
-              continue;
-            }
-
             // fix dialog data text
             fixText(dialogData);
 

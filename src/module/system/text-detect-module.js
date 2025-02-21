@@ -179,7 +179,12 @@ async function translateImageText(captureData) {
   const textArray = [];
 
   if (captureData.split) {
-    textArray.concat(captureData.text.split(/[\r\n]/));
+    const array = captureData.text.split(/[\r\n]/);
+
+    for (let index = 0; index < array.length; index++) {
+      const text = array[index];
+      textArray.push(text);
+    }
   } else {
     if (captureData.from === engineModule.languageEnum.ja) {
       textArray.push(captureData.text.replace(/[\r\n]/g, ''));

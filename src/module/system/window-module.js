@@ -331,6 +331,7 @@ function restartWindow(windowName, data) {
     closeWindow(windowName);
     throw null;
   } catch (error) {
+    error;
     createWindow(windowName, data);
   }
 }
@@ -367,7 +368,7 @@ function forEachWindow(callback = () => {}) {
     try {
       callback(windowList[windowName]);
     } catch (error) {
-      //console.log(windowName, error);
+      console.log(windowName, error);
     }
   });
 }

@@ -119,7 +119,7 @@ function setSystemChannel() {
       const defaultConfigBounds = windowModule.getWindowSize('config', defaultConfig);
       windowModule.getWindow('config').setBounds(defaultConfigBounds);
     } catch (error) {
-      //console.log();
+      console.log(error);
     }
   });
 
@@ -173,6 +173,7 @@ function setWindowChannel() {
     try {
       windowModule.closeWindow(windowName);
     } catch (error) {
+      error;
       windowModule.createWindow(windowName, data);
     }
   });

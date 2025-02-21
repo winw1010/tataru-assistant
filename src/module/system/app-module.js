@@ -82,6 +82,7 @@ function registerGlobalShortcut() {
     try {
       windowModule.closeWindow('config');
     } catch (error) {
+      error;
       windowModule.createWindow('config');
     }
   });
@@ -90,6 +91,7 @@ function registerGlobalShortcut() {
     try {
       windowModule.closeWindow('capture');
     } catch (error) {
+      error;
       windowModule.createWindow('capture');
     }
   });

@@ -50,7 +50,11 @@ async function takeScreenshot(captureData) {
 
     // restore all windows
     windowModule.forEachWindow((myWindow) => {
-      myWindow.restore();
+      try {
+        myWindow.restore();
+      } catch (error) {
+        error;
+      }
     });
 
     // crop image

@@ -46,7 +46,7 @@
     tts.interval = setInterval(() => {
       if (tts.isPlaying) return;
 
-      const url = tts.playlist.shift();
+      const url = tts.list.shift();
 
       if (url) {
         try {

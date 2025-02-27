@@ -11,10 +11,12 @@ const deeplFunction = require('./deepl-function');
 const requestModule = require('../system/request-module');
 
 // RegExp
+/*
 const regINGRESSCOOKIE = /(?<target>INGRESSCOOKIE=[^;]+)/is;
 const regUserCountry = /(?<target>userCountry=[^;]+)/is;
 const regReleaseGroups = /(?<target>releaseGroups=[^;]+)/is;
 const regDapUid = /(?<target>dapUid=[^;]+)/is;
+*/
 
 // authentication
 let authentication = {
@@ -45,6 +47,7 @@ async function initialize() {
 
 // set cookie
 async function setCookie() {
+  /*
   const cookie = await requestModule.getCookie('https://www.deepl.com/translator', [
     regINGRESSCOOKIE,
     regUserCountry,
@@ -53,6 +56,10 @@ async function setCookie() {
   ]);
 
   authentication.cookie = cookie.join('; ');
+  authentication.expireDate = requestModule.getExpiryDate();
+  */
+
+  authentication.cookie = deeplFunction.getCookie();
   authentication.expireDate = requestModule.getExpiryDate();
 }
 

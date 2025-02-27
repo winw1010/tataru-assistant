@@ -20,11 +20,11 @@ const restrictedHeaders = [
 ];
 
 // sec-ch-ua
-let scu = '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"';
+let scu = '"Not(A:Brand";v="99", "Chromium";v="133", "Google Chrome";v="133"';
 
 // user agent
 let userAgent =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36';
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
@@ -55,21 +55,25 @@ async function getCookie(url = '', regArray = []) {
   const response = await get(url);
   const setCookie = response.headers['set-cookie'].join('; ');
   const cookie = [];
+  const unusedIndex = [];
 
   for (let index = 0; index < regArray.length; index++) {
     const reg = regArray[index];
     reg.lastIndex = 0;
-    const target = reg.exec(setCookie).groups.target;
+    const target = reg.exec(setCookie)?.groups?.target;
 
     if (target) {
       cookie.push(target);
+    } else {
+      unusedIndex.push(index);
     }
   }
 
-  if (cookie.length > 0) {
+  if (cookie.length === regArray.length) {
     return cookie;
   } else {
-    throw 'Target cookie is undefined, set-cookie: ' + setCookie;
+    console.log('Unused Index:', unusedIndex);
+    throw `Failed to get the cookie from [${url}].`;
   }
 }
 

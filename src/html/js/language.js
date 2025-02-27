@@ -96,10 +96,10 @@ function getElementTextList() {
         'a-set-gpt-api': ['說明', '说明', 'Guide'],
         'a-set-llm-api': ['說明', '说明', 'Guide'],
 
-        'a-readme': ['使用說明書', '使用说明书', 'Readme'],
-        'a-bug-report': ['問題回報', '问题回报', 'Bug report'],
-        'a-view-response': ['查看回報表單', '查看回报表单', 'View response'],
-        'a-translation-report': ['回報翻譯錯誤', '回报翻译错误', 'Translation report'],
+        'a-readme': ['使用說明書', '使用说明书', 'User Guide'],
+        'a-bug-report': ['問題回報', '问题回报', 'Bug Report'],
+        'a-view-response': ['查看回報表單', '查看回报表单', 'View Response'],
+        'a-translation-report': ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
         'a-github': ['GitHub', 'GitHub', 'GitHub'],
         'a-author': ['訪問作者', '访问作者', 'Author'],
       },
@@ -111,7 +111,7 @@ function getElementTextList() {
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
 
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download table'],
-        'button-delete-temp': ['清除暫存', '清除暂存', 'Clear temp file'],
+        'button-delete-temp': ['清除暫存', '清除暂存', 'Clear temp files'],
         'button-restart-sharlayan-reader': ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart chat reader'],
         'button-fix-reader': ['修復字幕讀取器', '修復字幕读取器', 'Fix chat reader'],
         'button-version-check': ['檢查更新', '检查更新', 'Check for updates'],
@@ -170,8 +170,8 @@ function getElementTextList() {
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
         'select-engine': ['翻譯器', '翻译器', 'Translator'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
-        'select-from-player': ['隊伍頻道', '队伍频道', 'Party Language'],
-        'select-to': ['翻譯語言', '翻译语言', 'Target Language'],
+        'select-from-player': ['隊伍語言', '队伍语言', 'Party Language'],
+        'select-to': ['目標語言', '目标语言', 'Target Language'],
 
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
         'input-gemini-model': ['模型', '模型', 'model'],
@@ -214,13 +214,13 @@ function getElementTextList() {
         'input-capture-image': ['圖片', '图片', 'Img'],
 
         // edit
-        'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace'],
+        'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace the result'],
         'textarea-before': ['原文', '原文', 'Original text'],
         'textarea-after': ['取代為', '取代为', 'Replace with'],
         'select-type': ['類別', '类别', 'type'],
 
         // dictionary
-        'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Translate with Tataru'],
+        'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Translate by Tataru'],
 
         // read log
         'select-log': ['選擇對話紀錄', '选择对话纪录', 'Chat log'],

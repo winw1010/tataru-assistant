@@ -1,8 +1,5 @@
 'use strict';
 
-// child process
-const { execSync } = require('child_process');
-
 // downloader
 const { Downloader } = require('nodejs-file-downloader');
 
@@ -123,7 +120,10 @@ async function downloadJSON() {
     console.log('All done');
 
     if (downloadStatus === 'COMPLETE') {
-      deleteTable();
+      // delete old text files
+      fileModule.rmdir(textPath);
+
+      // decompress new text files
       await decompress(filePath, textPath, { strip: 1 });
       fileModule.unlink(filePath);
       dialogModule.addNotification('DOWNLOAD_COMPLETED');
@@ -153,15 +153,6 @@ function getProxyOption() {
   }
 
   return proxyOption;
-}
-
-// delete table
-function deleteTable() {
-  try {
-    execSync(`rmdir /Q /S ${textPath}`);
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 // load json

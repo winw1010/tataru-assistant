@@ -115,7 +115,7 @@ function copyData() {
     }
     write(configPath, config, 'json');
   } catch (error) {
-    console.log(error);
+    error;
   }
 }
 
@@ -126,7 +126,7 @@ function readdir(path) {
   try {
     result = fs.readdirSync(path);
   } catch (error) {
-    console.log(error);
+    error;
   }
 
   return result;
@@ -145,12 +145,21 @@ function exists(filePath = './') {
   return result;
 }
 
+// rmdir
+function rmdir(filePath = './') {
+  try {
+    fs.rmSync(filePath, { recursive: true, force: true });
+  } catch (error) {
+    error;
+  }
+}
+
 // unlink
 function unlink(filePath = './') {
   try {
     fs.unlinkSync(filePath);
   } catch (error) {
-    console.log(error);
+    error;
   }
 }
 
@@ -177,7 +186,7 @@ function read(filePath = './', type = '') {
         break;
     }
   } catch (error) {
-    console.log(error);
+    error;
   }
 
   return data;
@@ -268,6 +277,7 @@ module.exports = {
 
   readdir,
   exists,
+  rmdir,
   unlink,
   read,
   write,

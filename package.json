@@ -1,6 +1,6 @@
 {
   "name": "tataru-assistant",
-  "version": "2.8.7",
+  "version": "2.8.8",
   "description": "Tataru Assistant",
   "main": "src/main.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.20.0",
-    "electron": "^34.2.0",
+    "electron": "^35.0.2",
     "electron-builder": "^25.1.8",
     "eslint": "^9.20.1",
     "globals": "^15.15.0"

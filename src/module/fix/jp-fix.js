@@ -353,10 +353,22 @@ function specialFix1(name = '', text = '') {
     text = text.replace(/(?<=ま)っした/gi, 'した');
   }
 
+  // ゴブリン
+  if (/ゴブリン/gi.test(name)) {
+    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ(?=[。！？…～])/gi, 'です');
+    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ(?![ァ-ヺー・＝])/gi, 'ぼく');
+  }
+
   // モブリン
-  if (/モブリン|(ク$)/gi.test(name)) {
+  if (/モブリン/gi.test(name)) {
     text = text.replace(/(?<![ァ-ヺー・＝])モブ(?=[。！？…～])/gi, 'です');
-    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?![ァ-ヺー・＝])/gi, '私');
+    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?![ァ-ヺー・＝])/gi, 'ぼく');
+  }
+
+  // ゴブリン & モブリン
+  if (text.split(/\u3000/).length > 1 && !/詩人/gi.test(name)) {
+    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ|モブ(?=[。！？…～])/gi, 'です');
+    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ|モブ(?![ァ-ヺー・＝])/gi, 'ぼく');
   }
 
   // ヒエン

@@ -1,7 +1,7 @@
 'use strict';
 
 // axios
-const axios = require('axios').default;
+const axios = require('axios');
 
 // config module
 const configModule = require('./config-module');
@@ -28,26 +28,26 @@ let userAgent =
 
 // get
 async function get(url = '', headers = {}, timeout = 10000) {
-  const option = { method: 'get', url, headers: checkHeaders(headers), timeout };
+  const option = { headers: checkHeaders(headers), timeout };
   const proxy = getProxy();
 
   if (proxy) {
     option.proxy = proxy;
   }
 
-  return await axios(option);
+  return await axios.get(url, option);
 }
 
 // post
 async function post(url = '', data = '', headers = {}, timeout = 10000) {
-  const option = { method: 'post', url, data, headers: checkHeaders(headers), timeout };
+  const option = { headers: checkHeaders(headers), timeout };
   const proxy = getProxy();
 
   if (proxy) {
     option.proxy = proxy;
   }
 
-  return await axios(option);
+  return await axios.post(url, data, option);
 }
 
 // get cookie

@@ -227,6 +227,19 @@ function fixConfig1(config) {
       config.api.gptApiKey = '';
       config.api.gptModel = '';
     }
+
+    // fix proxy
+    if (config.proxy.protocol !== '') {
+      if (config.proxy.protocol.includes('https')) {
+        config.proxy.protocol = 'https:';
+      } else {
+        config.proxy.protocol = 'http:';
+      }
+    }
+
+    if (config.proxy.host) {
+      config.proxy.hostname = config.proxy.host;
+    }
   } catch (error) {
     console.log(error);
   }

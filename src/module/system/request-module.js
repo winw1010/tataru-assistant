@@ -30,44 +30,35 @@ let userAgent =
 const requestTimeout = 10000;
 
 // get
-async function get(url = '', headers = {}, useProxy = false) {
-  const options = { headers };
-
-  if (useProxy) {
-    options.proxy = getProxy();
-  }
-
-  return await netRequest('GET', url, null, options);
+async function get(url = '', headers = {}) {
+  return await netRequest('GET', url, null, headers);
 }
 
 // post
-async function post(url = '', data = '', headers = {}, useProxy = false) {
-  const options = { headers };
-
-  if (useProxy) {
-    options.proxy = getProxy();
-  }
-
-  return await netRequest('POST', url, data, options);
+async function post(url = '', data = '', headers = {}) {
+  return await netRequest('POST', url, data, headers);
 }
 
 // net request
-async function netRequest(method = 'GET', url = '', data = null, options = {}) {
-  const request = options.proxy
+async function netRequest(method = 'GET', url = '', data = null, headers = {}) {
+  const config = configModule.getConfig();
+
+  const request = config.proxy.enable
     ? net.request({
         method: method,
-        protocol: options.proxy.protocol,
-        hostname: options.proxy.host,
-        port: options.proxy.port,
+        protocol: config.proxy.protocol,
+        hostname: config.proxy.hostname,
+        port: parseInt(config.proxy.port),
+        url: url,
       })
     : net.request({
         method: method,
         url: url,
       });
 
-  Object.keys(checkHeaders(options.headers)).forEach((headerName) => {
+  Object.keys(checkHeaders(headers)).forEach((headerName) => {
     try {
-      request.setHeader(headerName, options.headers[headerName]);
+      request.setHeader(headerName, headers[headerName]);
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +96,7 @@ async function netRequest(method = 'GET', url = '', data = null, options = {}) {
     });
 
     request.on('login', (authInfo, callback) => {
-      callback(options.proxy.username, options.proxy.password);
+      callback(config.proxy.username, config.proxy.password);
     });
 
     request.on('error', (error) => {
@@ -233,19 +224,6 @@ function setUA(scuValue = [], uaValue = '') {
   } catch (error) {
     console.log(error);
   }
-}
-
-// get proxy
-function getProxy() {
-  const config = configModule.getConfig();
-
-  return {
-    protocol: config.proxy.protocol + ':',
-    host: config.proxy.host,
-    port: parseInt(config.proxy.port),
-    username: config.proxy.username,
-    password: config.proxy.password,
-  };
 }
 
 // to parameters

@@ -559,11 +559,6 @@ function setTranslateChannel() {
     event.returnValue = engineModule.getUISelect();
   });
 
-  // get AI select
-  ipcMain.on('get-ai-select', (event) => {
-    event.returnValue = engineModule.getAISelect();
-  });
-
   // get AI list
   ipcMain.on('get-ai-list', (event) => {
     event.returnValue = engineModule.aiList;

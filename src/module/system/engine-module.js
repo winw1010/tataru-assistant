@@ -184,11 +184,6 @@ function getUISelect() {
   return getSelect(uiList);
 }
 
-// get AI select
-function getAISelect() {
-  return getSelect(aiList);
-}
-
 // get select
 function getSelect(list = []) {
   let innerHTML = '';
@@ -264,7 +259,6 @@ module.exports = {
   getSourceSelect,
   getTargetSelect,
   getUISelect,
-  getAISelect,
 
   getEngineList,
   getTranslateOption,

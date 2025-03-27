@@ -200,8 +200,7 @@ function getElementTextList() {
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
-        'select-proxy-target': ['Target', 'Target', 'Target'],
-        'input-proxy-host': ['Host', 'Host', 'Host'],
+        'input-proxy-hostname': ['Hostname', 'Hostname', 'Hostname'],
         'input-proxy-port': ['Port', 'Port', 'Port'],
         'input-proxy-username': ['Username', 'Username', 'Username'],
         'input-proxy-password': ['Password', 'Password', 'Password'],
@@ -238,8 +237,8 @@ function getElementTextList() {
         'div-api': ['API設定', 'API设定', 'API'],
         'div-ai': ['AI設定', 'AI设定', 'AI Settings'],
         '#option-system': ['#系統', '#系统', '#System'],
-        'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
         'div-system': ['系統設定', '系统设定', 'System'],
+        'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
         'div-about': ['關於', '关于', 'About'],
 
         normal: ['細', '细', 'Normal'],

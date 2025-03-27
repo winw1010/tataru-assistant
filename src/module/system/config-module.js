@@ -87,9 +87,8 @@ const defaultConfig = {
   },
   proxy: {
     enable: false,
-    target: 'GPT',
     protocol: 'http:',
-    host: '',
+    hostname: '',
     port: '',
     username: '',
     password: '',

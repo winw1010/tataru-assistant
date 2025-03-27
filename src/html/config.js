@@ -675,7 +675,7 @@ function getOptionList() {
       ['proxy', 'enable'],
     ],
     [
-      ['input-proxy-protocol', 'value'],
+      ['select-proxy-protocol', 'value'],
       ['proxy', 'protocol'],
     ],
     [

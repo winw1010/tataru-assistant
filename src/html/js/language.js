@@ -199,7 +199,7 @@ function getElementTextList() {
         'input-ai-temperature': ['溫度', '温度', 'Temperature'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
-        'input-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
+        'select-proxy-protocol': ['Proxy Protocol', 'Proxy Protocol', 'Proxy Protocol'],
         'input-proxy-host': ['Proxy Host', 'Proxy Host', 'Proxy Host'],
         'input-proxy-port': ['Proxy Port', 'Proxy Port', 'Proxy Port'],
         'input-proxy-username': ['Proxy Username', 'Proxy Username', 'Proxy Username'],

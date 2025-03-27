@@ -87,7 +87,7 @@ const defaultConfig = {
   },
   proxy: {
     enable: false,
-    protocol: '',
+    protocol: 'http:',
     host: '',
     port: '',
     username: '',

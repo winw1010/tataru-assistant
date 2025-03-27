@@ -40,6 +40,8 @@ function setView() {
 
   document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
 
+  document.getElementById('select-proxy-target').innerHTML = ipcRenderer.sendSync('get-ai-select');
+
   //document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
 
   readConfig();
@@ -677,6 +679,10 @@ function getOptionList() {
     [
       ['select-proxy-protocol', 'value'],
       ['proxy', 'protocol'],
+    ],
+    [
+      ['select-proxy-target', 'value'],
+      ['proxy', 'target'],
     ],
     [
       ['input-proxy-host', 'value'],

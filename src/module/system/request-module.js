@@ -26,9 +26,12 @@ let scu = '"Not(A:Brand";v="99", "Chromium";v="133", "Google Chrome";v="133"';
 let userAgent =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36';
 
+// request timeout
+const requestTimeout = 10000;
+
 // get
-async function get(url = '', headers = {}, timeout = 10000, useProxy = false) {
-  const options = { headers, timeout };
+async function get(url = '', headers = {}, useProxy = false) {
+  const options = { headers };
 
   if (useProxy) {
     options.proxy = getProxy();
@@ -38,8 +41,8 @@ async function get(url = '', headers = {}, timeout = 10000, useProxy = false) {
 }
 
 // post
-async function post(url = '', data = '', headers = {}, timeout = 10000, useProxy = false) {
-  const options = { headers, timeout };
+async function post(url = '', data = '', headers = {}, useProxy = false) {
+  const options = { headers };
 
   if (useProxy) {
     options.proxy = getProxy();
@@ -122,7 +125,7 @@ async function netRequest(method = 'GET', url = '', data = null, options = {}) {
     setTimeout(() => {
       request.abort();
       reject(`Request Timeout(${method}, ${url})`);
-    }, options.timeout);
+    }, requestTimeout);
   });
 }
 

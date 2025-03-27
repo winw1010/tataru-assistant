@@ -184,7 +184,7 @@ function setWindowChannel() {
   });
 
   ipcMain.on('move-window', (event, detail) => {
-    BrowserWindow.fromWebContents(event.sender).setBounds(detail);
+    BrowserWindow.fromWebContents(event.sender).setContentBounds(detail);
   });
 
   // minimize window

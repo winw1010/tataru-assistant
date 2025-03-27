@@ -70,46 +70,60 @@ async function netRequest(method = 'GET', url = '', data = null, options = {}) {
     }
   });
 
-  request.on('response', (response) => {
-    const chunkArray = [];
+  return new Promise((resolve, reject) => {
+    request.on('response', (response) => {
+      const chunkArray = [];
 
-    response.on('data', (chunk) => {
-      chunkArray.push(chunk);
+      response.on('data', (chunk) => {
+        chunkArray.push(chunk);
+      });
+
+      response.on('end', () => {
+        const responseData = {};
+        responseData.headers = response.headers;
+        responseData.data = Buffer.concat(chunkArray).toString();
+
+        try {
+          responseData.data = JSON.parse(responseData.data);
+        } catch (error) {
+          error;
+        }
+
+        if (method === 'POST') {
+          console.log('Data:', responseData.data);
+        }
+
+        resolve(responseData);
+      });
+
+      response.on('error', (error) => {
+        reject(error);
+      });
     });
 
-    response.on('end', () => {
-      const responseData = Buffer.concat(chunkArray).toString();
-      try {
-        return JSON.parse(responseData);
-      } catch (error) {
-        console.log(error);
-        return responseData;
+    request.on('login', (authInfo, callback) => {
+      callback(options.proxy.username, options.proxy.password);
+    });
+
+    request.on('error', (error) => {
+      reject(error);
+    });
+
+    if (data) {
+      if (typeof data === 'object') {
+        data = JSON.stringify(data);
       }
-    });
 
-    response.on('error', (error) => {
-      throw error;
-    });
+      request.end(data);
+    } else {
+      request.end();
+    }
+
+    setTimeout(() => {
+      request.abort();
+      reject(`Request Timeout(${method}, ${url})`);
+    }, options.timeout);
   });
-
-  request.on('login', (authInfo, callback) => {
-    callback(options.proxy.username, options.proxy.password);
-  });
-
-  request.on('error', (error) => {
-    throw error;
-  });
-
-  if (data) {
-    request.end(data);
-  } else {
-    request.end();
-  }
-
-  setTimeout(() => {
-    request.abort();
-    throw `Request Timeout(${method}, ${url})`;
-  }, options.timeout);
 }
 
 // get cookie

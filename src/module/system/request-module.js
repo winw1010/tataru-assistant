@@ -1,7 +1,7 @@
 'use strict';
 
-// axios
-const axios = require('axios');
+// net
+const { net } = require('electron');
 
 // config module
 const configModule = require('./config-module');
@@ -27,27 +27,89 @@ let userAgent =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36';
 
 // get
-async function get(url = '', headers = {}, timeout = 10000) {
-  const option = { headers: checkHeaders(headers), timeout };
-  const proxy = getProxy();
+async function get(url = '', headers = {}, timeout = 10000, useProxy = false) {
+  const options = { headers, timeout };
 
-  if (proxy) {
-    option.proxy = proxy;
+  if (useProxy) {
+    options.proxy = getProxy();
   }
 
-  return await axios.get(url, option);
+  return await netRequest('GET', url, null, options);
 }
 
 // post
-async function post(url = '', data = '', headers = {}, timeout = 10000) {
-  const option = { headers: checkHeaders(headers), timeout };
-  const proxy = getProxy();
+async function post(url = '', data = '', headers = {}, timeout = 10000, useProxy = false) {
+  const options = { headers, timeout };
 
-  if (proxy) {
-    option.proxy = proxy;
+  if (useProxy) {
+    options.proxy = getProxy();
   }
 
-  return await axios.post(url, data, option);
+  return await netRequest('POST', url, data, options);
+}
+
+// net request
+async function netRequest(method = 'GET', url = '', data = null, options = {}) {
+  const request = options.proxy
+    ? net.request({
+        method: method,
+        protocol: options.proxy.protocol,
+        hostname: options.proxy.host,
+        port: options.proxy.port,
+      })
+    : net.request({
+        method: method,
+        url: url,
+      });
+
+  Object.keys(checkHeaders(options.headers)).forEach((headerName) => {
+    try {
+      request.setHeader(headerName, options.headers[headerName]);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  request.on('response', (response) => {
+    const chunkArray = [];
+
+    response.on('data', (chunk) => {
+      chunkArray.push(chunk);
+    });
+
+    response.on('end', () => {
+      const responseData = Buffer.concat(chunkArray).toString();
+      try {
+        return JSON.parse(responseData);
+      } catch (error) {
+        console.log(error);
+        return responseData;
+      }
+    });
+
+    response.on('error', (error) => {
+      throw error;
+    });
+  });
+
+  request.on('login', (authInfo, callback) => {
+    callback(options.proxy.username, options.proxy.password);
+  });
+
+  request.on('error', (error) => {
+    throw error;
+  });
+
+  if (data) {
+    request.end(data);
+  } else {
+    request.end();
+  }
+
+  setTimeout(() => {
+    request.abort();
+    throw `Request Timeout(${method}, ${url})`;
+  }, options.timeout);
 }
 
 // get cookie
@@ -160,24 +222,13 @@ function setUA(scuValue = [], uaValue = '') {
 function getProxy() {
   const config = configModule.getConfig();
 
-  if (config.proxy.enable) {
-    const proxy = {
-      protocol: config.proxy.protocol + ':',
-      host: config.proxy.host,
-      port: parseInt(config.proxy.port),
-    };
-
-    if (config.proxy.username && config.proxy.password) {
-      proxy.auth = {
-        username: config.proxy.username,
-        password: config.proxy.password,
-      };
-    }
-
-    return proxy;
-  }
-
-  return null;
+  return {
+    protocol: config.proxy.protocol + ':',
+    host: config.proxy.host,
+    port: parseInt(config.proxy.port),
+    username: config.proxy.username,
+    password: config.proxy.password,
+  };
 }
 
 // to parameters

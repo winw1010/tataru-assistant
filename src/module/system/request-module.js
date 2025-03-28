@@ -8,23 +8,25 @@ const configModule = require('./config-module');
 
 // restricted headers of Chromium
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
+// const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
 const restrictedHeaders = [
-  'Content-Length',
-  'Host',
-  'Trailer',
-  'Te',
-  'Upgrade',
-  'Cookie2',
-  'Keep-Alive',
-  'Transfer-Encoding',
+  'content-length',
+  'host',
+  'trailer',
+  'te',
+  'upgrade',
+  'cookie2',
+  'keep-alive',
+  'transfer-encoding',
+  'connection',
 ];
 
 // sec-ch-ua
-let scu = '"Not(A:Brand";v="99", "Chromium";v="133", "Google Chrome";v="133"';
+let scu = '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"';
 
 // user agent
 let userAgent =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36';
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
 // request timeout
 const requestTimeout = 10000;
@@ -40,7 +42,7 @@ async function post(url = '', data = '', headers = {}) {
 }
 
 // net request
-async function netRequest(method = 'GET', url = '', data = null, headers = {}) {
+function netRequest(method = 'GET', url = '', data = null, headers = {}) {
   const config = configModule.getConfig();
 
   const request = config.proxy.enable
@@ -56,7 +58,7 @@ async function netRequest(method = 'GET', url = '', data = null, headers = {}) {
         url: url,
       });
 
-  Object.keys(checkHeaders(headers)).forEach((headerName) => {
+  Object.keys(clearHeaders(headers)).forEach((headerName) => {
     try {
       request.setHeader(headerName, headers[headerName]);
     } catch (error) {
@@ -96,7 +98,9 @@ async function netRequest(method = 'GET', url = '', data = null, headers = {}) {
     });
 
     request.on('login', (authInfo, callback) => {
-      callback(config.proxy.username, config.proxy.password);
+      if (authInfo.isProxy) {
+        callback(config.proxy.username, config.proxy.password);
+      }
     });
 
     request.on('error', (error) => {
@@ -104,7 +108,7 @@ async function netRequest(method = 'GET', url = '', data = null, headers = {}) {
     });
 
     if (data) {
-      if (typeof data === 'object') {
+      if (typeof data !== 'string') {
         data = JSON.stringify(data);
       }
 
@@ -148,19 +152,21 @@ async function getCookie(url = '', regArray = []) {
 }
 
 // clear headers
-function checkHeaders(headers = {}) {
-  const headerNames = Object.getOwnPropertyNames(headers);
+function clearHeaders(headers = {}) {
+  const headerNames = Object.keys(headers);
 
   for (let index = 0; index < headerNames.length; index++) {
-    const element = headerNames[index];
-    if (restrictedHeaders.includes(element)) {
-      delete headers[element];
+    const headerName = headerNames[index];
+    if (restrictedHeaders.includes(headerName.toLowerCase())) {
+      delete headers[headerName];
     }
   }
 
+  /*
   if (headers['Connection'] === 'upgrade') {
     delete headers['Connection'];
   }
+  */
 
   return headers;
 }
@@ -228,7 +234,7 @@ function setUA(scuValue = [], uaValue = '') {
 
 // to parameters
 function toParameters(data = {}) {
-  const dataNames = Object.getOwnPropertyNames(data);
+  const dataNames = Object.keys(data);
   let parameters = [];
 
   for (let index = 0; index < dataNames.length; index++) {

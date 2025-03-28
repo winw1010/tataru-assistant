@@ -25,7 +25,7 @@ function dataProcess(dialogData) {
 
 // check data
 function checkData(dialogData) {
-  const names = Object.getOwnPropertyNames(dialogData);
+  const names = Object.keys(dialogData);
   return names.includes('type') && names.includes('code') && names.includes('name') && names.includes('text');
 }
 

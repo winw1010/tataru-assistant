@@ -363,7 +363,7 @@ function sendIndex(channel, ...args) {
 
 // for each window
 function forEachWindow(callback = () => {}) {
-  const windowNames = Object.getOwnPropertyNames(windowList);
+  const windowNames = Object.keys(windowList);
   windowNames.forEach((windowName) => {
     try {
       callback(windowList[windowName]);

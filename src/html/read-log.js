@@ -86,7 +86,7 @@ function readLog(fileName) {
   try {
     const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
     const log = ipcRenderer.sendSync('read-json', fileLocation, false);
-    const logNames = Object.getOwnPropertyNames(log);
+    const logNames = Object.keys(log);
 
     if (logNames.length > 0) {
       ipcRenderer.send('send-index', 'clear-dialog');

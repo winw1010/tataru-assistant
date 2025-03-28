@@ -118,7 +118,7 @@ function loadConfig() {
     fixConfig1(currentConfig);
 
     // fix options
-    const mainNames = Object.getOwnPropertyNames(defaultConfig);
+    const mainNames = Object.keys(defaultConfig);
     mainNames.forEach((mainName) => {
       if (
         typeof currentConfig[mainName] === 'undefined' ||
@@ -133,7 +133,7 @@ function loadConfig() {
         }
 
         // add property
-        const subNames = Object.getOwnPropertyNames(defaultConfig[mainName]);
+        const subNames = Object.keys(defaultConfig[mainName]);
         subNames.forEach((subName) => {
           if (
             typeof currentConfig[mainName][subName] === 'undefined' ||
@@ -144,7 +144,7 @@ function loadConfig() {
         });
 
         // delete redundant property
-        const subNames2 = Object.getOwnPropertyNames(currentConfig[mainName]);
+        const subNames2 = Object.keys(currentConfig[mainName]);
         if (subNames.length !== subNames2.length) {
           subNames2.forEach((subName) => {
             if (typeof defaultConfig[mainName][subName] === 'undefined') {

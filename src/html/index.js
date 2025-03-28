@@ -364,7 +364,7 @@ function setDialogContent(dialog, text = '') {
 // set dialog style
 function setDialogStyle(dialog = null, style = {}) {
   if (dialog) {
-    Object.getOwnPropertyNames(style).forEach((key) => {
+    Object.keys(style).forEach((key) => {
       try {
         dialog.style[key] = style[key];
       } catch (error) {

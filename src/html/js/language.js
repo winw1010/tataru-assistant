@@ -10,7 +10,7 @@ document.addEventListener('change-ui-text', (e) => {
 function setText(appLanguage) {
   // get element text list
   const elementTextList = getElementTextList();
-  const propertyNames = Object.getOwnPropertyNames(elementTextList);
+  const propertyNames = Object.keys(elementTextList);
 
   // get text index
   const textIndex = getTextIndex(appLanguage);
@@ -23,7 +23,7 @@ function setText(appLanguage) {
   // loop of property names
   for (let index = 0; index < propertyNames.length; index++) {
     const propertyName = propertyNames[index];
-    const elementNames = Object.getOwnPropertyNames(elementTextList[propertyName]);
+    const elementNames = Object.keys(elementTextList[propertyName]);
 
     // loop of element names
     for (let index = 0; index < elementNames.length; index++) {

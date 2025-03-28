@@ -45,11 +45,14 @@ function translateData(dialogData) {
 
   // fix new line
   if (config.translation.from === engineModule.languageEnum.ja) {
+    dialogData.text = dialogData.text.replaceAll('[r]', '、').replace(/(?<=[…、。？！])、/gi, '');
+    /*
     if (dialogData.type.includes('CUTSCENE')) {
       dialogData.text = dialogData.text.replaceAll('[r]', '、').replace(/(?<=[…、。？！])、/gi, '');
     } else {
       dialogData.text = dialogData.text.replaceAll('[r]', '');
     }
+    */
   } else {
     dialogData.text = dialogData.text.replaceAll('[r]', ' ');
   }

@@ -98,10 +98,14 @@ function netRequest(method = 'GET', url = '', data = null, headers = {}) {
     });
 
     request.on('login', (authInfo, callback) => {
-      if (authInfo.isProxy) {
-        callback(config.proxy.username, config.proxy.password);
+      if (config.proxy.check) {
+        if (authInfo.isProxy) {
+          callback(config.proxy.username, config.proxy.password);
+        } else {
+          reject('Proxy check failed.');
+        }
       } else {
-        reject('isProxy = false');
+        callback(config.proxy.username, config.proxy.password);
       }
     });
 

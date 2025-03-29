@@ -100,6 +100,8 @@ function netRequest(method = 'GET', url = '', data = null, headers = {}) {
     request.on('login', (authInfo, callback) => {
       if (authInfo.isProxy) {
         callback(config.proxy.username, config.proxy.password);
+      } else {
+        reject('isProxy = false');
       }
     });
 

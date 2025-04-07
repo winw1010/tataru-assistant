@@ -1,26 +1,6 @@
-# Tataru Assistant
+# Tataru Assistant 是什麼?
 
-- [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
-
-- [Download Tataru Assistant](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
-
-- [Download .NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer)
-
-## 安裝步驟
-
-1. 從上方連結下載【Tataru Assistant Setup.exe】
-
-2. 執行【Tataru Assistant Setup.exe】開始安裝，若顯示【Windows 已保護您的電腦】的訊息，請點選【其他資訊】，再點選下方的【仍要執行】
-
-3. 啟動後若顯示【這個作業系統不支援 .NET Framework 4.8】的訊息，請從上方連結下載安裝 Microsoft .NET Framework 4.8
-
-4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
-
-5. 若安裝後無法自動翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
-
-## 什麼是 Tataru Assistant?
-
-**Tataru Assistant** 為針對 FFXIV 國際版設計的及時中文翻譯程式，主要功能如下
+**Tataru Assistant** 為 FFXIV 國際版的即時劇情字幕翻譯程式，主要功能如下
 
 - 即時翻譯對話文字
 
@@ -34,9 +14,9 @@
 
 - 翻譯查詢器
 
-## Tataru Assistant 的翻譯方式
+# Tataru Assistant 的翻譯方式
 
-### 線上翻譯機
+## 線上翻譯機
 
 翻譯能力一般，但基本上無使用限制
 
@@ -50,7 +30,7 @@
 
 - DeepL
 
-### AI 翻譯
+## AI 翻譯
 
 翻譯能力較佳，可正確翻譯較艱深的句子，需申請 API key 才能使用，目前支援以下方案
 
@@ -64,7 +44,29 @@
 
 - 自訂 OpenAI(自訂模式，可自行輸入 POST URL 和 API KEY 使用與 OpenAI 相容的 AI 模型)
 
-## Credits
+# 檔案下載
+
+- [Tataru Assistant 安裝檔](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
+
+- [.NET Framework 4.8(執行Tataru Assistant的必要元件)](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer)
+
+# 安裝步驟
+
+1. 從上方連結下載【Tataru Assistant Setup.exe】
+
+2. 執行【Tataru Assistant Setup.exe】開始安裝，若顯示【Windows 已保護您的電腦】的訊息，請點選【其他資訊】，再點選下方的【仍要執行】
+
+3. 啟動後若顯示【這個作業系統不支援 .NET Framework 4.8】的訊息，請從上方連結下載安裝 Microsoft .NET Framework 4.8
+
+4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
+
+5. 若安裝後無法自動翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
+
+# 原始碼
+
+- [原始碼使用說明](https://github.com/winw1010/tataru-assistant/blob/main/doc/README_SOURCE.md)
+
+# Credits
 
 - [FFXIVAPP/sharlayan](https://github.com/FFXIVAPP/sharlayan)
 - [Electron](https://www.electronjs.org/)
@@ -75,6 +77,6 @@
 - [temp](https://github.com/bruce/node-temp)
 - [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
 
-## Support
+# Support
 
 [<img src="https://github.com/winw1010/tataru-assistant/blob/main/src/html/img/bmc/bmc-button.png" alt="Buy me a coffee" width="200"/>](https://www.buymeacoffee.com/winw1010)

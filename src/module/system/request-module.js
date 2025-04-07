@@ -1,7 +1,7 @@
 'use strict';
 
 // axios
-// some OS can't request with Electron's net
+// some OS can't request with net of Electron
 const axios = require('axios');
 
 // config module

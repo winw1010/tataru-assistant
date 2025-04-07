@@ -1,7 +1,7 @@
 'use strict';
 
 // net
-const { net } = require('electron');
+const axios = require('axios');
 
 // config module
 const configModule = require('./config-module');
@@ -9,124 +9,42 @@ const configModule = require('./config-module');
 // restricted headers of Chromium
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
 // const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
-const restrictedHeaders = [
-  'content-length',
-  'host',
-  'trailer',
-  'te',
-  'upgrade',
-  'cookie2',
-  'keep-alive',
-  'transfer-encoding',
-  'connection',
-];
+const restrictedHeaders = ['content-length', 'host', 'trailer', 'te', 'upgrade', 'cookie2', 'keep-alive', 'transfer-encoding', 'connection'];
 
 // sec-ch-ua
 let scu = '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"';
 
 // user agent
-let userAgent =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
+let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
 // request timeout
 const requestTimeout = 10000;
 
 // get
-async function get(url = '', headers = {}) {
-  return await netRequest('GET', url, null, headers);
+function get(url = '', headers = {}) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url, getOptions(headers))
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 // post
-async function post(url = '', data = '', headers = {}) {
-  return await netRequest('POST', url, data, headers);
-}
-
-// net request
-function netRequest(method = 'GET', url = '', data = null, headers = {}) {
-  const config = configModule.getConfig();
-
-  const request = config.proxy.enable
-    ? net.request({
-        method: method,
-        protocol: config.proxy.protocol,
-        hostname: config.proxy.hostname,
-        port: parseInt(config.proxy.port),
-        url: url,
-      })
-    : net.request({
-        method: method,
-        url: url,
-      });
-
-  Object.keys(clearHeaders(headers)).forEach((headerName) => {
-    try {
-      request.setHeader(headerName, headers[headerName]);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
+function post(url = '', data = '', headers = {}) {
   return new Promise((resolve, reject) => {
-    request.on('response', (response) => {
-      const chunkArray = [];
-
-      response.on('data', (chunk) => {
-        chunkArray.push(chunk);
-      });
-
-      response.on('end', () => {
-        const responseData = {};
-        responseData.headers = response.headers;
-        responseData.data = Buffer.concat(chunkArray).toString();
-
-        try {
-          responseData.data = JSON.parse(responseData.data);
-        } catch (error) {
-          error;
-        }
-
-        if (method === 'POST') {
-          console.log('Data:', responseData.data);
-        }
-
-        resolve(responseData);
-      });
-
-      response.on('error', (error) => {
+    axios
+      .post(url, data, getOptions(headers))
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
         reject(error);
       });
-    });
-
-    request.on('login', (authInfo, callback) => {
-      if (config.proxy.check) {
-        if (authInfo.isProxy) {
-          callback(config.proxy.username, config.proxy.password);
-        } else {
-          reject('Proxy check failed.');
-        }
-      } else {
-        callback(config.proxy.username, config.proxy.password);
-      }
-    });
-
-    request.on('error', (error) => {
-      reject(error);
-    });
-
-    if (data) {
-      if (typeof data !== 'string') {
-        data = JSON.stringify(data);
-      }
-
-      request.end(data);
-    } else {
-      request.end();
-    }
-
-    setTimeout(() => {
-      request.abort();
-      reject(`Request Timeout(${method}, ${url})`);
-    }, requestTimeout);
   });
 }
 
@@ -249,6 +167,30 @@ function toParameters(data = {}) {
   }
 
   return parameters.join('&');
+}
+
+// get options
+function getOptions(headers = {}) {
+  const config = configModule.getConfig();
+
+  const options = {
+    headers: clearHeaders(headers),
+    timeout: requestTimeout,
+  };
+
+  if (config.proxy.enable) {
+    options.proxy = {
+      protocol: config.proxy.protocol,
+      host: config.proxy.hostname,
+      port: parseInt(config.proxy.port),
+      auth: {
+        username: config.proxy.username,
+        password: config.proxy.password,
+      },
+    };
+  }
+
+  return options;
 }
 
 // module exports

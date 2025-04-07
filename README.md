@@ -48,7 +48,7 @@
 
 - [Tataru Assistant 安裝檔](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
 
-- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (執行Tataru Assistant的必要元件)
+- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (執行 Tataru Assistant 的必要元件)
 
 # 安裝步驟
 

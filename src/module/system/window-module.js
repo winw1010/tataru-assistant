@@ -29,6 +29,7 @@ function createWindow(windowName, data = null) {
       ...windowSize,
       show: false,
       frame: false,
+      roundedCorners: false,
       transparent: true,
       fullscreenable: false,
       webPreferences: {
@@ -262,13 +263,10 @@ function getWindowSize(windowName, config) {
 function getNearPosition(displayBounds, indexBounds, bounds) {
   bounds = boundsSizeCheck(bounds);
 
-  bounds.x =
-    indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
+  bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
 
   bounds.y =
-    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height
-      ? displayBounds.y + displayBounds.height - bounds.height
-      : indexBounds.y;
+    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
 
   return bounds;
 }
@@ -282,11 +280,7 @@ function boundsSizeCheck(bounds) {
 
 // bounds valid check
 function boundsValidCheck(bounds) {
-  return (
-    (bounds.x === -1 && bounds.y === -1 && bounds.width === -1 && bounds.height === -1) ||
-    bounds.width <= 0 ||
-    bounds.height <= 0
-  );
+  return (bounds.x === -1 && bounds.y === -1 && bounds.width === -1 && bounds.height === -1) || bounds.width <= 0 || bounds.height <= 0;
 }
 
 // bounds position check

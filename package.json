@@ -22,6 +22,7 @@
   "dependencies": {
     "@google-cloud/vision": "^4.3.2",
     "@google/generative-ai": "^0.21.0",
+    "axios": "^1.8.4",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",

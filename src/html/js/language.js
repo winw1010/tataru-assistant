@@ -199,7 +199,6 @@ function getElementTextList() {
         'input-ai-temperature': ['溫度', '温度', 'Temperature'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
-        'input-proxy-check': ['檢驗Proxy', '检验Proxy', 'Check Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
         'input-proxy-hostname': ['Hostname', 'Hostname', 'Hostname'],
         'input-proxy-port': ['Port', 'Port', 'Port'],
@@ -324,11 +323,7 @@ function getElementTextList() {
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
-        'span-channel-comment': [
-          '滾動滑鼠中鍵可以滑動頻道清單',
-          '滚动鼠标中键可以滑动频道清单',
-          'Use middle mouse button to sroll the page',
-        ],
+        'span-channel-comment': ['滾動滑鼠中鍵可以滑動頻道清單', '滚动鼠标中键可以滑动频道清单', 'Use middle mouse button to sroll the page'],
         'span-author': [
           '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
           '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',

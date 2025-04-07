@@ -227,8 +227,12 @@ function fixConfig1(config) {
       config.api.gptApiKey = '';
       config.api.gptModel = '';
     }
+  } catch (error) {
+    error;
+  }
 
-    // fix proxy
+  try {
+    // fix protocol
     if (config.proxy.protocol !== '') {
       if (config.proxy.protocol.includes('https')) {
         config.proxy.protocol = 'https:';
@@ -236,12 +240,17 @@ function fixConfig1(config) {
         config.proxy.protocol = 'http:';
       }
     }
+  } catch (error) {
+    error;
+  }
 
+  try {
+    // fix hostname
     if (config.proxy.host) {
       config.proxy.hostname = config.proxy.host;
     }
   } catch (error) {
-    console.log(error);
+    error;
   }
 }
 
@@ -252,22 +261,38 @@ function fixConfig2(config) {
     if (!engineModule.engineList.includes(config.translation.engine)) {
       config.translation.engine = defaultConfig.translation.engine;
     }
+  } catch (error) {
+    error;
+  }
 
+  try {
     // fix source
     if (!engineModule.sourceList.includes(config.translation.from)) {
       config.translation.from = defaultConfig.translation.from;
     }
+  } catch (error) {
+    error;
+  }
 
+  try {
     // fix player
     if (!engineModule.sourceList.includes(config.translation.fromPlayer)) {
       config.translation.fromPlayer = defaultConfig.translation.fromPlayer;
     }
+  } catch (error) {
+    error;
+  }
 
+  try {
     // fix target
     if (!engineModule.targetList.includes(config.translation.to)) {
       config.translation.to = defaultConfig.translation.to;
     }
+  } catch (error) {
+    error;
+  }
 
+  try {
     // fix text detect
     if (!engineModule.visionList.includes(config.captureWindow.type)) {
       if (config.captureWindow.type === 'google') {
@@ -277,7 +302,7 @@ function fixConfig2(config) {
       }
     }
   } catch (error) {
-    console.log(error);
+    error;
   }
 }
 

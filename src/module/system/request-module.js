@@ -1,6 +1,6 @@
 'use strict';
 
-// net
+// axios
 const axios = require('axios');
 
 // config module

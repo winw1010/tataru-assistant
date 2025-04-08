@@ -24,8 +24,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
@@ -36,8 +36,11 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  createTable();
+async function setView() {
+  await createTable();
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set enevt
@@ -98,8 +101,8 @@ function setButton() {
   };
 
   // view files
-  document.getElementById('button-view-files').onclick = () => {
-    ipcRenderer.send('execute-command', `start "" "${ipcRenderer.sendSync('get-user-data-path', 'text')}"`);
+  document.getElementById('button-view-files').onclick = async () => {
+    ipcRenderer.send('execute-command', `start "" "${await ipcRenderer.invoke('get-user-data-path', 'text')}"`);
   };
 
   // clear cache
@@ -109,10 +112,10 @@ function setButton() {
 }
 
 // create table
-function createTable(keyword = '') {
+async function createTable(keyword = '') {
   const tableType = document.getElementById('select-table-type').value;
   const arrayParameter = arrayParameters[tableType];
-  const array = ipcRenderer.sendSync('get-user-array', arrayParameter.name);
+  const array = await ipcRenderer.invoke('get-user-array', arrayParameter.name);
   const tbody = document.getElementById('tbody-custom-table');
   let innerHTML = '';
 

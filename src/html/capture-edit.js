@@ -3,9 +3,6 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// image path
-const imagePath = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'img');
-
 // capture data
 let captureData = {};
 
@@ -21,8 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
@@ -34,12 +31,15 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  const config = ipcRenderer.sendSync('get-config');
+async function setView() {
+  const config = await ipcRenderer.invoke('get-config');
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
   document
     .getElementById('img-captured')
-    .setAttribute('src', ipcRenderer.sendSync('get-path', imagePath, 'cropped.png'));
+    .setAttribute('src', await ipcRenderer.invoke('get-root-path', 'src', 'data', 'img', 'cropped.png'));
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set event
@@ -50,10 +50,10 @@ function setEvent() {
   });
 
   // checkbox
-  document.getElementById('checkbox-split').oninput = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('checkbox-split').oninput = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.captureWindow.split = document.getElementById('checkbox-split').checked;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
   };
 }
 

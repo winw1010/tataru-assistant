@@ -81,8 +81,8 @@ function setIPC() {
 // set system channel
 function setSystemChannel() {
   // get app version
-  ipcMain.on('get-version', (event) => {
-    event.returnValue = appVersion;
+  ipcMain.handle('get-version', () => {
+    return appVersion;
   });
 
   // close app
@@ -92,23 +92,20 @@ function setSystemChannel() {
   });
 
   // get config
-  ipcMain.on('get-config', (event) => {
-    event.returnValue = configModule.getConfig();
+  ipcMain.handle('get-config', () => {
+    return configModule.getConfig();
   });
 
   // set config
-  ipcMain.on('set-config', (event, newConfig) => {
+  ipcMain.handle('set-config', (event, newConfig) => {
     configModule.setConfig(newConfig);
-    event.returnValue = configModule.getConfig();
+    return configModule.getConfig();
   });
 
   // set default config
-  ipcMain.on('set-default-config', (event) => {
+  ipcMain.handle('set-default-config', () => {
     configModule.setDefaultConfig();
     const defaultConfig = configModule.getConfig();
-
-    // set return value
-    event.returnValue = defaultConfig;
 
     try {
       // reset index bounds
@@ -121,23 +118,25 @@ function setSystemChannel() {
     } catch (error) {
       console.log(error);
     }
+
+    return defaultConfig;
   });
 
   // get chat code
-  ipcMain.on('get-chat-code', (event) => {
-    event.returnValue = chatCodeModule.getChatCode();
+  ipcMain.handle('get-chat-code', () => {
+    return chatCodeModule.getChatCode();
   });
 
   // set chat code
-  ipcMain.on('set-chat-code', (event, newChatCode) => {
+  ipcMain.handle('set-chat-code', (event, newChatCode) => {
     chatCodeModule.setChatCode(newChatCode);
-    event.returnValue = chatCodeModule.getChatCode();
+    return chatCodeModule.getChatCode();
   });
 
   // set default chat code
-  ipcMain.on('set-default-chat-code', (event) => {
+  ipcMain.handle('set-default-chat-code', () => {
     chatCodeModule.setDefaultChatCode();
-    event.returnValue = chatCodeModule.getChatCode();
+    return chatCodeModule.getChatCode();
   });
 
   // restart sharlayan reader
@@ -208,7 +207,7 @@ function setWindowChannel() {
   // close window
   ipcMain.on('close-window', (event) => {
     try {
-      BrowserWindow.fromWebContents(event.sender).close();
+      event.sender.close();
     } catch (error) {
       console.log(error);
     }
@@ -249,8 +248,8 @@ function setWindowChannel() {
   });
 
   // get click through config
-  ipcMain.on('get-click-through-config', (event) => {
-    event.returnValue = configModule.getConfig().indexWindow.clickThrough;
+  ipcMain.handle('get-click-through-config', () => {
+    return configModule.getConfig().indexWindow.clickThrough;
   });
 
   // set click through config
@@ -331,21 +330,21 @@ function setDialogChannel() {
   });
 
   // create log name
-  ipcMain.on('create-log-name', (event, milliseconds) => {
-    event.returnValue = dialogModule.createLogName(milliseconds);
+  ipcMain.handle('create-log-name', (event, milliseconds) => {
+    return dialogModule.createLogName(milliseconds);
   });
 }
 
 // set capture channel
 function setCaptureChannel() {
   // get screen bounds
-  ipcMain.on('get-screen-bounds', (event) => {
-    event.returnValue = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
+  ipcMain.handle('get-screen-bounds', () => {
+    return screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
   });
 
   // get mouse position
-  ipcMain.on('get-mouse-position', (event) => {
-    event.returnValue = screen.getCursorScreenPoint();
+  ipcMain.handle('get-mouse-position', () => {
+    return screen.getCursorScreenPoint();
   });
 
   // start recognize
@@ -476,9 +475,9 @@ function setJsonChannel() {
   });
 
   // get array
-  ipcMain.on('get-user-array', (event, name = '') => {
+  ipcMain.handle('get-user-array', (event, name = '') => {
     let array = jsonEntry.getUserArray(name);
-    event.returnValue = array;
+    return array;
   });
 
   // save user custom
@@ -535,33 +534,33 @@ function setJsonChannel() {
 // set translate channel
 function setTranslateChannel() {
   // get engine select
-  ipcMain.on('get-engine-select', (event) => {
-    event.returnValue = engineModule.getEngineSelect();
+  ipcMain.handle('get-engine-select', () => {
+    return engineModule.getEngineSelect();
   });
 
   // get all language select
-  ipcMain.on('get-all-language-select', (event) => {
-    event.returnValue = engineModule.getAllLanguageSelect();
+  ipcMain.handle('get-all-language-select', () => {
+    return engineModule.getAllLanguageSelect();
   });
 
   // get source select
-  ipcMain.on('get-source-select', (event) => {
-    event.returnValue = engineModule.getSourceSelect();
+  ipcMain.handle('get-source-select', () => {
+    return engineModule.getSourceSelect();
   });
 
   // get target select
-  ipcMain.on('get-target-select', (event) => {
-    event.returnValue = engineModule.getTargetSelect();
+  ipcMain.handle('get-target-select', () => {
+    return engineModule.getTargetSelect();
   });
 
   // get UI select
-  ipcMain.on('get-ui-select', (event) => {
-    event.returnValue = engineModule.getUISelect();
+  ipcMain.handle('get-ui-select', () => {
+    return engineModule.getUISelect();
   });
 
   // get AI list
-  ipcMain.on('get-ai-list', (event) => {
-    event.returnValue = engineModule.aiList;
+  ipcMain.handle('get-ai-list', () => {
+    return engineModule.aiList;
   });
 
   // add task
@@ -579,8 +578,8 @@ function setTranslateChannel() {
   });
 
   // google tts
-  ipcMain.on('google-tts', (event, text, from) => {
-    event.returnValue = googleTTS.getAudioUrl(text, from);
+  ipcMain.handle('google-tts', (event, text, from) => {
+    return googleTTS.getAudioUrl(text, from);
   });
 
   // check API
@@ -619,28 +618,28 @@ function setTranslateChannel() {
 // set file channel
 function setFileChannel() {
   // read directory
-  ipcMain.on('read-directory', (event, path) => {
-    event.returnValue = fileModule.readdir(path);
+  ipcMain.handle('read-directory', (event, path) => {
+    return fileModule.readdir(path);
   });
 
   // read json
-  ipcMain.on('read-json', (event, filePath, returnArray) => {
-    event.returnValue = fileModule.read(filePath, 'json') || (returnArray ? [] : {});
+  ipcMain.handle('read-json', (event, filePath, returnArray) => {
+    return fileModule.read(filePath, 'json') || (returnArray ? [] : {});
   });
 
   // get path
-  ipcMain.on('get-path', (event, ...args) => {
-    event.returnValue = fileModule.getPath(...args);
+  ipcMain.handle('get-path', (event, ...args) => {
+    return fileModule.getPath(...args);
   });
 
   // get root path
-  ipcMain.on('get-root-path', (event, ...args) => {
-    event.returnValue = fileModule.getRootPath(...args);
+  ipcMain.handle('get-root-path', (event, ...args) => {
+    return fileModule.getRootPath(...args);
   });
 
   // get user data path
-  ipcMain.on('get-user-data-path', (event, ...args) => {
-    event.returnValue = fileModule.getUserDataPath(...args);
+  ipcMain.handle('get-user-data-path', (event, ...args) => {
+    return fileModule.getUserDataPath(...args);
   });
 
   ipcMain.on('clear-cache', async (event) => {

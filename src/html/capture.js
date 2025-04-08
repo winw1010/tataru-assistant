@@ -15,22 +15,25 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 }
 
 // set view
-function setView() {
-  const config = ipcRenderer.sendSync('get-config');
+async function setView() {
+  const config = await ipcRenderer.invoke('get-config');
   document.getElementById('select-type').value = config.captureWindow.type;
-  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
   document.getElementById('checkbox-edit').checked = config.captureWindow.edit;
   showScreenshotButton(config);
   setCanvasSize();
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set event
@@ -46,23 +49,23 @@ function setEvent() {
   };
 
   // checkbox
-  document.getElementById('checkbox-split').oninput = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('checkbox-split').oninput = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.captureWindow.split = document.getElementById('checkbox-split').checked;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
   };
 
-  document.getElementById('checkbox-edit').oninput = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('checkbox-edit').oninput = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.captureWindow.edit = document.getElementById('checkbox-edit').checked;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
   };
 
   // select
-  document.getElementById('select-type').onchange = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('select-type').onchange = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.captureWindow.type = document.getElementById('select-type').value;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
     ipcRenderer.send('check-api', document.getElementById('select-type').value);
     showScreenshotButton(config);
   };
@@ -74,12 +77,12 @@ function setEvent() {
 // set button
 function setButton() {
   // screenshot
-  document.getElementById('button-screenshot').onclick = () => {
+  document.getElementById('button-screenshot').onclick = async () => {
     // minimize all windows
     ipcRenderer.send('minimize-all-windows');
 
     // set capture data
-    const captureData = createData();
+    const captureData = await createData();
 
     // start recognize
     ipcRenderer.send('start-recognize', captureData);
@@ -120,9 +123,9 @@ function setCanvasEvent() {
   const clientMouseDown = { x: 0, y: 0 };
 
   // on mouse down
-  canvas.onmousedown = (event) => {
+  canvas.onmousedown = async (event) => {
     // set mousedown screen position
-    const mousePosition = ipcRenderer.sendSync('get-mouse-position');
+    const mousePosition = await ipcRenderer.invoke('get-mouse-position');
     screenMouseDown.x = mousePosition.x;
     screenMouseDown.y = mousePosition.y;
 
@@ -136,7 +139,7 @@ function setCanvasEvent() {
     };
 
     // on mouse up
-    canvas.onmouseup = () => {
+    canvas.onmouseup = async () => {
       // stop drawing
       canvas.onmouseup = null;
       canvas.onmousemove = null;
@@ -145,12 +148,12 @@ function setCanvasEvent() {
       clearRectangle();
 
       // set mouseup screen position
-      const mousePosition = ipcRenderer.sendSync('get-mouse-position');
+      const mousePosition = await ipcRenderer.invoke('get-mouse-position');
       screenMouseUp.x = mousePosition.x;
       screenMouseUp.y = mousePosition.y;
 
       // set capture data
-      const captureData = createData();
+      const captureData = await createData();
 
       // set rectangle size
       captureData.rectangleSize = getRectangleSize(
@@ -215,13 +218,13 @@ function getLineWidth() {
 }
 
 // create data
-function createData() {
+async function createData() {
   return {
     type: document.getElementById('select-type').value,
     from: document.getElementById('select-from').value,
     split: document.getElementById('checkbox-split').checked,
     edit: document.getElementById('checkbox-edit').checked,
-    screenSize: ipcRenderer.sendSync('get-screen-bounds'),
+    screenSize: await ipcRenderer.invoke('get-screen-bounds'),
     rectangleSize: {
       x: 0,
       y: 0,

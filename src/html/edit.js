@@ -14,9 +14,6 @@ const allLanguageList = [
   'Italian',
 ];
 
-// log path
-const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
-
 // target log
 let targetLog = null;
 
@@ -32,8 +29,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
@@ -44,18 +41,21 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  const config = ipcRenderer.sendSync('get-config');
+async function setView() {
+  const config = await ipcRenderer.invoke('get-config');
 
-  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
-  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
-  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
+  document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
+  document.getElementById('select-to').innerHTML = await ipcRenderer.invoke('get-target-select');
 
   document.getElementById('select-engine').value = config.translation.engine;
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('select-to').value = config.translation.to;
 
   document.getElementById('checkbox-replace').checked = config.translation.replace;
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set event
@@ -65,18 +65,18 @@ function setEvent() {
     ipcRenderer.send('move-window', e.detail, false);
   });
 
-  document.getElementById('checkbox-replace').oninput = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('checkbox-replace').oninput = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.translation.replace = document.getElementById('checkbox-replace').checked;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
   };
 }
 
 // set button
 function setButton() {
   // restart
-  document.getElementById('button-restart-translate').onclick = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('button-restart-translate').onclick = async () => {
+    const config = await ipcRenderer.invoke('get-config');
 
     const dialogData = {
       id: targetLog.id,
@@ -150,12 +150,14 @@ function setButton() {
 }
 
 // read log
-function readLog(id = '') {
+async function readLog(id = '') {
+  const logPath = await ipcRenderer.invoke('get-user-data-path', 'log');
+
   try {
-    const config = ipcRenderer.sendSync('get-config');
+    const config = await ipcRenderer.invoke('get-config');
     const milliseconds = parseInt(id.slice(2));
-    const filePath = ipcRenderer.sendSync('get-path', logPath, createLogName(milliseconds));
-    const log = ipcRenderer.sendSync('read-json', filePath, false);
+    const filePath = await ipcRenderer.invoke('get-path', logPath, await createLogName(milliseconds));
+    const log = await ipcRenderer.invoke('read-json', filePath, false);
 
     targetLog = log[id];
 
@@ -199,12 +201,12 @@ function readLog(id = '') {
 }
 
 // show audio
-function showAudio() {
+async function showAudio() {
   const text = targetLog.audio_text || targetLog.text;
 
   if (text !== '') {
     try {
-      const urlList = ipcRenderer.sendSync('google-tts', text, targetLog.translation.from);
+      const urlList = await ipcRenderer.invoke('google-tts', text, targetLog.translation.from);
       console.log('TTS url:', urlList);
 
       let innerHTML = '';
@@ -278,6 +280,6 @@ function fixLogValue(value = '', valueArray = [], defaultValue = '') {
 }
 
 // create log name
-function createLogName(milliseconds = null) {
-  return ipcRenderer.sendSync('create-log-name', milliseconds);
+async function createLogName(milliseconds = null) {
+  return await ipcRenderer.invoke('create-log-name', milliseconds);
 }

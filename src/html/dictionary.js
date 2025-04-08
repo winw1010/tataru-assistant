@@ -15,17 +15,17 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
   // show translation
-  ipcRenderer.on('show-translation', (event, translatedText, target) => {
+  ipcRenderer.on('show-translation', async (event, translatedText, target) => {
     // show translated text
     if (translatedText !== '') {
       document.getElementById('span-translated-text').innerText = translatedText;
-      document.getElementById('div-audio').innerHTML = getAudioHtml(translatedText, target);
+      document.getElementById('div-audio').innerHTML = await getAudioHtml(translatedText, target);
     } else {
       document.getElementById('span-translated-text').innerText = '';
       document.getElementById('div-audio').innerHTML = '';
@@ -34,16 +34,19 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  const config = ipcRenderer.sendSync('get-config');
+async function setView() {
+  const config = await ipcRenderer.invoke('get-config');
 
-  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
-  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-all-language-select');
-  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-all-language-select');
+  document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
+  document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-all-language-select');
+  document.getElementById('select-to').innerHTML = await ipcRenderer.invoke('get-all-language-select');
 
   document.getElementById('select-engine').value = config.translation.engine;
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('select-to').value = config.translation.to;
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set enevt
@@ -75,10 +78,10 @@ function setButton() {
   };
 
   // translate
-  document.getElementById('button-translate').onclick = () => {
+  document.getElementById('button-translate').onclick = async () => {
     const inputName = document.getElementById('input-original-name').value;
     const inputText = document.getElementById('textarea-original-text').value;
-    const dialogData = createDialogData(inputName, inputText);
+    const dialogData = await createDialogData(inputName, inputText);
 
     document.getElementById('span-translated-text').innerText = '...';
     document.getElementById('div-audio').innerHTML = '';
@@ -97,8 +100,8 @@ function setButton() {
 }
 
 // create dialog data
-function createDialogData(name = '', text = '') {
-  const config = ipcRenderer.sendSync('get-config');
+async function createDialogData(name = '', text = '') {
+  const config = await ipcRenderer.invoke('get-config');
 
   let dialogData = {
     id: null,
@@ -120,10 +123,10 @@ function createDialogData(name = '', text = '') {
 }
 
 // get audio html
-function getAudioHtml(translatedText, languageTo) {
+async function getAudioHtml(translatedText, languageTo) {
   if (translatedText !== '') {
     try {
-      const urlList = ipcRenderer.sendSync('google-tts', translatedText, languageTo);
+      const urlList = await ipcRenderer.invoke('google-tts', translatedText, languageTo);
       console.log('TTS url:', urlList);
 
       let innerHTML = '';

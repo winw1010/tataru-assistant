@@ -339,7 +339,7 @@ function restartWindow(windowName, data) {
 
 // close window
 function closeWindow(windowName) {
-  windowList[windowName].close();
+  windowList[windowName].webContents.close();
 }
 
 // get window
@@ -369,7 +369,7 @@ function forEachWindow(callback = () => {}) {
     try {
       callback(windowList[windowName]);
     } catch (error) {
-      console.log(windowName, error);
+      error;
     }
   });
 }

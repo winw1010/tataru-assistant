@@ -3,9 +3,6 @@
 // electron
 const { ipcRenderer } = require('electron');
 
-// log location
-const logPath = ipcRenderer.sendSync('get-user-data-path', 'log');
-
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
   setIPC();
@@ -18,15 +15,18 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 }
 
 // set view
-function setView() {
-  readLogList();
+async function setView() {
+  await readLogList();
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set enevt
@@ -46,7 +46,8 @@ function setButton() {
   };
 
   // view
-  document.getElementById('button-view-log').onclick = () => {
+  document.getElementById('button-view-log').onclick = async () => {
+    const logPath = await ipcRenderer.invoke('get-user-data-path', 'log');
     ipcRenderer.send('execute-command', `start "" "${logPath}"`);
   };
 
@@ -56,9 +57,10 @@ function setButton() {
   };
 }
 
-function readLogList() {
+async function readLogList() {
   try {
-    const logs = ipcRenderer.sendSync('read-directory', logPath);
+    const logPath = await ipcRenderer.invoke('get-user-data-path', 'log');
+    const logs = await ipcRenderer.invoke('read-directory', logPath);
 
     if (logs.length > 0) {
       const select = document.getElementById('select-log');
@@ -77,15 +79,16 @@ function readLogList() {
   }
 }
 
-function readLog(fileName) {
+async function readLog(fileName) {
   if (fileName === 'none') {
     ipcRenderer.send('add-notification', 'FILE_NOT_FOUND');
     return;
   }
 
   try {
-    const fileLocation = ipcRenderer.sendSync('get-path', logPath, fileName);
-    const log = ipcRenderer.sendSync('read-json', fileLocation, false);
+    const logPath = await ipcRenderer.invoke('get-user-data-path', 'log');
+    const fileLocation = await ipcRenderer.invoke('get-path', logPath, fileName);
+    const log = await ipcRenderer.invoke('read-json', fileLocation, false);
     const logNames = Object.keys(log);
 
     if (logNames.length > 0) {

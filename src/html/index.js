@@ -26,8 +26,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
@@ -149,8 +149,8 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  const config = ipcRenderer.sendSync('get-config');
+async function setView() {
+  const config = await ipcRenderer.invoke('get-config');
 
   // reset view
   resetView(config);
@@ -165,6 +165,9 @@ function setView() {
   if (config.system.firstTime) {
     ipcRenderer.send('create-window', 'config', 'div-translation');
   }
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set event
@@ -178,8 +181,8 @@ function setEvent() {
   document.getElementById('img-button-drag').addEventListener('mousedown', () => {
     clickThrough = false;
   });
-  document.getElementById('img-button-drag').addEventListener('mouseup', () => {
-    clickThrough = ipcRenderer.sendSync('get-click-through-config');
+  document.getElementById('img-button-drag').addEventListener('mouseup', async () => {
+    clickThrough = await ipcRenderer.invoke('get-click-through-config');
   });
 
   // document click through
@@ -240,7 +243,7 @@ function setButton() {
   // minimize
   document.getElementById('img-button-minimize').onclick = () => {
     /*
-    const config = ipcRenderer.sendSync('get-config');
+    const config = await ipcRenderer.invoke('get-config');
     if (config.indexWindow.focusable) {
       ipcRenderer.send('minimize-window');
     }
@@ -255,10 +258,10 @@ function setButton() {
   };
 
   // auto play
-  document.getElementById('img-button-speech').onclick = () => {
-    const config = ipcRenderer.sendSync('get-config');
+  document.getElementById('img-button-speech').onclick = async () => {
+    const config = await ipcRenderer.invoke('get-config');
     config.indexWindow.speech = !config.indexWindow.speech;
-    ipcRenderer.send('set-config', config);
+    await ipcRenderer.invoke('set-config', config);
     ipcRenderer.send('mute-window', config.indexWindow.speech);
     setSpeech(config.indexWindow.speech);
   };

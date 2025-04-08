@@ -15,8 +15,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // set IPC
 function setIPC() {
   // change UI text
-  ipcRenderer.on('change-ui-text', () => {
-    const config = ipcRenderer.sendSync('get-config');
+  ipcRenderer.on('change-ui-text', async () => {
+    const config = await ipcRenderer.invoke('get-config');
     document.dispatchEvent(new CustomEvent('change-ui-text', { detail: config }));
   });
 
@@ -31,20 +31,23 @@ function setIPC() {
 }
 
 // set view
-function setView() {
-  document.getElementById('select-engine').innerHTML = ipcRenderer.sendSync('get-engine-select');
+async function setView() {
+  document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
 
-  document.getElementById('select-from').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
 
-  document.getElementById('select-from-player').innerHTML = ipcRenderer.sendSync('get-source-select');
+  document.getElementById('select-from-player').innerHTML = await ipcRenderer.invoke('get-source-select');
 
-  document.getElementById('select-to').innerHTML = ipcRenderer.sendSync('get-target-select');
+  document.getElementById('select-to').innerHTML = await ipcRenderer.invoke('get-target-select');
 
-  //document.getElementById('select-app-language').innerHTML = ipcRenderer.sendSync('get-ui-select');
+  //document.getElementById('select-app-language').innerHTML = await ipcRenderer.invoke('get-ui-select');
 
   readConfig();
 
   //readGptModelList();
+
+  // change UI text
+  ipcRenderer.send('change-ui-text');
 }
 
 // set event
@@ -124,37 +127,44 @@ function setButton() {
   };
 
   // get set google vision
-  document.getElementById('a-set-google-vision').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
+  document.getElementById('a-set-google-vision').onclick = async () => {
+    const path = await ipcRenderer.invoke(
+      'get-root-path',
+      'src',
+      'data',
+      'text',
+      'readme',
+      'sub-google-vision-api.html'
+    );
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // set cohere api
-  document.getElementById('a-set-gemini-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gemini-api.html');
+  document.getElementById('a-set-gemini-api').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gemini-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // set cohere api
-  document.getElementById('a-set-cohere-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
+  document.getElementById('a-set-cohere-api').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
-  document.getElementById('a-set-kimi-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-kimi-api.html');
+  document.getElementById('a-set-kimi-api').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-kimi-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // set gpt api
-  document.getElementById('a-set-gpt-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
+  document.getElementById('a-set-gpt-api').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // set LLM API
-  document.getElementById('a-set-llm-api').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'sub-llm-api.html');
+  document.getElementById('a-set-llm-api').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-llm-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -183,8 +193,8 @@ function setButton() {
   }
 
   // readme
-  document.getElementById('a-readme').onclick = () => {
-    const path = ipcRenderer.sendSync('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
+  document.getElementById('a-readme').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -228,10 +238,10 @@ function setButton() {
 }
 
 // read config
-function readConfig() {
-  const config = ipcRenderer.sendSync('get-config');
-  const chatCode = ipcRenderer.sendSync('get-chat-code');
-  const version = ipcRenderer.sendSync('get-version');
+async function readConfig() {
+  const config = await ipcRenderer.invoke('get-config');
+  const chatCode = await ipcRenderer.invoke('get-chat-code');
+  const version = await ipcRenderer.invoke('get-version');
 
   // read options
   readOptions(config);
@@ -244,9 +254,9 @@ function readConfig() {
 }
 
 // save config
-function saveConfig() {
-  const config = ipcRenderer.sendSync('get-config');
-  const chatCode = ipcRenderer.sendSync('get-chat-code');
+async function saveConfig() {
+  const config = await ipcRenderer.invoke('get-config');
+  const chatCode = await ipcRenderer.invoke('get-chat-code');
 
   // save options
   saveOptions(config);
@@ -265,10 +275,10 @@ function saveConfig() {
   saveChannel(config, chatCode);
 
   // set config
-  ipcRenderer.sendSync('set-config', config);
+  await ipcRenderer.invoke('set-config', config);
 
   // set chat code
-  ipcRenderer.sendSync('set-chat-code', chatCode);
+  await ipcRenderer.invoke('set-chat-code', chatCode);
 
   // reset app
   resetApp(config);
@@ -281,12 +291,12 @@ function saveConfig() {
 }
 
 // save default config
-function saveDefaultConfig() {
+async function saveDefaultConfig() {
   // set default config
-  const config = ipcRenderer.sendSync('set-default-config');
+  const config = await ipcRenderer.invoke('set-default-config');
 
   // set default chat code
-  ipcRenderer.sendSync('set-default-chat-code');
+  await ipcRenderer.invoke('set-default-chat-code');
 
   // reset app
   resetApp(config);
@@ -320,7 +330,7 @@ async function readGptModelList() {
   const selectGptModel = document.getElementById('select-gpt-model');
 
   if (apiKey.length > 0) {
-    const config = ipcRenderer.sendSync('get-config');
+    const config = await ipcRenderer.invoke('get-config');
     const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
 
     let innerHTML = '';

@@ -190,7 +190,7 @@ function getWindowSize(windowName, config) {
 
     case 'capture-edit':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.6);
         bounds.height = parseInt(displayLength * 0.3);
         bounds.minWidth = bounds.width;
@@ -201,7 +201,7 @@ function getWindowSize(windowName, config) {
 
     case 'config':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.26);
         bounds.height = parseInt(displayLength * 0.4);
         bounds.minWidth = bounds.width;
@@ -212,7 +212,7 @@ function getWindowSize(windowName, config) {
 
     case 'dictionary':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.27);
         bounds.height = parseInt(displayLength * 0.4);
         bounds.minWidth = bounds.width;
@@ -223,7 +223,7 @@ function getWindowSize(windowName, config) {
 
     case 'edit':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.45);
         bounds.height = parseInt(displayLength * 0.45);
         bounds.minWidth = bounds.width;
@@ -234,7 +234,7 @@ function getWindowSize(windowName, config) {
 
     case 'custom':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.4);
         bounds.height = parseInt(displayLength * 0.4);
         bounds.minWidth = bounds.width;
@@ -245,7 +245,7 @@ function getWindowSize(windowName, config) {
 
     case 'read-log':
       {
-        const indexBounds = windowList['index'].getBounds();
+        const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.25);
         bounds.height = parseInt(displayLength * 0.15);
         bounds.minWidth = bounds.width;

@@ -110,11 +110,11 @@ function setSystemChannel() {
     try {
       // reset index bounds
       const defaultIndexBounds = windowModule.getWindowSize('index', defaultConfig);
-      windowModule.getWindow('index').setBounds(defaultIndexBounds);
+      windowModule.getWindow('index').setContentBounds(defaultIndexBounds);
 
       // reset config bounds
       const defaultConfigBounds = windowModule.getWindowSize('config', defaultConfig);
-      windowModule.getWindow('config').setBounds(defaultConfigBounds);
+      windowModule.getWindow('config').setContentBounds(defaultConfigBounds);
     } catch (error) {
       console.log(error);
     }
@@ -263,7 +263,7 @@ function setWindowChannel() {
   ipcMain.handle('mouse-out-check', (event) => {
     const config = configModule.getConfig();
     const cursorScreenPoint = screen.getCursorScreenPoint();
-    const windowBounds = BrowserWindow.fromWebContents(event.sender).getBounds();
+    const windowBounds = BrowserWindow.fromWebContents(event.sender).getContentBounds();
     const isMouseOut =
       cursorScreenPoint.x < windowBounds.x ||
       cursorScreenPoint.x > windowBounds.x + windowBounds.width ||

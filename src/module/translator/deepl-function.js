@@ -5,7 +5,7 @@ const splitText = {
     texts: [],
     commonJobParams: { mode: 'translate', textType: 'plaintext' },
     lang: {
-      lang_user_selected: 'auto',
+      lang_user_selected: 'JA',
       preference: { weight: {}, default: 'default' },
     },
   },
@@ -18,14 +18,13 @@ const handleJobs = {
   params: {
     jobs: [],
     lang: {
+      target_lang: 'ZH',
       preference: { weight: {}, default: 'default' },
       source_lang_computed: 'JA',
-      target_lang: 'ZH',
     },
     priority: 1,
     commonJobParams: {
       quality: 'normal',
-      regionalVariant: 'zh-Hans',
       mode: 'translate',
       browserType: 1,
       textType: 'plaintext',

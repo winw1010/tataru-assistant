@@ -69,10 +69,11 @@ function setAuthentication() {
 }
 
 // split text
-async function splitText(text = '') {
+async function splitText(option = {}) {
   let postData = deeplFunction.getSplitText();
   postData.id = authentication.id++;
-  postData.params.texts = [text];
+  postData.params.lang.lang_user_selected = option.from;
+  postData.params.texts = [option.text];
 
   const response = await requestModule.post(
     'https://www2.deepl.com/jsonrpc?method=LMT_split_text',
@@ -105,7 +106,7 @@ async function translate(option) {
     await initialize();
   }
 
-  const chunks = await splitText(option.text);
+  const chunks = await splitText(option);
 
   let postData = deeplFunction.getHandleJobs();
   postData.id = authentication.id++;

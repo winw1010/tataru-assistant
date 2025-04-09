@@ -4,10 +4,9 @@
 const { ipcRenderer } = require('electron');
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -40,9 +39,9 @@ function setEvent() {
 // set button
 function setButton() {
   // read
-  document.getElementById('button-read-log').onclick = () => {
+  document.getElementById('button-read-log').onclick = async () => {
     const file = document.getElementById('select-log').value;
-    readLog(file);
+    await readLog(file);
   };
 
   // view

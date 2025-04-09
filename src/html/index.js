@@ -13,13 +13,11 @@ let mouseOutCheckInterval = null;
 let hideUpdateButton = true;
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
-
   startApp();
 });
 
@@ -241,15 +239,12 @@ function setButton() {
   };
 
   // minimize
-  document.getElementById('img-button-minimize').onclick = () => {
-    /*
+  document.getElementById('img-button-minimize').onclick = async () => {
     const config = await ipcRenderer.invoke('get-config');
+
     if (config.indexWindow.focusable) {
       ipcRenderer.send('minimize-window');
     }
-    */
-
-    ipcRenderer.send('minimize-window');
   };
 
   // close
@@ -334,13 +329,13 @@ function resetView(config) {
 
   // start/restart mouse out check interval
   clearInterval(mouseOutCheckInterval);
-  mouseOutCheckInterval = setInterval(() => {
-    ipcRenderer
-      .invoke('mouse-out-check')
-      .then((value) => {
-        hideButton(value.isMouseOut, value.hideButton);
-      })
-      .catch(console.log);
+  mouseOutCheckInterval = setInterval(async () => {
+    try {
+      const value = await ipcRenderer.invoke('mouse-out-check');
+      hideButton(value.isMouseOut, value.hideButton);
+    } catch (error) {
+      error;
+    }
   }, 100);
 
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);

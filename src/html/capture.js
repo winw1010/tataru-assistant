@@ -4,10 +4,9 @@
 const { ipcRenderer } = require('electron');
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -156,12 +155,7 @@ function setCanvasEvent() {
       const captureData = await createData();
 
       // set rectangle size
-      captureData.rectangleSize = getRectangleSize(
-        screenMouseDown.x,
-        screenMouseDown.y,
-        screenMouseUp.x,
-        screenMouseUp.y
-      );
+      captureData.rectangleSize = getRectangleSize(screenMouseDown.x, screenMouseDown.y, screenMouseUp.x, screenMouseUp.y);
 
       // fix position
       captureData.rectangleSize.x -= captureData.screenSize.x;

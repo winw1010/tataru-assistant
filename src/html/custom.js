@@ -13,10 +13,9 @@ const arrayParameters = {
 };
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -30,8 +29,8 @@ function setIPC() {
   });
 
   // create table
-  ipcRenderer.on('create-table', () => {
-    createTable();
+  ipcRenderer.on('create-table', async () => {
+    await createTable();
   });
 }
 
@@ -50,8 +49,8 @@ function setEvent() {
     ipcRenderer.send('move-window', e.detail, false);
   });
 
-  document.getElementById('select-table-type').onchange = () => {
-    createTable();
+  document.getElementById('select-table-type').onchange = async () => {
+    await createTable();
   };
 }
 
@@ -90,14 +89,14 @@ function setButton() {
   };
 
   // search
-  document.getElementById('button-search').onclick = () => {
+  document.getElementById('button-search').onclick = async () => {
     let keyword = document.getElementById('input-Keyword').value;
-    createTable(keyword);
+    await createTable(keyword);
   };
 
   // view all
-  document.getElementById('button-view-all').onclick = () => {
-    createTable();
+  document.getElementById('button-view-all').onclick = async () => {
+    await createTable();
   };
 
   // view files

@@ -4,24 +4,15 @@
 const { ipcRenderer } = require('electron');
 
 // all language list
-const allLanguageList = [
-  'Japanese',
-  'English',
-  'Traditional-Chinese',
-  'Simplified-Chinese',
-  'Korean',
-  'Russian',
-  'Italian',
-];
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian', 'Italian'];
 
 // target log
 let targetLog = null;
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -35,8 +26,8 @@ function setIPC() {
   });
 
   // send data
-  ipcRenderer.on('send-data', (event, id) => {
-    readLog(id);
+  ipcRenderer.on('send-data', async (event, id) => {
+    await readLog(id);
   });
 }
 
@@ -163,7 +154,7 @@ async function readLog(id = '') {
 
     if (targetLog) {
       // show audio
-      showAudio();
+      await showAudio();
 
       // show text
       showText();
@@ -179,20 +170,12 @@ async function readLog(id = '') {
 
       // set select-from
       if (targetLog?.translation?.from) {
-        document.getElementById('select-from').value = fixLogValue(
-          targetLog.translation.from,
-          allLanguageList,
-          config.translation.from
-        );
+        document.getElementById('select-from').value = fixLogValue(targetLog.translation.from, allLanguageList, config.translation.from);
       }
 
       // set select-to
       if (targetLog?.translation?.to) {
-        document.getElementById('select-to').value = fixLogValue(
-          targetLog.translation.to,
-          allLanguageList,
-          config.translation.to
-        );
+        document.getElementById('select-to').value = fixLogValue(targetLog.translation.to, allLanguageList, config.translation.to);
       }
     }
   } catch (error) {

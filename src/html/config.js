@@ -4,10 +4,9 @@
 const { ipcRenderer } = require('electron');
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -42,9 +41,7 @@ async function setView() {
 
   //document.getElementById('select-app-language').innerHTML = await ipcRenderer.invoke('get-ui-select');
 
-  readConfig();
-
-  //readGptModelList();
+  await readConfig();
 
   // change UI text
   ipcRenderer.send('change-ui-text');
@@ -76,13 +73,6 @@ function setEvent() {
   document.getElementById('select-engine').addEventListener('change', () => {
     ipcRenderer.send('check-api', document.getElementById('select-engine').value);
   });
-
-  // input-gpt-api-key
-  /*
-  document.getElementById('input-gpt-api-key').oninput = () => {
-    readGptModelList();
-  };
-  */
 }
 
 // set button
@@ -128,14 +118,7 @@ function setButton() {
 
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = async () => {
-    const path = await ipcRenderer.invoke(
-      'get-root-path',
-      'src',
-      'data',
-      'text',
-      'readme',
-      'sub-google-vision-api.html'
-    );
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -227,13 +210,13 @@ function setButton() {
   };
 
   // default
-  document.getElementById('button-save-default-config').onclick = () => {
-    saveDefaultConfig();
+  document.getElementById('button-save-default-config').onclick = async () => {
+    await saveDefaultConfig();
   };
 
   // save
-  document.getElementById('button-save-config').onclick = () => {
-    saveConfig();
+  document.getElementById('button-save-config').onclick = async () => {
+    await saveConfig();
   };
 }
 
@@ -284,7 +267,7 @@ async function saveConfig() {
   resetApp(config);
 
   // reset config
-  readConfig();
+  await readConfig();
 
   // add notification
   ipcRenderer.send('add-notification', 'SETTINGS_SAVED');
@@ -302,7 +285,7 @@ async function saveDefaultConfig() {
   resetApp(config);
 
   // reset config
-  readConfig();
+  await readConfig();
 
   // add notification
   ipcRenderer.send('add-notification', 'RESTORED_TO_DEFAULT_SETTINGS');
@@ -322,35 +305,6 @@ function resetApp(config) {
   // set global shortcut
   ipcRenderer.send('set-global-shortcut');
 }
-
-/*
-// read GPT model list
-async function readGptModelList() {
-  const apiKey = document.getElementById('input-gpt-api-key').value;
-  const selectGptModel = document.getElementById('select-gpt-model');
-
-  if (apiKey.length > 0) {
-    const config = await ipcRenderer.invoke('get-config');
-    const array = await ipcRenderer.invoke('get-gpt-model-list', apiKey);
-
-    let innerHTML = '';
-
-    for (let index = 0; index < array.length; index++) {
-      const modelId = array[index];
-      const isDisabled = modelId.includes('#');
-      innerHTML += `<option value="${modelId}" ${isDisabled ? 'disabled' : ''}>${modelId}</option>`;
-    }
-
-    selectGptModel.innerHTML = innerHTML;
-
-    if (config.api.gptModel !== '') {
-      selectGptModel.value = config.api.gptModel;
-    }
-  } else {
-    selectGptModel.innerHTML = '';
-  }
-}
-*/
 
 // set on input event
 function setOnInputEvent(inputId = '', spanId = '') {

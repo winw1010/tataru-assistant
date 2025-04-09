@@ -7,10 +7,9 @@ const { ipcRenderer } = require('electron');
 let captureData = {};
 
 // DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setIPC();
-
-  setView();
+  await setView();
   setEvent();
   setButton();
 });
@@ -34,9 +33,7 @@ function setIPC() {
 async function setView() {
   const config = await ipcRenderer.invoke('get-config');
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
-  document
-    .getElementById('img-captured')
-    .setAttribute('src', await ipcRenderer.invoke('get-root-path', 'src', 'data', 'img', 'cropped.png'));
+  document.getElementById('img-captured').setAttribute('src', await ipcRenderer.invoke('get-root-path', 'src', 'data', 'img', 'cropped.png'));
 
   // change UI text
   ipcRenderer.send('change-ui-text');

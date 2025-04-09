@@ -36,14 +36,14 @@ const sharlayanModule = require('../system/sharlayan-module');
 // text URL
 const textURL = 'https://codeload.github.com/winw1010/tataru-assistant-text/zip/refs/heads/main';
 
-// temp table path
-// const tempTablePath = fileModule.getRootDataPath('tempTable.zip');
-
 // data path
 const dataPath = fileModule.getRootDataPath();
 
 // text path
 const textPath = fileModule.getRootDataPath('text');
+
+// file path
+// const filePath = fileModule.getRootDataPath('text', 'text.zip');
 
 // first time
 let firstTime = true;
@@ -62,22 +62,21 @@ function initializeJSON() {
 // download json
 async function downloadJSON() {
   /*
-  const tempTableStream = fs.createWriteStream(tempTablePath);
+  const tempTableStream = fs.createWriteStream(filePath);
   const config = configModule.getConfig();
-  const proxyAuth = config.proxy.username && config.proxy.password;
-  const requestOption = config?.proxy?.enable
+  const requestOptions = config.proxy.enable
     ? {
-        protocol: config.proxy.protocol + ':',
-        host: config.proxy.host,
+        protocol: config.proxy.protocol,
+        host: config.proxy.hostname,
         port: parseInt(config.proxy.port),
-        username: proxyAuth ? config.proxy.username : undefined,
-        password: proxyAuth ? config.proxy.password : undefined,
-        path: tableURL,
+        username: config.proxy.username,
+        password: config.proxy.password,
+        path: textURL,
       }
-    : tableURL;
+    : textURL;
 
   https
-    .get(requestOption)
+    .get(requestOptions)
     .on('response', (response) => {
       // pipe to table temp stream
       response.pipe(tempTableStream);
@@ -85,15 +84,15 @@ async function downloadJSON() {
       // after download completed close filestream
       tempTableStream.on('finish', async () => {
         tempTableStream.close();
-        console.log('Download Completed. (URL: ' + tableURL + ')');
+        console.log('Download Completed. (URL: ' + textURL + ')');
 
         if (tempTableStream.errored) {
           console.log('Download Failed: ' + tempTableStream.errored.message);
           dialogModule.addNotification(tempTableStream.errored.message);
-        } else {
-          deleteTable();
-          await decompress(tempTablePath, tablePath, { strip: 1 });
-          fileModule.unlink(tempTablePath);
+        } else {         
+          fileModule.rmdir(textPath);
+          await decompress(filePath, textPath, { strip: 1 });
+          fileModule.unlink(filePath);
           dialogModule.addNotification('DOWNLOAD_COMPLETED');
         }
 
@@ -107,13 +106,19 @@ async function downloadJSON() {
     });
   */
 
-  const proxyOption = getProxyOption();
-  const downloader = new Downloader({
-    ...proxyOption,
+  const downloaderConfig = {
     url: textURL,
     directory: dataPath,
     fileName: 'text.zip',
-  });
+  };
+
+  const proxyString = getProxyString();
+
+  if (proxyString !== '') {
+    downloaderConfig.proxy = proxyString;
+  }
+
+  const downloader = new Downloader(downloaderConfig);
 
   try {
     const { filePath, downloadStatus } = await downloader.download();
@@ -137,22 +142,21 @@ async function downloadJSON() {
 }
 
 // get proxy string
-function getProxyOption() {
+function getProxyString() {
   const config = configModule.getConfig();
-  const proxyAuth = config.proxy.username && config.proxy.password;
-  const proxyOption = {};
+  let proxyString = '';
 
-  if (config?.proxy?.enable) {
-    proxyOption.proxy = `${config.proxy.protocol}://`;
+  if (config.proxy.enable) {
+    proxyString += config.proxy.protocol + '//';
 
-    if (proxyAuth) {
-      proxyOption.proxy += `${config.proxy.username}:${config.proxy.password}@`;
+    if (config.proxy.username && config.proxy.password) {
+      proxyString += config.proxy.username + ':' + config.proxy.password + '@';
     }
 
-    proxyOption.proxy += `${config.proxy.host}:${config.proxy.port}`;
+    proxyString += config.proxy.hostname + ':' + config.proxy.port;
   }
 
-  return proxyOption;
+  return proxyString;
 }
 
 // load json

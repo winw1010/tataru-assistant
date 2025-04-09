@@ -50,15 +50,12 @@ function createWindow(windowName, data = null) {
     appWindow.setMinimizable(false);
 
     // show window
-    appWindow.once('ready-to-show', () => {
+    appWindow.on('ready-to-show', () => {
       appWindow.show();
     });
 
     // did-finish-load
-    appWindow.webContents.once('did-finish-load', () => {
-      // change language
-      appWindow.webContents.send('change-ui-text');
-
+    appWindow.webContents.on('did-finish-load', () => {
       // send data
       if (data) {
         appWindow.webContents.send('send-data', data);
@@ -69,13 +66,14 @@ function createWindow(windowName, data = null) {
     switch (windowName) {
       case 'index':
         // set close event
-        appWindow.once('close', () => {
+        appWindow.on('close', () => {
           // save position
           const config = configModule.getConfig();
-          config.indexWindow.x = appWindow.getPosition()[0];
-          config.indexWindow.y = appWindow.getPosition()[1];
-          config.indexWindow.width = appWindow.getSize()[0];
-          config.indexWindow.height = appWindow.getSize()[1];
+          const bounds = appWindow.getContentBounds();
+          config.indexWindow.x = bounds.x;
+          config.indexWindow.y = bounds.y;
+          config.indexWindow.width = bounds.width;
+          config.indexWindow.height = bounds.height;
           configModule.setConfig(config);
 
           // save config
@@ -88,14 +86,18 @@ function createWindow(windowName, data = null) {
 
       case 'capture':
         // set close event
-        appWindow.once('close', () => {
+        appWindow.on('close', () => {
           // save position
           const config = configModule.getConfig();
-          config.captureWindow.x = appWindow.getPosition()[0];
-          config.captureWindow.y = appWindow.getPosition()[1];
-          config.captureWindow.width = appWindow.getSize()[0];
-          config.captureWindow.height = appWindow.getSize()[1];
+          const bounds = appWindow.getContentBounds();
+          config.captureWindow.x = bounds.x;
+          config.captureWindow.y = bounds.y;
+          config.captureWindow.width = bounds.width;
+          config.captureWindow.height = bounds.height;
           configModule.setConfig(config);
+
+          // save config
+          configModule.saveConfig();
         });
         break;
 
@@ -263,13 +265,10 @@ function getWindowSize(windowName, config) {
 function getNearPosition(displayBounds, indexBounds, bounds) {
   bounds = boundsSizeCheck(bounds);
 
-  bounds.x =
-    indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
+  bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
 
   bounds.y =
-    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height
-      ? displayBounds.y + displayBounds.height - bounds.height
-      : indexBounds.y;
+    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
 
   return bounds;
 }
@@ -283,11 +282,7 @@ function boundsSizeCheck(bounds) {
 
 // bounds valid check
 function boundsValidCheck(bounds) {
-  return (
-    (bounds.x === -1 && bounds.y === -1 && bounds.width === -1 && bounds.height === -1) ||
-    bounds.width <= 0 ||
-    bounds.height <= 0
-  );
+  return (bounds.x === -1 && bounds.y === -1 && bounds.width === -1 && bounds.height === -1) || bounds.width <= 0 || bounds.height <= 0;
 }
 
 // bounds position check
@@ -339,7 +334,7 @@ function restartWindow(windowName, data) {
 
 // close window
 function closeWindow(windowName) {
-  windowList[windowName].webContents.close();
+  windowList[windowName].close();
 }
 
 // get window

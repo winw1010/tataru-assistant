@@ -207,7 +207,7 @@ function setWindowChannel() {
   // close window
   ipcMain.on('close-window', (event) => {
     try {
-      event.sender.close();
+      BrowserWindow.fromWebContents(event.sender).close();
     } catch (error) {
       console.log(error);
     }
@@ -570,11 +570,7 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send(
-      'show-translation',
-      await translateModule.translate(dialogData.text, dialogData.translation),
-      dialogData.translation.to
-    );
+    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
   });
 
   // google tts

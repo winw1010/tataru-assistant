@@ -10,24 +10,13 @@ const configModule = require('./config-module');
 // restricted headers of Chromium
 // Additionally, setting the Connection header to the value upgrade is also disallowed.
 // const restrictedHeaders = ['Content-Length', 'Host', 'Trailer', 'Te', 'Upgrade', 'Cookie2', 'Keep-Alive', 'Transfer-Encoding'];
-const restrictedHeaders = [
-  'content-length',
-  'host',
-  'trailer',
-  'te',
-  'upgrade',
-  'cookie2',
-  'keep-alive',
-  'transfer-encoding',
-  'connection',
-];
+const restrictedHeaders = ['content-length', 'host', 'trailer', 'te', 'upgrade', 'cookie2', 'keep-alive', 'transfer-encoding', 'connection'];
 
 // sec-ch-ua
 let scu = '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"';
 
 // user agent
-let userAgent =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
+let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
 // request timeout
 const requestTimeout = 10000;
@@ -41,6 +30,10 @@ function get(url = '', headers = {}) {
 
 // post
 function post(url = '', data = '', headers = {}) {
+  if (typeof data !== 'string') {
+    data = JSON.stringify(data);
+  }
+
   return new Promise((resolve, reject) => {
     axios.post(url, data, getOptions(headers)).then(resolve).catch(reject);
   });

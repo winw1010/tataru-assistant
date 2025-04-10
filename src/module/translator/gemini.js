@@ -66,6 +66,7 @@ async function translate(text, source, target, type) {
   payload.safetySettings = safetySettings;
 
   const response = await requestModule.post(apiUrl, payload, headers);
+  const responseText = response.data.candidates[0].content.parts[0].text;
 
   // push history
   if (config.ai.useChat && type !== 'name') {
@@ -76,14 +77,14 @@ async function translate(text, source, target, type) {
       },
       {
         role: 'model',
-        parts: [{ text: '' }],
+        parts: [{ text: responseText }],
       }
     );
   }
 
   console.log('Prompt:', prompt);
 
-  return response.data.candidates[0].content.parts[0].text;
+  return responseText;
 }
 
 // module exports

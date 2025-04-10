@@ -66,7 +66,7 @@ async function translate(text, source, target, type) {
   payload.safetySettings = safetySettings;
 
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = response.data.candidates[0].content.parts[0].text;
+  const responseText = response.data.candidates[0].content.parts[0].text.replace(/\r|\n/g, '');
 
   // push history
   if (config.ai.useChat && type !== 'name') {

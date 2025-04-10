@@ -173,6 +173,8 @@ function getElementTextList() {
         'select-from-player': ['隊伍語言', '队伍语言', 'Party Language'],
         'select-to': ['目標語言', '目标语言', 'Target Language'],
 
+        'input-google-vision-api-key': ['API key', 'API金钥', 'API key'],
+
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
         'input-gemini-model': ['模型', '模型', 'model'],
 
@@ -323,11 +325,7 @@ function getElementTextList() {
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
-        'span-channel-comment': [
-          '滾動滑鼠中鍵可以滑動頻道清單',
-          '滚动鼠标中键可以滑动频道清单',
-          'Use middle mouse button to sroll the page',
-        ],
+        'span-channel-comment': ['滾動滑鼠中鍵可以滑動頻道清單', '滚动鼠标中键可以滑动频道清单', 'Use middle mouse button to sroll the page'],
         'span-author': [
           '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
           '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
@@ -354,6 +352,8 @@ function getElementTextList() {
     placeholder: {
       input: {
         // config
+        'input-google-vision-api-key': ['API key', 'API金钥', 'API key'],
+
         'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
         'input-gemini-model': ['Model', 'Model', 'Model'],
 

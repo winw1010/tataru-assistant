@@ -4,7 +4,7 @@
 const { createWorker } = require('tesseract.js');
 
 // google vision
-const vision = require('@google-cloud/vision');
+const cloudVision = require('../translator/google-vision');
 
 // config module
 const configModule = require('./config-module');
@@ -71,18 +71,7 @@ async function googleVision(captureData) {
   let text = '';
 
   try {
-    const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
-    const client = new vision.ImageAnnotatorClient({
-      keyFilename: keyPath,
-    });
-    const [result] = await client.textDetection(captureData.imagePath);
-    const detections = result.textAnnotations[0];
-
-    if (detections?.description) {
-      text = detections.description;
-    } else {
-      throw result.error;
-    }
+    return await cloudVision.textDetection(captureData.imagePath);
   } catch (error) {
     console.log(error);
     dialogModule.addNotification(error);

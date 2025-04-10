@@ -67,6 +67,7 @@ const defaultConfig = {
     to: 'Traditional-Chinese',
   },
   api: {
+    googleVisionApiKey: '',
     geminiApiKey: '',
     geminiModel: 'gemini-2.0-flash',
     gptApiKey: '',

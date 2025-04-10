@@ -568,6 +568,10 @@ function getOptionList() {
 
     // api
     [
+      ['input-google-vision-api-key', 'value'],
+      ['api', 'googleVisionApiKey'],
+    ],
+    [
       ['input-gemini-api-key', 'value'],
       ['api', 'geminiApiKey'],
     ],

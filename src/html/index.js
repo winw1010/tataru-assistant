@@ -6,11 +6,12 @@ const { ipcRenderer } = require('electron');
 // click through
 let clickThrough = false;
 
-// mouse out check interval
-let mouseOutCheckInterval = null;
-
 // hide update button
 let hideUpdateButton = true;
+
+// timeout
+let timeoutScrollIntoView = null;
+let timeoutMoveToBottom = null;
 
 // DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async () => {
@@ -32,6 +33,11 @@ function setIPC() {
   // reset view
   ipcRenderer.on('reset-view', (event, config) => {
     resetView(config);
+  });
+
+  // hide button
+  ipcRenderer.on('hide-button', (event, value) => {
+    hideButton(value.isMouseOut, value.hideButton);
   });
 
   // hide update button
@@ -327,17 +333,7 @@ function resetView(config) {
   // set background color
   document.getElementById('div-dialog').style.backgroundColor = config.indexWindow.backgroundColor;
 
-  // start/restart mouse out check interval
-  clearInterval(mouseOutCheckInterval);
-  mouseOutCheckInterval = setInterval(async () => {
-    try {
-      const value = await ipcRenderer.invoke('mouse-out-check');
-      hideButton(value.isMouseOut, value.hideButton);
-    } catch (error) {
-      error;
-    }
-  }, 100);
-
+  // set min size
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 }
 
@@ -390,20 +386,22 @@ function resetDialogStyle() {
 
 // scroll into view
 function scrollIntoView(id = '') {
-  setTimeout(() => {
+  clearTimeout(timeoutScrollIntoView);
+  timeoutScrollIntoView = setTimeout(() => {
     document.getElementById(id).scrollIntoView();
-  }, 200);
+  }, 1000);
 }
 
 // move to bottom
 function moveToBottom() {
-  setTimeout(() => {
+  clearTimeout(timeoutMoveToBottom);
+  timeoutMoveToBottom = setTimeout(() => {
     clearSelection();
     const div = document.getElementById('div-dialog');
     if (div) {
       div.scrollTop = div.scrollHeight;
     }
-  }, 200);
+  }, 1000);
 }
 
 // clear selection

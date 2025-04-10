@@ -259,20 +259,6 @@ function setWindowChannel() {
     configModule.setConfig(config);
   });
 
-  // mouse out check
-  ipcMain.handle('mouse-out-check', (event) => {
-    const config = configModule.getConfig();
-    const cursorScreenPoint = screen.getCursorScreenPoint();
-    const windowBounds = BrowserWindow.fromWebContents(event.sender).getContentBounds();
-    const isMouseOut =
-      cursorScreenPoint.x < windowBounds.x ||
-      cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
-      cursorScreenPoint.y < windowBounds.y ||
-      cursorScreenPoint.y > windowBounds.y + windowBounds.height;
-
-    return { isMouseOut, hideButton: config.indexWindow.hideButton };
-  });
-
   // mute window
   ipcMain.on('mute-window', (event, autoPlay) => {
     event.sender.setAudioMuted(!autoPlay);

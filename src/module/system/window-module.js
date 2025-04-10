@@ -65,6 +65,24 @@ function createWindow(windowName, data = null) {
     // set event
     switch (windowName) {
       case 'index':
+        // set mouse out check interval
+        setInterval(() => {
+          try {
+            const config = configModule.getConfig();
+            const cursorScreenPoint = screen.getCursorScreenPoint();
+            const windowBounds = appWindow.getContentBounds();
+            const isMouseOut =
+              cursorScreenPoint.x < windowBounds.x ||
+              cursorScreenPoint.x > windowBounds.x + windowBounds.width ||
+              cursorScreenPoint.y < windowBounds.y ||
+              cursorScreenPoint.y > windowBounds.y + windowBounds.height;
+
+            appWindow.webContents.send('hide-button', { isMouseOut, hideButton: config.indexWindow.hideButton });
+          } catch (error) {
+            error;
+          }
+        }, 100);
+
         // set close event
         appWindow.on('close', () => {
           // save position

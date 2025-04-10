@@ -1,7 +1,5 @@
 'use strict';
 
-//const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
-
 const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');

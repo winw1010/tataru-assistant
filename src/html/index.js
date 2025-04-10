@@ -389,7 +389,7 @@ function scrollIntoView(id = '') {
   clearTimeout(timeoutScrollIntoView);
   timeoutScrollIntoView = setTimeout(() => {
     document.getElementById(id).scrollIntoView();
-  }, 1000);
+  }, 200);
 }
 
 // move to bottom
@@ -401,7 +401,7 @@ function moveToBottom() {
     if (div) {
       div.scrollTop = div.scrollHeight;
     }
-  }, 1000);
+  }, 200);
 }
 
 // clear selection

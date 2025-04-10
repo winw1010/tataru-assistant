@@ -174,11 +174,14 @@ function getOptions(headers = {}) {
       protocol: config.proxy.protocol,
       host: config.proxy.hostname,
       port: parseInt(config.proxy.port),
-      auth: {
+    };
+
+    if (config.proxy.username && config.proxy.password) {
+      options.proxy.auth = {
         username: config.proxy.username,
         password: config.proxy.password,
-      },
-    };
+      };
+    }
   }
 
   return options;

@@ -1,6 +1,8 @@
 'use strict';
 
-const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
+//const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
+
+const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');
 
@@ -10,78 +12,60 @@ const chatHistoryList = {};
 
 const safetySettings = [
   {
-    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
+    category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+    threshold: 'BLOCK_NONE',
   },
   {
-    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
+    category: 'HARM_CATEGORY_HARASSMENT',
+    threshold: 'BLOCK_NONE',
   },
   {
-    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
+    category: 'HARM_CATEGORY_HATE_SPEECH',
+    threshold: 'BLOCK_NONE',
   },
   {
-    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
+    category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+    threshold: 'BLOCK_NONE',
   },
 ];
 
-let currentGemini = null;
-
 // exec
 async function exec(option, type) {
-  try {
-    const response = translate(option.text, option.from, option.to, type);
-    return response;
-  } catch (error) {
-    currentGemini = null;
-    throw error;
-  }
-}
-
-// create AI
-function createAI() {
-  const config = configModule.getConfig();
-  const genAI = new GoogleGenerativeAI(config.api.geminiApiKey);
-  return genAI;
+  const response = translate(option.text, option.from, option.to, type);
+  return response;
 }
 
 // translate
 async function translate(text, source, target, type) {
-  if (!currentGemini) currentGemini = createAI();
-  currentGemini = createAI();
-
   const config = configModule.getConfig();
-  const model = currentGemini.getGenerativeModel({
-    model: config.api.geminiModel,
-    safetySettings,
-  });
+  const model = config.api.geminiModel;
+  const apiKey = config.api.geminiApiKey;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const headers = {
+    'Content-Type': 'application/json',
+  };
 
   const prompt = aiFunction.createTranslatePrompt(source, target, type);
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
-  const payload =
-    chatHistoryList[prompt].length > 0
-      ? {
-          contents: [
-            ...chatHistoryList[prompt],
-            {
-              role: 'user',
-              parts: [{ text: text }],
-            },
-          ],
-          systemInstruction: {
-            parts: [{ text: prompt }],
-          },
-        }
-      : [prompt, text];
+  const payload = {
+    contents: [
+      ...chatHistoryList[prompt],
+      {
+        role: 'user',
+        parts: [{ text: text }],
+      },
+    ],
+    systemInstruction: {
+      parts: [{ text: prompt }],
+    },
+  };
 
-  // const response = await model.generateContent([prompt, text]);
-  const response = await model.generateContent(payload);
-  const responseText = response.response.text();
+  payload.safetySettings = safetySettings;
+
+  const response = await requestModule.post(apiUrl, payload, headers);
 
   // push history
   if (config.ai.useChat && type !== 'name') {
@@ -92,14 +76,14 @@ async function translate(text, source, target, type) {
       },
       {
         role: 'model',
-        parts: [{ text: responseText }],
+        parts: [{ text: '' }],
       }
     );
   }
 
   console.log('Prompt:', prompt);
 
-  return response.response.text();
+  return response.data.candidates[0].content.parts[0].text;
 }
 
 // module exports

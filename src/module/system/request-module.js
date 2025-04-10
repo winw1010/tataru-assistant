@@ -171,7 +171,7 @@ function getOptions(headers = {}) {
 
   if (config.proxy.enable) {
     const proxy = {
-      protocol: config.proxy.protocol,
+      protocol: config.proxy.protocol.replace(':', ''),
       host: config.proxy.hostname,
       port: parseInt(config.proxy.port),
     };

@@ -170,18 +170,20 @@ function getOptions(headers = {}) {
   };
 
   if (config.proxy.enable) {
-    options.proxy = {
+    const proxy = {
       protocol: config.proxy.protocol,
       host: config.proxy.hostname,
       port: parseInt(config.proxy.port),
     };
 
     if (config.proxy.username && config.proxy.password) {
-      options.proxy.auth = {
+      proxy.auth = {
         username: config.proxy.username,
         password: config.proxy.password,
       };
     }
+
+    options.proxy = proxy;
   }
 
   return options;

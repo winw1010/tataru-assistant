@@ -59,7 +59,7 @@ const defaultConfig = {
     autoChange: true,
     fix: true,
     skip: true,
-    skipChinese: false,
+    skipChinese: true,
     replace: true,
     engine: 'Youdao',
     from: 'Japanese',

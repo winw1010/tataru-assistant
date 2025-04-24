@@ -12,7 +12,7 @@ const allLanguageList = [
 ];
 
 // source list
-const sourceList = ['Japanese', 'English'];
+const sourceList = ['Auto', 'Japanese', 'English'];
 
 // target list
 const targetList = allLanguageList;

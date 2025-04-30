@@ -111,7 +111,12 @@ function loadConfig() {
     currentConfig = fileModule.read(configLocation, 'json');
 
     // fix old bug
-    if (typeof currentConfig !== 'object' || Array.isArray(currentConfig) || currentConfig === null || Object.keys(currentConfig).length === 0) {
+    if (
+      typeof currentConfig !== 'object' ||
+      currentConfig === null ||
+      Array.isArray(currentConfig) ||
+      (typeof currentConfig === 'object' && Object.keys(currentConfig).length === 0)
+    ) {
       throw 'Use default config.';
     }
 

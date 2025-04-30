@@ -27,7 +27,7 @@ const oldName = 'Tataru Helper Node';
 
 // directory check
 function directoryCheck() {
-  const subPath = ['', appName, appName + '\\' + 'config', appName + '\\' + 'image', appName + '\\' + 'log', appName + '\\' + 'text'];
+  const subPath = ['', appName, appName + '\\config', appName + '\\image', appName + '\\log', appName + '\\text'];
 
   subPath.forEach((value) => {
     try {

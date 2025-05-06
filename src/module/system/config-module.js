@@ -108,11 +108,16 @@ let currentConfig = getDefaultConfig();
 // load config
 function loadConfig() {
   try {
-    currentConfig = fileModule.read(configLocation, 'json') || {};
+    currentConfig = fileModule.read(configLocation, 'json');
 
     // fix old bug
-    if (currentConfig === null || typeof currentConfig !== typeof defaultConfig || Array.isArray(currentConfig)) {
-      throw 'Incorrect config type';
+    if (
+      typeof currentConfig !== 'object' ||
+      currentConfig === null ||
+      Array.isArray(currentConfig) ||
+      (typeof currentConfig === 'object' && Object.keys(currentConfig).length === 0)
+    ) {
+      throw 'Use default config.';
     }
 
     // fix config 1

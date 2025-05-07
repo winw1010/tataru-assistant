@@ -259,7 +259,7 @@ function getElementTextList() {
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
         'LLM-API': ['自訂OpenAI', '自订OpenAI', 'Custom OpenAI'],
 
-        Auto: ['自動', '自动', 'Auto'],
+        Auto: ['自動偵測', '自动侦测', 'Auto'],
         Japanese: ['日文', '日语', 'Japanese'],
         English: ['英文', '英语', 'English'],
         'Traditional-Chinese': ['繁體中文', '繁体中文', 'Traditional Chinese'],

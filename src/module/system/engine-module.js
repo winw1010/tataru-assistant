@@ -12,7 +12,10 @@ const allLanguageList = [
 ];
 
 // source list
-const sourceList = ['Auto', 'Japanese', 'English'];
+const sourceList = ['Japanese', 'English'];
+
+// player source list
+const playerSourceList = ['Auto', 'Japanese', 'English'];
 
 // target list
 const targetList = allLanguageList;
@@ -242,6 +245,7 @@ function sleep(ms = 1000) {
 module.exports = {
   allLanguageList,
   sourceList,
+  playerSourceList,
   targetList,
   fixSourceList,
   fixTargetList,

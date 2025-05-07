@@ -14,6 +14,9 @@ const allLanguageList = [
 // source list
 const sourceList = ['Japanese', 'English'];
 
+// player source list
+const playerSourceList = ['Auto', 'Japanese', 'English'];
+
 // target list
 const targetList = allLanguageList;
 
@@ -174,6 +177,11 @@ function getSourceSelect() {
   return getSelect(sourceList);
 }
 
+// get player source select
+function getPlayerSourceSelect() {
+  return getSelect(playerSourceList);
+}
+
 // get target select
 function getTargetSelect() {
   return getSelect(targetList);
@@ -242,6 +250,7 @@ function sleep(ms = 1000) {
 module.exports = {
   allLanguageList,
   sourceList,
+  playerSourceList,
   targetList,
   fixSourceList,
   fixTargetList,
@@ -257,6 +266,7 @@ module.exports = {
   getEngineSelect,
   getAllLanguageSelect,
   getSourceSelect,
+  getPlayerSourceSelect,
   getTargetSelect,
   getUISelect,
 

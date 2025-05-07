@@ -534,6 +534,11 @@ function setTranslateChannel() {
     return engineModule.getSourceSelect();
   });
 
+  // get source select
+  ipcMain.handle('get-player-source-select', () => {
+    return engineModule.getPlayerSourceSelect();
+  });
+
   // get target select
   ipcMain.handle('get-target-select', () => {
     return engineModule.getTargetSelect();

@@ -35,7 +35,7 @@ async function setView() {
 
   document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
 
-  document.getElementById('select-from-player').innerHTML = await ipcRenderer.invoke('get-source-select');
+  document.getElementById('select-from-player').innerHTML = await ipcRenderer.invoke('get-player-source-select');
 
   document.getElementById('select-to').innerHTML = await ipcRenderer.invoke('get-target-select');
 

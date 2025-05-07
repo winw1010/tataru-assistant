@@ -177,6 +177,11 @@ function getSourceSelect() {
   return getSelect(sourceList);
 }
 
+// get player source select
+function getPlayerSourceSelect() {
+  return getSelect(playerSourceList);
+}
+
 // get target select
 function getTargetSelect() {
   return getSelect(targetList);

@@ -266,6 +266,7 @@ module.exports = {
   getEngineSelect,
   getAllLanguageSelect,
   getSourceSelect,
+  getPlayerSourceSelect,
   getTargetSelect,
   getUISelect,
 

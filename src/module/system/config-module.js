@@ -63,7 +63,7 @@ const defaultConfig = {
     replace: true,
     engine: 'Youdao',
     from: 'Japanese',
-    fromPlayer: 'auto',
+    fromPlayer: 'Auto',
     to: 'Traditional-Chinese',
   },
   api: {

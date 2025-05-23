@@ -53,6 +53,7 @@ async function startReconizing(captureData) {
 
   // check text length
   if (captureData.text === '') {
+    dialogModule.addNotification('RECOGNITION_EMPTY');
     return;
   }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const googleVision = require('@google-cloud/vision');
+const vision = require('@google-cloud/vision');
 
 const configModule = require('../system/config-module');
 
@@ -37,7 +37,7 @@ async function textDetection(path = '') {
     // JSON
     const keyFilename = fileModule.getUserDataPath('config', 'google-vision-credential.json');
     console.log(keyFilename);
-    const client = new googleVision.ImageAnnotatorClient({ keyFilename: keyFilename });
+    const client = new vision.ImageAnnotatorClient({ keyFilename: keyFilename });
     const [result] = await client.textDetection(path);
     const detections = result.textAnnotations[0];
     return detections.description;

@@ -313,7 +313,7 @@ function fixConfig2(config) {
   }
 
   try {
-    // fix engine
+    // fix google vision
     const googleJsonPath = fileModule.getUserDataPath('config', 'google-credential.json');
     const googleJsonPathNew = fileModule.getUserDataPath('config', 'google-vision-credential.json');
     if (fileModule.exists(googleJsonPath)) {

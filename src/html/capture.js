@@ -94,7 +94,7 @@ function setButton() {
 
 // show screenshot button
 function showScreenshotButton(config) {
-  document.getElementById('button-screenshot').hidden = config.captureWindow.type !== 'google-vision';
+  document.getElementById('button-screenshot').hidden = config.captureWindow.type === 'tesseract-ocr';
 }
 
 // set canvas size

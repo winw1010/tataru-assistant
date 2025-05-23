@@ -65,7 +65,6 @@ function setEvent() {
     const config = await ipcRenderer.invoke('get-config');
     config.captureWindow.type = document.getElementById('select-type').value;
     await ipcRenderer.invoke('set-config', config);
-    ipcRenderer.send('check-api', document.getElementById('select-type').value);
     showScreenshotButton(config);
   };
 
@@ -155,7 +154,12 @@ function setCanvasEvent() {
       const captureData = await createData();
 
       // set rectangle size
-      captureData.rectangleSize = getRectangleSize(screenMouseDown.x, screenMouseDown.y, screenMouseUp.x, screenMouseUp.y);
+      captureData.rectangleSize = getRectangleSize(
+        screenMouseDown.x,
+        screenMouseDown.y,
+        screenMouseUp.x,
+        screenMouseUp.y
+      );
 
       // fix position
       captureData.rectangleSize.x -= captureData.screenSize.x;

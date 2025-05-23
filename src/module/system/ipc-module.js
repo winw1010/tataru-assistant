@@ -58,7 +58,7 @@ const jsonFunction = require('../fix/json-function');
 const googleTTS = require('../translator/google-tts');
 
 // gpt
-const gpt = require('../translator/gpt');
+//const gpt = require('../translator/gpt');
 
 // app version
 const appVersion = app.getVersion();
@@ -370,7 +370,7 @@ function setCaptureChannel() {
           let data = fileModule.read(value.filePaths[0], 'json');
 
           if (data) {
-            fileModule.write(fileModule.getUserDataPath('config', 'google-credential.json'), data, 'json');
+            fileModule.write(fileModule.getUserDataPath('config', 'google-vision-credential.json'), data, 'json');
             dialogModule.addNotification('GOOGLE_CREDENTIAL_SAVED');
           } else {
             dialogModule.addNotification('INCORRECT_FILE');
@@ -561,7 +561,11 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
+    event.sender.send(
+      'show-translation',
+      await translateModule.translate(dialogData.text, dialogData.translation),
+      dialogData.translation.to
+    );
   });
 
   // google tts
@@ -569,6 +573,7 @@ function setTranslateChannel() {
     return googleTTS.getAudioUrl(text, from);
   });
 
+  /*
   // check API
   ipcMain.on('check-api', (event, engine) => {
     if ([].concat(engineModule.aiList, ['google-vision']).includes(engine)) {
@@ -584,7 +589,7 @@ function setTranslateChannel() {
       } else if (engine === 'Kimi') {
         if (config.api.kimiToken === '') message = '請至【API設定】輸入API key';
       } else if (engine === 'google-vision') {
-        const keyPath = fileModule.getUserDataPath('config', 'google-credential.json');
+        const keyPath = fileModule.getUserDataPath('config', 'google-vision-credential.json');
         if (!fileModule.exists(keyPath)) {
           message = '尚未設定Google憑證，請至【設定】>【API設定】輸入憑證';
         }
@@ -595,11 +600,14 @@ function setTranslateChannel() {
       }
     }
   });
+  */
 
+  /*
   // get GPT model list
   ipcMain.handle('get-gpt-model-list', (event, apiKey) => {
     return gpt.getModelList(apiKey);
   });
+  */
 }
 
 // set file channel

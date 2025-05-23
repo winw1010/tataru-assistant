@@ -67,6 +67,7 @@ const defaultConfig = {
     to: 'Traditional-Chinese',
   },
   api: {
+    googleVisionType: 'google-api-key',
     googleVisionApiKey: '',
     geminiApiKey: '',
     geminiModel: 'gemini-2.0-flash',
@@ -306,6 +307,20 @@ function fixConfig2(config) {
       } else {
         config.captureWindow.type = 'tesseract-ocr';
       }
+    }
+  } catch (error) {
+    error;
+  }
+
+  try {
+    // fix engine
+    const googleJsonPath = fileModule.getUserDataPath('config', 'google-credential.json');
+    const googleJsonPathNew = fileModule.getUserDataPath('config', 'google-vision-credential.json');
+    if (fileModule.exists(googleJsonPath)) {
+      const googleJson = fileModule.read(googleJsonPath, 'json');
+      fileModule.write(googleJsonPathNew, googleJson, 'json');
+      fileModule.unlink(googleJsonPath);
+      currentConfig.api.googleVisionType = 'google-json';
     }
   } catch (error) {
     error;

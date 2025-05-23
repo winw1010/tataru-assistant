@@ -384,27 +384,45 @@
           </div>
         </div>
 
-        <div class="row" hidden>
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="select-google-vision-type"></label>
+          </div>
           <div class="col-auto">
-            <button id="button-google-credential" class="btn btn-primary"></button>
+            <select class="form-select" name="" id="select-google-vision-type">
+              <option value="google-api-key"></option>
+              <option value="google-json"></option>
+            </select>
           </div>
         </div>
 
-        <div class="row align-items-center">
-          <div class="col">
-            <label for="input-google-vision-api-key"></label>
+        <br />
+
+        <div class="div-google-vision-type" id="div-google-api-key" hidden>
+          <div class="row align-items-center">
+            <div class="col">
+              <label for="input-google-vision-api-key"></label>
+            </div>
+            <div class="col-auto">
+              <img
+                class="img-fluid img-visibility"
+                src="./img/ui/visibility_off_white_48dp.svg"
+                alt=""
+                style="width: 1.5rem"
+                id="img-visibility-google-vision-api-key"
+              />
+            </div>
+            <div class="col-auto">
+              <input type="password" class="form-control" name="" id="input-google-vision-api-key" />
+            </div>
           </div>
-          <div class="col-auto">
-            <img
-              class="img-fluid img-visibility"
-              src="./img/ui/visibility_off_white_48dp.svg"
-              alt=""
-              style="width: 1.5rem"
-              id="img-visibility-google-vision-api-key"
-            />
-          </div>
-          <div class="col-auto">
-            <input type="password" class="form-control" name="" id="input-google-vision-api-key" />
+        </div>
+
+        <div class="div-google-vision-type" id="div-google-json" hidden>
+          <div class="row">
+            <div class="col-auto">
+              <button id="button-google-credential" class="btn btn-primary"></button>
+            </div>
           </div>
         </div>
 

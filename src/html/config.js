@@ -43,6 +43,9 @@ async function setView() {
 
   await readConfig();
 
+  const googleVisionType = document.getElementById('select-google-vision-type').value;
+  document.getElementById('div-' + googleVisionType).hidden = false;
+
   // change UI text
   ipcRenderer.send('change-ui-text');
 }
@@ -69,10 +72,18 @@ function setEvent() {
   // dialog transparency
   setOnInputEvent('input-dialog-transparency', 'span-dialog-transparency');
 
-  // select-engine
-  document.getElementById('select-engine').addEventListener('change', () => {
-    ipcRenderer.send('check-api', document.getElementById('select-engine').value);
-  });
+  // select-google-vision-type
+  document.getElementById('select-google-vision-type').onchange = () => {
+    const googleVisionType = document.getElementById('select-google-vision-type').value;
+    const divs = document.getElementsByClassName('div-google-vision-type');
+
+    for (let index = 0; index < divs.length; index++) {
+      const element = divs[index];
+      element.hidden = true;
+    }
+
+    document.getElementById('div-' + googleVisionType).hidden = false;
+  };
 }
 
 // set button
@@ -118,7 +129,14 @@ function setButton() {
 
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
+    const path = await ipcRenderer.invoke(
+      'get-root-path',
+      'src',
+      'data',
+      'text',
+      'readme',
+      'sub-google-vision-api.html'
+    );
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -567,6 +585,10 @@ function getOptionList() {
     ],
 
     // api
+    [
+      ['select-google-vision-type', 'value'],
+      ['api', 'googleVisionType'],
+    ],
     [
       ['input-google-vision-api-key', 'value'],
       ['api', 'googleVisionApiKey'],

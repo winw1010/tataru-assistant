@@ -36,7 +36,6 @@ async function textDetection(path = '') {
   } else {
     // JSON
     const keyFilename = fileModule.getUserDataPath('config', 'google-vision-credential.json');
-    console.log(keyFilename);
     const client = new vision.ImageAnnotatorClient({ keyFilename: keyFilename });
     const [result] = await client.textDetection(path);
     const detections = result.textAnnotations[0];

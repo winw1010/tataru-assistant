@@ -46,6 +46,9 @@ async function startReconizing(captureData) {
   // tesseract ocr
   else {
     captureData.text = await tesseractOCR(captureData);
+
+    // fix ocr text
+    captureData.text = fixText(captureData);
   }
 
   // check text length
@@ -53,8 +56,8 @@ async function startReconizing(captureData) {
     return;
   }
 
-  // fix text
-  captureData.text = fixText(captureData);
+  // add notification
+  dialogModule.addNotification('RECOGNITION_COMPLETED');
 
   // open edit window if edit is true
   if (captureData.edit) {
@@ -141,19 +144,14 @@ function fixText(captureData) {
   }
 
   // fix tesseract
-  if (captureData.type !== 'google-vision') {
-    text = text
-      .replaceAll('`', '「')
-      .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
-      .replaceAll('ガンプレイカー', 'ガンブレイカー')
-      .replaceAll('ガンプブレイカー', 'ガンブレイカー')
-      .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
-      .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士')
-      .replaceAll(/倫成/gi, '賛成');
-  }
-
-  // add notification
-  dialogModule.addNotification('RECOGNITION_COMPLETED');
+  text = text
+    .replaceAll('`', '「')
+    .replaceAll(/(?<![ァ-ヺー])・(?![ァ-ヺー])/gi, '、')
+    .replaceAll('ガンプレイカー', 'ガンブレイカー')
+    .replaceAll('ガンプブレイカー', 'ガンブレイカー')
+    .replaceAll(/間の(?=使徒|戦士|巫女|世界)/gi, '闇の')
+    .replaceAll(/(?<=機工|飛空|整備|道|戦|闘|兵)(填|土)/gi, '士')
+    .replaceAll(/倫成/gi, '賛成');
 
   return text;
 }

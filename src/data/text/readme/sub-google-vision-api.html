@@ -34,8 +34,8 @@
     </p>
 
     <p>
-      使用此功能前需啟用Google Cloud Platform功能，請至
-      <a href="https://cloud.google.com/" target="_blank">Google Colud Platform</a>
+      使用此功能前需啟用Google Cloud Platform功能，請點
+      <a href="https://cloud.google.com/" target="_blank">此連結</a>
       啟用
     </p>
 
@@ -51,7 +51,12 @@
       <li>
         <span>
           前往
-          <a href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170" target="_blank"> 資訊主頁 </a>
+          <a
+            href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+            target="_blank"
+          >
+            資訊主頁
+          </a>
           點選【選取專案】，選擇一個近期專案
         </span>
         <br />
@@ -65,7 +70,9 @@
       <li>
         <span>
           前往
-          <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank"> 帳單帳戶管理頁面 </a>
+          <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+            帳單帳戶管理頁面
+          </a>
           點選【建立帳戶】建立一個帳單帳戶，建立後填入付款資料，
         </span>
         <span class="text-warning">並連結上一步驟選取的專案</span>
@@ -76,44 +83,20 @@
       <li>
         <span>
           至
-          <a href="https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com&_ga=2.20267194.344879435.1711353170-2052909929.1711353170" target="_blank"> Google Vision API頁面 </a>
-          選擇上一步驟選取的專案並啟用Google Vision
+          <a href="https://console.cloud.google.com/apis/credentials" target="_blank"> API和服務頁面 </a>
+          ，點選【建立憑證】，然後點選【API金鑰】，建立之後點選剛剛建立的API金鑰，在【API限制】點選【限制金鑰】，然後搜尋並勾選【Cloud Vision
+          API】，設定完畢後按下【儲存】即可，你也可以在此頁面編輯API金鑰的名稱以便辨別
         </span>
         <br />
         <img class="img-fluid" src="./img/google-vision/google-vision-enable.png" alt="" />
       </li>
 
       <li>
-        <span>
-          前往
-          <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/credentials" target="_blank"> API/服務詳細資料 </a>
-          ，點選【建立憑證】，然後點選【服務帳戶】建立一個服務帳戶(資料隨意填即可)
-        </span>
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-account.png" alt="" />
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-account-2.png" alt="" />
+        <span>點選剛剛建立的API金鑰右側的【顯示金鑰】，按下金鑰右邊複製按鈕即可複製起來</span>
       </li>
 
       <li>
-        <span> 建立後點選上一步建立的服務帳戶，點選【金鑰】，然後點選【新增金鑰】>【建立新的金鑰】>【JSON】，然後按下創建後即會自動下載憑證至您的電腦 </span>
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-json.png" alt="" />
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-json-2.png" alt="" />
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-json-3.png" alt="" />
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-json-4.png" alt="" />
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-add-json-5.png" alt="" />
-      </li>
-
-      <li>
-        <span> 進入Tataru Assistant的 設定，點選【API設定】>【開啟Google憑證檔案】，選擇上一步下載的JSON檔案(至您的下載資料夾找) </span>
-        <br />
-        <img class="img-fluid" src="./img/google-vision/google-vision-open-json.png" alt="" />
-        <br />
+        <span> 進入Tataru Assistant的 設定，點選【API設定】，於【Google Vision】輸入上一步複製的API金鑰</span>
       </li>
 
       <li>
@@ -121,10 +104,110 @@
         <br />
         <img class="img-fluid" src="./img/google-vision/google-vision-set.png" alt="" />
       </li>
-
-      <li>
-        <span class="text-warning"> 由於憑證和您的帳單綁定，因此請妥善保管憑證檔案，若想移除憑證請至您的服務帳戶的金鑰頁面刪除即可 </span>
-      </li>
     </ol>
+
+    <div hidden>
+      <ol>
+        <li>
+          <span>
+            前往
+            <a href="https://cloud.google.com/" target="_blank"> Google Cloud Platform </a>
+            啟用Google Cloud Platform服務，資訊可以任意填寫，本功能需使用Google帳號，若沒有Google帳號請建立一個
+          </span>
+        </li>
+
+        <li>
+          <span>
+            前往
+            <a
+              href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+              target="_blank"
+            >
+              資訊主頁
+            </a>
+            點選【選取專案】，選擇一個近期專案
+          </span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-select-project.png" alt="" />
+          <br />
+          <span>若無專案請點選【建立專案】建立一個新專案</span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-select-project-2.png" alt="" />
+        </li>
+
+        <li>
+          <span>
+            前往
+            <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+              帳單帳戶管理頁面
+            </a>
+            點選【建立帳戶】建立一個帳單帳戶，建立後填入付款資料，
+          </span>
+          <span class="text-warning">並連結上一步驟選取的專案</span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-payment.png" alt="" />
+        </li>
+
+        <li>
+          <span>
+            至
+            <a
+              href="https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com&_ga=2.20267194.344879435.1711353170-2052909929.1711353170"
+              target="_blank"
+            >
+              Google Vision API頁面
+            </a>
+            選擇上一步驟選取的專案並啟用Google Vision
+          </span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-enable.png" alt="" />
+        </li>
+
+        <li>
+          <span>
+            前往
+            <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/credentials" target="_blank"> API/服務詳細資料 </a>
+            ，點選【建立憑證】，然後點選【服務帳戶】建立一個服務帳戶(資料隨意填即可)
+          </span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-account.png" alt="" />
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-account-2.png" alt="" />
+        </li>
+
+        <li>
+          <span>
+            建立後點選上一步建立的服務帳戶，點選【金鑰】，然後點選【新增金鑰】>【建立新的金鑰】>【JSON】，然後按下創建後即會自動下載憑證至您的電腦
+          </span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-json.png" alt="" />
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-json-2.png" alt="" />
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-json-3.png" alt="" />
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-json-4.png" alt="" />
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-add-json-5.png" alt="" />
+        </li>
+
+        <li>
+          <span> 進入Tataru Assistant的 設定，點選【API設定】>【開啟Google憑證檔案】，選擇上一步下載的JSON檔案(至您的下載資料夾找) </span>
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-open-json.png" alt="" />
+          <br />
+        </li>
+
+        <li>
+          在擷取視窗選擇Google Vision即可開始使用
+          <br />
+          <img class="img-fluid" src="./img/google-vision/google-vision-set.png" alt="" />
+        </li>
+
+        <li>
+          <span class="text-warning"> 由於憑證和您的帳單綁定，因此請妥善保管憑證檔案，若想移除憑證請至您的服務帳戶的金鑰頁面刪除即可 </span>
+        </li>
+      </ol>
+    </div>
   </body>
 </html>

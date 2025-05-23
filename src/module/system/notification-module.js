@@ -31,6 +31,7 @@ const message = {
   CAPTURING_THE_SCREEN: ['正在擷取螢幕畫面', '正在撷取萤幕画面', 'Capturing the screen'],
   RECOGNIZING_THE_IMAGE: ['正在辨識圖片文字', '正在辨识图片文字', 'Recognizing the image'],
   RECOGNITION_COMPLETED: ['辨識完成', '辨识完成', 'Recognition completed'],
+  RECOGNITION_EMPTY: ['字串長度為0', '字串长度为0', 'Text is empty string'],
 
   FILE_NOT_FOUND: ['檔案不存在', '档案不存在', 'File not found'],
   UNABLE_TO_READ_THE_FILE: ['無法讀取檔案', '无法读取档案', 'Unable to read the file'],

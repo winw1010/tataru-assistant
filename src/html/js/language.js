@@ -109,7 +109,7 @@ function getElementTextList() {
         'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google Credential File'],
-        'button-google-credential-view': ['查看Google憑證檔案', '查看Google凭证档案', 'View File'],
+        'button-google-credential-view': ['查看檔案', '查看档案', 'View File'],
 
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download Table'],
         'button-delete-temp': ['清除暫存', '清除暂存', 'Clear Temp Files'],

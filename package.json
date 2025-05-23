@@ -27,7 +27,7 @@
     "nodejs-file-downloader": "^4.13.0",
     "sharp": "^0.33.5",
     "temp": "^0.9.4",
-    "tesseract.js": "^6.0.0"
+    "tesseract.js": "^6.0.1"
   },
   "build": {
     "appId": "com.app.tataru.assistant",

@@ -129,14 +129,7 @@ function setButton() {
 
   // get set google vision
   document.getElementById('a-set-google-vision').onclick = async () => {
-    const path = await ipcRenderer.invoke(
-      'get-root-path',
-      'src',
-      'data',
-      'text',
-      'readme',
-      'sub-google-vision-api.html'
-    );
+    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
@@ -169,9 +162,15 @@ function setButton() {
     ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
-  // set google credential
+  // open google credential
   document.getElementById('button-google-credential').onclick = () => {
     ipcRenderer.send('set-google-credential');
+  };
+
+  // view google credential
+  document.getElementById('button-google-credential-view').onclick = async () => {
+    const path = await ipcRenderer.invoke('get-user-data-path', 'config');
+    ipcRenderer.send('execute-command', `explorer "${path}"`);
   };
 
   // set img-visibility

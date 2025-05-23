@@ -110,7 +110,8 @@ async function getImageText(imageBase64 = '') {
     const response = await requestModule.post(apiUrl, payload, headers);
     return response.data.choices[0].message.content;
   } catch (error) {
-    return error;
+    console.log(error);
+    return '';
   }
 }
 

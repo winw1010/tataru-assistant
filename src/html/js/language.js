@@ -108,13 +108,14 @@ function getElementTextList() {
         'button-save-config': ['儲存', '储存', 'Save'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
-        'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google credential file'],
+        'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google Credential File'],
+        'button-google-credential-view': ['查看Google憑證檔案', '查看Google凭证档案', 'View File'],
 
-        'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download table'],
-        'button-delete-temp': ['清除暫存', '清除暂存', 'Clear temp files'],
-        'button-restart-sharlayan-reader': ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart chat reader'],
-        'button-fix-reader': ['修復字幕讀取器', '修復字幕读取器', 'Fix chat reader'],
-        'button-version-check': ['檢查更新', '检查更新', 'Check for updates'],
+        'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download Table'],
+        'button-delete-temp': ['清除暫存', '清除暂存', 'Clear Temp Files'],
+        'button-restart-sharlayan-reader': ['重新啟動字幕讀取器', '重新启动字幕读取器', 'Restart Chat Reader'],
+        'button-fix-reader': ['修復字幕讀取器', '修復字幕读取器', 'Fix Chat Reader'],
+        'button-version-check': ['檢查更新', '检查更新', 'Check For Updates'],
 
         // capture
         'button-screenshot': ['All', 'All', 'All'],
@@ -123,8 +124,8 @@ function getElementTextList() {
         'button-translate': ['翻譯', '翻译', 'Translate'],
 
         // custom
-        'button-view-files': ['檢視檔案', '检视档案', 'View files'],
-        'button-clear-cache': ['清除快取', '清除快取', 'Clear cache'],
+        'button-view-files': ['檢視檔案', '检视档案', 'View Files'],
+        'button-clear-cache': ['清除快取', '清除快取', 'Clear Cache'],
         'button-search': ['查詢', '查询', 'Search'],
         'button-view-all': ['全部', '全部', 'All'],
 
@@ -132,8 +133,8 @@ function getElementTextList() {
         'button-switch': ['切換', '切换', 'Exchange'],
 
         // edit
-        'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate again'],
-        'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload table'],
+        'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate Again'],
+        'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload Table'],
         'button-report-translation': ['回報翻譯', '回报翻译', 'Report'],
 
         'button-save-custom': ['儲存', '储存', 'Save'],
@@ -142,31 +143,31 @@ function getElementTextList() {
 
         // read log
         'button-read-log': ['讀取', '读取', 'Open'],
-        'button-view-log': ['檢視檔案', '检视档案', 'View chat logs'],
+        'button-view-log': ['檢視檔案', '检视档案', 'View Chat Logs'],
       },
       label: {
         // config
-        'checkbox-top': ['顯示在最上層', '显示在最上层', 'Always on top'],
+        'checkbox-top': ['顯示在最上層', '显示在最上层', 'Always On Top'],
         'checkbox-focusable': ['可被選取', '可被选取', 'Focusable'],
         'checkbox-shortcut': ['啟用快捷鍵', '启用快捷键', 'Shortcut'],
-        'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum size limit'],
-        'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide buttons automatically'],
-        'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide window automatically'],
-        'input-hide-dialog': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide window after(sec)'],
+        'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum Size Limit'],
+        'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons Automatically'],
+        'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window Automatically'],
+        'input-hide-dialog': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(Sec)'],
         'input-background-color': ['背景顏色', '背景颜色', 'Color'],
         'input-background-transparency': ['背景透明度', '背景透明度', 'Transparency'],
-        'input-speech-speed': ['朗讀速度', '朗读速度', 'Speech speed'],
+        'input-speech-speed': ['朗讀速度', '朗读速度', 'Speech Speed'],
 
-        'select-font-weight': ['文字粗細', '文字粗细', 'Font weight'],
-        'input-font-size': ['文字大小(rem)', '文字大小(rem)', 'Font size(rem)'],
-        'input-dialog-spacing': ['對話框間隔(rem)', '对话框间隔(rem)', 'Dialog Spacing(rem)'],
-        'input-dialog-radius': ['對話框圓角(rem)', '对话框圆角(rem)', 'Dialog Radius(rem)'],
+        'select-font-weight': ['文字粗細', '文字粗细', 'Font Weight'],
+        'input-font-size': ['文字大小(Rem)', '文字大小(Rem)', 'Font Size(Rem)'],
+        'input-dialog-spacing': ['對話框間隔(Rem)', '对话框间隔(Rem)', 'Dialog Spacing(Rem)'],
+        'input-dialog-radius': ['對話框圓角(Rem)', '对话框圆角(Rem)', 'Dialog Radius(Rem)'],
         'input-dialog-color': ['對話框顏色', '对话框颜色', 'Dialog Color'],
         'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Dialog Transparency'],
 
-        'checkbox-auto-change': ['翻譯失敗時切換翻譯器', '翻译失败时切换翻译器', 'Change translator automatically'],
-        'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix translation'],
-        'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore system message'],
+        'checkbox-auto-change': ['翻譯失敗時切換翻譯器', '翻译失败时切换翻译器', 'Change Translator Automatically'],
+        'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix Translation'],
+        'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
         'select-engine': ['翻譯器', '翻译器', 'Translator'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
@@ -174,30 +175,30 @@ function getElementTextList() {
         'select-to': ['目標語言', '目标语言', 'Target Language'],
 
         'select-google-vision-type': ['認證方式', '认证方式', 'Type'],
-        'input-google-vision-api-key': ['API key', 'API金钥', 'API key'],
+        'input-google-vision-api-key': ['API Key', 'API金钥', 'API Key'],
 
-        'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
-        'input-gemini-model': ['模型', '模型', 'model'],
+        'input-gemini-api-key': ['API Key', 'API金钥', 'API Key'],
+        'input-gemini-model': ['模型', '模型', 'Model'],
 
-        'input-cohere-token': ['API key', 'API金钥', 'API key'],
-        'input-cohere-model': ['模型', '模型', 'model'],
+        'input-cohere-token': ['API Key', 'API金钥', 'API Key'],
+        'input-cohere-model': ['模型', '模型', 'Model'],
 
-        'input-kimi-token': ['API key', 'API金钥', 'API key'],
-        'input-kimi-model': ['模型', '模型', 'model'],
-        'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom prompt'],
+        'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
+        'input-kimi-model': ['模型', '模型', 'Model'],
+        'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom Prompt'],
 
-        'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
-        'input-gpt-model': ['模型', '模型', 'model'],
+        'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
+        'input-gpt-model': ['模型', '模型', 'Model'],
 
-        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
+        'input-llm-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-llm-model': ['模型', '模型', 'Model'],
         'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 
         'select-app-language': ['語言(Language)', '语言(Language)', 'Language'],
-        'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download table when started'],
-        'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL certificate'],
+        'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table When Started'],
+        'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL Certificate'],
 
-        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-turn Conversation'],
+        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
         'input-ai-temperature': ['溫度', '温度', 'Temperature'],
 
@@ -209,7 +210,7 @@ function getElementTextList() {
         'input-proxy-password': ['Password', 'Password', 'Password'],
 
         // capture
-        'checkbox-split': ['換行切割', '换行切割', 'New line'],
+        'checkbox-split': ['換行切割', '换行切割', 'Split New Line'],
         'checkbox-edit': ['編輯文字', '编辑文字', 'Edit'],
 
         // capture edit
@@ -217,16 +218,16 @@ function getElementTextList() {
         'input-capture-image': ['圖片', '图片', 'Img'],
 
         // edit
-        'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace the result'],
-        'textarea-before': ['原文', '原文', 'Original text'],
-        'textarea-after': ['取代為', '取代为', 'Replace with'],
-        'select-type': ['類別', '类别', 'type'],
+        'checkbox-replace': ['取代原本翻譯', '取代原本翻译', 'Replace The Result'],
+        'textarea-before': ['原文', '原文', 'Original Text'],
+        'textarea-after': ['取代為', '取代为', 'Replace With'],
+        'select-type': ['類別', '类别', 'Type'],
 
         // dictionary
-        'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Translate by Tataru'],
+        'checkbox-tataru': ['使用Tataru翻譯', '使用Tataru翻译', 'Translate By Tataru'],
 
         // read log
-        'select-log': ['選擇對話紀錄', '选择对话纪录', 'Chat log'],
+        'select-log': ['選擇對話紀錄', '选择对话纪录', 'Chat Log'],
       },
       option: {
         // config
@@ -291,18 +292,18 @@ function getElementTextList() {
         skill: ['技能', '技能', 'Skill'],
         map: ['地名', '地名', 'Map'],
         other: ['其他', '其他', 'Other'],
-        '#custom-overwrite': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(full text)'],
-        'custom-overwrite': ['自訂翻譯(整句)', '自订翻译(整句)', 'Custom(full text)'],
+        '#custom-overwrite': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(Full Text)'],
+        'custom-overwrite': ['自訂翻譯(整句)', '自订翻译(整句)', 'Custom(Full Text)'],
         '#custom-source': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'custom-source': ['原文替換', '原文替换', 'Edit source'],
+        'custom-source': ['原文替換', '原文替换', 'Edit Source'],
 
         // custom
         'player-name-table': ['#玩家', '#玩家', '#Player'],
         'custom-target-table': ['#原文->自訂翻譯', '#原文->自订翻译', '#Source->Custom'],
-        'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(full text)'],
+        'custom-overwrite-table': ['#原文->自訂翻譯(整句)', '#原文->自订翻译(整句)', '#Source->Custom(Full Text)'],
         'custom-source-table': ['#原文->原文', '#原文->原文', '#Source->Source'],
-        'temp-name-table': ['#暫存(全)', '#暂存(全)', '#Cache(all)'],
-        'temp-name-table-valid': ['#暫存(有效)', '#暂存(有效)', '#Cache(valid)'],
+        'temp-name-table': ['#暫存(全)', '#暂存(全)', '#Cache(All)'],
+        'temp-name-table-valid': ['#暫存(有效)', '#暂存(有效)', '#Cache(Valid)'],
 
         // read log
         none: ['無', '无', 'None'],
@@ -322,7 +323,7 @@ function getElementTextList() {
       },
       span: {
         // window title
-        'span-title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit detected text'],
+        'span-title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Text'],
         'span-title-config': ['設定', '设定', 'Config'],
         'span-title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
         'span-title-dictionary': ['翻譯查詢', '翻译查询', 'Translator'],
@@ -330,11 +331,7 @@ function getElementTextList() {
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
-        'span-channel-comment': [
-          '滾動滑鼠中鍵可以捲動頻道清單',
-          '滚动鼠标中键可以捲动频道清单',
-          'Use middle mouse button to sroll the page',
-        ],
+        'span-channel-comment': ['滾動滑鼠中鍵可以捲動頻道清單', '滚动鼠标中键可以捲动频道清单', 'Use middle mouse button to sroll the page'],
         'span-author': [
           '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
           '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
@@ -342,8 +339,8 @@ function getElementTextList() {
         ],
       },
       title: {
-        'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit detected text'],
-        'title-capture': ['擷取文字', '撷取文字', 'Detect screen text'],
+        'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Text'],
+        'title-capture': ['擷取文字', '撷取文字', 'Recognize Screen Text'],
         'title-config': ['設定', '设定', 'Config'],
         'title-custom': ['自訂翻譯', '自订翻译', 'Custom Translation'],
         'title-dictionary': ['翻譯查詢', '翻译查询', 'Translator'],
@@ -352,8 +349,8 @@ function getElementTextList() {
         'title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
       },
       th: {
-        'th-custom-before': ['原文', '原文', 'Original text'],
-        'th-custom-after': ['取代為', '取代为', 'Replace with'],
+        'th-custom-before': ['原文', '原文', 'Original Text'],
+        'th-custom-after': ['取代為', '取代为', 'Replace With'],
         'th-custom-type': ['類別', '类别', 'Type'],
         'th-custom-edit': ['編輯', '编辑', 'Edit'],
       },
@@ -361,22 +358,22 @@ function getElementTextList() {
     placeholder: {
       input: {
         // config
-        'input-google-vision-api-key': ['API key', 'API金钥', 'API key'],
+        'input-google-vision-api-key': ['API Key', 'API金钥', 'API Key'],
 
-        'input-gemini-api-key': ['API key', 'API金钥', 'API key'],
+        'input-gemini-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gemini-model': ['Model', 'Model', 'Model'],
 
-        'input-cohere-token': ['API key', 'API金钥', 'API key'],
+        'input-cohere-token': ['API Key', 'API金钥', 'API Key'],
         'input-cohere-model': ['Model', 'Model', 'Model'],
 
-        'input-gpt-api-key': ['API key', 'API金钥', 'API key'],
+        'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['Model', 'Model', 'Model'],
 
-        'input-kimi-token': ['API key', 'API金钥', 'API key'],
+        'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],
         'input-kimi-custom-prompt': ['Custom Prompt', 'Custom Prompt', 'Custom Prompt'],
 
-        'input-llm-api-key': ['API key', 'API金钥', 'API key'],
+        'input-llm-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-llm-model': ['Model', 'Model', 'Model'],
         'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
 
@@ -391,8 +388,8 @@ function getElementTextList() {
         'textarea-original-text': ['Text', 'Text', 'Text'],
 
         // edit
-        'textarea-before': ['原文', '原文', 'Original text'],
-        'textarea-after': ['取代為', '取代为', 'Replace with'],
+        'textarea-before': ['原文', '原文', 'Original Text'],
+        'textarea-after': ['取代為', '取代为', 'Replace With'],
       },
     },
     title: {
@@ -402,7 +399,7 @@ function getElementTextList() {
         'img-button-config': ['設定', '设定', 'Config'],
         'img-button-capture': ['螢幕截圖翻譯', '萤幕截图翻译', 'Screenshot Translation'],
         'img-button-through': ['滑鼠穿透', '鼠标穿透', 'Mouse Pass'],
-        'img-button-update': ['下載最新版本', '下载最新版本', 'Download the latest version'],
+        'img-button-update': ['下載最新版本', '下载最新版本', 'Download The Latest Version'],
         'img-button-minimize': ['縮小', '缩小', 'Minimize'],
         'img-button-close': ['關閉', '关闭', 'Close'],
 

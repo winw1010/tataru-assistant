@@ -36,10 +36,14 @@ async function setView() {
   const config = await ipcRenderer.invoke('get-config');
 
   document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
+  document.getElementById('select-engine-second').innerHTML = await ipcRenderer.invoke('get-engine-select-second');
+
   document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
   document.getElementById('select-to').innerHTML = await ipcRenderer.invoke('get-target-select');
 
   document.getElementById('select-engine').value = config.translation.engine;
+  document.getElementById('select-engine-second').value = config.translation.engineSecond;
+
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('select-to').value = config.translation.to;
 
@@ -85,6 +89,8 @@ function setButton() {
     }
 
     dialogData.translation.engine = document.getElementById('select-engine').value;
+    dialogData.translation.engineSecond = document.getElementById('select-engine-second').value;
+
     dialogData.translation.from = document.getElementById('select-from').value;
     dialogData.translation.fromPlayer = document.getElementById('select-from').value;
     dialogData.translation.to = document.getElementById('select-to').value;

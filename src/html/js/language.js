@@ -170,6 +170,7 @@ function getElementTextList() {
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
         'select-engine': ['翻譯器', '翻译器', 'Translator'],
+        'select-engine-second': ['優先備用', '优先备用', 'Translator of second'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
         'select-from-player': ['隊伍語言', '队伍语言', 'Party Language'],
         'select-to': ['目標語言', '目标语言', 'Target Language'],

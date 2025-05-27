@@ -33,6 +33,8 @@ function setIPC() {
 async function setView() {
   document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
 
+  document.getElementById('select-engine-second').innerHTML = await ipcRenderer.invoke('get-engine-select-second');
+
   document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
 
   document.getElementById('select-from-player').innerHTML = await ipcRenderer.invoke('get-player-source-select');
@@ -433,6 +435,12 @@ function saveOptions(config = {}) {
       }
     }
   });
+
+  // check primary same second
+  if (config.translation.engine == config.translation.engineSecond) {
+    config.translation.engineSecond = 'Auto'
+    ipcRenderer.send('add-notification', 'CHECK_SECOND_TRANSLATOR');
+  }
 }
 
 function getOptionList() {
@@ -569,6 +577,10 @@ function getOptionList() {
     [
       ['select-engine', 'value'],
       ['translation', 'engine'],
+    ],
+    [
+      ['select-engine-second', 'value'],
+      ['translation', 'engineSecond'],
     ],
     [
       ['select-from', 'value'],

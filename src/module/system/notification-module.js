@@ -19,6 +19,7 @@ const message = {
   TEMP_DELETED: ['暫存清除完畢', '暂存清除完毕', 'Temp file deleted'],
 
   SETTINGS_SAVED: ['設定已儲存', '设定已储存', 'Settings saved'],
+  CHECK_SECOND_TRANSLATOR: ['優選備用不可與首選一緻，已重置。','优选备用不可与首选一致，已重置。','The Second translator cannot be the same as the primary choice. It has been reset.'],
   RESTORED_TO_DEFAULT_SETTINGS: ['已恢復預設值', '已恢復预设值', 'Restored to default settings'],
 
   GOOGLE_CREDENTIAL_SAVED: ['已儲存Google憑證', '已储存Google凭证', 'Google credential saved'],

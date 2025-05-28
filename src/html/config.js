@@ -33,6 +33,8 @@ function setIPC() {
 async function setView() {
   document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
 
+  document.getElementById('select-engine-alternate').innerHTML = await ipcRenderer.invoke('get-engine-select');
+
   document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
 
   document.getElementById('select-from-player').innerHTML = await ipcRenderer.invoke('get-player-source-select');
@@ -439,16 +441,16 @@ function getOptionList() {
   return [
     // window
     [
+      ['checkbox-shortcut', 'checked'],
+      ['indexWindow', 'shortcut'],
+    ],
+    [
       ['checkbox-top', 'checked'],
       ['indexWindow', 'alwaysOnTop'],
     ],
     [
       ['checkbox-focusable', 'checked'],
       ['indexWindow', 'focusable'],
-    ],
-    [
-      ['checkbox-shortcut', 'checked'],
-      ['indexWindow', 'shortcut'],
     ],
     [
       ['checkbox-min-size', 'checked'],
@@ -463,8 +465,8 @@ function getOptionList() {
       ['indexWindow', 'hideDialog'],
     ],
     [
-      ['input-hide-dialog', 'value'],
-      ['indexWindow', 'hideDialogTimeout'],
+      ['input-hide-dialog-timeout', 'value'],
+      ['indexWindow', 'timeout'],
     ],
     [
       ['span-background-color', 'innerText'],
@@ -571,6 +573,10 @@ function getOptionList() {
       ['translation', 'engine'],
     ],
     [
+      ['select-engine-alternate', 'value'],
+      ['translation', 'engineAlternate'],
+    ],
+    [
       ['select-from', 'value'],
       ['translation', 'from'],
     ],
@@ -581,6 +587,10 @@ function getOptionList() {
     [
       ['select-to', 'value'],
       ['translation', 'to'],
+    ],
+    [
+      ['input-translation-timeout', 'value'],
+      ['translation', 'timeout'],
     ],
 
     // api

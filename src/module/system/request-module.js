@@ -166,7 +166,7 @@ function getOptions(headers = {}) {
 
   const options = {
     headers: clearHeaders(headers),
-    timeout: requestTimeout,
+    timeout: Math.max(requestTimeout, parseInt(config.translation.timeout) * 1000),
   };
 
   if (config.proxy.enable) {

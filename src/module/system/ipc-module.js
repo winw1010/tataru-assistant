@@ -498,7 +498,9 @@ function setJsonChannel() {
     let fileName = '';
     let textBefore2 = textBefore;
 
-    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) textBefore2 += '#';
+    if (type !== 'custom-overwrite' && textBefore2.length < 3 && regNoKanji.test(textBefore2)) {
+      textBefore2 += '#';
+    }
 
     if (type === 'custom-source') {
       fileName = 'custom-source.json';
@@ -561,11 +563,7 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send(
-      'show-translation',
-      await translateModule.translate(dialogData.text, dialogData.translation),
-      dialogData.translation.to
-    );
+    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
   });
 
   // google tts

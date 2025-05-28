@@ -130,10 +130,10 @@
         <!-- hide dialog timeout -->
         <div class="row align-items-center">
           <div class="col">
-            <label for="input-hide-dialog"></label>
+            <label for="input-hide-dialog-timeout"></label>
           </div>
           <div class="col-4">
-            <input class="form-control" type="number" id="input-hide-dialog" min="1" step="1" value="20" />
+            <input class="form-control" type="number" id="input-hide-dialog-timeout" min="1" step="1" value="15" />
           </div>
         </div>
 
@@ -324,6 +324,8 @@
 
         <br />
 
+        <p class="text-warning" id="p-ai-warning"></p>
+
         <!-- select translator -->
         <div class="row align-items-center">
           <div class="col">
@@ -331,6 +333,18 @@
           </div>
           <div class="col-6">
             <select class="form-select" id="select-engine"></select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- select alternate translator -->
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="select-engine-alternate"></label>
+          </div>
+          <div class="col-6">
+            <select class="form-select" id="select-engine-alternate"></select>
           </div>
         </div>
 
@@ -367,6 +381,18 @@
           </div>
           <div class="col-6">
             <select class="form-select" id="select-to"></select>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- translation timeout -->
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-translation-timeout"></label>
+          </div>
+          <div class="col-6">
+            <input class="form-control" type="number" name="" id="input-translation-timeout" min="10" step="1" value="10" />
           </div>
         </div>
       </div>

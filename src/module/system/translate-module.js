@@ -49,12 +49,12 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
 // translate 2
 async function translate2(text = '', translation = {}, type = 'sentence') {
   const autoChange = translation.autoChange;
-  let engineList = engineModule.getEngineList(translation.engine);
-  let result = { isError: false, text: '' };
+  const engineList = engineModule.getEngineList(translation.engine, translation.engineAlternate);
+  const result = { isError: false, text: '' };
 
   do {
     const engine = engineList.shift();
-    const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
+    const option = engineModule.getTranslateOption(text, engine, translation);
 
     console.log('\r\nEngine:', engine);
 
@@ -63,7 +63,9 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
     }
 
     if (option) {
-      result = await getTranslation(engine, option, type);
+      const result2 = await getTranslation(engine, option, type);
+      result.isError = result2.isError;
+      result.text = result2.text;
     } else {
       continue;
     }

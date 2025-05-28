@@ -153,7 +153,7 @@ function getElementTextList() {
         'checkbox-min-size': ['最小尺寸限制', '最小尺寸限制', 'Minimum Size Limit'],
         'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons Automatically'],
         'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window Automatically'],
-        'input-hide-dialog': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(Sec)'],
+        'input-hide-dialog-timeout': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(Sec)'],
         'input-background-color': ['背景顏色', '背景颜色', 'Color'],
         'input-background-transparency': ['背景透明度', '背景透明度', 'Transparency'],
         'input-speech-speed': ['朗讀速度', '朗读速度', 'Speech Speed'],
@@ -170,9 +170,11 @@ function getElementTextList() {
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
         'select-engine': ['翻譯器', '翻译器', 'Translator'],
+        'select-engine-alternate': ['翻譯器(備用)', '翻译器(备用)', 'Translator(Alternate)'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
         'select-from-player': ['隊伍語言', '队伍语言', 'Party Language'],
         'select-to': ['目標語言', '目标语言', 'Target Language'],
+        'input-translation-timeout': ['最大等待時間(秒)', '最大等待时间(秒)', 'Timeout(Sec)'],
 
         'select-google-vision-type': ['認證方式', '认证方式', 'Type'],
         'input-google-vision-api-key': ['API Key', 'API金钥', 'API Key'],
@@ -309,6 +311,11 @@ function getElementTextList() {
         none: ['無', '无', 'None'],
       },
       p: {
+        'p-ai-warning': [
+          '* 注意：AI翻譯需事先設定API才能使用',
+          '* 注意：AI翻译需事先设定API才能使用',
+          '* Remember to set API options before using AI translator',
+        ],
         'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],

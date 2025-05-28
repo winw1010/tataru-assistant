@@ -221,7 +221,7 @@ function getWindowSize(windowName, config) {
       {
         const indexBounds = windowList['index'].getContentBounds();
         bounds.width = parseInt(displayLength * 0.26);
-        bounds.height = parseInt(displayLength * 0.4);
+        bounds.height = parseInt(displayLength * 0.47);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
         bounds = getNearPosition(displayBounds, indexBounds, bounds);

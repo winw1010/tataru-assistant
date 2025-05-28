@@ -19,13 +19,13 @@ const defaultConfig = {
     y: -1,
     width: -1,
     height: -1,
+    shortcut: true,
     alwaysOnTop: true,
     focusable: true,
-    shortcut: true,
+    minSize: true,
     hideButton: true,
     hideDialog: true,
-    minSize: true,
-    hideDialogTimeout: '15',
+    timeout: '15',
     backgroundColor: '#00000034',
     clickThrough: false,
     lock: false,
@@ -62,9 +62,11 @@ const defaultConfig = {
     skipChinese: true,
     replace: true,
     engine: 'Youdao',
+    engineAlternate: 'Youdao',
     from: 'Japanese',
     fromPlayer: 'Auto',
     to: 'Traditional-Chinese',
+    timeout: '10',
   },
   api: {
     googleVisionType: 'google-api-key',
@@ -240,7 +242,7 @@ function fixConfig1(config) {
 
   try {
     // fix protocol
-    if (config.proxy.protocol !== '') {
+    if (!['https:', 'http:'].includes(config.proxy.protocol)) {
       if (config.proxy.protocol.includes('https')) {
         config.proxy.protocol = 'https:';
       } else {
@@ -320,7 +322,7 @@ function fixConfig2(config) {
       const googleJson = fileModule.read(googleJsonPath, 'json');
       fileModule.write(googleJsonPathNew, googleJson, 'json');
       fileModule.unlink(googleJsonPath);
-      currentConfig.api.googleVisionType = 'google-json';
+      config.api.googleVisionType = 'google-json';
     }
   } catch (error) {
     error;

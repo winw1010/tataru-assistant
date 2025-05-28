@@ -100,7 +100,7 @@ function showDialog() {
   if (config.indexWindow.hideDialog) {
     hideDialogTimeout = setTimeout(() => {
       windowModule.sendIndex('hide-dialog', true);
-    }, config.indexWindow.hideDialogTimeout * 1000);
+    }, parseInt(config.indexWindow.timeout) * 1000);
   }
 }
 

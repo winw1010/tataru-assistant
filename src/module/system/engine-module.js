@@ -1,15 +1,7 @@
 'use strict';
 
 // all language list
-const allLanguageList = [
-  'Japanese',
-  'English',
-  'Traditional-Chinese',
-  'Simplified-Chinese',
-  'Korean',
-  'Russian',
-  'Italian',
-];
+const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian', 'Italian'];
 
 // source list
 const sourceList = ['Japanese', 'English'];
@@ -209,26 +201,35 @@ function getSelect(list = []) {
 }
 
 // get engine list
-function getEngineList(engine = changeList[0]) {
-  const newEngineList = JSON.parse(JSON.stringify(changeList));
-  const index = newEngineList.indexOf(engine);
+function getEngineList(engine = changeList[0], engineAlternate = changeList[0]) {
+  const newChangeList = JSON.parse(JSON.stringify(changeList));
+  const engineIndex = newChangeList.indexOf(engine);
+  const engineAlternateIndex = newChangeList.indexOf(engineAlternate);
 
-  if (index >= 0) {
-    newEngineList.splice(index, 1);
+  if (engineIndex >= 0) {
+    newChangeList.splice(engineIndex, 1);
   }
 
-  return [engine].concat(newEngineList);
+  if (engineAlternateIndex >= 0) {
+    newChangeList.splice(engineAlternateIndex, 1);
+  }
+
+  if (engineAlternate && engineAlternate !== engine && engineList.includes(engineAlternate)) {
+    newChangeList.unshift(engineAlternate);
+  }
+
+  return [engine].concat(newChangeList);
 }
 
 // get translate option
-function getTranslateOption(engine, from, to, text) {
+function getTranslateOption(text, engine, translation) {
   const table = engineTable[engine];
 
   if (table) {
     return {
-      from: table[from],
-      to: table[to],
       text: text,
+      from: table[translation.from],
+      to: table[translation.to],
     };
   } else {
     return null;

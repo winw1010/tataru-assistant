@@ -51,9 +51,23 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
   const autoChange = translation.autoChange;
   let engineList = engineModule.getEngineList(translation.engine);
   let result = { isError: false, text: '' };
+  let engine = ''
+  
+  // If engineSecond is not in engineList, it indicates that it is an AI-based translator. In that case, add engineSecond to the list. 
+  // Even if engineSecond causes an error due to misconfiguration, it will not affect the normal operation of the program.
+  if (engineList.indexOf(translation.engineSecond) < 0 && translation.engineSecond != 'Auto') {
+    engineList.push(translation.engineSecond)
+  }
 
   do {
-    const engine = engineList.shift();
+    // When result.isError is true and translation.engineSecond is not 'Auto' 
+    // we also need to check whether the remaining contents of engineList include engineSecond.
+    if (result.isError && translation.engineSecond != 'Auto' && engineList.indexOf(translation.engineSecond) > 0) {
+      engine = translation.engineSecond
+      engineList.splice(engineList.indexOf(translation.engineSecond), 1)
+    } else {
+      engine = engineList.shift();
+    }
     const option = engineModule.getTranslateOption(engine, translation.from, translation.to, text);
 
     console.log('\r\nEngine:', engine);

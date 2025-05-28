@@ -167,6 +167,10 @@ function getEngineSelect() {
   return getSelect(engineList);
 }
 
+function getEngineSelectSecond() {
+  return getSelectSecond(engineList);
+}
+
 // get all language select
 function getAllLanguageSelect() {
   return getSelect(allLanguageList);
@@ -204,6 +208,13 @@ function getSelect(list = []) {
       innerHTML += `<option value="${name}"></option>`;
     }
   }
+
+  return innerHTML;
+}
+
+function getSelectSecond(list = []) {
+  let innerHTML = `<option value="Auto"></option>`;
+  innerHTML += getEngineSelect();
 
   return innerHTML;
 }
@@ -264,6 +275,7 @@ module.exports = {
   languageIndex,
 
   getEngineSelect,
+  getEngineSelectSecond,
   getAllLanguageSelect,
   getSourceSelect,
   getPlayerSourceSelect,

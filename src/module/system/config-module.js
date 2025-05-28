@@ -62,6 +62,7 @@ const defaultConfig = {
     skipChinese: true,
     replace: true,
     engine: 'Youdao',
+    engineSecond: 'Auto',
     from: 'Japanese',
     fromPlayer: 'Auto',
     to: 'Traditional-Chinese',

@@ -524,6 +524,10 @@ function setTranslateChannel() {
     return engineModule.getEngineSelect();
   });
 
+  ipcMain.handle('get-engine-select-second', () => {
+    return engineModule.getEngineSelectSecond();
+  });
+
   // get all language select
   ipcMain.handle('get-all-language-select', () => {
     return engineModule.getAllLanguageSelect();

@@ -55,7 +55,7 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
   
   // If engineSecond is not in engineList, it indicates that it is an AI-based translator. In that case, add engineSecond to the list. 
   // Even if engineSecond causes an error due to misconfiguration, it will not affect the normal operation of the program.
-  if (engineList.indexOf(translation.engineSecond) < 0) {
+  if (engineList.indexOf(translation.engineSecond) < 0 && translation.engineSecond != 'Auto') {
     engineList.push(translation.engineSecond)
   }
 

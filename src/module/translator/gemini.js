@@ -1,5 +1,7 @@
 'use strict';
 
+// https://ai.google.dev/api/generate-content#v1beta.GenerationConfig
+
 const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');
@@ -43,12 +45,15 @@ async function translate(text, source, target, type) {
     'Content-Type': 'application/json',
   };
 
-  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const prompt = aiFunction.createTranslationPrompt(source, target, type);
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
 
   const payload = {
+    systemInstruction: {
+      parts: [{ text: prompt }],
+    },
     contents: [
       ...chatHistoryList[prompt],
       {
@@ -56,8 +61,12 @@ async function translate(text, source, target, type) {
         parts: [{ text: text }],
       },
     ],
-    systemInstruction: {
-      parts: [{ text: prompt }],
+    generationConfig: {
+      //stopSequences: ['Title'],
+      temperature: parseFloat(config.ai.temperature),
+      //maxOutputTokens: 800,
+      //topP: 0.8,
+      //topK: 10,
     },
   };
 

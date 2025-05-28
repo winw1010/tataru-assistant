@@ -79,7 +79,6 @@ const defaultConfig = {
     cohereModel: 'command-r',
     kimiToken: '',
     kimiModel: 'moonshot-v1-8k',
-    kimiCustomPrompt: '',
     llmApiUrl: '',
     llmApiKey: '',
     llmApiModel: '',
@@ -88,6 +87,7 @@ const defaultConfig = {
     useChat: false,
     chatLength: '0',
     temperature: '0.7',
+    customTranslationPrompt: '',
   },
   proxy: {
     enable: false,
@@ -257,6 +257,15 @@ function fixConfig1(config) {
     // fix hostname
     if (config.proxy.host) {
       config.proxy.hostname = config.proxy.host;
+    }
+  } catch (error) {
+    error;
+  }
+
+  try {
+    // fix custom prompt
+    if (config.api.kimiCustomPrompt) {
+      config.ai.customTranslationPrompt = config.api.kimiCustomPrompt;
     }
   } catch (error) {
     error;

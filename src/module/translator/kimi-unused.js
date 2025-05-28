@@ -2,7 +2,7 @@
 
 const requestModule = require('../system/request-module');
 
-const { createTranslatePrompt } = require('./ai-function');
+const { createTranslationPrompt } = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
@@ -38,7 +38,7 @@ const promptHistoryMgr = {
     this.source = source;
     this.target = target;
     this.promptContent = kimiCustomPrompt;
-    this.promptHistory = [{ role: 'system', content: createTranslatePrompt(source, target, type, kimiCustomPrompt) }];
+    this.promptHistory = [{ role: 'system', content: createTranslationPrompt(source, target, type, kimiCustomPrompt) }];
   },
 
   shouldReset: function (source, target, promptContent) {

@@ -1,26 +1,28 @@
 'use strict';
 
 /*
-function createPrompt(source = 'Japanese', target = 'Chinese') {
-  //I want you to act as an expert translator.
-  //let prompt = `You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`;
-  return `Translate the following text from ${source} to ${target} and do not include any explanation.`;
-}
+// old prompts
+'I want you to act as an expert translator.'
+`You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`
+`Translate the following text from ${source} to ${target} and do not include any explanation.`
+`You are a professional translation machine, your job is to translate the ${source} name and sentence provided by the user into ${target} and do not include any explanation. Use homophonic translation if it is not a word or phrase in ${source}.`
+`Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
+`Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
+`Translate ${source} text into ${target} and don't make any explanations.`;
+`Translate ${source} text into ${target}, and don't provide any explanations.`
 */
 
-function createTranslatePrompt(source = 'Japanese', target = 'Chinese', type = 'sentence', customPrompt = '') {
-  //return `You are a professional translation machine, your job is to translate the ${source} name and sentence provided by the user into ${target} and do not include any explanation. Use homophonic translation if it is not a word or phrase in ${source}.`;
-  if (customPrompt) {
-    return customPrompt
-      .replace(/\$\{source\}/g, source)
-      .replace(/\$\{target\}/g, target)
-      .replace(/\$\{type\}/g, type);
-  }
+const configModule = require('../system/config-module');
 
-  // return `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
-  // return `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
-  // return `Translate ${source} text into ${target} and don't make any explanations.`;
-  return `Translate ${source} text into ${target}, and don't provide any explanations.`;
+function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'sentence') {
+  const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
+
+  if (customPrompt) {
+    return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
+  } else {
+    const role = source && target ? `${source}-${target} translator` : 'translator';
+    return `Act as a professional ${role}, and just return the best result.`;
+  }
 }
 
 function createImagePrompt() {
@@ -42,7 +44,7 @@ function initializeChatHistory(chatHistoryList = {}, prompt = '', config = {}) {
 }
 
 module.exports = {
-  createTranslatePrompt,
+  createTranslationPrompt,
   createImagePrompt,
   initializeChatHistory,
 };

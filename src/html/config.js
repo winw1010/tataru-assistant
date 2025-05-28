@@ -637,10 +637,6 @@ function getOptionList() {
       ['input-kimi-model', 'value'],
       ['api', 'kimiModel'],
     ],
-    [
-      ['input-kimi-custom-prompt', 'value'],
-      ['api', 'kimiCustomPrompt'],
-    ],
 
     [
       ['input-llm-api-url', 'value'],
@@ -666,6 +662,10 @@ function getOptionList() {
     [
       ['input-ai-temperature', 'value'],
       ['ai', 'temperature'],
+    ],
+    [
+      ['textarea-ai-custom-translation-prompt', 'value'],
+      ['ai', 'customTranslationPrompt'],
     ],
 
     // proxy

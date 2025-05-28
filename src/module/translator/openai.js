@@ -17,7 +17,7 @@ async function exec(option, type) {
 // translate
 async function translate(text, source, target, type) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const prompt = aiFunction.createTranslationPrompt(source, target, type);
   const apiUrl = config.api.llmApiUrl;
   const headers = {
     'Content-Type': 'application/json',

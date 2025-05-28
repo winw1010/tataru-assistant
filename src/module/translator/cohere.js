@@ -16,7 +16,7 @@ async function exec(option, type) {
 
 async function translate(text, source, target, type) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const prompt = aiFunction.createTranslationPrompt(source, target, type);
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
@@ -34,7 +34,7 @@ async function translate(text, source, target, type) {
         content: text,
       },
     ],
-    //temperature: parseFloat(config.ai.temperature) / 2,
+    temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };
 

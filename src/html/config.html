@@ -632,17 +632,6 @@
           </div>
         </div>
 
-        <br />
-
-        <div class="row align-items-center">
-          <div class="col">
-            <label for="input-kimi-custom-prompt"></label>
-          </div>
-          <div class="col-auto">
-            <input class="form-control" type="text" name="" id="input-kimi-custom-prompt" />
-          </div>
-        </div>
-
         <hr />
 
         <!-- set OpenAI API -->
@@ -721,16 +710,34 @@
           </div>
         </div>
 
-        <br />
+        <hr />
 
         <div class="row align-items-center">
           <div class="col">
             <label for="input-ai-temperature"></label>
           </div>
           <div class="col-6">
-            <input class="form-control" type="number" name="" min="0" max="2" step="0.1" id="input-ai-temperature" />
+            <input class="form-control" type="number" name="" min="0" step="0.1" id="input-ai-temperature" />
           </div>
         </div>
+
+        <hr />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="textarea-ai-custom-translation-prompt"></label>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-ai-custom-translation-prompt" rows="5"></textarea>
+          </div>
+        </div>
+
+        <p class="text-warning">${source} = Source language from settings</p>
+        <p class="text-warning">${target} = Target language from settings</p>
+        <p class="text-warning">Keep blank if you want to disable custom promopt</p>
       </div>
 
       <!-- system page -->

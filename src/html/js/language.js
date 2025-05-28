@@ -187,7 +187,6 @@ function getElementTextList() {
 
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['模型', '模型', 'Model'],
-        'input-kimi-custom-prompt': ['自訂Prompt', '自订Prompt', 'Custom Prompt'],
 
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
@@ -203,6 +202,11 @@ function getElementTextList() {
         'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
         'input-ai-temperature': ['溫度', '温度', 'Temperature'],
+        'textarea-ai-custom-translation-prompt': [
+          '自訂翻譯Prompt(System Role)',
+          '自订翻译Prompt(System Role)',
+          'Custom Translation Prompt(System Role)',
+        ],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
@@ -378,7 +382,6 @@ function getElementTextList() {
 
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],
-        'input-kimi-custom-prompt': ['Custom Prompt', 'Custom Prompt', 'Custom Prompt'],
 
         'input-llm-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-llm-model': ['Model', 'Model', 'Model'],

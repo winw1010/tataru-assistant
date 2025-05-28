@@ -58,7 +58,7 @@ async function translate(text, source, target, type) {
     safetySettings,
   });
 
-  const prompt = aiFunction.createTranslatePrompt(source, target, type);
+  const prompt = aiFunction.createTranslationPrompt(source, target, type);
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);

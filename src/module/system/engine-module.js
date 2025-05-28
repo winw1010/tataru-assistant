@@ -68,7 +68,7 @@ const languageIndex = {
 
 // LLM table
 const llmTable = {
-  Auto: 'the', //'any languages',
+  Auto: '', //'any languages',
   Japanese: 'Japanese',
   English: 'English',
   Chinese: 'Chinese',

@@ -202,7 +202,7 @@ function getSelect(list = []) {
 
 // get engine list
 function getEngineList(engine = changeList[0], engineAlternate = changeList[0]) {
-  const newChangeList = JSON.parse(JSON.stringify(changeList));
+  const newChangeList = [].concat(changeList);
   const engineIndex = newChangeList.indexOf(engine);
   const engineAlternateIndex = newChangeList.indexOf(engineAlternate);
 
@@ -218,7 +218,11 @@ function getEngineList(engine = changeList[0], engineAlternate = changeList[0]) 
     newChangeList.unshift(engineAlternate);
   }
 
-  return [engine].concat(newChangeList);
+  if (engine && engineList.includes(engine)) {
+    newChangeList.unshift(engine);
+  }
+
+  return newChangeList;
 }
 
 // get translate option

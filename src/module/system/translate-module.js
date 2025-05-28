@@ -53,9 +53,10 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
   let result = { isError: false, text: '' };
   let engine = ''
   
-  // Since engineList does not include 'LLM-API', it needs to be added if the user's alternative option is LLM-API. 
-  if (translation.engineSecond == 'LLM-API') {
-    engineList.push('LLM-API')
+  // If engineSecond is not in engineList, it indicates that it is an AI-based translator. In that case, add engineSecond to the list. 
+  // Even if engineSecond causes an error due to misconfiguration, it will not affect the normal operation of the program.
+  if (engineList.indexOf(translation.engineSecond) < 0) {
+    engineList.push(translation.engineSecond)
   }
 
   do {

@@ -203,14 +203,13 @@ function getSelect(list = []) {
 // get engine list
 function getEngineList(engine = changeList[0], engineAlternate = changeList[0]) {
   const newChangeList = [].concat(changeList);
-  const engineIndex = newChangeList.indexOf(engine);
 
+  const engineIndex = newChangeList.indexOf(engine);
   if (engineIndex >= 0) {
     newChangeList.splice(engineIndex, 1);
   }
 
   const engineAlternateIndex = newChangeList.indexOf(engineAlternate);
-
   if (engineAlternateIndex >= 0) {
     newChangeList.splice(engineAlternateIndex, 1);
   }

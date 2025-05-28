@@ -9,7 +9,9 @@
 `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
 `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
 `Translate ${source} text into ${target} and don't make any explanations.`;
-`Translate ${source} text into ${target}, and don't provide any explanations.`
+
+const role = source && target ? `${source}-${target} translator` : 'translator';
+`Act as a professional ${role}, your job is translating everything what user provided.`
 */
 
 const configModule = require('../system/config-module');
@@ -20,8 +22,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type =
   if (customPrompt) {
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
   } else {
-    const role = source && target ? `${source}-${target} translator` : 'translator';
-    return `Act as a professional ${role}, and just return the best result.`;
+    return `Translate ${source} text into ${target}, and don't provide any explanations.`;
   }
 }
 

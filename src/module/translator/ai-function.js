@@ -20,6 +20,10 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type =
   const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
 
   if (customPrompt) {
+    if (source === '') {
+      source = 'any languages';
+    }
+
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
   } else {
     return `Translate ${source} text into ${target}, and don't provide any explanations.`;

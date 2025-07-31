@@ -31,7 +31,7 @@ function createWindow(windowName, data = null) {
       frame: false,
       roundedCorners: false,
       transparent: true,
-      focusable: false,
+      focusable: false, // fix title bar
       fullscreenable: false,
       webPreferences: {
         contextIsolation: true,
@@ -64,6 +64,14 @@ function createWindow(windowName, data = null) {
     });
 
     // set event
+    appWindow.on('minimize', () => {
+      appWindow.focusable = true;
+    });
+
+    appWindow.on('restore', () => {
+      appWindow.focusable = false;
+    });
+
     switch (windowName) {
       case 'index':
         // set mouse out check interval
@@ -336,8 +344,8 @@ function boundsPositionCheck(bounds) {
 }
 
 // set focusable
-function setFocusable(value = true) {
-  windowList['index']?.setFocusable(value);
+function setFocusable(/*value = true*/) {
+  //windowList['index']?.setFocusable(value);
 }
 
 // restart window

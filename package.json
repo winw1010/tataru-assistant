@@ -15,17 +15,17 @@
   "devDependencies": {
     "@eslint/js": "^9.20.0",
     "electron": "^37.2.4",
-    "electron-builder": "^26.0.12",
+    "electron-builder": "^25.1.8",
     "eslint": "^9.20.1",
     "globals": "^15.15.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.1.0",
+    "@google-cloud/vision": "^5.3.2",
     "axios": "^1.11.0",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.3",
     "temp": "^0.9.4",
     "tesseract.js": "^6.0.1"
   },

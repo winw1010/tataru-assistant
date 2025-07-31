@@ -214,6 +214,7 @@ function setWindowChannel() {
   });
 
   // always on top
+  /*
   ipcMain.on('set-always-on-top', (event, isAlwaysOnTop) => {
     try {
       BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(isAlwaysOnTop, 'screen-saver');
@@ -221,6 +222,7 @@ function setWindowChannel() {
       console.log(error);
     }
   });
+  */
 
   // focusable
   ipcMain.on('set-focusable', (event, value = true) => {

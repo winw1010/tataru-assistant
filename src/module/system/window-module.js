@@ -31,6 +31,7 @@ function createWindow(windowName, data = null) {
       frame: false,
       roundedCorners: false,
       transparent: true,
+      focusable: false,
       fullscreenable: false,
       webPreferences: {
         contextIsolation: true,

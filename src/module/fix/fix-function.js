@@ -212,6 +212,17 @@ function markFix(text = '', isTranslated = false) {
   return text;
 }
 
+// mark fix
+function removeMark(text = '') {
+  // remove （） and its content
+  text = text.replaceAll(/（.*?）/gi, '');
+
+  // remove () and its content
+  text = text.replaceAll(/\(.*?\)/gi, '');
+
+  return text;
+}
+
 // value fix before
 function valueFixBefore(text = '') {
   const valueList = text.match(/\d+((,\d{3})+)?(\.\d+)?/gi);
@@ -261,6 +272,7 @@ module.exports = {
   includesArrayItem,
   sameAsArrayItem,
   markFix,
+  removeMark,
   valueFixBefore,
   valueFixAfter,
   removeRegSymbol,

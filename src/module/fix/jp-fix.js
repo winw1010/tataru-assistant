@@ -208,6 +208,7 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
+  const hasMark = /[()（）]/gi.test(text);
 
   let text2 = text;
   let translatedText = '';
@@ -240,12 +241,7 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   text2 = fixFunction.replaceText(text2, jpArray.jp1);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(
-    text2,
-    jsonFunction.combineArray2(chArray.combine, chArray.nonAI),
-    textType,
-    isTargetChinese
-  );
+  const codeResult = jpFunction.replaceTextByCode(text2, jsonFunction.combineArray2(chArray.combine, chArray.nonAI), textType, isTargetChinese);
   text2 = codeResult.text;
 
   // jp2
@@ -280,6 +276,11 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   // mark fix
   // translatedText = fixFunction.markFix(translatedText, true);
 
+  // remove mark
+  if (hasMark === false) {
+    translatedText = fixFunction.removeMark(translatedText);
+  }
+
   // gender fix
   translatedText = jpFunction.genderFix(text, translatedText);
 
@@ -297,6 +298,7 @@ async function fixTextAI(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
+  const hasMark = /[()（）]/gi.test(text);
 
   let text2 = text;
   let translatedText = text;
@@ -331,6 +333,11 @@ async function fixTextAI(dialogData = {}, isTargetChinese = true) {
     translatedText = await translateModule.translate(text2, translation, codeResult.table, 'sentence');
   } else {
     translatedText = text2;
+  }
+
+  // remove mark
+  if (hasMark === false) {
+    translatedText = fixFunction.removeMark(translatedText);
   }
 
   // table replcae
@@ -378,10 +385,7 @@ function specialFix1(name = '', text = '') {
 
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
-    text = text.replace(
-      /(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi,
-      '水晶公'
-    );
+    text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
   }
 
   // 暗黒騎士

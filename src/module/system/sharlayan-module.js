@@ -7,16 +7,17 @@
 // 4. COPY THE BYTES, ATLEAST 3 ROWS, AND DON'T COPY CONTINUOUS 8 BYTES
 
 // CHECK ASMSignature:
-// 1. SCAN OPTION: ARRAY OF BYTE/ HEX/ CHECK 'EXECUTABLE'
+// 1. SCAN OPTION: VALUE TYPE: ARRAY OF BYTE, CHECK HEX, CHECK 'WRITABLE' AND 'EXECUTABLE' TO SQUARE
 // 2. PASTE THE BYTES, THEN CLICK FIRST SCAN
 // 3. ONLY 1 RESULT = CORRECT BYTES
+// 4. RIGHT CLICK AND SELECT 'DISASSEMBLE THIS MEMORY REGION' TO VIEW THE BASE ADDRESS ("ffxiv_dx11.exe"+XXXXXXX)
 
 // FIND POINTER PATH
 // 1. LOG IN THE GAME, AND CHANGE MAP ATLEAST ONE TIME, AND SCAN THE STRING BELOW, RIGHT CLICK THE ADDRESS, SELECT 'GENERATE POINTERMAP'
 // 2. RESTART THE GAME, AND CHANGE MAP ATLEAST ONE TIME, AND SCAN THE STRING BELOW AGAIN, THEN RIGHT CLICK THE ADDRESS, SELECT 'POINTER SCAN FOR THIS ADDRESS'
 // 3. TEST THE PROBABLY RESULT
 
-// ASMSignature path[0,0]: TARGET'S BASE ADDRESS(VALUE OF ["ffxiv_dx11.exe"+XXXXXXX])
+// ASMSignature path[0,0]: TARGET'S BASE ADDRESS (VALUE OF ["ffxiv_dx11.exe"+XXXXXXX])
 // DIALOG AND CUTSCENE HAVE SAME BASE ADDRESS
 
 // MAX DIFFERENT OFFSETS PER NODE: 4
@@ -187,11 +188,7 @@ function stop(restart = true) {
 // fix text
 function fixText(dialogData) {
   if (dialogData.type !== 'CONSOLE') {
-    dialogData.text = dialogData.text
-      .replaceAll(/^#/gi, '')
-      .replaceAll(')*', '')
-      .replaceAll('%&', '')
-      .replaceAll('「+,', '「');
+    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
   }
 }
 

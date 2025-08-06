@@ -3,6 +3,29 @@
 // reg symbols
 const regRegSymbol = /[.*+?^${}()|[\]\\]/g;
 
+// unnecessary title
+const unnecessaryTitle = [
+  '先生',
+  '小姐',
+  '同學',
+  '同事',
+  '班級',
+  '班別',
+  '班',
+  '組別',
+  '小組',
+  '組',
+  '公司',
+  '地區',
+  '地',
+  '處',
+  '區域',
+  '區',
+  '國家',
+  '國',
+  '',
+];
+
 // skip check
 function skipCheck(dialogData, ignoreArray = []) {
   return ['0039', '0839'].includes(dialogData.code) && canIgnore(dialogData.text, ignoreArray);
@@ -68,7 +91,7 @@ function replaceWord(text = '', table = []) {
     wordTable.push([code, target[index]]);
   }
 
-  console.log(text);
+  console.log('replaceWord before:', text);
 
   for (let index = 0; index < wordTable.length; index++) {
     const element = wordTable[index];
@@ -80,8 +103,13 @@ function replaceWord(text = '', table = []) {
       word = word[0].toUpperCase() + word.slice(1).toLowerCase();
     }
 
-    text = text.replace(element[0], word);
+    for (let index = 0; index < unnecessaryTitle.length; index++) {
+      const title = unnecessaryTitle[index];
+      text = text.replace(element[0] + title, word);
+    }
   }
+
+  console.log('replaceWord after:', text);
 
   return text;
 }

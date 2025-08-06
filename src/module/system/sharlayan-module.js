@@ -197,7 +197,8 @@ function fixText2(text = '') {
   return text
     .replaceAll('[r]', '')
     .replace(/（.*?）/gi, '')
-    .replace(/\(.*?\)/gi, '');
+    .replace(/\(.*?\)/gi, '')
+    .replace(/FE/g, ''); // Temporary fix
 }
 
 // check repetition

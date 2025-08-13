@@ -122,6 +122,7 @@ function replaceTextByCode(text = '', array = [], textType = 0, isTargetChinese 
           matchedWords.push(element);
         }
       }
+      /*
       // kanji
       else if (regKanjiFB.test(name) || regKanjiFB2.test(name)) {
         const matchReg = new RegExp(regNoKanjiF + name + regNoKanjiB, 'gi');
@@ -139,6 +140,7 @@ function replaceTextByCode(text = '', array = [], textType = 0, isTargetChinese 
           matchedWords.push(element);
         }
       }
+      */
       // else
       else {
         if (text.includes(name)) {

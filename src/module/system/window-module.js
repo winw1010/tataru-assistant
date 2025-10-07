@@ -40,6 +40,9 @@ function createWindow(windowName, data = null) {
       },
     });
 
+    // fix title bar (workaround)
+    fixTitleBar(appWindow);
+
     // load html
     appWindow.loadFile(fileModule.getAppPath(`src/html/${windowName}.html`));
 
@@ -394,6 +397,29 @@ function openDevTools() {
   } else {
     windowList['index']?.webContents?.openDevTools({ mode: 'detach' });
   }
+}
+
+// fix title bar (workaround)
+// https://github.com/electron/electron/issues/39959#issuecomment-3146211206
+function fixTitleBar(appWindow) {
+  const runWorkaround = () => {
+    if (appWindow && !appWindow.isDestroyed()) {
+      // Pause rendering
+      appWindow.webContents.setFrameRate(0);
+      const [width, height] = appWindow.getSize();
+      appWindow.setSize(width, height + 1);
+      process.nextTick(() => {
+        if (appWindow && !appWindow.isDestroyed()) {
+          appWindow.setSize(width, height);
+          appWindow.webContents.setFrameRate(60);
+        }
+      });
+    }
+  };
+
+  appWindow.webContents.on('before-input-event', runWorkaround);
+  appWindow.webContents.on('focus', runWorkaround);
+  appWindow.webContents.on('blur', runWorkaround);
 }
 
 // console log

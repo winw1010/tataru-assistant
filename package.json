@@ -14,18 +14,18 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.20.0",
-    "electron": "^35.4.0",
-    "electron-builder": "^25.1.8",
+    "electron": "^37.2.6",
+    "electron-builder": "^24.13.3",
     "eslint": "^9.20.1",
     "globals": "^15.15.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.1.0",
-    "axios": "^1.8.4",
+    "@google-cloud/vision": "^5.3.3",
+    "axios": "^1.11.0",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.3",
     "temp": "^0.9.4",
     "tesseract.js": "^6.0.1"
   },

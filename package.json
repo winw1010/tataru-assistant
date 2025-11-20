@@ -20,12 +20,12 @@
     "globals": "^15.15.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.3.3",
-    "axios": "^1.11.0",
+    "@google-cloud/vision": "^5.3.4",
+    "axios": "^1.13.2",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",
-    "sharp": "^0.34.3",
+    "sharp": "^0.34.5",
     "temp": "^0.9.4",
     "tesseract.js": "^6.0.1"
   },

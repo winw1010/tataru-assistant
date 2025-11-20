@@ -41,7 +41,7 @@ function createWindow(windowName, data = null) {
     });
 
     // fix title bar (workaround)
-    fixTitleBar(appWindow);
+    //fixTitleBar(appWindow);
 
     // load html
     appWindow.loadFile(fileModule.getAppPath(`src/html/${windowName}.html`));
@@ -399,6 +399,7 @@ function openDevTools() {
   }
 }
 
+/*
 // fix title bar (workaround)
 // https://github.com/electron/electron/issues/39959#issuecomment-3146211206
 function fixTitleBar(appWindow) {
@@ -421,6 +422,7 @@ function fixTitleBar(appWindow) {
   appWindow.webContents.on('focus', runWorkaround);
   appWindow.webContents.on('blur', runWorkaround);
 }
+*/
 
 // console log
 function consoleLog(text) {

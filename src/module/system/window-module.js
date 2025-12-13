@@ -29,7 +29,6 @@ function createWindow(windowName, data = null) {
       ...windowSize,
       show: false,
       frame: false,
-      roundedCorners: false,
       transparent: true,
       fullscreenable: false,
       webPreferences: {

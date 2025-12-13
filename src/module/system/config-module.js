@@ -86,7 +86,7 @@ const defaultConfig = {
   ai: {
     useChat: false,
     chatLength: '0',
-    temperature: '0.7',
+    temperature: '0.8',
     customTranslationPrompt: '',
   },
   proxy: {

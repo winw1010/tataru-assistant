@@ -22,7 +22,7 @@ const defaultConfig = {
     shortcut: true,
     alwaysOnTop: true,
     focusable: true,
-    minSize: true,
+    minSize: false,
     hideButton: true,
     hideDialog: true,
     timeout: '15',

@@ -9,6 +9,7 @@
 `Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
 `Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
 `Translate ${source} text into ${target} and don't make any explanations.`;
+`Translate ${source} text into ${target}, and don't provide any explanations.`
 
 const role = source && target ? `${source}-${target} translator` : 'translator';
 `Act as a professional ${role}, your job is translating everything what user provided.`
@@ -16,8 +17,9 @@ const role = source && target ? `${source}-${target} translator` : 'translator';
 
 const configModule = require('../system/config-module');
 
-function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'sentence') {
+function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'text', withGlossary = false) {
   const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
+  const withGlossaryText = withGlossary ? ' with glossary' : '';
 
   if (customPrompt) {
     if (source === '') {
@@ -26,7 +28,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type =
 
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
   } else {
-    return `Translate ${source} text into ${target}, and don't provide any explanations.`;
+    return `Translate the following ${source} ${type} into ${target} provided by user${withGlossaryText} and just return the translated text.`;
   }
 }
 
@@ -48,8 +50,28 @@ function initializeChatHistory(chatHistoryList = {}, prompt = '', config = {}) {
   }
 }
 
+// create glossary
+function createGlossary(source = 'Japanese', target = 'Chinese', table = []) {
+  const glossary = [];
+
+  for (let index = 0; index < table.length; index++) {
+    const glossaryElement = {};
+    const tableElement = table[index];
+    const tableElement0 = tableElement[0];
+    const tableElement1 = tableElement[1];
+
+    glossaryElement[source] = tableElement0;
+    glossaryElement[target] = tableElement1;
+
+    glossary.push(glossaryElement);
+  }
+
+  return glossary;
+}
+
 module.exports = {
   createTranslationPrompt,
   createImagePrompt,
   initializeChatHistory,
+  createGlossary,
 };

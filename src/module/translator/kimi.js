@@ -10,14 +10,15 @@ const chatHistoryList = {};
 
 // exec
 async function exec(option, type) {
-  const response = translate(option.text, option.from, option.to, type);
+  const response = translate(option.text, option.from, option.to, option.table, type);
   return response;
 }
 
 // translate
-async function translate(text, source, target, type) {
+async function translate(text = '', source = 'Japanese', target = 'Chinese', table = [], type = 'text') {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslationPrompt(source, target, type);
+  const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
+  const glossary = aiFunction.createGlossary(source, target, table);
   const apiUrl = 'https://api.moonshot.cn/v1/chat/completions';
   const headers = {
     'Content-Type': 'application/json',
@@ -37,7 +38,10 @@ async function translate(text, source, target, type) {
       ...chatHistoryList[prompt],
       {
         role: 'user',
-        content: text,
+        content: JSON.stringify({
+          text: text,
+          glossary: glossary,
+        }),
       },
     ],
     temperature: parseFloat(config.ai.temperature),
@@ -66,6 +70,8 @@ async function translate(text, source, target, type) {
   // log
   console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
+  console.log('Glossary:', glossary);
+  console.log('Response Text:', responseText);
 
   return responseText;
 }

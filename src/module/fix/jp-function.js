@@ -3,8 +3,10 @@
 // jp json
 const jpJson = require('./jp-json');
 
+/*
 // config module
 const configModule = require('../system/config-module');
+*/
 
 // female words
 const femaleWords = getFemaleWords();
@@ -38,6 +40,7 @@ const katakanaWithoutSmall =
 const regNoKatakanaF = `(?<![${getKatakanaString()}ー])`;
 const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
+/*
 // kanji front and back
 const regKanjiFB = /^[一-龯].*[一-龯]$/;
 const regKanjiFB2 = /^[一-龯]$/;
@@ -47,6 +50,7 @@ const regKanjiB = /[一-龯]$/;
 // no kanji
 const regNoKanjiF = '(?<![一-龯])';
 const regNoKanjiB = '(?![一-龯])';
+*/
 
 // kana
 const regKana = /[ぁ-ゖァ-ヺー]/gi;
@@ -89,11 +93,12 @@ function replaceTextByCode(text = '', array = [], textType = 0, isTargetChinese 
     }
   } else {
     // find temp array
-    const temp = findTempArray(text, array);
+    const tempArray = findTempArray(text, array);
+    console.log('Temp Array:', tempArray);
 
     // find match words from temp array
-    for (let index = 0; index < temp.length; index++) {
-      const element = temp[index];
+    for (let index = 0; index < tempArray.length; index++) {
+      const element = tempArray[index];
       const name = element[0];
 
       regBrackets.lastIndex = 0;
@@ -269,6 +274,7 @@ function findTable(text = '', matchedWords = []) {
     }
   }
 
+  /*
   const middleArray = ['Traditional-Chinese', 'Simplified-Chinese'].includes(configModule.getConfig().translation.to)
     ? [
         ['の', '的'], // AのB
@@ -283,6 +289,7 @@ function findTable(text = '', matchedWords = []) {
     text = result.text;
     codeIndex = result.codeIndex;
   }
+  */
 
   return {
     text,
@@ -479,6 +486,7 @@ function specialReplace(text = '', array = []) {
   return text;
 }
 
+/*
 function mergeCode(text = '', table = [], codeIndex = 0, codeString = '', middle1 = '', middle2 = '') {
   for (let index1 = 0; index1 < table.length && codeIndex < codeString.length; index1++) {
     const element1 = table[index1];
@@ -498,6 +506,7 @@ function mergeCode(text = '', table = [], codeIndex = 0, codeString = '', middle
 
   return { text, codeIndex };
 }
+*/
 
 function convertKana(text = '', type = '') {
   switch (type) {

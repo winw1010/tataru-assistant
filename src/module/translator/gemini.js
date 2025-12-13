@@ -31,21 +31,21 @@ const safetySettings = [
 
 // exec
 async function exec(option, type) {
-  const response = translate(option.text, option.from, option.to, type);
+  const response = translate(option.text, option.from, option.to, option.table, type);
   return response;
 }
 
 // translate
-async function translate(text, source, target, type) {
+async function translate(text = '', source = 'Japanese', target = 'Chinese', table = [], type = 'text') {
   const config = configModule.getConfig();
+  const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
+  const glossary = aiFunction.createGlossary(source, target, table);
   const model = config.api.geminiModel;
   const apiKey = config.api.geminiApiKey;
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
   const headers = {
     'Content-Type': 'application/json',
   };
-
-  const prompt = aiFunction.createTranslationPrompt(source, target, type);
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
@@ -58,7 +58,14 @@ async function translate(text, source, target, type) {
       ...chatHistoryList[prompt],
       {
         role: 'user',
-        parts: [{ text: text }],
+        parts: [
+          {
+            text: JSON.stringify({
+              text: text,
+              glossary: glossary,
+            }),
+          },
+        ],
       },
     ],
     generationConfig: {
@@ -90,6 +97,8 @@ async function translate(text, source, target, type) {
   }
 
   console.log('Prompt:', prompt);
+  console.log('Glossary:', glossary);
+  console.log('Response Text:', responseText);
 
   return responseText;
 }

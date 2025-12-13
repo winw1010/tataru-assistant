@@ -57,7 +57,11 @@ async function start(dialogData = {}) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
     } else {
       if (npcChannel.includes(dialogData.code)) {
-        translatedName = await fixName(dialogData, isTargetChinese);
+        if (aiList.includes(translation.engine)) {
+          translatedName = await fixNameAI(dialogData, isTargetChinese);
+        } else {
+          translatedName = await fixName(dialogData, isTargetChinese);
+        }
       } else {
         translatedName = name;
       }
@@ -174,6 +178,48 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   if (name !== katakanaName) {
     saveName(name, translatedName);
   }
+
+  return translatedName;
+}
+
+// fix name AI
+async function fixNameAI(dialogData = {}, isTargetChinese = true) {
+  const name = dialogData.name;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+
+  if (name === '') {
+    return '';
+  }
+
+  // find same name
+  const sameName =
+    fixFunction.sameAsArrayItem(name, chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+
+  // return saved name if found
+  if (sameName) {
+    return sameName[1];
+  }
+
+  // get code result
+  const codeResult = jpFunction.replaceTextByCode(name, chArray.combine, 0, isTargetChinese);
+
+  // skip check
+  if (jpFunction.needTranslation(name, codeResult.aiTable)) {
+    // translate
+    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'name');
+  } else {
+    translatedName = fixFunction.replaceText(name, codeResult.aiTable);
+  }
+
+  // after translation
+  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+
+  // save translated name
+  saveName(name, translatedName);
 
   return translatedName;
 }
@@ -320,28 +366,26 @@ async function fixTextAI(dialogData = {}, isTargetChinese = true) {
 
   // combine
   const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType, isTargetChinese);
-  text2 = codeResult.text;
 
+  /*
   // convert to hira
   if (textType === textTypeList.allKatakana) {
     text2 = jpFunction.convertKana(text2, 'hira');
   }
+  */
 
   // skip check
-  if (jpFunction.needTranslation(text2, codeResult.table)) {
+  if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table, 'sentence');
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'text');
   } else {
-    translatedText = text2;
+    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
   }
 
   // remove mark
   if (hasMark === false) {
     translatedText = fixFunction.removeMark(translatedText);
   }
-
-  // table replcae
-  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
   translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);

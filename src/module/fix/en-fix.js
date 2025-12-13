@@ -49,7 +49,11 @@ async function start(dialogData = {}) {
       translatedName = fixFunction.replaceText(name, chArray.combine);
     } else {
       if (npcChannel.includes(dialogData.code)) {
-        translatedName = await fixName(dialogData);
+        if (aiList.includes(translation.engine)) {
+          translatedName = await fixNameAI(dialogData);
+        } else {
+          translatedName = await fixName(dialogData);
+        }
       } else {
         translatedName = name;
       }
@@ -60,7 +64,7 @@ async function start(dialogData = {}) {
       translatedText = fixFunction.replaceText(text, chArray.combine);
     } else {
       if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI2(dialogData);
+        translatedText = await fixTextAI(dialogData);
       } else {
         translatedText = await fixText(dialogData);
       }
@@ -133,6 +137,47 @@ async function fixName(dialogData = {}) {
 
   // table
   translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
+
+  // after translation
+  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
+
+  // save to temp
+  saveName(name, translatedName);
+
+  return translatedName;
+}
+
+// fix name AI
+async function fixNameAI(dialogData = {}) {
+  const name = dialogData.name;
+  const translation = dialogData.translation;
+
+  let translatedName = '';
+
+  if (name === '') {
+    return '';
+  }
+
+  // same check
+  const target =
+    fixFunction.sameAsArrayItem(name, chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
+    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
+
+  if (target) {
+    return target[1];
+  }
+
+  // code result
+  const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
+
+  // skip check
+  if (enFunction.needTranslation(name, codeResult.aiTable)) {
+    // translate
+    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'name');
+  } else {
+    translatedName = fixFunction.replaceText(name, codeResult.aiTable);
+  }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
@@ -225,8 +270,8 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
-// fix text with AI 2 (TESTING)
-async function fixTextAI2(dialogData = {}) {
+// fix text with AI
+async function fixTextAI(dialogData = {}) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
@@ -243,18 +288,14 @@ async function fixTextAI2(dialogData = {}) {
 
   // combine
   const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
-  text2 = codeResult.text;
 
   // skip check
-  if (enFunction.needTranslation(text2, codeResult.table)) {
+  if (enFunction.needTranslation(text2, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.table, 'sentence');
+    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'text');
   } else {
-    translatedText = text2;
+    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
   }
-
-  // table replace
-  translatedText = fixFunction.replaceWord(translatedText, codeResult.table);
 
   // after translation
   translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
@@ -272,10 +313,7 @@ function specialFix(name = '', text = '') {
 
   // Clive
   if (/^Clive$/gi.test(name)) {
-    text = text
-      .replaceAll('Dominant', 'Dominant#')
-      .replaceAll('Bearer', 'Bearer#')
-      .replaceAll('The Fallen', 'The Fallen#');
+    text = text.replaceAll('Dominant', 'Dominant#').replaceAll('Bearer', 'Bearer#').replaceAll('The Fallen', 'The Fallen#');
   }
 
   // ApPlE => Apple

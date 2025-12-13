@@ -3,6 +3,7 @@
 // reg symbols
 const regRegSymbol = /[.*+?^${}()|[\]\\]/g;
 
+/*
 // unnecessary title
 const unnecessaryTitle = [
   '先生',
@@ -26,6 +27,7 @@ const unnecessaryTitle = [
   '國',
   '',
 ];
+*/
 
 // skip check
 function skipCheck(dialogData, ignoreArray = []) {
@@ -104,10 +106,12 @@ function replaceWord(text = '', table = []) {
       word = word[0].toUpperCase() + word.slice(1).toLowerCase();
     }
 
+    /*
     for (let index = 0; index < unnecessaryTitle.length; index++) {
       const title = unnecessaryTitle[index];
       text = text.replace(element[0] + title, word);
     }
+    */
   }
 
   console.log('replaceWord after:', text);

@@ -21,7 +21,7 @@ const kimi = require('../translator/kimi');
 const zhConverter = require('../translator/zh-convert');
 
 // translate
-async function translate(text = '', translation = {}, table = [], type = 'sentence') {
+async function translate(text = '', translation = {}, table = [], type = 'text') {
   let result = '';
 
   try {
@@ -34,7 +34,7 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
     }
 
     // translate
-    result = await translate2(text, translation, type);
+    result = await translate2(text, translation, table, type);
 
     // zh convert
     return zhConvert(clearCode(result, table), translation.to);
@@ -47,14 +47,14 @@ async function translate(text = '', translation = {}, table = [], type = 'senten
 }
 
 // translate 2
-async function translate2(text = '', translation = {}, type = 'sentence') {
+async function translate2(text = '', translation = {}, table = [], type = 'text') {
   const autoChange = translation.autoChange;
   const engineList = engineModule.getEngineList(translation.engine, translation.engineAlternate);
   const result = { isError: false, text: '' };
 
   do {
     const engine = engineList.shift();
-    const option = engineModule.getTranslateOption(text, engine, translation);
+    const option = { ...engineModule.getTranslateOption(text, engine, translation), table };
 
     console.log('\r\nEngine:', engine);
 
@@ -75,7 +75,7 @@ async function translate2(text = '', translation = {}, type = 'sentence') {
 }
 
 // get translation
-async function getTranslation(engine = '', option = {}, type = 'sentence') {
+async function getTranslation(engine = '', option = {}, type = 'text') {
   console.log('Before:', option?.text);
 
   let isError = false;

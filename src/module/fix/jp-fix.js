@@ -150,7 +150,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
       if (isTargetChinese) {
         translatedKatakanaName = createName(katakanaName);
       } else {
-        translatedKatakanaName = await translateModule.translate(name2, translation, [], 'name');
+        translatedKatakanaName = await translateModule.translate(name2, translation);
       }
       saveName(katakanaName, translatedKatakanaName);
     }
@@ -163,7 +163,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   // skip check
   if (jpFunction.needTranslation(name2, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(name2, translation, codeResult.table, 'name');
+    translatedName = await translateModule.translate(name2, translation, codeResult.table);
   } else {
     translatedName = name2;
   }
@@ -210,7 +210,7 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
   // skip check
   if (jpFunction.needTranslation(name, codeResult.aiTable)) {
     // translate
-    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'name');
+    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
   } else {
     translatedName = fixFunction.replaceText(name, codeResult.aiTable);
   }

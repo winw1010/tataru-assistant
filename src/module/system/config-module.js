@@ -74,7 +74,7 @@ const defaultConfig = {
     geminiApiKey: '',
     geminiModel: 'gemini-2.5-flash-lite',
     gptApiKey: '',
-    gptModel: 'gpt-4o-mini',
+    gptModel: 'gpt-4.1-nano',
     cohereToken: '',
     cohereModel: 'command-r-08-2024',
     kimiToken: '',

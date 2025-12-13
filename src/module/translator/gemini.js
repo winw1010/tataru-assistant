@@ -70,7 +70,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
     ],
     generationConfig: {
       //stopSequences: ['Title'],
-      temperature: parseFloat(config.ai.temperature),
+      //temperature: parseFloat(config.ai.temperature),
       //maxOutputTokens: 800,
       //topP: 0.8,
       //topK: 10,

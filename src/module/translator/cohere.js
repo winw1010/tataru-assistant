@@ -39,7 +39,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
         }),
       },
     ],
-    temperature: parseFloat(config.ai.temperature),
+    //temperature: parseFloat(config.ai.temperature),
     //top_p: 1,
   };
 

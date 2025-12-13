@@ -28,7 +28,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type =
 
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
   } else {
-    return `Translate the following ${source} ${type} into ${target} provided by user${withGlossaryText} and just return the translated text.`;
+    return `Translate the following ${source} ${type} to ${target} provided by user${withGlossaryText} and just return the translated text.`;
   }
 }
 

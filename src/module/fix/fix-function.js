@@ -106,6 +106,8 @@ function replaceWord(text = '', table = []) {
       word = word[0].toUpperCase() + word.slice(1).toLowerCase();
     }
 
+    text = text.replace(element[0], word);
+
     /*
     for (let index = 0; index < unnecessaryTitle.length; index++) {
       const title = unnecessaryTitle[index];

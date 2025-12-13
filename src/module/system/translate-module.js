@@ -37,7 +37,11 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
     result = await translate2(text, translation, table, type);
 
     // zh convert
-    return zhConvert(clearCode(result, table), translation.to);
+    if (engineModule.aiList.includes(translation.engine)) {
+      return zhConvert(result, translation.to);
+    } else {
+      return zhConvert(clearCode(result, table), translation.to);
+    }
   } catch (error) {
     console.log(error);
     result = '' + error;

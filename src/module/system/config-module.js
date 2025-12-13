@@ -263,6 +263,15 @@ function fixConfig1(config) {
   }
 
   try {
+    // fix chat length
+    if (config.ai.chatLength < 1) {
+      config.ai.chatLength = 1;
+    }
+  } catch (error) {
+    error;
+  }
+
+  try {
     // fix custom prompt
     if (config.api.kimiCustomPrompt) {
       config.ai.customTranslationPrompt = config.api.kimiCustomPrompt;

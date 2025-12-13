@@ -130,7 +130,7 @@ async function fixName(dialogData = {}) {
   // skip check
   if (enFunction.needTranslation(name2, codeResult.table)) {
     // translate
-    translatedName = await translateModule.translate(name2, translation, codeResult.table, 'name');
+    translatedName = await translateModule.translate(name2, translation, codeResult.table);
   } else {
     translatedName = name2;
   }
@@ -174,7 +174,7 @@ async function fixNameAI(dialogData = {}) {
   // skip check
   if (enFunction.needTranslation(name, codeResult.aiTable)) {
     // translate
-    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'name');
+    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
   } else {
     translatedName = fixFunction.replaceText(name, codeResult.aiTable);
   }

@@ -143,6 +143,7 @@ async function getTranslation(engine = '', option = {}, type = 'text') {
   }
 
   console.log('After:', text);
+  text = removeQuote(text);
 
   return {
     isError,
@@ -188,6 +189,14 @@ function fullToHalf(str = '') {
       return String.fromCharCode(ch.charCodeAt(0) - 0xfee0);
     })
     .replace(/\u3000/g, ' ');
+}
+
+function removeQuote(text = '') {
+  if (/^「[^「」]+」$/.test(text) || /^"[^"]+"$/.test(text)) {
+    text = text.slice(1, text.length - 1);
+  }
+
+  return text;
 }
 
 // module exports

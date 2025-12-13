@@ -43,10 +43,6 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
     //top_p: 1,
   };
 
-  if (chatHistoryList[prompt].length > 0) {
-    payload.chat_history = chatHistoryList[prompt];
-  }
-
   const headers = {
     accept: 'application/json',
     'content-type': 'application/json',

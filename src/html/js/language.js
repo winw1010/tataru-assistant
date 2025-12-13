@@ -118,6 +118,7 @@ function getElementTextList() {
         'button-version-check': ['檢查更新', '检查更新', 'Check For Updates'],
 
         // capture
+        'button-set-window-size': ['Resize', 'Resize', 'Resize'],
         'button-screenshot': ['All', 'All', 'All'],
 
         // capture edit
@@ -154,6 +155,8 @@ function getElementTextList() {
         'checkbox-hide-button': ['自動隱藏按鈕', '自动隐藏按钮', 'Hide Buttons Automatically'],
         'checkbox-hide-dialog': ['自動隱藏視窗', '自动隐藏视窗', 'Hide Window Automatically'],
         'input-hide-dialog-timeout': ['隱藏間隔(秒)', '隐藏间隔(秒)', 'Hide Window After(Sec)'],
+        'input-background-width': ['背景寬(px)', '背景宽(px)', 'Background Width(px)'],
+        'input-background-height': ['背景高(px)', '背景高(px)', 'Background Height(px)'],
         'input-background-color': ['背景顏色', '背景颜色', 'Color'],
         'input-background-transparency': ['背景透明度', '背景透明度', 'Transparency'],
         'input-speech-speed': ['朗讀速度', '朗读速度', 'Speech Speed'],
@@ -218,6 +221,8 @@ function getElementTextList() {
         // capture
         'checkbox-split': ['換行切割', '换行切割', 'Split New Line'],
         'checkbox-edit': ['編輯文字', '编辑文字', 'Edit'],
+        'input-capture-width': ['寬(px)', '宽(px)', 'Width(px)'],
+        'input-capture-height': ['高(px)', '高(px)', 'Height(px)'],
 
         // capture edit
         'input-capture-text': ['文字', '文字', 'Txt'],

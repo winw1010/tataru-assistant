@@ -28,6 +28,8 @@ async function setView() {
   document.getElementById('select-from').value = config.translation.from;
   document.getElementById('checkbox-split').checked = config.captureWindow.split;
   document.getElementById('checkbox-edit').checked = config.captureWindow.edit;
+  document.getElementById('input-capture-width').value = config.captureWindow.width;
+  document.getElementById('input-capture-height').value = config.captureWindow.height;
   showScreenshotButton(config);
   setCanvasSize();
 
@@ -74,6 +76,14 @@ function setEvent() {
 
 // set button
 function setButton() {
+  // set window size
+  document.getElementById('button-set-window-size').onclick = () => {
+    ipcRenderer.send('set-window-size', {
+      width: document.getElementById('input-capture-width').value,
+      height: document.getElementById('input-capture-height').value,
+    });
+  };
+
   // screenshot
   document.getElementById('button-screenshot').onclick = async () => {
     // minimize all windows
@@ -154,12 +164,7 @@ function setCanvasEvent() {
       const captureData = await createData();
 
       // set rectangle size
-      captureData.rectangleSize = getRectangleSize(
-        screenMouseDown.x,
-        screenMouseDown.y,
-        screenMouseUp.x,
-        screenMouseUp.y
-      );
+      captureData.rectangleSize = getRectangleSize(screenMouseDown.x, screenMouseDown.y, screenMouseUp.x, screenMouseUp.y);
 
       // fix position
       captureData.rectangleSize.x -= captureData.screenSize.x;

@@ -469,6 +469,14 @@ function getOptionList() {
       ['indexWindow', 'timeout'],
     ],
     [
+      ['input-background-width', 'value'],
+      ['indexWindow', 'width'],
+    ],
+    [
+      ['input-background-height', 'value'],
+      ['indexWindow', 'height'],
+    ],
+    [
       ['span-background-color', 'innerText'],
       ['indexWindow', 'backgroundColor'],
       (value) => {

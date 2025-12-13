@@ -227,6 +227,19 @@ function setWindowChannel() {
     windowModule.setFocusable(value);
   });
 
+  // set window size
+  ipcMain.on('set-window-size', (event, size) => {
+    try {
+      const appWindow = BrowserWindow.fromWebContents(event.sender);
+      const bounds = appWindow.getBounds();
+      bounds.width = parseInt(size.width);
+      bounds.height = parseInt(size.height);
+      appWindow.setContentBounds(bounds);
+    } catch (error) {
+      error;
+    }
+  });
+
   // set min size
   ipcMain.on('set-min-size', (event, minSize) => {
     if (minSize) {

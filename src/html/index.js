@@ -316,25 +316,28 @@ function resetView(config) {
   // set focusable
   ipcRenderer.send('set-focusable', config.indexWindow.focusable);
 
-  // set speech speed
-  document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));
-
   // set button
   document.querySelectorAll('.img-hidden').forEach((value) => {
     document.getElementById(value.id).hidden = config.indexWindow.hideButton;
   });
+
+  // set window size
+  ipcRenderer.send('set-window-size', { width: config.indexWindow.width, height: config.indexWindow.height });
+
+  // set min size
+  ipcRenderer.send('set-min-size', config.indexWindow.minSize);
+
+  // set background color
+  document.getElementById('div-dialog').style.backgroundColor = config.indexWindow.backgroundColor;
+
+  // set speech speed
+  document.dispatchEvent(new CustomEvent('set-speech-speed', { detail: config.indexWindow.speechSpeed }));
 
   // reset dialog style
   resetDialogStyle();
 
   // show dialog
   ipcRenderer.send('show-dialog');
-
-  // set background color
-  document.getElementById('div-dialog').style.backgroundColor = config.indexWindow.backgroundColor;
-
-  // set min size
-  ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 }
 
 // add dialog

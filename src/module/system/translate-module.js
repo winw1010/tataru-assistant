@@ -38,11 +38,11 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
 
     // zh convert
     if (engineModule.aiList.includes(translation.engine)) {
-      result = removeHonorific(result, table, 1);
-      return zhConvert(result, translation.to);
+      result = removeHonorific(zhConvert(result, translation.to), table, 1);
+      return result;
     } else {
-      result = removeHonorific(result, table, 0);
-      return zhConvert(clearCode(result, table), translation.to);
+      result = removeHonorific(zhConvert(clearCode(result, table), translation.to), table, 0);
+      return result;
     }
   } catch (error) {
     console.log(error);

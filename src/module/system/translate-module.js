@@ -211,7 +211,7 @@ function removeHonorific(text = '', table = [], targetIndex = 0) {
     for (let honorificIndex = 0; honorificIndex < honorificArray.length; honorificIndex++) {
       const honorific = honorificArray[honorificIndex];
       const targetWord = word + honorific;
-      text.replaceAll(targetWord, word);
+      text = text.replaceAll(targetWord, word);
     }
   }
 

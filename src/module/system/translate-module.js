@@ -38,8 +38,10 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
 
     // zh convert
     if (engineModule.aiList.includes(translation.engine)) {
+      result = removeHonorific(result, table, 1);
       return zhConvert(result, translation.to);
     } else {
+      result = removeHonorific(result, table, 0);
       return zhConvert(clearCode(result, table), translation.to);
     }
   } catch (error) {
@@ -194,6 +196,23 @@ function fullToHalf(str = '') {
 function removeQuote(text = '') {
   if (/^「[^「」]+」$/.test(text) || /^"[^"]+"$/.test(text)) {
     text = text.slice(1, text.length - 1);
+  }
+
+  return text;
+}
+
+// remove honorific
+function removeHonorific(text = '', table = [], targetIndex = 0) {
+  const honorificArray = ['先生', '小姐'];
+
+  for (let tableIndex = 0; tableIndex < table.length; tableIndex++) {
+    const word = table[tableIndex][targetIndex];
+
+    for (let honorificIndex = 0; honorificIndex < honorificArray.length; honorificIndex++) {
+      const honorific = honorificArray[honorificIndex];
+      const targetWord = word + honorific;
+      text.replaceAll(targetWord, word);
+    }
   }
 
   return text;

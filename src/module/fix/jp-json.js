@@ -60,13 +60,7 @@ function load(targetLanguage) {
     // ch
     chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
     chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
-    chArray.chName = jsonFunction.readText(
-      jsonFunction.getTextPath('ch', 'jp-ch-name.json'),
-      true,
-      true,
-      srcIndex,
-      rplIndex - 1
-    );
+    chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1);
 
     // jp
     jpArray.title = jsonFunction.readText(jsonFunction.getTextPath('jp', 'title.json'));
@@ -82,12 +76,7 @@ function load(targetLanguage) {
   chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
-  chArray.combine = jsonFunction.combineArray2(
-    userArray.playerName,
-    userArray.customTarget,
-    chArray.main,
-    userArray.tempNameValid
-  );
+  chArray.combine = jsonFunction.combineArray2(userArray.playerName, userArray.customTarget, chArray.main, userArray.tempNameValid);
 
   // clear temp name
   jsonFunction.clearTempName(jsonFunction.combineArray2(userArray.customTarget, chArray.main), userArray.tempName);
@@ -132,7 +121,7 @@ function versionFix() {
       chArray.combine.splice(index, 1);
     }
     // wrong AI translation (ex: Sorry Message)
-    else if (/sorry/gi.test(element0) || element1.length > element0.length * 2) {
+    else if (/sorry/gi.test(element0)) {
       chArray.combine.splice(index, 1);
     }
   }

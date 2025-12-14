@@ -188,7 +188,7 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
   const translation = dialogData.translation;
 
   let translatedName = '';
-  let katakanaName = jpFunction.getKatakanaName(name);
+  let katakanaName = jpFunction.getKatakanaName(name2);
 
   if (name === '') {
     return '';

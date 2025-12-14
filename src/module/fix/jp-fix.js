@@ -188,7 +188,6 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
   const translation = dialogData.translation;
 
   let translatedName = '';
-  let katakanaName = jpFunction.getKatakanaName(name2);
 
   if (name === '') {
     return '';
@@ -203,31 +202,6 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
   // return saved name if found
   if (sameName) {
     return sameName[1];
-  }
-
-  // check katakana name
-  if (katakanaName.length > 0) {
-    let translatedKatakanaName = '';
-
-    // find same katakana name
-    const sameKatakanaName =
-      fixFunction.sameAsArrayItem(katakanaName, chArray.combine) ||
-      fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine) ||
-      fixFunction.sameAsArrayItem(katakanaName + '##', chArray.combine);
-
-    // use saved name
-    if (sameKatakanaName) {
-      translatedKatakanaName = sameKatakanaName[1];
-    }
-    // create and save translated katakanaName if not found
-    else {
-      if (isTargetChinese) {
-        translatedKatakanaName = createName(katakanaName);
-      } else {
-        translatedKatakanaName = await translateModule.translate(name, translation);
-      }
-      saveName(katakanaName, translatedKatakanaName);
-    }
   }
 
   // get code result
@@ -245,9 +219,7 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save translated name
-  if (name !== katakanaName) {
-    saveName(name, translatedName);
-  }
+  saveName(name, translatedName);
 
   return translatedName;
 }

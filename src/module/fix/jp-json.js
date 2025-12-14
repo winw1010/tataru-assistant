@@ -40,12 +40,7 @@ function load(targetLanguage) {
   jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));
   jpArray.special1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special1.json'));
   jpArray.special2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'special2.json'));
-  jpArray.title = [
-    [
-      ['', 0],
-      ['', 0],
-    ],
-  ];
+  jpArray.title = [];
 
   // main
   chArray.main = [];
@@ -95,6 +90,14 @@ function versionFix() {
   const removeList = []
     //.concat(jpArray.jp1, jpArray.jp2).map((x) => x[0])
     .concat(jpArray.listDelete);
+
+  // remove 'さん'
+  for (let index = jpArray.title.length - 1; index >= 0; index--) {
+    if (jpArray.title[index][0][0] === 'さん') {
+      jpArray.title.splice(index, 1);
+      break;
+    }
+  }
 
   // clear combine
   for (let index = chArray.combine.length - 1; index >= 0; index--) {

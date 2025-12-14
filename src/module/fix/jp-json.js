@@ -93,9 +93,9 @@ function versionFix() {
 
   // remove 'さん'
   for (let index = jpArray.title.length - 1; index >= 0; index--) {
-    if (jpArray.title[index][0][0] === 'さん') {
+    const word = jpArray.title[index][0][0];
+    if (word === 'さん' || word === 'さーん' || word === 'さ～ん') {
       jpArray.title.splice(index, 1);
-      break;
     }
   }
 

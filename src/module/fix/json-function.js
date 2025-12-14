@@ -94,7 +94,15 @@ function readSubtitleJP() {
 
 // read main
 function readMain(srcIndex = 0, rplIndex = 1) {
-  return readMultiFolder(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+  const array = readMultiFolder(fileModule.getRootPath(pathList.main), srcIndex, rplIndex);
+
+  // removes the leading and trailing white space
+  for (let index = 0; index < array.length; index++) {
+    array[index][0] = array[index][0].trim();
+    array[index][1] = array[index][1].trim();
+  }
+
+  return array;
 }
 
 // read non AI
@@ -204,12 +212,7 @@ function clearTempName(combine = [], tempName = []) {
     const element = tempName[index];
     const name = element[0];
 
-    if (
-      combine0.includes(name) ||
-      combine0.includes(name + '#') ||
-      combine0.includes(name + '##') ||
-      combine0.includes(name.replaceAll('#', ''))
-    ) {
+    if (combine0.includes(name) || combine0.includes(name + '#') || combine0.includes(name + '##') || combine0.includes(name.replaceAll('#', ''))) {
       tempName.splice(index, 1);
     }
   }
@@ -300,12 +303,7 @@ function combineArray2(array = [], ...args) {
     const element = array2[index];
     const name = element[0];
 
-    if (
-      array1_0.includes(name) ||
-      array1_0.includes(name + '#') ||
-      array1_0.includes(name + '##') ||
-      array1_0.includes(name.replaceAll('#', ''))
-    ) {
+    if (array1_0.includes(name) || array1_0.includes(name + '#') || array1_0.includes(name + '##') || array1_0.includes(name.replaceAll('#', ''))) {
       continue;
     } else {
       array1.push(element);
@@ -335,13 +333,7 @@ function saveUserCustom(name = '', customArray = []) {
   if (name === '') return;
 
   // file names
-  const fileNames = [
-    'custom-source.json',
-    'custom-target.json',
-    'custom-overwrite.json',
-    'player-name.json',
-    'temp-name.json',
-  ];
+  const fileNames = ['custom-source.json', 'custom-target.json', 'custom-overwrite.json', 'player-name.json', 'temp-name.json'];
 
   // delete or replace item which has same source
   for (let index = 0; index < customArray.length; index++) {

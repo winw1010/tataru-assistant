@@ -324,6 +324,9 @@ function resetView(config) {
   // set window size
   ipcRenderer.send('set-window-size', { width: config.indexWindow.width, height: config.indexWindow.height });
 
+  // reset config bounds
+  ipcRenderer.send('reset-config-bounds', config);
+
   // set min size
   ipcRenderer.send('set-min-size', config.indexWindow.minSize);
 

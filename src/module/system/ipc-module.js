@@ -240,6 +240,16 @@ function setWindowChannel() {
     }
   });
 
+  // reset config bounds
+  ipcMain.on('reset-config-bounds', (event, config) => {
+    try {
+      const configBounds = windowModule.getWindowSize('config', config);
+      windowModule.getWindow('config').setContentBounds(configBounds);
+    } catch (error) {
+      error;
+    }
+  });
+
   // set min size
   ipcMain.on('set-min-size', (event, minSize) => {
     if (minSize) {

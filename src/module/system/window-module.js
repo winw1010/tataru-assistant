@@ -24,6 +24,21 @@ function createWindow(windowName, data = null) {
     // get size
     const windowSize = getWindowSize(windowName, config);
 
+    // set size to config
+    if (windowName === 'index') {
+      config.indexWindow.x = windowSize.x;
+      config.indexWindow.y = windowSize.y;
+      config.indexWindow.width = windowSize.width;
+      config.indexWindow.height = windowSize.height;
+      configModule.setConfig(config);
+    } else if (windowName === 'capture') {
+      config.captureWindow.x = windowSize.x;
+      config.captureWindow.y = windowSize.y;
+      config.captureWindow.width = windowSize.width;
+      config.captureWindow.height = windowSize.height;
+      configModule.setConfig(config);
+    }
+
     // create new window
     const appWindow = new BrowserWindow({
       ...windowSize,
@@ -141,8 +156,8 @@ function getWindowSize(windowName, config) {
   let bounds = {
     x: 0,
     y: 0,
-    width: 0,
-    height: 0,
+    width: 300,
+    height: 400,
     minWidth: 1,
     minHeight: 1,
   };
@@ -173,12 +188,11 @@ function getWindowSize(windowName, config) {
           bounds.height = indexBounds.height;
         }
 
-        if (configModule.getConfig().indexWindow.minSize) {
+        if (config.indexWindow.minSize) {
           bounds.minWidth = 200;
           bounds.minHeight = 200;
+          bounds = boundsSizeCheck(bounds);
         }
-
-        bounds = boundsSizeCheck(bounds);
       }
       break;
 
@@ -199,12 +213,11 @@ function getWindowSize(windowName, config) {
           bounds.height = captureBounds.height;
         }
 
-        if (configModule.getConfig().indexWindow.minSize) {
+        if (config.indexWindow.minSize) {
           bounds.minWidth = parseInt(displayLength * 0.5);
           bounds.minHeight = 200;
+          bounds = boundsSizeCheck(bounds);
         }
-
-        bounds = boundsSizeCheck(bounds);
       }
       break;
 

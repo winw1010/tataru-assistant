@@ -5,7 +5,7 @@ const updateButton = '<img src="./img/ui/download_white_48dp.svg" style="width: 
 
 // message
 const message = {
-  VIEW_README: ['查看使用說明: CTRL+F9', '查看使用说明: CTRL+F9', 'Readme: CTRL+F9'],
+  VIEW_README: ['查看使用說明: Ctrl+F9', '查看使用说明: Ctrl+F9', 'Readme: Ctrl+F9'],
 
   UPDATE_AVAILABLE: [
     `<span class="text-warning">已有可用的更新，點擊${updateButton}下載最新版本</span>`,

@@ -7,7 +7,7 @@ const configModule = require('./config-module');
 const dialogModule = require('./dialog-module');
 
 // engine module
-const engineModule = require('./engine-module');
+// const engineModule = require('./engine-module');
 
 // fix entry module
 const fixEntryModule = require('../fix/fix-entry');
@@ -44,8 +44,9 @@ function translateData(dialogData) {
   dialogData.timestamp = null;
 
   // fix new line
-  dialogData.text = dialogData.text.replaceAll('[r]', ' ');
-  /*
+  //dialogData.text = dialogData.text.replaceAll('[r]', ' ');
+
+  /* // old fix
   if (config.translation.from === engineModule.languageEnum.ja) {
     if (dialogData.type.includes('CUTSCENE')) {
       dialogData.text = dialogData.text.replaceAll('[r]', '、').replace(/(?<=[…、。？！])、/gi, '');

@@ -1,5 +1,11 @@
 'use strict';
 
+// Recent base: "ffxiv_dx11.exe"+02999D88
+// 4D 89 63 D8 4D 89 73 D0 33 DB 4C 8B 35
+// NAME 20 38A8 238 F0
+// TEXT 20 38A8 3B8 0
+// CUTSCENE 20 6958 240 138 0
+
 // FIND ASMSignature:
 // 1. FINDOUT TARGET'S BASE ADDRESS, THEN FIND OUT WHAT ACCESS TO THIS ADDRESS
 // 2. SELECT ONE OF THE INSTRUCTIONS, THEN CLICK 'SHOW DISASSEMBLER'
@@ -148,21 +154,20 @@ function start() {
           if (jsonString.length > 0) {
             // get dialog data
             const dialogData = JSON.parse(jsonString.toString());
-            console.log('\r\nDialog Data:', dialogData);
 
             // skip invalid characters(EF BF BD, DEL)
             if (/[\uFFFD\u007F]/.test(dialogData.name) || /[\uFFFD\u007F]/.test(dialogData.text)) {
+              console.log('\r\nInvalid Dialog Data:', dialogData);
               continue;
+            } else {
+              console.log('\r\nDialog Data:', dialogData);
             }
-
-            // fix dialog data text
-            fixText(dialogData);
 
             // check repetition
             if (isNotRepeated(dialogData)) {
               serverModule.dataProcess(dialogData);
             } else {
-              console.log('Repeated text');
+              console.log('Skip Repeated Dialog.');
             }
           }
         } catch (error) {
@@ -185,26 +190,16 @@ function stop(restart = true) {
   }
 }
 
-// fix text
-function fixText(dialogData) {
-  if (dialogData.type !== 'CONSOLE') {
-    dialogData.text = dialogData.text.replaceAll(/^#/gi, '').replaceAll(')*', '').replaceAll('%&', '').replaceAll('「+,', '「');
-  }
-}
-
-// fix text 2
-function fixText2(text = '') {
-  return text
-    .replaceAll('[r]', '')
-    .replace(/（.*?）/gi, '')
-    .replace(/\(.*?\)/gi, '')
-    .replace(/FE/g, ''); // Temporary fix
+// clear text
+function clearText(text = '') {
+  return text.replace(/（.*?）/gi, '').replace(/\(.*?\)/gi, '');
+  //.replace(/FE/g, ''); // Temporary fix
 }
 
 // check repetition
 function isNotRepeated(dialogData) {
   const code = dialogData.code;
-  const text = fixText2(dialogData.text);
+  const text = clearText(dialogData.text);
 
   // DIALOG 003D
   if (dialogData.type === 'DIALOG') {

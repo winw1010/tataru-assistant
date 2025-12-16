@@ -21,7 +21,7 @@
     "Key": "CUTSCENE_TEXT",
     "ASMSignature": true,
     "Value": "488941104488492C4C8949244C89491C4584C07412488B4218488905********48890D",
-    "PointerPath": [0, 0, 248, 248, 32, 26968, 576, 312, 0]
+    "PointerPath": [0, 0, 248, 248, 104, 624, 0]
   },
   {
     "Key": "CUTSCENE_DETECTOR",

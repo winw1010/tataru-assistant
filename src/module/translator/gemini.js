@@ -42,8 +42,9 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const glossary = aiFunction.createGlossary(source, target, table);
   const model = config.api.geminiModel;
   const apiKey = config.api.geminiApiKey;
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
   const headers = {
+    'x-goog-api-key': apiKey,
     'Content-Type': 'application/json',
   };
 

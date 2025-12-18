@@ -108,6 +108,7 @@ async function fixName(dialogData = {}) {
 
   let name2 = name;
   let translatedName = '';
+  let saveFlag = true;
 
   if (name2 === '') {
     return '';
@@ -133,6 +134,7 @@ async function fixName(dialogData = {}) {
     translatedName = await translateModule.translate(name2, translation, codeResult.table);
   } else {
     translatedName = name2;
+    saveFlag = false;
   }
 
   // table
@@ -142,7 +144,9 @@ async function fixName(dialogData = {}) {
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save to temp
-  saveName(name, translatedName);
+  if (saveFlag) {
+    saveName(name, translatedName);
+  }
 
   return translatedName;
 }
@@ -153,6 +157,7 @@ async function fixNameAI(dialogData = {}) {
   const translation = dialogData.translation;
 
   let translatedName = '';
+  let saveFlag = true;
 
   if (name === '') {
     return '';
@@ -177,13 +182,16 @@ async function fixNameAI(dialogData = {}) {
     translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
   } else {
     translatedName = fixFunction.replaceText(name, codeResult.aiTable);
+    saveFlag = false;
   }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save to temp
-  saveName(name, translatedName);
+  if (saveFlag) {
+    saveName(name, translatedName);
+  }
 
   return translatedName;
 }

@@ -115,6 +115,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   let name2 = name;
   let translatedName = '';
   let katakanaName = jpFunction.getKatakanaName(name2);
+  let saveFlag = true;
 
   if (name2 === '') {
     return '';
@@ -166,6 +167,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
     translatedName = await translateModule.translate(name2, translation, codeResult.table);
   } else {
     translatedName = name2;
+    saveFlag = false;
   }
 
   // table
@@ -175,7 +177,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save translated name
-  if (name !== katakanaName) {
+  if (name !== katakanaName && saveFlag) {
     saveName(name, translatedName);
   }
 
@@ -189,6 +191,7 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
 
   let translatedName = '';
   let katakanaName = jpFunction.getKatakanaName(name);
+  let saveFlag = true;
 
   if (name === '') {
     return '';
@@ -239,13 +242,14 @@ async function fixNameAI(dialogData = {}, isTargetChinese = true) {
     translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
   } else {
     translatedName = fixFunction.replaceText(name, codeResult.aiTable);
+    saveFlag = false;
   }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
 
   // save translated name
-  if (name !== katakanaName) {
+  if (name !== katakanaName && saveFlag) {
     saveName(name, translatedName);
   }
 

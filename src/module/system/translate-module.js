@@ -38,6 +38,15 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
 
     // zh convert
     if (engineModule.aiList.includes(translation.engine)) {
+      try {
+        const result2 = JSON.parse(result).text;
+        if (text) {
+          result = result2;
+        }
+      } catch (error) {
+        error;
+      }
+
       result = removeHonorific(zhConvert(result, translation.to), table, 1);
       return result;
     } else {

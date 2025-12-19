@@ -19,7 +19,7 @@ const configModule = require('../system/config-module');
 
 function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'text', withGlossary = false) {
   const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? ' with glossary(in glossary field)' : '';
+  const withGlossaryText = withGlossary ? ' with the glossary(in glossary field)' : '';
 
   if (customPrompt) {
     if (source === '') {

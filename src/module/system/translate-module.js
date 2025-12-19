@@ -47,10 +47,10 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
         error;
       }
 
-      result = removeHonorific(zhConvert(result, translation.to), table, 1);
+      result = removeHonorific(zhConvert(removeQuote(result), translation.to), table, 1);
       return result;
     } else {
-      result = removeHonorific(zhConvert(clearCode(result, table), translation.to), table, 0);
+      result = removeHonorific(zhConvert(clearCode(removeQuote(result), table), translation.to), table, 0);
       return result;
     }
   } catch (error) {
@@ -154,7 +154,6 @@ async function getTranslation(engine = '', option = {}, type = 'text') {
   }
 
   console.log('After:', text);
-  text = removeQuote(text);
 
   return {
     isError,

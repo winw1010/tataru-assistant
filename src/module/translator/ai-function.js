@@ -19,7 +19,7 @@ const configModule = require('../system/config-module');
 
 function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'text', withGlossary = false) {
   const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? ' with glossary' : '';
+  const withGlossaryText = withGlossary ? ' with glossary(in glossary field)' : '';
 
   if (customPrompt) {
     if (source === '') {
@@ -28,7 +28,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type =
 
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
   } else {
-    return `Translate the following ${source} ${type} to ${target} provided by user${withGlossaryText} and just return the translated text.`;
+    return `Translate ${source} ${type}(in text field) to ${target}${withGlossaryText} and just return the translated text.`;
   }
 }
 

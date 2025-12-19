@@ -50,7 +50,7 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
       result = removeHonorific(zhConvert(removeQuote(result), translation.to), table, 1);
       return result;
     } else {
-      result = removeHonorific(zhConvert(clearCode(removeQuote(result), table), translation.to), table, 0);
+      result = removeHonorific(zhConvert(removeQuote(clearCode(result, table)), translation.to), table, 0);
       return result;
     }
   } catch (error) {

@@ -1,6 +1,6 @@
 {
   "name": "tataru-assistant",
-  "version": "2.9.5",
+  "version": "2.9.6",
   "description": "Tataru Assistant",
   "main": "src/main.js",
   "scripts": {

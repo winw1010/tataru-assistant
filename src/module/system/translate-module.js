@@ -36,7 +36,7 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
     // translate
     result = await translate2(text, translation, table, type);
 
-    // zh convert
+    // process resutle
     if (engineModule.aiList.includes(translation.engine)) {
       try {
         const result2 = JSON.parse(result).text;

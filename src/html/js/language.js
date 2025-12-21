@@ -137,6 +137,7 @@ function getElementTextList() {
         'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate Again'],
         'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload Table'],
         'button-report-translation': ['回報翻譯', '回报翻译', 'Report'],
+        'button-remove-dialog': ['刪除本句', '删除本句', 'Delete Sentence'],
 
         'button-save-custom': ['儲存', '储存', 'Save'],
         'button-delete-custom': ['刪除', '删除', 'Delete'],

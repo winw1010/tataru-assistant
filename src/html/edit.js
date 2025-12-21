@@ -102,6 +102,13 @@ function setButton() {
     ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
   };
 
+  // remove dialog
+  document.getElementById('button-remove-dialog').onclick = () => {
+    if (targetLog) {
+      ipcRenderer.send('remove-dialog', targetLog.id);
+    }
+  };
+
   // save custom
   document.getElementById('button-save-custom').onclick = () => {
     const textBefore = document.getElementById('textarea-before').value.replaceAll('\n', '').trim();

@@ -41,7 +41,6 @@ async function start(dialogData = {}) {
 
   let translatedName = '';
   let translatedText = '';
-  let audioText = '';
 
   try {
     // fix name
@@ -69,20 +68,6 @@ async function start(dialogData = {}) {
         translatedText = await fixText(dialogData);
       }
     }
-
-    // fix audio text
-    if (/(?<=[a-z])[A-Z](?=[a-z\b])/g.test(text)) {
-      const audioTextArray = text.split(' ');
-
-      for (let index = 0; index < audioTextArray.length; index++) {
-        const word = audioTextArray[index];
-        audioTextArray[index] = word[0].toUpperCase + word.slice(1).toLowerCase();
-      }
-
-      audioText = audioTextArray.join(' ');
-    } else {
-      audioText = text;
-    }
   } catch (error) {
     console.log(error);
     translatedName = '';
@@ -92,7 +77,6 @@ async function start(dialogData = {}) {
   // set text
   dialogData.translatedName = translatedName;
   dialogData.translatedText = translatedText;
-  dialogData.audioText = audioText;
 
   return dialogData;
 }

@@ -125,9 +125,6 @@ async function entry() {
 
     // translate text
     dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
-
-    // set audio text
-    dialogData.audioText = dialogData.text;
   }
 
   // update dialog

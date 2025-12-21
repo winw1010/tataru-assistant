@@ -49,7 +49,6 @@ async function start(dialogData = {}) {
 
   let translatedName = '';
   let translatedText = '';
-  let audioText = '';
 
   try {
     // fix name
@@ -77,18 +76,6 @@ async function start(dialogData = {}) {
         translatedText = await fixText(dialogData, isTargetChinese);
       }
     }
-
-    // fix audio text
-    const textType = getTextType(dialogData.name, dialogData.text);
-    if (textType === textTypeList.reversed) {
-      // reverse kana
-      audioText = jpFunction.reverseKana(dialogData.text);
-    } else if (textType === textTypeList.allKatakana) {
-      // convert to hira
-      audioText = jpFunction.convertKana(dialogData.text, 'hira');
-    } else {
-      audioText = text;
-    }
   } catch (error) {
     console.log(error);
     translatedName = '';
@@ -98,7 +85,6 @@ async function start(dialogData = {}) {
   // set text
   dialogData.translatedName = translatedName;
   dialogData.translatedText = translatedText;
-  dialogData.audioText = audioText;
 
   return dialogData;
 }

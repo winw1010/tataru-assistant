@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.20.0",
-    "electron": "^39.2.7",
+    "electron": "^40.0.0",
     "electron-builder": "^24.13.3",
     "eslint": "^9.20.1",
     "globals": "^15.15.0"
@@ -27,7 +27,7 @@
     "nodejs-file-downloader": "^4.13.0",
     "sharp": "^0.34.5",
     "temp": "^0.9.4",
-    "tesseract.js": "^6.0.1"
+    "tesseract.js": "^7.0.0"
   },
   "build": {
     "appId": "com.app.tataru.assistant",

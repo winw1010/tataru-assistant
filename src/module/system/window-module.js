@@ -100,6 +100,18 @@ function createWindow(windowName, data = null) {
           }
         }, 100);
 
+        // set resize event
+        appWindow.on('resize', () => {
+          // save position
+          const config = configModule.getConfig();
+          const bounds = appWindow.getContentBounds();
+          config.indexWindow.x = bounds.x;
+          config.indexWindow.y = bounds.y;
+          config.indexWindow.width = bounds.width;
+          config.indexWindow.height = bounds.height;
+          configModule.setConfig(config);
+        });
+
         // set close event
         appWindow.on('close', () => {
           // save position
@@ -120,6 +132,18 @@ function createWindow(windowName, data = null) {
         break;
 
       case 'capture':
+        // set resize event
+        appWindow.on('resize', () => {
+          // save position
+          const config = configModule.getConfig();
+          const bounds = appWindow.getContentBounds();
+          config.captureWindow.x = bounds.x;
+          config.captureWindow.y = bounds.y;
+          config.captureWindow.width = bounds.width;
+          config.captureWindow.height = bounds.height;
+          configModule.setConfig(config);
+        });
+
         // set close event
         appWindow.on('close', () => {
           // save position
@@ -153,13 +177,22 @@ function createWindow(windowName, data = null) {
 // get window size
 function getWindowSize(windowName, config) {
   // default value
-  let bounds = {
+  const boundsDefault = {
     x: 0,
     y: 0,
     width: 300,
     height: 400,
     minWidth: 1,
     minHeight: 1,
+  };
+
+  const bounds = {
+    x: boundsDefault.x,
+    y: boundsDefault.y,
+    width: boundsDefault.width,
+    height: boundsDefault.height,
+    minWidth: boundsDefault.minWidth,
+    minHeight: boundsDefault.minHeight,
   };
 
   // get display bounds nearest cursor
@@ -191,7 +224,7 @@ function getWindowSize(windowName, config) {
         if (config.indexWindow.minSize) {
           bounds.minWidth = 200;
           bounds.minHeight = 200;
-          bounds = boundsSizeCheck(bounds);
+          boundsSizeCheck(bounds);
         }
       }
       break;
@@ -216,7 +249,7 @@ function getWindowSize(windowName, config) {
         if (config.indexWindow.minSize) {
           bounds.minWidth = parseInt(displayLength * 0.5);
           bounds.minHeight = 200;
-          bounds = boundsSizeCheck(bounds);
+          boundsSizeCheck(bounds);
         }
       }
       break;
@@ -228,7 +261,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.3);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -239,7 +272,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.47);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -250,7 +283,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.4);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -261,7 +294,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.45);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -272,7 +305,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.4);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -283,7 +316,7 @@ function getWindowSize(windowName, config) {
         bounds.height = parseInt(displayLength * 0.15);
         bounds.minWidth = bounds.width;
         bounds.minHeight = bounds.height;
-        bounds = getNearPosition(displayBounds, indexBounds, bounds);
+        getNearPosition(displayBounds, indexBounds, bounds);
       }
       break;
 
@@ -291,25 +324,33 @@ function getWindowSize(windowName, config) {
       break;
   }
 
+  Object.getOwnPropertyNames(boundsDefault).forEach((value) => {
+    try {
+      bounds[value] = parseInt(bounds[value]);
+    } catch (error) {
+      error;
+      bounds[value] = boundsDefault[value];
+    }
+  });
+
   return boundsPositionCheck(bounds);
-}
-
-// get near position
-function getNearPosition(displayBounds, indexBounds, bounds) {
-  bounds = boundsSizeCheck(bounds);
-
-  bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
-
-  bounds.y =
-    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
-
-  return bounds;
 }
 
 // bounds size check
 function boundsSizeCheck(bounds) {
   if (bounds.width < bounds.minWidth) bounds.width = bounds.minWidth;
   if (bounds.height < bounds.minHeight) bounds.height = bounds.minHeight;
+}
+
+// get near position
+function getNearPosition(displayBounds, indexBounds, bounds) {
+  boundsSizeCheck(bounds);
+
+  bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
+
+  bounds.y =
+    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
+
   return bounds;
 }
 
@@ -324,6 +365,7 @@ function boundsPositionCheck(bounds) {
     x: bounds.x + parseInt(bounds.width / 2),
     y: bounds.y + parseInt(bounds.height / 2),
   };
+
   const nearestBounds = screen.getDisplayNearestPoint(point).bounds;
 
   if (bounds.width > nearestBounds.width) {

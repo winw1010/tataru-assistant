@@ -93,7 +93,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
       {
         role: 'model',
         parts: [{ text: responseText }],
-      }
+      },
     );
   }
 

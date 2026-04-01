@@ -14,14 +14,14 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.20.0",
-    "electron": "^40.0.0",
-    "electron-builder": "^24.13.3",
+    "electron": "^41.1.0",
+    "electron-builder": "^26.8.1",
     "eslint": "^9.20.1",
     "globals": "^15.15.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.3.4",
-    "axios": "^1.13.2",
+    "@google-cloud/vision": "^5.3.5",
+    "axios": "^1.14.0",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",

@@ -44,9 +44,8 @@ function initializeChatHistory(chatHistoryList = {}, prompt = '', config = {}) {
     chatHistoryList[prompt] = [];
   }
 
-  while (chatHistoryList[prompt].length > chatLength * 2) {
-    chatHistoryList[prompt].shift();
-    chatHistoryList[prompt].shift();
+  if (chatHistoryList[prompt].length > chatLength * 2) {
+    chatHistoryList[prompt].splice(0, chatHistoryList[prompt].length - chatLength * 2);
   }
 }
 

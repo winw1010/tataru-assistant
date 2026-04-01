@@ -65,7 +65,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
       {
         role: 'assistant',
         content: responseText,
-      }
+      },
     );
   }
 

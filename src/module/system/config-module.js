@@ -224,9 +224,14 @@ function setSSLCertificate() {
 // fix config 1
 function fixConfig1(config) {
   try {
-    // fix window size
+    // fix window position
+    config.indexWindow.x = parseInt(config.indexWindow.x);
+    config.indexWindow.y = parseInt(config.indexWindow.y);
     config.indexWindow.width = parseInt(config.indexWindow.width);
     config.indexWindow.height = parseInt(config.indexWindow.height);
+
+    config.captureWindow.x = parseInt(config.captureWindow.x);
+    config.captureWindow.y = parseInt(config.captureWindow.y);
     config.captureWindow.width = parseInt(config.captureWindow.width);
     config.captureWindow.height = parseInt(config.captureWindow.height);
   } catch (error) {

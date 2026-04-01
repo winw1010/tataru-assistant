@@ -267,7 +267,7 @@ function getElementTextList() {
         Papago: ['Papago', 'Papago', 'Papago'],
         DeepL: ['DeepL', 'DeepL', 'DeepL'],
         '#AI-Translator': ['#AI翻譯', '#AI翻译', '#AI'],
-        GPT: ['ChatGPT', 'ChatGPT', 'ChatGPT'],
+        GPT: ['Response GPT', 'Response GPT', 'Response GPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
@@ -289,7 +289,7 @@ function getElementTextList() {
         // capture
         'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
-        'gpt-vision': ['ChatGPT Vision', 'ChatGPT Vision', 'ChatGPT Vision'],
+        'gpt-vision': ['GPT Vision', 'GPT Vision', 'GPT Vision'],
 
         // edit
         '#player-name': ['#玩家', '#玩家', '#Player'],
@@ -329,13 +329,13 @@ function getElementTextList() {
         'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
-        'p-chat-gpt': ['ChatGPT設定', 'ChatGPT设定', 'ChatGPT'],
+        'p-chat-gpt': ['Response GPT設定', 'Response GPT设定', 'Response GPT'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
         'p-llm-api': ['自訂OpenAI設定', '自订OpenAI设定', 'Custom OpenAI'],
         'p-ssl-warning': [
           '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
           '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
-          'Set SSL certificate off in "System Config" if your API can\'t access ChatGPT',
+          'Set SSL certificate off in "System Config" if you can\'t access LLM API',
         ],
       },
       span: {

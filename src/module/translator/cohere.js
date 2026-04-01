@@ -55,7 +55,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const totalTokens = response?.data?.usage?.tokens;
 
   // push history
-  if (config.ai.useChat && type !== 'name') {
+  if (config.ai.useChat && type === 'text') {
     chatHistoryList[prompt].push(
       {
         role: 'user',

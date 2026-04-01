@@ -86,7 +86,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const responseText = response.data.candidates[0].content.parts[0].text.replace(/\r|\n/g, '');
 
   // push history
-  if (config.ai.useChat && type !== 'name') {
+  if (config.ai.useChat && type === 'text') {
     chatHistoryList[prompt].push(
       {
         role: 'user',

@@ -21,7 +21,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
   const glossary = aiFunction.createGlossary(source, target, table);
-  const apiUrl = 'https://api.openai.com/v1/chat/completions';
+  const apiUrl = 'https://api.openai.com/v1/responses';
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${config.api.gptApiKey}`,
@@ -32,9 +32,10 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
 
   const payload = {
     model: config.api.gptModel,
-    messages: [
+    reasoning: { effort: 'low' },
+    input: [
       {
-        role: 'system',
+        role: 'developer',
         content: prompt,
       },
       ...chatHistoryList[prompt],

@@ -8,8 +8,6 @@ const configModule = require('../system/config-module');
 
 const chatHistoryList = {};
 
-const regGptModel = /gpt|o1/i; ///gpt-\d.*[^0-9]$/i
-
 // exec
 async function exec(option, type) {
   const response = translate(option.text, option.from, option.to, option.table, type);
@@ -21,7 +19,7 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
   const glossary = aiFunction.createGlossary(source, target, table);
-  const apiUrl = 'https://api.openai.com/v1/chat/completions';
+  const apiUrl = 'https://api.openai.com/v1/responses';
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${config.api.gptApiKey}`,
@@ -32,9 +30,9 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
 
   const payload = {
     model: config.api.gptModel,
-    messages: [
+    input: [
       {
-        role: 'system',
+        role: 'developer',
         content: prompt,
       },
       ...chatHistoryList[prompt],
@@ -52,11 +50,11 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
 
   // get response
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = response.data.choices[0].message.content;
+  const responseText = getAssistantText(response.data);
   const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
-  if (config.ai.useChat && type !== 'name') {
+  if (config.ai.useChat && type === 'text') {
     chatHistoryList[prompt].push(
       {
         role: 'user',
@@ -86,7 +84,8 @@ async function getImageText(imageBase64 = '') {
 
   try {
     const config = configModule.getConfig();
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
+    const prompt = aiFunction.createImagePrompt();
+    const apiUrl = 'https://api.openai.com/v1/responses';
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${config.api.gptApiKey}`,
@@ -94,19 +93,17 @@ async function getImageText(imageBase64 = '') {
 
     const payload = {
       model: config.api.gptModel,
-      messages: [
+      input: [
         {
           role: 'user',
           content: [
             {
-              type: 'text',
-              text: aiFunction.createImagePrompt(),
+              type: 'input_text',
+              text: prompt,
             },
             {
-              type: 'image_url',
-              image_url: {
-                url: `data:image/jpeg;base64,${imageBase64}`,
-              },
+              type: 'input_image',
+              image_url: `data:image/jpeg;base64,${imageBase64}`,
             },
           ],
         },
@@ -114,40 +111,43 @@ async function getImageText(imageBase64 = '') {
     };
 
     const response = await requestModule.post(apiUrl, payload, headers);
-    return response.data.choices[0].message.content;
+    return getAssistantText(response.data);
   } catch (error) {
     console.log(error);
     return '';
   }
 }
 
-// get model list
-async function getModelList(apiKey = null) {
-  try {
-    const apiUrl = 'https://api.openai.com/v1/models';
-    const response = await requestModule.get(apiUrl, { Authorization: 'Bearer ' + apiKey });
+// get assistant text
+function getAssistantText(data) {
+  /*
+  [
+    { id: 'rs_0', type: 'reasoning', summary: [] },
+    {
+      id: 'msg_0',
+      type: 'message',
+      status: 'completed',
+      content: [{ type: 'output_text', annotations: [], logprobs: [], text: '晚上好！' }],
+      role: 'assistant',
+    },
+  ];
+  */
 
-    let list = response.data.data.map((x) => x.id);
-    let modelList = [];
+  const output = data.output;
 
-    for (let index = 0; index < list.length; index++) {
-      const element = list[index];
-      regGptModel.lastIndex = 0;
-      if (regGptModel.test(element)) {
-        modelList.push(element);
-      }
+  for (let index = 0; index < output.length; index++) {
+    const element = output[index];
+
+    if (element.type === 'message' && element.role === 'assistant' && element.status === 'completed' && element.content && element.content[0]) {
+      return element.content[0].text;
     }
-
-    return modelList.sort();
-  } catch (error) {
-    console.log(error);
-    return [];
   }
+
+  return '';
 }
 
 // module exports
 module.exports = {
   exec,
   getImageText,
-  getModelList,
 };

@@ -33,15 +33,15 @@
 // DIALOG NAME
 // PATH: F8 F8 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL
-// REMEMBER ADD 2 TO LAST OFFSET
+// REMEMBER ADD 2 TO THE LAST OFFSET
 // サブクエスト：ヴォイドの旁観者
-// カットシーン3：分裂した目玉 NEXT 深窓の令嬢 NEXT 粗暴な口調の父親
+// カットシーン3： 分裂した目玉 NEXT 深窓の令嬢 NEXT 粗暴な口調の父親
 
 // DIALOG TEXT
 // PATH: F8 F8 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL, NO NEW LINE
 // サブクエスト：ヴォイドの旁観者
-// カットシーン3：ついたあだ名は、野蛮な女（バルバリシア）
+// カットシーン3： ついたあだ名は、野蛮な女（バルバリシア）
 
 // CUTSCENE
 // PATH: F8 F8 68 ...OTHER

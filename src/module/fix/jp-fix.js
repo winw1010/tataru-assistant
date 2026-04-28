@@ -416,35 +416,6 @@ function specialFix1(name = '', text = '') {
   // special replace
   text = jpFunction.specialReplace(text, jpArray.special1);
 
-  // タタル
-  if (/タタル/gi.test(name)) {
-    text = text.replace(/(?<=さ|ま|で)っす/gi, 'す');
-    text = text.replace(/(?<=ま)っした/gi, 'した');
-  }
-
-  // ゴブリン
-  if (/ゴブリン/gi.test(name)) {
-    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ(?=[。！？…～])/gi, 'です');
-    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ(?![ァ-ヺー・＝])/gi, 'ぼく');
-  }
-
-  // モブリン
-  if (/モブリン/gi.test(name)) {
-    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?=[。！？…～])/gi, 'です');
-    text = text.replace(/(?<![ァ-ヺー・＝])モブ(?![ァ-ヺー・＝])/gi, 'ぼく');
-  }
-
-  // ゴブリン & モブリン
-  if (text.split(/\u3000/).length > 1 && !/詩人/gi.test(name)) {
-    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ|モブ(?=[。！？…～])/gi, 'です');
-    text = text.replace(/(?<![ァ-ヺー・＝])ゴブ|モブ(?![ァ-ヺー・＝])/gi, 'ぼく');
-  }
-
-  // ヒエン
-  if (/ユウギリ|ゴウセツ|ヨツユ/gi.test(name)) {
-    //text = text.replace(/若(?!若|々|い|し|様)/gi, '若様');
-  }
-
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
     text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');

@@ -1,16 +1,10 @@
 'use strict';
 
-// Old base: "ffxiv_dx11.exe"+02999D88
-// 4D 89 63 D8 4D 89 73 D0 33 DB 4C 8B 35
-// NAME 20 38A8 238 F2
-// TEXT 20 38A8 3B8 0
-// CUTSCENE 20 6958 240 138 0
-
-// Recent base: "ffxiv_dx11.exe"+027F1CF8
 // 488941104488492C4C8949244C89491C4584C07412488B4218488905********48890D
-// NAME F8 F8 20 38A8 238 F2
-// TEXT F8 F8 20 38A8 350 0
-// CUTSCENE F8 F8 68 270 0
+// Recent base: "ffxiv_dx11.exe"+028F8418
+// NAME 118 F8 20 38A8 238 F2
+// TEXT 118 F8 20 38A8 350 0
+// CUTSCENE 118 F8 68 288 0
 
 // FIND ASMSignature:
 // 1. FINDOUT TARGET'S BASE ADDRESS, THEN FIND OUT WHAT ACCESS TO THIS ADDRESS
@@ -40,18 +34,19 @@
 // PATH: F8 F8 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL
 // REMEMBER ADD 2 TO LAST OFFSET
+// サブクエスト：ヴォイドの旁観者
+// カットシーン3：分裂した目玉 NEXT 深窓の令嬢 NEXT 粗暴な口調の父親
 
 // DIALOG TEXT
 // PATH: F8 F8 20 38A8 ...OTHER
 // NOT ACTION, NOT OBJECT, NOT SKILL, NO NEW LINE
-// ヴォイドの旁観者 カットシーン3：ついたあだ名は、野蛮な女（バルバリシア）
+// サブクエスト：ヴォイドの旁観者
+// カットシーン3：ついたあだ名は、野蛮な女（バルバリシア）
 
 // CUTSCENE
 // PATH: F8 F8 68 ...OTHER
-
-// CUTSCENE 2
-// TRIAL: 99, 100
-// NO CUTSCENE FLAG
+// メインクエスト：暁月のフィナーレ やがて流れは海へと注ぐ
+// カットシーン3：北洋諸島唯一の都市国家 シャーレアン――
 
 // CUTSCENE DETECTOR
 // IN CUTSCENE: 0

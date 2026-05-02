@@ -1,3 +1,9 @@
+# 檔案下載
+
+- [Tataru Assistant 安裝檔](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
+
+- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (執行 Tataru Assistant 的必要元件)
+
 # Tataru Assistant 是什麼?
 
 **Tataru Assistant** 為 FFXIV 國際版的即時劇情字幕翻譯程式，主要功能如下
@@ -43,12 +49,6 @@
 - Kimi
 
 - 自訂 OpenAI(自訂模式，可自行輸入 POST URL 和 API KEY 使用與 OpenAI 相容的 AI 模型)
-
-# 檔案下載
-
-- [Tataru Assistant 安裝檔](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
-
-- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (執行 Tataru Assistant 的必要元件)
 
 # 安裝步驟
 

@@ -4,6 +4,18 @@
 
 - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (執行 Tataru Assistant 的必要元件)
 
+# 安裝步驟
+
+1. 下載「Tataru Assistant 安裝檔」和「.NET Framework 4.8」
+
+2. 執行「ndp48-web.exe」安裝 .NET Framework 4.8 (執行 Tataru Assistant 的必要元件)
+
+3. 執行「Tataru Assistant Setup.exe」安裝 Tataru Assistant ，若顯示「Windows 已保護您的電腦」的訊息，請點選「其他資訊」，再點選下方的「仍要執行」
+
+4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
+
+5. 若安裝後無法自動翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
+
 # Tataru Assistant 是什麼?
 
 **Tataru Assistant** 為 FFXIV 國際版的即時劇情字幕翻譯程式，主要功能如下
@@ -49,18 +61,6 @@
 - Kimi
 
 - 自訂 OpenAI(自訂模式，可自行輸入 POST URL 和 API KEY 使用與 OpenAI 相容的 AI 模型)
-
-# 安裝步驟
-
-1. 下載「Tataru Assistant 安裝檔」和「.NET Framework 4.8」
-
-2. 執行「ndp48-web.exe」安裝 .NET Framework 4.8 (執行 Tataru Assistant 的必要元件)
-
-3. 執行「Tataru Assistant Setup.exe」安裝 Tataru Assistant ，若顯示「Windows 已保護您的電腦」的訊息，請點選「其他資訊」，再點選下方的「仍要執行」
-
-4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
-
-5. 若安裝後無法自動翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
 
 # 原始碼
 

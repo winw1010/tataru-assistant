@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>翻译萤幕画面上的文字</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">回首页</a>
+    </div>
+
+    <ul>
+      <li>
+        <h3>使用时机</h3>
+        游戏UI和对话选项不会自动翻译，需手动选择撷取，建议使用较为精准的Google Vision。
+      </li>
+
+      <li>
+        <h3>使用方法</h3>
+        点选
+        <img class="img-fluid img-ui" src="../../img/ui/desktop_windows_white_24dp.svg" alt="picture" style="margin: 0" />
+        按钮或是按下Ctrl+F11开启【翻译萤幕文字】视窗，然后在撷取视窗中选取欲翻译的文字(如下方影片所示)
+        <br />
+        <br />
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/FjyJ43soiYw?si=XAH0_tJIaoH9ZIKN"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </li>
+
+      <li>
+        <h3>功能说明</h3>
+        <img class="img-fluid" src="../../img/capture/cpature-method.png" alt="picture" style="margin: 0" />
+        <ol>
+          <li>左上角的下拉选单可选择撷取方式。</li>
+          <li>换行切割：勾选后会以【行】为单位逐行翻译(用来翻译过场的选择项目)，不勾选的话会将所有文字合併成一行再翻译。 (翻译整篇文章时使用)</li>
+          <li>
+            编辑文字：勾选后会在撷取文字后显示编辑视窗，可先在此手动修正文字再按【翻译】提交，不勾选的话则会直接提交翻译，若提交的文字有误也不会修正。
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <h3>撷取方式</h3>
+        <ul>
+          <li>
+            <h4>Google Vision (推荐)</h4>
+            文字辨识能力精准，几乎不会有错字，需在GCP建立API凭证才能使用。 (
+            <a href="./sub-google-vision-api.html" target="_blank">查看设定教学</a>
+            )
+          </li>
+
+          <li>
+            <h4>GPT Vision</h4>
+            性能和Google Vision差不多，如果你是使用GPT翻译即可直接使用。
+          </li>
+
+          <li>
+            <h4>Tesseract OCR</h4>
+            有时会有错字，需手动编辑修正
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>

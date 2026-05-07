@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Vision Setup Steps</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+
+  <body>
+    <div class="div-return">
+      <a href="./index.html">Back to Home</a>
+    </div>
+
+    <br />
+
+    <p>
+      This feature requires billing information to be bound, but there is a free quota of 1,000 requests per month. You will not be charged as long as
+      you do not exceed this limit.
+      <a href="https://cloud.google.com/vision/pricing?hl=en" target="_blank">Click here to view pricing details</a>
+    </p>
+
+    <p>
+      Before using this feature, you need to enable Google Cloud Platform services. Please click
+      <a href="https://cloud.google.com/" target="_blank">this link</a>
+      to get started.
+    </p>
+
+    <hr />
+    <br />
+
+    <h3>Using an API Key</h3>
+
+    <ol>
+      <li>
+        Go to the
+        <a href="https://cloud.google.com/" target="_blank"> Google Cloud Platform </a>
+        and enable the services. You can fill in the information as you like. This feature requires a Google account; if you don't have one, please
+        create one.
+      </li>
+
+      <li>
+        Go to the
+        <a
+          href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+          target="_blank"
+        >
+          Dashboard
+        </a>
+        and click [Select a Project] to choose a recent project.
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-select-project.png" alt="" />
+        <br />
+        If you don't have a project, click [Create Project] to create a new one.
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-select-project-2.png" alt="" />
+      </li>
+
+      <li>
+        Go to the
+        <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+          Billing Account Management
+        </a>
+        page, click [Create Account] to set up a billing account, and enter your payment details.
+        <span class="text-warning">Make sure to link it to the project you selected in the previous step.</span>
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-payment.png" alt="" />
+      </li>
+
+      <li>
+        Go to the
+        <a href="https://console.cloud.google.com/apis/credentials" target="_blank"> API & Services Page </a>
+        , click [Create Credentials], and then select [API Key] to create your key.
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-enable.png" alt="" />
+      </li>
+
+      <li>
+        After creating the key, click on it. Under [API Restrictions], select [Restrict key], then search for and check [Cloud Vision API]. Click
+        [Save] when finished.
+      </li>
+
+      <li>Click the [Show Key] button on the right side of the newly created API key, then use the copy button next to the key to copy it.</li>
+
+      <li>
+        Enter the Tataru Assistant [Settings], select [API Settings] from the top-left dropdown menu, and select [API Key] as the [Authentication
+        Method] for Google Vision.
+      </li>
+
+      <li>In the Google Vision [API Key] field, paste the key you just copied.</li>
+
+      <li>
+        Select "Google Vision" in the capture window to start using it.
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-set.png" alt="" />
+      </li>
+    </ol>
+
+    <hr />
+    <br />
+
+    <h3>Using a JSON File</h3>
+
+    <div>
+      <ol>
+        <li>
+          Go to the
+          <a href="https://cloud.google.com/" target="_blank"> Google Cloud Platform </a>
+          to enable the services. (Same requirements as above).
+        </li>
+
+        <li>
+          Go to the
+          <a
+            href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+            target="_blank"
+          >
+            Dashboard
+          </a>
+          and select your project.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-select-project.png" alt="" />
+          <br />
+          If you don't have a project, create one.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-select-project-2.png" alt="" />
+        </li>
+
+        <li>
+          Go to the
+          <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+            Billing Account Management
+          </a>
+          page to create a billing account and link it to your project.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-payment.png" alt="" />
+        </li>
+
+        <li>
+          Go to the
+          <a
+            href="https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com&_ga=2.20267194.344879435.1711353170-2052909929.1711353170"
+            target="_blank"
+          >
+            Google Vision API page
+          </a>
+          , select your project, and enable Google Vision.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-enable.png" alt="" />
+        </li>
+
+        <li>
+          Go to
+          <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/credentials" target="_blank"> API/Service Details </a>
+          , click [Create Credentials], then select [Service Account] to create one (you can fill in the details as you like).
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-account.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-account-2.png" alt="" />
+        </li>
+
+        <li>
+          After creating it, click on the service account. Select the [Keys] tab, click [Add Key] > [Create new key] > [JSON]. After clicking create,
+          the certificate will be automatically downloaded to your computer.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-2.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-3.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-4.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-5.png" alt="" />
+        </li>
+
+        <li>
+          Enter the Tataru Assistant [Settings], select [API Settings] from the top-left dropdown menu, and select [JSON File] as the [Authentication
+          Method] for Google Vision.
+        </li>
+
+        <li>
+          Click the [Open Google Credentials File] button and select the JSON file you just downloaded.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-open-json.png" alt="" />
+          <br />
+        </li>
+
+        <li>
+          Select "Google Vision" in the capture window to start using it.
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-set.png" alt="" />
+        </li>
+
+        <li>
+          <span class="text-warning">
+            Because the credentials are tied to your billing account, please keep the file secure. To remove the credentials, simply go to your
+            service account's key page and delete it.
+          </span>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>

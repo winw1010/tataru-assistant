@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ (Frequently Asked Questions)</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">Back to Home</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>
+        <h3>Is this program safe?</h3>
+        This program does not modify any Final Fantasy XIV game files. All translations are retrieved via API requests. Please use it with confidence.
+      </li>
+
+      <li>
+        <h3>Terminology is not being translated correctly</h3>
+
+        This program only corrects vocabulary recorded in the
+        <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">reference table</a>. If a term is not in the reference table, the
+        program will not correct it. Please wait for the reference table to be updated or use the [Report Translation Error] feature.
+      </li>
+
+      <li>
+        <h3>The window is opaque/not transparent</h3>
+
+        Certain global settings in AMD and NVIDIA drivers can affect window transparency.
+        <br />
+        Please reset your AMD and NVIDIA [Global Settings] to their default values.
+      </li>
+
+      <li>
+        <h3>Translation does not show the next line automatically</h3>
+        Please disable NVIDIA Shadowplay.
+      </li>
+
+      <li>
+        <h3>What languages can this program translate?</h3>
+        Currently, it can only translate the Japanese and English versions of the game client.
+      </li>
+
+      <li>
+        <h3>Can it be used with Chinese localization patches?</h3>
+        Generally, yes. The program's [Translation Settings] include a feature to skip localized subtitles, but please note that this feature cannot
+        perfectly bypass already localized subtitles.
+      </li>
+
+      <li>
+        <h3>If the game is in Japanese and the party chat is in English, how should I configure it?</h3>
+        Go to [Settings] > [Translation Settings], set [Game Language] to Japanese, and [Party Chat] to English.
+      </li>
+
+      <li>
+        <h3>The translation window won't stay on top</h3>
+        Please change your FFXIV display settings to "Borderless Windowed".
+        <br />
+        <img class="img-fluid" src="../../img/qa/qa4.png" alt="picture" />
+      </li>
+
+      <li>
+        <h3>Do I have to manually select the translation for every line?</h3>
+        <span class="text-warning"
+          >No. General dialogue and cutscenes are translated automatically. For parts that cannot be translated automatically, you can use the
+          [Translate Screen Text] function.</span
+        >
+      </li>
+
+      <li>
+        <h3>Unable to download the translation reference table</h3>
+        If you are using an accelerator or VPN and cannot access GitHub, please go to Tataru Assistant's [Settings (Gear Icon)] > [System Settings]
+        and turn off SSL verification.
+      </li>
+
+      <li>
+        <h3>A "Translation Failed" error message appears</h3>
+        If you are using an accelerator or VPN and cannot translate subtitles, please go to Tataru Assistant's [Settings (Gear Icon)] > [System
+        Settings] and turn off SSL verification.
+      </li>
+
+      <li>
+        <h3>Upon startup, it displays ".NET Framework 4.8 is not supported by this OS"</h3>
+
+        Please install
+        <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>
+      </li>
+
+      <li>
+        <h3>The program cannot translate automatically</h3>
+        <ul>
+          <li>
+            Please install
+            <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>.
+          </li>
+          <li>Go to [Settings] > [System Settings] and click [Repair Subtitle Reader], then restart the program.</li>
+          <li>
+            If repair fails, search for "cmd" in the bottom left search bar, right-click "Command Prompt", select "Run as Administrator", and execute
+            the following command:
+            <br />
+            <span class="text-warning"> secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose </span>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>How do I translate dialogue options and interface text?</h3>
+        <a href="sub-capture.html" target="_blank">See the [Translate Screen Text] explanation page for details.</a>
+      </li>
+
+      <li>
+        <h3>How do I re-translate?</h3>
+        Click the translated text in the program with your mouse, then click the [Re-translate] button in the popup window.
+        <br />
+        <img class="img-fluid" src="../../img/qa/qa8.png" alt="picture" />
+      </li>
+
+      <li>
+        <h3>Which translation engine is the best?</h3>
+        [Gemini] is recommended as it offers more free traffic, followed by [ChatGPT] and [Cohere]. Non-AI translators have poorer quality and are not
+        recommended.
+      </li>
+
+      <li>
+        <h3>It takes a long time for the translation to appear</h3>
+        This application uses API requests for translation, so the speed depends on your network environment and the status of the API servers.
+      </li>
+
+      <li>
+        <h3>An error message appears during translation</h3>
+        This means the current translation method is either unable to connect or has reached its traffic limit. You will need to wait for the
+        restriction to be lifted or use a different translation method temporarily.
+      </li>
+
+      <li>
+        <h3>How do I move the window?</h3>
+        Hold down the
+        <img class="img-fluid img-ui" src="../../img/ui/open_with_white_48dp.svg" alt="" />
+        button in the top left to move the window.
+      </li>
+
+      <li>
+        <h3>Narrative subtitles are not being translated automatically</h3>
+        Please install the latest version.
+      </li>
+
+      <li>
+        <h3>Changes to settings are not being applied</h3>
+        After changing settings, you must click the <button class="btn btn-primary">Save Changes</button> button for them to take effect.
+      </li>
+
+      <li>
+        <h3>How do I hide the buttons?</h3>
+        Open the [Settings] window and check [Hide Buttons]. Once checked, the buttons will automatically hide when your mouse leaves the window.
+      </li>
+
+      <li>
+        <h3>How do I reset settings?</h3>
+        Open the [Settings] window and click the [Default] button.
+      </li>
+
+      <li hidden>
+        <h3>How do I clear the cache?</h3>
+        Open the [Custom Translation] window and click the [Clear Cache] button.
+      </li>
+
+      <li>
+        <h3>How do I update?</h3>
+
+        <a href="https://github.com/winw1010/tataru-assistant" target="_blank"> Download the latest version here. </a>
+      </li>
+
+      <li>
+        <h3>How do I uninstall?</h3>
+        Search for [Add or remove programs] in the bottom left search bar, find this program, and click uninstall.
+      </li>
+
+      <li>
+        <h3>How do I check the responses to error reports?</h3>
+
+        <a href="https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit#gid=1976543446" target="_blank">
+          View them here.
+        </a>
+      </li>
+    </ol>
+  </body>
+</html>

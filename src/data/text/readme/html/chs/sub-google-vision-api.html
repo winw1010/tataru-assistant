@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Vision设定步骤</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+
+  <body>
+    <div class="div-return">
+      <a href="./index.html">回首页</a>
+    </div>
+
+    <br />
+
+    <p>
+      本功能需绑定付款资讯，但每个月有1000张的免费额度，不超过就不会扣款，
+      <a href="https://cloud.google.com/vision/pricing?hl=zh-tw" target="_blank">点此查看收费方式</a>
+    </p>
+
+    <p>
+      使用此功能前需启用Google Cloud Platform功能，请点
+      <a href="https://cloud.google.com/" target="_blank">此连结</a>
+      启用
+    </p>
+
+    <hr />
+    <br />
+
+    <h3>使用API金钥</h3>
+
+    <ol>
+      <li>
+        前往
+        <a href="https://cloud.google.com/" target="_blank"> Google Cloud Platform </a>
+        启用Google Cloud Platform服务，资讯可以任意填写，本功能需使用Google帐号，若没有Google帐号请建立一个
+      </li>
+
+      <li>
+        前往
+        <a
+          href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+          target="_blank"
+        >
+          资讯主页
+        </a>
+        点选【选取专案】，选择一个近期专案
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-select-project.png" alt="" />
+        <br />
+        若无专案请点选【建立专案】建立一个新专案
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-select-project-2.png" alt="" />
+      </li>
+
+      <li>
+        前往
+        <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+          帐单帐户管理页面
+        </a>
+        点选【建立帐户】建立一个帐单帐户，建立后填入付款资料，
+        <span class="text-warning">并连结上一步骤选取的专案</span>
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-payment.png" alt="" />
+      </li>
+
+      <li>
+        至
+        <a href="https://console.cloud.google.com/apis/credentials" target="_blank"> API和服务页面 </a>
+        ，点选【建立凭证】，然后点选【API金钥】建立金钥
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-enable.png" alt="" />
+      </li>
+
+      <li>建立金钥之后点选刚刚建立的API金钥，在【API限制】点选【限制金钥】，然后搜寻并勾选【Cloud Vision API】，设定完毕后按下【储存】即可</li>
+
+      <li>点选刚刚建立的API金钥右侧的【显示金钥】，按下金钥右边複製按钮即可複製起来</li>
+
+      <li>进入Tataru Assistant的【设定】，左上角下拉选单选择【API设定】，然后在Google Vision的【验证方式】栏位选择【API Key】</li>
+
+      <li>在Google Vision的【API Key】栏位输入刚刚複製的API金钥</li>
+
+      <li>
+        在撷取视窗选择Google Vision即可开始使用
+        <br />
+        <img class="img-fluid" src="../../img/google-vision/google-vision-set.png" alt="" />
+      </li>
+    </ol>
+
+    <hr />
+    <br />
+
+    <h3>使用JSON档案</h3>
+
+    <div>
+      <ol>
+        <li>
+          前往
+          <a href="https://cloud.google.com/" target="_blank"> Google Cloud Platform </a>
+          启用Google Cloud Platform服务，资讯可以任意填写，本功能需使用Google帐号，若没有Google帐号请建立一个
+        </li>
+
+        <li>
+          前往
+          <a
+            href="https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.109079943.344879435.1711353170-2052909929.1711353170"
+            target="_blank"
+          >
+            资讯主页
+          </a>
+          点选【选取专案】，选择一个近期专案
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-select-project.png" alt="" />
+          <br />
+          若无专案请点选【建立专案】建立一个新专案
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-select-project-2.png" alt="" />
+        </li>
+
+        <li>
+          前往
+          <a href="https://console.cloud.google.com/billing?_ga=2.167008830.1210687462.1711353420-437806892.1711353420" target="_blank">
+            帐单帐户管理页面
+          </a>
+          点选【建立帐户】建立一个帐单帐户，建立后填入付款资料，
+          <span class="text-warning">并连结上一步骤选取的专案</span>
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-payment.png" alt="" />
+        </li>
+
+        <li>
+          至
+          <a
+            href="https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com&_ga=2.20267194.344879435.1711353170-2052909929.1711353170"
+            target="_blank"
+          >
+            Google Vision API页面
+          </a>
+          选择上一步骤选取的专案并启用Google Vision
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-enable.png" alt="" />
+        </li>
+
+        <li>
+          前往
+          <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/credentials" target="_blank"> API/服务详细资料 </a>
+          ，点选【建立凭证】，然后点选【服务帐户】建立一个服务帐户(资料随意填即可)
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-account.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-account-2.png" alt="" />
+        </li>
+
+        <li>
+          建立后点选上一步建立的服务帐户，点选【金钥】，然后点选【新增金钥】>【建立新的金钥】>【JSON】，然后按下创建后即会自动下载凭证至您的电脑
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-2.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-3.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-4.png" alt="" />
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-add-json-5.png" alt="" />
+        </li>
+
+        <li>进入Tataru Assistant的【设定】，左上角下拉选单选择【API设定】，然后在Google Vision的【验证方式】栏位选择【JSON档案】</li>
+
+        <li>
+          按下【开启Google凭证档案】按钮，开启刚刚下载的JSON档案
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-open-json.png" alt="" />
+          <br />
+        </li>
+
+        <li>
+          在撷取视窗选择Google Vision即可开始使用
+          <br />
+          <img class="img-fluid" src="../../img/google-vision/google-vision-set.png" alt="" />
+        </li>
+
+        <li>
+          <span class="text-warning"> 由于凭证和您的帐单绑定，因此请妥善保管凭证档案，若想移除凭证请至您的服务帐户的金钥页面删除即可 </span>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Manual</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">Back to Home</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>
+        Click the
+        <img class="img-fluid img-ui" src="../../img/ui/settings_white_24dp.svg" alt="picture" />
+        icon to open Settings, then select [API Settings] from the dropdown menu in the top-left corner.
+      </li>
+
+      <li>
+        Apply for an API key from the AI provider's official website (the process is not detailed here). Once you have obtained the API key, enter it
+        into the [API Key] field for that specific AI in the API Settings.
+      </li>
+
+      <li>
+        If you wish to use a non-default model, enter the model code you wish to use into the [Model] field for that AI. You can copy model codes from
+        the links below:
+
+        <table class="table">
+          <tr>
+            <td>Gemini</td>
+            <td><a href="https://ai.google.dev/gemini-api/docs/models">https://ai.google.dev/gemini-api/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>GPT</td>
+            <td><a href="https://developers.openai.com/api/docs/models">https://developers.openai.com/api/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>Cohere</td>
+            <td><a href="https://docs.cohere.com/docs/models">https://docs.cohere.com/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>Kimi</td>
+            <td><a href="https://platform.kimi.ai/docs/models">https://platform.kimi.ai/docs/models</a></td>
+          </tr>
+        </table>
+      </li>
+
+      <li>In the top-left dropdown menu, select [Translation Settings], and in the [Translator] field, select the AI you are using.</li>
+
+      <li>
+        To improve the accuracy of the AI translation, select [LLM Settings] from the top-left dropdown menu, enable [Multi-turn Conversation], and
+        set the [Conversation Length] to 5 or higher. A longer length improves accuracy but will increase token usage.
+      </li>
+
+      <li>Click the Save button to store your settings and you can start using the AI translation.</li>
+    </ol>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translate Screen Text</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">Back to Home</a>
+    </div>
+
+    <ul>
+      <li>
+        <h3>When to use</h3>
+        Game UI and dialogue options are not automatically translated; you need to manually select and capture them. Using the more accurate Google
+        Vision is recommended.
+      </li>
+
+      <li>
+        <h3>How to use</h3>
+        Click the
+        <img class="img-fluid img-ui" src="../../img/ui/desktop_windows_white_24dp.svg" alt="picture" style="margin: 0" />
+        button or press Ctrl+F11 to open the [Translate Screen Text] window, then select the text you want to translate within the capture window (as
+        shown in the video below).
+        <br />
+        <br />
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/FjyJ43soiYw?si=XAH0_tJIaoH9ZIKN"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </li>
+
+      <li>
+        <h3>Function Description</h3>
+        <img class="img-fluid" src="../../img/capture/cpature-method.png" alt="picture" style="margin: 0" />
+        <ol>
+          <li>The drop-down menu in the top-left corner allows you to select the capture method.</li>
+          <li>
+            Line Break Splitting: When checked, it translates line-by-line (useful for translating dialogue options during cutscenes). If unchecked,
+            it will merge all text into a single line before translating (use this when translating entire paragraphs).
+          </li>
+          <li>
+            Edit Text: When checked, an edit window will appear after capturing the text, allowing you to manually correct the text before clicking
+            [Translate] to submit. If unchecked, the text will be submitted for translation immediately without the option to correct errors.
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <h3>Capture Methods</h3>
+        <ul>
+          <li>
+            <h4>Google Vision (Recommended)</h4>
+            Highly accurate text recognition with almost no typos. Requires setting up an API credential in GCP. (
+            <a href="./sub-google-vision-api.html" target="_blank">View setup tutorial</a>
+            )
+          </li>
+
+          <li>
+            <h4>GPT Vision</h4>
+            Performance is comparable to Google Vision; if you are already using GPT for translation, you can use this directly.
+          </li>
+
+          <li>
+            <h4>Tesseract OCR</h4>
+            May occasionally produce typos; manual editing and correction may be required.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>

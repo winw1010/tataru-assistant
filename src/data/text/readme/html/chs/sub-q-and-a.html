@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>常见问题&解答</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">回首页</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>
+        <h3>这程式安全吗</h3>
+        本程式不会修改FF14游戏档案，且翻译文字皆使用API请求的方式取得，请放心使用。
+      </li>
+
+      <li>
+        <h3>名词没有被正确翻译</h3>
+
+        本程式只会修正
+        <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">对照表</a>
+        内纪录的词彙，若词彙不在对照表里将不会被程式修正，请等对照表更新或是使用【回报翻译错误】功能。
+      </li>
+
+      <li>
+        <h3>视窗不透明</h3>
+
+        AMD和NVIDIA的广域设定的某些选项会影响视窗的透明度
+        <br />
+        请将AMD和NVIDIA的【广域设定】恢復成预设值即可
+      </li>
+
+      <li>
+        <h3>翻译无法自动显示下一句</h3>
+        关闭NVIDIA的Shadowplay即可
+      </li>
+
+      <li>
+        <h3>这程式能翻译什么语言</h3>
+        目前仅能翻译日文和英文版本的游戏主程式
+      </li>
+
+      <li>
+        <h3>能与汉化一起使用吗</h3>
+        基本上可以，程式的【翻译设定】有略过汉化字幕的功能，但请注意本功能无法完美迴避已汉化字幕。
+      </li>
+
+      <li>
+        <h3>如果游戏是日文，队伍频道是英文，该如何设定</h3>
+        至【设定】>【翻译设定】>将【游戏语言】设定成日文，【队伍频道】设定成英文即可。
+      </li>
+
+      <li>
+        <h3>翻译视窗无法维持在最上层</h3>
+        请将FF14的显示设定改成「无边框全萤幕 / Borderless Window / ボーダレスウィンドウ」。
+        <br />
+        <img class="img-fluid" src="../../img/qa/qa4.png" alt="picture" />
+      </li>
+
+      <li>
+        <h3>每一句都要手动选取翻译吗</h3>
+        <span class="text-warning">不需要 ，一般对话和过场动画都会自动翻译，不能自动翻译的部分也能使用【翻译萤幕文字】功能来翻译。 </span>
+      </li>
+
+      <li>
+        <h3>无法下载翻译对照表</h3>
+        若使用加速器或VPN时无法存取Github，请至Tataru Assistant的【设定(齿轮按钮)】>【系统设定】将SSL验证关闭。
+      </li>
+
+      <li>
+        <h3>出现翻译失败的错误讯息</h3>
+        若使用加速器或VPN时无法翻译字幕，请至Tataru Assistant的【设定(齿轮按钮)】>【系统设定】将SSL验证关闭。
+      </li>
+
+      <li>
+        <h3>启动后显示「这个作业系统不支援 .NET Framework 4.8」的讯息</h3>
+
+        请安装
+        <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>
+      </li>
+
+      <li>
+        <h3>程式无法自动翻译</h3>
+        <ul>
+          <li>
+            请安装
+            <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>
+          </li>
+          <li>至【设定】>【系统设定】，点选【修復字幕读取器】，修復后重新开机即可</li>
+          <li>
+            若无法修復请在左下搜寻输入「cmd」，找到「命令提示字元」对其滑鼠右键，点选「以系统管理员身分执行」，然后执行以下指令
+            <br />
+            <span class="text-warning"> secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose </span>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>如何翻译对话选项和介面文字</h3>
+        <a href="sub-capture.html" target="_blank">详见【翻译萤幕画面上的文字】说明页</a>
+      </li>
+
+      <li>
+        <h3>如何重新翻译</h3>
+        滑鼠点选程式的翻译文字，再点选弹出视窗里的【重新翻译】按钮即可
+        <br />
+        <img class="img-fluid" src="../../img/qa/qa8.png" alt="picture" />
+      </li>
+
+      <li>
+        <h3>哪个翻译引擎比较好</h3>
+        推荐使用免费流量较多的【Gemini】，其次为【ChatGPT】和【Cohere】，非AI翻译器的翻译品质较差不建议使用
+      </li>
+
+      <li>
+        <h3>要等很久才会显示翻译</h3>
+        本应用程式是使用API请求翻译， 因此翻译速度取决于使用者的网路环境和API伺服器的状况
+      </li>
+
+      <li>
+        <h3>翻译时跳出错误讯息</h3>
+        表示该翻译方式目前无法连线，或是已经达到流量限制，只能等待解除限制，或是暂时使用别的翻译方式
+      </li>
+
+      <li>
+        <h3>如何移动视窗</h3>
+        按住左上的
+        <img class="img-fluid img-ui" src="../../img/ui/open_with_white_48dp.svg" alt="" />
+        按钮即可移动视窗
+      </li>
+
+      <li>
+        <h3>旁白字幕无法自动翻译</h3>
+        请安装最新版本
+      </li>
+
+      <li>
+        <h3>无法套用变更后的设定</h3>
+        更改设定后需按下 <button class="btn btn-primary">储存变更</button> 按钮才会生效
+      </li>
+
+      <li>
+        <h3>如何隐藏按钮</h3>
+        开启【设定】视窗，将【隐藏按钮】打勾，勾选后滑鼠离开视窗就会自动隐藏按钮
+      </li>
+
+      <li>
+        <h3>如何重置设定</h3>
+        开启【设定】视窗，点选【预设】按钮
+      </li>
+
+      <li hidden>
+        <h3>如何清除快取</h3>
+        开启【自定翻译】视窗，点选【清除快取】按钮
+      </li>
+
+      <li>
+        <h3>如何更新</h3>
+
+        <a href="https://github.com/winw1010/tataru-assistant" target="_blank"> 请至这里下载最新版本 </a>
+      </li>
+
+      <li>
+        <h3>如何移除</h3>
+        在左下方的搜寻输入【新增或移除程式】，找到本程式并点选移除
+      </li>
+
+      <li>
+        <h3>如何查看错误回报的回复</h3>
+
+        <a href="https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit#gid=1976543446" target="_blank">
+          请至这里查看
+        </a>
+      </li>
+    </ol>
+  </body>
+</html>

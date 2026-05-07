@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>使用說明書</title>
+
+    <!-- style -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <div class="div-return">
+      <a href="./index.html">回首頁</a>
+    </div>
+
+    <br />
+
+    <ol>
+      <li>
+        按下
+        <img class="img-fluid img-ui" src="../../img/ui/settings_white_24dp.svg" alt="picture" />
+        開啟設定，然後在左上角的下拉選單選擇【API設定】。
+      </li>
+
+      <li>從AI官網申請API金鑰，過程這裡就不贅述，取得API金鑰之後將其輸入到API設定中該AI的【API Key】欄位裡。</li>
+
+      <li>
+        若想使用非預設模型，請在該AI的【模型】欄位輸入想使用的模型代碼，模型代碼可從下方連結複製。
+
+        <table class="table">
+          <tr>
+            <td>Gemini</td>
+            <td><a href="https://ai.google.dev/gemini-api/docs/models">https://ai.google.dev/gemini-api/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>GPT</td>
+            <td><a href="https://developers.openai.com/api/docs/models">https://developers.openai.com/api/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>Cohere</td>
+            <td><a href="https://docs.cohere.com/docs/models">https://docs.cohere.com/docs/models</a></td>
+          </tr>
+          <tr>
+            <td>Kimi</td>
+            <td><a href="https://platform.kimi.ai/docs/models">https://platform.kimi.ai/docs/models</a></td>
+          </tr>
+        </table>
+      </li>
+
+      <li>在左上角的下拉選單選擇【翻譯設定】，在【翻譯器】欄位選擇你使用的AI名稱。</li>
+
+      <li>
+        若想提高AI翻譯的精準度，請在左上角的下拉選單選擇【LLM設定】，啟用【多輪對話】，並將【對話長度】設定在5以上，長度越高精準度就越好，但Token也會增加。
+      </li>
+
+      <li>按下儲存按鈕儲存剛剛的設定即可開始使用AI翻譯。</li>
+    </ol>
+  </body>
+</html>

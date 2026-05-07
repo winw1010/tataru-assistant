@@ -22,7 +22,7 @@ Offers better translation quality and handles colloquial in-game sentences very 
 - Kimi
 - Custom LLM (Allows manual input of Headers and Payload)
 
-## Online Translators (Not Recommended)
+## Traditional Translators (Not Recommended)
 
 These offer unlimited usage but have lower translation quality; therefore, they are not recommended.
 

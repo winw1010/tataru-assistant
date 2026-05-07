@@ -72,7 +72,7 @@ const defaultConfig = {
     googleVisionType: 'google-api-key',
     googleVisionApiKey: '',
     geminiApiKey: '',
-    geminiModel: 'gemini-3.1-flash-lite-preview',
+    geminiModel: 'gemini-3.1-flash-lite',
     gptApiKey: '',
     gptModel: 'gpt-5.4-nano',
     cohereToken: '',

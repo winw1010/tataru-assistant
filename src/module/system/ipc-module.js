@@ -593,7 +593,15 @@ function setTranslateChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    event.sender.send('show-translation', await translateModule.translate(dialogData.text, dialogData.translation), dialogData.translation.to);
+    let translatedText = '';
+
+    if (engineModule.aiList.includes(dialogData.translation.engine)) {
+      translatedText = (await translateModule.translateLLM(dialogData.name, dialogData.text, dialogData.translation)).text;
+    } else {
+      translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
+    }
+
+    event.sender.send('show-translation', translatedText, dialogData.translation.to);
   });
 
   // google tts

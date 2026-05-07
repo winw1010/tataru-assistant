@@ -19,7 +19,7 @@ let scu = '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"';
 let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
 // request timeout
-const requestTimeout = 10000;
+const requestTimeout = 15000;
 
 // get
 function get(url = '', headers = {}) {
@@ -33,6 +33,16 @@ function post(url = '', data = '', headers = {}) {
   if (typeof data !== 'string') {
     data = JSON.stringify(data);
   }
+
+  // view JSON
+  try {
+    console.log(JSON.parse(data));
+  } catch (error) {
+    error;
+  }
+
+  // reduce data length
+  data = data.replaceAll(/[\r\n\t]/g, '');
 
   return new Promise((resolve, reject) => {
     axios.post(url, data, getOptions(headers)).then(resolve).catch(reject);

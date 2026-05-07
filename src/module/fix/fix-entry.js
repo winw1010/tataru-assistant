@@ -36,7 +36,7 @@ function setRunning(value) {
 // add task
 function addTask(dialogData) {
   // check id and timestamp
-  if (!dialogData.id || !dialogData.timestamp) {
+  if (!(dialogData.id && dialogData.timestamp)) {
     let timestamp = new Date().getTime();
     if (timestamp <= lastTimestamp) timestamp = lastTimestamp + 1;
     lastTimestamp = timestamp;

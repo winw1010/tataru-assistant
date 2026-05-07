@@ -195,9 +195,12 @@ function getElementTextList() {
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
 
-        'input-llm-api-key': ['API Key', 'API金钥', 'API Key'],
-        'input-llm-model': ['模型', '模型', 'Model'],
-        'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
+        'input-llm-api-url': ['Chat API URL', 'Chat API URL', 'Chat API URL'],
+        'textarea-llm-header': ['Header', 'Header', 'Header'],
+        'textarea-llm-payload': ['Payload', 'Payload', 'Payload'],
+        'input-llm-response-text-loacation': ['Response Text Location', 'Response Text Location', 'Response Text Location'],
+        'textarea-user-format': ['User Format (History)', 'User Format (History)', 'User Format (History)'],
+        'textarea-assistant-format': ['Assistant Format (History)', 'Assistant Format (History)', 'Assistant Format (History)'],
 
         'select-app-language': ['語言(Language)', '语言(Language)', 'Language'],
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table When Started'],
@@ -205,7 +208,6 @@ function getElementTextList() {
 
         'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
-        'input-ai-temperature': ['溫度', '温度', 'Temperature'],
         'textarea-ai-custom-translation-prompt': [
           '自訂翻譯Prompt(System Role)',
           '自订翻译Prompt(System Role)',
@@ -250,8 +252,8 @@ function getElementTextList() {
         'div-channel': ['頻道設定', '频道设定', 'Channel'],
         'div-translation': ['翻譯設定', '翻译设定', 'Translation'],
         '#option-api': ['#API', '#API', '#API'],
-        'div-api': ['API設定', 'API设定', 'API'],
-        'div-ai': ['AI設定', 'AI设定', 'AI Settings'],
+        'div-api': ['API設定', 'API设定', 'API Settings'],
+        'div-ai': ['LLM設定', 'LLM设定', 'LLM Settings'],
         '#option-system': ['#系統', '#系统', '#System'],
         'div-system': ['系統設定', '系统设定', 'System'],
         'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy'],
@@ -271,7 +273,7 @@ function getElementTextList() {
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
-        'LLM-API': ['自訂OpenAI', '自订OpenAI', 'Custom OpenAI'],
+        'LLM-API': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
 
         Auto: ['自動偵測', '自动侦测', 'Auto'],
         Japanese: ['日文', '日语', 'Japanese'],
@@ -331,12 +333,7 @@ function getElementTextList() {
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
         'p-chat-gpt': ['Response GPT設定', 'Response GPT设定', 'Response GPT'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
-        'p-llm-api': ['自訂OpenAI設定', '自订OpenAI设定', 'Custom OpenAI'],
-        'p-ssl-warning': [
-          '若您的API不支援SSL驗證，請至【系統設定】關閉SSL驗證',
-          '若您的API不支援SSL验证，请至【系统设定】关闭SSL验证',
-          'Set SSL certificate off in "System Config" if you can\'t access LLM API',
-        ],
+        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
       },
       span: {
         // window title

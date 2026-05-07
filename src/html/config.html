@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-bs-theme="dark">
   <head>
     <title id="title-config"></title>
@@ -658,7 +658,7 @@
 
         <hr />
 
-        <!-- set OpenAI API -->
+        <!-- set custom LLM API -->
         <div class="row">
           <div class="col-auto">
             <p id="p-llm-api"></p>
@@ -669,13 +669,14 @@
           </div>
         </div>
 
-        <p id="p-ssl-warning" class="text-warning"></p>
-
         <div class="row align-items-center">
           <div class="col">
             <label for="input-llm-api-url"></label>
           </div>
-          <div class="col-auto">
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
             <input class="form-control" type="text" name="" id="input-llm-api-url" />
           </div>
         </div>
@@ -684,19 +685,13 @@
 
         <div class="row align-items-center">
           <div class="col">
-            <label for="input-llm-api-key"></label>
+            <label for="textarea-llm-header"></label>
           </div>
-          <div class="col-auto">
-            <img
-              class="img-fluid img-visibility"
-              src="./img/ui/visibility_off_white_48dp.svg"
-              alt=""
-              style="width: 1.5rem"
-              id="img-visibility-llm-api-key"
-            />
-          </div>
-          <div class="col-auto">
-            <input type="password" class="form-control" name="" id="input-llm-api-key" />
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-llm-header" rows="5"></textarea>
           </div>
         </div>
 
@@ -704,15 +699,60 @@
 
         <div class="row align-items-center">
           <div class="col">
-            <label for="input-llm-model"></label>
+            <label for="textarea-llm-payload"></label>
           </div>
-          <div class="col-auto">
-            <input class="form-control" type="text" name="" id="input-llm-model" />
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-llm-payload" rows="10"></textarea>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-llm-response-text-loacation"></label>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <input class="form-control" type="text" name="" id="input-llm-response-text-loacation" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="textarea-user-format"></label>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-user-format" rows="5"></textarea>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="textarea-assistant-format"></label>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-assistant-format" rows="5"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- AI -->
+      <!-- LLM -->
       <div id="div-ai" class="config-page" hidden>
         <div class="row align-items-center">
           <div class="col">

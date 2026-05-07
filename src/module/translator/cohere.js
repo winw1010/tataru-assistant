@@ -9,19 +9,49 @@ const configModule = require('../system/config-module');
 const chatHistoryList = {};
 
 // exec
-async function exec(option, type) {
-  const response = translate(option.text, option.from, option.to, option.table, type);
+async function exec(option) {
+  const response = translate(option.name, option.text, option.source, option.target, option.table);
   return response;
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese', table = [], type = 'text') {
+async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
+  const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
+  const historyIndex = 'Cohere_' + prompt;
   const glossary = aiFunction.createGlossary(source, target, table);
+  const sample = aiFunction.getTranslationSample(source, target);
+  const apiUrl = 'https://api.cohere.com/v2/chat';
+  const headers = {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    Authorization: 'bearer ' + config.api.cohereToken,
+  };
 
   // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
+  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
+
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
 
   const payload = {
     model: config.api.cohereModel,
@@ -30,40 +60,38 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
         role: 'system',
         content: prompt,
       },
-      ...chatHistoryList[prompt],
+      ...sampleArray,
+      ...chatHistoryList[historyIndex],
       {
         role: 'user',
         content: JSON.stringify({
+          name: name,
           text: text,
           glossary: glossary,
         }),
       },
     ],
-    //temperature: parseFloat(config.ai.temperature),
-    //top_p: 1,
-  };
-
-  const headers = {
-    accept: 'application/json',
-    'content-type': 'application/json',
-    Authorization: 'bearer ' + config.api.cohereToken,
   };
 
   // get response
-  const response = await requestModule.post('https://api.cohere.com/v2/chat', payload, headers);
+  const response = await requestModule.post(apiUrl, payload, headers);
   const responseText = response.data.message.content[0].text;
   const totalTokens = response?.data?.usage?.tokens;
 
   // push history
-  if (config.ai.useChat && type === 'text') {
-    chatHistoryList[prompt].push(
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
       {
         role: 'user',
-        content: text,
+        content: JSON.stringify({
+          name: name,
+          text: text,
+          glossary: glossary,
+        }),
       },
       {
         role: 'assistant',
-        content: responseText,
+        content: typeof responseText === 'string' ? responseText : JSON.stringify(responseText),
       },
     );
   }

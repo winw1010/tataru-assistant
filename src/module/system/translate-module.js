@@ -20,8 +20,77 @@ const gemini = require('../translator/gemini');
 const kimi = require('../translator/kimi');
 const zhConverter = require('../translator/zh-convert');
 
+// translate LLM
+async function translateLLM(name = '', text = '', translation = {}, table = []) {
+  const autoChange = translation.autoChange;
+  const engineList = [translation.engine, translation.engineAlternate];
+  const LLMTable = engineModule.getLLMTable();
+  const option = {
+    name: name,
+    text: text,
+    table: table,
+    source: LLMTable[translation.from],
+    target: LLMTable[translation.to],
+  };
+
+  let responseObject = null;
+  let isError = false;
+
+  do {
+    const engine = engineList.shift();
+
+    console.log('\r\nEngine:', engine);
+
+    if (isError) {
+      dialogModule.addNotification(`Change to ${engine}.`);
+    }
+
+    try {
+      switch (engine) {
+        case 'GPT':
+          responseObject = await gpt.exec(option);
+          break;
+
+        case 'LLM-API':
+          responseObject = await openai.exec(option);
+          break;
+
+        case 'Cohere':
+          responseObject = await cohere.exec(option);
+          break;
+
+        case 'Gemini':
+          responseObject = await gemini.exec(option);
+          break;
+        case 'Kimi':
+          responseObject = await kimi.exec(option);
+          break;
+
+        default:
+          break;
+      }
+
+      if (responseObject) {
+        if (typeof responseObject === 'string') {
+          responseObject = JSON.parse(responseObject);
+        }
+
+        responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1);
+        responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1);
+      } else {
+        isError = true;
+      }
+    } catch (error) {
+      dialogModule.addNotification(error);
+      isError = true;
+    }
+  } while (isError && autoChange && engineList.length > 0);
+
+  return responseObject;
+}
+
 // translate
-async function translate(text = '', translation = {}, table = [], type = 'text') {
+async function translate(text = '', translation = {}, table = []) {
   let result = '';
 
   try {
@@ -34,7 +103,7 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
     }
 
     // translate
-    result = await translate2(text, translation, table, type);
+    result = await translate2(text, translation, table);
 
     // process resutle
     if (engineModule.aiList.includes(translation.engine)) {
@@ -62,7 +131,7 @@ async function translate(text = '', translation = {}, table = [], type = 'text')
 }
 
 // translate 2
-async function translate2(text = '', translation = {}, table = [], type = 'text') {
+async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
   const engineList = engineModule.getEngineList(translation.engine, translation.engineAlternate);
   const result = { isError: false, text: '' };
@@ -78,7 +147,7 @@ async function translate2(text = '', translation = {}, table = [], type = 'text'
     }
 
     if (option) {
-      const result2 = await getTranslation(engine, option, type);
+      const result2 = await getTranslation(engine, option);
       result.isError = result2.isError;
       result.text = result2.text;
     } else {
@@ -90,7 +159,7 @@ async function translate2(text = '', translation = {}, table = [], type = 'text'
 }
 
 // get translation
-async function getTranslation(engine = '', option = {}, type = 'text') {
+async function getTranslation(engine = '', option = {}) {
   console.log('Before:', option?.text);
 
   let isError = false;
@@ -118,25 +187,6 @@ async function getTranslation(engine = '', option = {}, type = 'text') {
         text = await deepl.exec(option);
         break;
 
-      case 'GPT':
-        text = await gpt.exec(option, type);
-        break;
-
-      case 'LLM-API':
-        text = await openai.exec(option, type);
-        break;
-
-      case 'Cohere':
-        text = await cohere.exec(option, type);
-        break;
-
-      case 'Gemini':
-        text = await gemini.exec(option, type);
-        break;
-      case 'Kimi':
-        text = await kimi.exec(option, type);
-        break;
-
       /*
       case 'Google':
         result = await google.exec(option);
@@ -147,7 +197,6 @@ async function getTranslation(engine = '', option = {}, type = 'text') {
         break;
     }
   } catch (error) {
-    console.log(error);
     dialogModule.addNotification(error);
     text = '';
     isError = true;
@@ -229,6 +278,7 @@ function removeHonorific(text = '', table = [], targetIndex = 0) {
 // module exports
 module.exports = {
   translate,
+  translateLLM,
   getTranslation,
   zhConvert,
 };

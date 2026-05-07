@@ -209,7 +209,7 @@ function setButton() {
   document.getElementById('a-view-response').onclick = () => {
     ipcRenderer.send(
       'execute-command',
-      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"'
+      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"',
     );
   };
 
@@ -407,12 +407,13 @@ function readOptions(config = {}) {
     const configIndex2 = value[1][1];
     const valueFunction = value[2];
 
-    let configValue = config[configIndex1][configIndex2];
-    if (valueFunction) {
-      configValue = valueFunction(configValue);
-    }
-
     try {
+      let configValue = config[configIndex1][configIndex2];
+
+      if (valueFunction) {
+        configValue = valueFunction(configValue);
+      }
+
       document.getElementById(elementId)[elementProperty] = configValue;
     } catch (error) {
       console.log(error);
@@ -651,12 +652,36 @@ function getOptionList() {
       ['api', 'llmApiUrl'],
     ],
     [
-      ['input-llm-api-key', 'value'],
-      ['api', 'llmApiKey'],
+      ['textarea-llm-header', 'value'],
+      ['api', 'llmApiHeader'],
+      (value) => {
+        return JSON.stringify(JSON.parse(value), null, '\t');
+      },
     ],
     [
-      ['input-llm-model', 'value'],
-      ['api', 'llmApiModel'],
+      ['textarea-llm-payload', 'value'],
+      ['api', 'llmApiPayload'],
+      (value) => {
+        return JSON.stringify(JSON.parse(value), null, '\t');
+      },
+    ],
+    [
+      ['input-llm-response-text-loacation', 'value'],
+      ['api', 'llmApiResponseLocation'],
+    ],
+    [
+      ['textarea-user-format', 'value'],
+      ['api', 'llmApiUserFormat'],
+      (value) => {
+        return JSON.stringify(JSON.parse(value), null, '\t');
+      },
+    ],
+    [
+      ['textarea-assistant-format', 'value'],
+      ['api', 'llmApiAssistantFormat'],
+      (value) => {
+        return JSON.stringify(JSON.parse(value), null, '\t');
+      },
     ],
 
     [
@@ -666,10 +691,6 @@ function getOptionList() {
     [
       ['input-ai-chat-length', 'value'],
       ['ai', 'chatLength'],
-    ],
-    [
-      ['input-ai-temperature', 'value'],
-      ['ai', 'temperature'],
     ],
     [
       ['textarea-ai-custom-translation-prompt', 'value'],

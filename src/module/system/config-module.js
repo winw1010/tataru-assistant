@@ -76,17 +76,20 @@ const defaultConfig = {
     gptApiKey: '',
     gptModel: 'gpt-5.4-nano',
     cohereToken: '',
-    cohereModel: 'command-r-08-2024',
+    cohereModel: 'command-a-03-2025',
     kimiToken: '',
     kimiModel: 'kimi-k2.5',
-    llmApiUrl: '',
-    llmApiKey: '',
-    llmApiModel: '',
+    llmApiUrl: 'https://api.openai.com/v1/chat/completions',
+    llmApiHeader: '{"Content-Type":"application/json","Authorization":"Bearer [Your API Key]"}',
+    llmApiPayload:
+      '{"model":"[Your API Model]","messages":[{"role":"system","content":"${prompt}"},{"role":"user","content":"${user-content-sample}"},{"role":"assistant","content":"${assistant-content-sample}"},{},{"role":"user","content":"${user-content}"}]}',
+    llmApiResponseLocation: 'choices.0.message.content',
+    llmApiUserFormat: '{"role":"user","content":"${user-content}"}',
+    llmApiAssistantFormat: '{"role":"assistant","content":"${assistant-content}"}',
   },
   ai: {
-    useChat: false,
-    chatLength: '1',
-    temperature: '0.8',
+    useChat: true,
+    chatLength: '5',
     customTranslationPrompt: '',
   },
   proxy: {
@@ -108,10 +111,14 @@ const defaultConfig = {
 // current config
 let currentConfig = getDefaultConfig();
 
+// temp config
+let tempConfig = getDefaultConfig();
+
 // load config
 function loadConfig() {
   try {
     currentConfig = fileModule.read(configLocation, 'json');
+    tempConfig = JSON.parse(JSON.stringify(currentConfig));
 
     // fix old bug
     if (
@@ -122,9 +129,6 @@ function loadConfig() {
     ) {
       throw 'Use default config.';
     }
-
-    // fix config 1
-    fixConfig1(currentConfig);
 
     // fix options
     const mainNames = Object.keys(defaultConfig);
@@ -165,7 +169,7 @@ function loadConfig() {
     });
 
     // fix config 2
-    fixConfig2(currentConfig);
+    fixConfig(currentConfig);
 
     // set first time off
     currentConfig.system.firstTime = false;
@@ -221,57 +225,36 @@ function setSSLCertificate() {
   }
 }
 
-// fix config 1
-function fixConfig1(config) {
+// fix config
+function fixConfig(config) {
+  // fix window position
   try {
-    // fix window position
-    config.indexWindow.x = parseInt(config.indexWindow.x);
-    config.indexWindow.y = parseInt(config.indexWindow.y);
-    config.indexWindow.width = parseInt(config.indexWindow.width);
-    config.indexWindow.height = parseInt(config.indexWindow.height);
+    config.indexWindow.x = parseInt(tempConfig.indexWindow.x);
+    config.indexWindow.y = parseInt(tempConfig.indexWindow.y);
+    config.indexWindow.width = parseInt(tempConfig.indexWindow.width);
+    config.indexWindow.height = parseInt(tempConfig.indexWindow.height);
 
-    config.captureWindow.x = parseInt(config.captureWindow.x);
-    config.captureWindow.y = parseInt(config.captureWindow.y);
-    config.captureWindow.width = parseInt(config.captureWindow.width);
-    config.captureWindow.height = parseInt(config.captureWindow.height);
+    config.captureWindow.x = parseInt(tempConfig.captureWindow.x);
+    config.captureWindow.y = parseInt(tempConfig.captureWindow.y);
+    config.captureWindow.width = parseInt(tempConfig.captureWindow.width);
+    config.captureWindow.height = parseInt(tempConfig.captureWindow.height);
   } catch (error) {
     error;
   }
 
+  // fix LLM header
   try {
-    // fix custom API
-    if (config?.api?.unofficialApi) {
-      // set LLM API
-      config.translation.engine = 'LLM-API';
-      config.api.llmApiUrl = config.api.unofficialApiUrl.replace(/\/$/, '') + '/chat/completions';
-      config.api.llmApiKey = config.api.gptApiKey;
-      config.api.llmApiModel = config.api.gptModel;
-
-      // reset GPT
-      config.api.gptApiKey = '';
-      config.api.gptModel = '';
+    if (tempConfig.api.llmApiKey) {
+      config.api.llmApiHeader = config.api.llmApiHeader.replace('[Your API Key]', tempConfig.api.llmApiKey);
     }
   } catch (error) {
     error;
   }
 
+  // fix LLM payload
   try {
-    // fix protocol
-    if (!['https:', 'http:'].includes(config.proxy.protocol)) {
-      if (config.proxy.protocol.includes('https')) {
-        config.proxy.protocol = 'https:';
-      } else {
-        config.proxy.protocol = 'http:';
-      }
-    }
-  } catch (error) {
-    error;
-  }
-
-  try {
-    // fix hostname
-    if (config.proxy.host) {
-      config.proxy.hostname = config.proxy.host;
+    if (tempConfig.api.llmApiModel) {
+      config.api.llmApiPayload = config.api.llmApiPayload.replace('[Your API Model]', tempConfig.api.llmApiModel);
     }
   } catch (error) {
     error;
@@ -286,18 +269,6 @@ function fixConfig1(config) {
     error;
   }
 
-  try {
-    // fix custom prompt
-    if (config.api.kimiCustomPrompt) {
-      config.ai.customTranslationPrompt = config.api.kimiCustomPrompt;
-    }
-  } catch (error) {
-    error;
-  }
-}
-
-// fix config 2
-function fixConfig2(config) {
   try {
     // fix engine
     if (!engineModule.engineList.includes(config.translation.engine)) {
@@ -329,19 +300,6 @@ function fixConfig2(config) {
     // fix target
     if (!engineModule.targetList.includes(config.translation.to)) {
       config.translation.to = defaultConfig.translation.to;
-    }
-  } catch (error) {
-    error;
-  }
-
-  try {
-    // fix text detect
-    if (!engineModule.visionList.includes(config.captureWindow.type)) {
-      if (config.captureWindow.type === 'google') {
-        config.captureWindow.type = 'google-vision';
-      } else {
-        config.captureWindow.type = 'tesseract-ocr';
-      }
     }
   } catch (error) {
     error;

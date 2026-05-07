@@ -17,18 +17,18 @@ const role = source && target ? `${source}-${target} translator` : 'translator';
 
 const configModule = require('../system/config-module');
 
-function createTranslationPrompt(source = 'Japanese', target = 'Chinese', type = 'text', withGlossary = false) {
+function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGlossary = false) {
   const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? ' with the glossary(in glossary field)' : '';
+  const withGlossaryText = withGlossary ? 'with the glossary(in glossary field)' : '';
 
   if (customPrompt) {
     if (source === '') {
       source = 'any languages';
     }
 
-    return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('${type}', type);
+    return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);
   } else {
-    return `Translate ${source} ${type}(in text field) to ${target}${withGlossaryText} and just return the translated text.`;
+    return `Translate ${source} JSON object to ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
   }
 }
 
@@ -37,15 +37,15 @@ function createImagePrompt() {
 }
 
 // initialize chat history
-function initializeChatHistory(chatHistoryList = {}, prompt = '', config = {}) {
+function initializeChatHistory(chatHistoryList = {}, index = '', config = {}) {
   const chatLength = parseInt(config.ai.useChat ? config.ai.chatLength : '0');
 
-  if (!Array.isArray(chatHistoryList[prompt])) {
-    chatHistoryList[prompt] = [];
+  if (!Array.isArray(chatHistoryList[index])) {
+    chatHistoryList[index] = [];
   }
 
-  if (chatHistoryList[prompt].length > chatLength * 2) {
-    chatHistoryList[prompt].splice(0, chatHistoryList[prompt].length - chatLength * 2);
+  if (chatHistoryList[index].length > chatLength * 2) {
+    chatHistoryList[index].splice(0, chatHistoryList[index].length - chatLength * 2);
   }
 }
 
@@ -68,9 +68,44 @@ function createGlossary(source = 'Japanese', target = 'Chinese', table = []) {
   return glossary;
 }
 
+// get translation sample
+function getTranslationSample(source = 'Japanese', target = 'Chinese') {
+  const tataru = {
+    Auto: 'Tataru',
+    Japanese: 'タタル',
+    English: 'Tataru',
+    Chinese: '塔塔露',
+    Korean: '타타루',
+    Russian: 'Татару',
+    Italian: 'Tataru',
+  };
+
+  const hello = {
+    Auto: 'Hello!',
+    Japanese: 'こんにちは！',
+    English: 'Hello!',
+    Chinese: '你好！',
+    Korean: '안녕！',
+    Russian: 'Привет!',
+    Italian: 'Ciao!',
+  };
+
+  const sample = {
+    name: [tataru[source], tataru[target]],
+    text: [hello[source], hello[target]],
+    glossary: [{}],
+  };
+
+  sample.glossary[0][source] = tataru[source];
+  sample.glossary[0][target] = tataru[target];
+
+  return sample;
+}
+
 module.exports = {
   createTranslationPrompt,
   createImagePrompt,
   initializeChatHistory,
   createGlossary,
+  getTranslationSample,
 };

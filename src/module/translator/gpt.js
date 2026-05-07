@@ -9,16 +9,18 @@ const configModule = require('../system/config-module');
 const chatHistoryList = {};
 
 // exec
-async function exec(option, type) {
-  const response = translate(option.text, option.from, option.to, option.table, type);
+async function exec(option) {
+  const response = translate(option.name, option.text, option.source, option.target, option.table);
   return response;
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese', table = [], type = 'text') {
+async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
+  const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
+  const historyIndex = 'GPT_' + prompt;
   const glossary = aiFunction.createGlossary(source, target, table);
+  const sample = aiFunction.getTranslationSample(source, target);
   const apiUrl = 'https://api.openai.com/v1/responses';
   const headers = {
     'Content-Type': 'application/json',
@@ -26,7 +28,29 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   };
 
   // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
+  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
+
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
 
   const payload = {
     model: config.api.gptModel,
@@ -35,17 +59,17 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
         role: 'developer',
         content: prompt,
       },
-      ...chatHistoryList[prompt],
+      ...sampleArray,
+      ...chatHistoryList[historyIndex],
       {
         role: 'user',
         content: JSON.stringify({
+          name: name,
           text: text,
           glossary: glossary,
         }),
       },
     ],
-    //temperature: parseFloat(config.ai.temperature),
-    //top_p: 1,
   };
 
   // get response
@@ -54,15 +78,19 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
-  if (config.ai.useChat && type === 'text') {
-    chatHistoryList[prompt].push(
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
       {
         role: 'user',
-        content: text,
+        content: JSON.stringify({
+          name: name,
+          text: text,
+          glossary: glossary,
+        }),
       },
       {
         role: 'assistant',
-        content: responseText,
+        content: typeof responseText === 'string' ? responseText : JSON.stringify(responseText),
       },
     );
   }
@@ -138,7 +166,7 @@ function getAssistantText(data) {
   for (let index = 0; index < output.length; index++) {
     const element = output[index];
 
-    if (element.type === 'message' && element.role === 'assistant' && element.status === 'completed' && element.content && element.content[0]) {
+    if (/*element.type === 'message' && element.role === 'assistant' && element.status === 'completed' &&*/ element.content && element.content[0]) {
       return element.content[0].text;
     }
   }

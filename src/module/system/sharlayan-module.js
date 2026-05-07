@@ -93,7 +93,7 @@ const dialogHistory = [];
 const textHistory = {};
 
 // pure text
-const regexPureText = /[^0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi;
+const regexInvalidCharacter = /[^0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi;
 
 // start
 function start() {
@@ -165,7 +165,7 @@ function start() {
             }
 
             // check repetition
-            if (isNotRepeated(dialogData)) {
+            if (isValidData(dialogData)) {
               serverModule.dataProcess(dialogData);
             } else {
               console.log('Skip Repeated Dialog.');
@@ -197,8 +197,8 @@ function clearText(text = '') {
   //.replace(/FE/g, ''); // Temporary fix
 }
 
-// check repetition
-function isNotRepeated(dialogData) {
+// is valid data
+function isValidData(dialogData) {
   const code = dialogData.code;
   const text = clearText(dialogData.text);
 
@@ -206,18 +206,27 @@ function isNotRepeated(dialogData) {
   if (dialogData.type === 'DIALOG') {
     if (text !== dialogHistory.slice(-1)[0]) {
       dialogHistory.push(text);
-      if (dialogHistory.length > 20) dialogHistory.splice(0, 10);
+
+      if (dialogHistory.length > 20) {
+        dialogHistory.splice(0, 10);
+      }
     } else {
       return false;
     }
   }
   // other 003D
   else if (dialogData.code === '003D') {
-    for (let index = 0; index < dialogHistory.length; index++) {
+    let count = 0;
+    for (let index = dialogHistory.length - 1; index >= 0; index--) {
       const dialogText = dialogHistory[index];
 
       if (isSameText(dialogText, text)) {
         return false;
+      }
+
+      count++;
+      if (count >= 10) {
+        break;
       }
     }
   }
@@ -233,11 +242,10 @@ function isNotRepeated(dialogData) {
   return true;
 }
 
-// compare string
+// is same text
 function isSameText(str1 = '', str2 = '') {
-  str1 = str1.replace(regexPureText, '');
-  str2 = str2.replace(regexPureText, '');
-
+  str1 = str1.replace(regexInvalidCharacter, '');
+  str2 = str2.replace(regexInvalidCharacter, '');
   return str1 === str2;
 }
 

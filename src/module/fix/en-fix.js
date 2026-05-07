@@ -39,31 +39,39 @@ async function start(dialogData = {}) {
   const text = dialogData.text;
   const translation = dialogData.translation;
 
+  let responseObject;
   let translatedName = '';
   let translatedText = '';
 
   try {
-    // fix name
-    if (translation.skipChinese && enFunction.isChinese(name)) {
-      translatedName = fixFunction.replaceText(name, chArray.combine);
-    } else {
-      if (npcChannel.includes(dialogData.code)) {
-        if (aiList.includes(translation.engine)) {
-          translatedName = await fixNameAI(dialogData);
-        } else {
-          translatedName = await fixName(dialogData);
-        }
+    if (aiList.includes(translation.engine)) {
+      if (translation.skipChinese && enFunction.isChinese(name + text)) {
+        translatedName = fixFunction.replaceText(name, chArray.combine);
+        translatedText = fixFunction.replaceText(text, chArray.combine);
+        return;
       } else {
-        translatedName = name;
-      }
-    }
+        responseObject = await fixLLM(dialogData);
 
-    // fix text
-    if (translation.skipChinese && enFunction.isChinese(text)) {
-      translatedText = fixFunction.replaceText(text, chArray.combine);
+        if (responseObject) {
+          translatedName = responseObject.name;
+          translatedText = responseObject.text;
+        }
+      }
     } else {
-      if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI(dialogData);
+      // fix name
+      if (translation.skipChinese && enFunction.isChinese(name)) {
+        translatedName = fixFunction.replaceText(name, chArray.combine);
+      } else {
+        if (npcChannel.includes(dialogData.code)) {
+          translatedName = await fixName(dialogData);
+        } else {
+          translatedName = name;
+        }
+      }
+
+      // fix text
+      if (translation.skipChinese && enFunction.isChinese(text)) {
+        translatedText = fixFunction.replaceText(text, chArray.combine);
       } else {
         translatedText = await fixText(dialogData);
       }
@@ -123,51 +131,6 @@ async function fixName(dialogData = {}) {
 
   // table
   translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
-
-  // after translation
-  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
-
-  // save to temp
-  if (saveFlag) {
-    saveName(name, translatedName);
-  }
-
-  return translatedName;
-}
-
-// fix name AI
-async function fixNameAI(dialogData = {}) {
-  const name = dialogData.name;
-  const translation = dialogData.translation;
-
-  let translatedName = '';
-  let saveFlag = true;
-
-  if (name === '') {
-    return '';
-  }
-
-  // same check
-  const target =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
-
-  if (target) {
-    return target[1];
-  }
-
-  // code result
-  const codeResult = enFunction.replaceTextByCode(name, chArray.combine);
-
-  // skip check
-  if (enFunction.needTranslation(name, codeResult.aiTable)) {
-    // translate
-    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
-  } else {
-    translatedName = fixFunction.replaceText(name, codeResult.aiTable);
-    saveFlag = false;
-  }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
@@ -262,37 +225,50 @@ async function fixText(dialogData = {}) {
   return translatedText;
 }
 
-// fix text with AI
-async function fixTextAI(dialogData = {}) {
+// fix with LLM
+async function fixLLM(dialogData = {}) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
-
-  let text2 = text;
-  let translatedText = '';
 
   if (text === '') {
     return '';
   }
 
+  let tempName = name;
+  let tempText = text;
+  let responseObject;
+
   // special fix
-  text2 = specialFix(name, text2);
+  tempText = specialFix(name, tempText);
 
   // combine
-  const codeResult = enFunction.replaceTextByCode(text2, chArray.combine);
+  const codeResult = enFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine);
 
   // skip check
-  if (enFunction.needTranslation(text2, codeResult.aiTable)) {
+  if (enFunction.needTranslation(tempText, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'text');
+    responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
   } else {
-    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
+    responseObject = {
+      name: fixFunction.replaceText(tempName, codeResult.aiTable),
+      text: fixFunction.replaceText(tempText, codeResult.aiTable),
+    };
   }
 
-  // after translation
-  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
+  if (responseObject) {
+    // after translation
+    responseObject.text = fixFunction.replaceText(responseObject.text, chArray.afterTranslation);
 
-  return translatedText;
+    // save translated name
+    if (!(fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine))) {
+      saveName(name, responseObject.name);
+    } else {
+      responseObject.name = fixFunction.replaceText(name, codeResult.aiTable);
+    }
+  }
+
+  return responseObject;
 }
 
 // special fix

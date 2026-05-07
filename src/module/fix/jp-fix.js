@@ -47,31 +47,39 @@ async function start(dialogData = {}) {
   const translation = dialogData.translation;
   const isTargetChinese = fixTargetList.includes(translation.to);
 
+  let responseObject;
   let translatedName = '';
   let translatedText = '';
 
   try {
-    // fix name
-    if (translation.skipChinese && jpFunction.isChinese(name)) {
-      translatedName = fixFunction.replaceText(name, chArray.combine);
-    } else {
-      if (npcChannel.includes(dialogData.code)) {
-        if (aiList.includes(translation.engine)) {
-          translatedName = await fixNameAI(dialogData, isTargetChinese);
-        } else {
-          translatedName = await fixName(dialogData, isTargetChinese);
-        }
+    if (aiList.includes(translation.engine)) {
+      if (translation.skipChinese && jpFunction.isChinese(name + text)) {
+        translatedName = fixFunction.replaceText(name, chArray.combine);
+        translatedText = fixFunction.replaceText(text, chArray.combine);
+        return;
       } else {
-        translatedName = name;
-      }
-    }
+        responseObject = await fixLLM(dialogData, isTargetChinese);
 
-    // fix text
-    if (translation.skipChinese && jpFunction.isChinese(text)) {
-      translatedText = fixFunction.replaceText(text, chArray.combine);
+        if (responseObject) {
+          translatedName = responseObject.name;
+          translatedText = responseObject.text;
+        }
+      }
     } else {
-      if (aiList.includes(translation.engine)) {
-        translatedText = await fixTextAI(dialogData, isTargetChinese);
+      // fix name
+      if (translation.skipChinese && jpFunction.isChinese(name)) {
+        translatedName = fixFunction.replaceText(name, chArray.combine);
+      } else {
+        if (npcChannel.includes(dialogData.code)) {
+          translatedName = await fixName(dialogData, isTargetChinese);
+        } else {
+          translatedName = name;
+        }
+      }
+
+      // fix text
+      if (translation.skipChinese && jpFunction.isChinese(text)) {
+        translatedText = fixFunction.replaceText(text, chArray.combine);
       } else {
         translatedText = await fixText(dialogData, isTargetChinese);
       }
@@ -158,78 +166,6 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
 
   // table
   translatedName = fixFunction.replaceWord(translatedName, codeResult.table);
-
-  // after translation
-  translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
-
-  // save translated name
-  if (name !== katakanaName && saveFlag) {
-    saveName(name, translatedName);
-  }
-
-  return translatedName;
-}
-
-// fix name AI
-async function fixNameAI(dialogData = {}, isTargetChinese = true) {
-  const name = dialogData.name;
-  const translation = dialogData.translation;
-
-  let translatedName = '';
-  let katakanaName = jpFunction.getKatakanaName(name);
-  let saveFlag = true;
-
-  if (name === '') {
-    return '';
-  }
-
-  // find same name
-  const sameName =
-    fixFunction.sameAsArrayItem(name, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name + '##', chArray.combine);
-
-  // return saved name if found
-  if (sameName) {
-    return sameName[1];
-  }
-
-  // check katakana name
-  if (katakanaName.length > 0) {
-    let translatedKatakanaName = '';
-
-    // find same katakana name
-    const sameKatakanaName =
-      fixFunction.sameAsArrayItem(katakanaName, chArray.combine) ||
-      fixFunction.sameAsArrayItem(katakanaName + '#', chArray.combine) ||
-      fixFunction.sameAsArrayItem(katakanaName + '##', chArray.combine);
-
-    // use saved name
-    if (sameKatakanaName) {
-      translatedKatakanaName = sameKatakanaName[1];
-    }
-    // create and save translated katakanaName if not found
-    else {
-      if (isTargetChinese) {
-        translatedKatakanaName = createName(katakanaName);
-      } else {
-        translatedKatakanaName = await translateModule.translate(name, translation);
-      }
-      saveName(katakanaName, translatedKatakanaName);
-    }
-  }
-
-  // get code result
-  const codeResult = jpFunction.replaceTextByCode(name, chArray.combine, 0, isTargetChinese);
-
-  // skip check
-  if (jpFunction.needTranslation(name, codeResult.aiTable)) {
-    // translate
-    translatedName = await translateModule.translate(name, translation, codeResult.aiTable, 'npc name');
-  } else {
-    translatedName = fixFunction.replaceText(name, codeResult.aiTable);
-    saveFlag = false;
-  }
 
   // after translation
   translatedName = fixFunction.replaceText(translatedName, chArray.afterTranslation);
@@ -357,58 +293,65 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   return translatedText;
 }
 
-// fix text with AI
-async function fixTextAI(dialogData = {}, isTargetChinese = true) {
+// fix with LLM
+async function fixLLM(dialogData = {}, isTargetChinese = true) {
   const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
-  const hasMark = /[()（）]/gi.test(text);
-
-  let text2 = text;
-  let translatedText = text;
 
   if (text === '') {
     return '';
   }
+
+  const hasMark = /[()（）]/gi.test(name + ': ' + text);
+
+  let tempName = name;
+  let tempText = text;
+  let responseObject;
 
   // get text type
   const textType = getTextType(name, text, false);
 
   // reverse text
   if (textType === textTypeList.reversed) {
-    text2 = jpFunction.reverseKana(text2);
+    tempText = jpFunction.reverseKana(tempText);
   }
 
   // special fix 1
-  text2 = specialFix1(name, text2);
+  tempText = specialFix1(name, tempText);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(text2, chArray.combine, textType, isTargetChinese);
-
-  /*
-  // convert to hira
-  if (textType === textTypeList.allKatakana) {
-    text2 = jpFunction.convertKana(text2, 'hira');
-  }
-  */
+  const codeResult = jpFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine, textType, isTargetChinese);
 
   // skip check
-  if (jpFunction.needTranslation(text2, codeResult.aiTable)) {
+  if (jpFunction.needTranslation(tempText, codeResult.aiTable)) {
     // translate
-    translatedText = await translateModule.translate(text2, translation, codeResult.aiTable, 'text');
+    responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
   } else {
-    translatedText = fixFunction.replaceText(text2, codeResult.aiTable);
+    responseObject = {
+      name: fixFunction.replaceText(tempName, codeResult.aiTable),
+      text: fixFunction.replaceText(tempText, codeResult.aiTable),
+    };
   }
 
-  // remove mark
-  if (hasMark === false) {
-    translatedText = fixFunction.removeMark(translatedText);
+  if (responseObject) {
+    // remove mark
+    if (hasMark === false) {
+      responseObject.text = fixFunction.removeMark(responseObject.text);
+    }
+
+    // after translation
+    responseObject.text = fixFunction.replaceText(responseObject.text, chArray.afterTranslation);
+
+    // save translated name
+    if (!(fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine))) {
+      saveName(name, responseObject.name);
+    } else {
+      responseObject.name = fixFunction.replaceText(name, codeResult.aiTable);
+    }
   }
 
-  // after translation
-  translatedText = fixFunction.replaceText(translatedText, chArray.afterTranslation);
-
-  return translatedText;
+  return responseObject;
 }
 
 // special fix 1

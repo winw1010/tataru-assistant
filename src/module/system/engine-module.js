@@ -246,6 +246,11 @@ function getLanguageCode(language, engine) {
   return table[language];
 }
 
+// get LLM table
+function getLLMTable() {
+  return JSON.parse(JSON.stringify(llmTable));
+}
+
 // sleep
 function sleep(ms = 1000) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -264,6 +269,7 @@ module.exports = {
   changeList,
   aiList,
   visionList,
+  getLLMTable,
 
   languageEnum,
   languageIndex,

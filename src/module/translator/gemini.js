@@ -30,38 +30,71 @@ const safetySettings = [
 ];
 
 // exec
-async function exec(option, type) {
-  const response = translate(option.text, option.from, option.to, option.table, type);
+async function exec(option) {
+  const response = translate(option.name, option.text, option.source, option.target, option.table);
   return response;
 }
 
 // translate
-async function translate(text = '', source = 'Japanese', target = 'Chinese', table = [], type = 'text') {
+async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
-  const prompt = aiFunction.createTranslationPrompt(source, target, type, table.length > 0);
+  const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
+  const historyIndex = 'Gemini_' + prompt;
   const glossary = aiFunction.createGlossary(source, target, table);
+  const sample = aiFunction.getTranslationSample(source, target);
   const model = config.api.geminiModel;
-  const apiKey = config.api.geminiApiKey;
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
   const headers = {
-    'x-goog-api-key': apiKey,
+    'x-goog-api-key': config.api.geminiApiKey,
     'Content-Type': 'application/json',
   };
 
   // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, prompt, config);
+  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
+
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        parts: [
+          {
+            text: JSON.stringify({
+              name: sample.name[0],
+              text: sample.text[0],
+              glossary: glossary,
+            }),
+          },
+        ],
+      },
+      {
+        role: 'model',
+        parts: [
+          {
+            text: JSON.stringify({
+              name: sample.name[1],
+              text: sample.text[1],
+            }),
+          },
+        ],
+      },
+    );
+  }
 
   const payload = {
     systemInstruction: {
       parts: [{ text: prompt }],
     },
     contents: [
-      ...chatHistoryList[prompt],
+      ...sampleArray,
+      ...chatHistoryList[historyIndex],
       {
         role: 'user',
         parts: [
           {
             text: JSON.stringify({
+              name: name,
               text: text,
               glossary: glossary,
             }),
@@ -69,15 +102,6 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
         ],
       },
     ],
-    /*
-    generationConfig: {
-      stopSequences: ['Title'],
-      temperature: parseFloat(config.ai.temperature),
-      maxOutputTokens: 800,
-      topP: 0.8,
-      topK: 10,
-    },
-    */
   };
 
   payload.safetySettings = safetySettings;
@@ -86,15 +110,23 @@ async function translate(text = '', source = 'Japanese', target = 'Chinese', tab
   const responseText = response.data.candidates[0].content.parts[0].text.replace(/\r|\n/g, '');
 
   // push history
-  if (config.ai.useChat && type === 'text') {
-    chatHistoryList[prompt].push(
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
       {
         role: 'user',
-        parts: [{ text: text }],
+        parts: [
+          {
+            text: JSON.stringify({
+              name: name,
+              text: text,
+              glossary: glossary,
+            }),
+          },
+        ],
       },
       {
         role: 'model',
-        parts: [{ text: responseText }],
+        parts: [{ text: typeof responseText === 'string' ? responseText : JSON.stringify(responseText) }],
       },
     );
   }

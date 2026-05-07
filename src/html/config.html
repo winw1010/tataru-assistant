@@ -776,16 +776,9 @@
 
         <hr />
 
-        <div class="row align-items-center" hidden>
-          <div class="col">
-            <label for="input-ai-temperature"></label>
-          </div>
-          <div class="col-6">
-            <input class="form-control" type="number" name="" step="0.1" id="input-ai-temperature" />
-          </div>
-        </div>
-
-        <hr hidden />
+        <p class="text-warning">${source} = Source language from settings</p>
+        <p class="text-warning">${target} = Target language from settings</p>
+        <p class="text-warning">Keep blank if you want to disable custom promopt</p>
 
         <div class="row align-items-center">
           <div class="col">
@@ -798,10 +791,6 @@
             <textarea class="form-control" name="" id="textarea-ai-custom-translation-prompt" rows="5"></textarea>
           </div>
         </div>
-
-        <p class="text-warning">${source} = Source language from settings</p>
-        <p class="text-warning">${target} = Target language from settings</p>
-        <p class="text-warning">Keep blank if you want to disable custom promopt</p>
       </div>
 
       <!-- system page -->
@@ -846,18 +835,6 @@
 
         <br />
 
-        <!-- SSL certificate -->
-        <div class="row">
-          <div class="col">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-ssl-certificate" />
-              <label class="form-check-label" for="checkbox-ssl-certificate"></label>
-            </div>
-          </div>
-        </div>
-
-        <br />
-
         <!-- download json -->
         <div class="row">
           <div class="col">
@@ -868,9 +845,9 @@
         <br />
 
         <!-- delete temp -->
-        <div class="row">
+        <div class="row" hidden>
           <div class="col">
-            <button class="btn btn-primary" id="button-delete-temp" hidden></button>
+            <button class="btn btn-primary" id="button-delete-temp"></button>
           </div>
         </div>
 
@@ -904,6 +881,18 @@
 
       <!-- proxy -->
       <div id="div-proxy" class="config-page" hidden>
+        <!-- SSL certificate -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-ssl-certificate" />
+              <label class="form-check-label" for="checkbox-ssl-certificate"></label>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
         <div class="row align-items-center">
           <div class="col">
             <div class="form-check form-switch">

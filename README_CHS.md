@@ -1,4 +1,4 @@
-English[https://github.com/winw1010/tataru-assistant/blob/main/README.md] | 繁体中文[https://github.com/winw1010/tataru-assistant/blob/main/README_CHT.md] | 简体中文
+[English](https://github.com/winw1010/tataru-assistant/blob/main/README.md) | [繁体中文](https://github.com/winw1010/tataru-assistant/blob/main/README_CHT.md) | 简体中文
 
 # Tataru Assistant 是什么?
 

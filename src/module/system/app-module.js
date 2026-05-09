@@ -1,8 +1,5 @@
 'use strict';
 
-// child process
-const { exec } = require('child_process');
-
 // electron
 const { globalShortcut, ipcMain } = require('electron');
 
@@ -75,7 +72,7 @@ function registerGlobalShortcut() {
   globalShortcut.unregisterAll();
 
   globalShortcut.register('CommandOrControl+F9', () => {
-    exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'index.html')}"`);
+    configModule.openReadme();
   });
 
   globalShortcut.register('CommandOrControl+F10', () => {

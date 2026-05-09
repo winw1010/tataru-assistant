@@ -74,7 +74,7 @@ function setIPC() {
   setCaptureChannel();
   setJsonChannel();
   setRequestChannel();
-  setTranslateChannel();
+  setTranslationChannel();
   setFileChannel();
 }
 
@@ -111,6 +111,12 @@ function setSystemChannel() {
       // reset index bounds
       const defaultIndexBounds = windowModule.getWindowSize('index', defaultConfig);
       windowModule.getWindow('index').setContentBounds(defaultIndexBounds);
+
+      defaultConfig.indexWindow.x = parseInt(defaultIndexBounds.x);
+      defaultConfig.indexWindow.y = parseInt(defaultIndexBounds.y);
+      defaultConfig.indexWindow.width = parseInt(defaultIndexBounds.width);
+      defaultConfig.indexWindow.height = parseInt(defaultIndexBounds.height);
+      configModule.setConfig(defaultConfig);
 
       // reset config bounds
       const defaultConfigBounds = windowModule.getWindowSize('config', defaultConfig);
@@ -162,6 +168,30 @@ function setSystemChannel() {
   // console log
   ipcMain.on('console-log', (event, ...args) => {
     console.log(...args);
+  });
+
+  // open readme
+  ipcMain.on('open-readme', () => {
+    configModule.openReadme();
+  });
+
+  ipcMain.on('open-report-page', () => {
+    switch (configModule.getConfig().system.appLanguage) {
+      case 'app-zht':
+        childProcess.exec('explorer "https://forms.gle/hrpsDLW4Xb7b885d6"');
+        break;
+
+      case 'app-zhs':
+        childProcess.exec('explorer "https://forms.gle/vjEoWiuGmAhWUmFu9"');
+        break;
+
+      case 'app-en':
+        childProcess.exec('explorer "https://forms.gle/TC2TqTqYeY7CNaxn8"');
+        break;
+
+      default:
+        break;
+    }
   });
 }
 
@@ -444,23 +474,41 @@ function setRequestChannel() {
       });
 
     // get info
+    /*
     requestModule
       .get('https://raw.githubusercontent.com/winw1010/tataru-assistant-text/main/info.json')
       .then((response) => {
-        if (response?.data?.show) {
-          // show info
-          dialogModule.showInfo(event.sender, '' + response.data.message);
+        if (response.data.show) {
+          switch (dialogModule.getConfig().system.appLanguage) {
+            case 'app-zht':
+              dialogModule.addNotification(response.data.messageCHT);
+              break;
+
+            case 'app-zhs':
+              dialogModule.addNotification(response.data.messageCHS);
+              break;
+
+            case 'app-en':
+              dialogModule.addNotification(response.data.messageEN);
+              break;
+
+            default:
+              break;
+          }
         }
       })
       .catch((error) => {
         console.log(error);
         dialogModule.addNotification(error);
       });
+    */
   });
 
   // post form
-  ipcMain.on('post-form', (event, path) => {
-    requestModule.post('https://docs.google.com' + path).catch(console.log);
+  ipcMain.on('post-form', (event, path = '') => {
+    requestModule.post('https://docs.google.com' + encodeURI(path)).catch((err) => {
+      console.log(err.code);
+    });
   });
 }
 
@@ -550,7 +598,7 @@ function setJsonChannel() {
 }
 
 // set translate channel
-function setTranslateChannel() {
+function setTranslationChannel() {
   // get engine select
   ipcMain.handle('get-engine-select', () => {
     return engineModule.getEngineSelect();

@@ -300,6 +300,18 @@
 
       <!-- translation page -->
       <div id="div-translation" class="config-page" hidden>
+        <!-- show original text -->
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="checkbox-show-origainl-text" />
+              <label class="form-check-label" for="checkbox-show-origainl-text"></label>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
         <!-- auto change -->
         <div class="row">
           <div class="col">
@@ -423,14 +435,18 @@
 
       <!-- api page -->
       <div id="div-api" class="config-page" hidden>
+        <div class="row">
+          <div class="col-auto">
+            <a href="#" id="a-readme"></a>
+          </div>
+        </div>
+
+        <hr />
+
         <!-- set google vision -->
         <div class="row">
           <div class="col-auto">
             <p id="p-google-vision"></p>
-          </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-google-vision"></a>
           </div>
         </div>
 
@@ -484,10 +500,6 @@
           <div class="col-auto">
             <p id="p-gemini"></p>
           </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-gemini-api"></a>
-          </div>
         </div>
 
         <div class="row align-items-center">
@@ -525,10 +537,6 @@
         <div class="row">
           <div class="col-auto">
             <p id="p-chat-gpt"></p>
-          </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-gpt-api"></a>
           </div>
         </div>
 
@@ -579,10 +587,6 @@
           <div class="col-auto">
             <p id="p-cohere"></p>
           </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-cohere-api"></a>
-          </div>
         </div>
 
         <div class="row align-items-center">
@@ -621,10 +625,6 @@
           <div class="col-auto">
             <p id="p-kimi"></p>
           </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-kimi-api"></a>
-          </div>
         </div>
 
         <div class="row align-items-center">
@@ -662,10 +662,6 @@
         <div class="row">
           <div class="col-auto">
             <p id="p-llm-api"></p>
-          </div>
-
-          <div class="col-auto">
-            <a href="#" id="a-set-llm-api"></a>
           </div>
         </div>
 
@@ -761,28 +757,25 @@
               <label class="form-check-label" for="input-ai-chat-enable"></label>
             </div>
           </div>
-        </div>
 
-        <br />
-
-        <div class="row align-items-center">
-          <div class="col">
+          <div class="col-auto">
             <label for="input-ai-chat-length"></label>
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <input class="form-control" type="number" name="" min="1" step="1" id="input-ai-chat-length" />
           </div>
         </div>
 
-        <hr />
+        <div class="row align-items-center"></div>
 
-        <p class="text-warning">${source} = Source language from settings</p>
-        <p class="text-warning">${target} = Target language from settings</p>
-        <p class="text-warning">Keep blank if you want to disable custom promopt</p>
+        <hr />
 
         <div class="row align-items-center">
           <div class="col">
-            <label for="textarea-ai-custom-translation-prompt"></label>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="input-custom-translation-prompt-enable" />
+              <label class="form-check-label" for="input-custom-translation-prompt-enable"></label>
+            </div>
           </div>
         </div>
 
@@ -791,6 +784,9 @@
             <textarea class="form-control" name="" id="textarea-ai-custom-translation-prompt" rows="5"></textarea>
           </div>
         </div>
+
+        <p class="text-warning">${source} = Source language from settings</p>
+        <p class="text-warning">${target} = Target language from settings</p>
       </div>
 
       <!-- system page -->
@@ -989,9 +985,10 @@
                 <a class="nav-link" href="#" id="a-bug-report"></a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" hidden>
                 <a class="nav-link" href="#" id="a-view-response"></a>
               </li>
+
               <li class="nav-item" hidden>
                 <a class="nav-link" href="#" id="a-translation-report"></a>
               </li>
@@ -1000,7 +997,7 @@
                 <a class="nav-link" href="#" id="a-github"></a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" hidden>
                 <a class="nav-link" href="#" id="a-author"></a>
               </li>
             </ul>

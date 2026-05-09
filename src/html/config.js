@@ -129,41 +129,6 @@ function setButton() {
     ipcRenderer.send('fix-reader');
   };
 
-  // get set google vision
-  document.getElementById('a-set-google-vision').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-google-vision-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
-  // set cohere api
-  document.getElementById('a-set-gemini-api').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gemini-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
-  // set cohere api
-  document.getElementById('a-set-cohere-api').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-cohere-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
-  document.getElementById('a-set-kimi-api').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-kimi-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
-  // set gpt api
-  document.getElementById('a-set-gpt-api').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-gpt-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
-  // set LLM API
-  document.getElementById('a-set-llm-api').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'sub-llm-api.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
-  };
-
   // open google credential
   document.getElementById('button-google-credential').onclick = () => {
     ipcRenderer.send('set-google-credential');
@@ -196,13 +161,12 @@ function setButton() {
 
   // readme
   document.getElementById('a-readme').onclick = async () => {
-    const path = await ipcRenderer.invoke('get-root-path', 'src', 'data', 'text', 'readme', 'index.html');
-    ipcRenderer.send('execute-command', `explorer "${path}"`);
+    ipcRenderer.send('open-readme');
   };
 
   // bug report
   document.getElementById('a-bug-report').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+    ipcRenderer.send('open-report-page');
   };
 
   // view response
@@ -562,6 +526,10 @@ function getOptionList() {
 
     // translation
     [
+      ['checkbox-show-origainl-text', 'checked'],
+      ['translation', 'showOriginalText'],
+    ],
+    [
       ['checkbox-auto-change', 'checked'],
       ['translation', 'autoChange'],
     ],
@@ -691,6 +659,10 @@ function getOptionList() {
     [
       ['input-ai-chat-length', 'value'],
       ['ai', 'chatLength'],
+    ],
+    [
+      ['input-custom-translation-prompt-enable', 'checked'],
+      ['ai', 'useCustomTranslationPrompt'],
     ],
     [
       ['textarea-ai-custom-translation-prompt', 'value'],

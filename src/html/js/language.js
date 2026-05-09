@@ -136,8 +136,8 @@ function getElementTextList() {
         // edit
         'button-restart-translate': ['重新翻譯', '重新翻译', 'Translate Again'],
         'button-load-json': ['重新讀取對照表', '重新读取对照表', 'Reload Table'],
-        'button-report-translation': ['回報翻譯', '回报翻译', 'Report'],
-        'button-remove-dialog': ['刪除本句', '删除本句', 'Delete Sentence'],
+        'button-report-translation': ['回報翻譯錯誤', '回报翻譯错误', 'Report Translation'],
+        'button-remove-dialog': ['刪除本句', '删除本句', 'Delete this Sentence'],
 
         'button-save-custom': ['儲存', '储存', 'Save'],
         'button-delete-custom': ['刪除', '删除', 'Delete'],
@@ -169,6 +169,7 @@ function getElementTextList() {
         'input-dialog-color': ['對話框顏色', '对话框颜色', 'Dialog Color'],
         'input-dialog-transparency': ['對話框透明度', '对话框透明度', 'Dialog Transparency'],
 
+        'checkbox-show-origainl-text': ['顯示原文', '显示原文', 'Show original text'],
         'checkbox-auto-change': ['翻譯失敗時切換翻譯器', '翻译失败时切换翻译器', 'Change Translator Automatically'],
         'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix Translation'],
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
@@ -208,10 +209,10 @@ function getElementTextList() {
 
         'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
-        'textarea-ai-custom-translation-prompt': [
-          '自訂翻譯Prompt(System Role)',
-          '自订翻译Prompt(System Role)',
-          'Custom Translation Prompt(System Role)',
+        'input-custom-translation-prompt-enable': [
+          '自訂翻譯Prompt (System Role)',
+          '自订翻译Prompt (System Role)',
+          'Custom Translation Prompt (System Role)',
         ],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],

@@ -18,14 +18,12 @@ const role = source && target ? `${source}-${target} translator` : 'translator';
 const configModule = require('../system/config-module');
 
 function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGlossary = false) {
-  const customPrompt = configModule.getConfig().ai.customTranslationPrompt?.trim();
+  const config = configModule.getConfig();
+  const useCustomPrompt = config.ai.useCustomTranslationPrompt;
+  const customPrompt = config.ai.customTranslationPrompt?.trim();
   const withGlossaryText = withGlossary ? 'with the glossary(in glossary field)' : '';
 
-  if (customPrompt) {
-    if (source === '') {
-      source = 'any languages';
-    }
-
+  if (useCustomPrompt && customPrompt) {
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);
   } else {
     return `Translate ${source} JSON object to ${target}${withGlossaryText}.`.replaceAll('  ', ' ');

@@ -1,5 +1,8 @@
 'use strict';
 
+// child process
+const { exec } = require('child_process');
+
 // electron
 const { app } = require('electron');
 
@@ -56,6 +59,7 @@ const defaultConfig = {
     '2AB9': '#ABD647',
   },
   translation: {
+    showOriginalText: true,
     autoChange: true,
     fix: true,
     skip: true,
@@ -90,6 +94,7 @@ const defaultConfig = {
   ai: {
     useChat: true,
     chatLength: '5',
+    useCustomTranslationPrompt: false,
     customTranslationPrompt: '',
   },
   proxy: {
@@ -133,13 +138,12 @@ function loadConfig() {
     // fix options
     const mainNames = Object.keys(defaultConfig);
     mainNames.forEach((mainName) => {
-      if (
-        typeof currentConfig[mainName] === 'undefined' ||
-        typeof currentConfig[mainName] !== typeof defaultConfig[mainName] ||
-        Array.isArray(currentConfig[mainName])
-      ) {
+      if (typeof currentConfig[mainName] !== typeof defaultConfig[mainName] || Array.isArray(currentConfig[mainName])) {
+        // fix main object
         currentConfig[mainName] = defaultConfig[mainName];
       } else {
+        // fix sub object
+
         // skip channel
         if (mainName === 'channel') {
           return;
@@ -148,10 +152,7 @@ function loadConfig() {
         // add property
         const subNames = Object.keys(defaultConfig[mainName]);
         subNames.forEach((subName) => {
-          if (
-            typeof currentConfig[mainName][subName] === 'undefined' ||
-            typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]
-          ) {
+          if (typeof currentConfig[mainName][subName] !== typeof defaultConfig[mainName][subName]) {
             currentConfig[mainName][subName] = defaultConfig[mainName][subName];
           }
         });
@@ -339,6 +340,23 @@ function setAppLanguage() {
   setConfig(config);
 }
 
+// open readme
+function openReadme() {
+  switch (currentConfig.system.appLanguage) {
+    case 'app-zht':
+      exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'html', 'cht', 'index.html')}"`);
+      break;
+
+    case 'app-zhs':
+      exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'html', 'chs', 'index.html')}"`);
+      break;
+
+    default:
+      exec(`explorer "${fileModule.getRootPath('src', 'data', 'text', 'readme', 'html', 'eng', 'index.html')}"`);
+      break;
+  }
+}
+
 // module exports
 module.exports = {
   loadConfig,
@@ -348,4 +366,5 @@ module.exports = {
   getDefaultConfig,
   setDefaultConfig,
   setAppLanguage,
+  openReadme,
 };

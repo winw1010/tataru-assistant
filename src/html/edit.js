@@ -97,9 +97,9 @@ function setButton() {
     ipcRenderer.send('load-json');
   };
 
-  // report translation
+  // report
   document.getElementById('button-report-translation').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://forms.gle/1iX2Gq4G1itCy3UH9"');
+    ipcRenderer.send('open-report-page');
   };
 
   // remove dialog
@@ -171,7 +171,7 @@ async function readLog(id = '') {
         document.getElementById('select-engine').value = fixLogValue(
           targetLog.translation.engine,
           ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL', 'GPT', 'Cohere', 'Gemini', 'Kimi', 'LLM-API'],
-          config.translation.engine
+          config.translation.engine,
         );
       }
 
@@ -232,36 +232,6 @@ function showText() {
   divText1.innerHTML = `<span>${name1 !== '' ? name1 + '：<br>' : ''}${text1}</span>`;
   divText2.innerHTML = `<span>${name2 !== '' ? name2 + '：<br>' : ''}${text2}</span>`;
 }
-
-/*
-// report translation
-function reportTranslation() {
-  // google form
-  const formId = '1FAIpQLScj8LAAHzy_nTIbbJ1BSqNzyZy3w5wFrLxDVUMbY0BIAjaIAg';
-  const entry1 = 'entry.195796166';
-  const entry2 = 'entry.1834106335';
-  const entry3 = 'entry.2057890818';
-  const entry4 = 'entry.654133178';
-
-  try {
-    const text1 = (targetLog.name !== '' ? targetLog.name + ': ' : '') + targetLog.text;
-    const text2 =
-      (targetLog.translated_name !== '' ? targetLog.translated_name + ': ' : '') + targetLog.translated_text;
-    const path =
-      `/forms/d/e/${formId}/formResponse?` +
-      `${entry1}=待處理` +
-      `&${entry2}=${targetLog.translation.engine}` +
-      `&${entry3}=${text1}` +
-      `&${entry4}=${text2}`;
-
-    ipcRenderer.send('post-form', encodeURI(path));
-    ipcRenderer.send('show-info', '回報完成');
-  } catch (error) {
-    console.log(error);
-    ipcRenderer.send('show-info', '' + error);
-  }
-}
-*/
 
 // fix log value
 function fixLogValue(value = '', valueArray = [], defaultValue = '') {

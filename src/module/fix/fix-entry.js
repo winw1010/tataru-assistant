@@ -7,7 +7,7 @@ const configModule = require('../system/config-module');
 const dialogModule = require('../system/dialog-module');
 
 // language table
-const { languageEnum, fixSourceList } = require('../system/engine-module');
+const { aiList, languageEnum, fixSourceList } = require('../system/engine-module');
 
 // translate module
 const translateModule = require('../system/translate-module');
@@ -17,7 +17,7 @@ const enFix = require('./en-fix');
 const jpFix = require('./jp-fix');
 
 // npc channel
-const npcChannel = ['003D', '0044', '2AB9'];
+//const npcChannel = ['003D', '0044', '2AB9'];
 
 // player channel
 const playerChannel = getPlayerChannel();
@@ -82,49 +82,66 @@ async function entry() {
   dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
 
   // reset translated content
-  dialogData.translatedName = dialogData.name;
-  dialogData.translatedText = dialogData.text;
-  dialogData.audioText = dialogData.text;
+  dialogData.translatedName = '';
+  dialogData.translatedText = '';
+  dialogData.audioText = '';
 
   // get true language
   const trueLanguage = getLanguage(dialogData);
+  dialogData.translation.from = trueLanguage;
 
-  // JP/EN => fix translation
-  if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
-    // JP fix
-    if (trueLanguage === languageEnum.ja) {
-      if (jpFix.skipTranslation(dialogData)) {
-        console.log('Skip translation');
-        dialogModule.removeDialog(dialogData.id);
-        return;
+  if (trueLanguage === dialogData.translation.to) {
+    dialogData.translatedName = dialogData.name;
+    dialogData.translatedText = dialogData.text;
+    dialogData.audioText = dialogData.text;
+  } else {
+    // FIX is on & Source = JP or EN => fix translation
+    if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
+      // JP fix
+      if (trueLanguage === languageEnum.ja) {
+        if (jpFix.skipTranslation(dialogData)) {
+          console.log('Skip translation');
+          dialogModule.removeDialog(dialogData.id);
+          return;
+        }
+
+        showOriginalText(dialogData);
+        await jpFix.start(dialogData);
       }
+      // EN fix
+      else {
+        if (enFix.skipTranslation(dialogData)) {
+          console.log('Skip translation');
+          dialogModule.removeDialog(dialogData.id);
+          return;
+        }
 
-      dialogModule.updateDialog(dialogData);
-      dialogData.translation.from = languageEnum.ja;
-      await jpFix.start(dialogData);
+        showOriginalText(dialogData);
+        await enFix.start(dialogData);
+      }
     }
-    // EN fix
+    // normal translation
     else {
-      if (enFix.skipTranslation(dialogData)) {
-        console.log('Skip translation');
-        dialogModule.removeDialog(dialogData.id);
-        return;
+      showOriginalText(dialogData);
+
+      if (aiList.includes(dialogData.translation.engine)) {
+        const responseObject = await translateModule.translateLLM(dialogData.name, dialogData.text, dialogData.translation);
+        dialogData.translatedName = responseObject.name;
+        dialogData.translatedText = responseObject.text;
+      } else {
+        /*
+        if (npcChannel.includes(dialogData.code)) {
+          dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
+        }
+        */
+
+        dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
+        dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
       }
 
-      dialogModule.updateDialog(dialogData);
-      dialogData.translation.from = languageEnum.en;
-      await enFix.start(dialogData);
+      // audio text
+      dialogData.audioText = dialogData.text;
     }
-  }
-  // normal translation
-  else {
-    // translate name
-    if (npcChannel.includes(dialogData.code)) {
-      dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation, [], 'name');
-    }
-
-    // translate text
-    dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
   }
 
   // update dialog
@@ -143,6 +160,17 @@ function getLanguage(dialogData) {
 // is player channel
 function isPlayerChannel(code) {
   return playerChannel.includes(code);
+}
+
+// show original text
+function showOriginalText(dialogData) {
+  const temp = JSON.parse(JSON.stringify(dialogData));
+
+  if (temp.translation.showOriginalText) {
+    temp.translatedName = temp.name;
+    temp.translatedText = temp.text;
+    dialogModule.updateDialog(temp);
+  }
 }
 
 // get player channel

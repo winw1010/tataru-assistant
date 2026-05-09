@@ -4,7 +4,7 @@
 const zhTables = require('./zh-convert-table');
 
 // zh exception
-const zhException = ['当当', '和奸'];
+const zhException = [];
 
 // exec
 function exec(option = { text: '', tableName: 'zh2Hant' }) {

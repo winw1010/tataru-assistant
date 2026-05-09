@@ -264,7 +264,11 @@ async function fixLLM(dialogData = {}) {
     if (!(fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine))) {
       saveName(name, responseObject.name);
     } else {
-      responseObject.name = fixFunction.replaceText(name, codeResult.aiTable);
+      if (fixFunction.sameAsArrayItem(name, chArray.combine)) {
+        responseObject.name = fixFunction.replaceText(name, codeResult.aiTable);
+      } else {
+        responseObject.name = fixFunction.replaceText(name + '#', codeResult.aiTable);
+      }
     }
   }
 

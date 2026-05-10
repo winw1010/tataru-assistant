@@ -5,7 +5,7 @@ English | [繁體中文](https://github.com/winw1010/tataru-assistant/blob/main/
 **Tataru Assistant** is a real-time story subtitle translation program for the FFXIV International version. Its main features include:
 
 - AI translation for dialogue text and cutscene subtitles.
-- Supports multi-turn AI dialogue, making translation results more natural and coherent.
+- Supports multi-turn AI dialogue, making translation results more natural and accurate.
 - Captures screen text for translation.
 - (Chinese translation only) Corrects translation results based on a [**reference table**](https://github.com/winw1010/tataru-assistant-text), such as correcting **タタル** to **塔塔露**.
 - (Available for all languages) Custom translation overrides.

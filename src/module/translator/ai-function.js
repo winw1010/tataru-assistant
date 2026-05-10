@@ -76,6 +76,8 @@ function getTranslationSample(source = 'Japanese', target = 'Chinese') {
     Korean: '타타루',
     Russian: 'Татару',
     Italian: 'Tataru',
+    Portuguese: 'Tataru',
+    Brazilian: 'Tataru',
   };
 
   const hello = {
@@ -86,6 +88,8 @@ function getTranslationSample(source = 'Japanese', target = 'Chinese') {
     Korean: '안녕！',
     Russian: 'Привет!',
     Italian: 'Ciao!',
+    Portuguese: 'Olá!',
+    Brazilian: 'Olá!',
   };
 
   const sample = {

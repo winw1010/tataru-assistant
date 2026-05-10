@@ -1,7 +1,17 @@
 'use strict';
 
 // all language list
-const allLanguageList = ['Japanese', 'English', 'Traditional-Chinese', 'Simplified-Chinese', 'Korean', 'Russian', 'Italian'];
+const allLanguageList = [
+  'Japanese',
+  'English',
+  'Traditional-Chinese',
+  'Simplified-Chinese',
+  'Korean',
+  'Russian',
+  'Italian',
+  'Portuguese',
+  'Brazilian',
+];
 
 // source list
 const sourceList = ['Japanese', 'English'];
@@ -77,6 +87,8 @@ const llmTable = {
   Korean: 'Korean',
   Russian: 'Russian',
   Italian: 'Italian',
+  Portuguese: 'Portuguese',
+  Brazilian: 'Brazilian Portuguese',
 };
 
 // engine table
@@ -91,6 +103,8 @@ const engineTable = {
     Korean: 'kor',
     Russian: 'ru',
     Italian: 'it',
+    Portuguese: 'pt',
+    Brazilian: 'pot',
   },
   Caiyun: {
     Auto: 'auto',
@@ -102,6 +116,8 @@ const engineTable = {
     Korean: 'ko',
     Russian: 'ru',
     Italian: 'it',
+    Portuguese: 'pt',
+    Brazilian: 'pt',
   },
   Youdao: {
     Auto: 'auto',
@@ -113,6 +129,8 @@ const engineTable = {
     Korean: 'ko',
     Russian: 'ru',
     Italian: 'it',
+    Portuguese: 'pt',
+    Brazilian: 'pt',
   },
   Papago: {
     Auto: 'detect',
@@ -124,6 +142,8 @@ const engineTable = {
     Korean: 'ko',
     Russian: 'ru',
     Italian: 'it',
+    Portuguese: 'pt',
+    Brazilian: 'pt',
   },
   DeepL: {
     Auto: 'auto',
@@ -135,6 +155,8 @@ const engineTable = {
     Korean: 'KO',
     Russian: 'RU',
     Italian: 'IT',
+    Portuguese: 'PT',
+    Brazilian: 'PT',
   },
   Google: {
     Auto: 'auto',
@@ -146,6 +168,8 @@ const engineTable = {
     Korean: 'ko',
     Russian: 'ru',
     Italian: 'it',
+    Portuguese: 'pt-PT',
+    Brazilian: 'pt-BR',
   },
   GPT: llmTable,
   Gemini: llmTable,

@@ -285,6 +285,8 @@ function getElementTextList() {
         Korean: ['韓文', '韩語', 'Korean'],
         Russian: ['俄文', '俄语', 'Russian'],
         Italian: ['義大利文', '意大利语', 'Italian'],
+        Portuguese: ['葡萄牙文', '葡萄牙文', 'Portuguese'],
+        Brazilian: ['巴西葡萄牙文', '巴西葡萄牙文', 'Brazilian Portuguese'],
 
         'google-json': ['JSON檔案', 'JSON档案', 'JSON File'],
         'google-api-key': ['API Key', 'API Key', 'API Key'],

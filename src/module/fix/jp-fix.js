@@ -217,11 +217,13 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
     return '';
   }
 
+  /*
   // force overwrite
   const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
   if (target) {
     return fixFunction.replaceText(target[1], chArray.combine);
   }
+  */
 
   // get text type
   const textType = getTextType(name, text);

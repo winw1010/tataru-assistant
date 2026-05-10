@@ -31,8 +31,8 @@ function load(targetLanguage) {
   // en
   enArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleEN());
   enArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('en', 'ignore.json'));
-  enArray.en1 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
-  enArray.en2 = jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));
+  enArray.en1 = []; //jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
+  enArray.en2 = []; //jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));
   enArray.uncountable = jsonFunction.readText(jsonFunction.getTextPath('en', 'uncountable.json'));
 
   // main
@@ -46,7 +46,7 @@ function load(targetLanguage) {
     const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
     // ch
-    chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);
+    //chArray.overwrite = jsonFunction.readOverwriteEN(rplIndex - 1);
     chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
 
     // main
@@ -57,7 +57,7 @@ function load(targetLanguage) {
   }
 
   // overwrite
-  chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
+  //chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
   chArray.combine = jsonFunction.combineArray2(userArray.playerName, userArray.customTarget, chArray.main, userArray.tempNameValid);

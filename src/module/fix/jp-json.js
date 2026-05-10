@@ -53,7 +53,7 @@ function load(targetLanguage) {
     const ch = targetLanguage === languageEnum.zht ? 'cht' : 'chs';
 
     // ch
-    chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
+    //chArray.overwrite = jsonFunction.readOverwriteJP(rplIndex - 1);
     chArray.afterTranslation = jsonFunction.readText(jsonFunction.getTextPath('ch', `after-translation-${ch}.json`));
     chArray.chName = jsonFunction.readText(jsonFunction.getTextPath('ch', 'jp-ch-name.json'), true, true, srcIndex, rplIndex - 1);
 
@@ -68,7 +68,7 @@ function load(targetLanguage) {
   }
 
   // overwrite
-  chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
+  //chArray.overwrite = jsonFunction.combineArray2(userArray.customOverwrite, chArray.overwrite);
 
   // combine
   chArray.combine = jsonFunction.combineArray2(userArray.playerName, userArray.customTarget, chArray.main, userArray.tempNameValid);

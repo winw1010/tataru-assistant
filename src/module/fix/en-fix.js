@@ -176,14 +176,18 @@ async function fixText(dialogData = {}) {
     return '';
   }
 
+  /*
   // force overwrite
   const target = fixFunction.sameAsArrayItem(text, chArray.overwrite);
   if (target) {
     return fixFunction.replaceText(target[1], chArray.combine, true);
   }
+  */
 
+  /*
   // en1
   text2 = fixFunction.replaceText(text2, enArray.en1, true);
+  */
 
   // special fix
   text2 = specialFix(name, text2);
@@ -192,8 +196,10 @@ async function fixText(dialogData = {}) {
   const codeResult = enFunction.replaceTextByCode(text2, jsonFunction.combineArray2(chArray.combine, chArray.nonAI));
   text2 = codeResult.text;
 
+  /*
   // en2
   text2 = fixFunction.replaceText(text2, enArray.en2, true);
+  */
 
   // mark fix
   // text2 = fixFunction.markFix(text2);

@@ -235,6 +235,8 @@ async function fixLLM(dialogData = {}) {
     return '';
   }
 
+  const sameName = fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine);
+
   let tempName = name;
   let tempText = text;
   let responseObject;
@@ -260,15 +262,11 @@ async function fixLLM(dialogData = {}) {
     // after translation
     responseObject.text = fixFunction.replaceText(responseObject.text, chArray.afterTranslation);
 
-    // save translated name
-    if (!(fixFunction.sameAsArrayItem(name, chArray.combine) || fixFunction.sameAsArrayItem(name + '#', chArray.combine))) {
-      saveName(name, responseObject.name);
+    // name check
+    if (sameName) {
+      responseObject.name = sameName;
     } else {
-      if (fixFunction.sameAsArrayItem(name, chArray.combine)) {
-        responseObject.name = fixFunction.replaceText(name, codeResult.aiTable);
-      } else {
-        responseObject.name = fixFunction.replaceText(name + '#', codeResult.aiTable);
-      }
+      saveName(name, responseObject.name);
     }
   }
 

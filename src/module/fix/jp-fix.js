@@ -348,7 +348,7 @@ async function fixLLM(dialogData = {}, isTargetChinese = true) {
 
     // name check
     if (sameName) {
-      responseObject.name = sameName;
+      responseObject.name = sameName[1];
     } else {
       saveName(name, responseObject.name);
     }

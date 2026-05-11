@@ -93,7 +93,7 @@ const defaultConfig = {
   },
   ai: {
     useChat: true,
-    chatLength: '5',
+    chatLength: '3',
     useCustomTranslationPrompt: false,
     customTranslationPrompt: '',
   },

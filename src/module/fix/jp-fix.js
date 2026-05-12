@@ -189,6 +189,10 @@ function createName(katakanaName = '') {
 
 // save name
 function saveName(name = '', translatedName = '') {
+  if (name === '') {
+    return;
+  }
+
   if (name.length < 3) name += '#';
 
   // add to combine

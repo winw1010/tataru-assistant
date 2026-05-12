@@ -145,7 +145,7 @@ async function fixName(dialogData = {}) {
 
 // save name
 function saveName(name = '', translatedName = '') {
-  if (name === translatedName) {
+  if (name === '') {
     return;
   }
 

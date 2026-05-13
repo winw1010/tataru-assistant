@@ -84,7 +84,7 @@ async function entry() {
   // reset translated content
   dialogData.translatedName = '';
   dialogData.translatedText = '';
-  dialogData.audioText = '';
+  dialogData.audioText = dialogData.text;
 
   // get true language
   const trueLanguage = getLanguage(dialogData);
@@ -93,7 +93,6 @@ async function entry() {
   if (trueLanguage === dialogData.translation.to) {
     dialogData.translatedName = dialogData.name;
     dialogData.translatedText = dialogData.text;
-    dialogData.audioText = dialogData.text;
   } else {
     // FIX is on & Source = JP or EN => fix translation
     if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
@@ -138,9 +137,6 @@ async function entry() {
         dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
         dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
       }
-
-      // audio text
-      dialogData.audioText = dialogData.text;
     }
   }
 

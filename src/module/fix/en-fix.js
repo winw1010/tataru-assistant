@@ -53,7 +53,12 @@ async function start(dialogData = {}) {
         responseObject = await fixLLM(dialogData);
 
         if (responseObject) {
-          translatedName = responseObject.name;
+          if (npcChannel.includes(dialogData.code)) {
+            translatedName = responseObject.name;
+          } else {
+            translatedName = name;
+          }
+
           translatedText = responseObject.text;
         }
       }

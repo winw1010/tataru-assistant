@@ -66,7 +66,7 @@ function addNotification(text = '') {
   // set timeout
   setTimeout(() => {
     removeDialog(id);
-  }, 7000);
+  }, 10000);
 }
 
 // remove dialog
@@ -98,9 +98,12 @@ function showDialog() {
   windowModule.sendIndex('hide-dialog', false);
 
   if (config.indexWindow.hideDialog) {
-    hideDialogTimeout = setTimeout(() => {
-      windowModule.sendIndex('hide-dialog', true);
-    }, parseInt(config.indexWindow.timeout) * 1000);
+    hideDialogTimeout = setTimeout(
+      () => {
+        windowModule.sendIndex('hide-dialog', true);
+      },
+      parseInt(config.indexWindow.timeout) * 1000,
+    );
   }
 }
 

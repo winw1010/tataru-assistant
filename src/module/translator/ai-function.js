@@ -21,7 +21,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGl
   const config = configModule.getConfig();
   const useCustomPrompt = config.ai.useCustomTranslationPrompt;
   const customPrompt = config.ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? 'with the glossary(in glossary field)' : '';
+  const withGlossaryText = withGlossary ? ' with the glossary(in glossary field)' : '';
 
   if (useCustomPrompt && customPrompt) {
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);

@@ -1,29 +1,35 @@
 'use strict';
 
 // dialog module
-const dialogModule = require('./dialog-module');
+//const dialogModule = require('./dialog-module');
 
 // engine module
 const engineModule = require('./engine-module');
 
-// translator
+// tradidtional translator
 const baidu = require('../translator/baidu');
 const youdao = require('../translator/youdao');
 const caiyun = require('../translator/caiyun');
 const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
-//const google = require('../translator/google');
+
+// llm translator
 const gpt = require('../translator/gpt');
-const openai = require('../translator/openai');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
 const kimi = require('../translator/kimi');
+const customLLM = require('../translator/openai');
+
+// zh converter
 const zhConverter = require('../translator/zh-convert');
 
-// translate LLM
+// LLM translate
 async function translateLLM(name = '', text = '', translation = {}, table = []) {
-  const autoChange = translation.autoChange;
-  const engineList = [translation.engine, translation.engineAlternate];
+  // check text
+  if (text === '' || translation.from === translation.to) {
+    return text;
+  }
+
   const LLMTable = engineModule.getLLMTable();
   const option = {
     name: name,
@@ -33,103 +39,81 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
     target: LLMTable[translation.to],
   };
 
-  let responseObject = null;
-  let isError = false;
+  let responseObject = { name: '', text: '' };
+  const engine = translation.engine;
+  console.log('\r\nEngine:', engine);
 
-  do {
-    const engine = engineList.shift();
+  try {
+    switch (engine) {
+      case 'GPT':
+        responseObject = await gpt.exec(option);
+        break;
 
-    console.log('\r\nEngine:', engine);
+      case 'Cohere':
+        responseObject = await cohere.exec(option);
+        break;
 
-    if (isError) {
-      dialogModule.addNotification(`Change to ${engine}.`);
+      case 'Gemini':
+        responseObject = await gemini.exec(option);
+        break;
+
+      case 'Kimi':
+        responseObject = await kimi.exec(option);
+        break;
+
+      case 'LLM-API':
+        responseObject = await customLLM.exec(option);
+        break;
+
+      default:
+        break;
+    }
+  } catch (error) {
+    console.log(error);
+    responseObject.text = 'Assistant Error: ' + error;
+  }
+
+  if (responseObject) {
+    if (typeof responseObject === 'string') {
+      responseObject = JSON.parse(responseObject);
     }
 
-    try {
-      switch (engine) {
-        case 'GPT':
-          responseObject = await gpt.exec(option);
-          break;
-
-        case 'LLM-API':
-          responseObject = await openai.exec(option);
-          break;
-
-        case 'Cohere':
-          responseObject = await cohere.exec(option);
-          break;
-
-        case 'Gemini':
-          responseObject = await gemini.exec(option);
-          break;
-        case 'Kimi':
-          responseObject = await kimi.exec(option);
-          break;
-
-        default:
-          break;
-      }
-
-      if (responseObject) {
-        if (typeof responseObject === 'string') {
-          responseObject = JSON.parse(responseObject);
-        }
-
-        responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1);
-        responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1);
-      } else {
-        isError = true;
-      }
-    } catch (error) {
-      dialogModule.addNotification(error);
-      isError = true;
-    }
-  } while (isError && autoChange && engineList.length > 0);
+    responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1);
+    responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1);
+  } else {
+    responseObject.text = 'Null Object.';
+  }
 
   return responseObject;
 }
 
-// translate
-async function translate(text = '', translation = {}, table = []) {
+// traditional translate
+async function translate(text = '', translation = {}, table = [], sendError = true) {
+  const option = { ...engineModule.getTranslateOption(text, translation), table };
   let result = '';
 
+  // check text
+  if (text === '' || translation.from === translation.to) {
+    return text;
+  }
+
   try {
-    // clear newline
-    text = text.replace(/[\r\n]/g, '');
-
-    // check text
-    if (text === '' || translation.from === translation.to) {
-      return text;
-    }
-
     // translate
-    result = await translate2(text, translation, table);
+    result = await getTranslation(translation.engine, option);
 
     // process resutle
-    if (engineModule.aiList.includes(translation.engine)) {
-      try {
-        const result2 = JSON.parse(result).text;
-        if (text) {
-          result = result2;
-        }
-      } catch (error) {
-        error;
-      }
-
-      result = removeHonorific(zhConvert(removeQuote(result), translation.to), table, 1);
-      return result;
-    } else {
-      result = removeHonorific(zhConvert(removeQuote(clearCode(result, table)), translation.to), table, 0);
-      return result;
-    }
+    result = removeHonorific(zhConvert(removeQuote(clearCode(result, table)), translation.to), table, 0);
   } catch (error) {
     console.log(error);
-    result = '' + error;
+    if (sendError) {
+      result = 'Assistant Error: ' + error;
+    }
   }
 
   return result;
 }
 
+/*
 // translate 2
 async function translate2(text = '', translation = {}, table = []) {
   const autoChange = translation.autoChange;
@@ -138,7 +122,8 @@ async function translate2(text = '', translation = {}, table = []) {
 
   do {
     const engine = engineList.shift();
-    const option = { ...engineModule.getTranslateOption(text, engine, translation), table };
+    translation.engine = engine;
+    const option = { ...engineModule.getTranslateOption(text, translation), table };
 
     console.log('\r\nEngine:', engine);
 
@@ -157,57 +142,42 @@ async function translate2(text = '', translation = {}, table = []) {
 
   return result.text;
 }
+*/
 
 // get translation
 async function getTranslation(engine = '', option = {}) {
   console.log('Before:', option?.text);
 
-  let isError = false;
   let text = '';
 
-  try {
-    switch (engine) {
-      case 'Baidu':
-        text = await baidu.exec(option);
-        break;
+  switch (engine) {
+    case 'Baidu':
+      text = await baidu.exec(option);
+      break;
 
-      case 'Youdao':
-        text = await youdao.exec(option);
-        break;
+    case 'Youdao':
+      text = await youdao.exec(option);
+      break;
 
-      case 'Caiyun':
-        text = await caiyun.exec(option);
-        break;
+    case 'Caiyun':
+      text = await caiyun.exec(option);
+      break;
 
-      case 'Papago':
-        text = await papago.exec(option);
-        break;
+    case 'Papago':
+      text = await papago.exec(option);
+      break;
 
-      case 'DeepL':
-        text = await deepl.exec(option);
-        break;
+    case 'DeepL':
+      text = await deepl.exec(option);
+      break;
 
-      /*
-      case 'Google':
-        result = await google.exec(option);
-        break;
-      */
-
-      default:
-        break;
-    }
-  } catch (error) {
-    dialogModule.addNotification(error);
-    text = '';
-    isError = true;
+    default:
+      break;
   }
 
   console.log('After:', text);
 
-  return {
-    isError,
-    text,
-  };
+  return text;
 }
 
 // zh convert

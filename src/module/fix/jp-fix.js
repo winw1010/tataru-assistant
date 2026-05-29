@@ -61,7 +61,12 @@ async function start(dialogData = {}) {
         responseObject = await fixLLM(dialogData, isTargetChinese);
 
         if (responseObject) {
-          translatedName = responseObject.name;
+          if (npcChannel.includes(dialogData.code)) {
+            translatedName = responseObject.name;
+          } else {
+            translatedName = name;
+          }
+
           translatedText = responseObject.text;
         }
       }

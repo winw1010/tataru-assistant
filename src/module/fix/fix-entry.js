@@ -6,8 +6,8 @@ const configModule = require('../system/config-module');
 // dialog module
 const dialogModule = require('../system/dialog-module');
 
-// language table
-const { aiList, languageEnum, fixSourceList } = require('../system/engine-module');
+// engine module
+const engineModule = require('../system/engine-module');
 
 // translate module
 const translateModule = require('../system/translate-module');
@@ -17,7 +17,7 @@ const enFix = require('./en-fix');
 const jpFix = require('./jp-fix');
 
 // npc channel
-//const npcChannel = ['003D', '0044', '2AB9'];
+const npcChannel = ['003D', '0044', '2AB9'];
 
 // player channel
 const playerChannel = getPlayerChannel();
@@ -63,23 +63,26 @@ function restartEntryInterval() {
 // get entry interval
 function getEntryInterval() {
   return setInterval(() => {
-    if (running) entry();
+    if (running) {
+      const dialogData = entryIntervalItem.shift();
+
+      if (dialogData && dialogData.text) {
+        entry(dialogData);
+      }
+    }
   }, 1000);
 }
 
 // entry
-async function entry() {
+async function entry(dialogData) {
   const config = configModule.getConfig();
-  const dialogData = entryIntervalItem.shift();
-
-  if (!dialogData) return;
 
   // add dialog
   dialogModule.addDialog(dialogData);
 
   // clear newline
-  dialogData.name = dialogData.name.replace(/[\r\n]/g, '');
-  dialogData.text = dialogData.text.replace(/[\r\n]/g, '');
+  dialogData.name = dialogData.name.replace(/[\r\n\t]/g, '');
+  dialogData.text = dialogData.text.replace(/[\r\n\t]/g, '');
 
   // reset translated content
   dialogData.translatedName = '';
@@ -90,62 +93,84 @@ async function entry() {
   const trueLanguage = getLanguage(dialogData);
   dialogData.translation.from = trueLanguage;
 
-  if (trueLanguage === dialogData.translation.to) {
-    dialogData.translatedName = dialogData.name;
-    dialogData.translatedText = dialogData.text;
-  } else {
-    // FIX is on & Source = JP or EN => fix translation
-    if (config.translation.fix && fixSourceList.includes(trueLanguage)) {
-      // JP fix
-      if (trueLanguage === languageEnum.ja) {
-        if (jpFix.skipTranslation(dialogData)) {
-          console.log('Skip translation');
-          dialogModule.removeDialog(dialogData.id);
-          return;
-        }
+  // translator list
+  const translatorList = engineModule.getEngineList(dialogData.translation.engine, dialogData.translation.engineAlternate);
 
-        showOriginalText(dialogData);
-        await jpFix.start(dialogData);
+  do {
+    // get translaor
+    const translaor = translatorList.shift();
+    const isLLM = engineModule.aiList.includes(translaor);
+    dialogData.translation.engine = translaor;
+
+    // loop message
+    if (dialogData.translatedText.includes('Assistant Error:')) {
+      dialogModule.addNotification('Change to ' + translaor);
+    }
+
+    // translate
+    if (trueLanguage === dialogData.translation.to) {
+      dialogData.translatedName = dialogData.name;
+      dialogData.translatedText = dialogData.text;
+    } else {
+      // FIX is on & Source = JP or EN => fix translation
+      if (config.translation.fix && engineModule.fixSourceList.includes(trueLanguage)) {
+        // JP fix
+        if (trueLanguage === engineModule.languageEnum.ja) {
+          if (jpFix.skipTranslation(dialogData)) {
+            console.log('Skip Translation.');
+            dialogModule.removeDialog(dialogData.id);
+            return;
+          }
+
+          showTranslating(dialogData);
+          await jpFix.start(dialogData);
+        }
+        // EN fix
+        else {
+          if (enFix.skipTranslation(dialogData)) {
+            console.log('Skip Translation.');
+            dialogModule.removeDialog(dialogData.id);
+            return;
+          }
+
+          showTranslating(dialogData);
+          await enFix.start(dialogData);
+        }
       }
-      // EN fix
+      // normal translation
       else {
-        if (enFix.skipTranslation(dialogData)) {
-          console.log('Skip translation');
-          dialogModule.removeDialog(dialogData.id);
-          return;
-        }
+        showTranslating(dialogData);
 
-        showOriginalText(dialogData);
-        await enFix.start(dialogData);
+        if (isLLM) {
+          const responseObject = await translateModule.translateLLM(dialogData.name, dialogData.text, dialogData.translation);
+
+          if (npcChannel.includes(dialogData.code)) {
+            dialogData.translatedName = responseObject.name;
+          } else {
+            dialogData.translatedName = dialogData.name;
+          }
+
+          dialogData.translatedText = responseObject.text;
+        } else {
+          if (npcChannel.includes(dialogData.code)) {
+            dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
+          } else {
+            dialogData.translatedName = dialogData.name;
+          }
+
+          dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
+        }
       }
     }
-    // normal translation
-    else {
-      showOriginalText(dialogData);
 
-      if (aiList.includes(dialogData.translation.engine)) {
-        const responseObject = await translateModule.translateLLM(dialogData.name, dialogData.text, dialogData.translation);
-        dialogData.translatedName = responseObject.name;
-        dialogData.translatedText = responseObject.text;
-      } else {
-        /*
-        if (npcChannel.includes(dialogData.code)) {
-          dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
-        }
-        */
-
-        dialogData.translatedName = await translateModule.translate(dialogData.name, dialogData.translation);
-        dialogData.translatedText = await translateModule.translate(dialogData.text, dialogData.translation);
-      }
+    // empty check
+    if (dialogData.translatedText === '') {
+      dialogData.translatedText = 'Assistant Error: Empty String.';
     }
-  }
 
-  // update dialog
-  if (dialogData.translatedText === '') {
-    dialogData.translatedText = 'ERROR';
-  }
-
-  dialogModule.updateDialog(dialogData);
+    // update dialog
+    dialogModule.updateDialog(dialogData);
+  } while (dialogData.translatedText.includes('Assistant Error:') && dialogData.translation.autoChange && translatorList.length > 0);
 }
 
 // get language
@@ -158,15 +183,12 @@ function isPlayerChannel(code) {
   return playerChannel.includes(code);
 }
 
-// show original text
-function showOriginalText(dialogData) {
+// show translating
+function showTranslating(dialogData) {
   const temp = JSON.parse(JSON.stringify(dialogData));
-
-  if (temp.translation.showOriginalText) {
-    temp.translatedName = temp.name;
-    temp.translatedText = temp.text;
-    dialogModule.updateDialog(temp);
-  }
+  temp.translatedName = '';
+  temp.translatedText = '...';
+  dialogModule.updateDialog(temp);
 }
 
 // get player channel

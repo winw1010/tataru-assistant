@@ -526,10 +526,6 @@ function getOptionList() {
 
     // translation
     [
-      ['checkbox-show-origainl-text', 'checked'],
-      ['translation', 'showOriginalText'],
-    ],
-    [
       ['checkbox-auto-change', 'checked'],
       ['translation', 'autoChange'],
     ],

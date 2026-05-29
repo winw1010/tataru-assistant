@@ -59,7 +59,6 @@ const defaultConfig = {
     '2AB9': '#ABD647',
   },
   translation: {
-    showOriginalText: true,
     autoChange: true,
     fix: true,
     skip: true,

@@ -287,6 +287,7 @@ function getElementTextList() {
         Italian: ['義大利文', '意大利语', 'Italian'],
         Portuguese: ['葡萄牙文', '葡萄牙文', 'Portuguese'],
         Brazilian: ['巴西葡萄牙文', '巴西葡萄牙文', 'Brazilian Portuguese'],
+        Arabic: ['阿拉伯文', '阿拉伯文', 'Arabic'],
 
         'google-json': ['JSON檔案', 'JSON档案', 'JSON File'],
         'google-api-key': ['API Key', 'API Key', 'API Key'],

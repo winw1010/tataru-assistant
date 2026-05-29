@@ -11,6 +11,7 @@ const allLanguageList = [
   'Italian',
   'Portuguese',
   'Brazilian',
+  'Arabic',
 ];
 
 // source list
@@ -89,6 +90,7 @@ const llmTable = {
   Italian: 'Italian',
   Portuguese: 'Portuguese',
   Brazilian: 'Brazilian Portuguese',
+  Arabic: 'Arabic',
 };
 
 // engine table
@@ -105,6 +107,7 @@ const engineTable = {
     Italian: 'it',
     Portuguese: 'pt',
     Brazilian: 'pot',
+    Arabic: 'ara',
   },
   Caiyun: {
     Auto: 'auto',
@@ -118,6 +121,7 @@ const engineTable = {
     Italian: 'it',
     Portuguese: 'pt',
     Brazilian: 'pt',
+    Arabic: 'ar',
   },
   Youdao: {
     Auto: 'auto',
@@ -131,6 +135,7 @@ const engineTable = {
     Italian: 'it',
     Portuguese: 'pt',
     Brazilian: 'pt',
+    Arabic: 'ar',
   },
   Papago: {
     Auto: 'detect',
@@ -144,6 +149,7 @@ const engineTable = {
     Italian: 'it',
     Portuguese: 'pt',
     Brazilian: 'pt',
+    Arabic: 'ar',
   },
   DeepL: {
     Auto: 'auto',
@@ -157,6 +163,7 @@ const engineTable = {
     Italian: 'IT',
     Portuguese: 'PT',
     Brazilian: 'PT',
+    Arabic: 'ar',
   },
   Google: {
     Auto: 'auto',
@@ -170,6 +177,7 @@ const engineTable = {
     Italian: 'it',
     Portuguese: 'pt-PT',
     Brazilian: 'pt-BR',
+    Arabic: 'ar',
   },
   GPT: llmTable,
   Gemini: llmTable,

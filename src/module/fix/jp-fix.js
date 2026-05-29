@@ -88,6 +88,10 @@ async function start(dialogData = {}) {
       } else {
         translatedText = await fixText(dialogData, isTargetChinese);
       }
+
+      if (translatedText.includes('Assistant Error:')) {
+        translatedName = '';
+      }
     }
   } catch (error) {
     console.log(error);
@@ -319,7 +323,6 @@ async function fixLLM(dialogData = {}, isTargetChinese = true) {
 
   let tempName = name;
   let tempText = text;
-  let responseObject;
 
   // get text type
   const textType = getTextType(name, text, false);
@@ -335,16 +338,8 @@ async function fixLLM(dialogData = {}, isTargetChinese = true) {
   // combine
   const codeResult = jpFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine, textType, isTargetChinese);
 
-  // skip check
-  if (jpFunction.needTranslation(tempText, codeResult.aiTable)) {
-    // translate
-    responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
-  } else {
-    responseObject = {
-      name: fixFunction.replaceText(tempName, codeResult.aiTable),
-      text: fixFunction.replaceText(tempText, codeResult.aiTable),
-    };
-  }
+  // translate
+  const responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
 
   if (responseObject) {
     // remove mark

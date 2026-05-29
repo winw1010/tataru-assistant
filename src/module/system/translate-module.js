@@ -70,6 +70,7 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
     }
   } catch (error) {
     console.log(error);
+    responseObject.name = '';
     responseObject.text = 'Assistant Error: ' + error;
   }
 

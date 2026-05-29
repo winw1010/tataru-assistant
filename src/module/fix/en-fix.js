@@ -80,6 +80,10 @@ async function start(dialogData = {}) {
       } else {
         translatedText = await fixText(dialogData);
       }
+
+      if (translatedText.includes('Assistant Error:')) {
+        translatedName = '';
+      }
     }
   } catch (error) {
     console.log(error);
@@ -195,7 +199,7 @@ async function fixText(dialogData = {}) {
   */
 
   // special fix
-  text2 = specialFix(name, text2);
+  // text2 = specialFix(name, text2);
 
   // combine
   const codeResult = enFunction.replaceTextByCode(text2, jsonFunction.combineArray2(chArray.combine, chArray.nonAI));
@@ -250,24 +254,15 @@ async function fixLLM(dialogData = {}) {
 
   let tempName = name;
   let tempText = text;
-  let responseObject;
 
   // special fix
-  tempText = specialFix(name, tempText);
+  // tempText = specialFix(name, tempText);
 
   // combine
   const codeResult = enFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine);
 
-  // skip check
-  if (enFunction.needTranslation(tempText, codeResult.aiTable)) {
-    // translate
-    responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
-  } else {
-    responseObject = {
-      name: fixFunction.replaceText(tempName, codeResult.aiTable),
-      text: fixFunction.replaceText(tempText, codeResult.aiTable),
-    };
-  }
+  // translate
+  const responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);
 
   if (responseObject) {
     // after translation
@@ -284,15 +279,12 @@ async function fixLLM(dialogData = {}) {
   return responseObject;
 }
 
+/*
 // special fix
 function specialFix(name = '', text = '') {
   let loopCount = 0;
 
-  if (name) {
-    // do something
-  }
-
-  // Clive
+  // FFXVI Clive
   if (/^Clive$/gi.test(name)) {
     text = text.replaceAll('Dominant', 'Dominant#').replaceAll('Bearer', 'Bearer#').replaceAll('The Fallen', 'The Fallen#');
   }
@@ -316,6 +308,7 @@ function specialFix(name = '', text = '') {
 
   return text;
 }
+*/
 
 module.exports = {
   skipTranslation,

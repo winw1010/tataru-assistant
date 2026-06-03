@@ -34,18 +34,18 @@ const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];
 
 // engine list
 const engineList = [
-  '#Web-Translator',
-  'Youdao',
-  'Baidu',
-  'Caiyun',
-  'Papago',
-  'DeepL',
   '#AI-Translator',
   'Gemini',
   'GPT',
   'Cohere',
   'Kimi',
   'LLM-API',
+  '#Traditional-Translator',
+  'Youdao',
+  'Baidu',
+  'Caiyun',
+  'Papago',
+  'DeepL',
 ];
 
 // change list

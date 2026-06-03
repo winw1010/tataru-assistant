@@ -69,7 +69,7 @@ const defaultConfig = {
     from: 'Japanese',
     fromPlayer: 'Auto',
     to: 'Traditional-Chinese',
-    timeout: '15',
+    timeout: '10',
   },
   api: {
     googleVisionType: 'google-api-key',

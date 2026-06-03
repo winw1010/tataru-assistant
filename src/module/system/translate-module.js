@@ -18,7 +18,7 @@ const gpt = require('../translator/gpt');
 const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
 const kimi = require('../translator/kimi');
-const customLLM = require('../translator/openai');
+const customLLM = require('../translator/customLLM');
 
 // zh converter
 const zhConverter = require('../translator/zh-convert');
@@ -76,7 +76,15 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
 
   if (responseObject) {
     if (typeof responseObject === 'string') {
-      responseObject = JSON.parse(responseObject);
+      try {
+        responseObject = JSON.parse(responseObject);
+      } catch (error) {
+        error;
+        responseObject = {
+          name: '',
+          text: responseObject,
+        };
+      }
     }
 
     responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1);

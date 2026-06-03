@@ -1,20 +1,5 @@
 'use strict';
 
-/*
-// old prompts
-'I want you to act as an expert translator.'
-`You will be provided with a ${type} in ${source}, and your task is to translate it into ${target}. Your response should not be in ${source}.`
-`Translate the following text from ${source} to ${target} and do not include any explanation.`
-`You are a professional translation machine, your job is to translate the ${source} name and sentence provided by the user into ${target} and do not include any explanation. Use homophonic translation if it is not a word or phrase in ${source}.`
-`Translate the following ${type} from ${source} into ${target} and do not include any explanation.`;
-`Translate ${source} ${type} provided by user into ${target} and do not make any explanation.`;
-`Translate ${source} text into ${target} and don't make any explanations.`;
-`Translate ${source} text into ${target}, and don't provide any explanations.`
-
-const role = source && target ? `${source}-${target} translator` : 'translator';
-`Act as a professional ${role}, your job is translating everything what user provided.`
-*/
-
 const configModule = require('../system/config-module');
 
 function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGlossary = false) {

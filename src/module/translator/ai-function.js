@@ -11,7 +11,7 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGl
   if (useCustomPrompt && customPrompt) {
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);
   } else {
-    return `Please translate this ${source} JSON object into ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
+    return `Translate the ${source} JSON object into ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
   }
 }
 
@@ -19,7 +19,7 @@ function createImagePrompt(language = 'Japanese') {
   //return `Extract all the text from this image and put it in a bulleted list.`;
   //return `Extract all the ${language} text from this image and return it.`;
   //return `Copy the text from the image, and don't provide any explanations.`;
-  return `Please copy and return the raw ${language} text from this image.`;
+  return `Copy and return the raw ${language} text from this image.`.replaceAll('  ', ' ');
 }
 
 // initialize chat history

@@ -140,9 +140,7 @@ async function tesseractOCR(captureData) {
 
 // fix image text
 function fixText(captureData) {
-  let text = '';
-  text = captureData.text;
-
+  let text = captureData.text;
   console.log(text);
 
   // fix new line

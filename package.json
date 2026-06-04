@@ -14,14 +14,14 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "electron": "^41.1.0",
+    "electron": "^42.3.3",
     "electron-builder": "^26.8.1",
-    "eslint": "^10.1.0",
-    "globals": "^17.4.0"
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.3.5",
-    "axios": "^1.16.1",
+    "@google-cloud/vision": "^5.3.6",
+    "axios": "^1.17.0",
     "crypto-js": "^4.2.0",
     "decompress": "^4.2.1",
     "nodejs-file-downloader": "^4.13.0",
@@ -38,8 +38,6 @@
     "extraFiles": [
       "src/data",
       "!src/data/img/*.png",
-      "eng.traineddata",
-      "jpn.traineddata",
       "actions-latest.json",
       "signatures-global-latest.json",
       "signatures.json",

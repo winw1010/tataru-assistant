@@ -13,13 +13,13 @@ const configModule = require('./config-module');
 const restrictedHeaders = ['content-length', 'host', 'trailer', 'te', 'upgrade', 'cookie2', 'keep-alive', 'transfer-encoding', 'connection'];
 
 // sec-ch-ua
-let scu = '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"';
+let scu = '"Chromium";v="148.0.7778.217", "Google Chrome";v="148.0.7778.217", "Not/A)Brand";v="99.0.0.0"';
 
 // user agent
-let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
+let userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36';
 
-// request timeout
-const requestTimeout = 15000;
+// max request timeout
+const maxRequestTimeout = 30000;
 
 // get
 function get(url = '', headers = {}) {
@@ -164,10 +164,10 @@ function toParameters(data = {}) {
 
   for (let index = 0; index < dataNames.length; index++) {
     const dataName = dataNames[index];
-    parameters.push(`${dataName}=${data[dataName]}`);
+    parameters.push(`${dataName}=${'' + data[dataName]}`);
   }
 
-  return parameters.join('&');
+  return encodeURI(parameters.join('&'));
 }
 
 // get options
@@ -176,7 +176,7 @@ function getOptions(headers = {}) {
 
   const options = {
     headers: clearHeaders(headers),
-    timeout: Math.max(requestTimeout, parseInt(config.translation.timeout) * 1000),
+    timeout: Math.min(maxRequestTimeout, parseInt(config.translation.timeout) * 1000),
   };
 
   if (config.proxy.enable) {

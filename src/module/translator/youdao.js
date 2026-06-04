@@ -47,12 +47,10 @@ async function setCookie() {
 async function setAuthentication() {
   const response = await requestModule.get(
     'https://dict.youdao.com/webtranslate/key?' +
-      encodeURI(
-        requestModule.toParameters({
-          ...{ keyid: 'webfanyi-key-getter' },
-          ...youdaoFunction.createParams('asdjnjfenknafdfsdfsd'),
-        })
-      ),
+      requestModule.toParameters({
+        ...{ keyid: 'webfanyi-key-getter' },
+        ...youdaoFunction.createParams('asdjnjfenknafdfsdfsd'),
+      }),
     {
       Accept: 'application/json, text/plain, */*',
       'Accept-Encoding': 'gzip, deflate, br, zstd',
@@ -68,7 +66,7 @@ async function setAuthentication() {
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',
       'User-Agent': requestModule.getUserAgent(),
-    }
+    },
   );
 
   authentication.secretKey = response.data.data.secretKey;
@@ -83,18 +81,16 @@ async function translate(option) {
 
   const response = await requestModule.post(
     'https://dict.youdao.com/webtranslate',
-    encodeURI(
-      requestModule.toParameters({
-        ...{
-          i: option.text,
-          from: option.from,
-          to: option.to,
-          dictResult: 'true',
-          keyid: 'webfanyi',
-        },
-        ...youdaoFunction.createParams(authentication.secretKey),
-      })
-    ),
+    requestModule.toParameters({
+      ...{
+        i: option.text,
+        from: option.from,
+        to: option.to,
+        dictResult: 'true',
+        keyid: 'webfanyi',
+      },
+      ...youdaoFunction.createParams(authentication.secretKey),
+    }),
     {
       Accept: 'application/json, text/plain, */*',
       'Accept-Encoding': 'gzip, deflate, br, zstd',
@@ -111,7 +107,7 @@ async function translate(option) {
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-site',
       'User-Agent': requestModule.getUserAgent(),
-    }
+    },
   );
 
   const data = JSON.parse(youdaoFunction.decodeData(response.data));

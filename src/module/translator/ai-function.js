@@ -6,17 +6,20 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGl
   const config = configModule.getConfig();
   const useCustomPrompt = config.ai.useCustomTranslationPrompt;
   const customPrompt = config.ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? ' with the glossary(in glossary field)' : '';
+  const withGlossaryText = withGlossary ? ', and use the glossary in the glossary field' : '';
 
   if (useCustomPrompt && customPrompt) {
     return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);
   } else {
-    return `Translate ${source} JSON object to ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
+    return `Please translate this ${source} JSON object into ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
   }
 }
 
-function createImagePrompt() {
-  return `Copy the text from the image, and don't provide any explanations.`;
+function createImagePrompt(language = 'Japanese') {
+  //return `Extract all the text from this image and put it in a bulleted list.`;
+  //return `Extract all the ${language} text from this image and return it.`;
+  //return `Copy the text from the image, and don't provide any explanations.`;
+  return `Please copy and return the raw ${language} text from this image.`;
 }
 
 // initialize chat history

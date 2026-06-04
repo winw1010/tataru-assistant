@@ -107,7 +107,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   payload.safetySettings = safetySettings;
 
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = response.data.candidates[0].content.parts[0].text.replace(/[\r\n\t]/g, '');
+  const responseText = getResponseText(response.data);
 
   // push history
   if (config.ai.useChat) {
@@ -138,7 +138,53 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   return responseText;
 }
 
+// get image text
+async function getImageText(imageBase64 = '', language = 'Japanese') {
+  if (imageBase64 === '') {
+    return '';
+  }
+
+  try {
+    const config = configModule.getConfig();
+    const prompt = aiFunction.createImagePrompt(language);
+    const model = config.api.geminiModel;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const headers = {
+      'x-goog-api-key': config.api.geminiApiKey,
+      'Content-Type': 'application/json',
+    };
+
+    const payload = {
+      contents: [
+        {
+          parts: [
+            {
+              inline_data: {
+                mime_type: 'image/png',
+                data: imageBase64,
+              },
+            },
+            { text: prompt },
+          ],
+        },
+      ],
+    };
+
+    const response = await requestModule.post(apiUrl, payload, headers);
+    const responseText = getResponseText(response.data);
+    return responseText;
+  } catch (error) {
+    return '' + error;
+  }
+}
+
+// get response text
+function getResponseText(data) {
+  return data.candidates[0].content.parts[0].text;
+}
+
 // module exports
 module.exports = {
   exec,
+  getImageText,
 };

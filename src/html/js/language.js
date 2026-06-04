@@ -109,7 +109,7 @@ function getElementTextList() {
         'button-save-default-config': ['預設', '预设', 'Default'],
 
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google Credential File'],
-        'button-google-credential-view': ['查看檔案', '查看档案', 'View File'],
+        'button-google-credential-view': ['查看憑證檔案', '查看凭证档案', 'View Credential File'],
 
         'button-download-json': ['重新下載翻譯對照表', '重新下载翻译对照表', 'Download Table'],
         'button-delete-temp': ['清除暫存', '清除暂存', 'Clear Temp Files'],
@@ -196,9 +196,14 @@ function getElementTextList() {
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
 
-        'input-llm-api-url': ['Chat API URL', 'Chat API URL', 'Chat API URL'],
+        'input-llm-api-url': ['Full Chat API URL', 'Full Chat API URL', 'Full Chat API URL'],
         'textarea-llm-header': ['Header', 'Header', 'Header'],
-        'textarea-llm-payload': ['Payload', 'Payload', 'Payload'],
+        'textarea-llm-payload': ['Payload(For Translation)', 'Payload(For Translation)', 'Payload(For Translation)'],
+        'textarea-llm-payload-image': [
+          'Payload(For Recognizing Image Text)',
+          'Payload(For Recognizing Image Text)',
+          'Payload(For Recognizing Image Text)',
+        ],
         'input-llm-response-text-loacation': ['Response Text Location', 'Response Text Location', 'Response Text Location'],
         'textarea-user-format': ['User Format (History)', 'User Format (History)', 'User Format (History)'],
         'textarea-assistant-format': ['Assistant Format (History)', 'Assistant Format (History)', 'Assistant Format (History)'],
@@ -264,7 +269,7 @@ function getElementTextList() {
         bold: ['粗', '粗', 'Bold'],
 
         '#AI-Translator': ['#AI翻譯', '#AI翻译', '#AI Translator'],
-        GPT: ['Response GPT', 'Response GPT', 'Response GPT'],
+        GPT: ['GPT', 'GPT', 'GPT'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
@@ -293,9 +298,13 @@ function getElementTextList() {
         'google-api-key': ['API Key', 'API Key', 'API Key'],
 
         // capture
-        'tesseract-ocr': ['Tesseract OCR', 'Tesseract OCR', 'Tesseract OCR'],
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
-        'gpt-vision': ['GPT Vision', 'GPT Vision', 'GPT Vision'],
+        'gemini-vision': ['Gemini', 'Gemini', 'Gemini'],
+        'gpt-vision': ['GPT', 'GPT', 'GPT'],
+        'cohere-vision': ['Cohere', 'Cohere', 'Cohere'],
+        'kimi-vision': ['kimi', 'kimi', 'kimi'],
+        'custom-llm-vision': ['Custom LLM', 'Custom LLM', 'Custom LLM'],
+        'tesseract-ocr': ['Tesseract OCR(不推薦)', 'Tesseract OCR(不推荐)', 'Tesseract OCR(Not Recommended)'],
 
         // edit
         '#player-name': ['#玩家', '#玩家', '#Player'],
@@ -332,12 +341,12 @@ function getElementTextList() {
           '* 注意：AI翻译需事先设定API才能使用',
           '* Remember to set API options before using AI translator',
         ],
-        'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision'],
-        'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini'],
-        'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere'],
-        'p-chat-gpt': ['Response GPT設定', 'Response GPT设定', 'Response GPT'],
-        'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi'],
-        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API'],
+        'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision Settings'],
+        'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini Settings'],
+        'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere Settings'],
+        'p-chat-gpt': ['GPT設定', 'GPT设定', 'GPT Settings'],
+        'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi Settings'],
+        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API Settings'],
       },
       span: {
         // window title

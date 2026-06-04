@@ -80,7 +80,8 @@ async function cropImage(captureData) {
         width: parseInt(captureData.rectangleSize.width),
         height: parseInt(captureData.rectangleSize.height),
       })
-      //.greyscale()
+      .greyscale(true)
+      .png({ quality: 100 })
       .toFile(captureData.imagePath);
 
     // start reconizing

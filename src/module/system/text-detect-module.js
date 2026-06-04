@@ -24,24 +24,49 @@ const engineModule = require('./engine-module');
 // fix entry
 const { addTask } = require('../fix/fix-entry');
 
-// gpt module
-const gptModule = require('../translator/gpt');
+// AI
+// gemini
+const gemini = require('../translator/gemini');
+// gpt
+const gpt = require('../translator/gpt');
+// cohere
+const cohere = require('../translator/cohere');
+// kimi
+const kimi = require('../translator/kimi');
+// customLLM
+const customLLM = require('../translator/customLLM');
 
 // image dir
 const imageDir = fileModule.getRootPath('src', 'data', 'img');
 
 // start reconizing
 async function startReconizing(captureData) {
+  const imageBase64 = fileModule.read(captureData.imagePath, 'image');
   captureData.text = '';
 
-  // gpt vision
-  if (captureData.type === 'gpt-vision') {
-    const imageBase64 = fileModule.read(captureData.imagePath, 'image');
-    captureData.text = await gptModule.getImageText(imageBase64);
-  }
   // google vision
-  else if (captureData.type === 'google-vision') {
+  if (captureData.type === 'google-vision') {
     captureData.text = await googleVision(captureData);
+  }
+  // gemini vision
+  else if (captureData.type === 'gemini-vision') {
+    captureData.text = await gemini.getImageText(imageBase64, captureData.from);
+  }
+  // gpt vision
+  else if (captureData.type === 'gpt-vision') {
+    captureData.text = await gpt.getImageText(imageBase64, captureData.from);
+  }
+  // cohere vision
+  else if (captureData.type === 'cohere-vision') {
+    captureData.text = await cohere.getImageText(imageBase64, captureData.from);
+  }
+  // kimi vision
+  else if (captureData.type === 'kimi-vision') {
+    captureData.text = await kimi.getImageText(imageBase64, captureData.from);
+  }
+  // custom LLM vision
+  else if (captureData.type === 'custom-llm-vision') {
+    captureData.text = await customLLM.getImageText(imageBase64, captureData.from);
   }
   // tesseract ocr
   else {
@@ -205,7 +230,7 @@ async function translateImageText(captureData) {
 // delete images
 function deleteImages() {
   fileModule.readdir(imageDir).forEach((fileName) => {
-    if (fileName.includes('.png')) {
+    if (fileName.includes('.png') || fileName.includes('.jpg')) {
       fileModule.unlink(fileModule.getPath(imageDir, fileName));
     }
   });

@@ -87,8 +87,8 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
       }
     }
 
-    responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1);
-    responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1);
+    responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1).replace(/[\r\n\t]/g, '');
+    responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1).replace(/[\r\n\t]/g, '');
   } else {
     responseObject.text = 'Null Object.';
   }
@@ -111,7 +111,7 @@ async function translate(text = '', translation = {}, table = [], sendError = tr
     result = await getTranslation(translation.engine, option);
 
     // process resutle
-    result = removeHonorific(zhConvert(removeQuote(clearCode(result, table)), translation.to), table, 0);
+    result = removeHonorific(zhConvert(removeQuote(clearCode(result, table)), translation.to), table, 0).replace(/[\r\n\t]/g, '');
   } catch (error) {
     console.log(error);
     if (sendError) {

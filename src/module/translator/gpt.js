@@ -74,7 +74,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
 
   // get response
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = getAssistantText(response.data);
+  const responseText = getResponseText(response.data);
   const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
@@ -105,14 +105,14 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
 }
 
 // get image text
-async function getImageText(imageBase64 = '') {
+async function getImageText(imageBase64 = '', language = 'Japanese') {
   if (imageBase64 === '') {
     return '';
   }
 
   try {
     const config = configModule.getConfig();
-    const prompt = aiFunction.createImagePrompt();
+    const prompt = aiFunction.createImagePrompt(language);
     const apiUrl = 'https://api.openai.com/v1/responses';
     const headers = {
       'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ async function getImageText(imageBase64 = '') {
             },
             {
               type: 'input_image',
-              image_url: `data:image/jpeg;base64,${imageBase64}`,
+              image_url: `data:image/png;base64,${imageBase64}`,
             },
           ],
         },
@@ -139,15 +139,14 @@ async function getImageText(imageBase64 = '') {
     };
 
     const response = await requestModule.post(apiUrl, payload, headers);
-    return getAssistantText(response.data);
+    return getResponseText(response.data);
   } catch (error) {
-    console.log(error);
-    return '';
+    return '' + error;
   }
 }
 
-// get assistant text
-function getAssistantText(data) {
+// get response text
+function getResponseText(data) {
   /*
   [
     { id: 'rs_0', type: 'reasoning', summary: [] },
@@ -166,12 +165,12 @@ function getAssistantText(data) {
   for (let index = 0; index < output.length; index++) {
     const element = output[index];
 
-    if (/*element.type === 'message' && element.role === 'assistant' && element.status === 'completed' &&*/ element.content && element.content[0]) {
+    if (element.type === 'message' && element.status === 'completed' && element.role === 'assistant' && element.content && element.content[0]) {
       return element.content[0].text;
     }
   }
 
-  return '';
+  throw 'Request Failed.';
 }
 
 // module exports

@@ -74,7 +74,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
 
   // get response
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = response.data.choices[0].message.content;
+  const responseText = getResponseText(response.data);
   const totalTokens = response?.data?.usage?.total_tokens;
 
   // push history
@@ -104,7 +104,62 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   return responseText;
 }
 
+// get image text
+async function getImageText(imageBase64 = '', language = 'Japanese') {
+  if (imageBase64 === '') {
+    return '';
+  }
+
+  try {
+    const config = configModule.getConfig();
+    const prompt = aiFunction.createImagePrompt(language);
+    const model = config.api.geminiModel;
+    const apiUrl = 'https://api.moonshot.cn/v1/chat/completions';
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${config.api.kimiToken}`,
+    };
+
+    const payload = {
+      model: model,
+      messages: [
+        {
+          role: 'system',
+          content: '你是 Kimi。',
+        },
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: prompt,
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: `data:image/png;base64,${imageBase64}`,
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    const response = await requestModule.post(apiUrl, payload, headers);
+    const responseText = getResponseText(response.data);
+    return responseText;
+  } catch (error) {
+    return '' + error;
+  }
+}
+
+// get response text
+function getResponseText(data) {
+  return data.choices[0].message.content;
+}
+
 // module exports
 module.exports = {
   exec,
+  getImageText,
 };

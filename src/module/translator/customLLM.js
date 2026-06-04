@@ -65,7 +65,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
 
   // get response
   const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = getAssistantText(response.data, config.api.llmApiResponseLocation);
+  const responseText = getResponseText(response.data, config.api.llmApiResponseLocation);
   const responseObject = typeof responseText === 'string' ? JSON.parse(responseText) : responseText;
 
   // push history
@@ -111,13 +111,44 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   return responseText;
 }
 
+// get content history
+function getContentHistory(array) {
+  let historyString = '';
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    historyString += JSON.stringify(element) + ',';
+  }
+  return historyString;
+}
+
 // processEscapeCharacter
 function processEscapeCharacter(text = '') {
   return text.replaceAll(escapeCharacter, '').replaceAll(escapeCharacter2, '\\$&');
 }
 
-// get assistant text
-function getAssistantText(responseData = null, responseLocation = '') {
+// get image text
+async function getImageText(imageBase64 = '', language = 'Japanese') {
+  if (imageBase64 === '') {
+    return '';
+  }
+
+  try {
+    const config = configModule.getConfig();
+    const prompt = aiFunction.createImagePrompt(language);
+    const apiUrl = config.api.llmApiUrl;
+    const headers = JSON.parse(config.api.llmApiHeader);
+    const payload = JSON.parse(config.api.llmApiPayloadImage.replace('${prompt}', prompt).replace('${image-url}', imageBase64));
+
+    const response = await requestModule.post(apiUrl, payload, headers);
+    const responseText = getResponseText(response.data);
+    return responseText;
+  } catch (error) {
+    return '' + error;
+  }
+}
+
+// get response text
+function getResponseText(responseData = null, responseLocation = '') {
   if (responseData && responseLocation) {
     const array = responseLocation.split('.');
     let value = '';
@@ -136,17 +167,8 @@ function getAssistantText(responseData = null, responseLocation = '') {
   }
 }
 
-// get content history
-function getContentHistory(array) {
-  let historyString = '';
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
-    historyString += JSON.stringify(element) + ',';
-  }
-  return historyString;
-}
-
 // module exports
 module.exports = {
   exec,
+  getImageText,
 };

@@ -104,29 +104,14 @@ function setButton() {
     document.getElementById(value).hidden = false;
   };
 
-  // download json
-  document.getElementById('button-download-json').onclick = () => {
-    ipcRenderer.send('download-json');
+  // save
+  document.getElementById('button-save-config').onclick = async () => {
+    await saveConfig();
   };
 
-  // delete temp
-  document.getElementById('button-delete-temp').onclick = () => {
-    ipcRenderer.send('delete-temp');
-  };
-
-  // restart sharlayan reader
-  document.getElementById('button-restart-sharlayan-reader').onclick = () => {
-    ipcRenderer.send('restart-sharlayan-reader');
-  };
-
-  // version check
-  document.getElementById('button-version-check').onclick = () => {
-    ipcRenderer.send('version-check');
-  };
-
-  // fix reader
-  document.getElementById('button-fix-reader').onclick = () => {
-    ipcRenderer.send('fix-reader');
+  // default
+  document.getElementById('button-save-default-config').onclick = async () => {
+    await saveDefaultConfig();
   };
 
   // open google credential
@@ -159,6 +144,31 @@ function setButton() {
     };
   }
 
+  // download json
+  document.getElementById('button-download-json').onclick = () => {
+    ipcRenderer.send('download-json');
+  };
+
+  // delete temp
+  document.getElementById('button-delete-temp').onclick = () => {
+    ipcRenderer.send('delete-temp');
+  };
+
+  // restart sharlayan reader
+  document.getElementById('button-restart-sharlayan-reader').onclick = () => {
+    ipcRenderer.send('restart-sharlayan-reader');
+  };
+
+  // version check
+  document.getElementById('button-version-check').onclick = () => {
+    ipcRenderer.send('version-check');
+  };
+
+  // fix reader
+  document.getElementById('button-fix-reader').onclick = () => {
+    ipcRenderer.send('fix-reader');
+  };
+
   // readme
   document.getElementById('a-readme').onclick = async () => {
     ipcRenderer.send('open-readme');
@@ -190,16 +200,6 @@ function setButton() {
   // donate
   document.getElementById('a-donate').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://www.buymeacoffee.com/winw1010"');
-  };
-
-  // default
-  document.getElementById('button-save-default-config').onclick = async () => {
-    await saveDefaultConfig();
-  };
-
-  // save
-  document.getElementById('button-save-config').onclick = async () => {
-    await saveConfig();
   };
 }
 
@@ -619,14 +619,33 @@ function getOptionList() {
       ['textarea-llm-header', 'value'],
       ['api', 'llmApiHeader'],
       (value) => {
-        return JSON.stringify(JSON.parse(value), null, '\t');
+        try {
+          return JSON.stringify(JSON.parse(value), null, '\t');
+        } catch (error) {
+          return '' + error;
+        }
       },
     ],
     [
       ['textarea-llm-payload', 'value'],
       ['api', 'llmApiPayload'],
       (value) => {
-        return JSON.stringify(JSON.parse(value), null, '\t');
+        try {
+          return JSON.stringify(JSON.parse(value), null, '\t');
+        } catch (error) {
+          return '' + error;
+        }
+      },
+    ],
+    [
+      ['textarea-llm-payload-image', 'value'],
+      ['api', 'llmApiPayloadImage'],
+      (value) => {
+        try {
+          return JSON.stringify(JSON.parse(value), null, '\t');
+        } catch (error) {
+          return '' + error;
+        }
       },
     ],
     [
@@ -637,14 +656,22 @@ function getOptionList() {
       ['textarea-user-format', 'value'],
       ['api', 'llmApiUserFormat'],
       (value) => {
-        return JSON.stringify(JSON.parse(value), null, '\t');
+        try {
+          return JSON.stringify(JSON.parse(value), null, '\t');
+        } catch (error) {
+          return '' + error;
+        }
       },
     ],
     [
       ['textarea-assistant-format', 'value'],
       ['api', 'llmApiAssistantFormat'],
       (value) => {
-        return JSON.stringify(JSON.parse(value), null, '\t');
+        try {
+          return JSON.stringify(JSON.parse(value), null, '\t');
+        } catch (error) {
+          return '' + error;
+        }
       },
     ],
 

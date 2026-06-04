@@ -117,7 +117,7 @@ async function tesseractOCR(captureData) {
     // set worker
     let worker = null;
     if (captureData.from === engineModule.languageEnum.ja) {
-      worker = await createWorker(['jpn', 'jpn_vert']);
+      worker = await createWorker('jpn');
     } /*else if (config.translation.from === engineModule.languageEnum.en)*/ else {
       worker = await createWorker('eng');
     }

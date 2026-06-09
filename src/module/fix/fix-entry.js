@@ -163,6 +163,15 @@ async function entry(dialogData) {
       }
     }
 
+    // add colon
+    if (dialogData.translatedName !== '') {
+      if (['Traditional-Chinese', 'Simplified-Chinese', 'Chinese'].includes(dialogData.translation.to)) {
+        dialogData.translatedName += '：';
+      } else {
+        dialogData.translatedName += ':';
+      }
+    }
+
     // empty check
     if (dialogData.translatedText === '') {
       dialogData.translatedText = 'Assistant Error: Empty String.';

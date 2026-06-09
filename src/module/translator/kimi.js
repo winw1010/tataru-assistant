@@ -1,6 +1,8 @@
 'use strict';
 
-const requestModule = require('../system/request-module');
+const { OpenAI } = require('openai');
+
+// const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');
 
@@ -14,6 +16,144 @@ async function exec(option) {
   return response;
 }
 
+// translate
+async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
+  const config = configModule.getConfig();
+  const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
+  const historyIndex = 'Kimi_' + prompt;
+  const glossary = aiFunction.createGlossary(source, target, table);
+  const sample = aiFunction.getTranslationSample(source, target);
+  const model = config.api.kimiModel;
+  const client = new OpenAI({ apiKey: config.api.gptApiKey, baseURL: 'https://api.moonshot.ai/v1' });
+
+  // initialize chat history
+  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
+
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
+
+  const messages = [
+    {
+      role: 'system',
+      content: prompt,
+    },
+    ...sampleArray,
+    ...chatHistoryList[historyIndex],
+    {
+      role: 'user',
+      content: JSON.stringify({
+        name: name,
+        text: text,
+        glossary: glossary,
+      }),
+    },
+  ];
+
+  // get response
+  const response = await client.chat.completions.create({ model: model, messages: messages });
+  const responseText = getResponseText(response);
+  const totalTokens = response?.usage?.total_tokens;
+
+  // push history
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: name,
+          text: text,
+          glossary: glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: responseText,
+      },
+    );
+  }
+
+  // log
+  console.log('Total Tokens:', totalTokens);
+  console.log('Prompt:', prompt);
+  console.log('Glossary:', glossary);
+  console.log('Response Text:', responseText);
+
+  return responseText;
+}
+
+// get image text
+async function getImageText(imageBase64 = '', language = 'Japanese') {
+  if (imageBase64 === '') {
+    return '';
+  }
+
+  try {
+    const config = configModule.getConfig();
+    const prompt = aiFunction.createImagePrompt(language);
+    const model = config.api.kimiModel;
+    const client = new OpenAI({ apiKey: config.api.gptApiKey, baseURL: 'https://api.moonshot.ai/v1' });
+
+    const messages = [
+      {
+        role: 'system',
+        content: '你是 Kimi。',
+      },
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: prompt,
+          },
+          {
+            type: 'image_url',
+            image_url: {
+              url: `data:image/png;base64,${imageBase64}`,
+            },
+          },
+        ],
+      },
+    ];
+
+    const response = await client.chat.completions.create({ model: model, messages: messages });
+    const responseText = getResponseText(response);
+    return responseText;
+  } catch (error) {
+    return '' + error;
+  }
+}
+
+// get response text
+function getResponseText(data) {
+  return data.choices[0].message.content;
+}
+
+// module exports
+module.exports = {
+  exec,
+  getImageText,
+};
+
+/*
 // translate
 async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
@@ -113,7 +253,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
   try {
     const config = configModule.getConfig();
     const prompt = aiFunction.createImagePrompt(language);
-    const model = config.api.geminiModel;
+    const model = config.api.kimiModel;
     const apiUrl = 'https://api.moonshot.cn/v1/chat/completions';
     const headers = {
       'Content-Type': 'application/json',
@@ -152,14 +292,4 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
     return '' + error;
   }
 }
-
-// get response text
-function getResponseText(data) {
-  return data.choices[0].message.content;
-}
-
-// module exports
-module.exports = {
-  exec,
-  getImageText,
-};
+*/

@@ -1,6 +1,8 @@
 'use strict';
 
-const requestModule = require('../system/request-module');
+const { OpenAI } = require('openai');
+
+// const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');
 
@@ -14,6 +16,132 @@ async function exec(option) {
   return response;
 }
 
+// translate
+async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
+  const config = configModule.getConfig();
+  const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
+  const historyIndex = 'GPT_' + prompt;
+  const glossary = aiFunction.createGlossary(source, target, table);
+  const sample = aiFunction.getTranslationSample(source, target);
+  const model = config.api.gptModel;
+  const client = new OpenAI({ apiKey: config.api.gptApiKey });
+
+  // initialize chat history
+  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
+
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
+
+  const input = [
+    {
+      role: 'developer',
+      content: prompt,
+    },
+    ...sampleArray,
+    ...chatHistoryList[historyIndex],
+    {
+      role: 'user',
+      content: JSON.stringify({
+        name: name,
+        text: text,
+        glossary: glossary,
+      }),
+    },
+  ];
+
+  // get response
+  const response = await client.responses.create({ model: model, instructions: prompt, input: input });
+  const responseText = response.output_text;
+  const totalTokens = response?.usage?.total_tokens;
+
+  // push history
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: name,
+          text: text,
+          glossary: glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: responseText,
+      },
+    );
+  }
+
+  // log
+  console.log('Total Tokens:', totalTokens);
+  console.log('Prompt:', prompt);
+  console.log('Glossary:', glossary);
+  console.log('Response Text:', responseText);
+
+  return responseText;
+}
+
+// get image text
+async function getImageText(imageBase64 = '', language = 'Japanese') {
+  if (imageBase64 === '') {
+    return '';
+  }
+
+  try {
+    const config = configModule.getConfig();
+    const prompt = aiFunction.createImagePrompt(language);
+    const model = config.api.gptModel;
+    const client = new OpenAI({ apiKey: config.api.gptApiKey });
+
+    const input = [
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'input_text',
+            text: prompt,
+          },
+          {
+            type: 'input_image',
+            image_url: `data:image/png;base64,${imageBase64}`,
+          },
+        ],
+      },
+    ];
+
+    const response = await client.responses.create({ model: model, instructions: prompt, input: input });
+    return response.output_text;
+  } catch (error) {
+    return '' + error;
+  }
+}
+
+// module exports
+module.exports = {
+  exec,
+  getImageText,
+};
+
+/*
 // translate
 async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
@@ -147,18 +275,16 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
 
 // get response text
 function getResponseText(data) {
-  /*
-  [
-    { id: 'rs_0', type: 'reasoning', summary: [] },
-    {
-      id: 'msg_0',
-      type: 'message',
-      status: 'completed',
-      content: [{ type: 'output_text', annotations: [], logprobs: [], text: '晚上好！' }],
-      role: 'assistant',
-    },
-  ];
-  */
+  // [
+  //   { id: 'rs_0', type: 'reasoning', summary: [] },
+  //   {
+  //     id: 'msg_0',
+  //     type: 'message',
+  //     status: 'completed',
+  //     content: [{ type: 'output_text', annotations: [], logprobs: [], text: '晚上好！' }],
+  //     role: 'assistant',
+  //   },
+  // ];
 
   const output = data.output;
 
@@ -172,9 +298,4 @@ function getResponseText(data) {
 
   throw 'Request Failed.';
 }
-
-// module exports
-module.exports = {
-  exec,
-  getImageText,
-};
+*/

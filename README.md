@@ -42,8 +42,9 @@ These offer unlimited usage but have lower translation quality; therefore, they 
 1. Download the "Tataru Assistant Installer" and ".NET Framework 4.8".
 2. Run "ndp48-web.exe" to install .NET Framework 4.8 (Required to run the app).
 3. Run "Tataru Assistant Setup.exe" to install the app. If a "Windows protected your PC" message appears, click "More info" and then "Run anyway".
-4. Click the gear icon in the window to open settings. Go to [Translation Settings] to set your game language and target translation language, then click Save.
-5. If automatic translation does not work after installation, go to [Settings] > [System Settings] and click [Repair Subtitle Reader]. Restart your computer after the repair is complete.
+4. Click the gear icon in the window to open config window. Go to [Translation] to set your game language and target translation language, then click Save.
+5. If it does not translate automatically after installation, please check if NVIDIA ShadowPlay is turned off, as this feature prevents the program from displaying translations.
+6. If the translation still does not work after following the steps above, please go to [Congig] > [System] and click on [Repair Subtitle Reader]. After the repair is complete, restart your computer.
 
 # Source Code
 

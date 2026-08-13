@@ -14,21 +14,21 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "electron": "^42.3.3",
+    "electron": "^43.4.0",
     "electron-builder": "^26.8.1",
-    "eslint": "^10.4.1",
-    "globals": "^17.6.0"
+    "eslint": "^10.8.1",
+    "globals": "^17.11.0"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.3.6",
-    "@google/genai": "^2.8.0",
-    "axios": "^1.17.0",
+    "@google-cloud/vision": "^6.0.0",
+    "@google/genai": "^2.17.0",
+    "axios": "^1.19.0",
     "cohere-ai": "^8.0.0",
     "crypto-js": "^4.2.0",
-    "decompress": "^4.2.1",
+    "node-stream-zip": "^1.16.0",
     "nodejs-file-downloader": "^4.13.0",
-    "openai": "^6.42.0",
-    "sharp": "^0.34.5",
+    "openai": "^7.4.0",
+    "sharp": "^0.35.3",
     "temp": "^0.9.4",
     "tesseract.js": "^7.0.0"
   },

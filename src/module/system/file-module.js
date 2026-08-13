@@ -68,6 +68,15 @@ function exists(filePath = './') {
   return result;
 }
 
+// mkdir
+function mkdir(filePath = './') {
+  try {
+    fs.mkdirSync(filePath);
+  } catch (error) {
+    error;
+  }
+}
+
 // rmdir
 function rmdir(filePath = './') {
   try {
@@ -123,11 +132,7 @@ function write(filePath = './', data = '', type = '') {
         {
           let dataString = JSON.stringify(data).includes('{')
             ? JSON.stringify(data, null, '\t')
-            : JSON.stringify(data)
-                .replaceAll('[[', '[\n\t[')
-                .replaceAll('],', '],\n\t')
-                .replaceAll(']]', ']\n]')
-                .replaceAll('","', '", "');
+            : JSON.stringify(data).replaceAll('[[', '[\n\t[').replaceAll('],', '],\n\t').replaceAll(']]', ']\n]').replaceAll('","', '", "');
           dataString = dataString.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');
           fs.writeFileSync(filePath, dataString);
         }
@@ -200,6 +205,7 @@ module.exports = {
 
   readdir,
   exists,
+  mkdir,
   rmdir,
   unlink,
   read,

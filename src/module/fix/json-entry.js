@@ -9,8 +9,8 @@ const { Downloader } = require('nodejs-file-downloader');
 // fs
 // const fs = require('fs');
 
-// decompress
-const decompress = require('decompress');
+// node-stream-zip
+const StreamZip = require('node-stream-zip');
 
 // en json
 const enJson = require('./en-json');
@@ -61,51 +61,6 @@ function initializeJSON() {
 
 // download json
 async function downloadJSON() {
-  /*
-  const tempTableStream = fs.createWriteStream(filePath);
-  const config = configModule.getConfig();
-  const requestOptions = config.proxy.enable
-    ? {
-        protocol: config.proxy.protocol,
-        host: config.proxy.hostname,
-        port: parseInt(config.proxy.port),
-        username: config.proxy.username,
-        password: config.proxy.password,
-        path: textURL,
-      }
-    : textURL;
-
-  https
-    .get(requestOptions)
-    .on('response', (response) => {
-      // pipe to table temp stream
-      response.pipe(tempTableStream);
-
-      // after download completed close filestream
-      tempTableStream.on('finish', async () => {
-        tempTableStream.close();
-        console.log('Download Completed. (URL: ' + textURL + ')');
-
-        if (tempTableStream.errored) {
-          console.log('Download Failed: ' + tempTableStream.errored.message);
-          dialogModule.addNotification(tempTableStream.errored.message);
-        } else {         
-          fileModule.rmdir(textPath);
-          await decompress(filePath, textPath, { strip: 1 });
-          fileModule.unlink(filePath);
-          dialogModule.addNotification('DOWNLOAD_COMPLETED');
-        }
-
-        loadJSON();
-      });
-    })
-    .on('error', (e) => {
-      console.error(e);
-      dialogModule.addNotification(e.message);
-      loadJSON();
-    });
-  */
-
   const downloaderConfig = {
     url: textURL,
     directory: dataPath,
@@ -127,10 +82,16 @@ async function downloadJSON() {
     if (downloadStatus === 'COMPLETE') {
       // delete old text files
       fileModule.rmdir(textPath);
+      fileModule.mkdir(textPath);
 
-      // decompress new text files
-      await decompress(filePath, textPath, { strip: 1 });
+      // extract new text files
+      const zip = new StreamZip.async({ file: filePath });
+      await zip.extract('tataru-assistant-text-main', textPath);
+      await zip.close();
+
+      // delete zip file
       fileModule.unlink(filePath);
+
       dialogModule.addNotification('DOWNLOAD_COMPLETED');
     }
   } catch (error) {

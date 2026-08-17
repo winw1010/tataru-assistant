@@ -77,7 +77,11 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
   if (responseObject) {
     if (typeof responseObject === 'string') {
       try {
-        responseObject = JSON.parse(/(?<target>{.*"(name|text)":.*"(name|text)":.*})/is.exec(responseObject)?.groups?.target);
+        //responseObject = JSON.parse(/(?<target>{.*"(name|text)":.*"(name|text)":.*})/is.exec(responseObject)?.groups?.target);
+        responseObject = JSON.parse(/(?<target>{.*"text":.*})/is.exec(responseObject)?.groups?.target);
+        if (!responseObject.name) {
+          responseObject.name = '';
+        }
       } catch (error) {
         error;
         responseObject = {

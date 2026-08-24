@@ -196,17 +196,9 @@ function getElementTextList() {
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
 
-        'input-llm-api-url': ['Full Chat API URL', 'Full Chat API URL', 'Full Chat API URL'],
-        'textarea-llm-header': ['Header', 'Header', 'Header'],
-        'textarea-llm-payload': ['Payload(For Translation)', 'Payload(For Translation)', 'Payload(For Translation)'],
-        'textarea-llm-payload-image': [
-          'Payload(For Recognizing Image Text)',
-          'Payload(For Recognizing Image Text)',
-          'Payload(For Recognizing Image Text)',
-        ],
-        'input-llm-response-text-loacation': ['Response Text Location', 'Response Text Location', 'Response Text Location'],
-        'textarea-user-format': ['User Format (History)', 'User Format (History)', 'User Format (History)'],
-        'textarea-assistant-format': ['Assistant Format (History)', 'Assistant Format (History)', 'Assistant Format (History)'],
+        'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
+        'input-llm-api-key': ['API Key', 'API Key', 'API Key'],
+        'input-llm-api-model': ['API Model', 'API Model', 'API Model'],
 
         'select-app-language': ['語言(Language)', '语言(Language)', 'Language'],
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table When Started'],
@@ -214,11 +206,7 @@ function getElementTextList() {
 
         'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
         'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
-        'input-custom-translation-prompt-enable': [
-          '自訂翻譯Prompt (System Role)',
-          '自订翻译Prompt (System Role)',
-          'Custom Translation Prompt (System Role)',
-        ],
+        'input-custom-translation-prompt-enable': ['自訂翻譯Prompt (System Role)', '自订翻译Prompt (System Role)', 'Custom Translation Prompt (System Role)'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
@@ -336,11 +324,7 @@ function getElementTextList() {
         none: ['無', '无', 'None'],
       },
       p: {
-        'p-ai-warning': [
-          '* 注意：AI翻譯需事先設定API才能使用',
-          '* 注意：AI翻译需事先设定API才能使用',
-          '* Remember to set API options before using AI translator',
-        ],
+        'p-ai-warning': ['* 注意：AI翻譯需事先設定API才能使用', '* 注意：AI翻译需事先设定API才能使用', '* Remember to set API options before using AI translator'],
         'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision Settings'],
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini Settings'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere Settings'],
@@ -359,11 +343,7 @@ function getElementTextList() {
 
         // config
         'span-channel-comment': ['滾動滑鼠中鍵可以捲動頻道清單', '滚动鼠标中键可以捲动频道清单', 'Use middle mouse button to sroll the page'],
-        'span-author': [
-          '作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)',
-          '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)',
-          'Author: winw1010 in www.gamer.com.tw',
-        ],
+        'span-author': ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)', 'Author: winw1010 in www.gamer.com.tw'],
       },
       title: {
         'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Text'],
@@ -399,9 +379,9 @@ function getElementTextList() {
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],
 
-        'input-llm-api-key': ['API Key', 'API金钥', 'API Key'],
-        'input-llm-model': ['Model', 'Model', 'Model'],
-        'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
+        'input-llm-api-key': ['API Key', 'API Key', 'API Key'],
+        'input-llm-api-model': ['API Model', 'API Model', 'API Model'],
+        'input-llm-api-url': ['https://api.openai.com/v1', 'https://api.openai.com/v1', 'https://api.openai.com/v1'],
 
         // custom
         'input-Keyword': ['關鍵字', '关键字', 'Keyword'],

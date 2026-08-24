@@ -181,10 +181,7 @@ function setButton() {
 
   // view response
   document.getElementById('a-view-response').onclick = () => {
-    ipcRenderer.send(
-      'execute-command',
-      'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"',
-    );
+    ipcRenderer.send('execute-command', 'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"');
   };
 
   // github
@@ -613,66 +610,15 @@ function getOptionList() {
 
     [
       ['input-llm-api-url', 'value'],
-      ['api', 'llmApiUrl'],
+      ['api', 'openaiApiUrl'],
     ],
     [
-      ['textarea-llm-header', 'value'],
-      ['api', 'llmApiHeader'],
-      (value) => {
-        try {
-          return JSON.stringify(JSON.parse(value), null, '\t');
-        } catch (error) {
-          return '' + error;
-        }
-      },
+      ['input-llm-api-key', 'value'],
+      ['api', 'openaiApiKey'],
     ],
     [
-      ['textarea-llm-payload', 'value'],
-      ['api', 'llmApiPayload'],
-      (value) => {
-        try {
-          return JSON.stringify(JSON.parse(value), null, '\t');
-        } catch (error) {
-          return '' + error;
-        }
-      },
-    ],
-    [
-      ['textarea-llm-payload-image', 'value'],
-      ['api', 'llmApiPayloadImage'],
-      (value) => {
-        try {
-          return JSON.stringify(JSON.parse(value), null, '\t');
-        } catch (error) {
-          return '' + error;
-        }
-      },
-    ],
-    [
-      ['input-llm-response-text-loacation', 'value'],
-      ['api', 'llmApiResponseLocation'],
-    ],
-    [
-      ['textarea-user-format', 'value'],
-      ['api', 'llmApiUserFormat'],
-      (value) => {
-        try {
-          return JSON.stringify(JSON.parse(value), null, '\t');
-        } catch (error) {
-          return '' + error;
-        }
-      },
-    ],
-    [
-      ['textarea-assistant-format', 'value'],
-      ['api', 'llmApiAssistantFormat'],
-      (value) => {
-        try {
-          return JSON.stringify(JSON.parse(value), null, '\t');
-        } catch (error) {
-          return '' + error;
-        }
-      },
+      ['input-llm-api-model', 'value'],
+      ['api', 'openaiApiModel'],
     ],
 
     [

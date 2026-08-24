@@ -82,15 +82,9 @@ const defaultConfig = {
     cohereModel: 'command-a-03-2025',
     kimiToken: '',
     kimiModel: 'kimi-k2.6',
-    llmApiUrl: 'https://api.openai.com/v1/responses',
-    llmApiHeader: '{"Content-Type":"application/json","Authorization":"Bearer [Your API Key]"}',
-    llmApiPayload:
-      '{"model":"[Your API Model]","input":[{"role":"developer","content":"${prompt}"},{"role":"user","content":"${user-content-sample}"},{"role":"assistant","content":"${assistant-content-sample}"},{},{"role":"user","content":"${user-content}"}]}',
-    llmApiPayloadImage:
-      '{"model":"[Your API Model]","input":[{"role":"user","content":[{"type":"input_text","text":"${prompt}"},{"type":"input_image","image_url":"data:image/png;base64,${image-url}"}]}]}',
-    llmApiResponseLocation: 'output.0.content.0.text',
-    llmApiUserFormat: '{"role":"user","content":"${user-content}"}',
-    llmApiAssistantFormat: '{"role":"assistant","content":"${assistant-content}"}',
+    openaiApiUrl: 'https://api.openai.com/v1',
+    openaiApiKey: '',
+    openaiApiModel: '',
   },
   ai: {
     useChat: true,
@@ -127,12 +121,7 @@ function loadConfig() {
     tempConfig = JSON.parse(JSON.stringify(currentConfig));
 
     // fix old bug
-    if (
-      typeof currentConfig !== 'object' ||
-      currentConfig === null ||
-      Array.isArray(currentConfig) ||
-      (typeof currentConfig === 'object' && Object.keys(currentConfig).length === 0)
-    ) {
+    if (typeof currentConfig !== 'object' || currentConfig === null || Array.isArray(currentConfig) || (typeof currentConfig === 'object' && Object.keys(currentConfig).length === 0)) {
       throw 'Use default config.';
     }
 

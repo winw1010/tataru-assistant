@@ -1,15 +1,14 @@
 'use strict';
 
-const requestModule = require('../system/request-module');
+const { OpenAI } = require('openai');
+
+// const requestModule = require('../system/request-module');
 
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
 const chatHistoryList = {};
-
-const escapeCharacter = /[\r\n\t]/g;
-const escapeCharacter2 = /[\\'"]/g;
 
 // exec
 async function exec(option) {
@@ -24,106 +23,82 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   const historyIndex = 'LLM_' + prompt;
   const glossary = aiFunction.createGlossary(source, target, table);
   const sample = aiFunction.getTranslationSample(source, target);
-  const apiUrl = config.api.llmApiUrl;
-  const headers = JSON.parse(config.api.llmApiHeader);
+  const apiUrl = config.api.openaiApiUrl;
+  const model = config.api.openaiApiModel;
+  const client = new OpenAI({ apiKey: config.api.openaiApiKey, baseURL: apiUrl });
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
-  const contentHistory = getContentHistory(chatHistoryList[historyIndex]);
 
-  const userSample = processEscapeCharacter(
-    JSON.stringify({
-      name: sample.name[0],
-      text: sample.text[0],
-      glossary: sample.glossary,
-    }),
-  );
+  // sample array
+  const sampleArray = [];
+  if (sample) {
+    sampleArray.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
 
-  const assistantSample = processEscapeCharacter(
-    JSON.stringify({
-      name: sample.name[1],
-      text: sample.text[1],
-    }),
-  );
-
-  const userContent = processEscapeCharacter(
-    JSON.stringify({
-      name: name,
-      text: text,
-      glossary: glossary,
-    }),
-  );
-
-  const payload = JSON.parse(
-    config.api.llmApiPayload
-      .replace('${prompt}', prompt)
-      .replace('${user-content-sample}', userSample)
-      .replace('${assistant-content-sample}', assistantSample)
-      .replace('{},', contentHistory)
-      .replace('${user-content}', userContent),
-  );
+  const messages = [
+    {
+      role: 'system',
+      content: prompt,
+    },
+    ...sampleArray,
+    ...chatHistoryList[historyIndex],
+    {
+      role: 'user',
+      content: JSON.stringify({
+        name: name,
+        text: text,
+        glossary: glossary,
+      }),
+    },
+  ];
 
   // get response
-  const response = await requestModule.post(apiUrl, payload, headers);
-  const responseText = getResponseText(response.data, config.api.llmApiResponseLocation);
-  const responseObject = typeof responseText === 'string' ? JSON.parse(responseText) : responseText;
+  const response = await client.chat.completions.create({ model: model, messages: messages });
+  const responseText = getResponseText(response);
+  const totalTokens = response?.usage?.total_tokens;
 
   // push history
-  try {
-    if (config.ai.useChat) {
-      const userHistory = JSON.parse(
-        config.api.llmApiUserFormat.replace(
-          '${user-content}',
-          processEscapeCharacter(
-            JSON.stringify({
-              name: name,
-              text: text,
-              glossary: glossary,
-            }),
-          ),
-        ),
-      );
-
-      const assistantHistory = JSON.parse(
-        config.api.llmApiAssistantFormat.replace(
-          '${assistant-content}',
-          processEscapeCharacter(
-            JSON.stringify({
-              name: responseObject.name,
-              text: responseObject.text,
-            }),
-          ),
-        ),
-      );
-
-      chatHistoryList[historyIndex].push(userHistory, assistantHistory);
-    }
-  } catch (error) {
-    error;
+  if (config.ai.useChat) {
+    chatHistoryList[historyIndex].push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: name,
+          text: text,
+          glossary: glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: responseText,
+      },
+    );
   }
 
   // log
+  console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
   console.log('Glossary:', glossary);
-  console.log('Response Data:', response.data);
   console.log('Response Text:', responseText);
 
   return responseText;
-}
-
-// get content history
-function getContentHistory(array) {
-  let historyString = '';
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
-    historyString += JSON.stringify(element) + ',';
-  }
-  return historyString;
-}
-
-// processEscapeCharacter
-function processEscapeCharacter(text = '') {
-  return text.replaceAll(escapeCharacter, '').replaceAll(escapeCharacter2, '\\$&');
 }
 
 // get image text
@@ -135,12 +110,30 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
   try {
     const config = configModule.getConfig();
     const prompt = aiFunction.createImagePrompt(language);
-    const apiUrl = config.api.llmApiUrl;
-    const headers = JSON.parse(config.api.llmApiHeader);
-    const payload = JSON.parse(config.api.llmApiPayloadImage.replace('${prompt}', prompt).replace('${image-url}', imageBase64));
+    const apiUrl = config.api.openaiApiUrl;
+    const model = config.api.openaiApiModel;
+    const client = new OpenAI({ apiKey: config.api.openaiApiKey, baseURL: apiUrl });
 
-    const response = await requestModule.post(apiUrl, payload, headers);
-    const responseText = getResponseText(response.data);
+    const messages = [
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: prompt,
+          },
+          {
+            type: 'image_url',
+            image_url: {
+              url: `data:image/png;base64,${imageBase64}`,
+            },
+          },
+        ],
+      },
+    ];
+
+    const response = await client.chat.completions.create({ model: model, messages: messages });
+    const responseText = getResponseText(response);
     return responseText;
   } catch (error) {
     return '' + error;
@@ -148,23 +141,8 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
 }
 
 // get response text
-function getResponseText(responseData = null, responseLocation = '') {
-  if (responseData && responseLocation) {
-    const array = responseLocation.split('.');
-    let value = '';
-
-    for (let index = 0; index < array.length; index++) {
-      if (index === 0) {
-        value = responseData[array[index]];
-      } else {
-        value = value[array[index]];
-      }
-    }
-
-    return value;
-  } else {
-    return '';
-  }
+function getResponseText(data) {
+  return data.choices[0].message.content;
 }
 
 // module exports

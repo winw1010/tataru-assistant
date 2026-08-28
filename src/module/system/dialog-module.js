@@ -127,10 +127,10 @@ function saveDialog(dialogData) {
       id: dialogData.id,
       code: dialogData.code,
       player: dialogData.playerName,
-      name: dialogData.name,
+      name: dialogData.name.replace(/(:|：)$/gi, ''),
       text: dialogData.text,
       audio_text: dialogData.audioText,
-      translated_name: dialogData.translatedName,
+      translated_name: dialogData.translatedName.replace(/(:|：)$/gi, ''),
       translated_text: dialogData.translatedText,
       timestamp: dialogData.timestamp,
       datetime: new Date(dialogData.timestamp).toLocaleString(),
@@ -170,14 +170,7 @@ function saveDialog(dialogData) {
 function createLogName(milliseconds = null) {
   const date = Number.isInteger(milliseconds) ? new Date(milliseconds) : new Date();
 
-  return (
-    date.getFullYear().toString() +
-    '-' +
-    (date.getMonth() + 1).toString().padStart(2, '0') +
-    '-' +
-    date.getDate().toString().padStart(2, '0') +
-    '.json'
-  );
+  return date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0') + '.json';
 }
 
 // module exports

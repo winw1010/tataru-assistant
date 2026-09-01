@@ -14,9 +14,10 @@ const papago = require('../translator/papago');
 const deepl = require('../translator/deepl');
 
 // llm translator
-const gpt = require('../translator/gpt');
-const cohere = require('../translator/cohere');
 const gemini = require('../translator/gemini');
+const gpt = require('../translator/gpt');
+const claude = require('../translator/claude');
+const cohere = require('../translator/cohere');
 const kimi = require('../translator/kimi');
 const customLLM = require('../translator/customLLM');
 
@@ -45,16 +46,20 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
 
   try {
     switch (engine) {
+      case 'Gemini':
+        responseObject = await gemini.exec(option);
+        break;
+
       case 'GPT':
         responseObject = await gpt.exec(option);
         break;
 
-      case 'Cohere':
-        responseObject = await cohere.exec(option);
+      case 'Claude':
+        responseObject = await claude.exec(option);
         break;
 
-      case 'Gemini':
-        responseObject = await gemini.exec(option);
+      case 'Cohere':
+        responseObject = await cohere.exec(option);
         break;
 
       case 'Kimi':

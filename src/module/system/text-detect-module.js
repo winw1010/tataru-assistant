@@ -29,6 +29,8 @@ const { addTask } = require('../fix/fix-entry');
 const gemini = require('../translator/gemini');
 // gpt
 const gpt = require('../translator/gpt');
+// claude
+const claude = require('../translator/claude');
 // cohere
 const cohere = require('../translator/cohere');
 // kimi
@@ -55,6 +57,10 @@ async function startReconizing(captureData) {
   // gpt vision
   else if (captureData.type === 'gpt-vision') {
     captureData.text = await gpt.getImageText(imageBase64, captureData.from);
+  }
+  // claude vision
+  else if (captureData.type === 'claude-vision') {
+    captureData.text = await claude.getImageText(imageBase64, captureData.from);
   }
   // cohere vision
   else if (captureData.type === 'cohere-vision') {

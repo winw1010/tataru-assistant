@@ -512,7 +512,7 @@
         <!-- set GPT -->
         <div class="row">
           <div class="col-auto">
-            <p id="p-chat-gpt"></p>
+            <p id="p-gpt"></p>
           </div>
         </div>
 
@@ -530,23 +530,44 @@
 
         <br />
 
-        <!--
-        <div class="row align-items-center">
-          <div class="col">
-            <label for="select-gpt-model"></label>
-          </div>
-          <div class="col-auto">
-            <select class="form-select" name="" id="select-gpt-model"></select>
-          </div>
-        </div>
-        -->
-
         <div class="row align-items-center">
           <div class="col">
             <label for="input-gpt-model"></label>
           </div>
           <div class="col-auto">
             <input type="text" class="form-control" name="" id="input-gpt-model" />
+          </div>
+        </div>
+
+        <hr />
+
+        <!-- set Claude -->
+        <div class="row">
+          <div class="col-auto">
+            <p id="p-claude"></p>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-claude-api-key"></label>
+          </div>
+          <div class="col-auto">
+            <img class="img-fluid img-visibility" src="./img/ui/visibility_off_white_48dp.svg" alt="" style="width: 1.5rem" id="img-visibility-claude-api-key" />
+          </div>
+          <div class="col-auto">
+            <input type="password" class="form-control" name="" id="input-claude-api-key" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row align-items-center">
+          <div class="col">
+            <label for="input-claude-model"></label>
+          </div>
+          <div class="col-auto">
+            <input type="text" class="form-control" name="" id="input-claude-model" />
           </div>
         </div>
 

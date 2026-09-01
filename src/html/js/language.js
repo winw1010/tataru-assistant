@@ -64,7 +64,7 @@ function setText(appLanguage) {
 
 // get text index
 function getTextIndex(appLanguage) {
-  let index = 0;
+  let index;
 
   switch (appLanguage) {
     case 'app-zht':
@@ -196,6 +196,9 @@ function getElementTextList() {
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
 
+        'input-claude-api-key': ['API Key', 'API金钥', 'API Key'],
+        'input-claude-model': ['模型', '模型', 'Model'],
+
         'input-llm-api-url': ['API URL', 'API URL', 'API URL'],
         'input-llm-api-key': ['API Key', 'API Key', 'API Key'],
         'input-llm-api-model': ['API Model', 'API Model', 'API Model'],
@@ -257,9 +260,10 @@ function getElementTextList() {
         bold: ['粗', '粗', 'Bold'],
 
         '#AI-Translator': ['#AI翻譯', '#AI翻译', '#AI Translator'],
-        GPT: ['GPT', 'GPT', 'GPT'],
-        Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Gemini: ['Gemini', 'Gemini', 'Gemini'],
+        GPT: ['GPT', 'GPT', 'GPT'],
+        Claude: ['Claude', 'Claude', 'Claude'],
+        Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
         'LLM-API': ['自訂LLM', '自订LLM', 'Custom LLM'],
         '#Traditional-Translator': ['#傳統翻譯(不推薦)', '#传统翻译(不推荐)', '#Traditional Translator(Not Recommended)'],
@@ -289,6 +293,7 @@ function getElementTextList() {
         'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
         'gemini-vision': ['Gemini', 'Gemini', 'Gemini'],
         'gpt-vision': ['GPT', 'GPT', 'GPT'],
+        'claude-vision': ['Claude', 'Claude', 'Claude'],
         'cohere-vision': ['Cohere', 'Cohere', 'Cohere'],
         'kimi-vision': ['kimi', 'kimi', 'kimi'],
         'custom-llm-vision': ['Custom LLM', 'Custom LLM', 'Custom LLM'],
@@ -327,8 +332,9 @@ function getElementTextList() {
         'p-ai-warning': ['* 注意：AI翻譯需事先設定API才能使用', '* 注意：AI翻译需事先设定API才能使用', '* Remember to set API options before using AI translator'],
         'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision Settings'],
         'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini Settings'],
+        'p-gpt': ['GPT設定', 'GPT设定', 'GPT Settings'],
+        'p-claude': ['Claude設定', 'Claude设定', 'Claude Settings'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere Settings'],
-        'p-chat-gpt': ['GPT設定', 'GPT设定', 'GPT Settings'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi Settings'],
         'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API Settings'],
       },
@@ -375,6 +381,9 @@ function getElementTextList() {
 
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['Model', 'Model', 'Model'],
+
+        'input-claude-api-key': ['API Key', 'API金钥', 'API Key'],
+        'input-claude-model': ['Model', 'Model', 'Model'],
 
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],

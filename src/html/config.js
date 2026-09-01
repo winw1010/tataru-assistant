@@ -591,6 +591,15 @@ function getOptionList() {
     ],
 
     [
+      ['input-claude-api-key', 'value'],
+      ['api', 'claudeApiKey'],
+    ],
+    [
+      ['input-claude-model', 'value'],
+      ['api', 'claudeModel'],
+    ],
+
+    [
       ['input-cohere-token', 'value'],
       ['api', 'cohereToken'],
     ],

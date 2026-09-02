@@ -18,9 +18,6 @@ const windowModule = require('./window-module');
 // ipc module
 const ipcModule = require('./ipc-module');
 
-// sharlayan module
-const sharlayanModule = require('./sharlayan-module');
-
 // start app
 function startApp() {
   // directory check

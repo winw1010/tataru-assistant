@@ -17,6 +17,16 @@ const regUserCountry = /(?<target>userCountry=[^;]+)/is;
 const regReleaseGroups = /(?<target>releaseGroups=[^;]+)/is;
 const regDapUid = /(?<target>dapUid=[^;]+)/is;
 */
+const regLangCode = /^[A-Za-z]{2,3}(-[A-Za-z]{2,4})?$/;
+
+// sanitize lang code
+function sanitizeLangCode(code) {
+  if (typeof code !== 'string' || !regLangCode.test(code)) {
+    throw new Error(`Invalid language code: ${code}`);
+  }
+
+  return code.toUpperCase();
+}
 
 // authentication
 let authentication = {
@@ -72,7 +82,7 @@ function setAuthentication() {
 async function splitText(option = {}) {
   let postData = deeplFunction.getSplitText();
   postData.id = authentication.id++;
-  postData.params.lang.lang_user_selected = option.from;
+  postData.params.lang.lang_user_selected = sanitizeLangCode(option.from);
   postData.params.texts = [option.text];
 
   const response = await requestModule.post(
@@ -111,8 +121,8 @@ async function translate(option) {
   let postData = deeplFunction.getHandleJobs();
   postData.id = authentication.id++;
   postData.params.jobs = deeplFunction.generateJobs(chunks);
-  postData.params.lang.source_lang_computed = option.from;
-  postData.params.lang.target_lang = option.to;
+  postData.params.lang.source_lang_computed = sanitizeLangCode(option.from);
+  postData.params.lang.target_lang = sanitizeLangCode(option.to);
   postData.params.timestamp = deeplFunction.generateTimestamp(postData.params.jobs);
 
   const response = await requestModule.post(

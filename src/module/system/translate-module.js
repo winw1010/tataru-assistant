@@ -19,6 +19,7 @@ const gpt = require('../translator/gpt');
 const claude = require('../translator/claude');
 const cohere = require('../translator/cohere');
 const kimi = require('../translator/kimi');
+const ollama = require('../translator/ollama');
 const customLLM = require('../translator/customLLM');
 
 // zh converter
@@ -64,6 +65,10 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
 
       case 'Kimi':
         responseObject = await kimi.exec(option);
+        break;
+
+      case 'Ollama':
+        responseObject = await ollama.exec(option);
         break;
 
       case 'LLM-API':

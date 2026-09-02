@@ -618,6 +618,15 @@ function getOptionList() {
     ],
 
     [
+      ['input-ollama-api-url', 'value'],
+      ['api', 'ollamaApiUrl'],
+    ],
+    [
+      ['input-ollama-api-model', 'value'],
+      ['api', 'ollamaApiModel'],
+    ],
+
+    [
       ['input-llm-api-url', 'value'],
       ['api', 'openaiApiUrl'],
     ],

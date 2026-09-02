@@ -84,6 +84,8 @@ const defaultConfig = {
     cohereModel: 'command-a-03-2025',
     kimiToken: '',
     kimiModel: 'kimi-k3',
+    ollamaApiUrl: 'http://localhost:11434',
+    ollamaApiModel: 'gemma4',
     openaiApiUrl: 'https://api.openai.com/v1',
     openaiApiKey: '',
     openaiApiModel: '',

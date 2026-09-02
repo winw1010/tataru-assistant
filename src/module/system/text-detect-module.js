@@ -35,6 +35,8 @@ const claude = require('../translator/claude');
 const cohere = require('../translator/cohere');
 // kimi
 const kimi = require('../translator/kimi');
+// ollama
+const ollama = require('../translator/ollama');
 // customLLM
 const customLLM = require('../translator/customLLM');
 
@@ -69,6 +71,10 @@ async function startReconizing(captureData) {
   // kimi vision
   else if (captureData.type === 'kimi-vision') {
     captureData.text = await kimi.getImageText(imageBase64, captureData.from);
+  }
+  // ollama vision
+  else if (captureData.type === 'ollama-vision') {
+    captureData.text = await ollama.getImageText(imageBase64, captureData.from);
   }
   // custom LLM vision
   else if (captureData.type === 'custom-llm-vision') {

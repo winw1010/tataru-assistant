@@ -1,6 +1,6 @@
 'use strict';
 
-const { Anthropic } = require('@anthropic-ai/sdk');
+const { Ollama } = require('ollama');
 
 // const requestModule = require('../system/request-module');
 
@@ -20,11 +20,12 @@ async function exec(option) {
 async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
-  const historyIndex = 'CLAUDE_' + prompt;
+  const historyIndex = 'LLM_' + prompt;
   const glossary = aiFunction.createGlossary(source, target, table);
   const sample = aiFunction.getTranslationSample(source, target);
-  const model = config.api.claudeApiModel;
-  const client = new Anthropic({ apiKey: config.api.claudeApiKey });
+  const apiUrl = config.api.ollamaApiUrl;
+  const model = config.api.ollamaApiModel;
+  const ollama = new Ollama({ host: apiUrl });
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
@@ -69,7 +70,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   ];
 
   // get response
-  const response = await client.beta.messages.create({ model: model, messages: messages });
+  const response = await ollama.chat({ model: model, messages: messages });
   const responseText = getResponseText(response);
 
   // push history
@@ -107,30 +108,13 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
   try {
     const config = configModule.getConfig();
     const prompt = aiFunction.createImagePrompt(language);
-    const model = config.api.claudeApiModel;
-    const client = new Anthropic({ apiKey: config.api.claudeApiKey });
+    const apiUrl = config.api.ollamaApiUrl;
+    const model = config.api.ollamaApiModel;
+    const ollama = new Ollama({ host: apiUrl });
 
-    const messages = [
-      {
-        role: 'user',
-        content: [
-          {
-            type: 'image',
-            source: {
-              type: 'base64',
-              media_type: 'image/png',
-              data: imageBase64,
-            },
-          },
-          {
-            type: 'text',
-            text: prompt,
-          },
-        ],
-      },
-    ];
+    const messages = [{ role: 'user', content: prompt, images: [imageBase64] }];
 
-    const response = await client.beta.messages.create({ model: model, messages: messages });
+    const response = await ollama.chat({ model: model, messages: messages });
     const responseText = getResponseText(response);
     return responseText;
   } catch (error) {
@@ -140,7 +124,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
 
 // get response text
 function getResponseText(response) {
-  return response.content[0].text;
+  return response.message.content;
 }
 
 // module exports

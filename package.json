@@ -28,6 +28,7 @@
     "crypto-js": "^4.2.0",
     "node-stream-zip": "^1.16.0",
     "nodejs-file-downloader": "^4.13.0",
+    "ollama": "^0.6.3",
     "openai": "^7.4.0",
     "sharp": "^0.35.3",
     "temp": "^0.9.4",

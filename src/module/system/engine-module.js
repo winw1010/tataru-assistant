@@ -21,17 +21,14 @@ const fixTargetList = ['Traditional-Chinese', 'Simplified-Chinese'];
 // ui list
 const uiList = ['Traditional-Chinese', 'Simplified-Chinese', 'English'];
 
-// engine list
-const engineList = ['#AI-Translator', 'Gemini', 'GPT', 'Claude', 'Cohere', 'Kimi', 'LLM-API', '#Traditional-Translator', 'Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
-
 // change list
 const changeList = ['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'];
 
 // AI list
-const aiList = ['Gemini', 'GPT', 'Cohere', 'Kimi', 'LLM-API'];
+const aiList = ['Gemini', 'GPT', 'Claude', 'Cohere', 'Kimi', 'Ollama', 'LLM-API'];
 
-// vision list
-const visionList = ['tesseract-ocr', 'google-vision', 'gpt-vision'];
+// engine list
+const engineList = ['#AI-Translator'].concat(aiList).concat(['#Traditional-Translator']).concat(changeList);
 
 // language enum
 const languageEnum = {
@@ -276,7 +273,6 @@ module.exports = {
   engineList,
   changeList,
   aiList,
-  visionList,
   getLLMTable,
 
   languageEnum,

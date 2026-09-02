@@ -193,6 +193,9 @@ function getElementTextList() {
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['模型', '模型', 'Model'],
 
+        'input-ollama-api-url': ['API URL', 'API URL', 'API URL'],
+        'input-ollama-api-model': ['模型', '模型', 'Model'],
+
         'input-gpt-api-key': ['API Key', 'API金钥', 'API Key'],
         'input-gpt-model': ['模型', '模型', 'Model'],
 
@@ -265,6 +268,7 @@ function getElementTextList() {
         Claude: ['Claude', 'Claude', 'Claude'],
         Cohere: ['Cohere', 'Cohere', 'Cohere'],
         Kimi: ['Kimi', 'Kimi', 'Kimi'],
+        Ollama: ['Ollama', 'Ollama', 'Ollama'],
         'LLM-API': ['自訂LLM', '自订LLM', 'Custom LLM'],
         '#Traditional-Translator': ['#傳統翻譯(不推薦)', '#传统翻译(不推荐)', '#Traditional Translator(Not Recommended)'],
         Youdao: ['有道翻譯', '有道翻译', 'Youdao'],
@@ -296,6 +300,7 @@ function getElementTextList() {
         'claude-vision': ['Claude', 'Claude', 'Claude'],
         'cohere-vision': ['Cohere', 'Cohere', 'Cohere'],
         'kimi-vision': ['kimi', 'kimi', 'kimi'],
+        'ollama-vision': ['Ollama', 'Ollama', 'Ollama'],
         'custom-llm-vision': ['Custom LLM', 'Custom LLM', 'Custom LLM'],
         'tesseract-ocr': ['Tesseract OCR(不推薦)', 'Tesseract OCR(不推荐)', 'Tesseract OCR(Not Recommended)'],
 
@@ -336,6 +341,7 @@ function getElementTextList() {
         'p-claude': ['Claude設定', 'Claude设定', 'Claude Settings'],
         'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere Settings'],
         'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi Settings'],
+        'p-ollama-api': ['Ollama設定', 'Ollama设定', 'Ollama Settings'],
         'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API Settings'],
       },
       span: {
@@ -388,9 +394,12 @@ function getElementTextList() {
         'input-kimi-token': ['API Key', 'API金钥', 'API Key'],
         'input-kimi-model': ['Model', 'Model', 'Model'],
 
-        'input-llm-api-key': ['API Key', 'API Key', 'API Key'],
-        'input-llm-api-model': ['API Model', 'API Model', 'API Model'],
+        'input-ollama-api-url': ['http://localhost:11434', 'http://localhost:11434', 'http://localhost:11434'],
+        'input-ollama-api-model': ['Model', 'Model', 'Model'],
+
         'input-llm-api-url': ['https://api.openai.com/v1', 'https://api.openai.com/v1', 'https://api.openai.com/v1'],
+        'input-llm-api-key': ['API Key', 'API Key', 'API Key'],
+        'input-llm-api-model': ['Model', 'Model', 'Model'],
 
         // custom
         'input-Keyword': ['關鍵字', '关键字', 'Keyword'],

@@ -1,5 +1,8 @@
 'use strict';
 
+// json repair
+const { jsonrepair } = require('jsonrepair');
+
 // dialog module
 //const dialogModule = require('./dialog-module');
 
@@ -87,8 +90,12 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
   if (responseObject) {
     if (typeof responseObject === 'string') {
       try {
-        //responseObject = JSON.parse(/(?<target>{.*"(name|text)":.*"(name|text)":.*})/is.exec(responseObject)?.groups?.target);
-        responseObject = JSON.parse(/(?<target>{.*"text":.*})/is.exec(responseObject)?.groups?.target);
+        responseObject = JSON.parse(jsonrepair(/(?<target>{.+})/is.exec(responseObject)?.groups?.target || responseObject));
+
+        if (!responseObject.text) {
+          throw 'Text is not found.';
+        }
+
         if (!responseObject.name) {
           responseObject.name = '';
         }

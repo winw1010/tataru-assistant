@@ -26,6 +26,7 @@
     "axios": "^1.19.0",
     "cohere-ai": "^8.0.0",
     "crypto-js": "^4.2.0",
+    "jsonrepair": "^3.15.0",
     "node-stream-zip": "^1.16.0",
     "nodejs-file-downloader": "^4.13.0",
     "ollama": "^0.6.3",

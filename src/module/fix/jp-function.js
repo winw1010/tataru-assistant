@@ -35,8 +35,7 @@ const regKatakanaF = /^[ァ-ヺ]/;
 const regKatakanaB = /[ァ-ヺー]$/;
 
 // no katakana
-const katakanaWithoutSmall =
-  'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ'; // remove ァィゥェォッャュョヮヵヶ
+const katakanaWithoutSmall = 'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンヴ'; // remove ァィゥェォッャュョヮヵヶ
 const regNoKatakanaF = `(?<![${getKatakanaString()}ー])`;
 const regNoKatakanaB = `(?![${katakanaWithoutSmall}ー])`;
 
@@ -167,8 +166,8 @@ function findTempArray(text = '', array = []) {
     const element = array[index];
     const name = element[0];
     const translatedName = element[1];
-    const hiraName1 = convertKana(element[0], 'hira');
-    const hiraName2 = hiraFix(hiraName1);
+    //const hiraName1 = convertKana(element[0], 'hira');
+    //const hiraName2 = hiraFix(hiraName1);
 
     regAllKatakanaName.lastIndex = 0;
 
@@ -194,7 +193,6 @@ function findTempArray(text = '', array = []) {
     if (text.includes(hiraName1) && hiraName1.length > 3) {
       temp.push([hiraName1, translatedName]);
     }
-    */
 
     if (text.includes(`「${hiraName1}」`)) {
       temp.push([`「${hiraName1}」`, `「${translatedName}」`]);
@@ -203,13 +201,13 @@ function findTempArray(text = '', array = []) {
     if (text.includes(`『${hiraName1}』`)) {
       temp.push([`『${hiraName1}』`, `『${translatedName}』`]);
     }
+    */
 
     // hira name 2
     /*
     if (text.includes(hiraName2) && hiraName2.length > 3) {
       temp.push([hiraName2, translatedName]);
     }
-    */
 
     if (text.includes(`「${hiraName2}」`)) {
       temp.push([`「${hiraName2}」`, `「${translatedName}」`]);
@@ -218,6 +216,7 @@ function findTempArray(text = '', array = []) {
     if (text.includes(`『${hiraName2}』`)) {
       temp.push([`『${hiraName2}』`, `『${translatedName}』`]);
     }
+    */
   }
 
   return temp.sort((a, b) => b[0].length - a[0].length);
@@ -546,6 +545,7 @@ function reverseKana(text = '') {
   return newString;
 }
 
+/*
 function hiraFix(text = '') {
   text = text.replace(/([あかさたなはまらがざだばぱやわ])ー/gi, '$1あ');
   text = text.replace(/([いきしちにひみりぎじぢびぴ])ー/gi, '$1い');
@@ -561,6 +561,7 @@ function hiraFix(text = '') {
 
   return text;
 }
+*/
 
 function needTranslation(text = '', table = []) {
   for (let index = 0; index < table.length; index++) {

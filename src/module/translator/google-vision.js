@@ -14,8 +14,8 @@ async function textDetection(path = '') {
   if (config.api.googleVisionType === 'google-api-key') {
     // API Key
     const apiKey = config.api.googleVisionApiKey;
-    const apiUrl = 'https://vision.googleapis.com/v1/images:annotate?key=' + apiKey;
-    const header = { 'Content-Type': 'application/json' };
+    const apiUrl = 'https://vision.googleapis.com/v1/images:annotate';
+    const header = { 'Content-Type': 'application/json', 'X-Goog-Api-Key': apiKey };
     const payload = {
       requests: [
         {

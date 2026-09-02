@@ -18,6 +18,9 @@ const windowModule = require('./window-module');
 // ipc module
 const ipcModule = require('./ipc-module');
 
+// sharlayan module
+const sharlayanModule = require('./sharlayan-module');
+
 // start app
 function startApp() {
   // directory check
@@ -71,10 +74,16 @@ function setGlobalShortcut() {
 function registerGlobalShortcut() {
   globalShortcut.unregisterAll();
 
+  // show read me
   globalShortcut.register('CommandOrControl+F9', () => {
-    configModule.openReadme();
+    try {
+      configModule.openReadme();
+    } catch (error) {
+      error;
+    }
   });
 
+  // show config window
   globalShortcut.register('CommandOrControl+F10', () => {
     try {
       windowModule.closeWindow('config');
@@ -84,6 +93,7 @@ function registerGlobalShortcut() {
     }
   });
 
+  // show capture window
   globalShortcut.register('CommandOrControl+F11', () => {
     try {
       windowModule.closeWindow('capture');
@@ -93,8 +103,13 @@ function registerGlobalShortcut() {
     }
   });
 
+  // show dev tools
   globalShortcut.register('CommandOrControl+F12', () => {
-    windowModule.openDevTools();
+    try {
+      windowModule.openDevTools();
+    } catch (error) {
+      error;
+    }
   });
 }
 

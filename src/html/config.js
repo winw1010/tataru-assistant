@@ -95,6 +95,16 @@ function setButton() {
     ipcRenderer.send('close-window');
   };
 
+  // save
+  document.getElementById('button-save-config').onclick = async () => {
+    await saveConfig();
+  };
+
+  // default
+  document.getElementById('button-save-default-config').onclick = async () => {
+    await saveDefaultConfig();
+  };
+
   // page
   document.getElementById('select-option').onchange = () => {
     const value = document.getElementById('select-option').value;
@@ -104,14 +114,14 @@ function setButton() {
     document.getElementById(value).hidden = false;
   };
 
-  // save
-  document.getElementById('button-save-config').onclick = async () => {
-    await saveConfig();
-  };
-
-  // default
-  document.getElementById('button-save-default-config').onclick = async () => {
-    await saveDefaultConfig();
+  // go to api settings
+  document.getElementById('button-api-settings').onclick = () => {
+    const value = 'div-api';
+    document.getElementById('select-option').value = value;
+    document.querySelectorAll('.config-page').forEach((page) => {
+      document.getElementById(page.id).hidden = true;
+    });
+    document.getElementById(value).hidden = false;
   };
 
   // open google credential

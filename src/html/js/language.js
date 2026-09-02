@@ -108,6 +108,8 @@ function getElementTextList() {
         'button-save-config': ['儲存', '储存', 'Save'],
         'button-save-default-config': ['預設', '预设', 'Default'],
 
+        'button-api-settings': ['API設定', 'API设定', 'API Settings'],
+
         'button-google-credential': ['開啟Google憑證檔案', '开启Google凭证档案', 'Open Google Credential File'],
         'button-google-credential-view': ['查看憑證檔案', '查看凭证档案', 'View Credential File'],
 

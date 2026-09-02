@@ -368,12 +368,12 @@ function specialFix1(name = '', text = '') {
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
     text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
   }
-  */
 
   // 暗黒騎士
   if (/シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
     text = text.replaceAll('ミスト', 'ミスト#');
   }
+  */
 
   return text;
 }
@@ -395,21 +395,18 @@ function specialFix2(name = '', text = '') {
     text = text.replaceAll('、', '');
   }
 
+  /*
   // バヌバヌ族
   if (/ブンド|ズンド|グンド|ヌバ|バヌ/gi.test(name)) {
     // 長老さま、長老さま！
     // ぬおおおおおん！まただ、まただ、浮島が食べられたね！
-    //text = text.replace(/(.{3,}?)、\1/gi, '$1');
+    text = text.replace(/(.{3,}?)、\1/gi, '$1');
   }
+  */
 
   // 異邦の詩人
   if (/(異邦の詩人)|(異世界の詩人)/gi.test(name)) {
     text = text.replace(/\u3000/gi, '、');
-  }
-
-  // ライアン
-  if (/^ライアン/gi.test(name)) {
-    text = text.replaceAll('あーた', '貴方');
   }
 
   let loopCount = 0;

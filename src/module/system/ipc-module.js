@@ -153,7 +153,7 @@ function setSystemChannel() {
   // fix reader
   ipcMain.on('fix-reader', (event) => {
     childProcess.exec('secedit /configure /cfg %windir%\\inf\\defltbase.inf /db defltbase.sdb /verbose', (error) => {
-      let message = '';
+      let message;
 
       if (error && error.code === 740) {
         message = 'You must run Tataru Assistant as administrator. (Error 740)';
@@ -447,7 +447,7 @@ function setRequestChannel() {
   });
 
   // version check
-  ipcMain.on('version-check', (event) => {
+  ipcMain.on('version-check', () => {
     // get lastest version
     requestModule
       .get('https://api.github.com/repos/winw1010/tataru-assistant/releases/latest')
@@ -544,7 +544,7 @@ function setJsonChannel() {
 
   // save user custom
   ipcMain.on('save-user-custom', (event, textBefore = '', textAfter = '', type = '') => {
-    let fileName = '';
+    let fileName;
     let textBefore2 = textBefore;
     let array = [];
 
@@ -573,7 +573,7 @@ function setJsonChannel() {
 
   // delete user custom
   ipcMain.on('delete-user-custom', (event, textBefore = '', type = '') => {
-    let fileName = '';
+    let fileName;
     let textBefore2 = textBefore;
 
     if (type !== 'custom-overwrite' && !regAllKanjikatakana.test(textBefore2) && textBefore2.length < 3) {
@@ -641,7 +641,7 @@ function setTranslationChannel() {
 
   // get translation
   ipcMain.on('translate-text', async (event, dialogData) => {
-    let translatedText = '';
+    let translatedText;
 
     if (engineModule.aiList.includes(dialogData.translation.engine)) {
       translatedText = (await translateModule.translateLLM(dialogData.name, dialogData.text, dialogData.translation)).text;

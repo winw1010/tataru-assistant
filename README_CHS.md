@@ -24,11 +24,15 @@
 
 - ChatGPT
 
+- Claude
+
 - Cohere
 
 - Kimi
 
-- 自订LLM(可自行输入Heder和Payload)
+- Ollama (本地LLM)
+
+- 自订LLM (仅适用相容于OpenAI的API)
 
 ## 传统翻译机 (不推荐使用)
 
@@ -46,15 +50,19 @@
 
 # 档案下载
 
+- [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-tw/download/dotnet/thank-you/runtime-desktop-10.0.11-windows-x64-installer) (Tataru Assistant 3.0 以上版本需安装此Runtime才能运作)
+
 - [Tataru Assistant 安装档](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
 
-- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (执行 Tataru Assistant 的必要元件)
+# 档案下载(旧)
+
+- [.NET Framework 4.8](https://dotnet.microsoft.com/zh-tw/download/dotnet-framework/thank-you/net48-web-installer) (Tataru Assistant 2.x 版本需安装此Runtime才能运作)
 
 # 安装步骤
 
-1. 下载「Tataru Assistant 安装档」和「.NET Framework 4.8」
+1. 下载「Tataru Assistant 安装档」和「.NET 10 Desktop Runtime」
 
-2. 执行「ndp48-web.exe」安装 .NET Framework 4.8 (执行 Tataru Assistant 的必要元件)
+2. 执行「windowsdesktop-runtime-10.0.11-win-x64.exe」安装 .NET 10 Desktop Runtime (Tataru Assistant 3.0 以上版本需安装此Runtime才能运作)
 
 3. 执行「Tataru Assistant Setup.exe」安装 Tataru Assistant ，若显示「Windows 已保护您的电脑」的讯息，请点选「其他资讯」，再点选下方的「仍要执行」
 
@@ -72,9 +80,6 @@
 - 编辑器：[Visual Studio Code](https://code.visualstudio.com/)
 
 ```bash
-# 启动命令提示字元(cmd)
-于左下搜寻栏位输入cmd开启
-
 # 複製专案
 git clone https://github.com/winw1010/tataru-assistant
 
@@ -94,9 +99,6 @@ npm start
 - 安装档设定位于 package.json 里的 build 物件中，打包工具为 electron-builder
 
 ```bash
-# 启动命令提示字元(cmd)
-于左下搜寻栏位输入cmd开启
-
 # 进入专案资料夹
 cd (你的专案位置)
 

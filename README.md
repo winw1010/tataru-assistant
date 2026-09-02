@@ -2,71 +2,73 @@ English | [繁體中文](https://github.com/winw1010/tataru-assistant/blob/main/
 
 # What is Tataru Assistant?
 
-**Tataru Assistant** is a real-time story subtitle translation program for the global version of FFXIV. Its main features include:
+**Tataru Assistant** is a real-time subtitle translation program for the global version of FFXIV. Its main features include:
 
-- AI translation for dialogue text and cutscene subtitles.
-- Supports multi-turn AI dialogue, making translation results more natural and accurate.
-- Captures screen text for translation.
-- (Chinese translation only) Corrects translation results based on a [**reference table**](https://github.com/winw1010/tataru-assistant-text), such as correcting **タタル** to **塔塔露**.
-- (Available for all languages) Custom translation overrides.
+- AI translation for dialogue and cutscene subtitles.
+- Supports AI multi-turn conversations for more accurate translation results.
+- Captures and translates text from the screen.
+- Custom translation overrides.
 
-# Tataru Assistant Translation Methods
+# Translation Methods in Tataru Assistant
 
 ## AI Translation
 
-Offers better translation quality and handles colloquial in-game sentences very well. We recommend using Gemini due to its generous free tier.
+Provides superior translation quality, capable of handling colloquial language in the game effectively. We recommend using Gemini due to its generous free tier.
 
 - Gemini (Recommended)
 - ChatGPT
+- Claude
 - Cohere
 - Kimi
-- Custom LLM (Allows manual input of Headers and Payload)
+- Ollama (Local LLM)
+- Custom LLM (Compatible with OpenAI API only)
 
 ## Traditional Translators (Not Recommended)
 
-These offer unlimited usage but have lower translation quality; therefore, they are not recommended.
+Available for unlimited use, but the translation quality is generally lower. Not recommended.
 
-- Youdao Translation
-- Baidu Translation
-- Caiyun Translator
+- Youdao
+- Baidu
+- Caiyun
 - Papago Naver
 - DeepL
 
 # Downloads
 
+- [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-tw/download/dotnet/thank-you/runtime-desktop-10.0.11-windows-x64-installer) (Required for Tataru Assistant 3.0 and above)
 - [Tataru Assistant Installer](https://github.com/winw1010/tataru-assistant/releases/latest/download/Tataru_Assistant_Setup.exe)
-- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) (Required component to run Tataru Assistant)
+
+# Downloads (Legacy)
+
+- [.NET Framework 4.8](https://dotnet.microsoft.com/zh-tw/download/dotnet-framework/thank-you/net48-web-installer) (Required for Tataru Assistant 2.x versions)
 
 # Installation Steps
 
-1. Download the "Tataru Assistant Installer" and ".NET Framework 4.8".
-2. Run "ndp48-web.exe" to install .NET Framework 4.8 (Required to run the app).
-3. Run "Tataru Assistant Setup.exe" to install the app. If a "Windows protected your PC" message appears, click "More info" and then "Run anyway".
-4. Click the gear icon in the window to open config window. Go to [Translation] to set your game language and target translation language, then click Save.
-5. If it does not translate automatically after installation, please check if NVIDIA ShadowPlay is turned off, as this feature prevents the program from displaying translations.
-6. If the translation still does not work after following the steps above, please go to [Congig] > [System] and click on [Repair Subtitle Reader]. After the repair is complete, restart your computer.
+1. Download the "Tataru Assistant Installer" and the ".NET 10 Desktop Runtime".
+2. Run "windowsdesktop-runtime-10.0.11-win-x64.exe" to install the .NET 10 Desktop Runtime.
+3. Run "Tataru Assistant Setup.exe" to install the application. If a "Windows protected your PC" message appears, click "More info," then click "Run anyway."
+4. Click the gear icon to open the Settings window, switch to **[Translation Settings]**, configure your game language and target translation language, then save.
+5. If translation does not work automatically after installation, please ensure that **NVIDIA ShadowPlay** is disabled, as this feature can interfere with the program's ability to display subtitles.
+6. If it still does not work, go to **[Settings]** > **[System Settings]** and click **[Repair Subtitle Reader]**. Restart the app after the repair is complete.
 
 # Source Code
 
 ## Building from Source
 
-- Required components: [Git](https://git-scm.com), [Node.js (LTS version)](https://nodejs.org/)
+- Prerequisites: [Git](https://git-scm.com), [Node.js (LTS version)](https://nodejs.org/)
 - Editor: [Visual Studio Code](https://code.visualstudio.com/)
 
 ```bash
-# Open Command Prompt (cmd)
-# Search for 'cmd' in the search bar and open it
-
 # Clone the project
 git clone https://github.com/winw1010/tataru-assistant
 
-# Enter the project folder
+# Enter the project directory
 cd tataru-assistant
 
 # Install dependencies
 npm install
 
-# Start the app
+# Run the app
 npm start
 ```
 
@@ -76,13 +78,10 @@ npm start
 - Installer settings are located in the `build` object within `package.json`. The packaging tool used is `electron-builder`.
 
 ```bash
-# Open Command Prompt (cmd)
-# Search for 'cmd' in the search bar and open it
-
-# Enter the project folder
+# Enter the project directory
 cd (your project path)
 
-# Build the installer
+# Create the installer
 npm run dist
 ```
 

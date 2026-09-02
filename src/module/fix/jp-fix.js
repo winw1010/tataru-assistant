@@ -371,7 +371,7 @@ function specialFix1(name = '', text = '') {
   */
 
   // 暗黒騎士
-  if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
+  if (/シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {
     text = text.replaceAll('ミスト', 'ミスト#');
   }
 

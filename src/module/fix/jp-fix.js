@@ -125,10 +125,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   }
 
   // find same name
-  const sameName =
-    fixFunction.sameAsArrayItem(name2, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
+  const sameName = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
   // return saved name if found
   if (sameName) {
@@ -366,10 +363,12 @@ function specialFix1(name = '', text = '') {
   // special replace
   text = jpFunction.specialReplace(text, jpArray.special1);
 
+  /*
   // 水晶公
   if (fixFunction.includesArrayItem(name, jpArray.listCrystalium)) {
     text = text.replace(/(?<![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])公(?![\u3100-\u312F\u3400-\u4DBF\u4E00-\u9FFF])/gi, '水晶公');
   }
+  */
 
   // 暗黒騎士
   if (/フレイ|シドゥルグ|リエル|^ミスト(の声)?$/gi.test(name)) {

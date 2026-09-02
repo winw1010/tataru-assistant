@@ -34,7 +34,7 @@ function load(targetLanguage) {
   jpArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('jp', 'ignore.json'));
   jpArray.jp1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp1.json'));
   jpArray.jp2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp2.json'));
-  jpArray.listCrystalium = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listCrystalium.json'));
+  jpArray.listCrystalium = []; //jsonFunction.readText(jsonFunction.getTextPath('jp', 'listCrystalium.json'));
   jpArray.listDelete = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listDelete.json'));
   jpArray.listHira = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listHira.json'));
   jpArray.listReverse = jsonFunction.readText(jsonFunction.getTextPath('jp', 'listReverse.json'));

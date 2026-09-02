@@ -2,8 +2,6 @@
 
 const { OpenAI } = require('openai');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');

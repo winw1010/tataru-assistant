@@ -2,8 +2,6 @@
 
 const { OpenAI } = require('openai');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
@@ -72,7 +70,6 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   // get response
   const response = await client.chat.completions.create({ model: model, messages: messages });
   const responseText = getResponseText(response);
-  const totalTokens = response?.usage?.total_tokens;
 
   // push history
   if (config.ai.useChat) {
@@ -93,7 +90,6 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   }
 
   // log
-  console.log('Total Tokens:', totalTokens);
   console.log('Prompt:', prompt);
   console.log('Glossary:', glossary);
   console.log('Response Text:', responseText);
@@ -141,8 +137,8 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
 }
 
 // get response text
-function getResponseText(data) {
-  return data.choices[0].message.content;
+function getResponseText(response) {
+  return response.choices[0].message.content;
 }
 
 // module exports

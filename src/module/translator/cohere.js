@@ -2,8 +2,6 @@
 
 const { CohereClientV2 } = require('cohere-ai');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
@@ -128,10 +126,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
       },
     ];
 
-    const response = await cohere.chat({
-      model: model,
-      messages: messages,
-    });
+    const response = await cohere.chat({ model: model, messages: messages });
     const responseText = getResponseText(response);
     return responseText;
   } catch (error) {

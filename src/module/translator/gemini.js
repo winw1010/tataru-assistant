@@ -4,8 +4,6 @@
 
 const { GoogleGenAI } = require('@google/genai');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');

@@ -2,11 +2,11 @@
 
 const { OpenAI } = require('openai');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
+
+const baseURL = 'https://api.moonshot.ai/v1';
 
 const chatHistoryList = {};
 
@@ -24,7 +24,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   const glossary = aiFunction.createGlossary(source, target, table);
   const sample = aiFunction.getTranslationSample(source, target);
   const model = config.api.kimiModel;
-  const client = new OpenAI({ apiKey: config.api.kimiToken, baseURL: 'https://api.moonshot.ai/v1' });
+  const client = new OpenAI({ apiKey: config.api.kimiToken, baseURL });
 
   // initialize chat history
   aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
@@ -108,7 +108,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
     const config = configModule.getConfig();
     const prompt = aiFunction.createImagePrompt(language);
     const model = config.api.kimiModel;
-    const client = new OpenAI({ apiKey: config.api.kimiToken, baseURL: 'https://api.moonshot.ai/v1' });
+    const client = new OpenAI({ apiKey: config.api.kimiToken, baseURL });
 
     const messages = [
       {

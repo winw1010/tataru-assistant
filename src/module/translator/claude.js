@@ -2,8 +2,6 @@
 
 const { Anthropic } = require('@anthropic-ai/sdk');
 
-// const requestModule = require('../system/request-module');
-
 const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
@@ -69,7 +67,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   ];
 
   // get response
-  const response = await client.beta.messages.create({ model: model, messages: messages });
+  const response = await client.messages.create({ model: model, messages: messages });
   const responseText = getResponseText(response);
 
   // push history
@@ -130,7 +128,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
       },
     ];
 
-    const response = await client.beta.messages.create({ model: model, messages: messages });
+    const response = await client.messages.create({ model: model, messages: messages });
     const responseText = getResponseText(response);
     return responseText;
   } catch (error) {

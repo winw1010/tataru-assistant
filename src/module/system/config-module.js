@@ -132,7 +132,7 @@ function loadConfig() {
     tempConfig = JSON.parse(JSON.stringify(currentConfig));
 
     // fix old bug
-    if (typeof currentConfig !== 'object' || currentConfig === null || Array.isArray(currentConfig) || (typeof currentConfig === 'object' && Object.keys(currentConfig).length === 0)) {
+    if (typeof currentConfig !== 'object' || currentConfig === null || Array.isArray(currentConfig) || (typeof currentConfig === 'object' && Object.keys(currentConfig).length <= 0)) {
       throw 'Use default config.';
     }
 

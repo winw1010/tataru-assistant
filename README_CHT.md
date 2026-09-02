@@ -10,9 +10,9 @@
 
 - 擷取螢幕文字並進行翻譯
 
-- (僅支援中文翻譯)根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**修正為**塔塔露**
+- 根據[**對照表**](https://github.com/winw1010/tataru-assistant-text)修正翻譯結果，例如將**タタル**修正為**塔塔露**
 
-- (全語言可用)自訂翻譯結果
+- 自訂翻譯結果
 
 # Tataru Assistant 的翻譯方式
 

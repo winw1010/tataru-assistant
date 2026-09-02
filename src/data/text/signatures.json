@@ -1,11 +1,5 @@
 [
   {
-    "Key": "CHATLOG",
-    "ASMSignature": true,
-    "Value": "488941104488492C4C8949244C89491C4584C07412488B4218488905********48890D",
-    "PointerPath": [0, 0, 64, 908]
-  },
-  {
     "Key": "PANEL_NAME",
     "ASMSignature": true,
     "Value": "488941104488492C4C8949244C89491C4584C07412488B4218488905********48890D",

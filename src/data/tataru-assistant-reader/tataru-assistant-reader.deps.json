@@ -1,0 +1,162 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "tataru-assistant-reader/1.0.0": {
+        "dependencies": {
+          "Sharlayan": "9.2.1"
+        },
+        "runtime": {
+          "tataru-assistant-reader.dll": {}
+        }
+      },
+      "BCnEncoder.Net/2.2.1": {
+        "dependencies": {
+          "CommunityToolkit.HighPerformance": "8.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/BCnEncoder.dll": {
+            "assemblyVersion": "2.2.1.0",
+            "fileVersion": "2.2.1.0"
+          }
+        }
+      },
+      "CommunityToolkit.HighPerformance/8.4.0": {
+        "runtime": {
+          "lib/net8.0/CommunityToolkit.HighPerformance.dll": {
+            "assemblyVersion": "8.4.0.0",
+            "fileVersion": "8.4.0.1"
+          }
+        }
+      },
+      "Lumina/7.6.1": {
+        "dependencies": {
+          "BCnEncoder.Net": "2.2.1",
+          "Microsoft.Extensions.ObjectPool": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Lumina.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.6.1.0"
+          }
+        }
+      },
+      "Lumina.Excel/7.5.0": {
+        "dependencies": {
+          "Lumina": "7.6.1"
+        },
+        "runtime": {
+          "lib/net10.0/Lumina.Excel.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.5.0.0"
+          }
+        }
+      },
+      "Microsoft.Extensions.ObjectPool/10.0.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.ObjectPool.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.4": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.4.30916"
+          }
+        }
+      },
+      "NLog/6.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/NLog.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.2.0.5698"
+          }
+        }
+      },
+      "Sharlayan/9.2.1": {
+        "dependencies": {
+          "Lumina": "7.6.1",
+          "Lumina.Excel": "7.5.0",
+          "NLog": "6.2.0",
+          "Newtonsoft.Json": "13.0.4"
+        },
+        "runtime": {
+          "lib/net10.0/Sharlayan.dll": {
+            "assemblyVersion": "9.2.1.0",
+            "fileVersion": "9.2.1.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "tataru-assistant-reader/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BCnEncoder.Net/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tI5+/OQo0kciLqWrViRjpOH+IL3FjexYnoWZajiGV41g/EM9CGbWsxsPzBDmpoxNkrV9uox/EtIhCIi9chBSFw==",
+      "path": "bcnencoder.net/2.2.1",
+      "hashPath": "bcnencoder.net.2.2.1.nupkg.sha512"
+    },
+    "CommunityToolkit.HighPerformance/8.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-flxspiBs0G/0GMp7IK2J2ijV9bTG6hEwFc/z6ekHqB6nwRJ4Ry2yLdx+TkbCUYFCl4XhABkAwomeKbT6zM2Zlg==",
+      "path": "communitytoolkit.highperformance/8.4.0",
+      "hashPath": "communitytoolkit.highperformance.8.4.0.nupkg.sha512"
+    },
+    "Lumina/7.6.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c3WhtkGaYwy6Bf2OFCOa5W/bGRlexDCLFALy9hBpIp7IQqPmAzmqQO9pg0cDQUvN+JelON06JkrJ0mK9PP40Ew==",
+      "path": "lumina/7.6.1",
+      "hashPath": "lumina.7.6.1.nupkg.sha512"
+    },
+    "Lumina.Excel/7.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yrwLCgUoslSrrYaeK2Z0UAcD1gUMv4e3/UObIBNiJG6IJZhO00XzzSFZWxZNiYyhAvzza5UUDyQ6xz4Kz2kscw==",
+      "path": "lumina.excel/7.5.0",
+      "hashPath": "lumina.excel.7.5.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.ObjectPool/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bpeCq0IYmVLACyEUMzFIOQX+zZUElG1t+nu1lSxthe7B+1oNYking7b91305+jNB6iwojp9fqTY9O+Nh7ULQxg==",
+      "path": "microsoft.extensions.objectpool/10.0.0",
+      "hashPath": "microsoft.extensions.objectpool.10.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
+    },
+    "NLog/6.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CxK6AjM1Wy3hM8YeBpLJJuB/JdoeIVvX0/fMTWeIXD917UozCtzv6cZDamevugeEaBBF0TIatfcNX2iJHI0Cew==",
+      "path": "nlog/6.2.0",
+      "hashPath": "nlog.6.2.0.nupkg.sha512"
+    },
+    "Sharlayan/9.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-n1uk7c/C/Y5CqSSyyzpJqmGEgTxmFWYnxKf3mHgjE639Bt8/oeSeThbUGHN7bBBjGkv9nnMfgtI+D6goMsajEg==",
+      "path": "sharlayan/9.2.1",
+      "hashPath": "sharlayan.9.2.1.nupkg.sha512"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sharlayan</name>
+    </assembly>
+    <members>
+        <member name="P:Sharlayan.Core.ChatLogItem.PlayerCharacterName">
+            <summary>
+            character name of player that was loaded when log was detected
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Bytes">
+            <summary>
+            raw bytes from memory
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Code">
+            <summary>
+            alphanumeric chat code
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Combined">
+            <summary>
+            [Code]:[Line] combination string
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.IsInternational">
+            <summary>
+            does the text contain non-roman text
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Line">
+            <summary>
+            "(playerName )?messsage" combination string
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Message">
+            <summary>
+            message without name of player
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.PlayerName">
+            <summary>
+            player name from message
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.Raw">
+            <summary>
+            raw bytes decoded to string
+            </summary>
+        </member>
+        <member name="P:Sharlayan.Core.ChatLogItem.TimeStamp">
+            <summary>
+            message timestamp
+            </summary>
+        </member>
+    </members>
+</doc>

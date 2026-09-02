@@ -17,6 +17,8 @@ const regUserCountry = /(?<target>userCountry=[^;]+)/is;
 const regReleaseGroups = /(?<target>releaseGroups=[^;]+)/is;
 const regDapUid = /(?<target>dapUid=[^;]+)/is;
 */
+
+/*
 const regLangCode = /^[A-Za-z]{2,3}(-[A-Za-z]{2,4})?$/;
 
 // sanitize lang code
@@ -27,6 +29,7 @@ function sanitizeLangCode(code) {
 
   return code.toUpperCase();
 }
+*/
 
 // authentication
 let authentication = {
@@ -82,29 +85,25 @@ function setAuthentication() {
 async function splitText(option = {}) {
   let postData = deeplFunction.getSplitText();
   postData.id = authentication.id++;
-  postData.params.lang.lang_user_selected = sanitizeLangCode(option.from);
+  postData.params.lang.lang_user_selected = option.from;
   postData.params.texts = [option.text];
 
-  const response = await requestModule.post(
-    'https://www2.deepl.com/jsonrpc?method=LMT_split_text',
-    deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
-    {
-      Accept: '*/*',
-      'Accept-Encoding': 'gzip, deflate, br, zstd',
-      'Accept-Language': 'zh-TW,zh;q=0.9',
-      'Content-Type': 'application/json',
-      Cookie: authentication.cookie,
-      Origin: 'https://www.deepl.com',
-      Referer: 'https://www.deepl.com/',
-      'Sec-Ch-Ua': requestModule.getSCU(),
-      'Sec-Ch-Ua-Mobile': '?0',
-      'Sec-Ch-Ua-Platform': '"Windows"',
-      'Sec-Fetch-Dest': 'empty',
-      'Sec-Fetch-Mode': 'cors',
-      'Sec-Fetch-Site': 'same-site',
-      'User-Agent': requestModule.getUserAgent(),
-    }
-  );
+  const response = await requestModule.post('https://www2.deepl.com/jsonrpc?method=LMT_split_text', deeplFunction.fixMethod(postData.id, JSON.stringify(postData)), {
+    Accept: '*/*',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'Accept-Language': 'zh-TW,zh;q=0.9',
+    'Content-Type': 'application/json',
+    Cookie: authentication.cookie,
+    Origin: 'https://www.deepl.com',
+    Referer: 'https://www.deepl.com/',
+    'Sec-Ch-Ua': requestModule.getSCU(),
+    'Sec-Ch-Ua-Mobile': '?0',
+    'Sec-Ch-Ua-Platform': '"Windows"',
+    'Sec-Fetch-Dest': 'empty',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'same-site',
+    'User-Agent': requestModule.getUserAgent(),
+  });
 
   return response.data.result.texts[0].chunks;
 }
@@ -121,30 +120,26 @@ async function translate(option) {
   let postData = deeplFunction.getHandleJobs();
   postData.id = authentication.id++;
   postData.params.jobs = deeplFunction.generateJobs(chunks);
-  postData.params.lang.source_lang_computed = sanitizeLangCode(option.from);
-  postData.params.lang.target_lang = sanitizeLangCode(option.to);
+  postData.params.lang.source_lang_computed = option.from;
+  postData.params.lang.target_lang = option.to;
   postData.params.timestamp = deeplFunction.generateTimestamp(postData.params.jobs);
 
-  const response = await requestModule.post(
-    'https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs',
-    deeplFunction.fixMethod(postData.id, JSON.stringify(postData)),
-    {
-      Accept: '*/*',
-      'Accept-Encoding': 'gzip, deflate, br, zstd',
-      'Accept-Language': 'zh-TW,zh;q=0.9',
-      'Content-Type': 'application/json',
-      Cookie: authentication.cookie,
-      Origin: 'https://www.deepl.com',
-      Referer: 'https://www.deepl.com/',
-      'Sec-Ch-Ua': requestModule.getSCU(),
-      'Sec-Ch-Ua-Mobile': '?0',
-      'Sec-Ch-Ua-Platform': '"Windows"',
-      'Sec-Fetch-Dest': 'empty',
-      'Sec-Fetch-Mode': 'cors',
-      'Sec-Fetch-Site': 'same-site',
-      'User-Agent': requestModule.getUserAgent(),
-    }
-  );
+  const response = await requestModule.post('https://www2.deepl.com/jsonrpc?method=LMT_handle_jobs', deeplFunction.fixMethod(postData.id, JSON.stringify(postData)), {
+    Accept: '*/*',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'Accept-Language': 'zh-TW,zh;q=0.9',
+    'Content-Type': 'application/json',
+    Cookie: authentication.cookie,
+    Origin: 'https://www.deepl.com',
+    Referer: 'https://www.deepl.com/',
+    'Sec-Ch-Ua': requestModule.getSCU(),
+    'Sec-Ch-Ua-Mobile': '?0',
+    'Sec-Ch-Ua-Platform': '"Windows"',
+    'Sec-Fetch-Dest': 'empty',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'same-site',
+    'User-Agent': requestModule.getUserAgent(),
+  });
 
   const resultArray = response.data.result.translations;
   let result = '';

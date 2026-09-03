@@ -42,8 +42,9 @@
       "output": "build"
     },
     "extraFiles": [
-      "src/data",
       "!src/data/img/*.png",
+      "!src/data/img/*.jpg",
+      "src/data",
       "signatures.json"
     ],
     "win": {

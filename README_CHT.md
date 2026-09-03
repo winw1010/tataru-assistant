@@ -108,14 +108,8 @@ npm run dist
 
 # Credits
 
-- [FFXIVAPP/sharlayan](https://github.com/FFXIVAPP/sharlayan)
-- [Electron](https://www.electronjs.org/)
-- [@google-cloud/vision](https://github.com/googleapis/nodejs-vision)
-- [axios](https://github.com/axios/axios)
-- [crypto-js](https://github.com/brix/crypto-js)
-- [sharp](https://github.com/lovell/sharp)
-- [temp](https://github.com/bruce/node-temp)
-- [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)
+- [Sharlayan](https://github.com/FFXIVAPP/sharlayan) - 用於讀取記憶體中的遊戲字幕
+- [Electron](https://www.electronjs.org/) - APP框架
 
 # Support
 

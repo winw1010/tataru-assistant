@@ -2,7 +2,7 @@
 
 # Tataru Assistant 是什麼?
 
-**Tataru Assistant** 為 FFXIV 國際版的即時劇情字幕翻譯程式，主要功能如下
+**Tataru Assistant** 為 FFXIV 國際版的即時遊戲字幕翻譯器，主要功能如下
 
 - AI翻譯對話文字和過場字幕
 
@@ -68,7 +68,7 @@
 
 4. 點選視窗上的齒輪圖示開啟 Tataru Assistant 的設定視窗，切換到【翻譯設定】設置你的遊戲語言和翻譯語言，設定完畢後按儲存即可使用
 
-5. 若安裝後無法自動翻譯，請檢查是否已關閉NVIDIA ShadowPlay，此功能會讓本程式無法顯示翻譯
+5. 若安裝後無法自動翻譯，請檢查是否已關閉NVIDIA ShadowPlay，此功能會讓本App無法顯示翻譯
 
 6. 如果上述步驟做完仍無法翻譯，請至【設定】>【系統設定】，點選【修復字幕讀取器】，修復後重新開機即可
 
@@ -89,7 +89,7 @@ cd tataru-assistant
 # 安裝套件
 npm install
 
-# 啟動APP
+# 啟動App
 npm start
 ```
 
@@ -109,7 +109,7 @@ npm run dist
 # Credits
 
 - [Sharlayan](https://github.com/FFXIVAPP/sharlayan) - 用於讀取記憶體中的遊戲字幕
-- [Electron](https://www.electronjs.org/) - APP框架
+- [Electron](https://www.electronjs.org/) - App框架
 
 # Support
 

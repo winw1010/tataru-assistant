@@ -48,7 +48,7 @@ Available for unlimited use, but the translation quality is generally lower. Not
 2. Run "windowsdesktop-runtime-10.0.11-win-x64.exe" to install the .NET 10 Desktop Runtime.
 3. Run "Tataru Assistant Setup.exe" to install the application. If a "Windows protected your PC" message appears, click "More info," then click "Run anyway."
 4. Click the gear icon to open the Settings window, switch to **[Translation Settings]**, configure your game language and target translation language, then save.
-5. If translation does not work automatically after installation, please ensure that **NVIDIA ShadowPlay** is disabled, as this feature can interfere with the program's ability to display subtitles.
+5. If translation does not work automatically after installation, please ensure that **NVIDIA ShadowPlay** is disabled, as this feature can interfere with the app's ability to display subtitles.
 6. If it still does not work, go to **[Settings]** > **[System Settings]** and click **[Repair Subtitle Reader]**. Restart the app after the repair is complete.
 
 # Source Code

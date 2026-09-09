@@ -67,7 +67,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   ];
 
   // get response
-  const response = await client.responses.create({ model: model, instructions: prompt, input: input });
+  const response = await client.responses.create({ model: model, input: input });
   const responseText = getResponseText(response);
 
   // push history
@@ -124,7 +124,7 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
       },
     ];
 
-    const response = await client.responses.create({ model: model, instructions: prompt, input: input });
+    const response = await client.responses.create({ model: model, input: input });
     const responseText = getResponseText(response);
     return responseText;
   } catch (error) {

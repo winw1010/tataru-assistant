@@ -175,6 +175,7 @@ function setSystemChannel() {
     configModule.openReadme();
   });
 
+  // open report page
   ipcMain.on('open-report-page', () => {
     switch (configModule.getConfig().system.appLanguage) {
       case 'app-zht':
@@ -187,6 +188,26 @@ function setSystemChannel() {
 
       case 'app-en':
         childProcess.exec('explorer "https://forms.gle/TC2TqTqYeY7CNaxn8"');
+        break;
+
+      default:
+        break;
+    }
+  });
+
+  // open reply page
+  ipcMain.on('open-reply-page', () => {
+    switch (configModule.getConfig().system.appLanguage) {
+      case 'app-zht':
+        childProcess.exec('explorer "https://docs.google.com/spreadsheets/d/1JVTPtXF2dNtfORVLD3efp7iAvA4soGRlpEpGomIP8h4"');
+        break;
+
+      case 'app-zhs':
+        childProcess.exec('explorer "https://docs.google.com/spreadsheets/d/1A7jTG34TUpiTqmBhKIVG8S_rCIcv_nwkb7U7nFjjeV8"');
+        break;
+
+      case 'app-en':
+        childProcess.exec('explorer "https://docs.google.com/spreadsheets/d/1k1tQselx4wwnxmj8XFJAZgq1Kf7WaJpeszmL16Zjuc0"');
         break;
 
       default:

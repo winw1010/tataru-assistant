@@ -98,10 +98,8 @@ function getElementTextList() {
 
         'a-readme': ['使用說明書', '使用说明书', 'User Guide'],
         'a-bug-report': ['問題回報', '问题回报', 'Bug Report'],
-        'a-view-response': ['查看回報表單', '查看回报表单', 'View Response'],
-        'a-translation-report': ['回報翻譯錯誤', '回报翻译错误', 'Translation Report'],
+        'a-view-reply': ['查看問題回覆', '查看问题回复', 'View Replies'],
         'a-github': ['GitHub', 'GitHub', 'GitHub'],
-        'a-author': ['訪問作者', '访问作者', 'Author'],
       },
       button: {
         // config
@@ -356,8 +354,8 @@ function getElementTextList() {
         'span-title-read-log': ['讀取對話紀錄', '读取对话纪录', 'Read Logs'],
 
         // config
-        'span-channel-comment': ['滾動滑鼠中鍵可以捲動頻道清單', '滚动鼠标中键可以捲动频道清单', 'Use middle mouse button to sroll the page'],
-        'span-author': ['作者: 夜雪 (巴哈姆特電玩資訊站 winw1010)', '作者: 夜雪 (巴哈姆特电玩资讯站 winw1010)', 'Author: winw1010 in www.gamer.com.tw'],
+        'span-channel-comment': ['本頁面可上下捲動', '本页面可上下捲动', 'This page is scrollable.'],
+        'span-author': ['作者：https://github.com/winw1010', '作者：https://github.com/winw1010', 'Author: https://github.com/winw1010'],
       },
       title: {
         'title-capture-edit': ['編輯擷取文字', '编辑撷取文字', 'Edit Text'],

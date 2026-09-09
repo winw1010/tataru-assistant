@@ -190,18 +190,13 @@ function setButton() {
   };
 
   // view response
-  document.getElementById('a-view-response').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit?usp=sharing"');
+  document.getElementById('a-view-reply').onclick = () => {
+    ipcRenderer.send('open-reply-page');
   };
 
   // github
   document.getElementById('a-github').onclick = () => {
     ipcRenderer.send('execute-command', 'explorer "https://github.com/winw1010/tataru-assistant"');
-  };
-
-  // author
-  document.getElementById('a-author').onclick = () => {
-    ipcRenderer.send('execute-command', 'explorer "https://home.gamer.com.tw/artwork.php?sn=5323128"');
   };
 
   // donate

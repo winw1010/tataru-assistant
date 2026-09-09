@@ -9,9 +9,7 @@ English | [繁體中文](https://github.com/winw1010/tataru-assistant/blob/main/
 - Captures and translates text from the screen.
 - Custom translation overrides.
 
-# Translation Methods in Tataru Assistant
-
-## Supported Languages
+# Supported Languages
 
 - Traditional-Chinese
 - Simplified-Chinese
@@ -21,6 +19,8 @@ English | [繁體中文](https://github.com/winw1010/tataru-assistant/blob/main/
 - Portuguese
 - Brazilian Portuguese
 - Arabic
+
+# Translation Methods in Tataru Assistant
 
 ## AI Translation
 

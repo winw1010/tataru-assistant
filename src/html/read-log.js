@@ -100,7 +100,7 @@ async function readLog(fileName) {
           const dialogData = {
             id: logItem.id,
             code: logItem.code,
-            translatedName: logItem.translated_name,
+            translatedName: logItem.translated_name.replace(/(:|：)+$/gi, ''),
             translatedText: logItem.translated_text,
             translation: logItem.translation,
           };

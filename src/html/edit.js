@@ -229,8 +229,8 @@ function showText() {
   const name2 = targetLog.translated_name;
   const text2 = targetLog.translated_text;
 
-  divText1.innerHTML = `<span>${name1 !== '' ? name1 + '：<br>' : ''}${text1}</span>`;
-  divText2.innerHTML = `<span>${name2 !== '' ? name2 + '：<br>' : ''}${text2}</span>`;
+  divText1.innerHTML = `<span>${name1 !== '' ? name1 + ':<br>' : ''}${text1}</span>`;
+  divText2.innerHTML = `<span>${name2 !== '' ? name2 + ':<br>' : ''}${text2}</span>`;
 }
 
 // fix log value

@@ -294,7 +294,7 @@ function getElementTextList() {
         'google-api-key': ['API Key', 'API Key', 'API Key'],
 
         // capture
-        'google-vision': ['Google Vision', 'Google Vision', 'Google Vision'],
+        'google-vision': ['Google Cloud Vision', 'Google Cloud Vision', 'Google Cloud Vision'],
         'gemini-vision': ['Gemini', 'Gemini', 'Gemini'],
         'gpt-vision': ['GPT', 'GPT', 'GPT'],
         'claude-vision': ['Claude', 'Claude', 'Claude'],
@@ -334,15 +334,15 @@ function getElementTextList() {
         none: ['無', '无', 'None'],
       },
       p: {
-        'p-ai-warning': ['* 注意：AI翻譯需事先設定API才能使用', '* 注意：AI翻译需事先设定API才能使用', '* Remember to set API options before using AI translator'],
-        'p-google-vision': ['Google Vision設定', 'Google Vision设定', 'Google Vision Settings'],
-        'p-gemini': ['Gemini設定', 'Gemini设定', 'Gemini Settings'],
-        'p-gpt': ['GPT設定', 'GPT设定', 'GPT Settings'],
-        'p-claude': ['Claude設定', 'Claude设定', 'Claude Settings'],
-        'p-cohere': ['Cohere設定', 'Cohere设定', 'Cohere Settings'],
-        'p-kimi': ['Kimi設定', 'Kimi设定', 'Kimi Settings'],
-        'p-ollama-api': ['Ollama設定', 'Ollama设定', 'Ollama Settings'],
-        'p-llm-api': ['自訂LLM API設定', '自订LLM API设定', 'Custom LLM API Settings'],
+        'p-ai-warning': ['* 注意：AI翻譯需事先設定API才能使用', '* 注意：AI翻译需事先设定API才能使用', '* Please setup API settings before using AI translator'],
+        'p-google-vision': ['Google Cloud Vision', 'Google Cloud Vision', 'Google Cloud Vision'],
+        'p-gemini': ['Gemini', 'Gemini', 'Gemini'],
+        'p-gpt': ['GPT', 'GPT', 'GPT'],
+        'p-claude': ['Claude', 'Claude', 'Claude'],
+        'p-cohere': ['Cohere', 'Cohere', 'Cohere'],
+        'p-kimi': ['Kimi', 'Kimi', 'Kimi'],
+        'p-ollama-api': ['Ollama', 'Ollama', 'Ollama'],
+        'p-llm-api': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
       },
       span: {
         // window title

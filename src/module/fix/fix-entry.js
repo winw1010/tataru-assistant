@@ -25,6 +25,7 @@ const playerChannel = getPlayerChannel();
 // entry interval
 let lastTimestamp = 0;
 let running = false;
+let translating = false;
 let entryIntervalItem = [];
 let entryInterval = getEntryInterval();
 
@@ -62,13 +63,16 @@ function restartEntryInterval() {
 
 // get entry interval
 function getEntryInterval() {
-  return setInterval(() => {
-    if (running) {
+  return setInterval(async () => {
+    if (running && !translating) {
+      translating = true;
       const dialogData = entryIntervalItem.shift();
 
       if (dialogData && dialogData.text) {
-        entry(dialogData);
+        await entry(dialogData);
       }
+
+      translating = false;
     }
   }, 1000);
 }

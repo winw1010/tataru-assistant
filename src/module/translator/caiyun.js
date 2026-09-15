@@ -18,7 +18,7 @@ async function exec(option) {
     {
       'Content-Type': 'application/json',
       'x-authorization': 'token lqkr1tfixq1wa9kmj9po',
-    }
+    },
   );
 
   return response.data.target;

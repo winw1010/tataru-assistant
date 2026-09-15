@@ -21,8 +21,7 @@ async function exec(option) {
         path: '/translate_a/single?' + encodeURI(parameters),
       },
       {
-        accept:
-          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'en-US,en;q=0.5',
         'sec-ch-ua': requestModule.getSCU(),
@@ -34,7 +33,7 @@ async function exec(option) {
         'sec-fetch-user': '?1',
         'upgrade-insecure-requests': '1',
         'user-agent': requestModule.getUserAgent(),
-      }
+      },
     );
 
     if (response?.[0] && response[0] instanceof Array) {

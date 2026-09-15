@@ -116,7 +116,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
   const translation = dialogData.translation;
 
   let name2 = name;
-  let translatedName = '';
+  let translatedName;
   let katakanaName = jpFunction.getKatakanaName(name2);
   let saveFlag = true;
 
@@ -134,7 +134,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
 
   // check katakana name
   if (katakanaName.length > 0) {
-    let translatedKatakanaName = '';
+    let translatedKatakanaName;
 
     // find same katakana name
     const sameKatakanaName =
@@ -144,7 +144,7 @@ async function fixName(dialogData = {}, isTargetChinese = true) {
 
     // use saved name
     if (sameKatakanaName) {
-      translatedKatakanaName = sameKatakanaName[1];
+      //translatedKatakanaName = sameKatakanaName[1];
     }
     // create and save translated katakanaName if not found
     else {
@@ -221,7 +221,7 @@ async function fixText(dialogData = {}, isTargetChinese = true) {
   const hasMark = /[()（）]/gi.test(text);
 
   let text2 = text;
-  let translatedText = '';
+  let translatedText;
 
   if (text === '') {
     return '';
@@ -362,6 +362,7 @@ async function fixLLM(dialogData = {}, isTargetChinese = true) {
 function specialFix1(name = '', text = '') {
   // special replace
   text = jpFunction.specialReplace(text, jpArray.special1);
+  name;
 
   /*
   // 水晶公
@@ -409,9 +410,9 @@ function specialFix2(name = '', text = '') {
     text = text.replace(/\u3000/gi, '、');
   }
 
+  /*
   let loopCount = 0;
 
-  /*
   // あ、あ(or 漢字)
   // あ……あ(or 漢字)
   // あ…あ(or 漢字)
@@ -436,7 +437,6 @@ function specialFix2(name = '', text = '') {
 
       loopCount++;
   }
-  */
 
   // あアあ => あああ
   loopCount = 0;
@@ -451,6 +451,7 @@ function specialFix2(name = '', text = '') {
       break;
     }
   }
+  */
 
   return text;
 }

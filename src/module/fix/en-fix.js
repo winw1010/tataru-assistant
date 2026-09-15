@@ -108,7 +108,7 @@ async function fixName(dialogData = {}) {
   const translation = dialogData.translation;
 
   let name2 = name;
-  let translatedName = '';
+  let translatedName;
   let saveFlag = true;
 
   if (name2 === '') {
@@ -116,10 +116,7 @@ async function fixName(dialogData = {}) {
   }
 
   // same check
-  const target =
-    fixFunction.sameAsArrayItem(name2, chArray.combine) ||
-    fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) ||
-    fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
+  const target = fixFunction.sameAsArrayItem(name2, chArray.combine) || fixFunction.sameAsArrayItem(name2 + '#', chArray.combine) || fixFunction.sameAsArrayItem(name2 + '##', chArray.combine);
 
   if (target) {
     return target[1];
@@ -174,12 +171,12 @@ fix text
 
 // fix text
 async function fixText(dialogData = {}) {
-  const name = dialogData.name;
+  //const name = dialogData.name;
   const text = dialogData.text;
   const translation = dialogData.translation;
 
   let text2 = text;
-  let translatedText = '';
+  let translatedText;
 
   if (text === '') {
     return '';

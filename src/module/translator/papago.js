@@ -19,8 +19,7 @@ const regPpg = /(?<target>PPG.+?HmacMD5.+?toString.+?Base64)/is;
 const regVersion = /"(?<target>v\d+\.\d+\.\d+_[^"]+)"/is;
 
 // authentication
-const cookie =
-  'papago_skin_locale=en; NAC=keY4CICmZT78B; NACT=1; NNB=AHABZHDCOIQGU; SRT30=1780511330; SRT5=1780511330; BUC=N1iLXZsquAZNQSx81KjKkPQQ_P-n6xt9ZwteZ4uhCQ0=';
+const cookie = 'papago_skin_locale=en; NAC=keY4CICmZT78B; NACT=1; NNB=AHABZHDCOIQGU; SRT30=1780511330; SRT5=1780511330; BUC=N1iLXZsquAZNQSx81KjKkPQQ_P-n6xt9ZwteZ4uhCQ0=';
 
 let authentication = {
   deviceId: '',

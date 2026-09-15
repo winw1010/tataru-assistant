@@ -246,12 +246,7 @@ function clearArray(array = []) {
       const element0 = element[0];
       const element1 = element[1];
 
-      if (
-        typeof element0 === 'undefined' ||
-        typeof element1 === 'undefined' ||
-        /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element0) ||
-        /(\/\/comment)|(^N\/A$)/gi.test(element1)
-      ) {
+      if (typeof element0 === 'undefined' || typeof element1 === 'undefined' || /(\/\/comment)|(^N\/A$)|(^$)/gi.test(element0) || /(\/\/comment)|(^N\/A$)/gi.test(element1)) {
         array.splice(index, 1);
       }
     }

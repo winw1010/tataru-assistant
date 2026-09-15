@@ -39,13 +39,12 @@ function windowsSnapshot(options = {}) {
             readAndUnlinkP(tmpPath).then(resolve).catch(reject);
           }
         }
-      }
+      },
     );
   });
 }
 
-const EXAMPLE_DISPLAYS_OUTPUT =
-  '\r\nC:\\Users\\devetry\\screenshot-desktop\\lib\\win32>//  2>nul  || \r\n\\.\\DISPLAY1;0;1920;1080;0\r\n\\.\\DISPLAY2;0;3840;1080;1920\r\n';
+const EXAMPLE_DISPLAYS_OUTPUT = '\r\nC:\\Users\\devetry\\screenshot-desktop\\lib\\win32>//  2>nul  || \r\n\\.\\DISPLAY1;0;1920;1080;0\r\n\\.\\DISPLAY2;0;3840;1080;1920\r\n';
 
 function parseDisplaysOutput(output) {
   const displaysStartPattern = /2>nul {2}\|\| /;
@@ -69,7 +68,7 @@ function parseDisplaysOutput(output) {
       Object.assign(d, {
         height: d.bottom - d.top,
         width: d.right - d.left,
-      })
+      }),
     );
 }
 
@@ -85,7 +84,7 @@ function listDisplays() {
           return reject(err);
         }
         resolve(parseDisplaysOutput(stdout));
-      }
+      },
     );
   });
 }

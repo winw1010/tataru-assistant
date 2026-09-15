@@ -198,10 +198,7 @@ function getWindowSize(windowName, config) {
   // get display bounds nearest cursor
   const displayBounds = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).bounds;
   const displaySizeRate = displayBounds.width >= 1920 ? 0.9 : 1;
-  const displayLength =
-    displayBounds.width > displayBounds.height
-      ? Math.min(parseInt((displayBounds.height * 16) / 9), displayBounds.width) * displaySizeRate
-      : displayBounds.width * displaySizeRate;
+  const displayLength = displayBounds.width > displayBounds.height ? Math.min(parseInt((displayBounds.height * 16) / 9), displayBounds.width) * displaySizeRate : displayBounds.width * displaySizeRate;
 
   switch (windowName) {
     case 'index':
@@ -348,8 +345,7 @@ function getNearPosition(displayBounds, indexBounds, bounds) {
 
   bounds.x = indexBounds.x - bounds.width > displayBounds.x ? indexBounds.x - bounds.width : indexBounds.x + indexBounds.width;
 
-  bounds.y =
-    indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
+  bounds.y = indexBounds.y + bounds.height > displayBounds.y + displayBounds.height ? displayBounds.y + displayBounds.height - bounds.height : indexBounds.y;
 
   return bounds;
 }

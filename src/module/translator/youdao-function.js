@@ -71,7 +71,7 @@ function decodeData(responseString) {
     r = Buffer.alloc(16, toMD5Buffer(decodeIv)), // decodeIv of app.********.js
     i = crypto.createDecipheriv('aes-128-cbc', a, r);
   let s = i.update(responseString, 'base64', 'utf-8');
-  return (s += i.final('utf-8')), s;
+  return ((s += i.final('utf-8')), s);
 }
 
 /*

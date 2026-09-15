@@ -127,9 +127,7 @@ async function translate(option) {
       'Content-Type': 'application/json',
       Cookie: cookie,
       Origin: 'https://fanyi.baidu.com',
-      Referer:
-        'https://fanyi.baidu.com/mtpe-individual/transText?' +
-        requestModule.toParameters({ query: option.text, lang: `${option.from}2${option.to}` }),
+      Referer: 'https://fanyi.baidu.com/mtpe-individual/transText?' + requestModule.toParameters({ query: option.text, lang: `${option.from}2${option.to}` }),
       'Sec-Ch-Ua': requestModule.getSCU(),
       'Sec-Ch-Ua-Mobile': '?0',
       'Sec-Ch-Ua-Platform': '"Windows"',

@@ -52,7 +52,7 @@ function replaceTextByCode(text = '', array = []) {
     const searchElement = fixFunction.removeRegSymbol(element[srcIndex]);
     const searchElementPlural = getPluralType(searchElement);
     const searchElementAdjective = getAdjectiveType(searchElement);
-    let searchReg = null;
+    let searchReg;
 
     if (enJson.getEnArray().uncountable.includes(searchElement)) {
       searchReg = new RegExp(`\\b(${searchElement}|${searchElementAdjective})\\b`, 'gi');

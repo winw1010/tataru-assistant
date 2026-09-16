@@ -357,8 +357,14 @@ function setWindowChannel() {
     });
   });
 
-  ipcMain.on('show-info', (event, message = '') => {
-    dialogModule.showInfo(event.sender, message);
+  // show info
+  ipcMain.handle('show-info', (event, ...args) => {
+    return dialogModule.showInfo(event.sender, ...args);
+  });
+
+  // show start up message
+  ipcMain.on('show-start-up-message', () => {
+    dialogModule.showStarUpMessage();
   });
 }
 
@@ -677,42 +683,6 @@ function setTranslationChannel() {
   ipcMain.handle('google-tts', (event, text, from) => {
     return googleTTS.getAudioUrl(text, from);
   });
-
-  /*
-  // check API
-  ipcMain.on('check-api', (event, engine) => {
-    if ([].concat(engineModule.aiList, ['google-vision']).includes(engine)) {
-      const config = configModule.getConfig();
-      let message = '';
-
-      if (engine === 'Gemini') {
-        if (config.api.geminiApiKey === '') message = '請至【API設定】輸入API key';
-      } else if (engine === 'GPT') {
-        if (config.api.gptApiKey === '' || config.api.gptModel === '') message = '請至【API設定】輸入API key和模型';
-      } else if (engine === 'Cohere') {
-        if (config.api.cohereToken === '') message = '請至【API設定】輸入API key';
-      } else if (engine === 'Kimi') {
-        if (config.api.kimiToken === '') message = '請至【API設定】輸入API key';
-      } else if (engine === 'google-vision') {
-        const keyPath = fileModule.getUserDataPath('config', 'google-vision-credential.json');
-        if (!fileModule.exists(keyPath)) {
-          message = '尚未設定Google憑證，請至【設定】>【API設定】輸入憑證';
-        }
-      }
-
-      if (message !== '') {
-        dialogModule.showInfo(event.sender, message);
-      }
-    }
-  });
-  */
-
-  /*
-  // get GPT model list
-  ipcMain.handle('get-gpt-model-list', (event, apiKey) => {
-    return gpt.getModelList(apiKey);
-  });
-  */
 }
 
 // set file channel

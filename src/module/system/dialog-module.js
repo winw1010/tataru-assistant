@@ -173,6 +173,14 @@ function createLogName(milliseconds = null) {
   return date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0') + '.json';
 }
 
+// show start up message
+function showStarUpMessage() {
+  const config = configModule.getConfig();
+  if (!['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(config.translation.engine) && config.ai.useChat === false) {
+    addNotification('ENABLE_MULTI_TURN_CONVERSATION');
+  }
+}
+
 // module exports
 module.exports = {
   addDialog,
@@ -183,4 +191,5 @@ module.exports = {
   showDialog,
   getStyle,
   createLogName,
+  showStarUpMessage,
 };

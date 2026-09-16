@@ -303,6 +303,7 @@ function startApp() {
   ipcRenderer.send('add-notification', 'VIEW_README');
   ipcRenderer.send('version-check');
   ipcRenderer.send('initialize-json');
+  ipcRenderer.send('show-start-up-message');
 }
 
 // reset view

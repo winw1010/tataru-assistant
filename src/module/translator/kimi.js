@@ -8,8 +8,6 @@ const configModule = require('../system/config-module');
 
 const baseURL = 'https://api.moonshot.ai/v1';
 
-const chatHistoryList = {};
-
 // exec
 async function exec(option) {
   const response = translate(option.name, option.text, option.source, option.target, option.table);
@@ -20,44 +18,21 @@ async function exec(option) {
 async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
-  const historyIndex = 'Kimi_' + prompt;
+  const chatIndex = source + 'To' + target;
   const glossary = aiFunction.createGlossary(source, target, table);
   const sample = aiFunction.getTranslationSample(source, target);
   const model = config.api.kimiModel;
   const client = new OpenAI({ apiKey: config.api.kimiToken, baseURL });
 
-  // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
-
-  // sample array
-  const sampleArray = [];
-  if (sample) {
-    sampleArray.push(
-      {
-        role: 'user',
-        content: JSON.stringify({
-          name: sample.name[0],
-          text: sample.text[0],
-          glossary: sample.glossary,
-        }),
-      },
-      {
-        role: 'assistant',
-        content: JSON.stringify({
-          name: sample.name[1],
-          text: sample.text[1],
-        }),
-      },
-    );
-  }
+  // create chat history
+  const chatHistory = createChatHistory(chatIndex, sample);
 
   const messages = [
     {
       role: 'system',
       content: prompt,
     },
-    ...sampleArray,
-    ...chatHistoryList[historyIndex],
+    ...chatHistory,
     {
       role: 'user',
       content: JSON.stringify({
@@ -72,22 +47,9 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   const response = await client.chat.completions.create({ model: model, messages: messages });
   const responseText = getResponseText(response);
 
-  // push history
+  // add chat history
   if (config.ai.useChat) {
-    chatHistoryList[historyIndex].push(
-      {
-        role: 'user',
-        content: JSON.stringify({
-          name: name,
-          text: text,
-          glossary: glossary,
-        }),
-      },
-      {
-        role: 'assistant',
-        content: responseText,
-      },
-    );
+    aiFunction.addChatHistory(chatIndex, name, text, glossary, responseText);
   }
 
   // log
@@ -138,6 +100,55 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
   } catch (error) {
     return '' + error;
   }
+}
+
+// create chat history
+function createChatHistory(historyIndex = 'default', sample = {}) {
+  const array = aiFunction.getChatHistory(historyIndex);
+  const chatHistory = [];
+
+  // add sample
+  if (Object.getOwnPropertyNames(sample).length > 0) {
+    chatHistory.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: sample.name[0],
+          text: sample.text[0],
+          glossary: sample.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: JSON.stringify({
+          name: sample.name[1],
+          text: sample.text[1],
+        }),
+      },
+    );
+  }
+
+  // add history
+  for (let index = 0; index < array.length; index++) {
+    const chat = array[index];
+
+    chatHistory.push(
+      {
+        role: 'user',
+        content: JSON.stringify({
+          name: chat.name,
+          text: chat.text,
+          glossary: chat.glossary,
+        }),
+      },
+      {
+        role: 'assistant',
+        content: chat.responseText,
+      },
+    );
+  }
+
+  return chatHistory;
 }
 
 // get response text

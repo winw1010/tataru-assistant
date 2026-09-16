@@ -2,6 +2,8 @@
 
 const configModule = require('../system/config-module');
 
+const chatHistoryList = {};
+
 function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGlossary = false) {
   const config = configModule.getConfig();
   const useCustomPrompt = config.ai.useCustomTranslationPrompt;
@@ -22,17 +24,34 @@ function createImagePrompt(language = 'Japanese') {
   return `Copy and return the raw ${language} text from this image.`.replaceAll('  ', ' ');
 }
 
-// initialize chat history
-function initializeChatHistory(chatHistoryList = {}, index = '', config = {}) {
+// get chat history
+function getChatHistory(index = '') {
+  const config = configModule.getConfig();
   const chatLength = parseInt(config.ai.useChat ? config.ai.chatLength : '0');
 
   if (!Array.isArray(chatHistoryList[index])) {
     chatHistoryList[index] = [];
   }
 
-  if (chatHistoryList[index].length > chatLength * 2) {
-    chatHistoryList[index].splice(0, chatHistoryList[index].length - chatLength * 2);
+  while (chatHistoryList[index].length > chatLength) {
+    chatHistoryList[index].shift();
   }
+
+  return chatHistoryList[index];
+}
+
+// add chat history
+function addChatHistory(index = '', name = '', text = '', glossary = [], responseText = '') {
+  if (!Array.isArray(chatHistoryList[index])) {
+    chatHistoryList[index] = [];
+  }
+
+  chatHistoryList[index].push({
+    name,
+    text,
+    glossary,
+    responseText,
+  });
 }
 
 // create glossary
@@ -97,7 +116,8 @@ function getTranslationSample(source = 'Japanese', target = 'Chinese') {
 module.exports = {
   createTranslationPrompt,
   createImagePrompt,
-  initializeChatHistory,
+  getChatHistory,
+  addChatHistory,
   createGlossary,
   getTranslationSample,
 };

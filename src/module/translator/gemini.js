@@ -8,8 +8,6 @@ const aiFunction = require('./ai-function');
 
 const configModule = require('../system/config-module');
 
-const chatHistoryList = {};
-
 const safetySettings = [
   {
     category: 'HARM_CATEGORY_HARASSMENT',
@@ -39,48 +37,17 @@ async function exec(option) {
 async function translate(name = '', text = '', source = 'Japanese', target = 'Chinese', table = []) {
   const config = configModule.getConfig();
   const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
-  const historyIndex = 'Gemini_' + prompt;
+  const chatIndex = source + 'To' + target;
   const glossary = aiFunction.createGlossary(source, target, table);
   const sample = aiFunction.getTranslationSample(source, target);
   const model = config.api.geminiModel;
   const ai = new GoogleGenAI({ apiKey: config.api.geminiApiKey });
 
-  // initialize chat history
-  aiFunction.initializeChatHistory(chatHistoryList, historyIndex, config);
-
-  // sample array
-  const sampleArray = [];
-  if (sample) {
-    sampleArray.push(
-      {
-        role: 'user',
-        parts: [
-          {
-            text: JSON.stringify({
-              name: sample.name[0],
-              text: sample.text[0],
-              glossary: glossary,
-            }),
-          },
-        ],
-      },
-      {
-        role: 'model',
-        parts: [
-          {
-            text: JSON.stringify({
-              name: sample.name[1],
-              text: sample.text[1],
-            }),
-          },
-        ],
-      },
-    );
-  }
+  // create chat history
+  const chatHistory = createChatHistory(chatIndex, sample);
 
   const contents = [
-    ...sampleArray,
-    ...chatHistoryList[historyIndex],
+    ...chatHistory,
     {
       role: 'user',
       parts: [
@@ -111,26 +78,9 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
     throw 'Null Text';
   }
 
-  // push history
+  // add chat history
   if (config.ai.useChat) {
-    chatHistoryList[historyIndex].push(
-      {
-        role: 'user',
-        parts: [
-          {
-            text: JSON.stringify({
-              name: name,
-              text: text,
-              glossary: glossary,
-            }),
-          },
-        ],
-      },
-      {
-        role: 'model',
-        parts: [{ text: responseText }],
-      },
-    );
+    aiFunction.addChatHistory(chatIndex, name, text, glossary, responseText);
   }
 
   // log
@@ -178,6 +128,67 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
   } catch (error) {
     return '' + error;
   }
+}
+
+// create chat history
+function createChatHistory(historyIndex = 'default', sample = {}) {
+  const array = aiFunction.getChatHistory(historyIndex);
+  const chatHistory = [];
+
+  // add sample
+  if (Object.getOwnPropertyNames(sample).length > 0) {
+    chatHistory.push(
+      {
+        role: 'user',
+        parts: [
+          {
+            text: JSON.stringify({
+              name: sample.name[0],
+              text: sample.text[0],
+              glossary: sample.glossary,
+            }),
+          },
+        ],
+      },
+      {
+        role: 'model',
+        parts: [
+          {
+            text: JSON.stringify({
+              name: sample.name[1],
+              text: sample.text[1],
+            }),
+          },
+        ],
+      },
+    );
+  }
+
+  // add history
+  for (let index = 0; index < array.length; index++) {
+    const chat = array[index];
+
+    chatHistory.push(
+      {
+        role: 'user',
+        parts: [
+          {
+            text: JSON.stringify({
+              name: chat.name,
+              text: chat.text,
+              glossary: chat.glossary,
+            }),
+          },
+        ],
+      },
+      {
+        role: 'model',
+        parts: [{ text: chat.responseText }],
+      },
+    );
+  }
+
+  return chatHistory;
 }
 
 // get response text

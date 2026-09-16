@@ -33,7 +33,7 @@ function setIPC() {
 async function setView() {
   document.getElementById('select-engine').innerHTML = await ipcRenderer.invoke('get-engine-select');
 
-  document.getElementById('select-engine-alternate').innerHTML = await ipcRenderer.invoke('get-engine-select');
+  document.getElementById('select-engine-alternate').innerHTML = '<option value="none"></option>' + (await ipcRenderer.invoke('get-engine-select'));
 
   document.getElementById('select-from').innerHTML = await ipcRenderer.invoke('get-source-select');
 
@@ -102,7 +102,10 @@ function setButton() {
 
   // default
   document.getElementById('button-save-default-config').onclick = async () => {
-    await saveDefaultConfig();
+    const id = await ipcRenderer.invoke('show-info', '是否重置全部設定?\nReset all settings to default?', ['Yes', 'No']);
+    if (id === 0) {
+      await saveDefaultConfig();
+    }
   };
 
   // page

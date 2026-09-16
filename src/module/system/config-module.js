@@ -65,7 +65,7 @@ const defaultConfig = {
     skipChinese: true,
     replace: true,
     engine: 'Youdao',
-    engineAlternate: 'Youdao',
+    engineAlternate: 'none',
     from: 'Japanese',
     fromPlayer: 'Auto',
     to: 'Traditional-Chinese',
@@ -170,7 +170,7 @@ function loadConfig() {
       }
     });
 
-    // fix config 2
+    // fix config
     fixConfig(currentConfig);
 
     // set first time off
@@ -308,7 +308,7 @@ function fixConfig(config) {
   }
 
   try {
-    // fix google vision
+    // fix google cloud vision
     const googleJsonPath = fileModule.getUserDataPath('config', 'google-credential.json');
     const googleJsonPathNew = fileModule.getUserDataPath('config', 'google-vision-credential.json');
     if (fileModule.exists(googleJsonPath)) {
@@ -317,6 +317,22 @@ function fixConfig(config) {
       fileModule.unlink(googleJsonPath);
       config.api.googleVisionType = 'google-json';
     }
+  } catch (error) {
+    error;
+  }
+
+  try {
+    // fix chat length
+    if (config.ai.chatLength <= 0) {
+      config.ai.chatLength = 1;
+    }
+  } catch (error) {
+    error;
+  }
+
+  try {
+    // fix use custom translation prompt
+    config.ai.useCustomTranslationPrompt = false;
   } catch (error) {
     error;
   }

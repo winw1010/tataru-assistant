@@ -104,7 +104,7 @@ function getElementTextList() {
       button: {
         // config
         'button-save-config': ['儲存', '储存', 'Save'],
-        'button-save-default-config': ['預設', '预设', 'Default'],
+        'button-save-default-config': ['預設(Default)', '预设(Default)', 'Default'],
 
         'button-api-settings': ['API設定', 'API设定', 'API Settings'],
 
@@ -174,8 +174,8 @@ function getElementTextList() {
         'checkbox-fix-translation': ['翻譯修正', '翻译修正', 'Fix Translation'],
         'checkbox-skip-system': ['忽略常見系統訊息', '忽略常见系统讯息', 'Ignore System Message'],
         'checkbox-skip-chinese': ['不翻譯漢化字幕', '不翻译汉化字幕', "Don't translate Chinese text"],
-        'select-engine': ['翻譯器', '翻译器', 'Translator'],
-        'select-engine-alternate': ['翻譯器(備用)', '翻译器(备用)', 'Translator(Alternate)'],
+        'select-engine': ['翻譯器', '翻译器', 'Main Translator'],
+        'select-engine-alternate': ['次要翻譯器', '次要翻译器', 'Second Translator'],
         'select-from': ['遊戲語言', '游戏语言', 'Game Language'],
         'select-from-player': ['隊伍語言', '队伍语言', 'Party Language'],
         'select-to': ['目標語言', '目标语言', 'Target Language'],
@@ -210,9 +210,9 @@ function getElementTextList() {
         'checkbox-auto-download-json': ['啟動時下載翻譯對照表', '启动时下载翻译对照表', 'Download Table When Started'],
         'checkbox-ssl-certificate': ['SSL驗證', 'SSL验证', 'SSL Certificate'],
 
-        'input-ai-chat-enable': ['使用多輪對話', '使用多轮对话', 'Multi-Turn Conversation'],
-        'input-ai-chat-length': ['對話長度', '对话长度', 'Turn Length'],
-        'input-custom-translation-prompt-enable': ['自訂翻譯Prompt (System Role)', '自订翻译Prompt (System Role)', 'Custom Translation Prompt (System Role)'],
+        'input-ai-chat-enable': ['使用多輪對話(上下文追蹤功能)', '使用多轮对话(上下文追踪功能)', 'Use multi-turn conversations (context-tracking feature)'],
+        'input-ai-chat-length': ['多輪對話長度', '多轮对话长度', 'Length'],
+        'input-custom-translation-prompt-enable': ['自訂翻譯Prompt (Role: System)', '自订翻译Prompt (Role: System)', 'Custom Translation Prompt (Role: System)'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
@@ -253,7 +253,7 @@ function getElementTextList() {
         'div-translation': ['翻譯設定', '翻译设定', 'Translation Settings'],
         '#option-api': ['#API', '#API', '#API'],
         'div-api': ['API設定', 'API设定', 'API Settings'],
-        'div-ai': ['LLM設定', 'LLM设定', 'LLM Settings'],
+        'div-ai': ['AI翻譯設定', 'AI翻译设定', 'AI Translation Settings'],
         '#option-system': ['#系統', '#系统', '#System'],
         'div-system': ['系統設定', '系统设定', 'System Settings'],
         'div-proxy': ['Proxy設定', 'Proxy设定', 'Proxy Settings'],
@@ -335,7 +335,7 @@ function getElementTextList() {
       },
       p: {
         'p-ai-warning': ['* 注意：AI翻譯需事先設定API才能使用', '* 注意：AI翻译需事先设定API才能使用', '* Please setup API settings before using AI translator'],
-        'p-google-vision': ['Google Cloud Vision', 'Google Cloud Vision', 'Google Cloud Vision'],
+        'p-google-vision': ['Google Cloud Vision (僅用於螢幕文字辨識)', 'Google Cloud Vision (仅用于萤幕文字辨识)', 'Google Cloud Vision (For screen text recognition only)'],
         'p-gemini': ['Gemini', 'Gemini', 'Gemini'],
         'p-gpt': ['GPT', 'GPT', 'GPT'],
         'p-claude': ['Claude', 'Claude', 'Claude'],
@@ -343,6 +343,11 @@ function getElementTextList() {
         'p-kimi': ['Kimi', 'Kimi', 'Kimi'],
         'p-ollama-api': ['Ollama', 'Ollama', 'Ollama'],
         'p-llm-api': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
+        'p-chat-length': [
+          '多輪對話長度越長翻譯品質越好，但會消耗較多的Token，若出現翻譯失敗的情況請嘗試降低對話長度。 (建議值: 5或以上)',
+          '多轮对话长度越长翻译质量越好，但会消耗较多的Token，若出现翻译失败的情况请尝试降低对话长度。 (建议值: 5或以上)',
+          'The longer the multi-turn conversation, the better the translation quality, but it will consume more tokens. If translation fails, please try reducing the conversation length. (Recommended value: 5 or above)',
+        ],
       },
       span: {
         // window title
@@ -408,6 +413,13 @@ function getElementTextList() {
         'input-original-name': ['Name', 'Name', 'Name'],
       },
       textarea: {
+        // config
+        'textarea-ai-custom-translation-prompt': [
+          'Default: Translate the ${source} JSON object into ${target}.',
+          'Default: Translate the ${source} JSON object into ${target}.',
+          'Default: Translate the ${source} JSON object into ${target}.',
+        ],
+
         // dictionary
         'textarea-original-text': ['Text', 'Text', 'Text'],
 

@@ -36,6 +36,7 @@ const message = {
   FILE_NOT_FOUND: ['檔案不存在', '档案不存在', 'File does not exist.'],
   UNABLE_TO_READ_THE_FILE: ['無法讀取檔案', '无法读取档案', 'Unable to read file.'],
 
+  USE_AI_TRANSLATOR: ['使用AI翻譯以獲得更好的AI翻譯品質', '使用AI翻译以获得更好的AI翻译质量', 'Use AI translation to get better AI translation quality.'],
   ENABLE_MULTI_TURN_CONVERSATION: [
     '於[設定]->[AI翻譯設定]中開啟"多輪對話"功能(上下文追蹤功能)以獲得更好的AI翻譯品質',
     '于[設定]->[AI翻译设定]中开启"多轮对话"功能(上下文追踪功能)以获得更好的AI翻译质量',

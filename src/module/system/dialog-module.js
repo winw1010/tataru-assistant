@@ -176,6 +176,11 @@ function createLogName(milliseconds = null) {
 // show start up message
 function showStarUpMessage() {
   const config = configModule.getConfig();
+
+  if (['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(config.translation.engine)) {
+    addNotification('USE_AI_TRANSLATOR');
+  }
+
   if (!['Youdao', 'Baidu', 'Caiyun', 'Papago', 'DeepL'].includes(config.translation.engine) && config.ai.useChat === false) {
     addNotification('ENABLE_MULTI_TURN_CONVERSATION');
   }

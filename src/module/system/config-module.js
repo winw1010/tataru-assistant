@@ -75,7 +75,7 @@ const defaultConfig = {
     googleVisionType: 'google-api-key',
     googleVisionApiKey: '',
     geminiApiKey: '',
-    geminiModel: 'gemini-3.8-flash',
+    geminiModel: 'gemini-3.7-flash',
     gptApiKey: '',
     gptModel: 'gpt-5.6-luna',
     claudeApiKey: '',

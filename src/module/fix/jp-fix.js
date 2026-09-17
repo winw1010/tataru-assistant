@@ -321,19 +321,11 @@ async function fixLLM(dialogData = {}, isTargetChinese = true) {
   let tempName = name;
   let tempText = text;
 
-  // get text type
-  const textType = getTextType(name, text, false);
-
-  // reverse text
-  if (textType === textTypeList.reversed) {
-    tempText = jpFunction.reverseKana(tempText);
-  }
-
   // special fix 1
   tempText = specialFix1(name, tempText);
 
   // combine
-  const codeResult = jpFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine, textType, isTargetChinese);
+  const codeResult = jpFunction.replaceTextByCode(tempName + ': ' + tempText, chArray.combine, textTypeList.normal, isTargetChinese);
 
   // translate
   const responseObject = await translateModule.translateLLM(tempName, tempText, translation, codeResult.aiTable);

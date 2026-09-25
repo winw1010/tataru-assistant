@@ -8,12 +8,15 @@ function createTranslationPrompt(source = 'Japanese', target = 'Chinese', withGl
   const config = configModule.getConfig();
   const useCustomPrompt = config.ai.useCustomTranslationPrompt;
   const customPrompt = config.ai.customTranslationPrompt?.trim();
-  const withGlossaryText = withGlossary ? ', and use the glossary in the glossary field' : '';
+  const withGlossaryText = withGlossary ? ', use the glossary in the glossary field' : '';
 
-  if (useCustomPrompt && customPrompt) {
-    return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target);
+  if (useCustomPrompt && customPrompt && false) {
+    return customPrompt.replaceAll('${source}', source).replaceAll('${target}', target).replaceAll('  ', ' ');
   } else {
-    return `Translate the ${source} JSON object into ${target}${withGlossaryText}.`.replaceAll('  ', ' ');
+    return `Translate the ${source} JSON object into ${target} and return translated JSON object without any explanation${withGlossaryText}. Response object format: {"name":"(translated name)","text":"(translated text)"}`.replaceAll(
+      '  ',
+      ' ',
+    );
   }
 }
 
@@ -113,6 +116,12 @@ function getTranslationSample(source = 'Japanese', target = 'Chinese') {
   return sample;
 }
 
+function setRequestTimeout() {
+  setTimeout(() => {
+    throw 'Request Timeout';
+  }, 15000);
+}
+
 module.exports = {
   createTranslationPrompt,
   createImagePrompt,
@@ -120,4 +129,5 @@ module.exports = {
   addChatHistory,
   createGlossary,
   getTranslationSample,
+  setRequestTimeout,
 };

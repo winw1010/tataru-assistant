@@ -25,6 +25,7 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   // create chat history
   const chatHistory = createChatHistory(chatIndex, sample);
 
+  // set payload
   const input = [
     {
       role: 'developer',
@@ -41,7 +42,10 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
     },
   ];
 
-  // get response
+  // set request timeout
+  aiFunction.setRequestTimeout();
+
+  // request
   const response = await client.responses.create({ model: model, input: input });
   const responseText = getResponseText(response);
 

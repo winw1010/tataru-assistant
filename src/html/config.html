@@ -739,27 +739,26 @@
           <p class="text-warning" id="p-chat-length"></p>
         </div>
 
-        <div hidden>
-          <hr />
+        <hr />
 
-          <div class="row align-items-center">
-            <div class="col">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" value="" id="input-custom-translation-prompt-enable" />
-                <label class="form-check-label" for="input-custom-translation-prompt-enable"></label>
-              </div>
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" value="" id="input-custom-translation-prompt-enable" />
+              <label class="form-check-label" for="input-custom-translation-prompt-enable"></label>
             </div>
           </div>
-
-          <div class="row align-items-center">
-            <div class="col">
-              <textarea class="form-control" name="" id="textarea-ai-custom-translation-prompt" rows="5"></textarea>
-            </div>
-          </div>
-
-          <p class="text-warning">${source} = Source language from settings</p>
-          <p class="text-warning">${target} = Target language from settings</p>
         </div>
+
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea class="form-control" name="" id="textarea-ai-custom-translation-prompt" rows="5"></textarea>
+          </div>
+        </div>
+
+        <p class="text-warning">${source} = Source language from settings</p>
+        <p class="text-warning">${target} = Target language from settings</p>
+        <p id="p-default-prompt"></p>
       </div>
 
       <!-- system page -->

@@ -329,13 +329,6 @@ function fixConfig(config) {
   } catch (error) {
     error;
   }
-
-  try {
-    // fix use custom translation prompt
-    config.ai.useCustomTranslationPrompt = false;
-  } catch (error) {
-    error;
-  }
 }
 
 // set app language

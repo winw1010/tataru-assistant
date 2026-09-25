@@ -38,9 +38,9 @@ const message = {
 
   USE_AI_TRANSLATOR: ['使用AI翻譯以獲得更好的AI翻譯品質', '使用AI翻译以获得更好的AI翻译质量', 'Use AI translation to get better AI translation quality.'],
   ENABLE_MULTI_TURN_CONVERSATION: [
-    '於[設定]->[AI翻譯設定]中開啟"多輪對話"功能(上下文追蹤功能)以獲得更好的AI翻譯品質',
-    '于[設定]->[AI翻译设定]中开启"多轮对话"功能(上下文追踪功能)以获得更好的AI翻译质量',
-    'Enable the "multi-turn conversation" feature (context tracking feature) in the [Config]->[AI Translation settings] to obtain better AI translation quality.',
+    '於[設定]->[AI翻譯設定]中開啟"多輪對話"功能(上下文追蹤功能)可提升AI翻譯品質',
+    '于[設定]->[AI翻译设定]中开启"多轮对话"功能(上下文追踪功能)可提升AI翻译质量',
+    'Enabling the "Multi-turn Conversation" feature (Context Tracking) in [Config] -> [AI Translation Settings] can improve AI translation quality.',
   ],
 };
 

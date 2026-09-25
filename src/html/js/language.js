@@ -348,6 +348,11 @@ function getElementTextList() {
           '多轮对话长度越长翻译质量越好，但会消耗较多的Token，若出现翻译失败的情况请尝试降低对话长度。 (建议值: 5或以上)',
           'The longer the multi-turn conversation, the better the translation quality, but it will consume more tokens. If translation fails, please try reducing the conversation length. (Recommended value: 5 or above)',
         ],
+        'p-default-prompt': [
+          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
+          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
+          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
+        ],
       },
       span: {
         // window title
@@ -413,13 +418,6 @@ function getElementTextList() {
         'input-original-name': ['Name', 'Name', 'Name'],
       },
       textarea: {
-        // config
-        'textarea-ai-custom-translation-prompt': [
-          'Default: Translate the ${source} JSON object into ${target}.',
-          'Default: Translate the ${source} JSON object into ${target}.',
-          'Default: Translate the ${source} JSON object into ${target}.',
-        ],
-
         // dictionary
         'textarea-original-text': ['Text', 'Text', 'Text'],
 

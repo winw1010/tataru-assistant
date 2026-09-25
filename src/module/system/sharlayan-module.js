@@ -88,12 +88,22 @@ let restartReader = true;
 
 // dialog history
 const dialogHistory = [];
+const dialogHistorylength = 500;
+let lastDialog = '';
+
+// chatlog history
+const chatlogHistory = [];
+const chatlogHistoryLength = 5000;
+let lastChatlog = '';
+
+// cutscene history
+let lastCutscene = '';
 
 // text history
 const textHistory = {};
 
 // pure text
-const regexInvalidCharacter = /[^0-9a-z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi;
+const regexInvalidCharacter = /[^0-9a-zA-Z０-９ａ-ｚＡ-Ｚぁ-ゖァ-ヺ一-龯]/gi;
 
 // start
 function start() {
@@ -191,46 +201,74 @@ function stop(restart = true) {
   }
 }
 
-// clear text
-function clearText(text = '') {
-  return text.replace(/（.*?）/gi, '').replace(/\(.*?\)/gi, '');
-  //.replace(/FE/g, ''); // Temporary fix
-}
-
 // is valid data
 function isValidData(dialogData) {
   const code = dialogData.code;
-  const text = clearText(dialogData.text);
+  const text = deleteBrackets(dialogData.text);
 
-  // DIALOG 003D
+  // DIALOG
   if (dialogData.type === 'DIALOG') {
-    if (text !== dialogHistory.slice(-1)[0]) {
-      dialogHistory.push(text);
-
-      if (dialogHistory.length > 20) {
-        dialogHistory.splice(0, 10);
-      }
+    if (text !== lastDialog) {
+      lastDialog = text;
     } else {
       return false;
     }
+
+    if (!dialogHistory.includes(text)) {
+      dialogHistory.push(text);
+      if (dialogHistory.length > dialogHistorylength) {
+        dialogHistory.splice(0, dialogHistory.length - dialogHistorylength);
+      }
+    }
   }
-  // other 003D
-  else if (dialogData.code === '003D') {
-    let count = 0;
+  // CHAT_LOG
+  else if (dialogData.type === 'CHAT_LOG') {
+    if (text !== lastChatlog) {
+      lastChatlog = text;
+    } else {
+      return false;
+    }
+
     for (let index = dialogHistory.length - 1; index >= 0; index--) {
       const dialogText = dialogHistory[index];
 
       if (isSameText(dialogText, text)) {
         return false;
       }
+    }
 
-      count++;
-      if (count >= 10) {
-        break;
+    if (!chatlogHistory.includes(text)) {
+      chatlogHistory.push(text);
+      if (chatlogHistory.length > chatlogHistoryLength) {
+        chatlogHistory.splice(0, chatlogHistory.length - chatlogHistoryLength);
       }
     }
   }
-  // other code
+  // CUTSCENE
+  else if (dialogData.type === 'CUTSCENE') {
+    if (text !== lastCutscene) {
+      lastCutscene = text;
+    } else {
+      return false;
+    }
+
+    for (let index = dialogHistory.length - 1; index >= 0; index--) {
+      const dialogText = dialogHistory[index];
+
+      if (isSameText(dialogText, text)) {
+        return false;
+      }
+    }
+
+    for (let index = chatlogHistory.length - 1; index >= 0; index--) {
+      const chatlogText = chatlogHistory[index];
+
+      if (isSameText(chatlogText, text)) {
+        return false;
+      }
+    }
+  }
+  // OTHER
   else {
     if (textHistory[code] === text) {
       return false;
@@ -242,11 +280,19 @@ function isValidData(dialogData) {
   return true;
 }
 
+// delete special characters
+function deleteSpecialCharacters(text = '') {
+  return text.replace(regexInvalidCharacter, '');
+}
+
+// delete brackets
+function deleteBrackets(text = '') {
+  return text.replace(/（.*?）/gi, '').replace(/\(.*?\)/gi, '');
+}
+
 // is same text
 function isSameText(str1 = '', str2 = '') {
-  str1 = str1.replace(regexInvalidCharacter, '');
-  str2 = str2.replace(regexInvalidCharacter, '');
-  return str1 === str2;
+  return deleteSpecialCharacters(str1) === deleteSpecialCharacters(str2);
 }
 
 // module exports

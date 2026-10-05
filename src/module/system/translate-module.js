@@ -108,8 +108,8 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
       }
     }
 
-    responseObject.name = removeHonorific(zhConvert(responseObject.name, translation.to), table, 1).replace(/[\r\n\t]/g, '');
-    responseObject.text = removeHonorific(zhConvert(responseObject.text, translation.to), table, 1).replace(/[\r\n\t]/g, '');
+    responseObject.name = removeHonorific(zhConvert(responseObject.name + '', translation.to), table, 1).replace(/[\r\n\t]/g, '');
+    responseObject.text = removeHonorific(zhConvert(responseObject.text + '', translation.to), table, 1).replace(/[\r\n\t]/g, '');
   } else {
     responseObject.text = 'Null Object.';
   }
@@ -207,7 +207,7 @@ async function getTranslation(engine = '', option = {}) {
 
   console.log('After:', text);
 
-  return text;
+  return text + '';
 }
 
 // zh convert

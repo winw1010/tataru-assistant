@@ -14,8 +14,8 @@ function exec(option = { text: '', tableName: 'zh2Hant' }) {
 // replace text
 function replaceText(text = '', zhTable = []) {
   if (typeof text !== 'string') {
-    console.log(text);
-    return 'Convert error: Type is not string.';
+    console.log(`Type Error: Text is not a string. (Text = ${text})`);
+    return text + '';
   }
 
   for (let index = 0; index < zhTable.length; index++) {

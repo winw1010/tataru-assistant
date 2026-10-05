@@ -4,6 +4,12 @@
 // some OS can't request with net of Electron
 const axios = require('axios');
 
+// https
+const https = require('https');
+
+// https agent with explicit strict TLS validation
+const httpsAgent = new https.Agent({ rejectUnauthorized: true, minVersion: 'TLSv1.2' });
+
 // config module
 const configModule = require('./config-module');
 
@@ -177,6 +183,7 @@ function getOptions(headers = {}) {
   const options = {
     headers: clearHeaders(headers),
     timeout: Math.min(maxRequestTimeout, parseInt(config.translation.timeout) * 1000),
+    httpsAgent,
   };
 
   if (config.proxy.enable) {

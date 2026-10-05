@@ -20,11 +20,11 @@
 
 翻译能力较佳，可很好地翻译游戏中各种较为口语的句子，推荐使用免费额度较高的Germini
 
-- Gemini (推荐)
-
 - ChatGPT
 
 - Claude
+
+- Gemini
 
 - Cohere
 

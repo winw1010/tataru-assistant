@@ -26,9 +26,9 @@ English | [繁體中文](https://github.com/winw1010/tataru-assistant/blob/main/
 
 Provides superior translation quality, capable of handling colloquial language in the game effectively. We recommend using Gemini due to its generous free tier.
 
-- Gemini (Recommended)
 - ChatGPT
 - Claude
+- Gemini
 - Cohere
 - Kimi
 - Ollama (Local LLM)

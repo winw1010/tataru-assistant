@@ -29,7 +29,7 @@ function load(targetLanguage) {
   chArray.afterTranslation = [];
 
   // en
-  enArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleEN());
+  enArray.subtitle = [];
   enArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('en', 'ignore.json'));
   enArray.en1 = []; //jsonFunction.readText(jsonFunction.getTextPath('en', 'en1.json'));
   enArray.en2 = []; //jsonFunction.readText(jsonFunction.getTextPath('en', 'en2.json'));

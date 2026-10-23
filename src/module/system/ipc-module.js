@@ -179,15 +179,15 @@ function setSystemChannel() {
   ipcMain.on('open-report-page', () => {
     switch (configModule.getConfig().system.appLanguage) {
       case 'app-zht':
-        childProcess.exec('explorer "https://forms.gle/hrpsDLW4Xb7b885d6"');
+        childProcess.exec('explorer "https://docs.google.com/forms/d/e/1FAIpQLSfw85pyivfSMFc3P0lVr5ZTZy1ANQI34lisW9RIKyCPqAZzIA/viewform?usp=header"');
         break;
 
       case 'app-zhs':
-        childProcess.exec('explorer "https://forms.gle/vjEoWiuGmAhWUmFu9"');
+        childProcess.exec('explorer "https://docs.google.com/forms/d/e/1FAIpQLSdW8J4jAYjBZgdCkJJsvgCXsuPha94sleNuB2odiFl1jKGrNg/viewform?usp=header"');
         break;
 
       case 'app-en':
-        childProcess.exec('explorer "https://forms.gle/TC2TqTqYeY7CNaxn8"');
+        childProcess.exec('explorer "https://docs.google.com/forms/d/e/1FAIpQLSfm_ESOgcovk519fhuhU58goj4tRYU3VF9LYv6jEf_yvsXlzg/viewform?usp=header"');
         break;
 
       default:

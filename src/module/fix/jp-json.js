@@ -30,7 +30,7 @@ function load(targetLanguage) {
   chArray.chName = [];
 
   // jp
-  jpArray.subtitle = jsonFunction.combineArray2(userArray.customSource, jsonFunction.readSubtitleJP());
+  jpArray.subtitle = [];
   jpArray.ignore = jsonFunction.readText(jsonFunction.getTextPath('jp', 'ignore.json'));
   jpArray.jp1 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp1.json'));
   jpArray.jp2 = jsonFunction.readText(jsonFunction.getTextPath('jp', 'jp2.json'));

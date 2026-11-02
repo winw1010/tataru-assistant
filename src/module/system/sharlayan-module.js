@@ -170,6 +170,8 @@ function start() {
             if (/[\uFFFD\u007F]/.test(dialogData.name) || /[\uFFFD\u007F]/.test(dialogData.text)) {
               console.log('\r\nInvalid Dialog Data:', dialogData);
               continue;
+            } else if (dialogData.text === 'ターゲットの指定が間違っています。' || dialogData.text === 'Invalid target.') {
+              continue;
             } else {
               console.log('\r\nDialog Data:', dialogData);
             }

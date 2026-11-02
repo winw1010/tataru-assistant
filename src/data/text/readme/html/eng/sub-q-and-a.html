@@ -23,12 +23,12 @@
         This program does not modify any Final Fantasy XIV game files. All translations are retrieved via API requests. Please use it with confidence.
       </li>
 
-      <li>
+      <li hidden>
         <h3>Terminology is not being translated correctly</h3>
 
         This program only corrects vocabulary recorded in the
-        <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">reference table</a>. If a term is not in the reference table, the
-        program will not correct it. Please wait for the reference table to be updated or use the [Report Translation Error] feature.
+        <a target="_blank" href="https://github.com/winw1010/tataru-assistant-text">reference table</a>. If a term is not in the reference table, the program will not correct it. Please wait for the
+        reference table to be updated or use the [Report Translation Error] feature.
       </li>
 
       <li>
@@ -51,8 +51,7 @@
 
       <li>
         <h3>Can it be used with Chinese localization patches?</h3>
-        Generally, yes. The program's [Translation Settings] include a feature to skip localized subtitles, but please note that this feature cannot
-        perfectly bypass already localized subtitles.
+        Generally, yes. The program's [Translation Settings] include a feature to skip localized subtitles, but please note that this feature cannot perfectly bypass already localized subtitles.
       </li>
 
       <li>
@@ -70,28 +69,25 @@
       <li>
         <h3>Do I have to manually select the translation for every line?</h3>
         <span class="text-warning"
-          >No. General dialogue and cutscenes are translated automatically. For parts that cannot be translated automatically, you can use the
-          [Translate Screen Text] function.</span
+          >No. General dialogue and cutscenes are translated automatically. For parts that cannot be translated automatically, you can use the [Translate Screen Text] function.</span
         >
       </li>
 
       <li>
         <h3>Unable to download the translation reference table</h3>
-        If you are using an accelerator or VPN and cannot access GitHub, please go to Tataru Assistant's [Settings (Gear Icon)] > [System Settings]
-        and turn off SSL verification.
+        If you are using an accelerator or VPN and cannot access GitHub, please go to Tataru Assistant's [Settings (Gear Icon)] > [System Settings] and turn off SSL verification.
       </li>
 
       <li>
         <h3>A "Translation Failed" error message appears</h3>
-        If you are using an accelerator or VPN and cannot translate subtitles, please go to Tataru Assistant's [Settings (Gear Icon)] > [System
-        Settings] and turn off SSL verification.
+        If you are using an accelerator or VPN and cannot translate subtitles, please go to Tataru Assistant's [Settings (Gear Icon)] > [System Settings] and turn off SSL verification.
       </li>
 
       <li>
-        <h3>Upon startup, it displays ".NET Framework 4.8 is not supported by this OS"</h3>
+        <h3>Upon startup, it displays ".NET 10 Desktop Runtime is not supported by this OS"</h3>
 
         Please install
-        <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>
+        <a href="https://dotnet.microsoft.com/zh-tw/download/dotnet/thank-you/runtime-desktop-10.0.11-windows-x64-installer">.NET 10 Desktop Runtime</a>
       </li>
 
       <li>
@@ -99,12 +95,11 @@
         <ul>
           <li>
             Please install
-            <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer">Microsoft .NET Framework 4.8</a>.
+            <a href="https://dotnet.microsoft.com/zh-tw/download/dotnet/thank-you/runtime-desktop-10.0.11-windows-x64-installer">.NET 10 Desktop Runtime</a>.
           </li>
           <li>Go to [Settings] > [System Settings] and click [Repair Subtitle Reader], then restart the program.</li>
           <li>
-            If repair fails, search for "cmd" in the bottom left search bar, right-click "Command Prompt", select "Run as Administrator", and execute
-            the following command:
+            If repair fails, search for "cmd" in the bottom left search bar, right-click "Command Prompt", select "Run as Administrator", and execute the following command:
             <br />
             <span class="text-warning"> secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose </span>
           </li>
@@ -125,8 +120,7 @@
 
       <li>
         <h3>Which translation engine is the best?</h3>
-        [Gemini] is recommended as it offers more free traffic, followed by [ChatGPT] and [Cohere]. Non-AI translators have poorer quality and are not
-        recommended.
+        [Gemini] is recommended as it offers more free traffic, followed by [ChatGPT] and [Cohere]. Non-AI translators have poorer quality and are not recommended.
       </li>
 
       <li>
@@ -136,8 +130,8 @@
 
       <li>
         <h3>An error message appears during translation</h3>
-        This means the current translation method is either unable to connect or has reached its traffic limit. You will need to wait for the
-        restriction to be lifted or use a different translation method temporarily.
+        This means the current translation method is either unable to connect or has reached its traffic limit. You will need to wait for the restriction to be lifted or use a different translation
+        method temporarily.
       </li>
 
       <li>
@@ -175,7 +169,7 @@
       <li>
         <h3>How do I update?</h3>
 
-        <a href="https://github.com/winw1010/tataru-assistant" target="_blank"> Download the latest version here. </a>
+        <a href="https://github.com/winw1010/tataru-assistant#downloads" target="_blank"> Download the latest version here. </a>
       </li>
 
       <li>
@@ -184,11 +178,11 @@
       </li>
 
       <li>
-        <h3>How do I check the responses to error reports?</h3>
-
-        <a href="https://docs.google.com/spreadsheets/d/1unaPwKFwJAQ9iSnNJ063BAjET5bRGybp5fxxvcG-Wr8/edit#gid=1976543446" target="_blank">
-          View them here.
-        </a>
+        <h3>How to report bugs and view responses</h3>
+        <br />
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfm_ESOgcovk519fhuhU58goj4tRYU3VF9LYv6jEf_yvsXlzg/viewform?usp=header" target="_blank"> Report a Bug </a>
+        <br />
+        <a href="https://docs.google.com/spreadsheets/d/1k1tQselx4wwnxmj8XFJAZgq1Kf7WaJpeszmL16Zjuc0/edit?usp=sharing" target="_blank"> View Responses </a>
       </li>
     </ol>
   </body>

@@ -1,11 +1,5 @@
 'use strict';
 
-// json repair
-const { jsonrepair } = require('jsonrepair');
-
-// dialog module
-//const dialogModule = require('./dialog-module');
-
 // engine module
 const engineModule = require('./engine-module');
 
@@ -35,6 +29,9 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
     return text;
   }
 
+  let responseText = '';
+  let responseObject = { name: '', text: '' };
+
   const LLMTable = engineModule.getLLMTable();
   const option = {
     name: name,
@@ -44,38 +41,37 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
     target: LLMTable[translation.to],
   };
 
-  let responseObject = { name: '', text: '' };
   const engine = translation.engine;
   console.log('\r\nEngine:', engine);
 
   try {
     switch (engine) {
       case 'Gemini':
-        responseObject = await gemini.exec(option);
+        responseText = await gemini.exec(option);
         break;
 
       case 'GPT':
-        responseObject = await gpt.exec(option);
+        responseText = await gpt.exec(option);
         break;
 
       case 'Claude':
-        responseObject = await claude.exec(option);
+        responseText = await claude.exec(option);
         break;
 
       case 'Cohere':
-        responseObject = await cohere.exec(option);
+        responseText = await cohere.exec(option);
         break;
 
       case 'Kimi':
-        responseObject = await kimi.exec(option);
+        responseText = await kimi.exec(option);
         break;
 
       case 'Ollama':
-        responseObject = await ollama.exec(option);
+        responseText = await ollama.exec(option);
         break;
 
       case 'LLM-API':
-        responseObject = await customLLM.exec(option);
+        responseText = await customLLM.exec(option);
         break;
 
       default:
@@ -83,35 +79,35 @@ async function translateLLM(name = '', text = '', translation = {}, table = []) 
     }
   } catch (error) {
     console.log(error);
-    responseObject.name = '';
-    responseObject.text = 'Assistant Error: ' + error;
+    responseObject.name = 'Assistant Error';
+    responseObject.text = error + '';
   }
 
-  if (responseObject) {
-    if (typeof responseObject === 'string') {
+  if (responseText) {
+    if (typeof responseText === 'string') {
       try {
-        responseObject = JSON.parse(jsonrepair(/(?<target>{.+})/is.exec(responseObject)?.groups?.target || responseObject));
-
-        if (!responseObject.text) {
-          throw 'Text is not found.';
-        }
+        responseObject = JSON.parse(responseText);
 
         if (!responseObject.name) {
           responseObject.name = '';
+        }
+
+        if (!responseObject.text) {
+          responseObject.text = '';
         }
       } catch (error) {
         error;
         responseObject = {
           name: '',
-          text: responseObject,
+          text: responseText,
         };
       }
     }
 
-    responseObject.name = removeHonorific(zhConvert(responseObject.name + '', translation.to), table, 1).replace(/[\r\n\t]/g, '');
-    responseObject.text = removeHonorific(zhConvert(responseObject.text + '', translation.to), table, 1).replace(/[\r\n\t]/g, '');
+    responseObject.name = removeHonorific(responseObject.name + '', table, 1).replace(/[\r\n\t]/g, '');
+    responseObject.text = removeHonorific(responseObject.text + '', table, 1).replace(/[\r\n\t]/g, '');
   } else {
-    responseObject.text = 'Null Object.';
+    responseObject = { name: 'Error', text: 'Response is empty.' };
   }
 
   return responseObject;

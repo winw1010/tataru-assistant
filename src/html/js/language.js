@@ -212,7 +212,7 @@ function getElementTextList() {
 
         'input-ai-chat-enable': ['使用多輪對話(上下文追蹤功能)', '使用多轮对话(上下文追踪功能)', 'Use multi-turn conversations (context-tracking feature)'],
         'input-ai-chat-length': ['多輪對話長度', '多轮对话长度', 'Length'],
-        'input-custom-translation-prompt-enable': ['自訂翻譯Prompt (Role: System)', '自订翻译Prompt (Role: System)', 'Custom Translation Prompt (Role: System)'],
+        'input-custom-translation-prompt-enable': ['自訂翻譯提示詞(Prompt)', '自订翻译提示词(Prompt)', 'Custom Translation Prompt'],
 
         'input-proxy-enable': ['使用Proxy', '使用Proxy', 'Enable Proxy'],
         'select-proxy-protocol': ['Protocol', 'Protocol', 'Protocol'],
@@ -342,16 +342,16 @@ function getElementTextList() {
         'p-cohere': ['Cohere', 'Cohere', 'Cohere'],
         'p-kimi': ['Kimi', 'Kimi', 'Kimi'],
         'p-ollama-api': ['Ollama', 'Ollama', 'Ollama'],
-        'p-llm-api': ['自訂LLM API', '自订LLM API', 'Custom LLM API'],
+        'p-llm-api': ['自訂LLM (僅適用相容於OpenAI的API)', '自订LLM (仅适用相容于OpenAI的API)', 'Custom LLM (Compatible with OpenAI API only)'],
         'p-chat-length': [
           '多輪對話長度越長翻譯品質越好，但會消耗較多的Token，若出現翻譯失敗的情況請嘗試降低對話長度。 (建議值: 5或以上)',
           '多轮对话长度越长翻译质量越好，但会消耗较多的Token，若出现翻译失败的情况请尝试降低对话长度。 (建议值: 5或以上)',
           'The longer the multi-turn conversation, the better the translation quality, but it will consume more tokens. If translation fails, please try reducing the conversation length. (Recommended value: 5 or above)',
         ],
         'p-default-prompt': [
-          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
-          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
-          'Default Prompt:\nTranslate the ${source} JSON object into ${target} and return translated JSON object without any explanation, use the glossary in the glossary field. Response object format: {"name":"(translated name)","text":"(translated text)"}',
+          "預設提示詞:\n請扮演Final Fantasy XIV翻譯器，你的任務是將使用者提供的JSON物件的'name'欄位和'text'欄位翻譯成${target}，並使用'glossary'欄位的詞彙表。請僅輸出翻譯後的有效JSON物件，保留原有的鍵值（Keys），不要輸出任何額外的解釋、問候語或Markdown程式碼區塊。\n\n${target} = 翻譯設定的目標語言。",
+          "预设提示词:\n请扮演Final Fantasy XIV翻译器，你的任务是将用户提供的JSON对象的'name'字段和'text'字段翻译成 ${target}，并使用'glossary'字段的词汇表。请仅输出翻译后的有效JSON对象，保留原有的键（Keys），不要输出任何额外的解释、问候语或 Markdown 代码块。\n\n${target} = 翻译设定的目标语言。",
+          "Default Prompt:\nAct as a Final Fantasy XIV translator. Your task is to translate the 'name' and 'text' fields of the user-provided JSON object into ${target}, using the glossary provided in the 'glossary' field. Output ONLY the translated, valid JSON object, preserving the original keys. Do not output any additional explanations, greetings, or Markdown code blocks.\n\n${target} = Target Language in Translation settings.",
         ],
       },
       span: {

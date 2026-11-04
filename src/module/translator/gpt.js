@@ -18,12 +18,11 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
   const prompt = aiFunction.createTranslationPrompt(source, target, table.length > 0);
   const chatIndex = source + 'To' + target;
   const glossary = aiFunction.createGlossary(source, target, table);
-  const sample = aiFunction.getTranslationSample(source, target);
   const model = config.api.gptModel;
   const client = new OpenAI({ apiKey: config.api.gptApiKey });
 
   // create chat history
-  const chatHistory = createChatHistory(chatIndex, sample);
+  const chatHistory = createChatHistory(chatIndex);
 
   // set payload
   const input = [
@@ -42,12 +41,9 @@ async function translate(name = '', text = '', source = 'Japanese', target = 'Ch
     },
   ];
 
-  // set request timeout
-  aiFunction.setRequestTimeout();
-
   // request
   const response = await client.responses.create({ model: model, input: input });
-  const responseText = getResponseText(response);
+  const responseText = aiFunction.getJsonText(getResponseText(response));
 
   // add chat history
   if (config.ai.useChat) {
@@ -99,30 +95,9 @@ async function getImageText(imageBase64 = '', language = 'Japanese') {
 }
 
 // create chat history
-function createChatHistory(historyIndex = 'default', sample = {}) {
+function createChatHistory(historyIndex = 'default') {
   const array = aiFunction.getChatHistory(historyIndex);
   const chatHistory = [];
-
-  // add sample
-  if (Object.getOwnPropertyNames(sample).length > 0) {
-    chatHistory.push(
-      {
-        role: 'user',
-        content: JSON.stringify({
-          name: sample.name[0],
-          text: sample.text[0],
-          glossary: sample.glossary,
-        }),
-      },
-      {
-        role: 'assistant',
-        content: JSON.stringify({
-          name: sample.name[1],
-          text: sample.text[1],
-        }),
-      },
-    );
-  }
 
   // add history
   for (let index = 0; index < array.length; index++) {
